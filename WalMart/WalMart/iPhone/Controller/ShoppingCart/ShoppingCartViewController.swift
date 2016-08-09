@@ -35,7 +35,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var listObj : NSDictionary!
     var productObje : NSArray!
     
-    var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26.0
+    var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26
     var itemSelect = 0
     
     var closeButton : UIButton!
@@ -83,7 +83,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewShoppingCart = UITableView(frame:CGRectMake(0, 46 , self.viewContent.frame.width, viewContent.frame.height - 46))
         viewShoppingCart.clipsToBounds = false
         viewShoppingCart.backgroundColor =  WMColor.light_light_gray
-        //self.navigationController?.view.clipsToBounds = true
+         viewShoppingCart.backgroundColor =  UIColor.whiteColor()
+        viewShoppingCart.layoutMargins = UIEdgeInsetsZero
+        viewShoppingCart.separatorInset = UIEdgeInsetsZero
+        viewShoppingCart.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         self.view.backgroundColor = UIColor.clearColor()
         self.view.clipsToBounds = true
         
@@ -171,7 +174,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
        initEmptyView()
         
-        loadShoppingCartService()
+       // loadShoppingCartService()
         
     }
     
@@ -240,7 +243,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.viewContent.frame = self.view.bounds
         self.viewFooter.frame = CGRectMake(0, viewContent.frame.height - 72 , self.viewContent.frame.width, 72)
-        self.viewShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.view.bounds.width, viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
+        self.viewShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY, self.view.bounds.width, viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
 
         if !self.isEdditing {
         self.titleView.frame = CGRectMake((self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
@@ -292,8 +295,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.viewShoppingCart.delegate = self
         self.viewShoppingCart.dataSource = self
+        viewShoppingCart.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         self.viewShoppingCart.reloadData()
-        
         
         
         self.loadCrossSell()
@@ -437,8 +440,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     
-        //let headerView = UIView(frame: CGRectMake(0.0, -30.0, self.view.frame.width, heightHeaderTable))
-        let headerView : UIView = UIView(frame: CGRectMake(0.0, -30.0, self.view.frame.width, heightHeaderTable))
+        let headerView : UIView = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, heightHeaderTable))
         headerView.backgroundColor = UIColor.whiteColor()
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, self.view.frame.width, heightHeaderTable))
         
@@ -446,6 +448,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         titleLabel.text = listObj["name"] as? String
         titleLabel.textColor = WMColor.light_blue
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+
         headerView.addSubview(titleLabel)
         
         return headerView
