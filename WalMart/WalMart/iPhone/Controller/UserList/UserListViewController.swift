@@ -616,7 +616,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                     }
                                     self.newListBtn!.enabled = true
                                     self.editBtn!.enabled = true
-                                    self.showHelpView()
+                                    if UserCurrentSession.hasLoggedUser() {
+                                        self.showHelpView()
+                                    }
                                 })
                                 CATransaction.commit()
                                 
