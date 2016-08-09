@@ -419,7 +419,13 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         case "lc":
             self.openLandinCampaign(urlTteaser!,idFamily:queryBanner)
         case "bts":
-            self.openBackToSchoolCategory(urlTteaser!,idFamily:queryBanner)
+            if urlTteaser ==  nil {
+                 let val = bannerStr.substringFromIndex(2)
+                  showProducts(forDepartmentId: nil, andFamilyId: nil, andLineId: val,type:type)
+            }else{
+                self.openBackToSchoolCategory(urlTteaser!,idFamily:queryBanner)
+            }
+            
         default:
             return
         }
