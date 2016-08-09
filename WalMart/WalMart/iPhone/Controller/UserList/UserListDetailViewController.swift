@@ -1675,7 +1675,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView!.setMessage(NSLocalizedString("list.message.add.product.list", comment:""))
         
         let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
-        let svcValidate = GRProductDetailService(dictionary: useSignalsService)
+        let svcValidate = ProductDetailService(dictionary: useSignalsService)
         
         let upcDesc : NSString = upc as NSString
         var paddedUPC = upcDesc
@@ -1683,7 +1683,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
             paddedUPC = "\(toFill)\(paddedUPC)"
         }
-        let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position: "")//position
+        let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//position
         svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
             //[["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
             print("Correcto el producto es::::")

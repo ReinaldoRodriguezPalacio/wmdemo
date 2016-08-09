@@ -87,7 +87,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :
-                if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? ProductDetailViewController {
+                if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
                     vc.upc = upc
                     vc.indexRowSelected = self.itemSelectedSolar
                     vc.stringSearching =  self.stringSearching
