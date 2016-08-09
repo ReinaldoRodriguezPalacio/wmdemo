@@ -75,11 +75,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var maxResult: Int = 20
     var brandText: String? = ""
     
-    var viewBgSelectorBtn : UIView!
-    var btnSuper : UIButton!
-    var btnTech : UIButton!
+    //var viewBgSelectorBtn : UIView!
+    //var btnSuper : UIButton!
+    //var btnTech : UIButton!
     var facet : [[String:AnyObject]]!
-    var facetGr : NSArray? = nil
+    //var facetGr : NSArray? = nil
     
     var controllerFilter : FilterProductsViewController!
     
@@ -161,7 +161,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
         self.header?.addSubview(self.filterButton!)
     
-        
+        /*
         viewBgSelectorBtn = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28))
         viewBgSelectorBtn.layer.borderWidth = 1
         viewBgSelectorBtn.layer.cornerRadius = 14
@@ -199,6 +199,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.idListFromSearch == ""{
             self.view.addSubview(viewBgSelectorBtn)
         }
+        */
         
         self.view.addSubview(collection!)
         self.titleLabel?.text = titleHeader
@@ -361,12 +362,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         var startPoint = self.header!.frame.maxY
-        if self.isTextSearch || self.isOriginalTextSearch {
+        /*if self.isTextSearch || self.isOriginalTextSearch {
             viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
             startPoint = viewBgSelectorBtn.frame.maxY + 20
         }else {
             viewBgSelectorBtn.alpha = 0
         }
+        */
         
         if self.idListFromSearch != "" {
             startPoint = self.header!.frame.maxY
@@ -454,7 +456,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var size = 0
         if let count = self.allProducts?.count {
             var commonTotal = 0
-            if self.btnSuper.selected {
+            //if self.btnSuper.selected {
                 commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
         
                 commonTotal = commonTotal == 0 ? (self.grResults!.totalResults == -1 ? 0:(self.grResults!.totalResults == 0 && self.grResults!.resultsInResponse != 0 ? self.grResults!.resultsInResponse : self.grResults!.totalResults)) : commonTotal
@@ -464,7 +466,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if count == commonTotal {
                     return count
                 }
-            } else {
+            /*} else {
                 commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
                 if self.itemsUPCMG?.count > 0{
                     commonTotal = commonTotal +  (self.itemsUPCMG?.count)!
@@ -473,7 +475,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if count == commonTotal {
                     return count
                 }
-            }
+            }*/
             size = (count  >= commonTotal) ? commonTotal : count + 1
             
         }
@@ -483,11 +485,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         //Show loading cell and invoke service
         var commonTotal = 0
-        if self.btnSuper.selected {
+        //if self.btnSuper.selected {
             commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
-        } else {
+        /*} else {
             commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
         }
+        */
         
         if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
             let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath)
@@ -649,7 +652,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let controller = ProductDetailPageViewController()
             var productsToShow : [[String:String]] = []
             if indexPath.section == 0 && self.upcsToShow?.count > 0 {
-                if self.btnSuper.selected {
+                //if self.btnSuper.selected {
                     if indexPath.row < self.allProducts!.count {
                         for strUPC in self.allProducts! {
                             let upc = strUPC["upc"] as! String
@@ -663,7 +666,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                    
                     }
-                } else {
+                /*} else {
                     if indexPath.row < self.allProducts!.count {
                         //for strUPC in self.itemsUPCMG! {
                         for strUPC in self.allProducts! {
@@ -677,7 +680,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                         }
                     }
-                }
+                }*/
             } else {
                 if indexPath.row < self.allProducts!.count {
                 
@@ -961,10 +964,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        if btnSuper.selected   {
+        //if btnSuper.selected   {
             if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
-                btnTech.selected = true
-                btnSuper.selected = false
+                //btnTech.selected = true
+                //btnSuper.selected = false
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
@@ -987,8 +990,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
                 firstOpen = false
             } else {
-                btnTech.selected = false
-                btnSuper.selected = true
+                //btnTech.selected = false
+                //btnSuper.selected = true
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
@@ -1009,7 +1012,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                 }
             }
-        } else {
+        /*} else {
             btnTech.selected = true
             btnSuper.selected = false
             self.allProducts = []
@@ -1035,12 +1038,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
                 }
             }
-        }
+        }*/
         
-        if self.idListFromSearch != ""{
+        /*if self.idListFromSearch != ""{
             btnTech.selected = false
             btnSuper.selected = true
-        }
+        }*/
         
         self.showLoadingIfNeeded(true)
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch && self.searchFromContextType != .FromSearchTextList{
@@ -1177,11 +1180,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.returnBack()
             }
         }
-        if btnSuper.selected {
+        //if btnSuper.selected {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
-        } else {
+        /*} else {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
-        }
+        }*/
         
         self.view.addSubview(self.emptyMGGR)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
@@ -1210,11 +1213,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter.facet = self.facet
             controllerFilter.textToSearch = self.textToSearch
             controllerFilter.selectedOrder = self.idSort!//self.idSort! == "" ? "rating" :self.idSort!
-            controllerFilter.isGroceriesSearch = self.btnSuper.selected
+            //controllerFilter.isGroceriesSearch = self.btnSuper.selected
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             //controllerFilter.searchContext = self.searchContextType
-            controllerFilter?.facetGr = self.facetGr
+            //controllerFilter?.facetGr = self.facetGr
             controllerFilter?.backFilter = {() in
                 self.loading?.stopAnnimating()
                 self.loading?.removeFromSuperview()
@@ -1222,7 +1225,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
             
         }
-        controllerFilter.isGroceriesSearch = self.btnSuper.selected
+        //controllerFilter.isGroceriesSearch = self.btnSuper.selected
         controllerFilter.searchContext = self.searchContextType
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
@@ -1234,7 +1237,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             successBlock: { (result:NSDictionary) -> Void in
                 let arrayCall = result["brands"] as! NSArray
                 
-                self.facetGr = arrayCall
+                //self.facetGr = arrayCall
                 print(result)
             },
             errorBlock: { (error:NSError) -> Void in
@@ -1464,19 +1467,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: Filter Super Tecnologia
     func changeSuperTech(sender:UIButton) {
         //self.collection?.contentOffset = CGPointZero
-        if sender == btnSuper &&  !sender.selected {
+        //if sender == btnSuper &&  !sender.selected {
             sender.selected = true
-            btnTech.selected = false
+            //btnTech.selected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
             self.searchContextType = SearchServiceContextType.WithCategoryForGR
-        } else if sender == btnTech &&  !sender.selected {
+        /*} else if sender == btnTech &&  !sender.selected {
             sender.selected = true
             btnSuper.selected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
             self.searchContextType = SearchServiceContextType.WithCategoryForMG
-        }
+        }*/
         
     }
     

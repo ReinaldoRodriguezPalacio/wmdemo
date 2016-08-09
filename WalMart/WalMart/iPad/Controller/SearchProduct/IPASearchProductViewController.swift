@@ -39,6 +39,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.titleLabel!.frame = CGRectMake((bounds.width - self.titleLabel!.frame.width) / 2,  0, titleLabel!.frame.width , self.header!.frame.height)
            // frameTitle = self.titleLabel!.frame
         }
+        /*
         self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 16, 320, 28)
         self.btnSuper.frame = CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2)
         self.btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
@@ -47,6 +48,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.btnTech.frame = CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2)
         self.btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
         self.btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        */
     }
     
     override func viewDidLayoutSubviews() {
@@ -131,15 +133,15 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
             self.filterController!.view.backgroundColor = UIColor.clearColor()
-            self.filterController!.facetGr = self.facetGr
+            //self.filterController!.facetGr = self.facetGr
             self.filterController!.successCallBack  = { () in
                 self.sharePopover?.dismissPopoverAnimated(true)
                 return
             }
         }
         self.filterController!.facet =  self.facet != nil ? self.facet : nil
-        self.filterController!.facetGr = self.facetGr
-        self.filterController!.isGroceriesSearch = self.btnSuper.selected
+        //self.filterController!.facetGr = self.facetGr
+        //self.filterController!.isGroceriesSearch = self.btnSuper.selected
         self.filterController!.searchContext = self.searchContextType
         let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)
 
