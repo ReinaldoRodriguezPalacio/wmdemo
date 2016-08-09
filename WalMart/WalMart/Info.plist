@@ -498,7 +498,7 @@
 			<key>WalmartMG.InvoiceAddressByUserService</key>
 			<string>https://dl.dropboxusercontent.com/s/brqndy57lqnru9l/getAddressInvoice.txt</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/s/qlwvo7kjj8dx5e3/bannerTerms.txt?dl=0</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>

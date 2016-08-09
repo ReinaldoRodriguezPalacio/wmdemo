@@ -14,7 +14,7 @@ enum ListHelpContextType {
     case InReminderList
 }
 
-class ListHelpView: UIView {
+class ListHelpView: UIView,UIGestureRecognizerDelegate {
     
    
     var onClose: ((Void) -> Void)?
@@ -48,9 +48,18 @@ class ListHelpView: UIView {
         }else{
             self.helpReminder()
         }
-
         
-    
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ListHelpView.openTermsTap))
+        tap.delegate = self
+        self.addGestureRecognizer(tap)
+
+    }
+
+    /**
+     Close hel view where tap view Help
+     */
+    func openTermsTap(){
+        closeView()
     }
     
     override func layoutSubviews() {
