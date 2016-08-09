@@ -378,7 +378,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
         //Pendiente validar bts
         let componentsBts = queryBanner.componentsSeparatedByString("bts")
-        if componentsBts.count > 1 {
+        if componentsBts.count > 1 && urlTteaser != nil {
             components[0] = "bts"
         }
         
@@ -419,13 +419,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         case "lc":
             self.openLandinCampaign(urlTteaser!,idFamily:queryBanner)
         case "bts":
-            if urlTteaser ==  nil {
-                 let val = bannerStr.substringFromIndex(2)
-                  showProducts(forDepartmentId: nil, andFamilyId: nil, andLineId: val,type:type)
-            }else{
                 self.openBackToSchoolCategory(urlTteaser!,idFamily:queryBanner)
-            }
-            
         default:
             return
         }
