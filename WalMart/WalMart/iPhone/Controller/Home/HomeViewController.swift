@@ -378,7 +378,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
         //Pendiente validar bts
         let componentsBts = queryBanner.componentsSeparatedByString("bts")
-        if componentsBts.count > 1 {
+        if componentsBts.count > 1 && urlTteaser != nil{
             components[0] = "bts"
         }
         
