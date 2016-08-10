@@ -259,7 +259,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                         item = self.arrayAddressFiscal![indexPath!.row] as! NSDictionary
                         isFiscalAddress = true
                     }
-                    if let addId =  item["addressID"] as? String {
+                    if let addId =  item["addressId"] as? String {
                         addressId = addId
                     }
                     self.deleteAddress(addressId, isFisicalAddress: isFiscalAddress)
