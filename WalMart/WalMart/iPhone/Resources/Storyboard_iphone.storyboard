@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -86,13 +86,12 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
                     <connections>
-                        <segue destination="WCq-Da-cor" kind="custom" identifier="shoppingCartMG" customClass="PreShoppingCartAnimationController" customModule="WalmartMG" customModuleProvider="target" id="YdZ-ay-dex"/>
                         <segue destination="MeF-hG-Xw7" kind="custom" identifier="shoppingCartGR" customClass="PreShoppingCartAnimationController" customModule="WalmartMG" customModuleProvider="target" id="7tA-zY-sFC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tu3-Sq-0kv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1235" y="-1701.5"/>
+            <point key="canvasLocation" x="1235" y="-1504.5"/>
         </scene>
         <!--Shopping Cart View Controller-->
         <scene sceneID="x8C-2F-2OI">
@@ -169,7 +168,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="1RD-Yz-KUM" kind="relationship" relationship="rootViewController" id="AhX-pr-MD1"/>
+                        <segue destination="WCq-Da-cor" kind="relationship" relationship="rootViewController" id="e0y-aS-BvL"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H8V-Nc-ro3" userLabel="First Responder" sceneMemberID="firstResponder"/>

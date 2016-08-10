@@ -748,7 +748,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     func validateShortName()-> Bool {
         let id = self.idAddress == nil ? "-1" : self.idAddress!
         for item in  self.allAddress as! [NSDictionary]{
-            let idItem = item["addressID"] as! NSString
+            let idItem = item["addressId"] as! NSString
             let name = item["name"] as! NSString
             if id != idItem && name.uppercaseString ==  shortNameField!.text!.uppercaseString {
                 self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
@@ -775,9 +775,12 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     }
     
     func getParams() -> NSDictionary {//"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser,
+           let paramsAdd : NSMutableDictionary? = [:]
         let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected]
         if idAddress != nil{
-      //      paramsAddress.updateValue(self.idAddress!, forKey: "AddressID")
+           paramsAdd?.addEntriesFromDictionary(paramsAddress)
+            paramsAdd?.addEntriesFromDictionary(["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser])
+            return  paramsAdd!
         }
         return paramsAddress
         
