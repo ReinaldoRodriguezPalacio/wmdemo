@@ -116,7 +116,7 @@ class UserCurrentSession : NSObject {
                 MercuryService.sharedInstance().setActiveUserName(emailUser as String)
 
                 
-                loginService.callService(["idUser":idUser], successBlock: { (result:NSDictionary) -> Void in
+                loginService.callService(["profileId":idUser], successBlock: { (result:NSDictionary) -> Void in
                     print("User signed")
                     }, errorBlock: { (error:NSError) -> Void in
                 })

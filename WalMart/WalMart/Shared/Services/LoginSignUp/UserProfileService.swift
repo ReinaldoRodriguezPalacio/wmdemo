@@ -16,7 +16,7 @@ class UserProfileService : BaseService {
     }
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService([], successBlock: { (resultCall:NSDictionary) -> Void in
             
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {

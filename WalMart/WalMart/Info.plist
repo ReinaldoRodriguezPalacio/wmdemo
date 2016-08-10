@@ -214,7 +214,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
@@ -231,7 +231,7 @@
 			<key>WalmartMG.UpdatePasswordService</key>
 			<string>http://localhost:9080/walmartmg/list/changePassword</string>
 			<key>WalmartMG.InvoiceAddressByUserService</key>
-			<string>https://dl.dropboxusercontent.com/s/q4ikvaeaafoltnb/getAddres.txt</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/displayInvoiceAddress</string>
 			<key>WalmartMG.LoginWithIdService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/loginById</string>
 			<key>WalmartMG.UserProfileService</key>
