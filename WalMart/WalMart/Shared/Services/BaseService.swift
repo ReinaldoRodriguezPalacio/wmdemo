@@ -180,7 +180,7 @@ class BaseService : NSObject {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithIdService()
                         let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-                        loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
+                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance().userSigned = nil
@@ -230,7 +230,7 @@ class BaseService : NSObject {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithIdService()
                         let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-                        loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
+                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
                             //TODO:QUITAR IMPORTANTE DESCOMENTAR
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
@@ -470,7 +470,7 @@ class BaseService : NSObject {
                         if UserCurrentSession.hasLoggedUser() {
                             let loginService = LoginWithIdService()
                             let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-                            loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
+                            loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance().userSigned = nil

@@ -116,15 +116,15 @@ class FiscalAddressPersonM: AddressView {
         return super.validateAddress()
     }
     
-    override func getParams() -> [String:AnyObject]{
-        var paramsAddress : [String:AnyObject] =   super.getParams()
-        let userParams = ["profile":["lastName2":"" ,"name":"Empresa" ,"lastName":"" ]]
-        paramsAddress.updateValue(userParams, forKey: "user")
-        paramsAddress.updateValue(self.rfc!.text!, forKey: "rfc")
-        paramsAddress.updateValue(self.email!.text!, forKey: "rfcEmail")
-        paramsAddress.updateValue(self.ieps!.text!, forKey: "ieps")
-        paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
-        paramsAddress.updateValue(self.corporateName!.text!, forKey: "corporateName")
+    override func getParams() -> NSDictionary {
+        let paramsAddress  = super.getParams()
+       // let userParams = ["profile":["lastName2":"" ,"name":"Empresa" ,"lastName":"" ]]
+        //paramsAddress.addEntriesFromDictionary(["user":]) updateValue(userParams, forKey: "user")
+//        paramsAddress.updateValue(self.rfc!.text!, forKey: "rfc")
+//        paramsAddress.updateValue(self.email!.text!, forKey: "rfcEmail")
+//        paramsAddress.updateValue(self.ieps!.text!, forKey: "ieps")
+//        paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
+//        paramsAddress.updateValue(self.corporateName!.text!, forKey: "corporateName")
        // paramsAddress.updateValue("Empresa", forKey: "name")
         return paramsAddress
     }

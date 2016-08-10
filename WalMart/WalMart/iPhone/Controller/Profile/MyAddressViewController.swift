@@ -142,6 +142,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                     self.table.delegate = self
                     self.table.dataSource = self
                     self.table.reloadData()
+                     self.viewLoad.stopAnnimating()
                 }else{
                     if self.viewLoad != nil{
                         self.viewLoad.stopAnnimating()

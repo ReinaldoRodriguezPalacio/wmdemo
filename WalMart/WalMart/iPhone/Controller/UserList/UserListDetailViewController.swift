@@ -138,7 +138,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton!.layer.cornerRadius = 11
         self.footerSection!.addSubview(self.reminderButton!)
         
-        x = self.reminderButton!.frame.maxX + 16.0
+        if UserCurrentSession.hasLoggedUser() {
+            x = self.reminderButton!.frame.maxX + 16.0
+        }
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
@@ -177,7 +179,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if showReminderButton{
             x = self.reminderButton!.frame.maxX + 16.0
             self.addToCartButton!.frame =  CGRectMake(x,y, self.addToCartButton!.frame.width, self.addToCartButton!.frame.height)
-            
             
             self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
             self.reminderService?.findNotificationForCurrentList()

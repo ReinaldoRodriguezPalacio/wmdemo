@@ -41,6 +41,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     var email : FormFieldView!
     
     var store : FormFieldView!
+    var idStoreArray :  [String]! = []
+    var idStoreSelected : String = ""
     
     var allAddress: NSArray!
     
@@ -573,9 +575,9 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 self.currentZipCode = self.zipcode!.text!
                 
                 if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.neighborhoodsDic.count == 0  {
-                    for dic in  resultCall!["neighborhoods"] as! [NSDictionary]{
+                    for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
                         if dic["id"] as? String ==  self.idSuburb{
-                            self.suburb!.text = dic["name"] as? String
+                            self.suburb!.text = dic["neighbourhoodName"] as? String
                             setElement = true
                         }// if dic["id"] as? String ==  self.idSuburb{
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
@@ -590,9 +592,10 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 
                 self.storesDic = resultCall!["stores"] as! [NSDictionary]
                 for dic in  self.storesDic {
-                    let name = dic["name"] as! String!
+                    let name = dic["storeName"] as! String!
                     let cost = dic["cost"] as! String!
                     self.stores.append("\(name) - \(cost)")
+                    self.idStoreArray.append(dic["storeId"] as! String!)
                 }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                 
                 
@@ -600,15 +603,16 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 if !setElement && self.neighborhoodsDic.count > 0  {
                     self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
                     self.suburb?.becomeFirstResponder()
-                    self.suburb!.text = self.neighborhoodsDic[0].objectForKey("name") as? String
-                    self.idSuburb = self.neighborhoodsDic[0].objectForKey("id") as? String
+                    self.suburb!.text = self.neighborhoodsDic[0].objectForKey("neighbourhoodName") as? String
+                    self.idSuburb = self.neighborhoodsDic[0].objectForKey("neighbourhoodId") as? String
                 }//if setElement && self.listSuburb.count > 0  {
                 
                 if !setElement && self.storesDic.count > 0  {
                     self.selectedStore = NSIndexPath(forRow: 0, inSection: 0)
-                    let name = self.storesDic[0].objectForKey("name") as! String!
+                    let name = self.storesDic[0].objectForKey("storeName") as! String!
                     let cost = self.storesDic[0].objectForKey("cost") as! String!
                     self.store!.text = "\(name) - \(cost)"
+                    self.idStoreSelected = self.storesDic[0].objectForKey("storeId") as! String!
                 }//if setElement && self.listSuburb.count > 0  {
                 
                 
@@ -744,7 +748,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     func validateShortName()-> Bool {
         let id = self.idAddress == nil ? "-1" : self.idAddress!
         for item in  self.allAddress as! [NSDictionary]{
-            let idItem = item["addressID"] as! NSString
+            let idItem = item["addressId"] as! NSString
             let name = item["name"] as! NSString
             if id != idItem && name.uppercaseString ==  shortNameField!.text!.uppercaseString {
                 self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
@@ -770,12 +774,16 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         return false
     }
     
-    func getParams() -> [String:AnyObject]{
-        var paramsAddress : [String : AnyObject] = ["token":"token","city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodID":self.idSuburb!,"name":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "preferred": self.defaultPrefered ? 1:0]
+    func getParams() -> NSDictionary {//"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser,
+           let paramsAdd : NSMutableDictionary? = [:]
+        let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected]
         if idAddress != nil{
-            paramsAddress.updateValue(self.idAddress!, forKey: "AddressID")
+           paramsAdd?.addEntriesFromDictionary(paramsAddress)
+            paramsAdd?.addEntriesFromDictionary(["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser])
+            return  paramsAdd!
         }
         return paramsAddress
+        
     }
     
     
@@ -785,6 +793,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
             if formFieldObj ==  self.store! {
                 self.store!.text = selectedStr
                 self.selectedStore = indexPath
+                self.idStoreSelected = self.idStoreArray[indexPath.row] as! String
                 /*if delegate != nil {
                     self.delegate.showUpdate!()
                 }*/
