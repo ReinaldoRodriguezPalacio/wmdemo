@@ -335,6 +335,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
      */
     func cancelRegistry(sender:UIButton) {
         self.cancelSignUp!()
+        self.view.endEditing(true)
     }
     
     /**
@@ -744,7 +745,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         let infoView = self.generateInfoView(self.content.frame)
         self.content.alpha = 1
         infoView.alpha = 0
-        
+        self.view.endEditing(true)
     }
     
     func changeCons(sender:UIButton) {
