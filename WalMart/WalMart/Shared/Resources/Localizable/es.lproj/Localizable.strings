@@ -267,7 +267,7 @@
 "profile.edit.adtionalinfo" = "Información adicional";
 "profile.edit.ocupation" = "Ocupación";
 "profile.edit.phoneInfo" = "Referencia Telefónica";
-"profile.edit.phoneDesc" = "Telefono 8-10 digitos incluyendo LADA";
+"profile.edit.phoneDesc" = "Telefono 8-10 dígitos incluyendo LADA";
 "profile.edit.extension" = "Extensión";
 "profile.edit.cellphoneDesc" = "Teléfono móvil 10-15 dígitos";
 "profile.edit.associate" = "Asociado";
@@ -342,8 +342,8 @@
 
 //field
 "field.validate.required" = " Es requerido";
-"field.validate.text.invalid" = " Texto no permitido";
-"field.validate.text.invalid.rfc" = " Formato inválido";
+"field.validate.text.invalid" = " Formato de texto no válido";
+"field.validate.text.invalid.rfc" = " Formato de texto no válido";
 "field.validate.password" = " La contraseña debería tener al menos 8 caracteres";
 "field.validate.password.empty" = " La contraseña es requerida";
 "field.validate.confirm.password" = " Debe ser idéntico a la contraseña";

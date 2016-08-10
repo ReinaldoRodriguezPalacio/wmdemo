@@ -256,7 +256,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.phoneHome!.setCustomPlaceholder(NSLocalizedString("profile.edit.phoneDesc",comment:""))
         self.phoneHome!.typeField = TypeField.Phone
         self.phoneHome!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
-        self.phoneHome!.minLength = 10
+        self.phoneHome!.minLength = 8
         self.phoneHome!.maxLength = 10
         self.phoneHome!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHome!.inputAccessoryView = viewAccess
@@ -281,7 +281,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.cellPhone!.typeField = TypeField.Phone
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
-        self.cellPhone!.maxLength = 10
+        self.cellPhone!.maxLength = 15
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         self.cellPhone!.delegate =  self
@@ -337,7 +337,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.inputAssociateDateView!.datePickerMode = .Date
         self.inputAssociateDateView!.date = NSDate()
         self.inputAssociateDateView!.maximumDate = maxDate
-        self.inputAssociateDateView!.minimumDate = minDate
+        self.inputAssociateDateView!.minimumDate = NSDate()
         
         self.inputAssociateDateView!.addTarget(self, action: #selector(EditProfileViewController.associateDateChanged), forControlEvents: .ValueChanged)
         self.associateDate!.inputView = self.inputAssociateDateView!
