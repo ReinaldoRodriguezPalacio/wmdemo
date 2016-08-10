@@ -68,6 +68,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     var currentController: UIViewController? = nil
     var searchController: SearchViewController? = nil
+    var shoppingCartViewController: ShoppingCartViewController? = nil
+
     var viewControllers: [UIViewController] = []
     var buttonList: [UIButton] = []
     var isTabBarHidden = false
@@ -180,13 +182,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.addChildViewController(splashVC)
         self.view.addSubview(splashVC.view)
         
-        let storyboard = self.loadStoryboardDefinition()
+       /* let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
             shoppingCartVC = vc
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
                 vcRoot.delegate = self
             }
-        }
+        }*/
+        
         
         createTabBarButtons()
         
@@ -1160,18 +1163,30 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
         
-        if let vcRoot = shoppingCartVC.viewControllers.first as? PreShoppingCartViewController {
+        if shoppingCartViewController != nil {
+            self.shoppingCartViewController!.willMoveToParentViewController(nil)
+            self.shoppingCartViewController!.view.removeFromSuperview()
+            self.shoppingCartViewController!.removeFromParentViewController()
+            self.shoppingCartViewController = nil
+        }
+        
+       /* if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
+            vcRoot.willMoveToParentViewController(nil)
+            vcRoot.view.removeFromSuperview()
+            vcRoot.removeFromParentViewController()
+            
+           // vcRoot.delegate = self
+           // vcRoot.closeShoppingCart()
+           // vcRoot.view.removeGestureRecognizer(gestureCloseShoppingCart)
+            openSearch = false
+        }*/
+        
+        /*if let vcRoot = shoppingCartVC.viewControllers.first as? IPAPreShoppingCartViewController {
             vcRoot.delegate = self
             vcRoot.closeShoppingCart()
             vcRoot.view.removeGestureRecognizer(gestureCloseShoppingCart)
             openSearch = false
-        }
-        if let vcRoot = shoppingCartVC.viewControllers.first as? IPAPreShoppingCartViewController {
-            vcRoot.delegate = self
-            vcRoot.closeShoppingCart()
-            vcRoot.view.removeGestureRecognizer(gestureCloseShoppingCart)
-            openSearch = false
-        }
+        }*/
         
         NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
 
@@ -1183,7 +1198,34 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func showShoppingCart(sender:UIButton,closeIfNeedded:Bool) {
-        if shoppingCartVC != nil {
+       if (!sender.selected){
+            sender.selected = !sender.selected
+            self.addtoShopingCar()
+        
+            self.endUpdatingShoppingCart(self)
+            self.hidebadge()
+            self.btnShopping?.alpha = 0
+        
+        if self.btnCloseShopping == nil {
+            self.btnCloseShopping = UIButton()
+            self.btnCloseShopping?.frame = self.btnShopping!.frame
+            self.btnCloseShopping?.setImage(UIImage(named:"close"), forState: .Normal)
+            self.btnCloseShopping?.addTarget(self, action: #selector(CustomBarViewController.showShoppingCart as (CustomBarViewController) -> () -> ()), forControlEvents: UIControlEvents.TouchUpInside)
+            self.btnShopping?.superview?.addSubview(self.btnCloseShopping!)
+            
+        }
+        self.btnCloseShopping?.enabled = false
+        self.btnCloseShopping?.alpha = 1
+        self.btnShopping?.userInteractionEnabled = true
+        self.btnCloseShopping?.enabled = true
+        
+        }
+       else {
+            if closeIfNeedded {
+                self.closeShoppingCart()
+            }
+        }
+        /*if shoppingCartVC != nil {
             if (!sender.selected){
                 sender.selected = !sender.selected
                 ShoppingCartService.shouldupdate = true
@@ -1216,7 +1258,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.closeShoppingCart()
                 }
             }
-        }
+        }*/
         
     }
     
@@ -1225,11 +1267,19 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func addtoShopingCar(){
+        
+      
+        
+        self.shoppingCartViewController = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as! ShoppingCartViewController
+        self.shoppingCartViewController!.delegate = self
+        self.shoppingCartViewController!.view.frame = self.container!.frame
+        self.view.addSubview(self.shoppingCartViewController!.view)
+        self.view.bringSubviewToFront(self.headerView)
+        self.shoppingCartViewController!.didMoveToParentViewController(self)
+        
+       // self.presentViewController(shoppingController, animated: true, completion: nil)
+        
         /*
-        let shoppingController = ShoppingCartViewController()
-        shoppingController.delegate = self
-        self.presentViewController(shoppingController, animated: true, completion: nil)
-        */
         self.addChildViewController(shoppingCartVC)
         shoppingCartVC.view.frame = self.container!.frame
         self.view.addSubview(shoppingCartVC.view)
@@ -1246,10 +1296,37 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             vcRoot.openShoppingCart()
         }
-        self.view.endEditing(true)
+        self.view.endEditing(true)*/
+        
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
     }
     
+    /*func openViewMG() {
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.viewMG.frame = CGRectMake((self.view.frame.width / 2) - (self.viewMG.frame.width / 2), self.viewMG.frame.minY, self.viewMG.frame.width, self.viewMG.frame.height)
+            self.viewSuper.frame = CGRectMake(-self.viewSuper.frame.width, self.viewSuper.frame.minY, self.viewSuper.frame.width, self.viewSuper.frame.height)
+        }) { (complete:Bool) -> Void in
+            
+            let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as! IPAShoppingCartViewController
+            vcResult.view.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height)
+            vcResult.onClose = {(isClose:Bool) in
+                
+                self.viewMG.alpha = 0
+                self.viewSuper.alpha = 0
+            }
+            
+            self.view.addSubview(vcResult.view)
+            self.controllerShowing = vcResult
+            self.navigationController?.pushViewController(vcResult, animated: false)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                vcResult.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+                self.viewMG.frame = CGRectMake((self.view.frame.width / 2) - (self.viewMG.frame.width / 2), self.view.bounds.height, self.viewMG.frame.width, self.viewMG.frame.height)
+                }, completion: { (complete:Bool) -> Void in
+                    
+            })
+        }
+    }*/
     
     func returnToView() {
         if shoppingCartVC != nil {
