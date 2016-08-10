@@ -686,7 +686,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         
        
-        service!.buildParams(self.idAddress! as String)
+        let params = service!.buildParams(self.idAddress! as String)
         self.view.endEditing(true)
         if sender.tag == 100 {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
@@ -695,7 +695,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-        service!.callService(NSDictionary(), successBlock:{ (resultCall:NSDictionary?) in
+        service!.callService(params, successBlock:{ (resultCall:NSDictionary?) in
             if let message = resultCall!["message"] as? String {
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()

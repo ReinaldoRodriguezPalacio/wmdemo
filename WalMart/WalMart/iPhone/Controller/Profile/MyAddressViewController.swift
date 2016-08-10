@@ -390,14 +390,14 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
         
         
-        service!.buildParams(idAddress)
+        let params = service!.buildParams(idAddress)
         
         if self.alertView == nil {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-        service!.callService(NSDictionary(), successBlock:{ (resultCall:NSDictionary?) in
+        service!.callService(params, successBlock:{ (resultCall:NSDictionary?) in
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             
         if let message = resultCall!["message"] as? String {
