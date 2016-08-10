@@ -109,13 +109,16 @@ class ShippingAddress: AddressView {
         return super.validateAddress()
     }
     
-    override func getParams() -> [String:AnyObject]{
-        var paramsAddress : [String:AnyObject] =   super.getParams()
-        let userParams: [String:AnyObject] = ["profile":["lastName2":"" ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]] as [String:AnyObject]
-        paramsAddress.updateValue(userParams as AnyObject, forKey: "user")
-        paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
-        return paramsAddress
+     override func getParams() -> NSDictionary {
+        let paramsAdd : NSMutableDictionary? = [:]
+        paramsAdd!.addEntriesFromDictionary(super.getParams() as [NSObject : AnyObject])
+       paramsAdd!.addEntriesFromDictionary(["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":"","phoneExtension":"","mobileNumber":"" ])
+       
+        
+        return paramsAdd!
+        
     }
     
+  
     
 }

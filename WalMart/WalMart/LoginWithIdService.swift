@@ -13,13 +13,10 @@ class LoginWithIdService : LoginWithEmailService {
     
     func buildParams(idUser:String) -> NSDictionary {
         let lowCaseUser = idUser.lowercaseString
-        return ["idUser":lowCaseUser]
+        return ["profileId":lowCaseUser]
     }
     
     
-    
-    
-
     
     
 }
