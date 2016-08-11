@@ -307,7 +307,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateNumber = FormFieldView()
         self.associateNumber!.isRequired = true
         self.associateNumber!.setCustomPlaceholder(NSLocalizedString("profile.edit.associateNumber",comment:""))
-        self.associateNumber!.typeField = TypeField.String
+        self.associateNumber!.typeField = TypeField.Number
         self.associateNumber!.minLength = 3
         self.associateNumber!.maxLength = 25
         self.associateNumber!.nameField = NSLocalizedString("profile.edit.associateNumber",comment:"")
@@ -317,7 +317,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDeterminant = FormFieldView()
         self.associateDeterminant!.isRequired = true
         self.associateDeterminant!.setCustomPlaceholder(NSLocalizedString("profile.edit.determinant",comment:""))
-        self.associateDeterminant!.typeField = TypeField.String
+        self.associateDeterminant!.typeField = TypeField.Number
         self.associateDeterminant!.minLength = 3
         self.associateDeterminant!.maxLength = 25
         self.associateDeterminant!.nameField = NSLocalizedString("profile.edit.determinant",comment:"")
@@ -617,49 +617,79 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      */
     func save(sender:UIButton) {
         if validateUser() {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
-            let service = UpdateUserProfileService()
-            let profileId = UserCurrentSession.sharedInstance().userSigned?.profile.idProfile as! String
-            let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.dateBriday , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
-            
-            if sender.tag == 100 {
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-            }else{
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-            }
-           
-            
-            if self.passworCurrent != nil{
-                // Evente change password
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action: WMGAIUtils.ACTION_CHANGE_PASSWORD.rawValue, label: "")
-                
-            }
-            
-            self.view.endEditing(true)
-            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
-                if let message = resultCall!["message"] as? String {
-                    if self.showPasswordInfo {
-                        self.updatePassword(message)
-                    }else{
-                        self.alertView!.setMessage("\(message)")
-                        self.alertView!.showDoneIcon()
-                    }
+            if self.showAssociateInfo {
+                if sender.tag == 100 {
+                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                }else{
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 }
-                if self.delegate == nil {
-                    self.navigationController!.popViewControllerAnimated(true)
-                    NSNotificationCenter.defaultCenter().postNotificationName("RELOAD_PROFILE", object: nil)
-                }
-                else{
-                    self.delegate.finishSave()
-                }
-                }
-                , errorBlock: {(error: NSError) in
-                    //self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.setMessage(NSLocalizedString("conection.error", comment: ""))
+
+                self.alertView?.setMessage("Validando datos del asociado")
+                let service = ValidateAssociateService()
+                service.callService(requestParams: service.buildParams(associateNumber!.text!, determinant: associateDeterminant!.text!),
+                                succesBlock: { (response:NSDictionary) -> Void in
+                                    if response["codeMessage"] as? Int == 0 {
+                                       self.saveProfileService()
+                                    }else{
+                                        self.alertView?.setMessage("Error en los datos del asociado")
+                                        self.alertView!.showErrorIcon("Ok")
+                                    }
+                }) { (error:NSError) -> Void in
+                    self.alertView?.setMessage("Error en los datos del asociado")
                     self.alertView!.showErrorIcon("Ok")
-            })
+                }
+            }else{
+                if sender.tag == 100 {
+                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                }else{
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                }
+                self.saveProfileService()
+            }
         }
+    }
+    
+    /**
+     Calls edit profile service
+     
+     - parameter sender: save button
+     */
+    func saveProfileService() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
+        let service = UpdateUserProfileService()
+        let profileId = UserCurrentSession.sharedInstance().userSigned?.profile.idProfile as! String
+        let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.dateBriday , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
+            
+        if self.passworCurrent != nil{
+            // Evente change password
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action: WMGAIUtils.ACTION_CHANGE_PASSWORD.rawValue, label: "")
+                
+        }
+            
+        self.view.endEditing(true)
+        self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+        service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+            if let message = resultCall!["message"] as? String {
+                if self.showPasswordInfo {
+                    self.updatePassword(message)
+                }else{
+                    self.alertView!.setMessage("\(message)")
+                    self.alertView!.showDoneIcon()
+                }
+            }
+            if self.delegate == nil {
+                self.navigationController!.popViewControllerAnimated(true)
+                NSNotificationCenter.defaultCenter().postNotificationName("RELOAD_PROFILE", object: nil)
+            }
+            else{
+                self.delegate.finishSave()
+            }
+            }
+            , errorBlock: {(error: NSError) in
+                //self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.setMessage(NSLocalizedString("conection.error", comment: ""))
+                self.alertView!.showErrorIcon("Ok")
+        })
     }
     
     /**
@@ -738,6 +768,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      - returns: Bool
      */
     func validateUser() -> Bool{
+        
         var error = viewError(name!)
         if !error{
             error = viewError(lastName!)
@@ -785,9 +816,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             return false
         }
         
-        if self.showAssociateInfo && !self.validateAssociateInfo() {
+        if self.showAssociateInfo && !self.validateAssociateInfo(){
             return false
         }
+        
         return true
     }
     
