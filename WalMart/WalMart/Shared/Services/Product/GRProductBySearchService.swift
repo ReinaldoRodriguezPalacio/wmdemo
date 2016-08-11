@@ -56,11 +56,11 @@ class GRProductBySearchService: GRBaseService {
     }
 
     func callService(params:NSDictionary, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
+        //print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
         self.jsonFromObject(params)
         self.callPOSTService(params,
             successBlock: { (resultJSON:NSDictionary) -> Void in
-                print("RESULT FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
+                //print("RESULT FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
                 self.jsonFromObject(resultJSON)
                 
                 if let error = self.validateCodeMessage(resultJSON) {
@@ -91,6 +91,10 @@ class GRProductBySearchService: GRBaseService {
                 
                 //Search service Text
                 if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? NSDictionary {
+                    if let facet = responseObject["facet"] as? NSArray {
+                        newItemsArray.append(facet)
+                    }
+                    
                     let items = responseObject["items"] as? NSArray
                     
                     for idx in 0 ..< items!.count {
