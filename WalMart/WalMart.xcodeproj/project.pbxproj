@@ -323,7 +323,6 @@
 		56CE6C8A1AB8B81400C8B134 /* IPAGRLoginUserOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CE6C891AB8B81400C8B134 /* IPAGRLoginUserOrderView.swift */; };
 		56D157AA1B31E38C00E26955 /* GRDepartmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D157A91B31E38C00E26955 /* GRDepartmentTableViewCell.swift */; };
 		56D69D781A9BAD93009FFC77 /* ShoppingCartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D69D771A9BAD93009FFC77 /* ShoppingCartButton.swift */; };
-		56D81C2E1BC5801F00AE8EC2 /* GRFacets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D81C2D1BC5801F00AE8EC2 /* GRFacets.swift */; };
 		56DA71391A3F9A4500048539 /* BaseCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DA71381A3F9A4500048539 /* BaseCategoryViewController.swift */; };
 		56DA713B1A3F9A9200048539 /* DepartmentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DA713A1A3F9A9200048539 /* DepartmentCollectionViewCell.swift */; };
 		56DA713D1A3F9AEB00048539 /* IPOCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DA713C1A3F9AEB00048539 /* IPOCategoriesViewController.swift */; };
@@ -996,7 +995,6 @@
 		56CE6C891AB8B81400C8B134 /* IPAGRLoginUserOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAGRLoginUserOrderView.swift; path = iPad/Controller/ShoppingCart/IPAGRLoginUserOrderView.swift; sourceTree = "<group>"; };
 		56D157A91B31E38C00E26955 /* GRDepartmentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRDepartmentTableViewCell.swift; path = iPhone/View/Categories/GRDepartmentTableViewCell.swift; sourceTree = "<group>"; };
 		56D69D771A9BAD93009FFC77 /* ShoppingCartButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartButton.swift; path = Shared/View/Common/ShoppingCartButton.swift; sourceTree = "<group>"; };
-		56D81C2D1BC5801F00AE8EC2 /* GRFacets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRFacets.swift; path = Shared/Services/Product/GRFacets.swift; sourceTree = "<group>"; };
 		56DA71381A3F9A4500048539 /* BaseCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseCategoryViewController.swift; path = Shared/Controller/Category/BaseCategoryViewController.swift; sourceTree = "<group>"; };
 		56DA713A1A3F9A9200048539 /* DepartmentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DepartmentCollectionViewCell.swift; path = Shared/View/Categories/DepartmentCollectionViewCell.swift; sourceTree = "<group>"; };
 		56DA713C1A3F9AEB00048539 /* IPOCategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOCategoriesViewController.swift; path = iPhone/Controller/Categories/IPOCategoriesViewController.swift; sourceTree = "<group>"; };
@@ -2388,7 +2386,6 @@
 				04B3BA081A93C720008FDD56 /* GRProductByTicket.swift */,
 				04BD7ACA1A95585B00086B18 /* GRLinesForSearchService.swift */,
 				56DB80471B0225B8002E65F7 /* GRProductsByUPCService.swift */,
-				56D81C2D1BC5801F00AE8EC2 /* GRFacets.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -4003,7 +4000,6 @@
 				85A40B761C223AE40036C78A /* FollowViewController.swift in Sources */,
 				5684E9B21A65CB5A00765833 /* GRUserListService.swift in Sources */,
 				5A5E5EE51C8773E100E519AD /* CarouselService.swift in Sources */,
-				56D81C2E1BC5801F00AE8EC2 /* GRFacets.swift in Sources */,
 				56E54E5319EC882B0004161C /* IPABannerCollectionViewCell.swift in Sources */,
 				85A40B6E1C223AE40036C78A /* Delivery.swift in Sources */,
 				56BB629B1A5F2BAF0008BD1F /* ProductDetailCrossSellCollectionViewCell.swift in Sources */,
