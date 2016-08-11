@@ -256,8 +256,6 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountAssociateService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getSaving</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
@@ -431,8 +429,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getSaving</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
@@ -456,7 +452,7 @@
 			<key>WalmartMG.GRProductsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getSavingItems</string>
 			<key>WalmartMG.GRRecentProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getMyBasic</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/recentProducts.txt</string>
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://dl.dropboxusercontent.com/s/8kkaxd2cq3u0axr/resposeSucces.txt?dl=0</string>
 			<key>WalmartMG.GRSendOrderService</key>
@@ -587,8 +583,6 @@
 		<dict>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPractilist</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getFacets</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
@@ -600,12 +594,10 @@
 		<dict>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getFacets</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/searchbytext.txt</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
