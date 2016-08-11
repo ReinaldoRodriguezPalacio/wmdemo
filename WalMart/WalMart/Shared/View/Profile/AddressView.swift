@@ -793,7 +793,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
             if formFieldObj ==  self.store! {
                 self.store!.text = selectedStr
                 self.selectedStore = indexPath
-                self.idStoreSelected = self.idStoreArray[indexPath.row] as! String
+                self.idStoreSelected = self.idStoreArray[indexPath.row]
                 /*if delegate != nil {
                     self.delegate.showUpdate!()
                 }*/

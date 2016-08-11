@@ -313,7 +313,7 @@
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/isReferedActive</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addFiscalAddress</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
@@ -395,7 +395,7 @@
 			<key>WalmartMG.StoreLocatorService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateFiscalAddress</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/updateInvoiceAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
@@ -488,7 +488,7 @@
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/isReferedActive</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
