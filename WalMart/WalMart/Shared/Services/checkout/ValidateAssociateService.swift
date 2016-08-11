@@ -11,9 +11,9 @@ import Foundation
 
 class ValidateAssociateService : BaseService {
     
-    func buildParams(idAssociated:String?,dateAdmission: String?,determinant: String?) -> NSDictionary {
+    func buildParams(idAssociated:String?,determinant: String?) -> NSDictionary {
 
-        return ["idAssociated":idAssociated!,"dateAdmission":dateAdmission!,"determinant":determinant!]
+        return ["idAssociated":idAssociated!,"determinant":determinant!]
     }
     
     func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
