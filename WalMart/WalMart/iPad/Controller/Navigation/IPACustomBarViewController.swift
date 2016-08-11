@@ -352,41 +352,19 @@ class IPACustomBarViewController :  CustomBarViewController {
             self.searchView!.closeSearch()
         }
         
-        
-        self.shoppingCartViewController = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as! ShoppingCartViewController
-        self.shoppingCartViewController!.delegate = self
-        self.shoppingCartViewController!.view.frame = self.container!.frame
-        self.view.addSubview(self.shoppingCartViewController!.view)
-        self.view.bringSubviewToFront(self.headerView)
-        self.shoppingCartViewController!.didMoveToParentViewController(self)
-        
-   
-        
-       /* self.addChildViewController(shoppingCartVC)
-        shoppingCartVC.view.frame = CGRectMake(0,self.buttonContainer!.frame.minY,self.container!.frame.width,self.container!.frame.height + self.buttonContainer!.frame.height )
+        let storyboard = self.loadStoryboardDefinition()
+        if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
+            shoppingCartVC = vc
+            if let vcRoot = shoppingCartVC.viewControllers.first as? IPAShoppingCartViewController {
+                vcRoot.delegate = self
+            }
+        }
+ 
+        self.addChildViewController(shoppingCartVC)
+        shoppingCartVC.view.frame = self.container!.frame
         self.view.addSubview(shoppingCartVC.view)
         self.view.bringSubviewToFront(self.headerView)
         shoppingCartVC.didMoveToParentViewController(self)
-        shoppingCartVC.view.backgroundColor = UIColor.clearColor()
-        
-        if let vcRoot = shoppingCartVC.viewControllers.first as? IPAPreShoppingCartViewController {
-            vcRoot.delegate = self
-            vcRoot.openShoppingCart()
-            vcRoot.view.userInteractionEnabled = false
-            vcRoot.finishAnimation = {() -> Void in
-                print("")
-                vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
-                self.btnShopping?.userInteractionEnabled = true
-                self.btnCloseShopping?.enabled = true
-                vcRoot.view.userInteractionEnabled = true
-            }
-            
-//            self.btnShopping?.userInteractionEnabled = true
-//            self.btnCloseShopping?.enabled = true
-            
-        }*/
-        
-        
 
     }
 

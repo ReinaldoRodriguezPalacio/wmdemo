@@ -251,7 +251,6 @@
 		568A42B119ED8E7500608297 /* IPAProductDetailCrossSellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568A42B019ED8E7500608297 /* IPAProductDetailCrossSellView.swift */; };
 		568A42B319ED8F8D00608297 /* ProductDetailCrossSellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568A42B219ED8F8D00608297 /* ProductDetailCrossSellView.swift */; };
 		568A42B519ED919100608297 /* IPAProductDetailCrossSellItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568A42B419ED919100608297 /* IPAProductDetailCrossSellItemCollectionViewCell.swift */; };
-		568B5BE31AA0FD3700EB7B53 /* IPAPreShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B5BE21AA0FD3700EB7B53 /* IPAPreShoppingCartViewController.swift */; };
 		568B8E151B0A88ED007A8596 /* TutorialHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568B8E141B0A88ED007A8596 /* TutorialHelpView.swift */; };
 		568DA4A31A16851800851B4C /* IPAProductDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568DA4A21A16851800851B4C /* IPAProductDetailPageViewController.swift */; };
 		56927BB519DAEE1C0034AD1F /* IPOWMAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56927BB419DAEE1C0034AD1F /* IPOWMAlertViewController.swift */; };
@@ -283,7 +282,6 @@
 		569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E004F19BE438300756B88 /* ProductTableViewCell.swift */; };
 		569E005219BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E005119BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift */; };
 		569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569FCA0F1BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift */; };
-		56A242D41A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */; };
 		56A491081B26450C0030A730 /* KeyboardGramsKgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A491071B26450C0030A730 /* KeyboardGramsKgViewController.swift */; };
 		56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */; };
 		56AAFF971A92584B007B8D91 /* FormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AAFF961A92584B007B8D91 /* FormSuperAddressView.swift */; };
@@ -305,7 +303,6 @@
 		56AEBC6A19F867D9002D1BB3 /* IPAShoppingCartBeforeToLeave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AEBC6919F867D9002D1BB3 /* IPAShoppingCartBeforeToLeave.swift */; };
 		56AED5EA19C36F69004CAECA /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AED5E919C36F69004CAECA /* CategoryService.swift */; };
 		56B044AE1A6DB5E300BA173A /* GRTimeBands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B044AD1A6DB5E300BA173A /* GRTimeBands.swift */; };
-		56B045491A6EF04D00BA173A /* PreShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B045481A6EF04D00BA173A /* PreShoppingCartViewController.swift */; };
 		56BB62971A5F05DD0008BD1F /* ProductDetailMSICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BB62961A5F05DD0008BD1F /* ProductDetailMSICollectionViewCell.swift */; };
 		56BB62991A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BB62981A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift */; };
 		56BB629B1A5F2BAF0008BD1F /* ProductDetailCrossSellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BB629A1A5F2BAF0008BD1F /* ProductDetailCrossSellCollectionViewCell.swift */; };
@@ -922,7 +919,6 @@
 		568A42B019ED8E7500608297 /* IPAProductDetailCrossSellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailCrossSellView.swift; path = iPad/View/ProductDetail/IPAProductDetailCrossSellView.swift; sourceTree = "<group>"; };
 		568A42B219ED8F8D00608297 /* ProductDetailCrossSellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailCrossSellView.swift; path = Shared/View/Product/ProductDetailCrossSellView.swift; sourceTree = "<group>"; };
 		568A42B419ED919100608297 /* IPAProductDetailCrossSellItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailCrossSellItemCollectionViewCell.swift; path = iPad/View/ProductDetail/IPAProductDetailCrossSellItemCollectionViewCell.swift; sourceTree = "<group>"; };
-		568B5BE21AA0FD3700EB7B53 /* IPAPreShoppingCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAPreShoppingCartViewController.swift; path = iPad/Controller/ShoppingCart/IPAPreShoppingCartViewController.swift; sourceTree = "<group>"; };
 		568B8E141B0A88ED007A8596 /* TutorialHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TutorialHelpView.swift; path = Shared/View/Help/TutorialHelpView.swift; sourceTree = "<group>"; };
 		568DA4A21A16851800851B4C /* IPAProductDetailPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailPageViewController.swift; path = iPad/Controller/ProductDetail/IPAProductDetailPageViewController.swift; sourceTree = "<group>"; };
 		56927BB419DAEE1C0034AD1F /* IPOWMAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertViewController.swift; path = iPhone/Controller/Common/IPOWMAlertViewController.swift; sourceTree = "<group>"; };
@@ -955,7 +951,6 @@
 		569E004F19BE438300756B88 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductTableViewCell.swift; path = Shared/View/Product/ProductTableViewCell.swift; sourceTree = "<group>"; };
 		569E005119BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartTotalsTableViewCell.swift; path = iPhone/View/ShoppingCart/ShoppingCartTotalsTableViewCell.swift; sourceTree = "<group>"; };
 		569FCA0F1BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionHeaderSearchHeader.swift; path = iPhone/View/SearhResult/SectionHeaderSearchHeader.swift; sourceTree = "<group>"; };
-		56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartAnimationController.swift; path = iPhone/Controller/ShoppingCart/PreShoppingCartAnimationController.swift; sourceTree = "<group>"; };
 		56A491071B26450C0030A730 /* KeyboardGramsKgViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardGramsKgViewController.swift; path = Shared/Controller/Keyboard/KeyboardGramsKgViewController.swift; sourceTree = "<group>"; };
 		56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartUpdateProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartUpdateProductsService.swift; sourceTree = "<group>"; };
 		56AAFF961A92584B007B8D91 /* FormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormSuperAddressView.swift; path = iPhone/View/Profile/FormSuperAddressView.swift; sourceTree = "<group>"; };
@@ -981,7 +976,6 @@
 		56AEBC6919F867D9002D1BB3 /* IPAShoppingCartBeforeToLeave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAShoppingCartBeforeToLeave.swift; path = iPad/View/ShoppingCart/IPAShoppingCartBeforeToLeave.swift; sourceTree = "<group>"; };
 		56AED5E919C36F69004CAECA /* CategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryService.swift; path = Shared/Services/Home/CategoryService.swift; sourceTree = "<group>"; };
 		56B044AD1A6DB5E300BA173A /* GRTimeBands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRTimeBands.swift; path = Shared/Services/checkout/GRTimeBands.swift; sourceTree = "<group>"; };
-		56B045481A6EF04D00BA173A /* PreShoppingCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartViewController.swift; path = iPhone/Controller/ShoppingCart/PreShoppingCartViewController.swift; sourceTree = "<group>"; };
 		56BB62961A5F05DD0008BD1F /* ProductDetailMSICollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailMSICollectionViewCell.swift; path = Shared/View/Product/ProductDetailMSICollectionViewCell.swift; sourceTree = "<group>"; };
 		56BB62981A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailCharacteristicsCollectionViewCell.swift; path = Shared/View/Product/ProductDetailCharacteristicsCollectionViewCell.swift; sourceTree = "<group>"; };
 		56BB629A1A5F2BAF0008BD1F /* ProductDetailCrossSellCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailCrossSellCollectionViewCell.swift; path = Shared/View/Product/ProductDetailCrossSellCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1559,10 +1553,8 @@
 			isa = PBXGroup;
 			children = (
 				5606BC2B19BA63ED002A70ED /* ShoppingCartUpdateController.swift */,
-				56B045481A6EF04D00BA173A /* PreShoppingCartViewController.swift */,
 				569E004A19BE2DB700756B88 /* ShoppingCartViewController.swift */,
 				56EF81341A702FF600B81D09 /* GRShoppingCartViewController.swift */,
-				56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */,
 			);
 			name = ShoppingCart;
 			sourceTree = "<group>";
@@ -2291,7 +2283,6 @@
 			isa = PBXGroup;
 			children = (
 				566E547119F572850007C75A /* IPAShoppingCartViewController.swift */,
-				568B5BE21AA0FD3700EB7B53 /* IPAPreShoppingCartViewController.swift */,
 				5670232D1AB0C91700FDCD91 /* IPAGRShoppingCartViewController.swift */,
 				56CE6C891AB8B81400C8B134 /* IPAGRLoginUserOrderView.swift */,
 			);
@@ -3741,7 +3732,6 @@
 				ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */,
 				5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */,
 				5606BC2919BA3EFE002A70ED /* ProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
-				568B5BE31AA0FD3700EB7B53 /* IPAPreShoppingCartViewController.swift in Sources */,
 				85A40B811C223AE40036C78A /* Person.swift in Sources */,
 				AC6AAE9C19CCC3AC004081C4 /* OrderViewController.swift in Sources */,
 				6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */,
@@ -3865,7 +3855,6 @@
 				56527DAB19AF9574008032C6 /* BaseController.swift in Sources */,
 				56E953931BB2378500E9B9F8 /* IPOEmptyNotificationView.swift in Sources */,
 				AC0918C619D1D99300BF48CA /* ShippingAddress.swift in Sources */,
-				56B045491A6EF04D00BA173A /* PreShoppingCartViewController.swift in Sources */,
 				569607A919B53042005D20DC /* ProductDetailMSITableViewCell.swift in Sources */,
 				56DE026E19DE1C6600FA2042 /* IPOWishlistEmptyView.swift in Sources */,
 				565E5A7419C0BDC300444DF7 /* Cart.swift in Sources */,
@@ -4159,7 +4148,6 @@
 				5673D1431A9D500400DCD20B /* RSUPCEGenerator.swift in Sources */,
 				56054B8C1B211CCF003F8536 /* KeyboardWeightViewController.swift in Sources */,
 				5605B25D1B2B986F00238B39 /* UpdateViewController.swift in Sources */,
-				56A242D41A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift in Sources */,
 				56703B681A8186EB000684C2 /* GRShoppingCartTotalsTableViewCell.swift in Sources */,
 				56253D8719D20963002E128A /* PreviousOrdersTableViewCell.swift in Sources */,
 				568A42AE19ED8C9D00608297 /* IPAProductCrossSellView.swift in Sources */,

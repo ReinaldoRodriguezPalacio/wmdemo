@@ -199,24 +199,6 @@
             </objects>
             <point key="canvasLocation" x="3156" y="-437"/>
         </scene>
-        <!--Pre Shopping Cart View Controller-->
-        <scene sceneID="2Dj-hN-Jin">
-            <objects>
-                <viewController id="WHA-RG-Zhq" customClass="IPAPreShoppingCartViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="s2b-Wq-bOf">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="pwg-0R-GCq"/>
-                    <connections>
-                        <segue destination="IMK-Fs-8Az" kind="push" identifier="shoppingCartGR" id="1qT-eb-QVl"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ba5-yc-rN2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4352" y="-362"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="f2K-oo-Vaz">
             <objects>

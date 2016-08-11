@@ -69,30 +69,6 @@
             </objects>
             <point key="canvasLocation" x="169" y="394"/>
         </scene>
-        <!--Pre Shopping Cart View Controller-->
-        <scene sceneID="Xou-Oi-B6a">
-            <objects>
-                <viewController id="1RD-Yz-KUM" customClass="PreShoppingCartViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ogf-fj-z9o"/>
-                        <viewControllerLayoutGuide type="bottom" id="fN6-Uu-WcO"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="rfZ-FJ-pyo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="KDh-px-qYC"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="461"/>
-                    <connections>
-                        <segue destination="MeF-hG-Xw7" kind="custom" identifier="shoppingCartGR" customClass="PreShoppingCartAnimationController" customModule="WalmartMG" customModuleProvider="target" id="7tA-zY-sFC"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Tu3-Sq-0kv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1235" y="-1504.5"/>
-        </scene>
         <!--Shopping Cart View Controller-->
         <scene sceneID="x8C-2F-2OI">
             <objects>
