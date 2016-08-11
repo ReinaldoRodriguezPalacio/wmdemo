@@ -207,8 +207,8 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height - 40 ), toView:self.view)
         searchProduct.loading = WMLoadingView(frame: CGRectMake(0, pointPop.y, self.view.bounds.width, self.view.bounds.height - pointPop.y))
         
-        searchProduct.mgResults!.resetResult()
-        searchProduct.grResults!.resetResult()
+        //searchProduct.mgResults!.resetResult()
+        searchProduct.results!.resetResult()
         searchProduct.allProducts = []
         searchProduct.idFamily  = family
         searchProduct.idDepartment = department

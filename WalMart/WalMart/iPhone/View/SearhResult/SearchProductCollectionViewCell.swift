@@ -184,7 +184,9 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 hasUPC =  false
             }
             if !hasUPC {
-                if self.type == ResultObjectType.Groceries.rawValue {
+                //Definir type para comparar quantity mg o gr
+                //if self.type == ResultObjectType.Groceries.rawValue {
+                if self.pesable == true{
                     self.delegate?.selectGRQuantityForItem(self)
                 }
                 else {

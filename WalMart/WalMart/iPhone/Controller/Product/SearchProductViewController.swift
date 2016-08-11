@@ -56,8 +56,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var filterButton: UIButton?
     var empty: IPOGenericEmptyView!
     var emptyMGGR: IPOSearchResultEmptyView!
-    lazy var mgResults: SearchResult? = SearchResult()
-    lazy var grResults: SearchResult? = SearchResult()
+    //lazy var mgResults: SearchResult? = SearchResult()
+    lazy var results: SearchResult? = SearchResult()
     var allProducts: NSMutableArray? = []
     var upcsToShow : [String]? = []
     var upcsToShowApply : [String]? = []
@@ -338,7 +338,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if finsihService || didSelectProduct {
             self.loading?.stopAnnimating()
         }
-        if self.mgResults!.totalResults == 0 && self.searchContextType == .WithCategoryForMG {
+        if self.results!.totalResults == 0 && self.searchContextType == .WithCategoryForMG {
             self.showEmptyView()
         }
     }
@@ -457,11 +457,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if let count = self.allProducts?.count {
             var commonTotal = 0
             //if self.btnSuper.selected {
-                commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
+                commonTotal =  (self.results!.totalResults == -1 ? 0:self.results!.totalResults)
         
-                commonTotal = commonTotal == 0 ? (self.grResults!.totalResults == -1 ? 0:(self.grResults!.totalResults == 0 && self.grResults!.resultsInResponse != 0 ? self.grResults!.resultsInResponse : self.grResults!.totalResults)) : commonTotal
+                commonTotal = commonTotal == 0 ? (self.results!.totalResults == -1 ? 0:(self.results!.totalResults == 0 && self.results!.resultsInResponse != 0 ? self.results!.resultsInResponse : self.results!.totalResults)) : commonTotal
                 if commonTotal > 0 {
-                    commonTotal =  self.grResults!.resultsInResponse > commonTotal ? self.grResults!.resultsInResponse :commonTotal
+                    commonTotal =  self.results!.resultsInResponse > commonTotal ? self.results!.resultsInResponse :commonTotal
                 }
                 if count == commonTotal {
                     return count
@@ -486,7 +486,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //Show loading cell and invoke service
         var commonTotal = 0
         //if self.btnSuper.selected {
-            commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
+        commonTotal =  (self.results!.totalResults == -1 ? 0:self.results!.totalResults)
         /*} else {
             commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
         }
@@ -566,7 +566,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         var isPesable = false
         if let pesable = item["pesable"] as?  NSString {
-            isPesable = pesable.intValue == 1
+            isPesable = pesable.boolValue//pesable.intValue == 1
         }
         
         var isLowStock = false
@@ -575,7 +575,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         var productDeparment = ""
-        if let category = item["category"] as? String{
+        if let category = item["lowStock"] as? String{
             productDeparment = category
         }
         
@@ -662,6 +662,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             if let priceThr = strUPC["saving"] as? String {
                                 through = priceThr as String
                             }
+                            //***Type se le agrega MG por default. esperar para ProductDetailPageViewController
                             productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                         }
                    
@@ -692,7 +693,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         if let priceThr = strUPC["saving"] as? String {
                             through = priceThr as String
                         }
-                        productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
+                        //***Type se le agrega MG por default. esperar para ProductDetailPageViewController
+                        productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue ,"saving":through])
                     }
 
                 }
@@ -723,6 +725,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     switch self.searchContextType! {
                     case .WithCategoryForMG :
                         print("Searching products for Category In MG")
+                        
+                        //***Sustituir busqueda en MG por Groceries
+                        self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        /*
                         if self.originalSearchContextType != nil && self.isTextSearch{
                             self.invokeSearchproductsInMG(
                                 actionSuccess: { () -> Void in
@@ -735,10 +741,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         else{
                             self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
-                        }
+                        }*/
 
                     case .WithCategoryForGR :
                         print("Searching products for Category In Groceries")
+                        self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        /*
                         if self.originalSearchContextType != nil && self.isTextSearch{
                             self.invokeSearchProductsInGroceries(
                                 actionSuccess: { () -> Void in
@@ -750,12 +758,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             )
                         }
                         else{
-                            
                             self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
-                        }
+                        }*/
                     default :
                         print("Searching products for text")
-                        self.invokeSearchProductsInGroceries(
+                        //Only one service
+                        self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        //self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                        
+                        /*self.invokeSearchProductsInGroceries(
                             actionSuccess: { () -> Void in
                                     self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
                                
@@ -765,7 +776,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                                     self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
                                 }
                             }
-                        )
+                        )*/
                     }
                 }
             })
@@ -808,24 +819,24 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    
+    //YA NO SE OCUPA ESTE SERVICIO para TEXT
     func invokeSearchproductsInMG(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
-        
+        //NO se ocupa en searchText pero SI en busqueda Category MG super
         if self.idListFromSearch != ""{
             actionSuccess?()
             return
         }
         
-        if self.mgResults!.totalResults != -1 && self.mgResults!.resultsInResponse >= self.mgResults!.totalResults {
+        if self.results!.totalResults != -1 && self.results!.resultsInResponse >= self.results!.totalResults {
             print("MG Search IS COMPLETE!!!")
-            self.mgResults!.totalResults = self.allProducts!.count
-            self.mgResults!.resultsInResponse = self.mgResults!.totalResults
+            self.results!.totalResults = self.allProducts!.count
+            self.results!.resultsInResponse = self.results!.totalResults
             actionSuccess?()
             return
         }
         
         print("Invoking MG Search")
-        let startOffSet = self.mgResults!.resultsInResponse
+        let startOffSet = self.results!.resultsInResponse
         
         //TODO: Signals
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
@@ -838,13 +849,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     if let item = arrayProduct?[0] as? NSDictionary {
                         //println(item)
                         if let results = item["resultsInResponse"] as? NSString {
-                            self.mgResults!.resultsInResponse += results.integerValue
+                            self.results!.resultsInResponse += results.integerValue
                         }
                         if let total = item["totalResults"] as? NSString {
-                            self.mgResults!.totalResults = total.integerValue
+                            self.results!.totalResults = total.integerValue
                         }
                     }
-                    self.mgResults!.addResults(arrayProduct!)
+                    self.results!.addResults(arrayProduct!)
                     if var sortFacet = facet as? [[String:AnyObject]] {
                         sortFacet.sortInPlace { (item, seconditem) -> Bool in
                             var firstOrder = "0"
@@ -869,9 +880,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //                    }
                 }
                 else {
-                    self.mgResults!.resultsInResponse = 0
-                    if self.mgResults!.products == nil {
-                        self.mgResults!.totalResults = 0
+                    self.results!.resultsInResponse = 0
+                    if self.results!.products == nil {
+                        self.results!.totalResults = 0
                     }
                 }
                 
@@ -880,8 +891,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")
-                self.mgResults!.totalResults = self.allProducts!.count
-                self.mgResults!.resultsInResponse = self.mgResults!.totalResults
+                self.results!.totalResults = self.allProducts!.count
+                self.results!.resultsInResponse = self.results!.totalResults
                 actionSuccess?()
                 //self.mgResults!.resultsInResponse = 0
                 //self.mgResults!.totalResults = 0
@@ -893,14 +904,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func invokeSearchProductsInGroceries(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
-        if self.grResults!.totalResults != -1 && self.grResults!.resultsInResponse >= self.grResults!.totalResults {
+        if self.results!.totalResults != -1 && self.results!.resultsInResponse >= self.results!.totalResults {
             print("Groceries Search IS COMPLETE!!!")
             actionSuccess?()
             return
         }
         
         print("Invoking Groceries Search")
-        var startOffSet = self.grResults!.resultsInResponse
+        var startOffSet = self.results!.resultsInResponse
         if startOffSet > 0 {
             startOffSet += 1
         }
@@ -912,8 +923,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
+                
                 if arrayProduct != nil && arrayProduct!.count > 0 {
-                    if let item = arrayProduct?[0] as? NSDictionary {
+                    self.results!.totalResults = arrayProduct!.count
+                    self.results!.resultsInResponse = arrayProduct!.count
+                    
+                    /*if let item = arrayProduct?[0] as? NSDictionary {
                         //println(item)
                         if let results = item["resultsInResponse"] as? NSString {
                             self.grResults!.resultsInResponse += results.integerValue
@@ -921,8 +936,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         if let total = item["totalResults"] as? NSString {
                             self.grResults!.totalResults = total.integerValue
                         }
+                    }*/
+                    self.results!.addResults(arrayProduct!)
+                    
+                    //Agregar facets si la busqueda es diferente a Text
+                    //self.textToSearch
+                    if self.textToSearch == nil {
+                        //pasar facets de GRProductBySearchService
+                        //arrayProduct solo trae items y no facets
                     }
-                    self.grResults!.addResults(arrayProduct!)
+                    
                     
                     //                    if self.allProducts != nil {
                     //                        self.allProducts = self.allProducts!.arrayByAddingObjectsFromArray(arrayProduct!)
@@ -932,8 +955,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //                    }
                 }
                 else {
-                    self.grResults!.resultsInResponse = 0
-                    self.grResults!.totalResults = 0
+                    self.results!.resultsInResponse = 0
+                    self.results!.totalResults = 0
                 }
                 
                 actionSuccess?()
@@ -941,13 +964,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 print(error)
                 //No se encontraron resultados para la búsqueda
                 if error.code == 1 {
-                    self.grResults!.resultsInResponse = 0
-                    self.grResults!.totalResults = 0
+                    self.results!.resultsInResponse = 0
+                    self.results!.totalResults = 0
                     actionError?()
                 }else{
                     print("GR Search ERROR!!!")
-                    self.grResults!.totalResults = self.allProducts!.count
-                    self.grResults!.resultsInResponse = self.mgResults!.totalResults
+                    self.results!.totalResults = self.allProducts!.count
+                    self.results!.resultsInResponse = self.results!.totalResults
                     actionSuccess?()
                     print(error)
                     actionError?()
@@ -965,15 +988,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         //if btnSuper.selected   {
-            if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
+            if firstOpen && (self.results!.products == nil || self.results!.products!.count == 0 ) {
                 //btnTech.selected = true
                 //btnSuper.selected = false
                 self.allProducts = []
-                if self.mgResults?.products != nil {
+                if self.results?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
                         self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
                         var filtredProducts : [AnyObject] = []
-                        for product in self.mgResults!.products! {
+                        for product in self.results!.products! {
                             let productDict = product as! [String:AnyObject]
                             if let productUPC =  productDict["upc"] as? String {
                                 if !self.itemsUPCMG!.containsObject(productUPC) {
@@ -983,8 +1006,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         self.allProducts?.addObjectsFromArray(filtredProducts)
                     } else {
-                        if self.mgResults!.products != nil{
-                            self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                        if self.results!.products != nil{
+                            self.allProducts?.addObjectsFromArray(self.results!.products as! [AnyObject])
                         }
                     }
                 }
@@ -993,11 +1016,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 //btnTech.selected = false
                 //btnSuper.selected = true
                 self.allProducts = []
-                if self.grResults?.products != nil {
+                if self.results?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
                         self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
                         var filtredProducts : [AnyObject] = []
-                            for product in self.grResults!.products! {
+                            for product in self.results!.products! {
                                 let productDict = product as! [String:AnyObject]
                                 if let productUPC =  productDict["upc"] as? String {
                                     if !self.itemsUPCGR!.containsObject(productUPC) {
@@ -1008,7 +1031,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         
                         self.allProducts?.addObjectsFromArray(filtredProducts)
                     } else {
-                        self.allProducts?.addObjectsFromArray(self.grResults!.products as! [AnyObject])
+                        self.allProducts?.addObjectsFromArray(self.results!.products as! [AnyObject])
                     }
                 }
             }
@@ -1181,7 +1204,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         //if btnSuper.selected {
-            self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
+            self.emptyMGGR.descLabel.text = "No existe ese artículo"// en Súper
         /*} else {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
         }*/
@@ -1237,7 +1260,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             successBlock: { (result:NSDictionary) -> Void in
                 let arrayCall = result["brands"] as! NSArray
                 
-                //self.facetGr = arrayCall
+                //self.facet = arrayCall as! [[String : AnyObject]]
                 print(result)
             },
             errorBlock: { (error:NSError) -> Void in
@@ -1297,8 +1320,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
         
         self.allProducts = []
-        self.mgResults!.resetResult()
-        self.grResults!.resetResult()
+        //self.mgResults!.resetResult()
+        self.results!.resetResult()
         self.getServiceProduct(resetTable: true)
     }
     
@@ -1318,7 +1341,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.collection?.alpha = 100
         if upcs.count == 0 {
             self.allProducts = []
-            self.mgResults?.totalResults = 0
+            self.results?.totalResults = 0
             self.collection?.reloadData()
             self.collection?.alpha = 0
 //            if self.empty == nil {
@@ -1348,7 +1371,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts? = []
             }
             self.allProducts?.addObjectsFromArray(result.arrayObject!)
-            self.mgResults?.totalResults = self.allProducts!.count
+            self.results?.totalResults = self.allProducts!.count
             self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
@@ -1417,8 +1440,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.idLine = nil
         }
         self.allProducts = []
-        self.mgResults!.resetResult()
-        self.grResults!.resetResult()
+        //self.mgResults!.resetResult()
+        self.results!.resetResult()
         self.controllerFilter = nil
         
         
@@ -1436,8 +1459,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.allProducts = []
-        self.mgResults!.resetResult()
-        self.grResults!.resetResult()
+        //self.mgResults!.resetResult()
+        self.results!.resetResult()
         self.showLoadingIfNeeded(false)
         self.getServiceProduct(resetTable: true)
         
