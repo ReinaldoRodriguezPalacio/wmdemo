@@ -68,6 +68,8 @@ class GRProductBySearchService: GRBaseService {
                     return
                 }
                 
+                var newItemsArray = Array<AnyObject>()
+                
                 if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? NSArray {
                     self.saveKeywords(items) //Creating keywords
                     
@@ -84,7 +86,22 @@ class GRProductBySearchService: GRBaseService {
                         item["type"] = ResultObjectType.Groceries.rawValue
                         newItemsArray.append(item)
                     }
+                    successBlock?(newItemsArray)
+                }
+                
+                //Search service Text
+                if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? NSDictionary {
+                    let items = responseObject["items"] as? NSArray
                     
+                    for idx in 0 ..< items!.count {
+                        var item = items![idx] as! [String:AnyObject]
+                        if let promodesc = item["promoDescription"] as? String{
+                            if promodesc != "null" {
+                                item["saving"] = promodesc
+                            }
+                        }
+                        newItemsArray.append(item)
+                    }
                     successBlock?(newItemsArray)
                 }
             },
