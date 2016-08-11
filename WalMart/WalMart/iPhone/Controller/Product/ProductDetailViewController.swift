@@ -1322,7 +1322,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             detailsValues!.append(itemDetail)
             facetsDetails["itemDetails"] = detailsValues
         }
-        return self.marckSelectedDetails(facetsDetails)
+        return self.selectedDetailItem?.count > 0 ? self.marckSelectedDetails(facetsDetails) :  facetsDetails
     }
     
     /**

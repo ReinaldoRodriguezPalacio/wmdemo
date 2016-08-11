@@ -29,7 +29,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :
-            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? IPAGRProductDetailViewController {
+            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
                 vc.upc = upc
                 vc.indexRowSelected = self.itemSelectedSolar//ixSelected
                 vc.stringSearch = self.stringSearching

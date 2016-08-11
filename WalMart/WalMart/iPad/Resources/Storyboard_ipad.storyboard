@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BF4-ZB-eWP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BF4-ZB-eWP">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -162,11 +162,11 @@
             <objects>
                 <viewController storyboardIdentifier="shoppingCartGRVC" id="IMK-Fs-8Az" customClass="IPAGRShoppingCartViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TZ2-94-M3A">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="9RB-vY-LGW">
-                                <rect key="frame" x="683" y="0.0" width="341" height="768"/>
+                                <rect key="frame" x="683" y="0.0" width="85" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -192,31 +192,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="WHA-RG-Zhq" kind="relationship" relationship="rootViewController" id="4v7-Wc-In6"/>
+                        <segue destination="4FN-il-8MZ" kind="relationship" relationship="rootViewController" id="q5y-oc-do3"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rPZ-Fn-lJ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3156" y="-437"/>
-        </scene>
-        <!--Pre Shopping Cart View Controller-->
-        <scene sceneID="2Dj-hN-Jin">
-            <objects>
-                <viewController id="WHA-RG-Zhq" customClass="IPAPreShoppingCartViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="s2b-Wq-bOf">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="pwg-0R-GCq"/>
-                    <connections>
-                        <segue destination="4FN-il-8MZ" kind="push" identifier="shoppingCartMG" id="IaF-Bt-KGL"/>
-                        <segue destination="IMK-Fs-8Az" kind="push" identifier="shoppingCartGR" id="1qT-eb-QVl"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ba5-yc-rN2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4352" y="-437"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="f2K-oo-Vaz">

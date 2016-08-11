@@ -68,6 +68,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     var currentController: UIViewController? = nil
     var searchController: SearchViewController? = nil
+ 
     var viewControllers: [UIViewController] = []
     var buttonList: [UIButton] = []
     var isTabBarHidden = false
@@ -180,13 +181,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.addChildViewController(splashVC)
         self.view.addSubview(splashVC.view)
         
-        let storyboard = self.loadStoryboardDefinition()
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
-            shoppingCartVC = vc
-            if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
-                vcRoot.delegate = self
-            }
-        }
+        
         
         createTabBarButtons()
         
@@ -993,7 +988,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let controller = ProductDetailPageViewController()
             controller.idListSeleted  = self.idListSelected
             let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
-            let svcValidate = GRProductDetailService(dictionary: useSignalsService)
+            let svcValidate = ProductDetailService(dictionary: useSignalsService)
             
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
@@ -1001,7 +996,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position: "")//
+            let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//
             svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 
@@ -1160,18 +1155,19 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
         
-        if let vcRoot = shoppingCartVC.viewControllers.first as? PreShoppingCartViewController {
-            vcRoot.delegate = self
-            vcRoot.closeShoppingCart()
-            vcRoot.view.removeGestureRecognizer(gestureCloseShoppingCart)
-            openSearch = false
+        if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
+            self.shoppingCartVC!.willMoveToParentViewController(nil)
+            self.shoppingCartVC!.view.removeFromSuperview()
+            self.shoppingCartVC!.removeFromParentViewController()
+            self.shoppingCartVC = nil
+            
+              openSearch = false
+            shoppingCartVC = nil
         }
-        if let vcRoot = shoppingCartVC.viewControllers.first as? IPAPreShoppingCartViewController {
-            vcRoot.delegate = self
-            vcRoot.closeShoppingCart()
-            vcRoot.view.removeGestureRecognizer(gestureCloseShoppingCart)
-            openSearch = false
-        }
+        
+    
+        
+      
         
         NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
 
@@ -1183,7 +1179,34 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func showShoppingCart(sender:UIButton,closeIfNeedded:Bool) {
-        if shoppingCartVC != nil {
+       if (!sender.selected){
+            sender.selected = !sender.selected
+            self.addtoShopingCar()
+        
+            self.endUpdatingShoppingCart(self)
+            self.hidebadge()
+            self.btnShopping?.alpha = 0
+        
+        if self.btnCloseShopping == nil {
+            self.btnCloseShopping = UIButton()
+            self.btnCloseShopping?.frame = self.btnShopping!.frame
+            self.btnCloseShopping?.setImage(UIImage(named:"close"), forState: .Normal)
+            self.btnCloseShopping?.addTarget(self, action: #selector(CustomBarViewController.showShoppingCart as (CustomBarViewController) -> () -> ()), forControlEvents: UIControlEvents.TouchUpInside)
+            self.btnShopping?.superview?.addSubview(self.btnCloseShopping!)
+            
+        }
+        self.btnCloseShopping?.enabled = false
+        self.btnCloseShopping?.alpha = 1
+        self.btnShopping?.userInteractionEnabled = true
+        self.btnCloseShopping?.enabled = true
+        
+        }
+       else {
+            if closeIfNeedded {
+                self.closeShoppingCart()
+            }
+        }
+        /*if shoppingCartVC != nil {
             if (!sender.selected){
                 sender.selected = !sender.selected
                 ShoppingCartService.shouldupdate = true
@@ -1216,7 +1239,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.closeShoppingCart()
                 }
             }
-        }
+        }*/
         
     }
     
@@ -1225,32 +1248,36 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func addtoShopingCar(){
-        /*
-        let shoppingController = ShoppingCartViewController()
-        shoppingController.delegate = self
-        self.presentViewController(shoppingController, animated: true, completion: nil)
-        */
+        
+      
+        let storyboard = self.loadStoryboardDefinition()
+        if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
+            shoppingCartVC = vc
+            if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
+                vcRoot.delegate = self
+            }
+        }
+       // self.shoppingCartViewController = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as! ShoppingCartViewController
+        
         self.addChildViewController(shoppingCartVC)
         shoppingCartVC.view.frame = self.container!.frame
         self.view.addSubview(shoppingCartVC.view)
         self.view.bringSubviewToFront(self.headerView)
         shoppingCartVC.didMoveToParentViewController(self)
-        if let vcRoot = shoppingCartVC.viewControllers.first as? PreShoppingCartViewController {
-            vcRoot.delegate = self
-            self.btnShopping?.userInteractionEnabled = false
-            vcRoot.finishAnimation = {() -> Void in
-                print("")
-                vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
-                self.btnShopping?.userInteractionEnabled = true
-                self.btnCloseShopping?.enabled = true
-            }
-            vcRoot.openShoppingCart()
-        }
-        self.view.endEditing(true)
+   
+        
+        /*self.shoppingCartViewController!.delegate = self
+        self.shoppingCartViewController!.view.frame = self.container!.frame
+        self.view.addSubview(self.shoppingCartViewController!.view)
+        self.view.bringSubviewToFront(self.headerView)
+        self.shoppingCartViewController!.didMoveToParentViewController(self)
+        */
+      
+        
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
     }
     
-    
+      
     func returnToView() {
         if shoppingCartVC != nil {
             self.btnShopping!.selected = false

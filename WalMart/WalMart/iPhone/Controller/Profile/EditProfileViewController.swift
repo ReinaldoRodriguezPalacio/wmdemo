@@ -254,9 +254,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.phoneHome = FormFieldView()
         self.phoneHome!.isRequired = true
         self.phoneHome!.setCustomPlaceholder(NSLocalizedString("profile.edit.phoneDesc",comment:""))
-        self.phoneHome!.typeField = TypeField.Phone
+        self.phoneHome!.typeField = TypeField.Number
         self.phoneHome!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
-        self.phoneHome!.minLength = 10
+        self.phoneHome!.minLength = 8
         self.phoneHome!.maxLength = 10
         self.phoneHome!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHome!.inputAccessoryView = viewAccess
@@ -278,10 +278,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.cellPhone = FormFieldView()
         self.cellPhone!.isRequired = false
         self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile.edit.cellphoneDesc",comment:""))
-        self.cellPhone!.typeField = TypeField.Phone
+        self.cellPhone!.typeField = TypeField.Number
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
-        self.cellPhone!.maxLength = 10
+        self.cellPhone!.maxLength = 15
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         self.cellPhone!.delegate =  self
@@ -336,8 +336,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.inputAssociateDateView = UIDatePicker()
         self.inputAssociateDateView!.datePickerMode = .Date
         self.inputAssociateDateView!.date = NSDate()
-        self.inputAssociateDateView!.maximumDate = maxDate
-        self.inputAssociateDateView!.minimumDate = minDate
+        self.inputAssociateDateView!.maximumDate = NSDate()
+        self.inputAssociateDateView!.minimumDate = NSDate()
         
         self.inputAssociateDateView!.addTarget(self, action: #selector(EditProfileViewController.associateDateChanged), forControlEvents: .ValueChanged)
         self.associateDate!.inputView = self.inputAssociateDateView!
@@ -672,7 +672,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         if !error{
             error = viewError(phoneHomeExtension!)
         }
-        if !error{
+        if !error && cellPhone!.text! != "" {
             error = viewError(cellPhone!)
         }
         if error{
@@ -756,6 +756,24 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         if !error{
             error = viewError(birthDate!)
         }
+        
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+        let currentDate = NSDate()
+        let comps = NSDateComponents()
+        comps.year = -18
+        let maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        
+        if self.inputBirthdateView?.date.compare(maxDate!) != NSComparisonResult.OrderedDescending
+        {
+            if self.errorView == nil{
+            self.errorView = FormFieldErrorView()
+            }
+            let message = "Fecha no valida"
+            SignUpViewController.presentMessage(birthDate!,  nameField:birthDate!.nameField , message: message ,errorView:self.errorView!,  becomeFirstResponder: true )
+            return false
+        }
+
+        
         if !error{
             error = viewError(ocupation!)
         }
@@ -872,6 +890,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      */
     override func back() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
+        self.view.endEditing(true)
         //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         super.back()
     }

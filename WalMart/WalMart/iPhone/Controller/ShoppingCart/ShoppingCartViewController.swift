@@ -204,10 +204,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.showLoadingView()
         }
         
-        self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
-        self.editButton.hidden = self.itemsInShoppingCart.count == 0
-        
-        if !showCloseButton {
+         if !showCloseButton {
             self.closeButton.hidden = true
         } else {
             self.closeButton.hidden = false
@@ -302,6 +299,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.loadCrossSell()
         
         self.removeLoadingView()
+        self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
+        self.editButton.hidden = self.itemsInShoppingCart.count == 0
+        
+        
 
     }
     
@@ -311,7 +312,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func closeShoppingCart () {
         //EVENT
         BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue,categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue,action:WMGAIUtils.ACTION_BACK_PRE_SHOPPING_CART.rawValue , label: "")
-        self.navigationController!.popToRootViewControllerAnimated(true)
+        self.view.removeFromSuperview()
+        //self.navigationController!.popToRootViewControllerAnimated(true)
     }
 
     /**

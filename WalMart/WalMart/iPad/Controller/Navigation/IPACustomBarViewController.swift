@@ -30,12 +30,14 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.buttonContainer!.backgroundColor = WMColor.blue
         
         let storyboard = self.loadStoryboardDefinition()
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
+      
+        /*if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
             shoppingCartVC = vc
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
                 vcRoot.delegate = self
             }
-        }
+        }*/
+        
         
         buttonContainer?.frame = CGRectMake(0, 64, 1024, 46)
         
@@ -198,7 +200,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             contDetail.idListSeleted = self.idListSelected
             //contDetail.upc = upc!
             let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
-            let svcValidate = GRProductDetailService(dictionary: useSignalsService)
+            let svcValidate = ProductDetailService(dictionary: useSignalsService)
             //let svcValidate = GRProductDetailService()
             
             let upcDesc : NSString = upc! as NSString
@@ -207,7 +209,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position:"")//position
+            let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position:"")//position
             svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
@@ -350,28 +352,19 @@ class IPACustomBarViewController :  CustomBarViewController {
             self.searchView!.closeSearch()
         }
         
+        let storyboard = self.loadStoryboardDefinition()
+        if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
+            shoppingCartVC = vc
+            if let vcRoot = shoppingCartVC.viewControllers.first as? IPAShoppingCartViewController {
+                vcRoot.delegate = self
+            }
+        }
+ 
         self.addChildViewController(shoppingCartVC)
-        shoppingCartVC.view.frame = CGRectMake(0,self.buttonContainer!.frame.minY,self.container!.frame.width,self.container!.frame.height + self.buttonContainer!.frame.height )
+        shoppingCartVC.view.frame = self.container!.frame
         self.view.addSubview(shoppingCartVC.view)
         self.view.bringSubviewToFront(self.headerView)
         shoppingCartVC.didMoveToParentViewController(self)
-        shoppingCartVC.view.backgroundColor = UIColor.clearColor()
-        if let vcRoot = shoppingCartVC.viewControllers.first as? IPAPreShoppingCartViewController {
-            vcRoot.delegate = self
-            vcRoot.openShoppingCart()
-            vcRoot.view.userInteractionEnabled = false
-            vcRoot.finishAnimation = {() -> Void in
-                print("")
-                vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
-                self.btnShopping?.userInteractionEnabled = true
-                self.btnCloseShopping?.enabled = true
-                vcRoot.view.userInteractionEnabled = true
-            }
-            
-//            self.btnShopping?.userInteractionEnabled = true
-//            self.btnCloseShopping?.enabled = true
-            
-        }
 
     }
 
