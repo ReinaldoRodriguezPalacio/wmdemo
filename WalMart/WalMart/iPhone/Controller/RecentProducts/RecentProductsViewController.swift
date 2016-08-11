@@ -110,7 +110,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     class func adjustDictionary(resultDictionary: AnyObject) -> AnyObject {
         var recentLineItems : [AnyObject] = []
         
-        let productItemsOriginal = resultDictionary//["responseArray"] as! [AnyObject]
+        let productItemsOriginal = resultDictionary  as! [AnyObject] //["responseArray"] as! [AnyObject]
         var objectsFinal : [NSDictionary] = []
         var indi = 0
     
@@ -118,8 +118,10 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         if productItemsOriginal.count > 0 {
             var flagOther = false
             
+            
             for idx in 0 ..< productItemsOriginal.count {
-                let objProduct = productItemsOriginal[idx] as! NSDictionary
+                
+                let objProduct = productItemsOriginal[idx]
                 
                 if objProduct["line"] != nil {
                     let lineObj = objProduct["line"] as! NSDictionary

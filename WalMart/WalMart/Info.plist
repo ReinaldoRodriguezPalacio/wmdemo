@@ -229,7 +229,7 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.UpdatePasswordService</key>
-			<string>http://localhost:9080/walmartmg/list/changePassword</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/changePassword</string>
 			<key>WalmartMG.InvoiceAddressByUserService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/displayInvoiceAddress</string>
 			<key>WalmartMG.LoginWithIdService</key>
@@ -506,7 +506,7 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>https://dl.dropboxusercontent.com/s/8arulfxe03hr0v1/allCategories.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/zbu724mz15nxku4/allCategoriesNew.txt?dl=0</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
@@ -576,7 +576,7 @@
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.GRZipCodeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
+			<string>https://dl.dropboxusercontent.com/s/bqjcsipn6zx79ko/getZipCode.txt?dl=0</string>
 		</dict>
 	</dict>
 	<key>useSignalsServices</key>

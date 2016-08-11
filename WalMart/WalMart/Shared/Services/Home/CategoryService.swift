@@ -40,8 +40,10 @@ class CategoryService : BaseService {
         if values != nil {
             response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
             for category in response {
+                if category["bussines"]  != nil {
                 if category["bussines"] as! String == type{
                     filterResponse.append(category)
+                }
                 }
             }
             response = filterResponse

@@ -408,19 +408,20 @@ class BaseService : NSObject {
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in items as! [AnyObject] {
-                    let name = item["description"] as! String
-                    let idDepto = item["idDepto"] as! String
-                    let famArray : AnyObject = item["family"] as AnyObject!
-                    let bussines = item["bussines"] as! String
+                    let name = item["description"] as? String ?? ""
+                    let idDepto = item["idDept"] as! String
+                    let famArray : AnyObject = item["familyContent"] as AnyObject!
+                    let bussines = item["bussines"] as? String ?? ""
                     
                     
                     for itemFamily in famArray as! [AnyObject] {
-                        let idFamily = itemFamily["id"] as! String
-                        let lineArray : AnyObject = itemFamily["line"] as AnyObject!
-                        let namefamily = itemFamily["name"] as! String
+                        let idFamily = itemFamily["id"] as? String ?? ""
+                        if itemFamily.count > 1 {
+                        let lineArray : AnyObject = itemFamily["fineContent"] as AnyObject!
+                        let namefamily = itemFamily["familyName"] as! String
                         for itemLine in lineArray as! [AnyObject] {
-                            let idLine =  itemLine["id"] as! String
-                            let nameLine =  itemLine["name"] as! String
+                            let idLine =  itemLine["fineLineId"] as! String
+                            let nameLine =  itemLine["fineLineName"] as! String
                             let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:bussines, idLine:idLine)
                             if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
                                 var exist = false
@@ -439,6 +440,7 @@ class BaseService : NSObject {
                             db.executeUpdate(query, withArgumentsInArray: nil)
                             
                             
+                        }
                         }
                     }
                 }

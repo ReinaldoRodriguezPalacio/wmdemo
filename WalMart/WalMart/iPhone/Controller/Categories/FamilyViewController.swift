@@ -68,16 +68,16 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
         if indexPath.row == 0 {
             let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as! IPOFamilyTableViewCell
             let selectedSection = families[indexPath.section]
-            let nameFamily = selectedSection["name"] as! String
+            let nameFamily = selectedSection["familyName"] as? String ?? ""
             cellFamily.setTitle(nameFamily)
             cell = cellFamily
         } else {
             let cellLine = familyTable.dequeueReusableCellWithIdentifier(lineReuseIdentifier(), forIndexPath: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as! NSArray
+            let linesArr = selectedSection["fineContent"] as! NSArray
             let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
-            let selectedItem = itemLine["id"] as! String
-            cellLine.setTitle(itemLine["name"] as! String)
+            let selectedItem = itemLine["fineLineId"] as! String
+            cellLine.setTitle(itemLine["fineLineName"] as! String)
             cellLine.showSeparator =  linesArr.count == indexPath.row 
             cell = cellLine
             
@@ -104,13 +104,13 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 selectSection(indexPath)
                 self.familyTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
             }
-            let label = families[indexPath.section]["name"] as! String
+            let label = families[indexPath.section]["familyName"] as! String
             let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
             BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
         }
         else {
             let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as! NSArray
+            let linesArr = selectedSection["fineContent"] as! NSArray
             let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
 
             let controller = SearchProductViewController()
@@ -123,13 +123,13 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 }
              
             }
-            controller.titleHeader = itemLine["name"] as? String
+            controller.titleHeader = itemLine["fineLineName"] as? String
             controller.idDepartment = departmentId
             controller.idFamily = selectedSection["id"] as? String
-            controller.idLine = itemLine["id"] as? String
+            controller.idLine = itemLine["fineLineId"] as? String
 
             self.navigationController!.pushViewController(controller, animated: true)
-            let label = itemLine["name"] as! String
+            let label = itemLine["fineLineName"] as! String
             let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
             BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
         }
@@ -138,7 +138,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     func numberOfRowsInSection(section:Int) -> Int {
         if section < families.count {
             let selectedSection = families[section]
-            let nameLine = selectedSection["line"] as! NSArray
+            let nameLine = selectedSection["fineContent"] as! NSArray
             return nameLine.count
         }
         return 1

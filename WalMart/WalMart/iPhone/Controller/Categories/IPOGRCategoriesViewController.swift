@@ -161,8 +161,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             }
             
             let item = items![rowforsearch] as! [String:AnyObject]
-            let descDepartment = item["description"] as! String
-            let bgDepartment = (item["idDepto"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            let descDepartment = item["description"] as? String ?? ""
+            let bgDepartment = (item["idDept"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             let scale = UIScreen.mainScreen().scale
             
             cellDept.setValues(descDepartment,imageBackgroundURL:bgDepartment + "@\(Int(scale))x.jpg",imageIconURL:"i_" + bgDepartment + ".@\(Int(scale))x.png")
@@ -174,9 +174,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             
             let rowforsearch = Int(indexPath.row / 2)
             let item = items![rowforsearch] as! [String:AnyObject]
-            var bgDepartment = item["idDepto"] as! String
-            let families = JSON(item["family"] as! [[String:AnyObject]])
-            let descDepartment = item["description"] as! String
+            var bgDepartment = item["idDept"] as! String
+            let families = JSON(item["familyContent"] as! [[String:AnyObject]])
+            let descDepartment = item["description"] as? String ?? ""
             bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             
             
@@ -259,11 +259,11 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     }
                     
                     let item = self.items![rowforsearch] as! [String:AnyObject]
-                    let famArray : AnyObject = item["family"] as AnyObject!
+                    let famArray : AnyObject = item["familyContent"] as AnyObject!
                     let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
-                    let descDepartment = item["description"] as? String
+                    let descDepartment = item["description"] as? String ?? ""
                    
-                    self.familyController.departmentId = item["idDepto"] as! String
+                    self.familyController.departmentId = item["idDept"] as! String
                     self.familyController.families = itemsFam
                     self.familyController.selectedFamily = nil
                     self.familyController.familyTable.reloadData()
@@ -273,7 +273,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     
                     let newView = IPODepartmentCollectionViewCell(frame:CGRectMake(0, 0, self.view.frame.width, self.CELL_HEIGHT))
                     newView.isOpen = true
-                    newView.setValues(descDepartment!, imageBackgroundURL: "\(caHeader).png", keyBgUrl: "WalmartMG.GRHeaderCategory", imageIconURL: icon, keyIconUrl: "WalmartMG.GRCategoryIcon", hideImage: false)
+                    newView.setValues(descDepartment, imageBackgroundURL: "\(caHeader).png", keyBgUrl: "WalmartMG.GRHeaderCategory", imageIconURL: icon, keyIconUrl: "WalmartMG.GRCategoryIcon", hideImage: false)
                    newView.customCloseDep = true
                     
                     newView.imageBackground.alpha = 0
@@ -350,7 +350,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                         })
                     }
                     //EVENT
-                    let label = item["description"] as! String
+                    let label = item["description"] as? String ?? ""
                     let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
                     BaseController.sendAnalytics("GR_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "GR_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
                     print("End")
