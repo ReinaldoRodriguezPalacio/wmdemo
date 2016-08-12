@@ -197,7 +197,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             return sizeForIndexPath ((indexPath.section,1),indexPath: indexPath)
         case (0,1):
             if  msi.count != 0 {
-                return (CGFloat(msi.count) * 14) + 84.0
+                return (CGFloat(msi.count) * 14) + 180.0
             }
             return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
         case (0,2) :
