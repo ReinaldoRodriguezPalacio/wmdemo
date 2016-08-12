@@ -141,7 +141,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let x:CGFloat = 16
         
         buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
-        buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
+        buttonWishlist.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonWishlist)
         buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))

@@ -44,10 +44,10 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.selectAllButton!.addTarget(self, action: #selector(SchoolListViewController.selectAll as (SchoolListViewController) -> () -> ()), forControlEvents: .TouchUpInside)
         
         self.wishlistButton = UIButton(frame: CGRectMake(66.0, y, 34.0, 34.0))
-        self.wishlistButton!.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
-        self.wishlistButton!.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Selected)
-        self.wishlistButton!.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Highlighted)
-        self.wishlistButton!.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
+        self.wishlistButton!.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
+        self.wishlistButton!.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Selected)
+        self.wishlistButton!.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Highlighted)
+        //self.wishlistButton!.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
         self.wishlistButton!.addTarget(self, action: #selector(SchoolListViewController.addToWishList), forControlEvents: .TouchUpInside)
         
         if self.showWishList {
