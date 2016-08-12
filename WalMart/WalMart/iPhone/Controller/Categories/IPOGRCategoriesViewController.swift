@@ -419,12 +419,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
-                    for line in family["line"].arrayValue {
-                        let lineOne = line["id"].stringValue
+                    for line in family["fineContent"].arrayValue {
+                        let lineOne = line["fineLineId"].stringValue
                         let lineTwo = lineDest["line"].stringValue
                         if lineOne.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                             == lineTwo.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
-                            let itemToShow = ["name": line["name"].stringValue,
+                            let itemToShow = ["fineLineName": line["fineLineName"].stringValue,
                                             "imageUrl": lineDest["imageUrl"].stringValue,
                                             "line": lineTwo ,
                                             "family": family["id"].stringValue ,

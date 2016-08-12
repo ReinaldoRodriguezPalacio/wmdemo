@@ -28,10 +28,10 @@ class IPAFamilyViewController : FamilyViewController {
         }else
         {
             let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as! NSArray
+            let linesArr = selectedSection["fineContent"] as! NSArray
             let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
-            let name = itemLine["name"] as! String
-            delegate.didSelectLine(departmentId,family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
+            let nameLine = itemLine["fineLineName"] as! String
+            delegate.didSelectLine(departmentId,family: selectedSection["id"] as! String,line: itemLine["fineLineId"] as! String, name: nameLine)
         }
     }
     
