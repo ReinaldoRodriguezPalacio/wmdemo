@@ -452,7 +452,7 @@
 			<key>WalmartMG.GRProductsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSavingItems</string>
 			<key>WalmartMG.GRRecentProductsService</key>
-			<string>https://dl.dropboxusercontent.com/u/49807601/recentProducts.txt</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/myBasics.txt</string>
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://dl.dropboxusercontent.com/s/8kkaxd2cq3u0axr/resposeSucces.txt?dl=0</string>
 			<key>WalmartMG.GRSendOrderService</key>

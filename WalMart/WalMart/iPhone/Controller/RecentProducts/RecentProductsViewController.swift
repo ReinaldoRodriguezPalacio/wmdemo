@@ -250,17 +250,22 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         let objProduct = prodObj[indexPath.row] as! NSDictionary
         let img = objProduct["imageUrl"] as! String
         let description = objProduct["description"] as! String
-        let price = objProduct["price"] as! NSNumber
+        let price = objProduct["specialPrice"] as? String
         let upc = objProduct["upc"] as! String
-        let pesable = objProduct["pesable"] as! NSString
-        let promoDescription = objProduct["promoDescription"] as! NSString
+        let pesable = "false" //objProduct["pesable"] as! NSString
+        var promoDescription : NSString = ""
+        if let promotion = objProduct["promotion"] as? NSArray {
+            if let description = promotion[0] as? NSDictionary{
+                promoDescription = (description["description"] as? NSString)!
+            }
+        }
         var isActive = true
         
         if let active = objProduct["stock"] as? Bool {
             isActive = active
         }
         
-        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price.stringValue, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
+        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
     }

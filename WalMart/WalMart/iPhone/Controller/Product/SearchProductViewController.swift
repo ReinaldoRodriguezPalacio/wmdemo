@@ -395,7 +395,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 return count
             }
             
-            size = (count  >= commonTotal) ? commonTotal : count + 1
+            size = (count  >= commonTotal) ? commonTotal : count// + 1
+            self.results!.resultsInResponse = size
             
         }
         return size
@@ -676,7 +677,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func invokeSearchProducts(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
         if self.results!.totalResults != -1 && self.results!.resultsInResponse >= self.results!.totalResults {
+            if self.allProducts == nil || self.allProducts!.count == 0{
+                print("************ No hay productos para mostrar")
+                self.showEmptyView()
+            }
             print("Groceries Search IS COMPLETE!!!")
+            print(self.results?.totalResults)
+            print(self.results?.resultsInResponse)
+            
             actionSuccess?()
             return
         }
@@ -696,9 +704,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
-                    //
-                    //Agregar facets si la busqueda es diferente a Text**
-                    //self.textToSearch
                     
                     let facetsObject = arrayProduct![0]
                     var facetFlag = false
@@ -707,27 +712,33 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         facetFlag = true
                         self.facet = arrayProduct![0] as! [[String : AnyObject]]
                     }
-                    //pasar facets de GRProductBySearchService
-                    //arrayProduct solo trae items y no facets
                     
+                    //pasar facets de GRProductBySearchService
                     if facetFlag {
                         //first facet and items
-                        self.results!.totalResults = (arrayProduct!.count - 1)
                         self.results!.resultsInResponse = (arrayProduct!.count - 1)
                         
                         var newArray = Array<AnyObject>()
                         for indx in 1 ..< arrayProduct!.count {
                             newArray.append(arrayProduct![indx])
-                            //self.results!.addResults(arrayProduct![indx] as! NSArray)
                         }
                         self.results!.addResults(newArray)
                     } else {
                         //All array items
-                        self.results!.totalResults = arrayProduct!.count
                         self.results!.resultsInResponse = arrayProduct!.count
                         self.results!.addResults(arrayProduct!)
                     }
                     
+                    let index = facetFlag ? 1 : 0
+                    if let item = arrayProduct?[index] as? NSDictionary {
+                        //println(item)
+                        if let results = item["resultsInResponse"] as? NSString {
+                            self.results!.resultsInResponse += results.integerValue
+                        }
+                        if let total = item["totalResults"] as? NSString {
+                            self.results!.totalResults = total.integerValue
+                        }
+                    }
                 }
                 else {
                     self.results!.resultsInResponse = 0
