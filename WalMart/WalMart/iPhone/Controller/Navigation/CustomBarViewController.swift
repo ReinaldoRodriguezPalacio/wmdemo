@@ -567,6 +567,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         let controllerIdentifiers : [String] = ["categoriesVC","GRCategoriesVC" ,"userListsVC", "moreVC"]
         
+        
         for item in controllerIdentifiers {
             let components = item.componentsSeparatedByString("-")
             let strController = components[0] as String
@@ -1147,30 +1148,26 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.closeShoppingCart()
     }
     
-    func closeShoppingCart() {        
+    func closeShoppingCart() {
         self.btnShopping?.selected = false
         self.btnCloseShopping?.alpha = 0
         self.showBadge()
         self.btnShopping?.alpha = 1
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
-        
-        if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
-            self.shoppingCartVC!.willMoveToParentViewController(nil)
-            self.shoppingCartVC!.view.removeFromSuperview()
-            self.shoppingCartVC!.removeFromParentViewController()
-            self.shoppingCartVC = nil
-            
-              openSearch = false
-            shoppingCartVC = nil
+        if shoppingCartVC != nil {
+            if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
+                vcRoot.willMoveToParentViewController(nil)
+                vcRoot.view.removeFromSuperview()
+                vcRoot.removeFromParentViewController()
+                self.shoppingCartVC = nil
+                
+                openSearch = false
+                shoppingCartVC = nil
+            }
         }
         
-    
-        
-      
-        
         NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
-
         
     }
     

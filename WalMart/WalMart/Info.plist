@@ -504,7 +504,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>https://dl.dropboxusercontent.com/s/zbu724mz15nxku4/allCategoriesNew.txt?dl=0</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>

@@ -97,8 +97,8 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         let item = items![indexPath.row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
-        var bgDepartment = item["idDepto"] as! String
-        let families = JSON(item["family"] as! [[String:AnyObject]])
+        var bgDepartment = item["idDept"] as! String
+        let families = JSON(item["familyContent"] as! [[String:AnyObject]])
         cell.descLabel!.text = "Lo más destacado de \(descDepartment)"
         bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
@@ -132,17 +132,17 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         pontInViewNuew = pontInView
 
         let item = self.items![indexPath.row] as! [String:AnyObject]
-        let idDepartment = item["idDepto"] as! String
-        let famArray : AnyObject = item["family"] as AnyObject!
+        let idDepartment = item["idDept"] as! String
+        let famArray : AnyObject = item["familyContent"] as AnyObject!
         let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
         let famSelected = itemsFam[0]
         let idFamDefault = famSelected["id"] as! String
         
-        let lineArray : AnyObject = famSelected["line"] as AnyObject!
+        let lineArray : AnyObject = famSelected["fineContent"] as AnyObject!
         let itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
         let lineSelected = itemsLine[0]
-        let idLineDefault = lineSelected["id"] as! String
-        let nameLineDefault = lineSelected["name"] as! String
+        let idLineDefault = lineSelected["fineLineId"] as! String
+        let nameLineDefault = lineSelected["fineLineName"] as! String
         
         CategoryShouldShowFamily.shouldshowfamily = true
         controllerAnimateView = IPACategoriesResultViewController()
@@ -240,12 +240,12 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
-                    for line in family["line"].arrayValue {
-                        let lineOne = line["id"].stringValue
+                    for line in family["fineContent"].arrayValue {
+                        let lineOne = line["fineLineId"].stringValue
                         let lineTwo = lineDest["line"].stringValue
                         if lineOne.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                             == lineTwo.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
-                                let itemToShow = ["name": line["name"].stringValue,
+                                let itemToShow = ["fineLineName": line["fineLineName"].stringValue,
                                     "imageUrl": lineDest["imageUrl"].stringValue,
                                     "line": lineTwo ,
                                     "family": family["id"].stringValue ,
