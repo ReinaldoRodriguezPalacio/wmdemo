@@ -112,16 +112,16 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //Solo en el caso de que la busqueda sea con texto o camfind
-        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
+        //self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
         
-        if self.originalSearchContext != nil && self.isTextSearch {
+        /*if self.originalSearchContext != nil && self.isTextSearch {
             self.loadLinesForSearch()
         }
-        else {
+        else {*/
             self.tableView!.delegate = self
             self.tableView!.dataSource = self
             self.tableView!.reloadData()
-        }
+        //}
         validateFacetData()
     }
     
@@ -194,7 +194,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         
         //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+        if self.originalSearchContext != nil  && facet != nil { //&& self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG
             //self.successCallBack!()
             
             //var intIx = 0
@@ -310,7 +310,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.originalSearchContext != nil && self.isTextSearch {
                  return 2
         }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil && facet?.count > 0  {
+        if self.originalSearchContext != nil  && facet != nil && facet?.count > 0  { //&& self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG
             return 1 + facet!.count
         }
         
@@ -318,14 +318,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return 2
         }
         return 1
-        
-
-        
     }
-
-
-   
-    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
@@ -334,7 +327,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.originalSearchContext != nil && self.isTextSearch {
             return self.tableElements != nil ? self.tableElements!.count : 0
         }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+        if self.originalSearchContext != nil  && facet != nil { //&& self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG
             let itemFacet = self.facet![section - 1] as! [String:AnyObject]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == "check" {
@@ -345,7 +338,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     return 1
                 }
             }
-           
         }
         
         if self.facetGr != nil {
@@ -363,7 +355,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return cell
         }
         
-        
         if self.facetGr != nil{
             
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
@@ -375,13 +366,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 item = ""//self.facetGr![indexPath.row ] as! String
             }
             
-            
             var selected = false
             let valSelected =  self.selectedFacetGr?[item]
             if ((valSelected) != nil) {
                 selected = valSelected!
             }
-            
             
             if indexPath.row > 0 {
                  item = self.facetGr![indexPath.row - 1] as! String
@@ -403,9 +392,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return listCell
         }
         
-        
-        
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+        if self.originalSearchContext != nil  && facet != nil { //&& self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG
             let facetInfo = facet![indexPath.section - 1] as! NSDictionary
             
             if  let typeFacet = facetInfo["type"] as? String {
@@ -496,17 +483,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if indexPath.section == 0 {
             return 103.0
         }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+        if self.originalSearchContext != nil  && facet != nil { //&& self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG
             let itemFacet = self.facet![indexPath.section - 1] as! [String:AnyObject]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == JSON_SLIDER {
                     return 73.0
                 }
             }
-            
         }
-
-
 
         return 36.0
     }
@@ -544,7 +528,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+        if self.originalSearchContext != nil && facet != nil { //&& self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG
             //self.selectedElements![indexPath.row] = true
             if indexPath.row == 0 {
                 self.selectedElementsFacet = [:]
@@ -570,7 +554,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if let savedVal = self.selectedElementsFacet![indexPath] {
                 currentVal = !savedVal
             }
-            
            
             self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
             for keyObj in self.selectedElementsFacet!.keys {
@@ -689,7 +672,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if self.originalSearchContext != nil && self.isTextSearch {
                 title.text = NSLocalizedString("filter.section.categories", comment:"")
             }
-            if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+            if self.originalSearchContext != nil  && facet != nil { //&& self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG
                 let facetName = facet![section - 1] as! NSDictionary
                 title.text = facetName["name"] as? String
             }
@@ -813,11 +796,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             })
         }
         
-        if isGroceriesSearch {
-            self.invokeRetrieveLinesForGroceries(successBlock:success, errorBlock: errorBlock)
-        } else {
+        //if isGroceriesSearch {
+            //self.invokeRetrieveLinesForGroceries(successBlock:success, errorBlock: errorBlock)
+        //} else {
             self.invokeRetrieveLinesForMG(successBlock: success, errorBlock: errorBlock)
-        }
+        //}
         
 //        self.invokeRetrieveLinesForGroceries(
 //            successBlock: { () -> Void in

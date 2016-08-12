@@ -936,15 +936,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter = FilterProductsViewController()
             controllerFilter.facet = self.facet
             controllerFilter.textToSearch = self.textToSearch
-            controllerFilter.selectedOrder = self.idSort!//self.idSort! == "" ? "rating" :self.idSort!
+            controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort! //self.idSort!//
             controllerFilter.delegate = self
+            //controllerFilter.isTextSearch = false //para no llamar los servicios de facets
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             controllerFilter?.backFilter = {() in
                 self.loading?.stopAnnimating()
                 self.loading?.removeFromSuperview()
             }
         }
-        controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //self.searchContextType
+        controllerFilter.searchContext = self.searchContextType //SearchServiceContextType.WithCategoryForMG //
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
