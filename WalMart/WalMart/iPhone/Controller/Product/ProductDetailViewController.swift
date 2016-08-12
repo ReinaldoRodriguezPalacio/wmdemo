@@ -867,9 +867,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.msi = []
             }
         }
+        
         if let images = result["imageUrl"] as? [AnyObject] {
             self.imageUrl = images
+        }else{
+            self.imageUrl = [(result["imageUrl"] as! String)]
         }
+        
         let freeShippingStr  = result["freeShippingItem"] as! NSString
         self.freeShipping = "true" == freeShippingStr
         
@@ -1184,8 +1188,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     /**
      Animation where container info closed
      
-     - parameter additionalAnimationClose: <#additionalAnimationClose description#>
-     - parameter completeClose:            <#completeClose description#>
+     - parameter additionalAnimationClose: block
+     - parameter completeClose:            block
      */
     func closeContainer(additionalAnimationClose:(() -> Void),completeClose:(() -> Void)) {
         let finalFrameOfQuantity = CGRectMake(self.detailCollectionView.frame.minX,  heightDetail, self.detailCollectionView.frame.width, 0)
