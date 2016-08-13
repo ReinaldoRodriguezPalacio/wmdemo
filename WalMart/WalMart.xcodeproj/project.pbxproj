@@ -585,7 +585,6 @@
 		AC5911AB19DE26E600EB095C /* returnPolicies.html in Resources */ = {isa = PBXBuildFile; fileRef = AC5911A219DE26E600EB095C /* returnPolicies.html */; };
 		AC5911AC19DE26E600EB095C /* shippingCosts.html in Resources */ = {isa = PBXBuildFile; fileRef = AC5911A319DE26E600EB095C /* shippingCosts.html */; };
 		AC5F646E19BF51670098BE43 /* WalMartSqliteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5F646D19BF51670098BE43 /* WalMartSqliteDB.swift */; };
-		AC62C9B319B61F0B00FFFC74 /* ProductbySearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62C9B219B61F0B00FFFC74 /* ProductbySearchService.swift */; };
 		AC62C9B819B6980A00FFFC74 /* LoadingViewBk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62C9B719B6980A00FFFC74 /* LoadingViewBk.swift */; };
 		AC64240319CBB231009F055C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC64240219CBB231009F055C /* ProfileViewController.swift */; };
 		AC6AAE9719CC94FB004081C4 /* ProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6AAE9619CC94FB004081C4 /* ProfileViewCell.swift */; };
@@ -1300,7 +1299,6 @@
 		AC5911A319DE26E600EB095C /* shippingCosts.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = shippingCosts.html; path = "Supporting Files/Help/shippingCosts.html"; sourceTree = "<group>"; };
 		AC5F646D19BF51670098BE43 /* WalMartSqliteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalMartSqliteDB.swift; path = Shared/Resources/WalMartSqliteDB.swift; sourceTree = "<group>"; };
 		AC5F647119BF53040098BE43 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = Shared/Library/fmdb/FMDatabase.h; sourceTree = "<group>"; };
-		AC62C9B219B61F0B00FFFC74 /* ProductbySearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductbySearchService.swift; path = Shared/Services/Product/ProductbySearchService.swift; sourceTree = "<group>"; };
 		AC62C9B719B6980A00FFFC74 /* LoadingViewBk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingViewBk.swift; path = Shared/View/LoadingViewBk.swift; sourceTree = "<group>"; };
 		AC64240219CBB231009F055C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = iPhone/Controller/Profile/ProfileViewController.swift; sourceTree = "<group>"; };
 		AC6AAE9619CC94FB004081C4 /* ProfileViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewCell.swift; path = Shared/View/Profile/ProfileViewCell.swift; sourceTree = "<group>"; };
@@ -3328,7 +3326,6 @@
 			isa = PBXGroup;
 			children = (
 				5686DA571B59A885004D4211 /* SwiftyJSON.swift */,
-				AC62C9B219B61F0B00FFFC74 /* ProductbySearchService.swift */,
 				AC37F6AC19B9008F000BB80D /* ProductDetailService.swift */,
 				AC37F6B319B906FE000BB80D /* CrossSellingProductService.swift */,
 				049CC7CB1A9BAAE000DE2C8D /* LinesForSearchService.swift */,
@@ -4087,7 +4084,6 @@
 				56AD15291A00375C00E1AFD9 /* IPAWishlistViewController.swift in Sources */,
 				85A40B951C223AE40036C78A /* Stream.swift in Sources */,
 				56DFE4CE19D057C9001811F5 /* NSMutableArray+SWUtilityButtons.m in Sources */,
-				AC62C9B319B61F0B00FFFC74 /* ProductbySearchService.swift in Sources */,
 				85A40BA31C223AE40036C78A /* DDMultiFormatter.m in Sources */,
 				56AED5EA19C36F69004CAECA /* CategoryService.swift in Sources */,
 				AC296C2A1A2D476A00B8EBBB /* IPABarCodeViewController.swift in Sources */,

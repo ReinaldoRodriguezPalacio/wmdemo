@@ -701,36 +701,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
-            successBlock: { (arrayProduct:NSArray?) -> Void in
+                successBlock: { (arrayProduct:NSArray?, facet:NSArray?) -> Void in
                 
+                self.facet = facet! as! [[String : AnyObject]]
+                    
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     
-                    let facetsObject = arrayProduct![0]
-                    var facetFlag = false
-                    if facetsObject.count < 5 {
-                        print(facetsObject)
-                        facetFlag = true
-                        self.facet = arrayProduct![0] as! [[String : AnyObject]]
-                    }
+                    //All array items
+                    self.results!.addResults(arrayProduct!)
+                    self.results!.resultsInResponse = arrayProduct!.count
                     
-                    //pasar facets de GRProductBySearchService
-                    if facetFlag {
-                        //first facet and items
-                        self.results!.resultsInResponse = (arrayProduct!.count - 1)
-                        
-                        var newArray = Array<AnyObject>()
-                        for indx in 1 ..< arrayProduct!.count {
-                            newArray.append(arrayProduct![indx])
-                        }
-                        self.results!.addResults(newArray)
-                    } else {
-                        //All array items
-                        self.results!.resultsInResponse = arrayProduct!.count
-                        self.results!.addResults(arrayProduct!)
-                    }
-                    
-                    let index = facetFlag ? 1 : 0
-                    if let item = arrayProduct?[index] as? NSDictionary {
+                    if let item = arrayProduct?[0] as? NSDictionary {
                         //println(item)
                         if let results = item["resultsInResponse"] as? NSString {
                             self.results!.resultsInResponse += results.integerValue

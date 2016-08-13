@@ -38,6 +38,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         recentProducts.delegate = self
         recentProducts.dataSource = self
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.None
+        recentProducts.backgroundColor =  UIColor.whiteColor()
+        recentProducts.layoutMargins = UIEdgeInsetsZero
         self.view.addSubview(recentProducts)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue

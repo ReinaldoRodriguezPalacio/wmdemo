@@ -214,7 +214,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
-        service.callService(params, successBlock: { (respose:NSArray) in
+        service.callService(params, successBlock: { (respose:NSArray, facet: NSArray) in
             print("temina")
             if respose.count > 0 {
                 successBlock!("gr")

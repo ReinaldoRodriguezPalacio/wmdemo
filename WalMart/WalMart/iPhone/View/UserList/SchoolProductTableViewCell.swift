@@ -44,7 +44,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
             }
         }
     
-        self.onHandInventory = Int(product["onHandInventory"] as! String)!
+        //self.onHandInventory = Int(product["onHandInventory"] as! String)!
         
         var quantity: Double = 0.0
         if let quantityString = product["quantity"] as? NSString {
@@ -58,7 +58,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
             self.productDeparment = category
         }
 
-        let price = product["price"] as! NSString
+        let price = product["price"] as! NSNumber
         var text: String? = ""
         var total: Double = 0.0
         //Piezas

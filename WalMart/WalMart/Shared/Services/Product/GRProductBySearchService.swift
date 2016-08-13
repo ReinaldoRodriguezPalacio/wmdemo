@@ -55,7 +55,7 @@ class GRProductBySearchService: GRBaseService {
         ] as [String:AnyObject]
     }
 
-    func callService(params:NSDictionary, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(params:NSDictionary, successBlock:((NSArray,facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
         self.jsonFromObject(params)
         self.callPOSTService(params,
@@ -69,6 +69,7 @@ class GRProductBySearchService: GRBaseService {
                 }
                 
                 var newItemsArray = Array<AnyObject>()
+                var facets = Array<AnyObject>()
                 
                 if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? NSArray {
                     self.saveKeywords(items) //Creating keywords
@@ -86,27 +87,29 @@ class GRProductBySearchService: GRBaseService {
                         item["type"] = ResultObjectType.Groceries.rawValue
                         newItemsArray.append(item)
                     }
-                    successBlock?(newItemsArray)
+                    successBlock?(newItemsArray, facet: facets)
                 }
                 
                 //Search service Text
                 if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? NSDictionary {
-                    if let facet = responseObject["facet"] as? NSArray {
-                        newItemsArray.append(facet)
+                    //Array facet
+                    if let itemsFacets = responseObject["facet"] as? [AnyObject] {
+                        facets = itemsFacets
                     }
-                    
-                    let items = responseObject["items"] as? NSArray
-                    
-                    for idx in 0 ..< items!.count {
-                        var item = items![idx] as! [String:AnyObject]
-                        if let promodesc = item["promoDescription"] as? String{
-                            if promodesc != "null" {
-                                item["saving"] = promodesc
+                    //Array items
+                    if let items = responseObject["items"] as? NSArray {
+                        for idx in 0 ..< items.count {
+                            var item = items[idx] as! [String:AnyObject]
+                            if let promodesc = item["promoDescription"] as? String{
+                                if promodesc != "null" {
+                                    item["saving"] = promodesc
+                                }
                             }
+                            newItemsArray.append(item)
                         }
-                        newItemsArray.append(item)
                     }
-                    successBlock?(newItemsArray)
+                    
+                    successBlock?(newItemsArray, facet: facets)
                 }
             },
             errorBlock: { (error:NSError) -> Void in
