@@ -37,6 +37,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var lowStock : UILabel?
     
     var imageIconView: UIImageView!
+    var pickBar: ProductDetailPickBar!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -104,7 +105,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
         
-       
     
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)
@@ -117,6 +117,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imageIconView.image = UIImage(named:"promocion_detail")
         imageIconView.frame =  CGRectMake(100, 100, 70, 70)
         
+        
+        self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0, self.frame.height - 64),width: self.frame.width)
+        self.addSubview(self.pickBar)
         self.addSubview(imageIconView)
         
     }
@@ -264,6 +267,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.lowStock?.frame = CGRectMake(16, 8, self.frame.width - 32, 14.0)
         
         self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 144 ,70 ,70)
+        //self.pickBar.frame = CGRectMake(0, self.bounds.height - 64 ,self.bounds.width ,64)
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
