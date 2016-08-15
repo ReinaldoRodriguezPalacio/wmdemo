@@ -20,7 +20,9 @@ class ProductDetailPickBar: UIView {
     var bodyView: UIView!
     var isShowingBar: Bool = true
     var startPossition: CGPoint!
-    
+    var showHeader: Bool = true
+    var loginAction: ((Void) -> Void)?
+    var changeStoreAction: ((Void) -> Void)?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -41,20 +43,19 @@ class ProductDetailPickBar: UIView {
         self.bodyView.backgroundColor = WMColor.light_light_gray
         
         self.actionButton = UIButton()
-        self.actionButton.setTitle("cambiar tienda", forState: .Normal)
         self.actionButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.actionButton.layer.cornerRadius = 11.0
         self.actionButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.actionButton.backgroundColor = WMColor.light_blue
+        self.actionButton.addTarget(self, action: #selector(ProductDetailPickBar.pickAction), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.descLabel = UILabel()
         self.descLabel.font = WMFont.fontMyriadProSemiboldSize(11)
         self.descLabel.textColor = WMColor.dark_gray
         self.descLabel.numberOfLines = 2
-        self.descLabel.text = "No disponible para recoger en \nAcueducto de Guadalupe"
         
         self.selectImage = UIImageView()
-        self.selectImage.image = UIImage(named: "check_blue") //filter_check_blue
+        self.selectImage.image = UIImage(named: "filter_check_blue") //check_blue
         
         self.titleView = UIView()
         self.titleView.backgroundColor = WMColor.light_light_gray
@@ -78,23 +79,48 @@ class ProductDetailPickBar: UIView {
         self.bodyView.addSubview(selectImage)
         self.addSubview(titleView)
         self.addSubview(bodyView)
-
+        self.setValues()
     }
     
     override func layoutSubviews() {
-        self.bodyView.frame = CGRectMake(0, 18, self.frame.width, 46)
-        self.actionButton.frame = CGRectMake(self.frame.width - 104, 12, 88, 22)
-        self.selectImage.frame = CGRectMake(16, 16, 16, 16)
-        self.descLabel.frame = CGRectMake(40, 12, self.actionButton.frame.minX - 35, 25)
-        self.titleView.frame = CGRectMake(8, 0, 88, 18)
+        
+        if self.showHeader {
+            self.bodyView.frame = CGRectMake(0, 18, self.frame.width, 46)
+            self.titleView.frame = CGRectMake(8, 0, 88, 18)
+        }else{
+            self.titleView.frame = CGRectMake(0, 0, 0, 0)
+            self.bodyView.frame = CGRectMake(0, 0, self.frame.width, 46)
+        }
+        
         self.titleLabel.frame = CGRectMake(8, 0, 60, 18)
         self.arrowImage.frame = CGRectMake(68, 3, 12, 12)
+        self.actionButton.frame = CGRectMake(self.frame.width - 104, 12, 88, 22)
+        self.selectImage.frame = CGRectMake(16, 16, 16, 16)
+        
+         if UserCurrentSession.hasLoggedUser() {
+            self.descLabel.frame = CGRectMake(40, 12, self.actionButton.frame.minX - 35, 25)
+         }else{
+           self.descLabel.frame = CGRectMake(16, 12, self.actionButton.frame.minX - 35, 25)
+        }
+    }
+    
+    
+    func setValues() {
+        if UserCurrentSession.hasLoggedUser() {
+            self.selectImage.hidden = false
+            self.actionButton.setTitle("cambiar tienda", forState: .Normal)
+            self.descLabel.text = "No disponible para recoger en \nAcueducto de Guadalupe"
+        }else{
+            self.selectImage.hidden = true
+            self.actionButton.setTitle("Iniciar Sesión", forState: .Normal)
+            self.descLabel.text = "Inicia sesión parac saber si pouedes\n recoger este artículo en tu tienda"
+        }
     }
     
     func showPickBar() {
         if self.isShowingBar {
             UIView.animateWithDuration(0.3, animations: {
-                self.frame.origin = CGPointMake(self.startPossition.x, self.startPossition.y + 46)
+                self.frame.origin = CGPointMake(self.startPossition.x, self.startPossition.y - 46)
                 }, completion: { (complete) in
                self.isShowingBar = false
             })
@@ -104,6 +130,14 @@ class ProductDetailPickBar: UIView {
                 }, completion: { (complete) in
                     self.isShowingBar = true
             })
+        }
+    }
+    
+    func pickAction() {
+        if UserCurrentSession.hasLoggedUser() {
+            self.changeStoreAction?()
+        }else{
+            self.loginAction?()
         }
     }
     

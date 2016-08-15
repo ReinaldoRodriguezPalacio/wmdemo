@@ -118,7 +118,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imageIconView.frame =  CGRectMake(100, 100, 70, 70)
         
         
-        self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0, self.frame.height - 64),width: self.frame.width)
+        self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0, 296),width: 320)
         self.addSubview(self.pickBar)
         self.addSubview(imageIconView)
         
@@ -267,7 +267,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.lowStock?.frame = CGRectMake(16, 8, self.frame.width - 32, 14.0)
         
         self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 144 ,70 ,70)
-        //self.pickBar.frame = CGRectMake(0, self.bounds.height - 64 ,self.bounds.width ,64)
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
