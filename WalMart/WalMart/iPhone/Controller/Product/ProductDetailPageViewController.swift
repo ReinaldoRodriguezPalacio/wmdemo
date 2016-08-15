@@ -21,6 +21,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     var idListSeleted : String? = ""
     var stringSearching = ""
     var itemSelectedSolar : String = ""
+    var completeDeleteItem : (() -> Void)? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -96,6 +97,11 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
                     vc.saving = saving == nil ? "" : saving!
                     vc.view.tag = ixSelected
                     vc.idListFromlistFind = self.idListSeleted! // new
+                    vc.completeDelete = {() in
+                        print("completeDelete")
+                        self.completeDeleteItem?()
+                    }
+                    
                    
                     return vc
             }

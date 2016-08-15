@@ -854,6 +854,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if indexPath.row < productsToShow.count {
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
+            controller.completeDeleteItem = {() in
+                    print("completeDelete")
+                    self.fromDelete =  true
+            }
             self.navigationController!.pushViewController(controller, animated: true)
         }
       }

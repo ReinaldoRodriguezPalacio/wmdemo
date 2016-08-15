@@ -545,6 +545,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         }
                         //Event
                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(self.name) - \(self.upc)")
+                        self.completeDelete?()
                         
                     }, errorBlock: { (error:NSError) -> Void in
                         print("Error at remove product from list: \(error.localizedDescription)")
@@ -675,10 +676,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         list.countItem = NSNumber(integer: count)
         do {
             try context.save()
+            self.completeDelete?()
         } catch  {
             abort()
         }
-
+        
         self.removeListSelector(action: nil)
         
     }
