@@ -395,7 +395,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 return count
             }
             
-            size = (count  >= commonTotal) ? commonTotal : count + 1
+            size = (count  >= commonTotal) ? commonTotal : count// + 1
+            self.results!.resultsInResponse = size
             
         }
         return size
@@ -676,7 +677,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func invokeSearchProducts(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
         if self.results!.totalResults != -1 && self.results!.resultsInResponse >= self.results!.totalResults {
+            if self.allProducts == nil || self.allProducts!.count == 0{
+                print("************ No hay productos para mostrar")
+                self.showEmptyView()
+            }
             print("Groceries Search IS COMPLETE!!!")
+            print(self.results?.totalResults)
+            print(self.results?.resultsInResponse)
+            
             actionSuccess?()
             return
         }
@@ -693,41 +701,25 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
-            successBlock: { (arrayProduct:NSArray?) -> Void in
+                successBlock: { (arrayProduct:NSArray?, facet:NSArray?) -> Void in
                 
+                self.facet = facet! as! [[String : AnyObject]]
+                    
                 if arrayProduct != nil && arrayProduct!.count > 0 {
-                    //
-                    //Agregar facets si la busqueda es diferente a Text**
-                    //self.textToSearch
                     
-                    let facetsObject = arrayProduct![0]
-                    var facetFlag = false
-                    if facetsObject.count < 5 {
-                        print(facetsObject)
-                        facetFlag = true
-                        self.facet = arrayProduct![0] as! [[String : AnyObject]]
-                    }
-                    //pasar facets de GRProductBySearchService
-                    //arrayProduct solo trae items y no facets
+                    //All array items
+                    self.results!.addResults(arrayProduct!)
+                    self.results!.resultsInResponse = arrayProduct!.count
                     
-                    if facetFlag {
-                        //first facet and items
-                        self.results!.totalResults = (arrayProduct!.count - 1)
-                        self.results!.resultsInResponse = (arrayProduct!.count - 1)
-                        
-                        var newArray = Array<AnyObject>()
-                        for indx in 1 ..< arrayProduct!.count {
-                            newArray.append(arrayProduct![indx])
-                            //self.results!.addResults(arrayProduct![indx] as! NSArray)
+                    if let item = arrayProduct?[0] as? NSDictionary {
+                        //println(item)
+                        if let results = item["resultsInResponse"] as? NSString {
+                            self.results!.resultsInResponse += results.integerValue
                         }
-                        self.results!.addResults(newArray)
-                    } else {
-                        //All array items
-                        self.results!.totalResults = arrayProduct!.count
-                        self.results!.resultsInResponse = arrayProduct!.count
-                        self.results!.addResults(arrayProduct!)
+                        if let total = item["totalResults"] as? NSString {
+                            self.results!.totalResults = total.integerValue
+                        }
                     }
-                    
                 }
                 else {
                     self.results!.resultsInResponse = 0

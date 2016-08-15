@@ -1222,7 +1222,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
             let service = GRDeleteItemListService()
-            service.callService(service.buildParams(upc),
+            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(upc))
+            service.jsonFromObject(params)
+            service.callService(params,
                                 successBlock:{ (result:NSDictionary) -> Void in
                                     self.invokeDetailListService({ () -> Void in
                                         
@@ -1298,7 +1300,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
             let service = GRUpdateItemListService()
-            service.callService(service.buildParams(upc: upc, quantity: quantity),
+            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildItemMustang(upc, quantity: quantity))
+            service.callService(params,
                                 successBlock: { (result:NSDictionary) -> Void in
                                     self.invokeDetailListService({ () -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
