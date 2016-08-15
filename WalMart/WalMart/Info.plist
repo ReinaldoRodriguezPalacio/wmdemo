@@ -368,8 +368,6 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getItemByUpc</string>
-			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -541,8 +539,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
-			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>

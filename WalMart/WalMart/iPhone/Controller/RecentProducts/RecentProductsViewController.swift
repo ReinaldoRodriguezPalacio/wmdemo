@@ -267,6 +267,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             isActive = active
         }
         
+        cellRecentProducts.selectionStyle = .None
         cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
