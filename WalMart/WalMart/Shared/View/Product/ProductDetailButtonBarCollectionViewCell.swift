@@ -37,6 +37,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var detailProductCart: Cart?
     var isAddingOrRemovingWishlist: Bool = false
     var productDepartment:String = ""
+    var idListSelect =  ""
     
     
     
@@ -118,10 +119,11 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         listButton = UIButton()
         listButton.frame = CGRectMake(deltailButton.frame.maxX, 0, widthButtons, self.frame.height)
-        listButton.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
-        listButton.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Selected)
-        listButton.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Highlighted)
-        listButton.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
+        listButton.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
+        listButton.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Selected)
+        listButton.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Highlighted)
+        //listButton.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled) //se uara un icono para no agregar a listas cuando es regalo
+        
         listButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToWishlist), forControlEvents: UIControlEvents.TouchUpInside)
         
         facebookButton = UIButton()
@@ -164,33 +166,53 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
    
     func addProductToWishlist() {
         
-        
-    if !isAddingOrRemovingWishlist {
-        isAddingOrRemovingWishlist = true
-        let animation = UIImageView(frame: CGRectMake(0, 0,36, 36));
-        animation.center = self.listButton.center
-        animation.image = UIImage(named:"detail_addToList")
-        animation.tag = 99999
-        runSpinAnimationOnView(animation, duration: 100, rotations: 1, repeats: 100)
-        self.addSubview(animation)
-        
+        self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
         //event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label: "\(desc) - \(upc)")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
-        
-        delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
-            if addedTWL == true {
-                self.listButton.selected = !self.listButton.selected
-            }
-            animation.layer.removeAllAnimations()
-            animation.removeFromSuperview()
-            self.isAddingOrRemovingWishlist = false
-
-        })
-
-     }
+        if idListSelect !=  ""{
+            print("cambio de funcionalidad")
+            self.addDirectToListId()
+        }else{
+            
+            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+                self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+            })
+        }
         
     }
+    
+    func validateIsInList(upc:String) {
+        self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
+    }
+    
+    func addDirectToListId(){
+        
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+        
+        let service = GRAddItemListService()
+        
+        self.isActive =  self.isActive == "" ?  "true" : self.isActive
+        let productObject = [service.buildProductObject(upc:self.upc, quantity:1,pesable:"\(self.isPesable.hashValue)",active:self.isActive == "true" ? true : false)]//isActive
+        
+        service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
+                            successBlock: { (result:NSDictionary) -> Void in
+                                self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+                                alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+                                alertView!.showDoneIcon()
+                                
+                                
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error at add product to list: \(error.localizedDescription)")
+                alertView!.setMessage(error.localizedDescription)
+                alertView!.showErrorIcon("Ok")
+                
+            }
+        )
+        
+    }
+    
     func addProductToShoppingCart() {
         if isAviableToShoppingCart {
             delegate.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)

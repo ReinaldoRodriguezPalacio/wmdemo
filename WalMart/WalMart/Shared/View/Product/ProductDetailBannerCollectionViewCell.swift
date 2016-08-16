@@ -37,6 +37,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var lowStock : UILabel?
     
     var imageIconView: UIImageView!
+    var pickBar: ProductDetailPickBar!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -104,7 +105,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
         
-       
     
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)
@@ -117,6 +117,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imageIconView.image = UIImage(named:"promocion_detail")
         imageIconView.frame =  CGRectMake(100, 100, 70, 70)
         
+        
+        self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0, 296),width: 320)
+        self.addSubview(self.pickBar)
         self.addSubview(imageIconView)
         
     }

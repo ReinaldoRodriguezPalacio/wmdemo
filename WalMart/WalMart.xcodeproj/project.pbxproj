@@ -377,6 +377,7 @@
 		5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */; };
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
+		6C120F661D5E8C93008706DC /* ProductDetailPickBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C120F651D5E8C93008706DC /* ProductDetailPickBar.swift */; };
 		6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */; };
 		6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */; };
@@ -424,6 +425,7 @@
 		6C836D831C15FB8C00C4BE16 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
 		6C8913B31D2C6F23005DC27F /* HelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */; };
+		6C89CFF61D62776900930617 /* PickInStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C89CFF51D62776900930617 /* PickInStoreViewController.swift */; };
 		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
 		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
@@ -585,7 +587,6 @@
 		AC5911AB19DE26E600EB095C /* returnPolicies.html in Resources */ = {isa = PBXBuildFile; fileRef = AC5911A219DE26E600EB095C /* returnPolicies.html */; };
 		AC5911AC19DE26E600EB095C /* shippingCosts.html in Resources */ = {isa = PBXBuildFile; fileRef = AC5911A319DE26E600EB095C /* shippingCosts.html */; };
 		AC5F646E19BF51670098BE43 /* WalMartSqliteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5F646D19BF51670098BE43 /* WalMartSqliteDB.swift */; };
-		AC62C9B319B61F0B00FFFC74 /* ProductbySearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62C9B219B61F0B00FFFC74 /* ProductbySearchService.swift */; };
 		AC62C9B819B6980A00FFFC74 /* LoadingViewBk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62C9B719B6980A00FFFC74 /* LoadingViewBk.swift */; };
 		AC64240319CBB231009F055C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC64240219CBB231009F055C /* ProfileViewController.swift */; };
 		AC6AAE9719CC94FB004081C4 /* ProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6AAE9619CC94FB004081C4 /* ProfileViewCell.swift */; };
@@ -1057,6 +1058,7 @@
 		5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Shared/View/Notification/NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
 		5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFileService.swift; sourceTree = "<group>"; };
+		6C120F651D5E8C93008706DC /* ProductDetailPickBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailPickBar.swift; path = Shared/View/Product/ProductDetailPickBar.swift; sourceTree = "<group>"; };
 		6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
 		6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
@@ -1105,6 +1107,7 @@
 		6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = Shared/Library/Facebook/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
 		6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpHomeView.swift; path = iPhone/View/Home/HelpHomeView.swift; sourceTree = "<group>"; };
+		6C89CFF51D62776900930617 /* PickInStoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickInStoreViewController.swift; path = iPhone/Controller/Product/PickInStoreViewController.swift; sourceTree = "<group>"; };
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
 		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -1301,7 +1304,6 @@
 		AC5911A319DE26E600EB095C /* shippingCosts.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = shippingCosts.html; path = "Supporting Files/Help/shippingCosts.html"; sourceTree = "<group>"; };
 		AC5F646D19BF51670098BE43 /* WalMartSqliteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalMartSqliteDB.swift; path = Shared/Resources/WalMartSqliteDB.swift; sourceTree = "<group>"; };
 		AC5F647119BF53040098BE43 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = Shared/Library/fmdb/FMDatabase.h; sourceTree = "<group>"; };
-		AC62C9B219B61F0B00FFFC74 /* ProductbySearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductbySearchService.swift; path = Shared/Services/Product/ProductbySearchService.swift; sourceTree = "<group>"; };
 		AC62C9B719B6980A00FFFC74 /* LoadingViewBk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingViewBk.swift; path = Shared/View/LoadingViewBk.swift; sourceTree = "<group>"; };
 		AC64240219CBB231009F055C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = iPhone/Controller/Profile/ProfileViewController.swift; sourceTree = "<group>"; };
 		AC6AAE9619CC94FB004081C4 /* ProfileViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewCell.swift; path = Shared/View/Profile/ProfileViewCell.swift; sourceTree = "<group>"; };
@@ -2130,6 +2132,7 @@
 				56BB629A1A5F2BAF0008BD1F /* ProductDetailCrossSellCollectionViewCell.swift */,
 				56BB629C1A5F2C3A0008BD1F /* ProductDetailBundleCollectionViewCell.swift */,
 				6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */,
+				6C120F651D5E8C93008706DC /* ProductDetailPickBar.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -3331,7 +3334,6 @@
 			isa = PBXGroup;
 			children = (
 				5686DA571B59A885004D4211 /* SwiftyJSON.swift */,
-				AC62C9B219B61F0B00FFFC74 /* ProductbySearchService.swift */,
 				AC37F6AC19B9008F000BB80D /* ProductDetailService.swift */,
 				AC37F6B319B906FE000BB80D /* CrossSellingProductService.swift */,
 				049CC7CB1A9BAAE000DE2C8D /* LinesForSearchService.swift */,
@@ -3390,6 +3392,7 @@
 				5696079419B4EC6B005D20DC /* ProductDetailViewController.swift */,
 				5696079A19B4EF2D005D20DC /* ProductDetailPageViewController.swift */,
 				04D15BC81A96474400860919 /* FilterProductsViewController.swift */,
+				6C89CFF51D62776900930617 /* PickInStoreViewController.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -3879,6 +3882,7 @@
 				04312C971A6EDBC50009A940 /* String+Utils.swift in Sources */,
 				5637DE781A01BE76000E5CD7 /* IPOGroceriesView.swift in Sources */,
 				564A98B119D3644A0047D898 /* HighlightedButton.swift in Sources */,
+				6C89CFF61D62776900930617 /* PickInStoreViewController.swift in Sources */,
 				56E54E5019EC87740004161C /* IPAHomeViewController.swift in Sources */,
 				6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */,
 				56AC6EA31B39D18800C599A2 /* DefaultListService.swift in Sources */,
@@ -3912,6 +3916,7 @@
 				AC1CF41B19EC7F94006F1BC6 /* IPAMasterProfilerViewController.swift in Sources */,
 				56AE80ED19D9F4B300D5DDA4 /* UIView+DHSmartScreenshot.m in Sources */,
 				5680B7D919C3A2DC00108F34 /* WMLoadingView.swift in Sources */,
+				6C120F661D5E8C93008706DC /* ProductDetailPickBar.swift in Sources */,
 				5606BC3919BA782C002A70ED /* PriceSelectorTrashCell.swift in Sources */,
 				56DE026A19DE1A2700FA2042 /* IPOOrderEmptyView.swift in Sources */,
 				56927BB519DAEE1C0034AD1F /* IPOWMAlertViewController.swift in Sources */,
@@ -4091,7 +4096,6 @@
 				56AD15291A00375C00E1AFD9 /* IPAWishlistViewController.swift in Sources */,
 				85A40B951C223AE40036C78A /* Stream.swift in Sources */,
 				56DFE4CE19D057C9001811F5 /* NSMutableArray+SWUtilityButtons.m in Sources */,
-				AC62C9B319B61F0B00FFFC74 /* ProductbySearchService.swift in Sources */,
 				85A40BA31C223AE40036C78A /* DDMultiFormatter.m in Sources */,
 				56AED5EA19C36F69004CAECA /* CategoryService.swift in Sources */,
 				AC296C2A1A2D476A00B8EBBB /* IPABarCodeViewController.swift in Sources */,

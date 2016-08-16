@@ -33,7 +33,7 @@ class GRSaveUserListService : GRBaseService {
     }
     
     func buildParamsMustang(name:String?) -> [String:AnyObject]! {
-        return ["profileId":UserCurrentSession.hasLoggedUser() ?  UserCurrentSession.sharedInstance().userSigned!.idUser : "","name":name!,"description":"","comments":"","instructions":""]
+        return ["name":name!,"description":""]
     }
     
     
@@ -79,10 +79,11 @@ class GRSaveUserListService : GRBaseService {
                 cleaned["items"] = cleanedItems
             }
             
+            self.jsonFromObject(cleaned)
             self.callPOSTService(cleaned,
                 successBlock: { (resultCall:NSDictionary) -> Void in
-                    //self.jsonFromObject(resultCall)
-                    // self.manageListData(resultCall) -  mustang
+                   
+                    //self.manageListData(resultCall)//TODO aun no regresan id de la lista creada -  mustang
                     successBlock?(resultCall)
                     return
                 },

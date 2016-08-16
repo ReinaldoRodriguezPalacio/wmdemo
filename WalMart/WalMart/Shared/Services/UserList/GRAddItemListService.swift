@@ -31,8 +31,8 @@ class GRAddItemListService: GRBaseService {
     
     }
     
-    func buildItemMustangObject(idList idList:String, upcs:[AnyObject]) -> NSDictionary {
-        return ["profileId":UserCurrentSession.hasLoggedUser() ?  UserCurrentSession.sharedInstance().userSigned!.idUser : "","idList":idList,"items":upcs]
+    func buildItemMustangObject(idList idList:String, upcs:NSDictionary) -> NSDictionary {
+        return ["idList":idList,"items":upcs]
     }
     
     
@@ -49,7 +49,7 @@ class GRAddItemListService: GRBaseService {
         }
         toSneditem["idList"] = params["idList"] as! String
         toSneditem["itemArrImp"] = arrayToSend
-        
+        self.jsonFromObject(toSneditem)
         self.callPOSTService(toSneditem,
             successBlock: { (resultCall:NSDictionary) -> Void in
                 //self.jsonFromObject(resultCall)

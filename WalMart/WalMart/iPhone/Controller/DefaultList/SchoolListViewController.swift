@@ -44,10 +44,10 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.selectAllButton!.addTarget(self, action: #selector(SchoolListViewController.selectAll as (SchoolListViewController) -> () -> ()), forControlEvents: .TouchUpInside)
         
         self.wishlistButton = UIButton(frame: CGRectMake(66.0, y, 34.0, 34.0))
-        self.wishlistButton!.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
-        self.wishlistButton!.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Selected)
-        self.wishlistButton!.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Highlighted)
-        self.wishlistButton!.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
+        self.wishlistButton!.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
+        self.wishlistButton!.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Selected)
+        self.wishlistButton!.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Highlighted)
+        //self.wishlistButton!.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
         self.wishlistButton!.addTarget(self, action: #selector(SchoolListViewController.addToWishList), forControlEvents: .TouchUpInside)
         
         if self.showWishList {
@@ -211,12 +211,12 @@ class SchoolListViewController : DefaultListDetailViewController {
      Get products list
      */
     func getDetailItems(){
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
-        let service = ProductbySearchService(dictionary:signalsDictionary)
+        //let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let service = GRProductBySearchService()
         //let params = service.buildParamsForSearch(text: "", family:"f-papeleria-escolar", line: "l-escolar-cuadernos", sort:"rankingASC", departament: "d-papeleria", start: 0, maxResult: 20)
-        let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100)
+        let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100, brand: nil)
         service.callService(params,
-                            successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
+                            successBlock:{ (arrayProduct,facet:NSArray?) in
                                 self.detailItems = arrayProduct as? [[String:AnyObject]]
                                 
                                 if self.detailItems?.count == 0 || self.detailItems == nil {
@@ -268,7 +268,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                 if let quantityNumber = item["quantity"] as? NSNumber {
                     quantity = quantityNumber.doubleValue
                 }
-                let price = item["price"] as! NSString
+                let price = item["price"] as! NSNumber
                 //totalSaving += (item["saving"] as! NSString).doubleValue
                 
                 if typeProd.integerValue == 0 {
