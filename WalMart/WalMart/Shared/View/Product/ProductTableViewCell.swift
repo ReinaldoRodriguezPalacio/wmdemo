@@ -43,6 +43,7 @@ class ProductTableViewCell : SWTableViewCell {
         productShortDescriptionLabel!.textColor =  WMColor.gray
         productShortDescriptionLabel!.textAlignment = .Left
         
+        
         productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
         //productPriceLabel!.textColor = WMColor.orange
@@ -50,6 +51,10 @@ class ProductTableViewCell : SWTableViewCell {
         self.contentView.addSubview(productImage!)
         self.contentView.addSubview(productShortDescriptionLabel!)
         self.contentView.addSubview(productPriceLabel!)
+        
+        productImage?.backgroundColor = UIColor.greenColor()
+        productShortDescriptionLabel!.backgroundColor  = UIColor.cyanColor()
+        productPriceLabel!.backgroundColor = UIColor.whiteColor()
     }
     /**
      Set image in cell from url, price and product description

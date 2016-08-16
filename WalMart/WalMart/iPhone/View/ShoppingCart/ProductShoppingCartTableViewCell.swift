@@ -45,6 +45,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         super.setup()
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
+        imagePresale.backgroundColor = UIColor.blueColor()
         self.addSubview(imagePresale)
         
         self.selectionStyle = UITableViewCellSelectionStyle.None
@@ -74,12 +75,18 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         self.picturesView = UIView(frame: CGRectZero)
         self.contentView.addSubview(picturesView!)
+        
+         productPriceSavingLabel.backgroundColor = UIColor.redColor()
+          priceSelector.backgroundColor = UIColor.yellowColor()
+        
+          self.contentView.backgroundColor = UIColor.brownColor()
+        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 8, self.frame.width - (productImage!.frame.maxX + 16) - 16, 34)
-        self.separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
+        self.separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, self.frame.height - 1,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
 
         if  self.productPriceSavingLabel!.hidden {
             self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 36)
@@ -92,7 +99,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
         
         self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), 14.0)
-        
         
     }
     
@@ -138,6 +144,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
         self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
         
+       
         
     }
     
