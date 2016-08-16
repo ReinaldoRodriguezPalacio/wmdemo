@@ -37,7 +37,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var detailProductCart: Cart?
     var isAddingOrRemovingWishlist: Bool = false
     var productDepartment:String = ""
-    
     var idListSelect =  ""
     
     

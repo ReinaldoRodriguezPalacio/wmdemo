@@ -1041,6 +1041,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             view.colorsViewDelegate = self
             view.collection.reloadData()
             
+            view.pickBar.loginAction = {self.showLogin()}
+            view.pickBar.changeStoreAction = {self.changueProductStore()}
+            
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
             view.activePromotions(ProductDetailViewController.validateUpcPromotion(self.upc as String))
             currentHeaderView = view
@@ -1806,6 +1809,23 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func listSelectorDidCreateList(name:String) {
         
+    }
+    
+    func showLogin(){
+        let cont = LoginController.showLogin()
+        cont!.closeAlertOnSuccess = false
+        cont!.okCancelCallBack = {() in
+            cont!.closeAlert(true, messageSucesss:false)
+        }
+        cont!.successCallBack = {() in
+            
+        }
+
+    }
+    
+    func changueProductStore() {
+        let changueStoreController = PickInStoreViewController()
+        self.navigationController?.pushViewController(changueStoreController, animated: true)
     }
     
 }
