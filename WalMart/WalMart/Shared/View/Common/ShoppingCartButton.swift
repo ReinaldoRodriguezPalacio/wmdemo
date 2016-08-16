@@ -105,7 +105,11 @@ class ShoppingCartButton : UIButton {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
         let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-        let fullSize = CGSizeMake(rectSize.size.width + 25,rectSize.size.height)
+        var space : CGFloat = 25
+        // Note icon
+        space += 20
+        
+        let fullSize = CGSizeMake(rectSize.size.width + space,rectSize.size.height)
         return fullSize
     }
     

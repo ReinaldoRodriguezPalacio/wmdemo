@@ -38,7 +38,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26
     var itemSelect = 0
     
-    var closeButton : UIButton!
+    //var closeButton : UIButton!
     
     var idexesPath : [NSIndexPath]! = []
     
@@ -63,7 +63,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      var alertView: IPOWMAlertViewController?
     var containerView : UIImage!
     var visibleLabel = false
-    let headerHeight: CGFloat = 46
     
     
     var emptyView : IPOShoppingCartEmptyView!
@@ -121,15 +120,17 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         deleteall.titleEdgeInsets = UIEdgeInsetsMake(1.0, 1.0, 0.0, 0.0)
         deleteall.addTarget(self, action: #selector(ShoppingCartViewController.deleteAll), forControlEvents: UIControlEvents.TouchUpInside)
         
-        closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
+       /* closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
         //closeButton.setTitle(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""), forState: UIControlState.Normal)
         closeButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
         //closeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         //closeButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         //closeButton.layer.cornerRadius = 3
         closeButton.addTarget(self, action: #selector(ShoppingCartViewController.closeShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        */
         
-        viewHerader.addSubview(closeButton)
+        //viewHerader.addSubview(closeButton)
+        
         viewHerader.addSubview(editButton)
         viewHerader.addSubview(deleteall)
         viewHerader.addSubview(titleView)
@@ -155,6 +156,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewBorderTop.backgroundColor = WMColor.light_light_gray
         viewFooter.addSubview(viewBorderTop)
         
+        viewShoppingCart.registerClass(ShoppingCartTextViewCell.self, forCellReuseIdentifier: "textCell")
         viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
         viewShoppingCart.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "productTotalsCell")
         viewShoppingCart.registerClass(ShoppingCartCrossSellCollectionViewCell.self, forCellReuseIdentifier: "crossSellCell")
@@ -204,11 +206,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.showLoadingView()
         }
         
-         if !showCloseButton {
+        /* if !showCloseButton {
             self.closeButton.hidden = true
         } else {
             self.closeButton.hidden = false
-        }
+        }*/
 
         self.isEdditing = false
         editButton.selected = false
@@ -247,7 +249,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
 
         self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
-        self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
+       // self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
         
         
     }
@@ -425,10 +427,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     //MARK: - TableviewDelegate
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        listObj = self.itemsInCartOrderSection[section] as! NSDictionary
+        if section == 0 {
+            return 1
+        }
+        
+        listObj = self.itemsInCartOrderSection[section - 1] as! NSDictionary
             productObje = listObj["products"] as! NSArray
             
-        if section == (self.itemsInCartOrderSection.count - 1) {
+        if section == (self.itemsInCartOrderSection.count) {
             return productObje!.count + 2
             } else {
             return productObje!.count
@@ -437,8 +443,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return heightHeaderTable
+        if section == 0 {
+            return 0
         }
+        return heightHeaderTable
+    }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     
@@ -446,7 +455,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         headerView.backgroundColor = UIColor.whiteColor()
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, self.view.frame.width, heightHeaderTable))
         
-        listObj = self.itemsInCartOrderSection[section] as! NSDictionary
+        listObj = self.itemsInCartOrderSection[section - 1] as! NSDictionary
         titleLabel.text = listObj["name"] as? String
         titleLabel.textColor = WMColor.light_blue
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
@@ -457,17 +466,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.itemsInCartOrderSection.count
+        return self.itemsInCartOrderSection.count + 1
     }
 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
-        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+        
+        if indexPath.section  == 0  {
+            let cell = viewShoppingCart.dequeueReusableCellWithIdentifier("textCell", forIndexPath: indexPath) as! ShoppingCartTextViewCell
+            
+            return cell
+        }
+        
+        listObj = self.itemsInCartOrderSection[indexPath.section - 1] as! NSDictionary
             productObje = listObj["products"] as! NSArray
             
         var flagSectionCel = false
-        if (itemsInCartOrderSection.count - 1) != indexPath.section {
+        if (itemsInCartOrderSection.count) != indexPath.section {
             flagSectionCel = true
         } else {
             flagSectionCel = productObje.count > indexPath.row ? true : false
@@ -548,6 +564,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 productDeparment = category
             }
             
+            var promotionDescription : String? = ""
+            if let promotion = shoppingCartProduct["promotion"] as? NSArray{
+                if promotion.count > 0 {
+                    promotionDescription = promotion[0]["description"] as? String
+                }
+            }
+            
+            
             //updateItemSavingForUPC(indexPath,upc:upc)
             
             //type of GR
@@ -568,7 +592,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
             } else {
                 //tecnologia
-                cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment)
+                cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription)
             }
             
             //
@@ -621,10 +645,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+        
+        if indexPath.section == 0 {
+            return
+        }
+        
+        listObj = self.itemsInCartOrderSection[indexPath.section-1] as! NSDictionary
         productObje = listObj["products"] as! NSArray
 
-        if indexPath.section == (itemsInCartOrderSection.count - 1) {
+        if indexPath.section == (itemsInCartOrderSection.count) {
             if productObje.count <= indexPath.row {
                 return
             }
@@ -632,7 +661,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
             let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
+            controller.itemsToShow = getUPCItems(indexPath.section - 1, row: indexPath.row)
             controller.ixSelected = self.itemSelect//indexPath.row
             
             let item = productObje[indexPath.row] as! [String:AnyObject]
@@ -654,21 +683,25 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+        if indexPath.section == 0 {
+            return 46
+        }
+        
+        listObj = self.itemsInCartOrderSection[indexPath.section - 1] as! NSDictionary
             productObje = listObj["products"] as! NSArray
 
         var flagSectionCel = false
-        if (itemsInCartOrderSection.count - 1) != indexPath.section {
+        if (itemsInCartOrderSection.count) != indexPath.section {
             flagSectionCel = true
         } else {
             flagSectionCel = productObje.count > indexPath.row ? true : false
         }
         
         if flagSectionCel {
-            return 110
+            return 124
         }else{
             if productObje.count == indexPath.row  {
-                return 100
+                return 124
             }
             if productObje.count < indexPath.row  {
                 return 207
@@ -986,7 +1019,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func deleteRowAtIndexPath(indexPath : NSIndexPath){
         //getUPCItems
         self.showLoadingView()
-        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+        listObj = self.itemsInCartOrderSection[indexPath.section - 1] as! NSDictionary
         productObje = listObj["products"] as! NSArray
         let itemWishlist = productObje[indexPath.row] as! [String:AnyObject]
         let upc = itemWishlist["upc"] as! String
@@ -1532,8 +1565,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 if result != nil {
                     
                     var isShowingBeforeLeave = false
-                    let sectionMax = (self.itemsInCartOrderSection.count - 1)
-                    self.listObj = self.itemsInCartOrderSection[sectionMax] as! NSDictionary
+                    let sectionMax = (self.itemsInCartOrderSection.count)
+                    self.listObj = self.itemsInCartOrderSection[sectionMax - 1] as! NSDictionary
                     self.productObje = self.listObj["products"] as! NSArray
                     
                     if self.tableView(self.viewShoppingCart, numberOfRowsInSection: sectionMax) == self.productObje.count + 2{// + 2
@@ -1557,7 +1590,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     }
                      if self.itemsInCartOrderSection.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.viewShoppingCart.insertRowsAtIndexPaths([NSIndexPath(forItem: self.productObje.count + 1, inSection: sectionMax)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                            self.viewShoppingCart.insertRowsAtIndexPaths([NSIndexPath(forItem: self.productObje.count + 1, inSection: sectionMax )], withRowAnimation: UITableViewRowAnimation.Automatic)
                         }else{
                             self.viewShoppingCart.reloadRowsAtIndexPaths([NSIndexPath(forItem: self.productObje.count + 1, inSection: sectionMax)], withRowAnimation: UITableViewRowAnimation.Automatic)
                         }

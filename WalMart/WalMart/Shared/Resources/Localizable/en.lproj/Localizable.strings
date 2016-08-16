@@ -104,6 +104,7 @@
 "shoppingcart.noteTile" = "Nota de Envío";
 "shoppingcart.texNote" = "No has Agregado Nota para Envío";
 "shoppingcart.saveNote" = "Guardar";
+"shoppingCart.message.cost" = "Los productos están sujetos a disponibilidad y su precio puede variar.";
 
 
 //WishList
