@@ -105,7 +105,7 @@
 "shoppingcart.selectgrkg" = "Ordenar por Peso";
 "shoppingcart.texNote" = "No has Agregado Nota para Envío";
 "shoppingcart.saveNote" = "Guardar";
-
+"shoppingCart.message.cost" = "Los productos están sujetos a disponibilidad y su precio puede variar.";
 
 
 //WishList
@@ -210,7 +210,7 @@
 "shoppingcart.endedit" = "ok";
 "shoppingcart.isincart" = "El artículo ya se encuentra en\n tu carrito";
 "shoppingcart.wishlist.ready" = "¡Artículos añadidos a tu Wishlist!";
-"price.saving" = "Ahorras";
+"price.saving" = "Ahorra";
 "shoppingcart.addtoshoppingcart" = "Añadir";
 "shoppingcart.updatetoshoppingcart" = "Actualizar";
 "order.shop.title.btn" = "Comprar";

@@ -20,16 +20,11 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         collection.registerClass(ShoppingCartCrossSellItemCollectionViewCell.self, forCellWithReuseIdentifier: "shoppingCartCrossSellCell")
         
-        
         labelTitle = UILabel(frame: CGRectMake(16, 13, self.frame.width - 32, 14))
         labelTitle.font = WMFont.fontMyriadProLightOfSize(14)
         labelTitle.textColor = WMColor.orange
         labelTitle.text = NSLocalizedString("shoppingcart.beforeleave",comment:"")
-        
         self.addSubview(labelTitle)
-        
-
-        
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -49,6 +44,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         return cell
     }
+    
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
@@ -78,12 +74,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             }
         }
         
-        
-        
-        
         //
-        
-        
         if (!UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)) {
             //let itemUPC = itemsUPC[indexPath.row] as NSDictionary
             let upc = itemUPC["upc"] as! String
@@ -115,11 +106,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             let alert = IPAWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
             alert!.setMessage(NSLocalizedString("productdetail.notaviable",comment:""))
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-            
         }
-        
-      
-        
     }
     
 }

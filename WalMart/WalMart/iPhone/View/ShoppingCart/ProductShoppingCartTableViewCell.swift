@@ -18,7 +18,7 @@ protocol ProductShoppingCartTableViewCellDelegate {
 
 class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelegate {
     
-    var quantity : Int!
+      var quantity : Int! = 0
     var productPriceSavingLabel : CurrencyCustomLabel!
     var priceSelector : ShoppingCartButton!
     var priceProduct : Double!
@@ -33,7 +33,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var isPreorderable : String = ""
     var imagePresale : UIImageView!
     var productDeparment: String = ""
-    
+    var promotionDescription : String? = ""
     var equivalenceByPiece: NSNumber! = NSNumber(int:0)
     var typeProd : Int = 0
     var comments : String! = ""
@@ -52,7 +52,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
-        
         
         productImage!.frame = CGRectMake(16, 0, 80, 109)
         
@@ -77,15 +76,22 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
-        self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
+        self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 8, self.frame.width - (productImage!.frame.maxX + 16) - 16, 34)
         self.separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
-        self.productPriceSavingLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19)
+
+        if  self.productPriceSavingLabel!.hidden {
+            self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 36)
+        }else {
+            self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 20)
+            self.productPriceSavingLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 10)
+        }
+      
+        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
+        priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
         
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?) {
         imagePresale.hidden = isPreorderable == "true" ? false : true
         self.priceProduct = productPrice.doubleValue
         self.upc = upc
@@ -96,8 +102,10 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.quantity = quantity
         self.productDeparment = category
         self.isPreorderable = isPreorderable
-        
-        priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
+        self.promotionDescription = promotionDescription
+            
+        //priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
+        priceSelector.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
         
         let totalInProducts = productPrice.doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
@@ -165,15 +173,17 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             productPriceSavingLabel.hidden = true
         }
         
-        
         //        if self.quantity != nil &&  width == 0 {
         //            let sizeQ = priceSelector.sizeForQuantity(self.quantity, pesable: self.pesable,hasNote:self.comments != "")
         //            self.width = sizeQ.width
         //        }
         
         // priceSelector.frame =  CGRectMake((self.frame.width - 16) -  width!, self.productPriceLabel!.frame.minY, width!, 30)
+        //let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
         let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
+        
         priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
+        
     }
     
     func addProductQuantity(quantity:Int) {

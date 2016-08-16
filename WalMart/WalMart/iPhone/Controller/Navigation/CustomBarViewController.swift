@@ -1151,24 +1151,46 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func closeShoppingCart() {
         self.btnShopping?.selected = false
         self.btnCloseShopping?.alpha = 0
-        self.showBadge()
+        //self.showBadge()
         self.btnShopping?.alpha = 1
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
-        if shoppingCartVC != nil {
-            if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
-                vcRoot.willMoveToParentViewController(nil)
-                vcRoot.view.removeFromSuperview()
-                vcRoot.removeFromParentViewController()
-                self.shoppingCartVC = nil
+        
+        if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
+            
+            UIView.animateWithDuration(0.5,
+                                       animations: {() in
+                                        self.shoppingCartVC.view.frame = CGRectMake(-self.shoppingCartVC.view.frame.minX, -self.shoppingCartVC.view.frame.height, self.shoppingCartVC.view.frame.width, self.shoppingCartVC.view.frame.height)
+                                        
+                },
+                                       completion: {(finished : Bool) in
+                                        if finished {
+                                            self.shoppingCartVC.willMoveToParentViewController(nil)
+                                            self.shoppingCartVC.view.removeFromSuperview()
+                                            self.shoppingCartVC.removeFromParentViewController()
+                                            self.shoppingCartVC = nil
+                                            self.openSearch = false
+                                            self.shoppingCartVC = nil
+                                        }
+                }
+            )
+            
+           /* if shoppingCartVC != nil {
+                if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
+                    vcRoot.willMoveToParentViewController(nil)
+                    vcRoot.view.removeFromSuperview()
+                    vcRoot.removeFromParentViewController()
+                    self.shoppingCartVC = nil
+                    
+                    openSearch = false
+                    shoppingCartVC = nil
+                }
                 
-                openSearch = false
-                shoppingCartVC = nil
-            }
+            }*/
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
+            
         }
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
-        
     }
     
     func showShoppingCart() {
@@ -1176,67 +1198,33 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func showShoppingCart(sender:UIButton,closeIfNeedded:Bool) {
-       if (!sender.selected){
+        if (!sender.selected){
             sender.selected = !sender.selected
             self.addtoShopingCar()
-        
+            
             self.endUpdatingShoppingCart(self)
             self.hidebadge()
             self.btnShopping?.alpha = 0
-        
-        if self.btnCloseShopping == nil {
-            self.btnCloseShopping = UIButton()
-            self.btnCloseShopping?.frame = self.btnShopping!.frame
-            self.btnCloseShopping?.setImage(UIImage(named:"close"), forState: .Normal)
-            self.btnCloseShopping?.addTarget(self, action: #selector(CustomBarViewController.showShoppingCart as (CustomBarViewController) -> () -> ()), forControlEvents: UIControlEvents.TouchUpInside)
-            self.btnShopping?.superview?.addSubview(self.btnCloseShopping!)
+            
+            if self.btnCloseShopping == nil {
+                self.btnCloseShopping = UIButton()
+                self.btnCloseShopping?.frame = self.btnShopping!.frame
+                self.btnCloseShopping?.setImage(UIImage(named:"close"), forState: .Normal)
+                self.btnCloseShopping?.addTarget(self, action: #selector(CustomBarViewController.showShoppingCart as (CustomBarViewController) -> () -> ()), forControlEvents: UIControlEvents.TouchUpInside)
+                self.btnShopping?.superview?.addSubview(self.btnCloseShopping!)
+                
+            }
+            self.btnCloseShopping?.enabled = false
+            self.btnCloseShopping?.alpha = 1
+            self.btnShopping?.userInteractionEnabled = true
+            self.btnCloseShopping?.enabled = true
             
         }
-        self.btnCloseShopping?.enabled = false
-        self.btnCloseShopping?.alpha = 1
-        self.btnShopping?.userInteractionEnabled = true
-        self.btnCloseShopping?.enabled = true
-        
-        }
-       else {
+        else {
             if closeIfNeedded {
                 self.closeShoppingCart()
             }
         }
-        /*if shoppingCartVC != nil {
-            if (!sender.selected){
-                sender.selected = !sender.selected
-                ShoppingCartService.shouldupdate = true
-                if (self.btnSearch!.selected)  {
-                    self.closeSearch(true, sender:nil)
-                }else{
-                    self.addtoShopingCar()
-                }
-                self.endUpdatingShoppingCart(self)
-                self.hidebadge()
-                self.btnShopping?.alpha = 0
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue , label: "")
-                
-                if self.btnCloseShopping == nil {
-                    self.btnCloseShopping = UIButton()
-                    self.btnCloseShopping?.frame = self.btnShopping!.frame
-                    self.btnCloseShopping?.setImage(UIImage(named:"close"), forState: .Normal)
-                    self.btnCloseShopping?.addTarget(self, action: #selector(CustomBarViewController.showShoppingCart as (CustomBarViewController) -> () -> ()), forControlEvents: UIControlEvents.TouchUpInside)
-                    self.btnShopping?.superview?.addSubview(self.btnCloseShopping!)
-                    
-                }
-                self.btnCloseShopping?.enabled = false
-                self.btnCloseShopping?.alpha = 1
-                
-            }
-            else {
-                
-                if closeIfNeedded {
-                    
-                    self.closeShoppingCart()
-                }
-            }
-        }*/
         
     }
     
@@ -1246,7 +1234,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func addtoShopingCar(){
         
-      
         let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
             shoppingCartVC = vc
@@ -1254,22 +1241,25 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 vcRoot.delegate = self
             }
         }
-       // self.shoppingCartViewController = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as! ShoppingCartViewController
         
         self.addChildViewController(shoppingCartVC)
         shoppingCartVC.view.frame = self.container!.frame
+        
+        shoppingCartVC.view.frame = CGRectMake(-shoppingCartVC.view.frame.minX, -shoppingCartVC.view.frame.height, shoppingCartVC.view.frame.width, shoppingCartVC.view.frame.height)
+        
         self.view.addSubview(shoppingCartVC.view)
         self.view.bringSubviewToFront(self.headerView)
         shoppingCartVC.didMoveToParentViewController(self)
-   
         
-        /*self.shoppingCartViewController!.delegate = self
-        self.shoppingCartViewController!.view.frame = self.container!.frame
-        self.view.addSubview(self.shoppingCartViewController!.view)
-        self.view.bringSubviewToFront(self.headerView)
-        self.shoppingCartViewController!.didMoveToParentViewController(self)
-        */
-      
+        
+        UIView.animateWithDuration(0.5,
+                                   animations: {() in
+                                    self.shoppingCartVC.view.frame = CGRectMake(self.container!.frame.minX, self.container!.frame.minY, self.shoppingCartVC.view.frame.width, self.shoppingCartVC.view.frame.height)
+            },
+                                   completion: {(finished : Bool) in
+                                    
+            }
+        )
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
     }

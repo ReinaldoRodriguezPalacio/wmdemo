@@ -63,6 +63,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     var numberOfDefaultLists = 0
+    //TODO como usar las leyendas
+    var legendView : LegendView?
     
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -574,6 +576,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      */
     
     func showNewListField() {
+        self.legendView =  LegendView()
+        self.legendView?.showLegend(self.view)
+        
         self.newListBtn!.enabled = false
         self.editBtn!.enabled = false
         if !self.newListEnabled {
@@ -1020,6 +1025,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     // MARK: - Actions
+    
+    //Present legend
+    
+
     
     /**
      Present view to search in to list

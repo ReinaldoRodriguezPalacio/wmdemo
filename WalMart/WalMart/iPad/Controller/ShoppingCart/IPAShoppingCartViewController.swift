@@ -85,7 +85,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
         self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
-        self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
+       
+        // self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
+        
         if self.customlabel != nil {
             self.customlabel.frame = self.buttonShop.bounds
         }
