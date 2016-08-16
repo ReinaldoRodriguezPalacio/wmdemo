@@ -19,6 +19,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var colors: [AnyObject]? = []
     var sizes: [AnyObject]? = []
     var imagesRef: [UIImage]! = []
+    var promotions:[[String:AnyObject]]! = []
     var pointSection: UIView! = nil
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
@@ -27,14 +28,10 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var imageZoom: UIImageView!
     let contentModeOrig = UIViewContentMode.ScaleAspectFit
     
+    var showPromotions: Bool = true
     var priceBefore : CurrencyCustomLabel!
     var price : CurrencyCustomLabel!
     var saving : CurrencyCustomLabel!
-    
-    var presale : UILabel!
-    var imagePresale : UIImageView!
-    //var imageLowStock : UIImageView!
-    var lowStock : UILabel?
     
     var imageIconView: UIImageView!
     var pickBar: ProductDetailPickBar!
@@ -88,23 +85,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.sizesView.delegate = self
         self.sizesView.alpha = 0
         self.addSubview(sizesView)
-
-        
-        lowStock = UILabel()
-        lowStock!.font = WMFont.fontMyriadProRegularOfSize(12)
-        lowStock!.numberOfLines = 1
-        lowStock!.textColor =  WMColor.light_red
-        lowStock!.hidden = true
-        lowStock!.textAlignment = .Center
-        lowStock!.text = "Últimas piezas"
-        self.addSubview(lowStock!)
-        
-        
-        //presale
-        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
-        imagePresale.hidden =  true
-        self.addSubview(imagePresale)
-        
     
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)
@@ -118,7 +98,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imageIconView.frame =  CGRectMake(100, 100, 70, 70)
         
         
-        self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0, 296),width: 320)
+        self.pickBar = ProductDetailPickBar()
+        self.pickBar.frame = CGRectMake(0, 296,320, 64)
+        self.pickBar.startPossition = CGPointMake(0,296)
         self.addSubview(self.pickBar)
         self.addSubview(imageIconView)
         
@@ -260,13 +242,18 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             }
         
         self.buildColorsAndSizesView()
+        self.buildPromotions()
         
         self.priceBefore.frame = CGRectMake(0,  self.bounds.height - 54   , self.frame.width, 15.0)
         self.price.frame = CGRectMake(0, self.bounds.height - 39  , self.frame.width, 24.0)
         self.saving.frame = CGRectMake(0, self.bounds.height - 15  , self.frame.width, 15.0)
-        self.lowStock?.frame = CGRectMake(16, 8, self.frame.width - 32, 14.0)
-        
         self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 144 ,70 ,70)
+        if self.pickBar.isShowingBar {
+            self.pickBar.frame = CGRectMake(0, self.bounds.height - 18,self.bounds.width, 64)
+        }else{
+            self.pickBar.frame = CGRectMake(0, self.bounds.height - 64,self.bounds.width, 64)
+        }
+        
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -303,6 +290,38 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
+    }
+    
+    func buildPromotions() {
+        if self.promotions.count > 0 && self.showPromotions {
+            let startX:CGFloat = 8.0
+            var startY:CGFloat = 8.0
+            
+            for promotion in promotions {
+                
+                let promoTag = UILabel()
+                promoTag.text = promotion["tagText"] as? String
+                promoTag.textColor = UIColor.whiteColor()
+                promoTag.textAlignment = .Center
+                promoTag.font = WMFont.fontMyriadProRegularOfSize(9)
+                promoTag.backgroundColor = promotion["tagColor"] as? UIColor
+                promoTag.clipsToBounds = true
+                promoTag.layer.cornerRadius = 2.0
+                promoTag.frame = CGRectMake(startX, startY, 18, 14)
+                self.addSubview(promoTag)
+                
+                let promoLabel = UILabel()
+                promoLabel.text = promotion["text"] as? String
+                promoLabel.textColor = WMColor.gray
+                promoLabel.textAlignment = .Left
+                promoLabel.font = WMFont.fontMyriadProRegularOfSize(9)
+                promoLabel.frame = CGRectMake(promoTag.frame.maxX + 4, promoTag.frame.minY + 3, 60, 9)
+                self.addSubview(promoLabel)
+                
+                startY = (promoTag.frame.maxY + 6)
+            }
+            self.showPromotions = false
+        }
     }
     
     func buildColorsAndSizesView(){

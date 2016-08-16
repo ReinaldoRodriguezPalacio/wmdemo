@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate,ListSelectorDelegate,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate,UIGestureRecognizerDelegate {
+class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate,ListSelectorDelegate,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate,UIGestureRecognizerDelegate, PickInStoreViewControllerDelegate {
 
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
@@ -1025,14 +1025,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         if kind == CSStickyHeaderParallaxHeader{
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
-            if self.isPreorderable {
-                view.imagePresale.hidden = false
-            }
-
-            
-            if self.isLowStock {
-                view.lowStock?.hidden = false
-            }
             
             view.items = self.imageUrl
             view.delegate = self
@@ -1040,6 +1032,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             view.sizes = self.sizesItems
             view.colorsViewDelegate = self
             view.collection.reloadData()
+            view.promotions = [["text":"Nuevo","tagText":"N","tagColor":WMColor.yellow],["text":"Paquete","tagText":"P","tagColor":WMColor.light_blue],["text":"Sobre pedido","tagText":"Sp","tagColor":WMColor.light_blue],["text":"Ahorra más","tagText":"A+","tagColor":WMColor.light_red]]
             
             view.pickBar.loginAction = {self.showLogin()}
             view.pickBar.changeStoreAction = {self.changueProductStore()}
@@ -1824,8 +1817,18 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     func changueProductStore() {
-        let changueStoreController = PickInStoreViewController()
-        self.navigationController?.pushViewController(changueStoreController, animated: true)
+        let pickInStoreController = PickInStoreViewController()
+        pickInStoreController.delegate = self
+        self.navigationController?.pushViewController(pickInStoreController, animated: true)
+    }
+    
+    //MARK: PickInStoreViewControllerDelegate
+    
+    func didSelectStore(storeId: String, storeName: String) {
+        let header = currentHeaderView as! ProductDetailBannerCollectionViewCell
+        header.pickBar.storeName = storeName
+        header.pickBar.storeId = storeId
+        header.pickBar.setValues()
     }
     
 }
