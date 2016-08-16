@@ -17,7 +17,7 @@ protocol SearchProductCollectionViewCellDelegate{
 class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     var addProductToShopingCart : UIButton? = nil
-    var productPriceThroughLabel : CurrencyCustomLabel? = nil
+    var productPriceThroughLabel : UILabel!//CurrencyCustomLabel? = nil
     var upc : String!
     var desc : String!
     var price : String!
@@ -50,7 +50,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 
     
         
-        self.productPriceThroughLabel = CurrencyCustomLabel(frame:CGRectZero)
+        self.productPriceThroughLabel = UILabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
         //self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
         //self.productPriceThroughLabel!.textColor = WMColor.green
@@ -99,7 +99,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String, isMoreArts:Bool, isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         self.positionSelected = position
@@ -114,29 +114,31 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             self.lowStock?.hidden = true
         }
         
-        
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
 
-        
         var savingPrice = ""
-        if productPriceThrough != "" && type == ResultObjectType.Groceries.rawValue {
-            savingPrice = productPriceThrough
-        }
-        if type == ResultObjectType.Mg.rawValue {
-            let doubleVaule = NSString(string: productPriceThrough).doubleValue
-            if doubleVaule > 0.1 {
-                let savingStr = NSLocalizedString("price.saving",comment:"")
-                let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
-                savingPrice = "\(savingStr) \(formated)"
+        if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+            
+            if isMoreArts {
+                let doubleVaule = NSString(string: productPriceThrough).doubleValue
+                if doubleVaule > 0.1 {
+                    let savingStr = NSLocalizedString("price.saving",comment:"")
+                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
+                    savingPrice = "\(savingStr) \(formated)"
+                    self.productPriceThroughLabel.textColor = WMColor.red
+                }
+            } else {
+                savingPrice = productPriceThrough
+                self.productPriceThroughLabel.textColor = WMColor.green
             }
         }
         
         if savingPrice != ""{
             self.productPriceThroughLabel!.hidden = false
-            self.productPriceThroughLabel!.updateMount(savingPrice, font: IS_IPAD ? WMFont.fontMyriadProSemiboldOfSize(14) :WMFont.fontMyriadProSemiboldOfSize(9), color: WMColor.green, interLine: false)
-        }else{
-            
+            self.productPriceThroughLabel.text = savingPrice
+            self.productPriceThroughLabel.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        } else{
             self.productPriceThroughLabel!.hidden = true
         }
         
@@ -145,7 +147,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.imageURL = productImageURL
         self.price = productPrice
         self.onHandInventory = String(onHandInventory)
-        self.type = type
+        self.type = "MG"
         self.pesable = pesable
         self.isPreorderable = "\(isPreorderable)"
         self.productDeparment = category
@@ -171,7 +173,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 
             }else{
                 self.addProductToShopingCart!.setImage(UIImage(named: "addtolist_icon"), forState: UIControlState.Normal)
-
             }
         }
         
@@ -204,7 +205,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 picturesView.addSubview(textLabel)
                 
                 self.contentView.addSubview(picturesView)
-                
                 yView = picturesView.frame.maxY + ySpace
             }
         }

@@ -23,6 +23,8 @@ class ProductDetailPickBar: UIView {
     var showHeader: Bool = true
     var loginAction: ((Void) -> Void)?
     var changeStoreAction: ((Void) -> Void)?
+    var storeId: String! = ""
+    var storeName: String! = "Acueducto de Guadalupe"
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -38,9 +40,10 @@ class ProductDetailPickBar: UIView {
         self.clipsToBounds = false
         self.userInteractionEnabled = true
         self.backgroundColor = UIColor.clearColor()
+        self.alpha = 0.9
         
         self.bodyView = UIView()
-        self.bodyView.backgroundColor = WMColor.light_light_gray
+        self.bodyView.backgroundColor = WMColor.light_gray
         
         self.actionButton = UIButton()
         self.actionButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -58,7 +61,7 @@ class ProductDetailPickBar: UIView {
         self.selectImage.image = UIImage(named: "filter_check_blue") //check_blue
         
         self.titleView = UIView()
-        self.titleView.backgroundColor = WMColor.light_light_gray
+        self.titleView.backgroundColor = WMColor.light_gray
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(ProductDetailPickBar.showPickBar))
         self.titleView.addGestureRecognizer(tap)
@@ -109,7 +112,7 @@ class ProductDetailPickBar: UIView {
         if UserCurrentSession.hasLoggedUser() {
             self.selectImage.hidden = false
             self.actionButton.setTitle("cambiar tienda", forState: .Normal)
-            self.descLabel.text = "No disponible para recoger en \nAcueducto de Guadalupe"
+            self.descLabel.text = "No disponible para recoger en \n\(self.storeName)"
         }else{
             self.selectImage.hidden = true
             self.actionButton.setTitle("Iniciar Sesión", forState: .Normal)
