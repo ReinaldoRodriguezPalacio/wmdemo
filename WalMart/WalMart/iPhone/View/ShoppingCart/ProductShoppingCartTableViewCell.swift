@@ -38,8 +38,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var typeProd : Int = 0
     var comments : String! = ""
     var pesable : Bool = false
-    
-    
+    var picturesView : UIView? = nil
+    var countPromotion: Int = 0
     
     override func setup() {
         super.setup()
@@ -72,6 +72,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.contentView.addSubview(productPriceSavingLabel)
         self.contentView.addSubview(priceSelector)
         
+        self.picturesView = UIView(frame: CGRectZero)
+        self.contentView.addSubview(picturesView!)
     }
     
     override func layoutSubviews() {
@@ -88,6 +90,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
       
         let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
         priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
+        
+        self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), 14.0)
+        
         
     }
     
@@ -132,7 +137,53 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }
         let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
         self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
+        
+        
     }
+    
+    
+    func setPLP(PlpArray:NSArray){
+        
+        self.countPromotion =  PlpArray.count
+        
+        for subview in picturesView!.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        let yView : CGFloat = 0.0
+        var xView : CGFloat = 0.0
+        let ySpace : CGFloat = 4.0
+        let heighView : CGFloat = 14.0
+        let widthView : CGFloat = 18.0
+        
+        //Show PLP in Cell
+        if PlpArray.count > 0 {
+            for lineToShow in PlpArray {
+                //Se muestran etiquetas para promociones, etc.
+                let promotion = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
+                promotion.backgroundColor = lineToShow["color"] as? UIColor //WMColor.light_red
+                promotion.layer.cornerRadius = 2.0
+                
+               // let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
+                //picturesView!.addGestureRecognizer(tapGesture)
+                
+                let textLabel = UILabel(frame: CGRectMake(0, 0, widthView, heighView))
+                textLabel.text =  lineToShow["text"] as? String //"TS"
+                textLabel.textColor = UIColor.whiteColor()
+                textLabel.font = WMFont.fontMyriadProRegularOfSize(9)
+                textLabel.textAlignment = .Center
+                promotion.addSubview(textLabel)
+                
+                self.picturesView!.addSubview(promotion)
+                
+                xView = promotion.frame.maxX + ySpace
+            }
+        }
+        
+        self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), heighView)
+        
+    }
+
     
     func setValuesGR(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
         self.equivalenceByPiece = equivalenceByPiece
