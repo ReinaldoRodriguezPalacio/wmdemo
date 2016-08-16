@@ -74,6 +74,7 @@
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
 		4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */; };
 		4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */; };
+		4AD4397E1D62328E00C4DA17 /* LegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD4397D1D62328E00C4DA17 /* LegendView.swift */; };
 		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
@@ -718,6 +719,7 @@
 		4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
 		4AAE8F791D46DD70008FD7DC /* WalMart3.31.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.4.xcdatamodel; sourceTree = "<group>"; };
 		4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		4AD4397D1D62328E00C4DA17 /* LegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LegendView.swift; path = Shared/View/Help/LegendView.swift; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
@@ -3212,6 +3214,7 @@
 			isa = PBXGroup;
 			children = (
 				AC536D4219DB43CF007D2D42 /* HelpViewCell.swift */,
+				4AD4397D1D62328E00C4DA17 /* LegendView.swift */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -3781,6 +3784,7 @@
 				5673D13C1A9D500400DCD20B /* RSCornersLayer.swift in Sources */,
 				56C616BF1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift in Sources */,
 				85A40B981C223AE40036C78A /* StompKit.m in Sources */,
+				4AD4397E1D62328E00C4DA17 /* LegendView.swift in Sources */,
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,

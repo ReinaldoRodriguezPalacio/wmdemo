@@ -11,6 +11,7 @@ import Foundation
 protocol SearchProductCollectionViewCellDelegate{
     func selectGRQuantityForItem(cell: SearchProductCollectionViewCell)
     func selectMGQuantityForItem(cell: SearchProductCollectionViewCell)
+    func showViewPlpItem()
 }
 
 class SearchProductCollectionViewCell: ProductCollectionViewCell  {
@@ -176,6 +177,42 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
     }
     
+    func setPLP(PlpArray:NSArray){
+        
+        var yView : CGFloat = 8.0
+        let xView : CGFloat = 8.0
+        let ySpace : CGFloat = 4.0
+        let heighView : CGFloat = 14.0
+        let widthView : CGFloat = 18.0
+        
+        //Show PLP in Cell
+        if PlpArray.count > 0 {
+            for lineToShow in PlpArray {
+                //Se muestran etiquetas para promociones, etc.
+                let picturesView = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
+                picturesView.backgroundColor = lineToShow["color"] as? UIColor //WMColor.light_red
+                picturesView.layer.cornerRadius = 2.0
+                
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
+                picturesView.addGestureRecognizer(tapGesture)
+                
+                let textLabel = UILabel(frame: CGRectMake(0, 0, widthView, heighView))
+                textLabel.text =  lineToShow["text"] as? String //"TS"
+                textLabel.textColor = UIColor.whiteColor()
+                textLabel.font = WMFont.fontMyriadProRegularOfSize(9)
+                textLabel.textAlignment = .Center
+                picturesView.addSubview(textLabel)
+                
+                self.contentView.addSubview(picturesView)
+                
+                yView = picturesView.frame.maxY + ySpace
+            }
+        }
+    }
+    
+    func showViewPLP(){
+        self.delegate?.showViewPlpItem()
+    }
     
     func addProductToShoping(){
         if !isDisabled {

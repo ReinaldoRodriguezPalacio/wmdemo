@@ -434,7 +434,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let upc = item["upc"] as! String
         let description = item["description"] as? String
         
-        var price: NSString?
+        var price: NSString? = "0"
         var through: NSString! = ""
         if let priceTxt = item["price"] as? NSString {
             price = priceTxt
@@ -477,7 +477,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             onHandDefault = onHandInventory.integerValue
         }
         
-        let type = item["type"] as! NSString
+        //let type = item["type"] as! NSString
         
         var isPesable = false
         if let pesable = item["pesable"] as?  NSString {
@@ -508,7 +508,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             onHandInventory: onHandDefault,
             isPreorderable:isPreorderable,
             isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),
-            type:type as String,
+            type:"MG",//Quitar despues
             pesable : isPesable,
             isFormList: idListFromSearch != "" ?  true :  false,
             productInlist:idListFromSearch == "" ? false : self.validateProductInList(forProduct: upc, inListWithId: self.idListFromSearch! ),
@@ -517,6 +517,141 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             equivalenceByPiece: equivalenceByPiece,
             position:self.isAplyFilter ? "" : "\(indexPath.row)"
         )
+        
+        ///
+        //Add priceEvent, promotion, characteristics
+        var plpShow : NSDictionary = [:]
+        var testArray: [AnyObject] = []
+        
+        //PriceEvent
+        /*  - Red
+         Ahorra mas
+         Precios mas bajos
+         Ultimas piezas
+         */
+        
+        var flagAhorra = false
+        if let priceEvent = item["priceEvent"] as? NSDictionary {
+            if priceEvent["isPriceStrike"] as? Bool == true {
+                flagAhorra = true
+                //si isPriceStrike es true entra como ahorra más
+                
+                var textPriceEvent = ""
+                switch priceEvent["priceEventText"] as! String {
+                case "Hot-Sale":
+                    textPriceEvent = "Hs"
+                case "Cyber-Martes":
+                    textPriceEvent = "Cm"
+                case "Buen Fin":
+                    textPriceEvent = "Bf"
+                case "Liquidacición":
+                    textPriceEvent = "L"
+                case "LiquidaciciÛn":
+                    textPriceEvent = "L"
+                case "Rebajas":
+                    textPriceEvent = "R"
+                default:
+                    textPriceEvent = priceEvent["priceEventText"] as! String
+                }
+                plpShow = ["text":textPriceEvent, "color": WMColor.red]
+                testArray.append(plpShow)
+            }
+        }
+        
+        //Promotion
+        /*
+         MSI - yellow
+         Mas articulos por menos - yellow
+         precios mas bajos - red
+         Ahorra mas - red
+         envio gratis - blue
+         */
+        if item["promotion"]?.count > 0 {//  as? NSDictionary
+            let lenght = item["promotion"]!.count
+            let promotion = item["promotion"] as? NSArray
+            
+            for idx in 0 ..< lenght{
+
+                plpShow = [:]
+                let description = promotion![idx] as! NSDictionary
+                let textDescription = description["description"] as! String
+                
+                if textDescription.lowercaseString.characters.contains("x") && textDescription.lowercaseString.characters.contains("$"){
+                    print("Mas articulos por menos")
+                    //Mas articulos por menos
+                    // si en description viene "x$" se tomará en cuenta ejemplo "3x$200"
+                    plpShow = ["text":"+A-", "color": WMColor.yellow]
+                    testArray.append(plpShow)
+                } else if flagAhorra == true {
+                    plpShow = ["text":"A+", "color": WMColor.red]
+                    testArray.append(plpShow)
+                }
+                
+                switch description["description"] as! String {
+                case "MSI":
+                    plpShow = ["text":"MSI", "color": WMColor.yellow]
+                case "Envío Gratis":
+                    plpShow = ["text":"Eg", "color": WMColor.light_blue]
+                case "Precios mas bajos":
+                    plpShow = ["text":"-$", "color": WMColor.red]
+                default:
+                    plpShow = [:]
+                }
+                //plpShow = ["text":textPromotion, "color": WMColor.red]
+                if plpShow.count == 1 {
+                    testArray.append(plpShow)
+                }
+            }
+        }
+        
+        //characteristics
+        /*
+         Ultimas piezas - Rojo
+         Preventa - Ligh blue
+         Nuevo - Green
+         Paquete - Blue
+         Recoger en tienda - Blue
+         Sobre pedido - Light Blue
+         */
+        
+        //Preventa
+        if item["isPreorderable"] as? String == "true" {
+            plpShow = ["text":"Pv", "color": WMColor.UIColorFromRGB(0x79b1e0)]
+            testArray.append(plpShow)
+        }
+        //Nuevo
+        if item["isNew"] as? String == "true" {
+            plpShow = ["text":"N", "color": WMColor.green]
+            testArray.append(plpShow)
+        }
+        
+        //Paquete
+        if item["isBundle"] as? String == "true" {
+            plpShow = ["text":"P", "color": WMColor.light_blue]
+            testArray.append(plpShow)
+        }
+        
+        //Recoger en tienda
+        if item["pickupInStore"] as? String == "true" {
+            plpShow = ["text":"Rt", "color": WMColor.light_blue]
+            testArray.append(plpShow)
+        }
+        
+        //Sobre pedido
+        if item["isGift"] as? String == "true" {
+            plpShow = ["text":"Sp", "color": WMColor.UIColorFromRGB(0x79b1e0)]
+            testArray.append(plpShow)
+        }
+        
+        /*plpShow = ["text":"SL","color": WMColor.green]
+        testArray.append(plpShow)
+        testArray.append(plpShow)
+        testArray.append(plpShow)
+        testArray.append(plpShow)*/
+        
+        cell.setPLP(testArray)
+        
+        
         cell.delegate = self
         return cell
     }
@@ -581,7 +716,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
-                        let type = strUPC["type"] as! String
+                        //let type = strUPC["type"] as! String
                         var through = ""
                         if let priceThr = strUPC["saving"] as? String {
                             through = priceThr as String
@@ -710,6 +845,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //All array items
                     self.results!.addResults(arrayProduct!)
                     self.results!.resultsInResponse = arrayProduct!.count
+                    self.results!.totalResults = arrayProduct!.count
                     
                     if let item = arrayProduct?[0] as? NSDictionary {
                         //println(item)
@@ -1256,6 +1392,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
         self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantity)
+    }
+    
+    func showViewPlpItem(){
+        //Show View
     }
     
     func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
