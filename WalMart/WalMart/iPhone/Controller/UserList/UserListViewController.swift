@@ -576,7 +576,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      */
     
     func showNewListField() {
-        self.showLegend()
+        self.legendView =  LegendView()
+        self.legendView?.showLegend(self.view)
         
         self.newListBtn!.enabled = false
         self.editBtn!.enabled = false
@@ -1027,39 +1028,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     //Present legend
     
-    //TODO Como usar las leyendas
-    func showLegend(){
-        
-      self.legendView =  LegendView()
-        
-        let window = UIApplication.sharedApplication().keyWindow
-        if let customBar = window!.rootViewController as? CustomBarViewController {
-            self.legendView?.frame = CGRectMake(0,0 , self.view.bounds.width, customBar.view.frame.height)
-           
-            self.legendView?.onClose  = {() in
-                self.removeLegend()
-            }
-            customBar.view.addSubview(self.legendView!)
-        }
-        
-        
-    }
-    
-    func removeLegend() {
-        if self.legendView != nil {
-            UIView.animateWithDuration(0.5,
-                                       animations: { () -> Void in
-                                        self.legendView!.alpha = 0.0
-                },
-                                       completion: { (finished:Bool) -> Void in
-                                        if finished {
-                                            self.legendView!.removeFromSuperview()
-                                            self.legendView = nil
-                                        }
-                }
-            )
-        }
-    }
+
     
     /**
      Present view to search in to list

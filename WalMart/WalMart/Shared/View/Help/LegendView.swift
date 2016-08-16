@@ -167,5 +167,44 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
         }
     }
 
+    /**
+     show legend form
+     
+     - parameter viewPresent: view on present
+     */
+    func showLegend(viewPresent:UIView){
+        
+        let window = UIApplication.sharedApplication().keyWindow
+        if let customBar = window!.rootViewController as? CustomBarViewController {
+           self.frame = CGRectMake(0,0 , viewPresent.bounds.width, customBar.view.frame.height)
+            
+            self.onClose  = {() in
+                self.removeLegend()
+            }
+            customBar.view.addSubview(self)
+        }
+        
+        
+    }
+    
+    /**
+     Remove legend from superview
+     */
+    func removeLegend() {
+        
+            UIView.animateWithDuration(0.5,
+                                       animations: { () -> Void in
+                                        self.alpha = 0.0
+                },
+                                       completion: { (finished:Bool) -> Void in
+                                        if finished {
+                                            self.removeFromSuperview()
+                                        }
+                }
+            )
+        
+    }
+    
+    
   
 }
