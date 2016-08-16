@@ -49,7 +49,7 @@ class ListHelpView: UIView,UIGestureRecognizerDelegate {
             self.helpReminder()
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ListHelpView.openTermsTap))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ListHelpView.closeHelpview))
         tap.delegate = self
         self.addGestureRecognizer(tap)
 
@@ -58,7 +58,7 @@ class ListHelpView: UIView,UIGestureRecognizerDelegate {
     /**
      Close hel view where tap view Help
      */
-    func openTermsTap(){
+    func closeHelpview(){
         closeView()
     }
     
