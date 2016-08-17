@@ -844,6 +844,135 @@ class UserCurrentSession : NSObject {
         }
 
     }
-
+    
+    
+    func getArrayPLP(Item: NSDictionary) ->  NSDictionary{
+        //Add priceEvent, promotion, characteristics
+        var plpShow : NSDictionary = [:]
+        var dicReturn : NSDictionary = [:]
+        var promoDescription = "" //2x$21 or Ahorra $23
+        
+        var plpArray: [AnyObject] = []
+        
+        //PriceEvent
+        var flagAhorra = false
+        var isMoreSave = false
+        if let priceEvent = Item["priceEvent"] as? NSDictionary {
+            if priceEvent["isPriceStrike"] as? Bool == true {
+                flagAhorra = true
+                isMoreSave = true
+                
+                //si isPriceStrike es true entra como ahorra más
+                if let priceThr = priceEvent["specialPrice"] as? NSString {
+                    promoDescription = priceThr as String
+                }
+                
+                var textPriceEvent = ""
+                switch priceEvent["priceEventText"] as! String {
+                case "Hot-Sale":
+                    textPriceEvent = "Hs"
+                case "Cyber-Martes":
+                    textPriceEvent = "Cm"
+                case "Buen Fin":
+                    textPriceEvent = "Bf"
+                case "Liquidacición":
+                    textPriceEvent = "L"
+                case "Rebajas":
+                    textPriceEvent = "R"
+                default:
+                    textPriceEvent = ""
+                }
+                if textPriceEvent != "" {
+                    plpShow = ["text":textPriceEvent, "color": WMColor.red]
+                    plpArray.append(plpShow)
+                }
+            }
+        }
+        
+        //Promotion
+        var flagPromAho = true
+        
+        if Item["promotion"]?.count > 0 {//  as? NSDictionary
+            let lenght = Item["promotion"]!.count
+            let promotion = Item["promotion"] as? NSArray
+            
+            for idx in 0 ..< lenght{
+                
+                plpShow = [:]
+                let description = promotion![idx] as! NSDictionary
+                
+                switch description["description"] as! String {
+                case "MSI":
+                    plpShow = ["text":"MSI", "color": WMColor.yellow]
+                case "Envío Gratis":
+                    plpShow = ["text":"Eg", "color": WMColor.light_blue]
+                case "Precios mas bajos":
+                    plpShow = ["text":"-$", "color": WMColor.red]
+                case "Ultimas piezas":
+                    plpShow = ["text":"Up", "color": WMColor.red]
+                default:
+                    plpShow = [:]
+                }
+                
+                if plpShow.count > 0 {
+                    plpArray.append(plpShow)
+                }
+                
+                let textDescription = description["description"] as! String
+                print(textDescription)
+                if textDescription.lowercaseString.characters.contains("x") && textDescription.lowercaseString.characters.contains("$") && flagPromAho{
+                    
+                    if flagAhorra {
+                        //"Ahorra más"
+                        plpShow = ["text":"A+", "color": WMColor.red]
+                        plpArray.append(plpShow)
+                        flagPromAho = false
+                    } else {
+                        //"Mas articulos por menos"
+                        // si en description viene "x$" se tomará en cuenta ejemplo "3x$200"
+                        plpShow = ["text":"+A-", "color": WMColor.yellow]
+                        plpArray.append(plpShow)
+                        promoDescription = textDescription
+                        flagPromAho = false
+                        isMoreSave = false
+                    }   
+                }
+            }
+        }
+        
+        //characteristics
+        //Preventa
+        if Item["isPreorderable"] as? String == "true" {
+            plpShow = ["text":"Pv", "color": WMColor.light_light_light_blue]
+            plpArray.append(plpShow)
+        }
+        //Nuevo
+        if Item["isNew"] as? String == "true" {
+            plpShow = ["text":"N", "color": WMColor.green]
+            plpArray.append(plpShow)
+        }
+        
+        //Paquete
+        if Item["isBundle"] as? String == "true" {
+            plpShow = ["text":"P", "color": WMColor.light_blue]
+            plpArray.append(plpShow)
+        }
+        
+        //Recoger en tienda
+        if Item["pickupInStore"] as? String == "true" {
+            plpShow = ["text":"Rt", "color": WMColor.light_blue]
+            plpArray.append(plpShow)
+        }
+        
+        //Sobre pedido
+        if Item["isGift"] as? String == "true" {
+            plpShow = ["text":"Sp", "color": WMColor.light_light_light_blue]
+            plpArray.append(plpShow)
+        }
+        
+        dicReturn = ["arrayItems":plpArray, "promo": promoDescription, "isMore": isMoreSave]
+        
+        return dicReturn
+    }
     
 }
