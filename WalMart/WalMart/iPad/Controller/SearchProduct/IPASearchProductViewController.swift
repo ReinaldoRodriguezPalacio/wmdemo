@@ -404,6 +404,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }
     
     override func showEmptyView(){
+        
         self.filterButton?.alpha = 0
         let buidHeader =  self.header!.frame.maxY > 46
         if  self.empty == nil {
@@ -438,6 +439,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.view.addSubview(self.emptyViewHeader!)
         }
         self.view.addSubview(self.empty)
+         self.loading?.stopAnnimating()
+        self.filterButton?.alpha = 0
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
     }
     

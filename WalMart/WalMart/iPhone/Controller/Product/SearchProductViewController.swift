@@ -107,7 +107,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var viewEmptyImage =  false
     
     var  isAplyFilter : Bool =  false
-
+    var removeEmpty =  false
 
     
     override func getScreenGAIName() -> String {
@@ -140,6 +140,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         collection!.delegate = self
         
         collection!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(collection!)
         self.idSort =  FilterType.none.rawValue
         if self.searchContextType! == .WithCategoryForMG {
             self.idSort =  FilterType.rankingASC.rawValue
@@ -200,7 +201,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.addSubview(viewBgSelectorBtn)
         }
         
-        self.view.addSubview(collection!)
+       
         self.titleLabel?.text = titleHeader
         
         if self.findUpcsMg?.count > 0 {
@@ -267,7 +268,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         
         self.header?.addSubview(self.filterButton!)
+        if IS_IPAD {
         self.view.addSubview(collection!)
+        }
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.WithText || self.searchContextType == SearchServiceContextType.WithTextForCamFind)
         self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
         
@@ -319,6 +322,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
 		self.collection!.reloadData()
 //        if self.hasEmptyView && self.isOriginalTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
 //            self.showEmptyMGGRView()
@@ -326,20 +330,26 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //        self.hasEmptyView = true
         
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch  {
-            if finsihService || viewEmptyImage {
+            if finsihService && viewEmptyImage { //&&
             self.showEmptyMGGRView()
             }
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
             if (finsihService || viewEmptyImage) && !self.isLoading {
-                self.showEmptyView()
+                if !removeEmpty {
+                    self.showEmptyView()
+                }
             }
         }
         if finsihService || didSelectProduct {
-            self.loading?.stopAnnimating()
+            if self.allProducts?.count > 0{
+                self.loading?.stopAnnimating()
+            
+            }
         }
         if self.mgResults!.totalResults == 0 && self.searchContextType == .WithCategoryForMG {
             self.showEmptyView()
         }
+
     }
     
     
@@ -940,11 +950,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if error.code == 1 {
                     self.grResults!.resultsInResponse = 0
                     self.grResults!.totalResults = 0
+                    self.finsihService =  true
+                    self.removeEmpty =  false
+                    self.showEmptyView()//Iphone
+                    self.collection?.reloadData()//Ipad
                     actionError?()
                 }else{
                     print("GR Search ERROR!!!")
                     self.grResults!.totalResults = self.allProducts!.count
                     self.grResults!.resultsInResponse = self.mgResults!.totalResults
+                     self.finsihService =  true
+                    self.removeEmpty =  false
+                    self.collection?.reloadData()
                     actionSuccess?()
                     print(error)
                     actionError?()
@@ -1103,14 +1120,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.emptyMGGR.removeFromSuperview()
             }
             if self.empty != nil {
-                self.removeEmptyView()
+                if self.allProducts?.count > 0 {
+                    self.removeEmptyView()
+                }
             }
             dispatch_async(dispatch_get_main_queue()) {
                 self.showLoadingIfNeeded(true)
                 self.collection?.reloadData()
                 self.collection?.alpha = 1
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-                self.filterButton?.alpha = 1
+                if self.allProducts?.count > 0 {
+                    self.filterButton?.alpha = 1
+                }
             }
         }
     }
@@ -1163,6 +1184,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func showEmptyMGGRView(){
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
+        
+       
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
         var maxY = self.collection!.frame.minY
@@ -1170,6 +1193,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.idListFromSearch != "" && !IS_IPAD {
           maxY =   maxY + 64
         }
+        self.loading?.stopAnnimating()
       
         if self.emptyMGGR == nil {
             self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
@@ -1182,8 +1206,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         } else {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
         }
-        
-        self.view.addSubview(self.emptyMGGR)
+         self.view.addSubview(self.emptyMGGR)
+       
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
     }
     
@@ -1195,10 +1219,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func showLoadingIfNeeded(hidden: Bool ) {
         if hidden {
-            self.loading!.stopAnnimating()
+            if  self.allProducts?.count > 0 {
+                self.loading!.stopAnnimating()
+            }
         } else {
+            if self.loading ==  nil {
+             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
+               
+            }
             self.view.addSubview(self.loading!)
+            self.loading!.backgroundColor = UIColor.whiteColor()
             self.loading!.startAnnimating(self.isVisibleTab)
+            
         }
     }
     
@@ -1284,7 +1316,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             
         } else {
-            
+            self.removeEmpty =  true
             self.itemsUPCMG = self.itemsUPCMGBk
             self.itemsUPCGR = self.itemsUPCGRBk
             self.upcsToShow = self.upcsToShowApply

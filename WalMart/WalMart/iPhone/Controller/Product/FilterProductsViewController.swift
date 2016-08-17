@@ -271,16 +271,18 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         var filters:[String:AnyObject] = [:]
-        if !line.isEmpty {
-            filters[JSON_KEY_IDLINE] = line
+        if self.filterLine != "" {
+            filters[JSON_KEY_IDLINE] = self.filterLine//line
         }
-        if !family.isEmpty {
-            filters[JSON_KEY_IDFAMILY] = family
+        if  self.filterFamily != "" {
+            filters[JSON_KEY_IDFAMILY] = self.filterFamily//family
         }
-        if !department.isEmpty {
-            filters[JSON_KEY_IDDEPARTMENT] = department
+        if self.filterDepto != "" {
+            filters[JSON_KEY_IDDEPARTMENT] = self.filterDepto//department
         }
-
+        
+        print("Departamento::\(self.filterDepto) -- Familia::\(self.filterFamily) -- Linea::\(self.filterLine)")
+        
         self.delegate?.apply(self.selectedOrder!, filters: filters.count > 0 ? filters : nil, isForGroceries: groceriesType)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
         if successCallBack != nil {
@@ -466,6 +468,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         return UITableViewCell()
     }
     
+    
     func processPriceFacet(fitem:NSDictionary) {
         if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? NSArray {
             var array = Array<Double>()
@@ -510,6 +513,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 
         return 36.0
     }
+    
+    var filterDepto  = ""
+    var filterFamily  = ""
+    var filterLine  = ""
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
@@ -602,7 +609,21 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         var item = self.tableElements![indexPath.row] as! [String:AnyObject]
         let itemLevel = (item["level"] as! NSNumber).integerValue
         let itemId = item["id"] as! String
+        let itemIdNew = " \(item["id"] as! String)"
         let itemParentId = item["parentId"] as! String
+        print(" \(itemId) -- \(itemParentId)")
+        if itemIdNew.contains(" d-"){
+            self.filterDepto = itemId
+            self.filterFamily = ""
+        }
+      
+        if itemIdNew.contains(" f-") {
+            self.filterFamily = itemId
+             self.filterLine = ""
+        }
+        if itemIdNew.contains(" l-"){
+            self.filterLine = itemId
+        }
         
         if itemLevel != 2 {
             var indexes:[NSIndexPath] = []
@@ -627,6 +648,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
             self.tableElements = filteredElements
+            
             self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)
             tableView.deleteRowsAtIndexPaths(indexes, withRowAnimation: .Automatic)
             
