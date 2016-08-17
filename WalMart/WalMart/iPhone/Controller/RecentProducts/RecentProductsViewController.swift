@@ -10,7 +10,7 @@ import Foundation
 
 
 
-class RecentProductsViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate {
+class RecentProductsViewController : NavigationViewController, UITableViewDataSource, RecentProductsTableViewCellDelegate, UITableViewDelegate {
     
     //@IBOutlet var recentProducts : UITableView!
     
@@ -22,6 +22,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var invokeStop  = false
     var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26.0
     var itemSelect = 0
+    var legendView : LegendView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
@@ -252,23 +253,30 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         let objProduct = prodObj[indexPath.row] as! NSDictionary
         let img = objProduct["imageUrl"] as! String
         let description = objProduct["description"] as! String
-        let price = objProduct["specialPrice"] as? String
+        var price = objProduct["specialPrice"] as? String
         let upc = objProduct["upc"] as! String
         let pesable = "false" //objProduct["pesable"] as! NSString
         var promoDescription : NSString = ""
-        if let promotion = objProduct["promotion"] as? NSArray {
+        /*if let promotion = objProduct["promotion"] as? NSArray {
             if let description = promotion[0] as? NSDictionary{
                 promoDescription = (description["description"] as? NSString)!
             }
-        }
+        }*/
         var isActive = true
         
         if let active = objProduct["stock"] as? Bool {
             isActive = active
         }
         
+        let plpArray = UserCurrentSession.sharedInstance().getArrayPLP(objProduct)
+        print(plpArray["arrayItems"] as! NSArray)
+        
+        promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! String
+        
         cellRecentProducts.selectionStyle = .None
-        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
+        cellRecentProducts.delegateProduct = self
+        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
+        cellRecentProducts.setPLP(plpArray["arrayItems"] as! NSArray)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
     }
@@ -308,6 +316,18 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
         }
         return upcItems
+    }
+    
+    //RecentProductsTableViewCellDelegate
+    func showViewPlpItem(){
+        //Show View
+        print("** Seleccionar leyenda **")
+        self.legendView =  LegendView()
+        self.legendView?.showLegend(self.view)
+    }
+    
+    func deleteFromWishlist(UPC:String){
+        
     }
     
     override func back() {

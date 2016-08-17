@@ -59,7 +59,7 @@ class NumericKeyboardView : UIView {
         var currentY : CGFloat = 0
         var widthBetweenButtons : CGFloat = 0
         if self.frame.width > (widthButton * 3) {
-            widthBetweenButtons = (self.frame.width - (widthButton * 3)) / 2
+            widthBetweenButtons = 20
         }
         
         if widthButton > 40 {
@@ -116,7 +116,7 @@ class NumericKeyboardView : UIView {
             currentX = btnNumber.frame.maxX +  widthBetweenButtons
             if index % 3 == 0 {
                 currentX =  0
-                currentY += 12 + widthButton
+                currentY += 10 + widthButton
             }
             
         }

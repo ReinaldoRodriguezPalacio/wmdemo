@@ -500,128 +500,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             equivalenceByPiece = equivalence
         }
         
-        //Add priceEvent, promotion, characteristics
-        var plpShow : NSDictionary = [:]
-        var testArray: [AnyObject] = []
+        let plpArray = UserCurrentSession.sharedInstance().getArrayPLP(item)
         
-        //PriceEvent
-        
-        var flagAhorra = false
-        var flagMoreSave = false
-        if let priceEvent = item["priceEvent"] as? NSDictionary {
-            if priceEvent["isPriceStrike"] as? Bool == true {
-                flagAhorra = true
-                flagMoreSave = true
-                //si isPriceStrike es true entra como ahorra más
-                
-                if let pricenum = priceEvent["basePrice"] as? NSString {
-                    price = pricenum
-                }
-                if let priceThr = priceEvent["specialPrice"] as? NSString {
-                    through = priceThr
-                }
-                
-                var textPriceEvent = ""
-                switch priceEvent["priceEventText"] as! String {
-                case "Hot-Sale":
-                    textPriceEvent = "Hs"
-                case "Cyber-Martes":
-                    textPriceEvent = "Cm"
-                case "Buen Fin":
-                    textPriceEvent = "Bf"
-                case "Liquidacición":
-                    textPriceEvent = "L"
-                //case "LiquidaciciÛn":
-                    //textPriceEvent = "L"
-                case "Rebajas":
-                    textPriceEvent = "R"
-                default:
-                    textPriceEvent = ""
-                }
-                if textPriceEvent != "" {
-                    plpShow = ["text":textPriceEvent, "color": WMColor.red]
-                    testArray.append(plpShow)
-                }
-                
-            }
-        }
-        
-        //Promotion
-        var flagPromAho = true
-        
-        if item["promotion"]?.count > 0 {//  as? NSDictionary
-            let lenght = item["promotion"]!.count
-            let promotion = item["promotion"] as? NSArray
-            
-            for idx in 0 ..< lenght{
-
-                plpShow = [:]
-                let description = promotion![idx] as! NSDictionary
-                let textDescription = description["description"] as! String
-                
-                if textDescription.lowercaseString.characters.contains("x") && textDescription.lowercaseString.characters.contains("$") && flagPromAho{
-                    //"Mas articulos por menos"
-                    // si en description viene "x$" se tomará en cuenta ejemplo "3x$200"
-                    plpShow = ["text":"+A-", "color": WMColor.yellow]
-                    testArray.append(plpShow)
-                    through = textDescription
-                    flagPromAho = false
-                    flagMoreSave = false
-                } else if flagAhorra && flagPromAho{
-                    //"Ahorra más"
-                    plpShow = ["text":"A+", "color": WMColor.red]
-                    testArray.append(plpShow)
-                    flagPromAho = false
-                }
-                
-                switch description["description"] as! String {
-                case "MSI":
-                    plpShow = ["text":"MSI", "color": WMColor.yellow]
-                case "Envío Gratis":
-                    plpShow = ["text":"Eg", "color": WMColor.light_blue]
-                case "Precios mas bajos":
-                    plpShow = ["text":"-$", "color": WMColor.red]
-                case "Ultimas piezas":
-                    plpShow = ["text":"Up", "color": WMColor.red]
-                default:
-                    plpShow = [:]
-                }
-                
-                if plpShow.count == 1 {
-                    testArray.append(plpShow)
-                }
-            }
-        }
-        
-        //characteristics
-        //Preventa
-        if item["isPreorderable"] as? String == "true" {
-            plpShow = ["text":"Pv", "color": WMColor.light_light_light_blue]
-            testArray.append(plpShow)
-        }
-        //Nuevo
-        if item["isNew"] as? String == "true" {
-            plpShow = ["text":"N", "color": WMColor.green]
-            testArray.append(plpShow)
-        }
-        
-        //Paquete
-        if item["isBundle"] as? String == "true" {
-            plpShow = ["text":"P", "color": WMColor.light_blue]
-            testArray.append(plpShow)
-        }
-        
-        //Recoger en tienda
-        if item["pickupInStore"] as? String == "true" {
-            plpShow = ["text":"Rt", "color": WMColor.light_blue]
-            testArray.append(plpShow)
-        }
-        
-        //Sobre pedido
-        if item["isGift"] as? String == "true" {
-            plpShow = ["text":"Sp", "color": WMColor.light_light_light_blue]
-            testArray.append(plpShow)
-        }
+        through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
         
         //Set in Cell
         cell.setValues(upc,
@@ -629,7 +510,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             productShortDescription: description!,
             productPrice: price! as String,
             productPriceThrough: through! as String,
-            isMoreArts: flagMoreSave,
+            isMoreArts: plpArray["isMore"] as! Bool,//isMore
             isActive: isActive,
             onHandInventory: onHandDefault,
             isPreorderable:isPreorderable,
@@ -644,7 +525,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             position:self.isAplyFilter ? "" : "\(indexPath.row)"
         )
         
-        cell.setPLP(testArray)
+        cell.setPLP(plpArray["arrayItems"] as! NSArray)
         
         cell.delegate = self
         return cell
