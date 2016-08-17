@@ -23,6 +23,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var price : NSString = ""
     var listPrice : NSString = ""
     var comments : NSString = ""
+    var nutrimentalInfo: [NSString] = []
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
     var bundleItems : [AnyObject] = []
@@ -846,8 +847,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func reloadViewWithData(result:NSDictionary){
         self.name = result["description"] as! NSString
-        self.price = result["price"] as! NSString
-        self.detail = result["detail"] as! NSString
+        
+        if let resultPrice = result["price"] as? NSString {
+            self.price = resultPrice
+        }else {
+            self.price = (result["price"] as! NSNumber).stringValue
+        }
+        
+        if let resultDetail = result["detail"] as? NSString {
+            self.detail = resultDetail
+        }else {
+            self.detail = result["details"] as! NSString
+        }
+        
         self.saving = ""
         self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
         self.upc = result["upc"] as! NSString
@@ -871,8 +883,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.listPrice = result["original_listprice"] as! NSString
         self.characteristics = []
-        if let cararray = result["characteristics"] as? NSArray {
-            self.characteristics = cararray as [AnyObject]
+        if let characteristicsResult = result["characteristics"] as? NSArray {
+            self.characteristics = characteristicsResult as [AnyObject]
+        }
+        
+        if let resultNutrimentalInfo = result["nutritional"] as? [NSString] {
+            self.nutrimentalInfo = resultNutrimentalInfo
         }
         
         var allCharacteristics : [AnyObject] = []
@@ -1106,24 +1122,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return CGSizeMake(self.view.frame.width , hForCell);
     }
-    
- 
-    /*func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return (action == Selector("copy:"))
-    }
-    
-    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    
-    func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
-        if (action == Selector("copy:")) {
-            let cell = collectionView.cellForItemAtIndexPath(indexPath)
-            let pasteBoard = UIPasteboard.generalPasteboard()
-            pasteBoard.setValue("UPC", forPasteboardType: "UPC")
-        }
-
-    }*/
     
     class func validateUpcPromotion(upc:String) -> Bool{
         let upcs =  UserCurrentSession.sharedInstance().upcSearch
