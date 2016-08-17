@@ -323,6 +323,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         })
         
     }
+    
+    //MARK: - ProductDetailButtonBarCollectionViewCellDelegate
     /**
      Shows product detail information in popup view
      */
@@ -513,6 +515,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         }
                     )
             }
+            selectQuantity!.pickBar.loginAction = {self.showLogin()}
+            selectQuantity!.pickBar.changeStoreAction = {self.changueProductStore()}
             //Event
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
             
@@ -1829,6 +1833,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         header.pickBar.storeName = storeName
         header.pickBar.storeId = storeId
         header.pickBar.setValues()
+        
+        self.selectQuantity?.pickBar.storeName = storeName
+        self.selectQuantity?.pickBar.storeId = storeId
+        self.selectQuantity?.pickBar.setValues()
     }
     
 }
