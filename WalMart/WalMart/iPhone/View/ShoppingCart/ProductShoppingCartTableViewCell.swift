@@ -18,8 +18,9 @@ protocol ProductShoppingCartTableViewCellDelegate {
 
 class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelegate {
     
-      var quantity : Int! = 0
-    var productPriceSavingLabel : CurrencyCustomLabel!
+    var quantity : Int! = 0
+     var productPriceThroughLabel : UILabel!
+    
     var priceSelector : ShoppingCartButton!
     var priceProduct : Double!
     var savingProduct : Double!
@@ -60,8 +61,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         self.productPriceLabel!.hidden = false
         
-        productPriceSavingLabel = CurrencyCustomLabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
-        productPriceSavingLabel!.textAlignment = NSTextAlignment.Left
+        self.productPriceThroughLabel = UILabel(frame:CGRectZero)
+        self.productPriceThroughLabel!.textAlignment = .Center
+ 
         
         priceSelector = ShoppingCartButton(frame: CGRectZero)
         priceSelector.addTarget(self, action: #selector(ProductShoppingCartTableViewCell.choseQuantity), forControlEvents: UIControlEvents.TouchUpInside)
@@ -70,14 +72,14 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         separatorView.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(separatorView)
-        self.contentView.addSubview(productPriceSavingLabel)
+        self.contentView.addSubview(productPriceThroughLabel)
         self.contentView.addSubview(priceSelector)
         
         self.picturesView = UIView(frame: CGRectZero)
         self.contentView.addSubview(picturesView!)
         
-         productPriceSavingLabel.backgroundColor = UIColor.redColor()
-          priceSelector.backgroundColor = UIColor.yellowColor()
+         productPriceThroughLabel.backgroundColor = UIColor.redColor()
+        priceSelector.backgroundColor = UIColor.yellowColor()
         
           self.contentView.backgroundColor = UIColor.brownColor()
         
@@ -88,11 +90,11 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 8, self.frame.width - (productImage!.frame.maxX + 16) - 16, 34)
         self.separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, self.frame.height - 1,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
 
-        if  self.productPriceSavingLabel!.hidden {
+        if  self.productPriceThroughLabel!.hidden {
             self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 36)
         }else {
             self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 20)
-            self.productPriceSavingLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 10)
+            self.productPriceThroughLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 10)
         }
       
         let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
@@ -102,7 +104,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool) {
         imagePresale.hidden = isPreorderable == "true" ? false : true
         self.priceProduct = productPrice.doubleValue
         self.upc = upc
@@ -125,22 +127,35 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
-        if saving.doubleValue > 0 {
-            
-            self.savingProduct = saving.doubleValue
-            
-            let totalInSavings = saving.doubleValue * Double(quantity)
-            let totalSavings = NSString(format: "%.2f", totalInSavings)
-            
-            let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
-            let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
-            let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)
-            productPriceSavingLabel.hidden = false
-        }else{
-            self.savingProduct = 0
-            productPriceSavingLabel.hidden = true
+      
+        
+        var savingPrice = ""
+        if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+            if isMoreArts {
+                let doubleVaule = NSString(string: productPriceThrough).doubleValue
+                if doubleVaule > 0.1 {
+                    let savingStr = NSLocalizedString("price.saving",comment:"")
+                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
+                    savingPrice = "\(savingStr) \(formated)"
+                    self.productPriceThroughLabel!.textColor = WMColor.red
+                }
+            } else {
+                savingPrice = productPriceThrough
+                self.productPriceThroughLabel!.textColor = WMColor.green
+            }
         }
+        
+        if savingPrice != ""{
+            self.productPriceThroughLabel!.hidden = false
+            self.productPriceThroughLabel.text = savingPrice
+            self.productPriceThroughLabel.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        } else{
+            self.productPriceThroughLabel!.hidden = true
+        }
+
+        
+        
+        
         let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
         self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
         
@@ -192,7 +207,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     }
 
     
-    func setValuesGR(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
+    /*func setValuesGR(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
         self.equivalenceByPiece = equivalenceByPiece
         self.priceProduct = productPrice.doubleValue
         self.upc = upc
@@ -242,7 +257,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
         
-    }
+    }*/
     
     func addProductQuantity(quantity:Int) {
         let maxProduct = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
@@ -279,8 +294,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                     let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
                     let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
                     let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-                    self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
-                    self.productPriceSavingLabel.hidden = false
+                    
+                   // self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
+                   // self.productPriceSavingLabel.hidden = false
                     
                     
                 }
@@ -310,13 +326,13 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "\(desc) - \(upc)")
         UIView.animateWithDuration(0.01, animations: { () -> Void in
             self.productPriceLabel?.alpha = 0.0
-            self.productPriceSavingLabel!.alpha = 0.0
+            self.productPriceThroughLabel!.alpha = 0.0
         })
     }
     func endEdditingQuantity() {
         UIView.animateWithDuration(0.01, animations: { () -> Void in
             self.productPriceLabel!.alpha = 1.0
-            self.productPriceSavingLabel!.alpha = 1.0
+            self.productPriceThroughLabel!.alpha = 1.0
         })
     }
     func moveRightImagePresale(moveRight:Bool){

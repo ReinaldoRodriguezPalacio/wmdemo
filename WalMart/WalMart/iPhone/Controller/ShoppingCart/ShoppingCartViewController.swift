@@ -583,7 +583,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             
             //SetValues
-            if flagSuper {
+           /* if flagSuper {
+                
                 // GR typeProdVal
                 if typeProdVal != 1 {
                     cellProduct.setValuesGR(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal, quantity: quantity.integerValue, onHandInventory: "99", typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
@@ -594,6 +595,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 //tecnologia
                 cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription)
             }
+            */
+            var through: NSString! = ""
+            if let priceThr = shoppingCartProduct["saving"] as? NSString {
+                through = priceThr
+            }
+            
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough:  through! as String, isMoreArts: true)
             
             var testArray: [AnyObject] = []
             
@@ -628,7 +636,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             cellProduct.setPLP(testArray)
             
-            //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()
             if isEdditing == true {

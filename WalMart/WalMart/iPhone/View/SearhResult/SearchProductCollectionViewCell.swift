@@ -119,7 +119,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 
         var savingPrice = ""
         if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
-            
             if isMoreArts {
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue
                 if doubleVaule > 0.1 {
