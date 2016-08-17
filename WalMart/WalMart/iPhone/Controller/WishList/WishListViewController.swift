@@ -22,7 +22,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     var edit: UIButton!
     var deleteall: UIButton!
     let leftBtnWidth:CGFloat = 48.0
-    
+    var legendView : LegendView?
     
    
     var viewLoad : WMLoadingView!
@@ -206,7 +206,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
         
-        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
+        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isMoreArts: false, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
        
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
 
@@ -944,6 +944,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 }) { (error:NSError) -> Void in
             }
         }
+    }
+    
+    func showViewPlpItem(){
+        //Show View
+        print("** Seleccionar leyenda **")
+        self.legendView =  LegendView()
+        self.legendView?.showLegend(self.view)
     }
     
 

@@ -31,6 +31,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var presale : UILabel!
     var imagePresale : UIImageView!
     var productDeparment:String = ""
+    var picturesView : UIView? = nil
+    var countPromotion: Int = 0
     
     var delegate: SearchProductCollectionViewCellDelegate?
     
@@ -60,7 +62,9 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
-
+        
+        self.picturesView = UIView(frame: CGRectZero)
+        self.contentView.addSubview(picturesView!)
         
         self.addProductToShopingCart = UIButton()
         self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
@@ -97,6 +101,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             self.productPriceThroughLabel!.frame = CGRectMake(8, self.productPriceLabel!.frame.maxY + 8, self.bounds.width - 16 , 12)
             self.productShortDescriptionLabel!.frame = CGRectMake(40,  self.productPriceThroughLabel!.frame.maxY + 16, self.frame.width - 80 , 46)
         }
+        
+        self.picturesView!.frame = CGRectMake(8.0, 8.0, 18.0, 18.0 * CGFloat(self.countPromotion))
     }
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String, isMoreArts:Bool, isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
@@ -180,34 +186,42 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     func setPLP(PlpArray:NSArray){
         
-        var yView : CGFloat = 8.0
-        let xView : CGFloat = 8.0
+        self.countPromotion =  PlpArray.count
+        
+        var yView : CGFloat = 0.0
+        let xView : CGFloat = 0.0
         let ySpace : CGFloat = 4.0
         let heighView : CGFloat = 14.0
         let widthView : CGFloat = 18.0
+        
+        for subview in picturesView!.subviews {
+            subview.removeFromSuperview()
+        }
         
         //Show PLP in Cell
         if PlpArray.count > 0 {
             for lineToShow in PlpArray {
                 //Se muestran etiquetas para promociones, etc.
-                let picturesView = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
-                picturesView.backgroundColor = lineToShow["color"] as? UIColor //WMColor.light_red
-                picturesView.layer.cornerRadius = 2.0
-                
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
-                picturesView.addGestureRecognizer(tapGesture)
+                let promotion = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
+                promotion.backgroundColor = lineToShow["color"] as? UIColor //WMColor.light_red
+                promotion.layer.cornerRadius = 2.0
                 
                 let textLabel = UILabel(frame: CGRectMake(0, 0, widthView, heighView))
                 textLabel.text =  lineToShow["text"] as? String //"TS"
                 textLabel.textColor = UIColor.whiteColor()
                 textLabel.font = WMFont.fontMyriadProRegularOfSize(9)
                 textLabel.textAlignment = .Center
-                picturesView.addSubview(textLabel)
+                promotion.addSubview(textLabel)
                 
-                self.contentView.addSubview(picturesView)
-                yView = picturesView.frame.maxY + ySpace
+                self.picturesView!.addSubview(promotion)
+                
+                yView = promotion.frame.maxY + ySpace
             }
         }
+        
+        self.picturesView!.frame = CGRectMake(8.0, 8.0, widthView, 18.0 * CGFloat(self.countPromotion))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
+        picturesView!.addGestureRecognizer(tapGesture)
     }
     
     func showViewPLP(){
