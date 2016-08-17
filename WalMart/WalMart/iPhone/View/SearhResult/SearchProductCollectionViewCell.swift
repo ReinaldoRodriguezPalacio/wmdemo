@@ -17,7 +17,7 @@ protocol SearchProductCollectionViewCellDelegate{
 class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     var addProductToShopingCart : UIButton? = nil
-    var productPriceThroughLabel : UILabel!//CurrencyCustomLabel? = nil
+    var productPriceThroughLabel : UILabel!
     var upc : String!
     var desc : String!
     var price : String!
@@ -40,17 +40,13 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     var serachFromList : Bool = false
 
-    
     override func setup() {
         super.setup()
-        
         
         //presale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
-
-    
         
         self.productPriceThroughLabel = UILabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
@@ -64,6 +60,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
         
         self.picturesView = UIView(frame: CGRectZero)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
+        picturesView!.addGestureRecognizer(tapGesture)
         self.contentView.addSubview(picturesView!)
         
         self.addProductToShopingCart = UIButton()
@@ -180,7 +178,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 self.addProductToShopingCart!.setImage(UIImage(named: "addtolist_icon"), forState: UIControlState.Normal)
             }
         }
-        
     }
     
     func setPLP(PlpArray:NSArray){
@@ -217,10 +214,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 yView = promotion.frame.maxY + ySpace
             }
         }
-        
         self.picturesView!.frame = CGRectMake(8.0, 8.0, widthView, 18.0 * CGFloat(self.countPromotion))
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
-        picturesView!.addGestureRecognizer(tapGesture)
     }
     
     func showViewPLP(){
