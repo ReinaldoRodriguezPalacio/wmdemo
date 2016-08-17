@@ -58,7 +58,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
             self.productDeparment = category
         }
 
-        let price = product["price"] as! NSNumber
+        let price = product["specialPrice"] as! NSString
         var text: String? = ""
         var total: Double = 0.0
         //Piezas

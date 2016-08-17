@@ -13,7 +13,6 @@ import Foundation
 class RecentProductsViewController : NavigationViewController, UITableViewDataSource, RecentProductsTableViewCellDelegate, UITableViewDelegate {
     
     //@IBOutlet var recentProducts : UITableView!
-    
     var recentProducts : UITableView!
     var recentProductItems : [AnyObject] = []
     
@@ -120,7 +119,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         //search different lines and add in NSDictionary
         if productItemsOriginal.count > 0 {
             var flagOther = false
-            
             
             for idx in 0 ..< productItemsOriginal.count {
                 
@@ -253,23 +251,20 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         let objProduct = prodObj[indexPath.row] as! NSDictionary
         let img = objProduct["imageUrl"] as! String
         let description = objProduct["description"] as! String
-        var price = objProduct["specialPrice"] as? String
+        let price = objProduct["specialPrice"] as? String
         let upc = objProduct["upc"] as! String
-        let pesable = "false" //objProduct["pesable"] as! NSString
+        var pesable = "false"
+        if let pesableValue = objProduct["pesable"] as? NSString {
+            pesable = pesableValue as String
+        }
         var promoDescription : NSString = ""
-        /*if let promotion = objProduct["promotion"] as? NSArray {
-            if let description = promotion[0] as? NSDictionary{
-                promoDescription = (description["description"] as? NSString)!
-            }
-        }*/
         var isActive = true
         
         if let active = objProduct["stock"] as? Bool {
             isActive = active
         }
-        
         let plpArray = UserCurrentSession.sharedInstance().getArrayPLP(objProduct)
-        print(plpArray["arrayItems"] as! NSArray)
+        //print(plpArray["arrayItems"] as! NSArray)
         
         promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! String
         
@@ -282,9 +277,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 109
+        return 128//109
     }
-    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -334,6 +328,5 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
          BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label: "")
         super.back()
     }
-    
     
 }

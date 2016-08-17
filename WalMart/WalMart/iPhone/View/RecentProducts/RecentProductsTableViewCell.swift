@@ -32,13 +32,13 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     var isPreorderable : String!
     var picturesView : UIView? = nil
     var countPromotion: Int = 0
+    var heigthPrice : CGFloat = 22.0
     
     var imagePresale : UIImageView!
     var borderViewTop : UIView!
     var iconDiscount : UIImageView!
     let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     var presale : UILabel!
-    
     
     override func setup() {
         super.setup()
@@ -51,7 +51,6 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         
         productImage!.frame = CGRectMake(16, 0, 80, 109)
         //productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
-        
         //self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
         self.productPriceLabel!.textAlignment = NSTextAlignment.Left
         
@@ -62,6 +61,8 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         btnShoppingCart.addTarget(self, action: #selector(RecentProductsTableViewCell.addToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.picturesView = UIView(frame: CGRectZero)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(RecentProductsTableViewCell.showViewPLP))
+        picturesView!.addGestureRecognizer(tapGesture)
         self.contentView.addSubview(picturesView!)
         
         self.separatorView = UIView(frame:CGRectMake(16, 108,self.frame.width - 16, 1.0))
@@ -69,7 +70,6 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(btnShoppingCart)
-       // self.contentView.addSubview(productPriceSavingLabel)
         self.contentView.addSubview(self.separatorView!)
         
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
@@ -86,13 +86,12 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 0, self.frame.width - (productImage!.frame.maxX + 16) - 16, 34)
-        self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8.0, 100 , 22)//36
-
+        self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 8, self.frame.width - (productImage!.frame.maxX + 16) - 16, 34)
+        self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8.0, 100 , heigthPrice)
         //self.btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
         
         self.btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productPriceLabel!.frame.minY, 32, 32)
-        self.separatorView!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
+        self.separatorView!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 127,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
         self.productPriceSavingLabelGR!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 14)
         
         self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), 14.0)
@@ -154,9 +153,10 @@ class RecentProductsTableViewCell : ProductTableViewCell {
                 btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
             }
         }
-        //...
+
         var savingPrice = ""
         if saving != "" {
+            
             if isMoreArts {
                 let doubleVaule = NSString(string: saving).doubleValue
                 if doubleVaule > 0.1 {
@@ -170,12 +170,14 @@ class RecentProductsTableViewCell : ProductTableViewCell {
                 self.productPriceSavingLabelGR.textColor = WMColor.green
             }
         }
-        
+
         if savingPrice != ""{
+            heigthPrice = 22.0
             self.productPriceSavingLabelGR!.hidden = false
             self.productPriceSavingLabelGR.text = savingPrice
             self.productPriceSavingLabelGR.font = WMFont.fontMyriadProSemiboldOfSize(12)
         } else{
+            heigthPrice = 36.0
             self.productPriceSavingLabelGR!.hidden = true
         }
     }
@@ -215,8 +217,6 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         }
         
         self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), heighView)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
-        picturesView!.addGestureRecognizer(tapGesture)
     }
     
     func showViewPLP(){
@@ -226,6 +226,5 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     func deleteUPCWishlist() {
         delegateProduct.deleteFromWishlist("")
     }
-    
     
 }
