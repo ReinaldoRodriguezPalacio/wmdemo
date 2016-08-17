@@ -12,7 +12,7 @@ protocol ProductShoppingCartTableViewCellDelegate {
     func endUpdatingShoppingCart(cell:ProductShoppingCartTableViewCell)
     func deleteProduct(cell:ProductShoppingCartTableViewCell)
     func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell)
-    
+    func showViewPlpItem()
 }
 
 
@@ -62,7 +62,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.productPriceLabel!.hidden = false
         
         self.productPriceThroughLabel = UILabel(frame:CGRectZero)
-        self.productPriceThroughLabel!.textAlignment = .Center
+        self.productPriceThroughLabel!.textAlignment = .Left
  
         
         priceSelector = ShoppingCartButton(frame: CGRectZero)
@@ -78,10 +78,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.picturesView = UIView(frame: CGRectZero)
         self.contentView.addSubview(picturesView!)
         
-         productPriceThroughLabel.backgroundColor = UIColor.redColor()
-        priceSelector.backgroundColor = UIColor.yellowColor()
-        
-          self.contentView.backgroundColor = UIColor.brownColor()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProductShoppingCartTableViewCell.showViewPLP))
+        picturesView!.addGestureRecognizer(tapGesture)
         
     }
     
@@ -185,9 +183,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                 let promotion = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
                 promotion.backgroundColor = lineToShow["color"] as? UIColor //WMColor.light_red
                 promotion.layer.cornerRadius = 2.0
-                
-               // let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductCollectionViewCell.showViewPLP))
-                //picturesView!.addGestureRecognizer(tapGesture)
                 
                 let textLabel = UILabel(frame: CGRectMake(0, 0, widthView, heighView))
                 textLabel.text =  lineToShow["text"] as? String //"TS"
@@ -350,4 +345,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_QUANTITY_KEYBOARD.rawValue, label: "")
         self.delegateProduct?.userShouldChangeQuantity(self)
     }
+    
+    func showViewPLP(){
+        self.delegateProduct?.showViewPlpItem()
+    }
+    
 }
