@@ -52,8 +52,7 @@ class ProductTableViewCell : SWTableViewCell {
         self.contentView.addSubview(productShortDescriptionLabel!)
         self.contentView.addSubview(productPriceLabel!)
         
-        productImage?.backgroundColor = UIColor.greenColor()
-        productShortDescriptionLabel!.backgroundColor  = UIColor.cyanColor()
+
         productPriceLabel!.backgroundColor = UIColor.whiteColor()
     }
     /**

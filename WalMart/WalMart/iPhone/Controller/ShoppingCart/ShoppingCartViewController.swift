@@ -68,7 +68,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     var selectQuantity: GRShoppingCartQuantitySelectorView?
-
+    var legendView : LegendView?
+    
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MGSHOPPINGCART.rawValue
@@ -583,7 +584,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             
             //SetValues
-            if flagSuper {
+           /* if flagSuper {
+                
                 // GR typeProdVal
                 if typeProdVal != 1 {
                     cellProduct.setValuesGR(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal, quantity: quantity.integerValue, onHandInventory: "99", typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
@@ -594,41 +596,22 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 //tecnologia
                 cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription)
             }
+            */
             
-            var testArray: [AnyObject] = []
+            var through: NSString! = ""
+            let plpArray = UserCurrentSession.sharedInstance().getArrayPLP(shoppingCartProduct as! NSDictionary)
+           
             
-            //Preventa
-            if shoppingCartProduct["isPreorderable"] as? String == "true" {
-                let plpShow = ["text":"Pv", "color": WMColor.UIColorFromRGB(0x79b1e0)]
-                testArray.append(plpShow)
-            }
-            //Nuevo
-            if shoppingCartProduct["isNew"] as? String == "true" {
-                let plpShow = ["text":"N", "color": WMColor.green]
-                testArray.append(plpShow)
+            if let priceThr = shoppingCartProduct["saving"] as? NSString {
+                through = priceThr
             }
             
-            //Paquete
-            if shoppingCartProduct["isBundle"] as? String == "true" {
-                let plpShow = ["text":"P", "color": WMColor.light_blue]
-                testArray.append(plpShow)
-            }
+            through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
-            //Recoger en tienda
-            if shoppingCartProduct["pickupInStore"] as? String == "true" {
-                let plpShow = ["text":"Rt", "color": WMColor.light_blue]
-                testArray.append(plpShow)
-            }
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
             
-            //Sobre pedido
-            if shoppingCartProduct["isGift"] as? String == "true" {
-                let plpShow = ["text":"Sp", "color": WMColor.UIColorFromRGB(0x79b1e0)]
-                testArray.append(plpShow)
-            }
+            cellProduct.setPLP(plpArray["arrayItems"] as! NSArray)
             
-            cellProduct.setPLP(testArray)
-            
-            //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()
             if isEdditing == true {
@@ -988,6 +971,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }*/
             self.view.addSubview(selectQuantity!)
         }
+    }
+    
+    func showViewPlpItem(){
+        //Show View
+        print("** Seleccionar leyenda **")
+        self.legendView =  LegendView()
+        self.legendView?.showLegend(self.view)
     }
     
     func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
