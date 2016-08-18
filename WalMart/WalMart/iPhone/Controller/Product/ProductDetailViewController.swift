@@ -23,6 +23,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var price : NSString = ""
     var listPrice : NSString = ""
     var comments : NSString = ""
+    var ingredients: String = ""
     var nutrimentalInfo: [String] = []
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
@@ -356,12 +357,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
             }, completion: { (complete:Bool) -> Void in
+                if self.listSelectorContainer != nil {
+                    self.removeListSelector(action: nil)
+                }
                 if self.viewDetail == nil {
                     self.isShowProductDetail = true
                     self.startAnimatingProductDetail()
                 } else {
                     self.closeProductDetail()
-                    
                 }
         })
     }
@@ -702,7 +705,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
             if nutrimentalsView == nil {
                 nutrimentalsView = GRNutrimentalInfoView(frame: CGRectMake(0,360, 320, 0))
-                nutrimentalsView?.setup("", nutrimentals: self.nutrimentalInfo)
+                nutrimentalsView?.setup(self.ingredients, nutrimentals: self.nutrimentalInfo)
                 nutrimentalsView!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             }
             
@@ -920,7 +923,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         if let resultNutrimentalInfo = result["nutritional"] as? [String] {
             self.nutrimentalInfo = resultNutrimentalInfo
+        }else{
+            self.nutrimentalInfo = []
         }
+        
+        self.ingredients = result["ingredients"] as? String ?? ""
         
         var allCharacteristics : [AnyObject] = []
         
