@@ -95,7 +95,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         
         btnOkAdd.frame =  CGRectMake((self.frame.width / 2) - ((rectSize.width + 32) / 2), self.keyboardView.frame.maxY + 15 , rectSize.width + 32, 36)
-        if self.frame.height > 361 && !TabBarHidden.isTabBarHidden {
+        if self.frame.height > 389 && !TabBarHidden.isTabBarHidden {
             self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0,self.frame.height - 92), width: self.frame.width)
         }else{
             self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0,self.frame.height - 46), width: self.frame.width)

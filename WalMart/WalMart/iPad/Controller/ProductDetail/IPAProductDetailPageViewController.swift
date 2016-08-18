@@ -21,7 +21,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
         case ResultObjectType.Mg.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
                 vc.upc = upc
-                vc.indexRowSelected = self.itemSelectedSolar // ixSelected
+                //vc.indexRowSelected = self.itemSelectedSolar // ixSelected
                 vc.name = descr
                 vc.stringSearch = self.stringSearching
                 vc.view.tag = ixSelected

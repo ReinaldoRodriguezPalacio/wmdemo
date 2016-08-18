@@ -23,10 +23,9 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     let contentModeOrig = UIViewContentMode.ScaleAspectFit
     var presale : UILabel!
     var widthPresale : CGFloat = 56
-    
-    var imagePresale : UIImageView!
+    var promotions: [AnyObject]! = []
+    var showPromotions: Bool = true
     //var imageLastPieces : UIImageView!
-    var lowStock : UILabel?
     
     var imageIconView: UIImageView!
     
@@ -62,20 +61,6 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         //self.imageLastPieces =  UIImageView(image: UIImage(named: "ultimas_detail"))
         //self.imageLastPieces.hidden =  true
         //self.addSubview(self.imageLastPieces)
-        
-        //presale
-        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
-        imagePresale.hidden =  true
-        self.addSubview(imagePresale)
-        
-        lowStock = UILabel()
-        lowStock!.font = WMFont.fontMyriadProRegularOfSize(12)
-        lowStock!.numberOfLines = 1
-        lowStock!.textColor =  WMColor.light_red
-        lowStock!.hidden = true
-        lowStock!.text = "Últimas piezas"
-        lowStock!.textAlignment = .Center
-        self.addSubview(self.lowStock!)
        
         imageIconView = UIImageView()
         imageIconView.image = UIImage(named:"promocion_detail")
@@ -100,6 +85,37 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         }
     }
     
+    func buildPromotions() {
+        if self.promotions.count > 0 && self.showPromotions {
+            let startX:CGFloat = 8.0
+            var startY:CGFloat = 8.0
+            
+            for promotion in promotions {
+                
+                let promoTag = UILabel()
+                promoTag.text = promotion["tagText"] as? String
+                promoTag.textColor = UIColor.whiteColor()
+                promoTag.textAlignment = .Center
+                promoTag.font = WMFont.fontMyriadProRegularOfSize(9)
+                promoTag.backgroundColor = promotion["tagColor"] as? UIColor
+                promoTag.clipsToBounds = true
+                promoTag.layer.cornerRadius = 2.0
+                promoTag.frame = CGRectMake(startX, startY, 18, 14)
+                self.addSubview(promoTag)
+                
+                let promoLabel = UILabel()
+                promoLabel.text = promotion["text"] as? String
+                promoLabel.textColor = WMColor.gray
+                promoLabel.textAlignment = .Left
+                promoLabel.font = WMFont.fontMyriadProRegularOfSize(9)
+                promoLabel.frame = CGRectMake(promoTag.frame.maxX + 4, promoTag.frame.minY + 3, 60, 9)
+                self.addSubview(promoLabel)
+                
+                startY = (promoTag.frame.maxY + 6)
+            }
+            self.showPromotions = false
+        }
+    }
     
     func buildButtonSection() {
         if let container = self.pointContainer {
@@ -159,7 +175,6 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         super.layoutSubviews()
         self.collection.frame  = CGRectMake(self.bounds.origin.x + 14,self.bounds.origin.y,self.bounds.size.width - 14,self.bounds.size.height - 24 )//self.bounds
         self.pointSection?.frame = CGRectMake(0, self.collection.frame.height - 20 , self.collection.frame.width, 20)
-        self.lowStock?.frame =  CGRectMake(16, 8 , self.frame.width - 32, 14)
         self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 110 ,70 ,70)
 
     }

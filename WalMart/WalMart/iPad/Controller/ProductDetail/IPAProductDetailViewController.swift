@@ -23,6 +23,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var saving : NSString = ""
     var price : NSString = ""
     var listPrice : NSString = ""
+    var ingredients: String = ""
+    var nutrimentalInfo: [String] = []
     var type : NSString = ResultObjectType.Mg.rawValue
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
@@ -45,12 +47,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isContainerHide : Bool = true
     var containerinfo : UIView!
     var isActive : Bool! = true
-    var isPreorderable : Bool = false
     var onHandInventory : NSString = "0"
     var strisActive : NSString = ""
-    var strisPreorderable : NSString = ""
     var cellBundle : IPAProductDetailBundleTableViewCell? = nil
     var titlelbl : UILabel!
+    var isPreorderable : Bool = false
+    var strisPreorderable : NSString = ""
     
     let heigthHeader : CGFloat = 46.0
     var viewDetail : ProductDetailTextDetailView? = nil
@@ -74,6 +76,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var productDeparment: String = ""
     var stringSearch = ""
     var defaultLoadingImg: UIImageView?
+    var nutrimentalsView : GRNutrimentalInfoView? = nil
     
     var indexRowSelected : String = ""
     
@@ -264,6 +267,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,1) :
             var rowChose = indexPath.row
             if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (1,2) :
             var rowChose = indexPath.row
@@ -276,11 +280,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if bundleItems.count == 0 {rowChose += 2}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (1,4) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            if bundleItems.count == 0 {rowChose += 2}
-            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
-        case (1,5) :
             var rowChose = indexPath.row
             if msi.count == 0 {rowChose += 2}
             if bundleItems.count == 0 {rowChose += 2}
@@ -362,24 +361,15 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             cell = cellSpace
         case (1,0) :
             if  msi.count != 0 {
-                let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
-                let msiText = NSLocalizedString("productdetail.msitext",comment:"")
-                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 16,align:NSTextAlignment.Left)
-                cell = cellPromotion
-            }else {
-                return cellForPoint((indexPath.section,2),indexPath: indexPath)
-            }
-        case (1,1) :
-            if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("msiCell", forIndexPath: indexPath) as? ProductDetailMSITableViewCell
 
                 cellPromotion!.priceProduct = self.price
                 cellPromotion!.setValues(msi)
                 cell = cellPromotion
             }else {
-                return cellForPoint((indexPath.section,3),indexPath: indexPath)
+                return cellForPoint((indexPath.section,2),indexPath: indexPath)
             }
-        case (1,2) :
+        case (1,1) :
             
             if bundleItems.count != 0 {
                 let cellBundleItemsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
@@ -387,10 +377,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.Left)
                 cell = cellBundleItemsTitle
             } else {
-                return cellForPoint((indexPath.section,4),indexPath: indexPath)
+                return cellForPoint((indexPath.section,3),indexPath: indexPath)
             }
             
-        case (1,3) :
+        case (1,2) :
             if bundleItems.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("cellBundleitems", forIndexPath: indexPath) as? IPAProductDetailBundleTableViewCell
                 cellBundle = cellPromotion
@@ -398,9 +388,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 cellPromotion!.itemsUPC = bundleItems
                 cell = cellPromotion
             } else {
-                return cellForPoint((indexPath.section,5),indexPath: indexPath)
+                return cellForPoint((indexPath.section,4),indexPath: indexPath)
             }
-        case (1,4) :
+        case (1,3) :
             if characteristics.count != 0 {
                 let cellCharacteristicsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 //self.clearView(cellCharacteristicsTitle!)
@@ -410,7 +400,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else{
                 return nil
             }
-        case (1,5) :
+        case (1,4) :
             if characteristics.count != 0 {
                 let cellCharacteristics = tabledetail.dequeueReusableCellWithIdentifier("cellCharacteristics", forIndexPath: indexPath) as? ProductDetailCharacteristicsTableViewCell
                 //self.clearView(cellCharacteristics!)
@@ -419,7 +409,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else{
                 return nil
             }
-        case (1,6) :
+        case (1,5) :
             let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
             cell = cellSpace
         default :
@@ -449,24 +439,20 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (1,1) :
             var rowChose = indexPath.row
+            if bundleItems.count == 0 {rowChose += 2}
             if msi.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,2) :
+        case (1,2):
             var rowChose = indexPath.row
             if bundleItems.count == 0 {rowChose += 2}
             if msi.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,3):
-            var rowChose = indexPath.row
-            if bundleItems.count == 0 {rowChose += 2}
-            if msi.count == 0 {rowChose += 2}
-            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,4) :
+        case (1,3) :
             var rowChose = indexPath.row
             if msi.count == 0 {rowChose += 2}
             if characteristics.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,5) :
+        case (1,4) :
             var rowChose = indexPath.row
             if msi.count == 0 {rowChose += 2}
             if characteristics.count == 0 {rowChose += 2}
@@ -494,35 +480,30 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,2),(0,4) :
             return 15.0
         case (0,5) :
-            return 15.0
+            return 232.0
         case (0,6) :
             return 292.0
-        case (1,0) :
+        case (1,0):
             if  msi.count != 0 {
-                return 36.0
-            }
-            return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
-        case (1,1):
-            if  msi.count != 0 {
-                return (CGFloat(msi.count) * 17) + 22.0
+                return (CGFloat(msi.count) * 14) + 180.0
             }
             return sizeForIndexPath ((indexPath.section,3),indexPath: indexPath)
-        case (1,2) :
+        case (1,1) :
             if  bundleItems.count != 0 {
                 return 40.0
             }
             return sizeForIndexPath ((indexPath.section,4),indexPath: indexPath)
-        case (1,3):
+        case (1,2):
             if  bundleItems.count != 0 {
                 return 130.0
             }
             return sizeForIndexPath ((indexPath.section,5),indexPath: indexPath)
-        case (1,4) :
+        case (1,3) :
             if characteristics.count != 0 {
                 return 36.0
             }
             return sizeForIndexPath ((indexPath.section,6),indexPath: indexPath)
-        case (1,5) :
+        case (1,4) :
             if characteristics.count != 0 {
                 let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics)
                 return size + 126
@@ -699,27 +680,57 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func openProductDetail() {
         isShowProductDetail = true
         let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
-        viewDetail  = ProductDetailTextDetailView(frame: frameDetail)
-        viewDetail?.generateBlurImage(self.tabledetail,frame:CGRectMake(0,0, self.tabledetail.frame.width, heightDetail))
-        viewDetail?.imageBlurView.frame =  CGRectMake(0, -heightDetail, self.tabledetail.frame.width, heightDetail)
-        viewDetail?.setTextDetail(self.detail as String)
-        viewDetail?.closeDetail = {() in
-            self.closeContainer({ () -> Void in
-                },completeClose:{() in
-                    self.isShowProductDetail = false
-                    self.productDetailButton!.deltailButton.selected = false
-            }, closeRow:true)
-        }
-        opencloseContainer(true,viewShow:viewDetail!, additionalAnimationOpen: { () -> Void in
-            self.viewDetail?.imageBlurView.frame = frameDetail
-            self.productDetailButton!.deltailButton.selected = true
-            self.productDetailButton?.reloadShoppinhgButton()
-            },additionalAnimationClose:{ () -> Void in
-                self.viewDetail?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
+         if self.nutrimentalInfo.count == 0 {
+            viewDetail  = ProductDetailTextDetailView(frame: frameDetail)
+            viewDetail?.generateBlurImage(self.tabledetail,frame:CGRectMake(0,0, self.tabledetail.frame.width, heightDetail))
+            viewDetail?.imageBlurView.frame =  CGRectMake(0, -heightDetail, self.tabledetail.frame.width, heightDetail)
+            viewDetail?.setTextDetail(self.detail as String)
+            viewDetail?.closeDetail = {() in
+                self.closeContainer({ () -> Void in
+                    },completeClose:{() in
+                        self.isShowProductDetail = false
+                        self.productDetailButton!.deltailButton.selected = false
+                    }, closeRow:true)
+            }
+            opencloseContainer(true,viewShow:viewDetail!, additionalAnimationOpen: { () -> Void in
+                self.viewDetail?.imageBlurView.frame = frameDetail
                 self.productDetailButton!.deltailButton.selected = true
-            })
-    }
+                self.productDetailButton?.reloadShoppinhgButton()
+                },additionalAnimationClose:{ () -> Void in
+                    self.viewDetail?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
+                    self.productDetailButton!.deltailButton.selected = true
+                })
+         } else {
     
+            if nutrimentalsView == nil {
+                nutrimentalsView = GRNutrimentalInfoView(frame: frameDetail)
+                nutrimentalsView?.setup(self.ingredients, nutrimentals: self.nutrimentalInfo)
+                nutrimentalsView!.generateBlurImage(self.tabledetail,frame:CGRectMake(0,0, self.tabledetail.frame.width, heightDetail))
+                nutrimentalsView?.imageBlurView.frame =  CGRectMake(0, -heightDetail, self.tabledetail.frame.width, heightDetail)
+            }
+            
+            self.nutrimentalsView!.closeDetail = {() in
+                self.closeContainer({ () -> Void in
+                    },completeClose:{() in
+                        self.isShowProductDetail = false
+                        self.productDetailButton!.deltailButton.selected = false
+                    }, closeRow:true)
+            }
+            
+            opencloseContainer(true,viewShow:nutrimentalsView!, additionalAnimationOpen: { () -> Void in
+                self.nutrimentalsView!.frame = frameDetail
+                self.nutrimentalsView!.imageBlurView.frame = frameDetail
+                self.productDetailButton?.reloadShoppinhgButton()
+                self.productDetailButton!.deltailButton.selected = true
+                },additionalAnimationClose:{ () -> Void in
+                    self.nutrimentalsView?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
+                    self.productDetailButton!.deltailButton.selected = true
+            })
+    
+        }
+
+    }
+
     func addToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String) {
         
         let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
@@ -820,7 +831,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         CATransaction.begin()
         CATransaction.setCompletionBlock({ () -> Void in
-            self.tabledetail.scrollEnabled = false
             
             let finalFrameOfQuantity = CGRectMake(self.tabledetail.frame.minX, self.headerView.frame.maxY, self.tabledetail.frame.width, self.heightDetail)
             self.containerinfo.frame = CGRectMake(self.tabledetail.frame.minX, self.headerView.frame.maxY + self.heightDetail, self.tabledetail.frame.width, 0)
@@ -830,18 +840,17 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.containerinfo.frame = finalFrameOfQuantity
                 additionalAnimationOpen()
                 }, completion: { (complete:Bool) -> Void in
-                additionalAnimationFinish()
+                    self.tabledetail.scrollEnabled = false
+                    additionalAnimationFinish()
             })
             
         })
-       
-        if self.tabledetail.numberOfRowsInSection(0) == 5 {
-            self.tabledetail.beginUpdates()
-            self.tabledetail.insertRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Bottom)
-            self.tabledetail.endUpdates()
-            
-             self.pagerController!.enabledGesture(false)
-        }
+        
+        self.tabledetail.beginUpdates()
+        self.tabledetail.insertRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Bottom)
+        self.tabledetail.endUpdates()
+
+        self.pagerController!.enabledGesture(false)
         
         CATransaction.commit()
     }
@@ -872,14 +881,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     
                 })
                
+                self.tabledetail.beginUpdates()
+                self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
+                self.tabledetail.endUpdates()
+                self.pagerController!.enabledGesture(true)
                 
-                if self.tabledetail.numberOfRowsInSection(0) >= 5 && closeRow {
-                    self.tabledetail.beginUpdates()
-                    self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                    self.tabledetail.endUpdates()
-                    
-                    self.pagerController!.enabledGesture(true)
-                }
                 CATransaction.commit()
             }
     }
@@ -1029,8 +1035,19 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func reloadViewWithData(result:NSDictionary){
         self.name = result["description"] as! String
-        self.price = result["price"] as! String
-        self.detail = result["detail"] as! String
+        
+        if let resultPrice = result["price"] as? NSString {
+            self.price = resultPrice
+        }else {
+            self.price = (result["price"] as! NSNumber).stringValue
+        }
+        
+        if let resultDetail = result["detail"] as? NSString {
+            self.detail = resultDetail
+        }else {
+            self.detail = result["details"] as! NSString
+        }
+        
         self.upc = result["upc"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
@@ -1053,6 +1070,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let strLabel = "UPC"
         //let strValue = self.upc
         
+        if let resultNutrimentalInfo = result["nutritional"] as? [String] {
+            self.nutrimentalInfo = resultNutrimentalInfo
+        }else{
+            self.nutrimentalInfo = []
+        }
+        
+        self.ingredients = result["ingredients"] as? String ?? ""
+        
         allCharacteristics.append(["label":strLabel,"value":self.upc])
         
         for characteristic in self.characteristics  {
@@ -1067,9 +1092,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.msi = []
             }
         }
+        
         if let images = result["imageUrl"] as? [AnyObject] {
             self.imageUrl = images
+        }else{
+            self.imageUrl = [(result["imageUrl"] as! String)]
         }
+        
         let freeShippingStr  = result["freeShippingItem"] as! String
         self.freeShipping = "true" == freeShippingStr
         
@@ -1092,15 +1121,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         self.strisPreorderable  = result["isPreorderable"] as! String
         self.isPreorderable = "true" == self.strisPreorderable
-        if self.isPreorderable {
-            bannerImagesProducts.imagePresale.hidden = false
-        }
-        
-        if let lowStock = result["lowStock"] as? Bool{
-            //bannerImagesProducts.imageLastPieces.hidden = !lowStock
-            bannerImagesProducts.lowStock?.hidden = !lowStock
-        }
-         //bannerImagesProducts.lowStock?.hidden =  false
         
         
         self.bundleItems = [AnyObject]()
@@ -1125,6 +1145,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.loadCrossSell()
         
         self.titlelbl.text = self.name as String
+        
+        self.bannerImagesProducts.promotions = [["text":"Nuevo","tagText":"N","tagColor":WMColor.yellow],["text":"Paquete","tagText":"P","tagColor":WMColor.light_blue],["text":"Sobre pedido","tagText":"Sp","tagColor":WMColor.light_blue],["text":"Ahorra más","tagText":"A+","tagColor":WMColor.light_red]]
+        
+        self.bannerImagesProducts.buildPromotions()
         
         
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
@@ -1283,7 +1307,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             detailsValues!.append(itemDetail)
             facetsDetails["itemDetails"] = detailsValues
         }
-        return self.marckSelectedDetails(facetsDetails)
+        return self.selectedDetailItem?.count > 0 ? self.marckSelectedDetails(facetsDetails) :  facetsDetails
     }
     
     /**
