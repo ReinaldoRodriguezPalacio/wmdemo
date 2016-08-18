@@ -11,11 +11,9 @@ import Foundation
 class ForgotPasswordService : BaseService {
     
     
-    
-    func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)
+    func buildParams(email:String) -> NSDictionary {
+        return ["login":email]
     }
-    
     
     func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in

@@ -914,7 +914,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
            return nil
         }
         
-        let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 26.0))
+        let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 21.0))
         header.backgroundColor = UIColor.whiteColor()
         if linesArray.count > 0 {
             let title = UILabel(frame: CGRectMake(16.0, (header.frame.height - 12) / 2 , self.view.frame.width - 32.0, 12.0))

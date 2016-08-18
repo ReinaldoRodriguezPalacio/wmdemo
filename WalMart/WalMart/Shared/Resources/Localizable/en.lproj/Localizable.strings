@@ -731,6 +731,24 @@
 "home_help.shoppingCart" = "Carrito";
 
 
+//Promotios
+"promotion.new"="Nuevo";
+"promotion.on.request"="Sobre pedido";
+"promotion.presale"="Preveta";
+"promotion.package"="Paquete";
+"promotion.free"="Envío gratis";
+"promotion.in.store"="Recoge en tienda";
+"promotion.settlement"="Liquidación";
+"promotion.end.end"="Buen fin";
+"promotion.reduction"="Rebaja";
+"promotion.cyber"="Cyber martes";
+"promotion.hotSale"="Hot sale";
+"promotion.more.save"="Ahorra más";
+"promotion.low.price"="Precios más bajos";
+"promotion.last.pieces"="Últimas piezas";
+"promotion.more.art"="Más art. por menos";
+"promotion.msi"="MSI";
+
 
 
 
