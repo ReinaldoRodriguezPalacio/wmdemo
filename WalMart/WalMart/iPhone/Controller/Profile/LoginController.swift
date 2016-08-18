@@ -538,7 +538,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
 
             self.alertView!.setMessage(NSLocalizedString("profile.message.sending",comment:""))
             let service = ForgotPasswordService()
-            service.callService(self.email!.text!, successBlock: { (result: NSDictionary) -> Void in
+            
+            service.callService(requestParams: service.buildParams(self.email!.text!), successBlock: { (result: NSDictionary) -> Void in
                 if let message = result["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()

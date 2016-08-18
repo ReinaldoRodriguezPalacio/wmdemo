@@ -339,7 +339,7 @@
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/passwordRecovery</string>
+			<string>http://192.168.43.192:9080/walmartmg/login/forgotPassword</string>
 			<key>WalmartMG.GRCategoryIcon</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
@@ -510,7 +510,7 @@
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/passwordRecovery</string>
+			<string>https://dl.dropboxusercontent.com/s/c1zey4oljbz27sk/forgotPassword.txt?dl=0</string>
 			<key>WalmartMG.GRCategoryIcon</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
