@@ -948,7 +948,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.loading?.removeFromSuperview()
             }
         }
-        controllerFilter.searchContext = self.searchContextType //SearchServiceContextType.WithCategoryForMG //
+        controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
