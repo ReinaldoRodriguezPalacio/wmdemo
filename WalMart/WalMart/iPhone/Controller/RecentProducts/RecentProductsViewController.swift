@@ -19,9 +19,10 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
-    var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26.0
+    var heightHeaderTable : CGFloat = 26.0
     var itemSelect = 0
-    var legendView : LegendView?
+    //var legendView : LegendView?
+    var plpView : PLPLegendView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
@@ -264,20 +265,22 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             isActive = active
         }
         let plpArray = UserCurrentSession.sharedInstance().getArrayPLP(objProduct)
-        //print(plpArray["arrayItems"] as! NSArray)
         
         promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! String
         
         cellRecentProducts.selectionStyle = .None
         cellRecentProducts.delegateProduct = self
         cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
-        cellRecentProducts.setPLP(plpArray["arrayItems"] as! NSArray)
+        
+//        self.plpView = PLPLegendView(isvertical: false, PLPArray: plpArray["arrayItems"] as! NSArray, viewPresentLegend: self.view, viewContent: cellRecentProducts.picturesView!)
+        //cellRecentProducts.addSubview(self.plpView!)
+        cellRecentProducts.setValueArray(plpArray["arrayItems"] as! NSArray)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 128//109
+        return 128
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -310,14 +313,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
         }
         return upcItems
-    }
-    
-    //RecentProductsTableViewCellDelegate
-    func showViewPlpItem(){
-        //Show View
-        print("** Seleccionar leyenda **")
-        self.legendView =  LegendView()
-        self.legendView?.showLegend(self.view)
     }
     
     func deleteFromWishlist(UPC:String){

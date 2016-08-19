@@ -10,7 +10,6 @@ import Foundation
 
 protocol RecentProductsTableViewCellDelegate {
     func deleteFromWishlist(UPC:String)
-    func showViewPlpItem()
 }
 
 class RecentProductsTableViewCell : ProductTableViewCell {
@@ -31,7 +30,6 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     var isPesable : String!
     var isPreorderable : String!
     var picturesView : UIView? = nil
-    var countPromotion: Int = 0
     var heigthPrice : CGFloat = 22.0
     
     var imagePresale : UIImageView!
@@ -39,6 +37,8 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     var iconDiscount : UIImageView!
     let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     var presale : UILabel!
+    
+    var promotiosView : PLPLegendView?
     
     override func setup() {
         super.setup()
@@ -61,16 +61,14 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         btnShoppingCart.addTarget(self, action: #selector(RecentProductsTableViewCell.addToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.picturesView = UIView(frame: CGRectZero)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(RecentProductsTableViewCell.showViewPLP))
-        picturesView!.addGestureRecognizer(tapGesture)
         self.contentView.addSubview(picturesView!)
         
-        self.separatorView = UIView(frame:CGRectMake(16, 108,self.frame.width - 16, 1.0))
+        self.separatorView = UIView(frame:CGRectMake(16, 123, self.frame.width - 16, 1.0))
         
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(btnShoppingCart)
-        self.contentView.addSubview(self.separatorView!)
+        
         
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
@@ -81,6 +79,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         productPriceSavingLabelGR!.font = WMFont.fontMyriadProSemiboldSize(14)
         productPriceSavingLabelGR!.textColor = WMColor.green
         self.contentView.addSubview(productPriceSavingLabelGR)
+        self.contentView.addSubview(self.separatorView!)
     }
     
     override func layoutSubviews() {
@@ -91,10 +90,15 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         //self.btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
         
         self.btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productPriceLabel!.frame.minY, 32, 32)
-        self.separatorView!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 127,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
+        self.separatorView!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 123, self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
         self.productPriceSavingLabelGR!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 14)
         
-        self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), 14.0)
+        self.promotiosView?.frame = CGRectMake(112.0, 86.0, 150,30)
+    }
+    
+    func setValueArray(plpArray:NSArray){
+        promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self)
+        self.contentView.addSubview(self.promotiosView!)
     }
     
     func addToShoppingCart() {
@@ -180,47 +184,6 @@ class RecentProductsTableViewCell : ProductTableViewCell {
             heigthPrice = 36.0
             self.productPriceSavingLabelGR!.hidden = true
         }
-    }
-    
-    func setPLP(PlpArray:NSArray){
-        self.countPromotion =  PlpArray.count
-        
-        for subview in picturesView!.subviews {
-            subview.removeFromSuperview()
-        }
-        
-        let yView : CGFloat = 0.0
-        var xView : CGFloat = 0.0
-        let ySpace : CGFloat = 4.0
-        let heighView : CGFloat = 14.0
-        let widthView : CGFloat = 18.0
-        
-        //Show PLP in Cell
-        if PlpArray.count > 0 {
-            for lineToShow in PlpArray {
-                //Se muestran etiquetas para promociones, etc.
-                let promotion = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
-                promotion.backgroundColor = lineToShow["color"] as? UIColor
-                promotion.layer.cornerRadius = 2.0
-                
-                let textLabel = UILabel(frame: CGRectMake(0, 0, widthView, heighView))
-                textLabel.text =  lineToShow["text"] as? String //"TS"
-                textLabel.textColor = UIColor.whiteColor()
-                textLabel.font = WMFont.fontMyriadProRegularOfSize(9)
-                textLabel.textAlignment = .Center
-                promotion.addSubview(textLabel)
-                
-                self.picturesView!.addSubview(promotion)
-                
-                xView = promotion.frame.maxX + ySpace
-            }
-        }
-        
-        self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), heighView)
-    }
-    
-    func showViewPLP(){
-        self.delegateProduct?.showViewPlpItem()
     }
     
     func deleteUPCWishlist() {

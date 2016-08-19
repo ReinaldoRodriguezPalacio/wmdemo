@@ -77,6 +77,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var stringSearch = ""
     var defaultLoadingImg: UIImageView?
     var nutrimentalsView : GRNutrimentalInfoView? = nil
+    var pickInStoreBar: ProductDetailPickBar?
     
     var indexRowSelected : String = ""
     
@@ -520,12 +521,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case 0:
           return nil
         default:
-            
             if isLoading {
                 return UIView()
             }
             
-            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 64.0),spaceBetweenButtons:13,widthButtons:63)
+            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 64, self.view.frame.width, 64.0),spaceBetweenButtons:13,widthButtons:63)
             productDetailButton!.upc = self.upc as String
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
@@ -835,7 +835,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let finalFrameOfQuantity = CGRectMake(self.tabledetail.frame.minX, self.headerView.frame.maxY, self.tabledetail.frame.width, self.heightDetail)
             self.containerinfo.frame = CGRectMake(self.tabledetail.frame.minX, self.headerView.frame.maxY + self.heightDetail, self.tabledetail.frame.width, 0)
             self.containerinfo.addSubview(viewShow)
-            
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.containerinfo.frame = finalFrameOfQuantity
                 additionalAnimationOpen()
@@ -849,7 +848,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.tabledetail.beginUpdates()
         self.tabledetail.insertRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Bottom)
         self.tabledetail.endUpdates()
-
+        self.pickInStoreBar?.frame.origin.y = (self.pickInStoreBar?.frame.origin.y)! + 388
+        self.pickInStoreBar?.hidden = true
         self.pagerController!.enabledGesture(false)
         
         CATransaction.commit()
@@ -871,7 +871,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
                     self.listSelectorController = nil
                     self.listSelectorBackgroundView = nil
-                    
+                    self.pickInStoreBar?.hidden = false
+                    self.pickInStoreBar?.frame.origin.y = (self.pickInStoreBar?.frame.origin.y)! - 388
                     completeClose()
                     for viewInCont in self.containerinfo.subviews {
                         viewInCont.removeFromSuperview()
@@ -880,7 +881,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.viewDetail = nil
                     
                 })
-               
                 self.tabledetail.beginUpdates()
                 self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
                 self.tabledetail.endUpdates()
@@ -979,6 +979,18 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
        
     }
     
+    func showPickInStoreBar(){
+        if self.pickInStoreBar != nil {
+           self.pickInStoreBar!.removeFromSuperview()
+           self.pickInStoreBar = nil
+        }
+        
+        self.pickInStoreBar = ProductDetailPickBar.initDefault(CGPointMake(self.tabledetail.frame.minX, self.tabledetail.frame.minY +  142), width: self.tabledetail.frame.width)
+        self.pickInStoreBar?.bodyView.alpha = 0.0
+        self.pickInStoreBar?.frame.size = CGSizeMake(self.tabledetail.frame.width, 18)
+        self.view.addSubview(self.pickInStoreBar!)
+    }
+
     
     //MARK: Load service 
     
@@ -1157,6 +1169,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
+        
+        self.showPickInStoreBar()
         
     }
     

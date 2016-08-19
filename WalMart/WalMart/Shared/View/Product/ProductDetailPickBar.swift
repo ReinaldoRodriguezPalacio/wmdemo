@@ -37,7 +37,7 @@ class ProductDetailPickBar: UIView {
     }
     
     func setup() {
-        self.clipsToBounds = false
+        self.clipsToBounds = true
         self.userInteractionEnabled = true
         self.backgroundColor = UIColor.clearColor()
         self.alpha = 0.9
@@ -81,8 +81,8 @@ class ProductDetailPickBar: UIView {
         self.bodyView.addSubview(descLabel)
         self.bodyView.addSubview(selectImage)
         self.addSubview(titleView)
-        self.addSubview(bodyView)
         self.setValues()
+        self.addSubview(bodyView)
     }
     
     override func layoutSubviews() {
@@ -122,16 +122,21 @@ class ProductDetailPickBar: UIView {
     
     func showPickBar() {
         if self.isShowingBar {
+            self.bodyView.alpha = 1.0
             UIView.animateWithDuration(0.3, animations: {
                 self.frame.origin = CGPointMake(self.startPossition.x, self.startPossition.y - 46)
+                self.frame.size = CGSizeMake(self.frame.width, 64)
                 }, completion: { (complete) in
-               self.isShowingBar = false
+                self.isShowingBar = false
             })
         }else{
             UIView.animateWithDuration(0.3, animations: {
                  self.frame.origin = self.startPossition
+                 self.frame.size = CGSizeMake(self.frame.width, 18)
                 }, completion: { (complete) in
                     self.isShowingBar = true
+                    self.bodyView.alpha = 0.0
+                    
             })
         }
     }

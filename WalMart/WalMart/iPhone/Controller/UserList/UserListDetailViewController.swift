@@ -59,6 +59,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var retunrFromSearch =  false
     
     var listDetailHelView : ListHelpView?
+    //var plpView : PLPLegendView?
     
     var openDetailOrReminder =  false
     override func getScreenGAIName() -> String {
@@ -963,10 +964,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.detailDelegate = self
         listCell.delegate = self
         
+        var plpArray : NSDictionary = [:]
+        
         if self.newArrayProducts!.count > 0{
             let items = self.newArrayProducts![indexPath.section]
             let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
             let product =  listProduct.objectAtIndex(indexPath.row)
+            plpArray = UserCurrentSession.sharedInstance().getArrayPLP((product as? NSDictionary)!)
             if UserCurrentSession.hasLoggedUser() {
                 listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
             }else{
@@ -980,7 +984,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             listCell.showLeftUtilityButtonsAnimated(false)
         }
-
+       listCell.setValueArray( plpArray["arrayItems"] as! NSArray)
+        
         return listCell
     }
 

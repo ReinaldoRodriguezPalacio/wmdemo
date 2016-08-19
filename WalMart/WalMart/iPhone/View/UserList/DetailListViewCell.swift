@@ -33,7 +33,7 @@ class DetailListViewCell: ProductTableViewCell {
     var productDeparment: String = ""
     
     var imagePresale : UIImageView!
-    var promotiosView  : UIView?
+    var promotiosView  : PLPLegendView?
     
     override func setup() {
         super.setup()
@@ -95,11 +95,11 @@ class DetailListViewCell: ProductTableViewCell {
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
-        
-        self.promotiosView =  UIView()
-        self.promotiosView?.backgroundColor =  WMColor.gray
+    }
+    
+    func setValueArray(plpArray:NSArray){
+        promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self)
         self.contentView.addSubview(self.promotiosView!)
-        
     }
 
     /**
@@ -294,12 +294,12 @@ class DetailListViewCell: ProductTableViewCell {
             self.productPriceLabel!.center = CGPointMake(self.productPriceLabel!.center.x, self.quantityIndicator!.center.y)
             self.promoDescription!.frame = CGRectZero
             self.promotiosView?.frame =  CGRectMake(self.productPriceLabel!.frame.minX,self.productPriceLabel!.frame.maxY + 6 ,150 , 16)
-            self.promotiosView?.backgroundColor =  UIColor.redColor()
+            //self.promotiosView?.backgroundColor =  UIColor.redColor()
         }
         else {
             self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 80.0, 12.0)
             self.promotiosView!.frame =  CGRectMake(self.promoDescription!.frame.minX,self.promoDescription!.frame.maxY ,150 , 16)
-            self.promotiosView?.backgroundColor =  UIColor.greenColor()
+            //self.promotiosView?.backgroundColor =  UIColor.greenColor()
         }
 
         self.separator!.frame = CGRectMake(x, 108,self.frame.width - 16, 1.0)
