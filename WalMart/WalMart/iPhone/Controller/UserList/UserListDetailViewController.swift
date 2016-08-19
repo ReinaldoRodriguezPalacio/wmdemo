@@ -984,7 +984,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             listCell.showLeftUtilityButtonsAnimated(false)
         }
-       listCell.setValueArray( plpArray["arrayItems"] as! NSArray)
+       listCell.setValueArray(plpArray["arrayItems"] as! NSArray)
         
         return listCell
     }
@@ -994,7 +994,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if indexPath.section == self.newArrayProducts.count {
             return 56.0
         }
-        return  109.0
+        return  114.0
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

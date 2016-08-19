@@ -150,7 +150,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
         listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row))
         listCell.detailDelegate = self
-        listCell.setValueArray([])
+        var plpArray : NSDictionary = [:]
+        plpArray = UserCurrentSession.sharedInstance().getArrayPLP((self.detailItems![indexPath.row] as NSDictionary))
+        listCell.setValueArray(plpArray["arrayItems"] as! NSArray)
         listCell.hideUtilityButtonsAnimated(false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)
@@ -184,7 +186,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row == self.detailItems!.count ? 56.0 : 109.0
+        return indexPath.row == self.detailItems!.count ? 56.0 : 114.0
     }
     
     //MARK: Delegate item cell
