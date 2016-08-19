@@ -101,7 +101,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             self.productShortDescriptionLabel!.frame = CGRectMake(40,  self.productPriceThroughLabel!.frame.maxY + 16, self.frame.width - 80 , 46)
         }
         
-        self.promotiosView?.frame = CGRectMake(0.0, 8.0, 30, 150)
+        self.promotiosView?.frame = CGRectMake(0.0, 8.0, 30, 140)
     }
     
     func setValueArray(plpArray:NSArray){
@@ -112,7 +112,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
         
         let promoView = PLPLegendView(isvertical: true, PLPArray: plpArray, viewPresentLegend: self.superview!)
-        promoView.frame = CGRect(x:0 , y:0 , width: 30, height:150)
+        promoView.frame = CGRect(x:0 , y:0 , width: 30, height:140)
         self.promotiosView!.addSubview(promoView)
       
     }

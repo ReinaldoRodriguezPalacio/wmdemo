@@ -93,7 +93,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         self.separatorView!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 123, self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
         self.productPriceSavingLabelGR!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 14)
         
-        self.promotiosView?.frame = CGRectMake(112.0, 86.0, 150,30)
+        self.promotiosView?.frame = CGRectMake(112.0, 86.0, 170,30)
     }
     
     func setValueArray(plpArray:NSArray){

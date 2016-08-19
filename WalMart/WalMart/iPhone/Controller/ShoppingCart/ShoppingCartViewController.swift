@@ -68,8 +68,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     var selectQuantity: GRShoppingCartQuantitySelectorView?
-    var legendView : LegendView?
-     var facebookButton : UIButton!
+    var facebookButton : UIButton!
     
     
     override func getScreenGAIName() -> String {
@@ -622,7 +621,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
             
-            cellProduct.setPLP(plpArray["arrayItems"] as! NSArray)
+            cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
             
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()
@@ -983,13 +982,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }*/
             self.view.addSubview(selectQuantity!)
         }
-    }
-    
-    func showViewPlpItem(){
-        //Show View
-        print("** Seleccionar leyenda **")
-        self.legendView =  LegendView()
-        self.legendView?.showLegend(self.view)
     }
     
     func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
