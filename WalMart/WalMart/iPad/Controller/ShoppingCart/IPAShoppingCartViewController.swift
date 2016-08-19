@@ -161,11 +161,29 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.loadCrossSell()
         self.removeLoadingView()
         
+        self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
+        self.editButton.hidden = self.itemsInShoppingCart.count == 0
+       
+        
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemsInShoppingCart.count
+        if section == 0 {
+            return 1
+        }
+        
+        listObj = self.itemsInCartOrderSection[section - 1] as! NSDictionary
+        productObje = listObj["products"] as! NSArray
+        
+        if section == (self.itemsInCartOrderSection.count) {
+            return productObje!.count + 1
+        } else {
+            return productObje!.count
+        }
+        //return 1
     }
+    
+
     
     func openShoppingCart(){
         if self.viewContent != nil {

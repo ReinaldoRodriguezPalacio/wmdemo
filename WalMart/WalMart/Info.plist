@@ -448,7 +448,7 @@
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>https://dl.dropboxusercontent.com/s/b2pv1fc74042thm/getTicketList.txt?dl=0</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSavingItems</string>
+			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getShoppingCart.json</string>
 			<key>WalmartMG.GRRecentProductsService</key>
 			<string>https://dl.dropboxusercontent.com/u/49807601/myBasics.txt</string>
 			<key>WalmartMG.GRSaveUserListService</key>

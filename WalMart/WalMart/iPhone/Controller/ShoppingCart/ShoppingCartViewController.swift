@@ -69,6 +69,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var totalShop: Double = 0.0
     var selectQuantity: GRShoppingCartQuantitySelectorView?
     var legendView : LegendView?
+     var facebookButton : UIButton!
     
     
     override func getScreenGAIName() -> String {
@@ -142,11 +143,22 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         let x:CGFloat = 16
         
-        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
+        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34.0, 34.0))
         buttonWishlist.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonWishlist)
-        buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
+        
+        
+        facebookButton = UIButton()
+        facebookButton.frame = CGRectMake(buttonWishlist.frame.maxX + 16, 16.0, 34.0, 34.0)
+        facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
+        facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
+        facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)
+        facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), forControlEvents: UIControlEvents.TouchUpInside)
+        viewFooter.addSubview(facebookButton)
+        
+        
+        buttonShop = UIButton(frame: CGRectMake(facebookButton.frame.maxX + 16, facebookButton.frame.minY  , self.view.frame.width - (facebookButton.frame.maxX + 32), 34))
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.layer.cornerRadius = 17
