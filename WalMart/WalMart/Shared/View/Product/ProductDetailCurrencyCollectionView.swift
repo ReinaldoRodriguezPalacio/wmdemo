@@ -9,7 +9,6 @@
 import Foundation
 
 class ProductDetailCurrencyCollectionView : UITableViewCell {
-    
     var titleLabel : CurrencyCustomLabel!
     
     required init?(coder aDecoder: NSCoder) {

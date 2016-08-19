@@ -88,8 +88,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 for product in self.allProducts! {
                     let upc = product["upc"] as! NSString
                     let desc = product["description"] as! NSString
-                    let type = product["type"] as! NSString
-                    paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc, "type":type ])
+                    //let type = product["type"] as! NSString
+                    paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc, "type":ResultObjectType.Mg.rawValue ])
                 }
             
                 //var contDetail = IPAProductDetailViewController()

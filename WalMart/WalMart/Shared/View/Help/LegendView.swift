@@ -39,7 +39,7 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
     }
     
     override func layoutSubviews() {
-          legendForm?.frame =  CGRect(x: 39, y: self.frame.midY - 116  , width:242, height:232)
+          legendForm?.frame =  CGRect(x:  IS_IPAD ? self.frame.midX - 121 : 39, y: self.frame.midY - 116  , width:242, height:232)
     }
     
     /**
@@ -47,7 +47,7 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      */
     func createFormview()  {
     
-        legendForm =  UIView(frame: CGRect(x: 39, y: self.frame.midY - 116  , width:242, height:232))
+        legendForm =  UIView(frame: CGRect(x: IS_IPAD ? self.frame.midX - 121 : 39, y: self.frame.midY - 116  , width:242, height:232))
         legendForm!.backgroundColor = UIColor.whiteColor()
         legendForm!.addGestureRecognizer(UIPanGestureRecognizer(target: self, action:#selector(LegendView.panViewGesture(_:)) ))
         legendForm!.layer.cornerRadius =  11
@@ -55,12 +55,12 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
         self.addSubview(legendForm!)
         
         let headerView =  UIView(frame: CGRect(x: 0, y: 0, width:legendForm!.frame.width, height:46))
-        headerView.backgroundColor = WMColor.light_gray
+        headerView.backgroundColor = WMColor.light_light_gray
         legendForm!.addSubview(headerView)
         
         
         let buttonClose = UIButton(frame: CGRectMake(0, 0, 44, 44))
-        buttonClose.setImage(UIImage(named:"tutorial_close"), forState: UIControlState.Normal)
+        buttonClose.setImage(UIImage(named:"detail_close"), forState: UIControlState.Normal)
         buttonClose.addTarget(self, action: #selector(HelpHomeView.closeView), forControlEvents: UIControlEvents.TouchUpInside)
         headerView.addSubview(buttonClose)
         
@@ -80,6 +80,7 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
         
     }
     
+    
     /**
      Create icons and labels in view
      
@@ -89,8 +90,9 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
         
         var y : CGFloat = 16.0
         var x :CGFloat = 16.0
-        var legends = ["Nuevo","Sobre pedido","Preveta","Paquete","Envío gratis","Recoge en tienda","Liquidación","Buen fin","Rebaja","Cyber martes","Hot sale","Ahorra más","Precios más bajos","Últimas piezas","Más art. por menos","MSI"]
-        var legendsIcon = ["N","Sp","Pv","P","Eg","Rt","L","Bf","R","Cm","Hs","A+",".$","Up","+A-","MSI"]
+        var legends = [NSLocalizedString("promotion.new", comment: ""),NSLocalizedString("promotion.on.request", comment: ""),NSLocalizedString("promotion.presale", comment: ""),NSLocalizedString("promotion.package", comment: ""),NSLocalizedString("promotion.free", comment: ""),NSLocalizedString("promotion.in.store", comment: ""),NSLocalizedString("promotion.settlement", comment: ""),NSLocalizedString("promotion.end.end", comment: ""),NSLocalizedString("promotion.reduction", comment: ""),NSLocalizedString("promotion.cyber", comment: ""),NSLocalizedString("promotion.hotSale", comment: ""),NSLocalizedString("promotion.more.save", comment: ""),NSLocalizedString("promotion.low.price", comment: ""),NSLocalizedString("promotion.last.pieces", comment: ""),NSLocalizedString("promotion.more.art", comment: ""),NSLocalizedString("promotion.msi", comment: "")]
+        
+        var legendsIcon = ["N","Sp","Pv","P","Eg","Rt","L","Bf","R","Cm","Hs","A+","-$","Up","+A-","MSI"]
         
         for index in 0 ..< 16 {
             let viewIcon =  UIView(frame: CGRect(x: x ,y : headerView.frame.maxY + y , width: 18, height:14))
@@ -192,16 +194,16 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      */
     func removeLegend() {
         
-            UIView.animateWithDuration(0.5,
-                                       animations: { () -> Void in
-                                        self.alpha = 0.0
-                },
-                                       completion: { (finished:Bool) -> Void in
-                                        if finished {
-                                            self.removeFromSuperview()
-                                        }
-                }
-            )
+        UIView.animateWithDuration(0.5,
+                                   animations: { () -> Void in
+                                    self.alpha = 0.0
+            },
+                                   completion: { (finished:Bool) -> Void in
+                                    if finished {
+                                        self.removeFromSuperview()
+                                    }
+            }
+        )
         
     }
     

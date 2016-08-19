@@ -339,7 +339,7 @@
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/passwordRecovery</string>
+			<string>http://192.168.43.192:9080/walmartmg/login/forgotPassword</string>
 			<key>WalmartMG.GRCategoryIcon</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
@@ -432,7 +432,7 @@
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://dl.dropboxusercontent.com/s/b2pv1fc74042thm/getTicketList.txt?dl=0</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesForSearch</string>
+			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.GROrderByEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
@@ -510,7 +510,7 @@
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/passwordRecovery</string>
+			<string>https://dl.dropboxusercontent.com/s/c1zey4oljbz27sk/forgotPassword.txt?dl=0</string>
 			<key>WalmartMG.GRCategoryIcon</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
@@ -526,7 +526,7 @@
 			<key>WalmartMG.LineService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesForSearch</string>
+			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.LoginService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login</string>
 			<key>WalmartMG.LoginWithEmailService</key>
@@ -591,7 +591,7 @@
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getLinesForSearch</string>
+			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://dl.dropboxusercontent.com/u/49807601/searchbytext3.txt</string>
 			<key>WalmartMG.GRProductDetailService</key>

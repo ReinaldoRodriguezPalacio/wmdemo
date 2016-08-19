@@ -59,6 +59,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var retunrFromSearch =  false
     
     var listDetailHelView : ListHelpView?
+    //var plpView : PLPLegendView?
     
     var openDetailOrReminder =  false
     override func getScreenGAIName() -> String {
@@ -914,7 +915,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
            return nil
         }
         
-        let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 26.0))
+        let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 21.0))
         header.backgroundColor = UIColor.whiteColor()
         if linesArray.count > 0 {
             let title = UILabel(frame: CGRectMake(16.0, (header.frame.height - 12) / 2 , self.view.frame.width - 32.0, 12.0))
@@ -963,10 +964,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.detailDelegate = self
         listCell.delegate = self
         
+        var plpArray : NSDictionary = [:]
+        
         if self.newArrayProducts!.count > 0{
             let items = self.newArrayProducts![indexPath.section]
             let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
             let product =  listProduct.objectAtIndex(indexPath.row)
+            plpArray = UserCurrentSession.sharedInstance().getArrayPLP((product as? NSDictionary)!)
             if UserCurrentSession.hasLoggedUser() {
                 listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
             }else{
@@ -980,7 +984,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             listCell.showLeftUtilityButtonsAnimated(false)
         }
-
+       listCell.setValueArray(plpArray["arrayItems"] as! NSArray)
+        
         return listCell
     }
 
@@ -989,7 +994,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if indexPath.section == self.newArrayProducts.count {
             return 56.0
         }
-        return  109.0
+        return  114.0
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

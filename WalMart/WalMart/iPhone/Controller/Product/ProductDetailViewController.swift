@@ -23,6 +23,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var price : NSString = ""
     var listPrice : NSString = ""
     var comments : NSString = ""
+    var ingredients: String = ""
+    var nutrimentalInfo: [String] = []
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
     var bundleItems : [AnyObject] = []
@@ -324,6 +326,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
     }
     
+    
     //MARK: - ProductDetailButtonBarCollectionViewCellDelegate
     /**
      Shows product detail information in popup view
@@ -354,12 +357,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
             }, completion: { (complete:Bool) -> Void in
+                if self.listSelectorContainer != nil {
+                    self.removeListSelector(action: nil)
+                }
                 if self.viewDetail == nil {
                     self.isShowProductDetail = true
                     self.startAnimatingProductDetail()
                 } else {
                     self.closeProductDetail()
-                    
                 }
         })
     }
@@ -676,24 +681,54 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func startAnimatingProductDetail() {
         let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
-        viewDetail = ProductDetailTextDetailView(frame: CGRectMake(0,360, 320, 0))
-        viewDetail!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
-        //self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
-        viewDetail.setTextDetail(detail as String)
-        viewDetail.closeDetail = { () in
-            self.isShowProductDetail = true
-            self.closeProductDetail()
-        }
-        self.view.addSubview(viewDetail)
         
-        self.productDetailButton?.reloadButton()
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.viewDetail!.frame = finalFrameOfQuantity
-            self.viewDetail!.imageBlurView.frame = finalFrameOfQuantity
-            //self.viewDetail.frame = CGRectMake(0, 0, self.tabledetail.frame.width, self.tabledetail.frame.height - 145)
-            self.productDetailButton?.deltailButton.selected = true
-        })
+        if self.nutrimentalInfo.count == 0 {
+            viewDetail = ProductDetailTextDetailView(frame: CGRectMake(0,360, 320, 0))
+            viewDetail!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
+            //self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+            viewDetail.setTextDetail(detail as String)
+            viewDetail.closeDetail = { () in
+                self.isShowProductDetail = true
+                self.closeProductDetail()
+            }
+            self.view.addSubview(viewDetail)
+            
+            self.productDetailButton?.reloadButton()
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.viewDetail!.frame = finalFrameOfQuantity
+                self.viewDetail!.imageBlurView.frame = finalFrameOfQuantity
+                //self.viewDetail.frame = CGRectMake(0, 0, self.tabledetail.frame.width, self.tabledetail.frame.height - 145)
+                self.productDetailButton?.deltailButton.selected = true
+            })
+        } else {
+            
+            let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
+            if nutrimentalsView == nil {
+                nutrimentalsView = GRNutrimentalInfoView(frame: CGRectMake(0,360, 320, 0))
+                nutrimentalsView?.setup(self.ingredients, nutrimentals: self.nutrimentalInfo)
+                nutrimentalsView!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
+            }
+            
+            nutrimentalsView!.frame = CGRectMake(0,360, 320, 0)
+            self.nutrimentalsView!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+            
+            
+            nutrimentalsView!.closeDetail = { () in
+                self.closeProductDetailNutrimental()
+            }
+            self.view.addSubview(nutrimentalsView!)
+            
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.nutrimentalsView!.frame = finalFrameOfQuantity
+                self.nutrimentalsView!.imageBlurView.frame = finalFrameOfQuantity
+                //self.viewDetail.frame = CGRectMake(0, 0, self.tabledetail.frame.width, self.tabledetail.frame.height - 145)
+                self.productDetailButton!.deltailButton.selected = true
+            })
+            
+        }
     }
+    
     /**
      Close product detail view
      */
@@ -846,8 +881,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func reloadViewWithData(result:NSDictionary){
         self.name = result["description"] as! NSString
-        self.price = result["price"] as! NSString
-        self.detail = result["detail"] as! NSString
+        
+        if let resultPrice = result["price"] as? NSString {
+            self.price = resultPrice
+        }else {
+            self.price = (result["price"] as! NSNumber).stringValue
+        }
+        
+        if let resultDetail = result["detail"] as? NSString {
+            self.detail = resultDetail
+        }else {
+            self.detail = result["details"] as! NSString
+        }
+        
         self.saving = ""
         self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
         self.upc = result["upc"] as! NSString
@@ -871,9 +917,17 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.listPrice = result["original_listprice"] as! NSString
         self.characteristics = []
-        if let cararray = result["characteristics"] as? NSArray {
-            self.characteristics = cararray as [AnyObject]
+        if let characteristicsResult = result["characteristics"] as? NSArray {
+            self.characteristics = characteristicsResult as [AnyObject]
         }
+        
+        if let resultNutrimentalInfo = result["nutritional"] as? [String] {
+            self.nutrimentalInfo = resultNutrimentalInfo
+        }else{
+            self.nutrimentalInfo = []
+        }
+        
+        self.ingredients = result["ingredients"] as? String ?? ""
         
         var allCharacteristics : [AnyObject] = []
         
@@ -1106,24 +1160,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return CGSizeMake(self.view.frame.width , hForCell);
     }
-    
- 
-    /*func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return (action == Selector("copy:"))
-    }
-    
-    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    
-    func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
-        if (action == Selector("copy:")) {
-            let cell = collectionView.cellForItemAtIndexPath(indexPath)
-            let pasteBoard = UIPasteboard.generalPasteboard()
-            pasteBoard.setValue("UPC", forPasteboardType: "UPC")
-        }
-
-    }*/
     
     class func validateUpcPromotion(upc:String) -> Bool{
         let upcs =  UserCurrentSession.sharedInstance().upcSearch
