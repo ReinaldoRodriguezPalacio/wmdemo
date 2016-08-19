@@ -871,7 +871,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
                     self.listSelectorController = nil
                     self.listSelectorBackgroundView = nil
-                    
+                    self.pickInStoreBar?.hidden = false
+                    self.pickInStoreBar?.frame.origin.y = (self.pickInStoreBar?.frame.origin.y)! - 388
                     completeClose()
                     for viewInCont in self.containerinfo.subviews {
                         viewInCont.removeFromSuperview()
@@ -880,8 +881,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.viewDetail = nil
                     
                 })
-                self.pickInStoreBar?.hidden = false
-                self.pickInStoreBar?.frame.origin.y = (self.pickInStoreBar?.frame.origin.y)! - 388
                 self.tabledetail.beginUpdates()
                 self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
                 self.tabledetail.endUpdates()
