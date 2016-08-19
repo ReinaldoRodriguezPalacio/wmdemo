@@ -100,7 +100,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var idListFromSearch : String? = ""
     var invokeServiceInError = false
     var viewEmptyImage =  false
-    var legendView : LegendView?
+    //var legendView : LegendView?
+    
+    var plpView : PLPLegendView?
     
     var  isAplyFilter : Bool =  false
     
@@ -525,8 +527,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             position:self.isAplyFilter ? "" : "\(indexPath.row)"
         )
         
-        cell.setPLP(plpArray["arrayItems"] as! NSArray)
-        
+        cell.setValueArray(plpArray["arrayItems"] as! NSArray)
+//        self.plpView = PLPLegendView(isvertical: true, PLPArray: plpArray["arrayItems"] as! NSArray, viewPresentLegend: self.view, viewContent: cell.picturesView!)
+//        cell.addSubview(self.plpView!)
         cell.delegate = self
         return cell
     }
@@ -577,13 +580,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
-                        let type = strUPC["type"] as! String
+                        //let type = strUPC["type"] as! String
                         var through = ""
                         if let priceThr = strUPC["saving"] as? String {
                             through = priceThr as String
                         }
                         //***Type se le agrega MG por default. esperar para ProductDetailPageViewController
-                        productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
+                        productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue,"saving":through])
                     }
                 }
             } else {
@@ -1267,13 +1270,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
         self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantity)
-    }
-    
-    func showViewPlpItem(){
-        //Show View
-        print("** Seleccionar leyenda **")
-        self.legendView =  LegendView()
-        self.legendView?.showLegend(self.view)
     }
     
     func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
