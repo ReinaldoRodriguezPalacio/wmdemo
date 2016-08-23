@@ -65,7 +65,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         super.viewDidLoad()
 
         self.titleLabel!.text = NSLocalizedString("filter.title", comment:"")
-        self.titleLabel!.textAlignment =  .Left
+        self.titleLabel!.textAlignment =  .Center
         
         let iconImage = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
         let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11)
@@ -675,7 +675,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
                 let facetName = facet![section - 1] as! NSDictionary
-                title.text = facetName["name"] as? String
+                let nameTitle =  facetName["name"] as! String
+                title.text = nameTitle.contains("Precios") ? NSLocalizedString("Rango de Precio", comment: "") : nameTitle
+                
             }
             if self.facetGr !=  nil {
                 title.text = "Marca"

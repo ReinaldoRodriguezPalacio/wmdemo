@@ -105,10 +105,20 @@ class FilterCategoryViewCell: UITableViewCell {
         else{ self.check!.hidden = false
             
         }
-        self.name!.text = item != nil ? item!["itemName"] as? String : nameBrand
+        var countItem  =  0
+        var name  = ""
+        
         if item != nil {
             self.upcs = item!["upcs"] as? [String]
+            countItem = self.upcs!.count
+            name =  item!["itemName"] as! String
         }
+        
+            
+        
+        
+        self.name!.text = item != nil ? "\(name) (\(countItem))": nameBrand
+        
         self.check!.highlighted = selected
     }
     

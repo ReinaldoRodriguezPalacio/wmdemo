@@ -65,12 +65,12 @@
 "filter.button.title" = "filtrar";
 "filter.button.clean" = "Sin filtros";
 "filter.section.order" = "Ordenar";
-"filter.section.categories" = "Elige una Categoría";
+"filter.section.categories" = "Por Departamento";
 "descriptionASC" = "A - Z";
 "descriptionDESC" = "Z - A";
 "priceASC" = "$ - $$$";
 "priceDESC" = "$$$ - $";
-"popularity" = "Por Popularidad";
+"popularity" = "Más Relevantes";
 
 //Shoping cart
 "shoppingcart.title" = "Carrito";
