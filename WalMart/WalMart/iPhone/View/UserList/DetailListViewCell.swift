@@ -23,6 +23,7 @@ class DetailListViewCell: ProductTableViewCell {
     var check: UIButton?
     var equivalenceByPiece: NSNumber? = NSNumber(int:0)
     var detailDelegate: DetailListViewCellDelegate?
+    var viewIpad : UIView?
     var imageGrayScale: UIImage? = nil
     var imageNormal: UIImage? = nil
     var total: String? = ""
@@ -45,7 +46,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
         self.promoDescription!.numberOfLines = 2
         self.promoDescription!.textAlignment = .Left
-        self.promoDescription!.backgroundColor =  UIColor.blueColor()
+        self.promoDescription!.backgroundColor =  UIColor.whiteColor()
         self.contentView.addSubview(self.promoDescription!)
         
         self.productShortDescriptionLabel!.textColor = WMColor.gray
@@ -69,7 +70,6 @@ class DetailListViewCell: ProductTableViewCell {
         self.separator = UIView(frame:CGRectMake(16, bounds.height - 1.0,self.frame.width - 16, 1.0))
         self.separator!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separator!)
-        
         
         self.check = UIButton(frame: CGRectMake(0, 0, 40, 109))
         self.check?.setImage(UIImage(named: "list_check_empty"), forState: UIControlState.Normal)
@@ -98,8 +98,10 @@ class DetailListViewCell: ProductTableViewCell {
     }
     
     func setValueArray(plpArray:NSArray){
-        promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self)
-        self.contentView.addSubview(self.promotiosView!)
+        if plpArray.count > 0 {
+            promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: IS_IPAD ? self.viewIpad! : self)
+            self.contentView.addSubview(self.promotiosView!)
+        }
     }
 
     /**
@@ -283,29 +285,24 @@ class DetailListViewCell: ProductTableViewCell {
         if self.quantityIndicator!.enabled {
             var size = self.sizeForButton(self.quantityIndicator!)
             size.width = (size.width + (sep*2))
-            self.quantityIndicator!.frame = CGRectMake(bounds.width - (sep + size.width), bounds.height - (32.0 + sep), size.width, 32.0)
+            self.quantityIndicator!.frame = CGRectMake(bounds.width - (sep + size.width), productShortDescriptionLabel!.frame.maxY + 8, size.width, 32.0)
         }else {
-            self.quantityIndicator!.frame = CGRectMake(bounds.width - (sep + 102), bounds.height - (32.0 + sep), 102, 32.0)
+            self.quantityIndicator!.frame = CGRectMake(bounds.width - (sep + 102), productShortDescriptionLabel!.frame.maxY + 8, 102, 32.0)
         }
-        
-        self.productPriceLabel!.frame = CGRectMake(x, self.quantityIndicator!.frame.minY, 100.0, 19.0)
         
         if self.promoDescription!.text == nil || self.promoDescription!.text!.isEmpty {
+            self.productPriceLabel!.frame = CGRectMake(x, self.quantityIndicator!.frame.minY, 100.0, 30.0)
             self.productPriceLabel!.center = CGPointMake(self.productPriceLabel!.center.x, self.quantityIndicator!.center.y)
             self.promoDescription!.frame = CGRectZero
-            self.promotiosView?.frame =  CGRectMake(self.productPriceLabel!.frame.minX,self.productPriceLabel!.frame.maxY + 6 ,150 , 16)
-            //self.promotiosView?.backgroundColor =  UIColor.redColor()
+            self.promotiosView?.frame =  CGRectMake(self.productPriceLabel!.frame.minX,self.quantityIndicator!.frame.maxY + 1, bounds.width - (x + sep), 23)
         }
         else {
-            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 80.0, 12.0)
-            self.promotiosView!.frame =  CGRectMake(self.promoDescription!.frame.minX,self.promoDescription!.frame.maxY ,150 , 16)
-            //self.promotiosView?.backgroundColor =  UIColor.greenColor()
+            self.productPriceLabel!.frame = CGRectMake(x, self.quantityIndicator!.frame.minY, 100.0, 20.0)
+            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 90.0, 12.0)
+            self.promotiosView?.frame =  CGRectMake(self.promoDescription!.frame.minX,self.quantityIndicator!.frame.maxY + 1, bounds.width - (x + sep), 23)
         }
 
-        self.separator!.frame = CGRectMake(x, 108,self.frame.width - 16, 1.0)
-        
-        
-       
+        self.separator!.frame = CGRectMake(x, 113,self.frame.width - 16, 1.0)
     }
     
     /**

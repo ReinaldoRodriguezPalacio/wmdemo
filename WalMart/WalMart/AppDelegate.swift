@@ -479,9 +479,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let gid = GIDSignIn.sharedInstance().handleURL(url,
                                                     sourceApplication: sourceApplication,
                                                     annotation: annotation)
-        let option = annotation as? AnyObject ?? [:]
+        let option = annotation as? [NSObject : AnyObject] ?? [:]
         
-        let twitter = Twitter.sharedInstance().application(application, openURL:url, options: option as! [NSObject : AnyObject])
+        let twitter = Twitter.sharedInstance().application(application, openURL:url, options: option)
         
         return fb || gid || twitter
     }

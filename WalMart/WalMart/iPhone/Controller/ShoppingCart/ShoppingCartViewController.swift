@@ -68,7 +68,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     var selectQuantity: GRShoppingCartQuantitySelectorView?
-    var legendView : LegendView?
+    var facebookButton : UIButton!
     
     
     override func getScreenGAIName() -> String {
@@ -142,11 +142,22 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         let x:CGFloat = 16
         
-        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
+        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34.0, 34.0))
         buttonWishlist.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonWishlist)
-        buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
+        
+        
+        facebookButton = UIButton()
+        facebookButton.frame = CGRectMake(buttonWishlist.frame.maxX + 16, 16.0, 34.0, 34.0)
+        facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
+        facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
+        facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)
+        facebookButton.addTarget(self, action: #selector(ShoppingCartViewController.shareProduct), forControlEvents: UIControlEvents.TouchUpInside)
+        viewFooter.addSubview(facebookButton)
+        
+        
+        buttonShop = UIButton(frame: CGRectMake(facebookButton.frame.maxX + 16, facebookButton.frame.minY  , self.view.frame.width - (facebookButton.frame.maxX + 32), 34))
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.layer.cornerRadius = 17
@@ -610,7 +621,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
             
-            cellProduct.setPLP(plpArray["arrayItems"] as! NSArray)
+            cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
             
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()
@@ -971,13 +982,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }*/
             self.view.addSubview(selectQuantity!)
         }
-    }
-    
-    func showViewPlpItem(){
-        //Show View
-        print("** Seleccionar leyenda **")
-        self.legendView =  LegendView()
-        self.legendView?.showLegend(self.view)
     }
     
     func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
@@ -1811,6 +1815,28 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.viewLoad!.stopAnnimating()
             self.viewLoad = nil
         }
+    }
+    
+    /**
+     Share products
+     */
+    func shareProduct() {
+       
+            if self.isEdditing {
+                return
+            }
+            
+            self.viewShoppingCart!.setContentOffset(CGPoint.zero , animated: false)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
+            
+            if let image = self.viewShoppingCart!.screenshot() {
+                let imageHead = UIImage(named:"detail_HeaderMail")
+                let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+                let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+                self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            }
+            
+
     }
     
     

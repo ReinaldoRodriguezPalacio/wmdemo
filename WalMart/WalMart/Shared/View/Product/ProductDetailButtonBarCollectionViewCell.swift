@@ -127,7 +127,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         listButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToWishlist), forControlEvents: UIControlEvents.TouchUpInside)
         
         facebookButton = UIButton()
-        facebookButton.frame = CGRectMake(listButton.frame.maxX, 0, widthButtons, self.frame.height)
+        facebookButton.frame = CGRectMake(listButton.frame.maxX + 10 , 0, widthButtons, self.frame.height)
         facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)

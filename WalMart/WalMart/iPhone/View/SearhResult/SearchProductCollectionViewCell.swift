@@ -101,20 +101,21 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             self.productShortDescriptionLabel!.frame = CGRectMake(40,  self.productPriceThroughLabel!.frame.maxY + 16, self.frame.width - 80 , 46)
         }
         
-        self.promotiosView?.frame = CGRectMake(0.0, 8.0, 30, 150)
+        self.promotiosView?.frame = CGRectMake(0.0, 8.0, 30, 140)
     }
     
     func setValueArray(plpArray:NSArray){
-        if self.promotiosView != nil {
-            for subview in self.promotiosView!.subviews {
-                subview.removeFromSuperview()
+        if plpArray.count > 0 {
+            if self.promotiosView != nil {
+                for subview in self.promotiosView!.subviews {
+                    subview.removeFromSuperview()
+                }
             }
+            
+            let promoView = PLPLegendView(isvertical: true, PLPArray: plpArray, viewPresentLegend: self.superview!)
+            promoView.frame = CGRect(x:0 , y:0 , width: 30, height:140)
+            self.promotiosView!.addSubview(promoView)
         }
-        
-        let promoView = PLPLegendView(isvertical: true, PLPArray: plpArray, viewPresentLegend: self.superview!)
-        promoView.frame = CGRect(x:0 , y:0 , width: 30, height:150)
-        self.promotiosView!.addSubview(promoView)
-      
     }
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String, isMoreArts:Bool, isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
@@ -137,17 +138,16 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 
         var savingPrice = ""
         if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+            self.productPriceThroughLabel.textColor = WMColor.green
             if isMoreArts {
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue
                 if doubleVaule > 0.1 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
                     let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
                     savingPrice = "\(savingStr) \(formated)"
-                    self.productPriceThroughLabel.textColor = WMColor.red
                 }
             } else {
                 savingPrice = productPriceThrough
-                self.productPriceThroughLabel.textColor = WMColor.green
             }
         }
         

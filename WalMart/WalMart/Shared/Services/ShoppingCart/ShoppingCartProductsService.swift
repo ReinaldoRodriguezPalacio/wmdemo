@@ -27,132 +27,9 @@ class ShoppingCartProductsService : BaseService {
                     
                     //println("Items in shoppingCart: \(resultCall)")
                     
-                    let itemsInShoppingCart = resultCall["items"] as! NSArray
+                   
+                    self.saveItemsAndSuccess(resultCall)
                     
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    
-                    let user = UserCurrentSession.sharedInstance().userSigned
-                    
-                    var currentQuantity = 0
-                    
-                    let predicate = NSPredicate(format: "user == %@  AND type == %@", user!,ResultObjectType.Mg.rawValue)
-                    let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
-                    for cart in array {
-                        context.deleteObject(cart)
-                    }
-
-                    do {
-                        try context.save()
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
-                    } catch {
-                        fatalError()
-                    }
-                    
-                    for shoppingCartProduct in itemsInShoppingCart {
-                        
-                        
-                        var carProduct : Cart!
-                        var carProductItem : Product!
-                        let upc = shoppingCartProduct["upc"] as! String
-                        //let quantity = shoppingCartProduct["quantity"] as! NSNumber
-                        var quantiValue = 0
-                        if let quantity = shoppingCartProduct["quantity"] as? NSNumber {
-                           quantiValue = quantity.integerValue
-                        }
-                        
-                        let desc = shoppingCartProduct["description"] as! String
-                        var price = "" //shoppingCartProduct["price"] as! String
-                        if  let priceValue = shoppingCartProduct["price"] as? NSNumber {
-                            price = priceValue.stringValue
-                        }
-                        var baseprice = ""
-                        if  let base = shoppingCartProduct["basePrice"] as? String {
-                            baseprice = base
-                        }
-                        if  let base = shoppingCartProduct["basePrice"] as? NSNumber {
-                            baseprice = base.stringValue
-                        }
-                        var iva = ""
-                        if  let ivabase = shoppingCartProduct["ivaAmount"] as? String {
-                            iva = ivabase
-                        }
-                        if  let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
-                            iva = ivabase.stringValue
-                        }
-                        var department = ""
-                        if  let departmentBase = shoppingCartProduct["department"] as? String {
-                            department = departmentBase
-                        }
-                        var comments = ""
-                        if let commentBase = shoppingCartProduct["comments"] as? String {
-                            comments = commentBase
-                        }
-                        let equivalenceByPiece = ""
-                        let promoDescription = ""
-                        let saving = ""
-                        let stock = true
-                        let idLine = ""
-                        var nameLine = ""
-                        if let nameLineBase = shoppingCartProduct["line"] as? AnyObject {
-                            nameLine = (nameLineBase["name"] as? String)!
-                        }
-                        
-                        var imageUrl = ""
-                        if let images = shoppingCartProduct["imageUrl"] as? NSArray {
-                            imageUrl = images[0] as! String
-                        }
-                        
-                        carProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
-                        
-                        carProductItem = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
-                        
-                        carProductItem.upc = upc
-                        carProductItem.desc = desc
-                        carProductItem.price = price
-                        carProductItem.iva = iva
-                        carProductItem.baseprice = baseprice
-                        carProductItem.img = imageUrl
-                        carProductItem.department = department
-                        //New items
-                        carProductItem.comments = comments
-                        carProductItem.equivalenceByPiece = equivalenceByPiece
-                        carProductItem.promoDescription = promoDescription
-                        carProductItem.saving = saving
-                        carProductItem.stock = stock
-                        //carProductItem.idLine = idLine
-                        carProductItem.nameLine = nameLine
-                        //
-                        
-                        if let active = shoppingCartProduct["isActive"] as? String {
-                            carProductItem.isActive = active
-                        }
-                        if let inventory = shoppingCartProduct["onHandInventory"] as? String {
-                            carProductItem.onHandInventory = inventory
-                        }
-                        if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
-                            carProductItem.isPreorderable = preorderable
-                        }
-
-                        carProduct.quantity = NSNumber(integer: quantiValue)
-                        carProduct.product = carProductItem
-                        carProduct.type = ResultObjectType.Mg.rawValue
-                        carProduct.user = user!
-                        carProduct.status = NSNumber(integer:CartStatus.Synchronized.rawValue)
-                        
-                        currentQuantity += quantiValue
-                        
-                    }
-                    
-                    
-                    do {
-                        try context.save()
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
-                    } catch {
-                        fatalError()
-                    }
                     
                     successBlock!(resultCall)
                     ShoppingCartService.isSynchronizing  = false
@@ -189,7 +66,6 @@ class ShoppingCartProductsService : BaseService {
     func callCoreDataService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
         //  Quitar type para tomar todos los articulos
         
         var predicate = NSPredicate(format: "user == nil AND status != %@",NSNumber(integer: WishlistStatus.Deleted.rawValue))
@@ -205,9 +81,35 @@ class ShoppingCartProductsService : BaseService {
         var iva : Double = 0.0
         var totalest : Double = 0.0
         var totalQuantity = 0
+        
+        var arrayUpcsUpdate : [AnyObject] = []
+        var arrayUPCQuantity : [[String:String]] = []
+        
+        let service = GRProductsByUPCService()
+        for item in array {
+            arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
+        }
+        
+        service.callService(requestParams: arrayUPCQuantity, successBlock: { (response:NSDictionary) -> Void in
+            print("")
+           
+            self.saveItemsAndSuccess(response)
+            
+            if successBlock != nil {
+                successBlock!(response)
+            //    UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+            }
+            
+            //self.saveItemsAndSuccess(arrayUPCQuantity,resultCall: response,successBlock: successBlock)
+        }) { (error:NSError) -> Void in
+            print("")
+            errorBlock?(error)
+        }
+        
+        
+        /*
         for itemSC in array {
 
-            
             //let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory]
             
             let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":itemSC.product.img,"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"line":["id" :"0","name":itemSC.product.nameLine],"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department, "type": itemSC.product.type]
@@ -233,8 +135,144 @@ class ShoppingCartProductsService : BaseService {
             successBlock!(returnDictionary)
             UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
         }
-        
+        */
     }
+    
+    
+    func saveItemsAndSuccess(resultCall:NSDictionary) {
+       
+        let itemsInShoppingCart = resultCall["items"] as! NSArray
+        
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        let user = UserCurrentSession.sharedInstance().userSigned
+        
+        var currentQuantity = 0
+        var  predicate : NSPredicate
+        if user != nil {
+            predicate = NSPredicate(format: "user == %@  AND type == %@", user!,ResultObjectType.Mg.rawValue)
+        }else {
+            predicate = NSPredicate(format: "type == %@", ResultObjectType.Mg.rawValue)
+        }
+        
+        let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+        for cart in array {
+            context.deleteObject(cart)
+        }
+        
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        } catch {
+            fatalError()
+        }
+        
+        for shoppingCartProduct in itemsInShoppingCart {
+            
+            
+            var carProduct : Cart!
+            var carProductItem : Product!
+            let upc = shoppingCartProduct["upc"] as! String
+            //let quantity = shoppingCartProduct["quantity"] as! NSNumber
+            var quantiValue = 0
+            if let quantity = shoppingCartProduct["quantity"] as? NSNumber {
+                quantiValue = quantity.integerValue
+            }
+            
+            let desc = shoppingCartProduct["description"] as! String
+            var price = "" //shoppingCartProduct["price"] as! String
+            if  let priceValue = shoppingCartProduct["price"] as? NSNumber {
+                price = priceValue.stringValue
+            }
+            var baseprice = ""
+            if  let base = shoppingCartProduct["basePrice"] as? String {
+                baseprice = base
+            }
+            if  let base = shoppingCartProduct["basePrice"] as? NSNumber {
+                baseprice = base.stringValue
+            }
+            var iva = ""
+            if  let ivabase = shoppingCartProduct["ivaAmount"] as? String {
+                iva = ivabase
+            }
+            if  let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
+                iva = ivabase.stringValue
+            }
+            var department = ""
+            if  let departmentBase = shoppingCartProduct["department"] as? String {
+                department = departmentBase
+            }
+            var comments = ""
+            if let commentBase = shoppingCartProduct["comments"] as? String {
+                comments = commentBase
+            }
+            let equivalenceByPiece = ""
+            let promoDescription = ""
+            let saving = ""
+            let stock = true
+            let idLine = ""
+            var nameLine = ""
+            if let nameLineBase = shoppingCartProduct["line"] as? AnyObject {
+                nameLine = (nameLineBase["name"] as? String)!
+            }
+            
+            var imageUrl = ""
+            if let images = shoppingCartProduct["imageUrl"] as? NSArray {
+                imageUrl = images[0] as! String
+            }
+            
+            carProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
+            
+            carProductItem = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
+            
+            carProductItem.upc = upc
+            carProductItem.desc = desc
+            carProductItem.price = price
+            carProductItem.iva = iva
+            carProductItem.baseprice = baseprice
+            carProductItem.img = imageUrl
+            carProductItem.department = department
+            //New items
+            carProductItem.comments = comments
+            carProductItem.equivalenceByPiece = equivalenceByPiece
+            carProductItem.promoDescription = promoDescription
+            carProductItem.saving = saving
+            carProductItem.stock = stock
+            //carProductItem.idLine = idLine
+            carProductItem.nameLine = nameLine
+            //
+            
+            if let active = shoppingCartProduct["isActive"] as? String {
+                carProductItem.isActive = active
+            }
+            if let inventory = shoppingCartProduct["onHandInventory"] as? String {
+                carProductItem.onHandInventory = inventory
+            }
+            if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
+                carProductItem.isPreorderable = preorderable
+            }
+            
+            carProduct.quantity = NSNumber(integer: quantiValue)
+            carProduct.product = carProductItem
+            carProduct.type = ResultObjectType.Mg.rawValue
+            if user != nil {
+                carProduct.user = user!
+            }
+            carProduct.status = NSNumber(integer:CartStatus.Synchronized.rawValue)
+            currentQuantity += quantiValue
+        }
+        
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        } catch {
+            fatalError()
+        }
+    }
+    
     
     
     func synchronizeWebShoppingCartFromCoreData(successBlock:(() -> Void), errorBlock:((NSError) -> Void)?){
