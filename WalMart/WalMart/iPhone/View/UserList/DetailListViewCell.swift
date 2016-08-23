@@ -23,6 +23,7 @@ class DetailListViewCell: ProductTableViewCell {
     var check: UIButton?
     var equivalenceByPiece: NSNumber? = NSNumber(int:0)
     var detailDelegate: DetailListViewCellDelegate?
+    var viewIpad : UIView?
     var imageGrayScale: UIImage? = nil
     var imageNormal: UIImage? = nil
     var total: String? = ""
@@ -45,7 +46,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
         self.promoDescription!.numberOfLines = 2
         self.promoDescription!.textAlignment = .Left
-        self.promoDescription!.backgroundColor =  UIColor.blueColor()
+        self.promoDescription!.backgroundColor =  UIColor.whiteColor()
         self.contentView.addSubview(self.promoDescription!)
         
         self.productShortDescriptionLabel!.textColor = WMColor.gray
@@ -97,8 +98,10 @@ class DetailListViewCell: ProductTableViewCell {
     }
     
     func setValueArray(plpArray:NSArray){
-        promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self)
-        self.contentView.addSubview(self.promotiosView!)
+        if plpArray.count > 0 {
+            promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: IS_IPAD ? self.viewIpad! : self)
+            self.contentView.addSubview(self.promotiosView!)
+        }
     }
 
     /**
@@ -295,8 +298,8 @@ class DetailListViewCell: ProductTableViewCell {
         }
         else {
             self.productPriceLabel!.frame = CGRectMake(x, self.quantityIndicator!.frame.minY, 100.0, 20.0)
-            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 80.0, 12.0)
-            self.promotiosView!.frame =  CGRectMake(self.promoDescription!.frame.minX,self.quantityIndicator!.frame.maxY + 1, bounds.width - (x + sep), 23)
+            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 90.0, 12.0)
+            self.promotiosView?.frame =  CGRectMake(self.promoDescription!.frame.minX,self.quantityIndicator!.frame.maxY + 1, bounds.width - (x + sep), 23)
         }
 
         self.separator!.frame = CGRectMake(x, 113,self.frame.width - 16, 1.0)

@@ -96,15 +96,18 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     }
     
     func setValueArray(plpArray:NSArray){
-        if self.promotiosView != nil {
-            for subview in self.promotiosView!.subviews {
-                subview.removeFromSuperview()
-            }
-        }
         
-        let promoView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self.superview!)
-        promoView.frame = CGRect(x:0 , y:0 , width: 180, height: 30)
-        self.promotiosView!.addSubview(promoView)
+        if plpArray.count > 0 {
+            if self.promotiosView != nil {
+                for subview in self.promotiosView!.subviews {
+                    subview.removeFromSuperview()
+                }
+            }
+            
+            let promoView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self.superview!)
+            promoView.frame = CGRect(x:0 , y:0 , width: 180, height: 30)
+            self.promotiosView!.addSubview(promoView)
+        }
     }
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool) {
@@ -132,17 +135,16 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         var savingPrice = ""
         if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+            self.productPriceThroughLabel!.textColor = WMColor.green
             if isMoreArts {
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue
                 if doubleVaule > 0.1 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
                     let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
                     savingPrice = "\(savingStr) \(formated)"
-                    self.productPriceThroughLabel!.textColor = WMColor.red
                 }
             } else {
                 savingPrice = productPriceThrough
-                self.productPriceThroughLabel!.textColor = WMColor.green
             }
         }
         

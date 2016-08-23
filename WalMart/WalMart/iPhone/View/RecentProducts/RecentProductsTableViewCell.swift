@@ -37,6 +37,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     var iconDiscount : UIImageView!
     let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     var presale : UILabel!
+    var viewIpad : UIView?
     
     var promotiosView : PLPLegendView?
     
@@ -97,8 +98,10 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     }
     
     func setValueArray(plpArray:NSArray){
-        promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self)
-        self.contentView.addSubview(self.promotiosView!)
+        if plpArray.count > 0 {
+            promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: IS_IPAD ? self.viewIpad! : self)
+            self.contentView.addSubview(self.promotiosView!)
+        }
     }
     
     func addToShoppingCart() {
@@ -160,6 +163,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
 
         var savingPrice = ""
         if saving != "" {
+            self.productPriceSavingLabelGR.textColor = WMColor.green
             
             if isMoreArts {
                 let doubleVaule = NSString(string: saving).doubleValue
@@ -167,11 +171,9 @@ class RecentProductsTableViewCell : ProductTableViewCell {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
                     let formated = CurrencyCustomLabel.formatString("\(saving)")
                     savingPrice = "\(savingStr) \(formated)"
-                    self.productPriceSavingLabelGR.textColor = WMColor.red
                 }
             } else {
                 savingPrice = saving as String
-                self.productPriceSavingLabelGR.textColor = WMColor.green
             }
         }
 
