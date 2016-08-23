@@ -20,7 +20,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var btnOkAdd : UIButton!
     var keyboardView : NumericKeyboardView!
     var isUpcInShoppingCart : Bool = false
-    var pickBar: ProductDetailPickBar!
     
     init(frame: CGRect, priceProduct : NSNumber!,upcProduct:String) {
         super.init(frame: frame)
@@ -95,12 +94,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         
         btnOkAdd.frame =  CGRectMake((self.frame.width / 2) - ((rectSize.width + 32) / 2), self.keyboardView.frame.maxY + 15 , rectSize.width + 32, 36)
-        if self.frame.height > 389 && !TabBarHidden.isTabBarHidden {
-            self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0,self.frame.height - 92), width: self.frame.width)
-        }else{
-            self.pickBar = ProductDetailPickBar.initDefault(CGPointMake(0,self.frame.height - 46), width: self.frame.width)
-        }
-        self.pickBar.showHeader = false
         
         self.addSubview(bgView)
         self.addSubview(lblTitle)
@@ -108,8 +101,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.addSubview(btnOkAdd)
         self.addSubview(closeButton)
         self.addSubview(self.keyboardView)
-        self.addSubview(self.pickBar)
-        
     }
     
     
