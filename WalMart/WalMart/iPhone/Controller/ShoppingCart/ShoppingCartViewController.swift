@@ -154,7 +154,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)
-        facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), forControlEvents: UIControlEvents.TouchUpInside)
+        facebookButton.addTarget(self, action: #selector(ShoppingCartViewController.shareProduct), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(facebookButton)
         
         
@@ -1823,6 +1823,28 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.viewLoad!.stopAnnimating()
             self.viewLoad = nil
         }
+    }
+    
+    /**
+     Share products
+     */
+    func shareProduct() {
+       
+            if self.isEdditing {
+                return
+            }
+            
+            self.viewShoppingCart!.setContentOffset(CGPoint.zero , animated: false)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
+            
+            if let image = self.viewShoppingCart!.screenshot() {
+                let imageHead = UIImage(named:"detail_HeaderMail")
+                let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+                let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+                self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            }
+            
+
     }
     
     
