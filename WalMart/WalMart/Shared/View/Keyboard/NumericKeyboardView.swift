@@ -116,7 +116,7 @@ class NumericKeyboardView : UIView {
             currentX = btnNumber.frame.maxX +  widthBetweenButtons
             if index % 3 == 0 {
                 currentX =  0
-                currentY += 10 + widthButton
+                currentY += 12 + widthButton
             }
             
         }
