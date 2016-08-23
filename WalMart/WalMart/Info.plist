@@ -446,7 +446,7 @@
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/u/49807601/searchbytext3.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/51qbjdrddxfcxub/searchbytext3.txt?dl=0</string>
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>https://dl.dropboxusercontent.com/s/b2pv1fc74042thm/getTicketList.txt?dl=0</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
