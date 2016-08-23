@@ -380,17 +380,16 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
 
     
     func deleteAddress(idAddress:String, isFisicalAddress:Bool){
-       
+        
         var  service: DeleteAddressesByUserService? = nil
         
         if isFisicalAddress {
             service = DeleteAddressesInvoiceService()
+          
         }else {
             service = DeleteAddressesByUserService()
         }
-        
-        
-        let params = service!.buildParams(idAddress)
+         let  params = service!.buildParams(idAddress)
         
         if self.alertView == nil {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
@@ -398,24 +397,25 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
         service!.callService(params, successBlock:{ (resultCall:NSDictionary?) in
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             
-        if let message = resultCall!["message"] as? String {
-            if self.alertView != nil {
-                self.alertView!.setMessage("\(message)")
-                self.alertView!.showDoneIcon()
-            }
-        }//if let message = resultCall!["message"] as? String {
-        self.alertView = nil
-    
-        self.callServiceAddress()
-        }
-        , errorBlock: {(error: NSError) in
-            print("error")
-            self.alertView!.setMessage(error.localizedDescription)
-            self.alertView!.showErrorIcon("Ok")
+            if let message = resultCall!["message"] as? String {
+                if self.alertView != nil {
+                    self.alertView!.setMessage("\(message)")
+                    self.alertView!.showDoneIcon()
+                }
+            }//if let message = resultCall!["message"] as? String {
             self.alertView = nil
+            
+            self.callServiceAddress()
+            }
+            , errorBlock: {(error: NSError) in
+                print("error")
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon("Ok")
+                self.alertView = nil
         })
+        
     }
 
     override func back() {

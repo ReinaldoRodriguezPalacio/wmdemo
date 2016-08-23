@@ -676,7 +676,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
     
     func deleteAddress(sender:UIButton){
-        var service : DeleteAddressesByUserService? = nil
+       var service : DeleteAddressesByUserService? = nil
         
         if self.typeAddress == TypeAddress.Shiping  {
             service = DeleteAddressesByUserService()

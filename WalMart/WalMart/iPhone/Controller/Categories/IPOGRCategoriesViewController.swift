@@ -161,7 +161,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             }
             
             let item = items![rowforsearch] as! [String:AnyObject]
-            let descDepartment = item["description"] as? String ?? ""
+            let descDepartment = item["DepartmentName"] as? String ?? ""
             let bgDepartment = (item["idDept"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             let scale = UIScreen.mainScreen().scale
             
@@ -176,7 +176,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let item = items![rowforsearch] as! [String:AnyObject]
             var bgDepartment = item["idDept"] as! String
             let families = JSON(item["familyContent"] as! [[String:AnyObject]])
-            let descDepartment = item["description"] as? String ?? ""
+            let descDepartment = item["DepartmentName"] as? String ?? ""
             bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             
             

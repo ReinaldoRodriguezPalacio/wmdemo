@@ -228,6 +228,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.DeleteAddressesInvoiceService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/deleteInvoiceAddress</string>
 			<key>WalmartMG.UpdatePasswordService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/changePassword</string>
 			<key>WalmartMG.InvoiceAddressByUserService</key>
@@ -262,8 +264,6 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getLinesForSearch</string>
-			<key>WalmartMG.GRLoginService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login</string>
 			<key>WalmartMG.GROrderByEmailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
@@ -329,13 +329,13 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getCategories_ant</string>
+			<string>http://192.168.43.192:9080/walmartmg/login/getCategories</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://192.168.43.192:9080/walmartmg/ogin/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteAddressesByUser</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/deleteShippingAddress</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
@@ -401,6 +401,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.DeleteAddressesInvoiceService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteInvoiceAddress</string>
 			<key>WalmartMG.UpdatePasswordService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/changePassword</string>
 			<key>WalmartMG.LoginWithIdService</key>
@@ -506,7 +508,7 @@
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteAddressesByUser</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShippingAddress</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>

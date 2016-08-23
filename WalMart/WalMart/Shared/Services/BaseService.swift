@@ -407,42 +407,51 @@ class BaseService : NSObject {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
-                for item in items as! [AnyObject] {
-                    let name = item["description"] as? String ?? ""
+                for item in (items as? [AnyObject])! {
+                    let name = item["DepartmentName"] as? String ?? ""
                     let idDepto = item["idDept"] as! String
-                    let famArray : AnyObject = item["familyContent"] as AnyObject!
-                    let bussines = item["bussines"] as? String ?? ""
-                    
-                    
-                    for itemFamily in famArray as! [AnyObject] {
-                        let idFamily = itemFamily["id"] as? String ?? ""
-                        if itemFamily.count > 1 {
-                        let lineArray : AnyObject = itemFamily["fineContent"] as AnyObject!
-                        let namefamily = itemFamily["familyName"] as! String
-                        for itemLine in lineArray as! [AnyObject] {
-                            let idLine =  itemLine["fineLineId"] as! String
-                            let nameLine =  itemLine["fineLineName"] as! String
-                            let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:bussines, idLine:idLine)
-                            if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
-                                var exist = false
-                                while rs.next() {
-                                    exist = true
-                                }
-                                rs.close()
-                                rs.setParentDB(nil)
+                    let dicItem = item as! NSDictionary
+                    let items :AnyObject? =  dicItem["familyContent"]
+                    if  items !=  nil {
+                        let famArray : AnyObject = item["familyContent"] as AnyObject!
+                        let bussines = item["bussines"] as? String ?? ""
+                        
+                        
+                        for itemFamily in famArray as! [AnyObject] {
+                            let idFamily = itemFamily["id"] as? String ?? ""
+                            if itemFamily.count > 1 {
                                 
-                                if exist {
-                                    continue
-                                }
-                            }
-                            
-                            let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:bussines, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
-                            db.executeUpdate(query, withArgumentsInArray: nil)
-                            
-                            
-                        }
-                        }
-                    }
+                                let itemdic = itemFamily as! NSDictionary
+                                let itemsContent :AnyObject? =  itemdic["fineContent"]
+                                if  itemsContent !=  nil {
+                                    let lineArray : AnyObject = itemFamily["fineContent"] as AnyObject!
+                                    let namefamily = itemFamily["familyName"] as! String
+                                    for itemLine in lineArray as! [AnyObject] {
+                                        let idLine =  itemLine["fineLineId"] as! String
+                                        let nameLine =  itemLine["fineLineName"] as! String
+                                        let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:bussines, idLine:idLine)
+                                        if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
+                                            var exist = false
+                                            while rs.next() {
+                                                exist = true
+                                            }
+                                            rs.close()
+                                            rs.setParentDB(nil)
+                                            
+                                            if exist {
+                                                continue
+                                            }
+                                        }
+                                        
+                                        let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:bussines, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
+                                        db.executeUpdate(query, withArgumentsInArray: nil)
+                                        
+                                        
+                                    }
+                                }//items !=  nil
+                            }//Close count
+                        }//for
+                    }//Close if
                 }
             }
         })
