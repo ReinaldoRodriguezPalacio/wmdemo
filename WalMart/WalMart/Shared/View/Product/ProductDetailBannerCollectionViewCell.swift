@@ -34,7 +34,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var saving : CurrencyCustomLabel!
     
     var imageIconView: UIImageView!
-    var pickBar: ProductDetailPickBar!
+    //var pickBar: ProductDetailPickBar!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -98,10 +98,10 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imageIconView.frame =  CGRectMake(100, 100, 70, 70)
         
         
-        self.pickBar = ProductDetailPickBar()
-        self.pickBar.frame = CGRectMake(0, 296,320, 64)
-        self.pickBar.startPossition = CGPointMake(0,296)
-        self.addSubview(self.pickBar)
+//        self.pickBar = ProductDetailPickBar()
+//        self.pickBar.frame = CGRectMake(0, 296,320, 64)
+//        self.pickBar.startPossition = CGPointMake(0,296)
+//        self.addSubview(self.pickBar)
         self.addSubview(imageIconView)
         
     }
@@ -248,12 +248,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.price.frame = CGRectMake(0, self.bounds.height - 39  , self.frame.width, 24.0)
         self.saving.frame = CGRectMake(0, self.bounds.height - 15  , self.frame.width, 15.0)
         self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 144 ,70 ,70)
-        if self.pickBar.isShowingBar {
-            self.pickBar.frame = CGRectMake(0, self.bounds.height - 18,self.bounds.width, 64)
-        }else{
-            self.pickBar.frame = CGRectMake(0, self.bounds.height - 64,self.bounds.width, 64)
-        }
-        
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

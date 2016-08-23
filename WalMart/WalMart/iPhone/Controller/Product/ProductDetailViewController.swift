@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate,ListSelectorDelegate,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate,UIGestureRecognizerDelegate, PickInStoreViewControllerDelegate {
+class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate,ListSelectorDelegate,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate,UIGestureRecognizerDelegate {
 
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
@@ -520,8 +520,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         }
                     )
             }
-            selectQuantity!.pickBar.loginAction = {self.showLogin()}
-            selectQuantity!.pickBar.changeStoreAction = {self.changueProductStore()}
             //Event
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
             
@@ -1091,9 +1089,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             view.colorsViewDelegate = self
             view.collection.reloadData()
             view.promotions = [["text":"Nuevo","tagText":"N","tagColor":WMColor.yellow],["text":"Paquete","tagText":"P","tagColor":WMColor.light_blue],["text":"Sobre pedido","tagText":"Sp","tagColor":WMColor.light_blue],["text":"Ahorra más","tagText":"A+","tagColor":WMColor.light_red]]
-            
-            view.pickBar.loginAction = {self.showLogin()}
-            view.pickBar.changeStoreAction = {self.changueProductStore()}
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
             view.activePromotions(ProductDetailViewController.validateUpcPromotion(self.upc as String))
@@ -1843,36 +1838,4 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func listSelectorDidCreateList(name:String) {
         
     }
-    
-    func showLogin(){
-        let cont = LoginController.showLogin()
-        cont!.closeAlertOnSuccess = false
-        cont!.okCancelCallBack = {() in
-            cont!.closeAlert(true, messageSucesss:false)
-        }
-        cont!.successCallBack = {() in
-            
-        }
-
-    }
-    
-    func changueProductStore() {
-        let pickInStoreController = PickInStoreViewController()
-        pickInStoreController.delegate = self
-        self.navigationController?.pushViewController(pickInStoreController, animated: true)
-    }
-    
-    //MARK: PickInStoreViewControllerDelegate
-    
-    func didSelectStore(storeId: String, storeName: String) {
-        let header = currentHeaderView as! ProductDetailBannerCollectionViewCell
-        header.pickBar.storeName = storeName
-        header.pickBar.storeId = storeId
-        header.pickBar.setValues()
-        
-        self.selectQuantity?.pickBar.storeName = storeName
-        self.selectQuantity?.pickBar.storeId = storeId
-        self.selectQuantity?.pickBar.setValues()
-    }
-    
 }
