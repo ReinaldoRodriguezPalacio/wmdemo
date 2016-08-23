@@ -965,26 +965,30 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.delegate = self
         
         var plpArray : NSDictionary = [:]
-        
-        if self.newArrayProducts!.count > 0{
-            let items = self.newArrayProducts![indexPath.section]
-            let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
-            let product =  listProduct.objectAtIndex(indexPath.row)
-            plpArray = UserCurrentSession.sharedInstance().getArrayPLP((product as? NSDictionary)!)
-            if UserCurrentSession.hasLoggedUser() {
-                listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
-            }else{
-                 let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
-                let product =  listProduct.objectAtIndex(indexPath.row) as! Product
-                print(product.upc)
-                listCell.setValues(product,disabled:!self.selectedItems!.containsObject(product.upc))
+            if self.newArrayProducts!.count > 0{
+                let items = self.newArrayProducts![indexPath.section]
+                let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
+                let product =  listProduct.objectAtIndex(indexPath.row)
+                if UserCurrentSession.hasLoggedUser() {
+                    plpArray = UserCurrentSession.sharedInstance().getArrayPLP((product as? NSDictionary)!)
+                }
+                
+                if UserCurrentSession.hasLoggedUser() {
+                    listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
+                }else{
+                    let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
+                    let product =  listProduct.objectAtIndex(indexPath.row) as! Product
+                    print(product.upc)
+                    listCell.setValues(product,disabled:!self.selectedItems!.containsObject(product.upc))
+                }
             }
-        }
+        
         
         if self.isEdditing {
             listCell.showLeftUtilityButtonsAnimated(false)
         }
-       listCell.setValueArray(plpArray["arrayItems"] as! NSArray)
+        
+        listCell.setValueArray(UserCurrentSession.hasLoggedUser() ? plpArray["arrayItems"] as! NSArray : [])
         
         return listCell
     }

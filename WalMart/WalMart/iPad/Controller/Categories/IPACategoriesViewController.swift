@@ -71,7 +71,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         }// if indexPath.item == 0 {
         
         let item = items[currentItem] as! [String:AnyObject]
-        let descDepartment = item["description"] as! String
+        let descDepartment = item["DepartmentName"] as! String
         let bgDepartment = item["idDept"] as! String
         /*var selected = false
         if selectedIndex != nil {

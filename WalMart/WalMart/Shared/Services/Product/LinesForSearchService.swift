@@ -20,7 +20,6 @@ class LinesForSearchService: BaseService {
         self.jsonFromObject(params)
         self.getManager().POST(serviceUrl(), parameters: params,
             success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-                print(json)
                 self.jsonFromObject(json)
                 self.printTimestamp("success LinesForSearchService")
                 if let response = json["responseArray"] as? [AnyObject] {

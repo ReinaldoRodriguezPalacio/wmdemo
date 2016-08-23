@@ -96,7 +96,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         cell.index = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section)
         
         let item = items![indexPath.row] as! [String:AnyObject]
-        let descDepartment = item["description"] as! String
+        let descDepartment = item["DepartmentName"] as! String
         var bgDepartment = item["idDept"] as! String
         let families = JSON(item["familyContent"] as! [[String:AnyObject]])
         cell.descLabel!.text = "Lo más destacado de \(descDepartment)"
