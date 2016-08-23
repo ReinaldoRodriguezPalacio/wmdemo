@@ -150,6 +150,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
         listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row))
         listCell.detailDelegate = self
+        let controller = self.view.window!.rootViewController
+        listCell.viewIpad = controller!.view
         var plpArray : NSDictionary = [:]
         plpArray = UserCurrentSession.sharedInstance().getArrayPLP((self.detailItems![indexPath.row] as NSDictionary))
         listCell.setValueArray(plpArray["arrayItems"] as! NSArray)

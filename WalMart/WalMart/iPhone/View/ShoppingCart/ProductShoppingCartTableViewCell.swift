@@ -12,7 +12,6 @@ protocol ProductShoppingCartTableViewCellDelegate {
     func endUpdatingShoppingCart(cell:ProductShoppingCartTableViewCell)
     func deleteProduct(cell:ProductShoppingCartTableViewCell)
     func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell)
-    func showViewPlpItem()
 }
 
 
@@ -39,8 +38,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var typeProd : Int = 0
     var comments : String! = ""
     var pesable : Bool = false
-    var picturesView : UIView? = nil
-    var countPromotion: Int = 0
+    var promotiosView  : UIView?
     
     override func setup() {
         super.setup()
@@ -63,7 +61,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         self.productPriceThroughLabel = UILabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Left
- 
         
         priceSelector = ShoppingCartButton(frame: CGRectZero)
         priceSelector.addTarget(self, action: #selector(ProductShoppingCartTableViewCell.choseQuantity), forControlEvents: UIControlEvents.TouchUpInside)
@@ -75,11 +72,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.contentView.addSubview(productPriceThroughLabel)
         self.contentView.addSubview(priceSelector)
         
-        self.picturesView = UIView(frame: CGRectZero)
-        self.contentView.addSubview(picturesView!)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProductShoppingCartTableViewCell.showViewPLP))
-        picturesView!.addGestureRecognizer(tapGesture)
+        self.promotiosView = UIView()
+        self.contentView.addSubview(promotiosView!)
         
     }
     
@@ -98,8 +92,22 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
         priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
         
-        self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), 14.0)
+        self.promotiosView?.frame = CGRectMake(self.productShortDescriptionLabel!.frame.minX, 90.0, self.productShortDescriptionLabel!.frame.width, 30)
+    }
+    
+    func setValueArray(plpArray:NSArray){
         
+        if plpArray.count > 0 {
+            if self.promotiosView != nil {
+                for subview in self.promotiosView!.subviews {
+                    subview.removeFromSuperview()
+                }
+            }
+            
+            let promoView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: self.superview!)
+            promoView.frame = CGRect(x:0 , y:0 , width: 180, height: 30)
+            self.promotiosView!.addSubview(promoView)
+        }
     }
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool) {
@@ -125,21 +133,18 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
-      
-        
         var savingPrice = ""
         if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+            self.productPriceThroughLabel!.textColor = WMColor.green
             if isMoreArts {
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue
                 if doubleVaule > 0.1 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
                     let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
                     savingPrice = "\(savingStr) \(formated)"
-                    self.productPriceThroughLabel!.textColor = WMColor.red
                 }
             } else {
                 savingPrice = productPriceThrough
-                self.productPriceThroughLabel!.textColor = WMColor.green
             }
         }
         
@@ -151,56 +156,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.productPriceThroughLabel!.hidden = true
         }
 
-        
-        
-        
         let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
         self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
-        
-       
-        
     }
-    
-    
-    func setPLP(PlpArray:NSArray){
-        
-        self.countPromotion =  PlpArray.count
-        
-        for subview in picturesView!.subviews {
-            subview.removeFromSuperview()
-        }
-        
-        let yView : CGFloat = 0.0
-        var xView : CGFloat = 0.0
-        let ySpace : CGFloat = 4.0
-        let heighView : CGFloat = 14.0
-        let widthView : CGFloat = 18.0
-        
-        //Show PLP in Cell
-        if PlpArray.count > 0 {
-            for lineToShow in PlpArray {
-                //Se muestran etiquetas para promociones, etc.
-                let promotion = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
-                promotion.backgroundColor = lineToShow["color"] as? UIColor //WMColor.light_red
-                promotion.layer.cornerRadius = 2.0
-                
-                let textLabel = UILabel(frame: CGRectMake(0, 0, widthView, heighView))
-                textLabel.text =  lineToShow["text"] as? String //"TS"
-                textLabel.textColor = UIColor.whiteColor()
-                textLabel.font = WMFont.fontMyriadProRegularOfSize(9)
-                textLabel.textAlignment = .Center
-                promotion.addSubview(textLabel)
-                
-                self.picturesView!.addSubview(promotion)
-                
-                xView = promotion.frame.maxX + ySpace
-            }
-        }
-        
-        self.picturesView!.frame = CGRectMake(112.0, 94.0, 22.0 * CGFloat(self.countPromotion), heighView)
-        
-    }
-
     
     /*func setValuesGR(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
         self.equivalenceByPiece = equivalenceByPiece
@@ -267,8 +225,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             alert!.setMessage(msgInventory)
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             
-            
-            
         }else {
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
@@ -292,20 +248,14 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                     
                    // self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
                    // self.productPriceSavingLabel.hidden = false
-                    
-                    
                 }
                 self.delegateProduct.endUpdatingShoppingCart(self)
                 
                 }) { (error:NSError) -> Void in
                     
                     self.delegateProduct.endUpdatingShoppingCart(self)
-                    
             }
-
         }
-
-        
     }
 
     func deleteProduct() {
@@ -344,10 +294,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     func choseQuantity() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_QUANTITY_KEYBOARD.rawValue, label: "")
         self.delegateProduct?.userShouldChangeQuantity(self)
-    }
-    
-    func showViewPLP(){
-        self.delegateProduct?.showViewPlpItem()
     }
     
 }
