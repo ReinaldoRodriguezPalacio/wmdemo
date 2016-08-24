@@ -863,6 +863,8 @@ class UserCurrentSession : NSObject {
                 isMoreSave = true
                 
                 //si isPriceStrike es true entra como ahorra más
+                //if let priceThr = priceEvent["savingsAmount"] as? NSInteger {
+                //promoDescription = String(priceThr)
                 if let priceThr = priceEvent["specialPrice"] as? NSString {
                     promoDescription = priceThr as String
                 }
@@ -908,8 +910,6 @@ class UserCurrentSession : NSObject {
                     plpShow = ["text":"Eg", "color": WMColor.light_blue]
                 case "Precios mas bajos":
                     plpShow = ["text":"-$", "color": WMColor.red]
-                case "Ultimas piezas":
-                    plpShow = ["text":"Up", "color": WMColor.red]
                 default:
                     plpShow = [:]
                 }
@@ -927,6 +927,7 @@ class UserCurrentSession : NSObject {
                         plpShow = ["text":"A+", "color": WMColor.red]
                         plpArray.append(plpShow)
                         flagPromAho = false
+                        //isMoreSave = true
                     } else {
                         //"Mas articulos por menos"
                         // si en description viene "x$" se tomará en cuenta ejemplo "3x$200"
@@ -940,7 +941,18 @@ class UserCurrentSession : NSObject {
             }
         }
         
+        if flagAhorra && flagPromAho {
+            //"Ahorra más"
+            plpShow = ["text":"A+", "color": WMColor.red]
+            plpArray.append(plpShow)
+        }
+        
         //characteristics
+        //Ultimas piezas
+        if Item["lowStock"] as? String == "true" {
+            plpShow = ["text":"Up", "color": WMColor.red]
+            plpArray.append(plpShow)
+        }
         //Preventa
         if Item["isPreorderable"] as? String == "true" {
             plpShow = ["text":"Pv", "color": WMColor.light_light_light_blue]
@@ -951,21 +963,18 @@ class UserCurrentSession : NSObject {
             plpShow = ["text":"N", "color": WMColor.green]
             plpArray.append(plpShow)
         }
-        
         //Paquete
         if Item["isBundle"] as? String == "true" {
             plpShow = ["text":"P", "color": WMColor.light_blue]
             plpArray.append(plpShow)
         }
-        
         //Recoger en tienda
-        if Item["pickupInStore"] as? String == "true" {
+        if Item["sellingAtStore"] as? String == "true" {
             plpShow = ["text":"Rt", "color": WMColor.light_blue]
             plpArray.append(plpShow)
         }
-        
         //Sobre pedido
-        if Item["isGift"] as? String == "true" {
+        if Item["isOnDemand"] as? String == "true" {
             plpShow = ["text":"Sp", "color": WMColor.light_light_light_blue]
             plpArray.append(plpShow)
         }

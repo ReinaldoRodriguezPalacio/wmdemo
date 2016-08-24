@@ -148,7 +148,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         
         let listCell = tableView.dequeueReusableCellWithIdentifier("schoolProduct", forIndexPath: indexPath) as! SchoolProductTableViewCell
-        listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row))
+        listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row), productPriceThrough: "", isMoreArts: false)
         listCell.detailDelegate = self
         listCell.selectionStyle = .None
         listCell.hideUtilityButtonsAnimated(false)

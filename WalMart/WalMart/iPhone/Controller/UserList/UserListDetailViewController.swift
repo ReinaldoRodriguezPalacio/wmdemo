@@ -969,12 +969,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 let items = self.newArrayProducts![indexPath.section]
                 let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
                 let product =  listProduct.objectAtIndex(indexPath.row)
+                var through: NSString! = ""
                 if UserCurrentSession.hasLoggedUser() {
                     plpArray = UserCurrentSession.sharedInstance().getArrayPLP((product as? NSDictionary)!)
+                    through = plpArray["promo"] as! String
                 }
                 
                 if UserCurrentSession.hasLoggedUser() {
-                    listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
+                    listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]), productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
                 }else{
                     let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
                     let product =  listProduct.objectAtIndex(indexPath.row) as! Product

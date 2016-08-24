@@ -39,7 +39,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     var presale : UILabel!
     var viewIpad : UIView?
     
-    var promotiosView : PLPLegendView?
+    var promotiosView  : UIView?
     
     override func setup() {
         super.setup()
@@ -75,6 +75,9 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
         
+        self.promotiosView = UIView()
+        self.contentView.addSubview(promotiosView!)
+        
         //--
         productPriceSavingLabelGR = UILabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
         productPriceSavingLabelGR!.font = WMFont.fontMyriadProSemiboldSize(14)
@@ -98,9 +101,17 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     }
     
     func setValueArray(plpArray:NSArray){
+        
         if plpArray.count > 0 {
-            promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: IS_IPAD ? self.viewIpad! : self)
-            self.contentView.addSubview(self.promotiosView!)
+            if self.promotiosView != nil {
+                for subview in self.promotiosView!.subviews {
+                    subview.removeFromSuperview()
+                }
+            }
+            
+            let promoView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: IS_IPAD ? self.viewIpad! : self)
+            promoView.frame = CGRect(x:0 , y:0 , width: 170, height: 30)
+            self.promotiosView!.addSubview(promoView)
         }
     }
     
