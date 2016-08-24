@@ -18,6 +18,8 @@ class CategoryService : BaseService {
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
+                
+                self.jsonFromObject(resultCall)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                 successBlock?(resultCall)
                 
@@ -40,8 +42,8 @@ class CategoryService : BaseService {
         if values != nil {
             response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
             for category in response {
-                if category["bussines"]  != nil {
-                if category["bussines"] as! String == type{
+                if category["business"]  != nil {
+                if category["business"] as! String == type{
                     filterResponse.append(category)
                 }
                 }

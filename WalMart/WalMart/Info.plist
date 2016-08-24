@@ -214,7 +214,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
@@ -228,6 +228,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.AddPreferedAddressInvoice</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/defaultInvoiceAddress</string>
 			<key>WalmartMG.DeleteAddressesInvoiceService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/deleteInvoiceAddress</string>
 			<key>WalmartMG.UpdatePasswordService</key>
@@ -311,7 +313,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addPreferredAddress</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/defaultShippingAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addShippingAddress</string>
 			<key>WalmartMG.ShippingAddressByUserService</key>
@@ -482,7 +484,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addPreferredAddress</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/defaultShippingAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addShippingAddress</string>
 			<key>WalmartMG.ShippingAddressByUserService</key>

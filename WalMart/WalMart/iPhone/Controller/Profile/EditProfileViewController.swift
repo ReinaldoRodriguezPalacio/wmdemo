@@ -68,6 +68,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var selectedGender: NSIndexPath!
     var dateBriday  = ""
     
+    var changePassword =  false
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
     }
@@ -599,14 +601,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      Calls updatePassword service
      */
     func updatePassword(message: String){
+         self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+
         let service = UpdatePasswordService()
         let params = service.buildParams(self.passworCurrent!.text!,newPassword:self.password!.text!)
         service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
             self.alertView!.setMessage("\(message)")
             self.alertView!.showDoneIcon()
+            //self.showPasswordData(self.changuePasswordButton!)
             }, errorBlock: {(error: NSError) in
                 //self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.setMessage(NSLocalizedString("conection.error", comment: ""))
+                self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
         })
     }
@@ -616,35 +622,40 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      - parameter sender: save button
      */
     func save(sender:UIButton) {
-        if validateUser() {
-            if self.showAssociateInfo {
-                if sender.tag == 100 {
-                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        if changePassword {
+            self.updatePassword("Mensaje")
+        }
+        else{
+            if validateUser() {
+                if self.showAssociateInfo {
+                    if sender.tag == 100 {
+                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    }else{
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    }
+                    
+                    self.alertView?.setMessage("Validando datos del asociado")
+                    let service = ValidateAssociateService()
+                    service.callService(requestParams: service.buildParams(associateNumber!.text!, determinant: associateDeterminant!.text!),
+                                        succesBlock: { (response:NSDictionary) -> Void in
+                                            if response["codeMessage"] as? Int == 0 {
+                                                self.saveProfileService()
+                                            }else{
+                                                self.alertView?.setMessage("Error en los datos del asociado")
+                                                self.alertView!.showErrorIcon("Ok")
+                                            }
+                    }) { (error:NSError) -> Void in
+                        self.alertView?.setMessage("Error en los datos del asociado")
+                        self.alertView!.showErrorIcon("Ok")
+                    }
                 }else{
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    if sender.tag == 100 {
+                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    }else{
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    }
+                    self.saveProfileService()
                 }
-
-                self.alertView?.setMessage("Validando datos del asociado")
-                let service = ValidateAssociateService()
-                service.callService(requestParams: service.buildParams(associateNumber!.text!, determinant: associateDeterminant!.text!),
-                                succesBlock: { (response:NSDictionary) -> Void in
-                                    if response["codeMessage"] as? Int == 0 {
-                                       self.saveProfileService()
-                                    }else{
-                                        self.alertView?.setMessage("Error en los datos del asociado")
-                                        self.alertView!.showErrorIcon("Ok")
-                                    }
-                }) { (error:NSError) -> Void in
-                    self.alertView?.setMessage("Error en los datos del asociado")
-                    self.alertView!.showErrorIcon("Ok")
-                }
-            }else{
-                if sender.tag == 100 {
-                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-                }else{
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-                }
-                self.saveProfileService()
             }
         }
     }
@@ -869,8 +880,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      
      - parameter sender: UIButton
      */
+
     func showPasswordData(sender:UIButton) {
         self.changuePasswordButton!.selected = !self.changuePasswordButton!.selected
+        
+        changePassword = self.changuePasswordButton!.selected
         self.showPasswordInfo = self.changuePasswordButton!.selected
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.passwordInfoLabel.alpha = self.showPasswordInfo ? 1.0 : 0.0

@@ -15,17 +15,21 @@ class AddPreferedAddress : BaseService {
     func buildParams(zipCode:String) {
         self.code = zipCode
     }
+    func buildParamsInvoice(idAddressParam:String) -> [String:AnyObject] {
+        
+        return ["addressId":idAddressParam]
+    }
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)
         }
     }
     
-    override func serviceUrl() -> (String){
-        return super.serviceUrl() + "/"  + self.code!
-    }
+//    override func serviceUrl() -> (String){
+//        return super.serviceUrl() + "/"  + self.code!
+//    }
     
 }

@@ -21,8 +21,6 @@ class CarouselService : BaseService {
         self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
             NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
-
-            
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

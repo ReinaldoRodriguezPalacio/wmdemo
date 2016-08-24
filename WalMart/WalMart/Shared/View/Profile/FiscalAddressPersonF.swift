@@ -149,8 +149,8 @@ class FiscalAddressPersonF: AddressView {
          let paramsAdd : NSMutableDictionary? = [:]
         paramsAdd!.addEntriesFromDictionary(super.getParams() as [NSObject : AnyObject])
         //let paramsAddress =  super.getParams()
-        paramsAdd?.addEntriesFromDictionary(["rfc":self.rfc!.text!,"rfcEmail":self.email!.text!,"IEPS":self.ieps!.text!,"TelNumber":self.telephone!.text!])
-        paramsAdd?.addEntriesFromDictionary(["lastName2":self.lastName2!.text! ,"name":self.name!.text! ,"lastName":self.lastName!.text! ])
+        paramsAdd?.addEntriesFromDictionary(["RFC":self.rfc!.text!,"email":self.email!.text!,"IEPS":self.ieps!.text!,"phoneNumber":self.telephone!.text!])
+        paramsAdd?.addEntriesFromDictionary(["lastName2":self.lastName2!.text! ,"firstName":self.name!.text! ,"lastName":self.lastName!.text!,"persona":"F" ])
       //  let userParams = ["profile":["lastName2":self.lastName2!.text! ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]]
 //        paramsAddress.updateValue(userParams as AnyObject, forKey: "user")
         return paramsAdd!

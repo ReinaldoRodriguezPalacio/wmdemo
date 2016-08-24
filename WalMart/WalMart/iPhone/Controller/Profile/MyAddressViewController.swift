@@ -208,7 +208,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
         
         var addressId = ""
-        if let addId =  item["addressID"] as? String {
+        if let addId =  item["addressId"] as? String {
             addressId = addId
         }
 
@@ -364,12 +364,15 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
        
         if isFisicalAddress {
               service = AddPreferedAddressInvoice()
+           
+            
         }else {
             service = AddPreferedAddress()
+            
         }
 
-        service!.buildParams(addressID)
-        service!.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
+       
+        service!.callService(service!.buildParamsInvoice(addressID),  successBlock:{ (resultCall:NSDictionary?) in
             self.callServiceAddress()
             }, errorBlock: {(error: NSError) in
                 self.viewLoad.stopAnnimating()
