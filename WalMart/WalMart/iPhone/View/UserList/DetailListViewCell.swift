@@ -111,7 +111,7 @@ class DetailListViewCell: ProductTableViewCell {
      - parameter product:  array products
      - parameter disabled: validate if row is active
      */
-    func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
+    func setValuesDictionary(product:[String:AnyObject],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
         let imageUrl = product["imageUrl"] as! String
         self.productImage!.contentMode = UIViewContentMode.Center
         self.productImage!.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: imageUrl)!),
@@ -123,7 +123,30 @@ class DetailListViewCell: ProductTableViewCell {
                 self.imageNormal = image
                 
             }, failure: nil)
-        self.promoDescription!.text = product["promoDescription"] as? String
+        //self.promoDescription!.text = product["promoDescription"] as? String
+        var savingPrice = ""
+        if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+            self.promoDescription!.textColor = WMColor.green
+            if isMoreArts {
+                let doubleVaule = NSString(string: productPriceThrough).doubleValue
+                if doubleVaule > 0.1 {
+                    let savingStr = NSLocalizedString("price.saving",comment:"")
+                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
+                    savingPrice = "\(savingStr) \(formated)"
+                }
+            } else {
+                savingPrice = productPriceThrough
+            }
+        }
+        
+        if savingPrice != ""{
+            self.promoDescription!.hidden = false
+            self.promoDescription!.text = savingPrice
+            self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        } else{
+            self.promoDescription!.hidden = true
+        }
+        
         self.productShortDescriptionLabel!.text = product["description"] as? String
         self.upcVal = product["upc"] as? String
  

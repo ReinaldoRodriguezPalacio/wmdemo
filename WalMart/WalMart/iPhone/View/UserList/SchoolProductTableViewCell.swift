@@ -10,7 +10,7 @@ import Foundation
 
 class SchoolProductTableViewCell: DetailListViewCell {
     
-  override func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
+  override func setValuesDictionary(product:[String:AnyObject],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
         var imageUrl: String? = ""
         if let imageArray = product["imageUrl"] as? NSArray {
             if imageArray.count > 0 {
@@ -31,7 +31,30 @@ class SchoolProductTableViewCell: DetailListViewCell {
             self.imageNormal = image
             }, failure: nil)
     
-        self.promoDescription!.text = product["promoDescription"] as? String
+        //self.promoDescription!.text = product["promoDescription"] as? String
+        var savingPrice = ""
+        if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+            self.promoDescription!.textColor = WMColor.green
+            if isMoreArts {
+                let doubleVaule = NSString(string: productPriceThrough).doubleValue
+                if doubleVaule > 0.1 {
+                    let savingStr = NSLocalizedString("price.saving",comment:"")
+                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
+                    savingPrice = "\(savingStr) \(formated)"
+                }
+            } else {
+                savingPrice = productPriceThrough
+            }
+        }
+    
+        if savingPrice != ""{
+            self.promoDescription!.hidden = false
+            self.promoDescription!.text = savingPrice
+            self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        } else{
+            self.promoDescription!.hidden = true
+        }
+    
         self.upcVal = product["upc"] as? String
     
         if let equivalence = product["equivalenceByPiece"] as? NSNumber {
