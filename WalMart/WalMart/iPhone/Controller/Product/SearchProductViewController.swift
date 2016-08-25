@@ -82,10 +82,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var isLoading  = false
     var hasEmptyView = false
     
-    var itemsUPCMG: NSArray? = []
-    var itemsUPCGR: NSArray? = []
-    var itemsUPCMGBk: NSArray? = []
-    var itemsUPCGRBk: NSArray? = []
+    var itemsUPC: NSArray? = []
+    var itemsUPCBk: NSArray? = []
     
     var didSelectProduct =  false
     var finsihService =  false
@@ -124,7 +122,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()
-       
         
         collection = getCollectionView()
         collection?.registerClass(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
@@ -626,7 +623,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.searchContextType != nil {
             self.invokeSearchUPCGroceries(actionSuccess: { () -> Void in
-                self.invokeSearchUPCMG { () -> Void in
                     
                     self.invokeSearchProducts(actionSuccess: sucessBlock, actionError: errorBlock)
                     /*
@@ -646,7 +642,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.invokeSearchProducts(actionSuccess: sucessBlock, actionError: errorBlock)
                     }
                     */
-                }
             })
         }
         else {
@@ -654,34 +649,21 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
+    //Solo ocupar este servicio para busqueda
     func invokeSearchUPCGroceries(actionSuccess actionSuccess:(() -> Void)?) {
         if self.upcsToShow?.count > 0 {
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:NSDictionary) -> Void in
                 if result["items"] != nil {
-                 self.itemsUPCGR = result["items"] as? NSArray
+                 self.itemsUPC = result["items"] as? NSArray
                 }else {
-                 self.itemsUPCGR = []
+                 self.itemsUPC = []
                 }
                
                 actionSuccess?()
                 }, errorBlock: { (error:NSError) -> Void in
                     actionSuccess?()
             })
-        } else {
-            actionSuccess?()
-        }
-    }
-    
-    func invokeSearchUPCMG(actionSuccess actionSuccess:(() -> Void)?) {
-        if self.upcsToShow?.count > 0 {
-            let serviceUPC = SearchItemsByUPCService()
-            serviceUPC.callService(self.upcsToShow!, successJSONBlock: { (result:JSON) -> Void in
-                self.itemsUPCMG = result.arrayObject
-                actionSuccess?()
-                }) { (error:NSError) -> Void in
-                    actionSuccess?()
-            }
         } else {
             actionSuccess?()
         }
@@ -765,13 +747,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if firstOpen && (self.results!.products == nil || self.results!.products!.count == 0 ) {
             self.allProducts = []
             if self.results?.products != nil {
-                if self.itemsUPCMG?.count > 0 {
-                    self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
+                if self.itemsUPC?.count > 0 {
+                    self.allProducts?.addObjectsFromArray(self.itemsUPC as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:AnyObject]
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPCMG!.containsObject(productUPC) {
+                            if !self.itemsUPC!.containsObject(productUPC) {
                                 filtredProducts.append(productDict)
                             }
                         }
@@ -787,13 +769,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         } else {
             self.allProducts = []
             if self.results?.products != nil {
-                if self.itemsUPCGR?.count > 0 {
-                    self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
+                if self.itemsUPC?.count > 0 {
+                    self.allProducts?.addObjectsFromArray(self.itemsUPC as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:AnyObject]
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPCGR!.containsObject(productUPC) {
+                            if !self.itemsUPC!.containsObject(productUPC) {
                                 filtredProducts.append(productDict)
                             }
                         }
@@ -982,17 +964,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             
             if self.upcsToShowApply?.count == 0 {
                 self.upcsToShowApply = self.upcsToShow
-                self.itemsUPCMGBk = self.itemsUPCMG
-                self.itemsUPCGRBk = self.itemsUPCGR
-                self.itemsUPCMG = []
-                self.itemsUPCGR = []
+                self.itemsUPCBk = self.itemsUPC
+                self.itemsUPC = []
                 self.upcsToShow = []
             }
             
         } else {
-            
-            self.itemsUPCMG = self.itemsUPCMGBk
-            self.itemsUPCGR = self.itemsUPCGRBk
+            self.itemsUPC = self.itemsUPCBk
             self.upcsToShow = self.upcsToShowApply
             self.upcsToShowApply = []
         }
