@@ -116,7 +116,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                     if self.updateShoppingCart() {
 //                        let shoppingService = GRShoppingCartProductsService()
 //                        shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
-                        UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
+                           UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
                             successBlock!([:])
                         })

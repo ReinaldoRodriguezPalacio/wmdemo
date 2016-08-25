@@ -38,11 +38,8 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
         let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
         
         let desc = itemUPC["description"] as! String
-        let imageArray = itemUPC["imageUrl"] as! NSArray
-        var imageUrl = ""
-        if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as! String
-        }
+        let imageUrl = itemUPC["imageUrl"] as! String
+ 
         
         cell.setValues(imageUrl, productShortDescription: desc)
         

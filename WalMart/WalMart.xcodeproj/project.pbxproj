@@ -110,7 +110,6 @@
 		5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */; };
 		5614A6641A6887860048B71A /* GRDeliveryTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */; };
 		5614A6681A688EB60048B71A /* GRAddressUpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6671A688EB60048B71A /* GRAddressUpdateService.swift */; };
-		5614A66A1A69CA740048B71A /* GROrderByEmailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6691A69CA740048B71A /* GROrderByEmailService.swift */; };
 		56152F7D19BF724C009F50E4 /* ShoppingCartAddProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56152F7C19BF724C009F50E4 /* ShoppingCartAddProductsService.swift */; };
 		56152F7F19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */; };
 		561657D919B1423900DA056A /* FamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561657D819B1423900DA056A /* FamilyViewController.swift */; };
@@ -759,7 +758,6 @@
 		5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRItemByTicketService.swift; path = Shared/Services/Profile/GRItemByTicketService.swift; sourceTree = "<group>"; };
 		5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRDeliveryTypeService.swift; path = Shared/Services/checkout/GRDeliveryTypeService.swift; sourceTree = "<group>"; };
 		5614A6671A688EB60048B71A /* GRAddressUpdateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressUpdateService.swift; path = Shared/Services/LoginSignUp/Address/GRAddressUpdateService.swift; sourceTree = "<group>"; };
-		5614A6691A69CA740048B71A /* GROrderByEmailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GROrderByEmailService.swift; path = Shared/Services/Home/GROrderByEmailService.swift; sourceTree = "<group>"; };
 		56152F7C19BF724C009F50E4 /* ShoppingCartAddProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartAddProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartAddProductsService.swift; sourceTree = "<group>"; };
 		56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartDeleteProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartDeleteProductsService.swift; sourceTree = "<group>"; };
 		561657D819B1423900DA056A /* FamilyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyViewController.swift; path = iPhone/Controller/Categories/FamilyViewController.swift; sourceTree = "<group>"; };
@@ -1643,7 +1641,6 @@
 			children = (
 				5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */,
 				56B044AD1A6DB5E300BA173A /* GRTimeBands.swift */,
-				5614A6691A69CA740048B71A /* GROrderByEmailService.swift */,
 				04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */,
 				5601716A1A9549590029786B /* GRSendOrderService.swift */,
 				6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */,
@@ -3842,7 +3839,6 @@
 				5614A65F1A68826E0048B71A /* GRPurchaseOrdersService.swift in Sources */,
 				4A5A9D501C84A99B00A2A7F4 /* ABCalendarPickerDefaultTripleWeekdaysProvider.m in Sources */,
 				56AEBC6A19F867D9002D1BB3 /* IPAShoppingCartBeforeToLeave.swift in Sources */,
-				5614A66A1A69CA740048B71A /* GROrderByEmailService.swift in Sources */,
 				04448A3B1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift in Sources */,
 				85A40B721C223AE40036C78A /* EVExtensions.swift in Sources */,
 				56F86FCF1A8BD464002181D2 /* AlertPickerView.swift in Sources */,
