@@ -314,8 +314,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }else{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
             item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
-            if let type = item["corporateName"] as? String{
-                if type == "" {
+            if let type = item["persona"] as? String{
+                if type == "F" {
                     self.addressController!.typeAddress = TypeAddress.FiscalPerson
                 }else{
                     self.addressController!.typeAddress = TypeAddress.FiscalMoral

@@ -576,8 +576,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      */
     
     func showNewListField() {
-        self.legendView =  LegendView()
-        self.legendView?.showLegend(self.view)
+
         
         self.newListBtn!.enabled = false
         self.editBtn!.enabled = false

@@ -199,7 +199,7 @@ class UserCurrentSession : NSObject {
         
         profile.profession = userProfile["occupation"] as? String ?? ""
         
-        profile.sex = userProfile["gender"] as? String ?? "Male"
+        profile.sex = userProfile["gender"] as? String ?? "Femenino"
         
         //Associate
         profile.associateNumber = userProfile["associateNumber"] as? String ?? ""

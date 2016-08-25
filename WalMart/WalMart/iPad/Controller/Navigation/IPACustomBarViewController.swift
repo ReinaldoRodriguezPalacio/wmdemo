@@ -201,7 +201,6 @@ class IPACustomBarViewController :  CustomBarViewController {
             //contDetail.upc = upc!
             let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let svcValidate = ProductDetailService(dictionary: useSignalsService)
-            //let svcValidate = GRProductDetailService()
             
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
