@@ -462,9 +462,14 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 
                 self.neighborhoodsDic = resultCall!["neighbourhoods"] as! [NSDictionary]
                 self.neighborhoods =  []
-                
+                var index = 0
+
                 for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
                     self.neighborhoods.append(dic["neighbourhoodName"] as! String!)
+                    if dic["neighbourhoodId"] as? String ==  self.idSuburb{
+                        self.selectedNeighborhood = NSIndexPath(forRow: index, inSection: 0)
+                    }
+                    index += 1
                 }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                 
                 self.storesDic = resultCall!["stores"] as! [NSDictionary]
@@ -476,6 +481,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                     
                     if dic["storeId"] as? String ==  self.idStoreSelected{
                         self.store!.text = "\(name) - \(cost)"
+                        self.selectedStore = NSIndexPath(forRow: self.stores.count - 1, inSection: 0)
+                        //self.currentZipCode = self.zipcode.text!
                     }
                 }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                 
