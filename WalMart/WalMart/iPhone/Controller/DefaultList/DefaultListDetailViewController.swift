@@ -148,6 +148,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
         
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
+        let controller = self.view.window!.rootViewController
+        listCell.viewIpad = controller!.view
         var plpArray : NSDictionary = [:]
         plpArray = UserCurrentSession.sharedInstance().getArrayPLP((self.detailItems![indexPath.row] as NSDictionary))
         
@@ -156,8 +158,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
         listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row), productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
         listCell.detailDelegate = self
-        let controller = self.view.window!.rootViewController
-        listCell.viewIpad = controller!.view
+        
         listCell.setValueArray(plpArray["arrayItems"] as! NSArray)
         listCell.hideUtilityButtonsAnimated(false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
