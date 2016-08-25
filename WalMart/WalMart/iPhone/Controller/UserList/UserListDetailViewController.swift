@@ -958,6 +958,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
 
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
+        let controller = self.view.window!.rootViewController
+        listCell.viewIpad = controller!.view
         listCell.productImage!.image = nil
         listCell.productImage!.cancelImageRequestOperation()
         listCell.defaultList = false
