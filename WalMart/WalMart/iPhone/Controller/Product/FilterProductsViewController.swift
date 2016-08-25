@@ -56,6 +56,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var isTextSearch: Bool = false
     var needsToValidateData = true
     var facet: NSArray? = nil
+    
+    var sliderTableViewCell : SliderTableViewCell?
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_FILTER.rawValue
     }
@@ -437,6 +439,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         sliderCell.setValuesSlider(self.prices!)
                         sliderCell.delegate = self
                     }
+                    sliderTableViewCell = sliderCell
                     //sliderCell.delegate = self
                     return sliderCell
                 }

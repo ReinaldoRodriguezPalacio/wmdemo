@@ -948,6 +948,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.loading?.removeFromSuperview()
                 }
             }
+            controllerFilter.sliderTableViewCell?.resetSlider()
+            controllerFilter.upcPrices =  nil
+            controllerFilter.selectedElementsFacet = [:]
             controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
             self.navigationController?.pushViewController(controllerFilter, animated: true)
         }

@@ -13,7 +13,7 @@
 "moreoptions.title.Profile" = "Perfil y contraseña";
 "moreoptions.title.Recents" = "Mis Básicos";
 "moreoptions.title.Address" = "Mis Direcciones";
-"moreoptions.title.Orders" = "Pedidos anteriores";
+"moreoptions.title.Orders" = "Mis Pedidos";
 "moreoptions.title.Invoice" = "Facturación electrónica";
 "moreoptions.title.ReferedList" = "Referidos";
 "moreoptions.title.Promotions" = "Centro de promociones";
@@ -243,7 +243,7 @@
 "profile.misarticulos" = "Mis Artículos Más Comprados";
 "profile.misbasicos.title" = "Mis Básicos";
 "profile.myAddress" = "Mis Direcciones";
-"profile.myOrders" = "Pedidos Anteriores";
+"profile.myOrders" = "Mis Pedidos";
 "profile.no.account" = "Inicia sesión o crea una cuenta con:";
 "profile.shipping" = "Direcciones de Entrega";
 "profile.fiscal" = "Direcciones de Facturación";
