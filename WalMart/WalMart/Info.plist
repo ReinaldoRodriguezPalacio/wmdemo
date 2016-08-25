@@ -484,7 +484,7 @@
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addShippingAddress</string>
 			<key>WalmartMG.ShippingAddressByUserService</key>
-			<string>https://dl.dropboxusercontent.com/s/q4ikvaeaafoltnb/getAddres.txt</string>
+			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getAddress.json</string>
 			<key>WalmartMG.InvoiceAddressByUserService</key>
 			<string>https://dl.dropboxusercontent.com/s/brqndy57lqnru9l/getAddressInvoice.txt</string>
 			<key>WalmartMG.BannerService</key>
@@ -568,7 +568,7 @@
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.GRZipCodeService</key>
-			<string>https://dl.dropboxusercontent.com/s/bqjcsipn6zx79ko/getZipCode.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getZipCode.json</string>
 		</dict>
 	</dict>
 	<key>useSignalsServices</key>
