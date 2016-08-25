@@ -67,9 +67,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var picker : AlertPickerView!
     var selectedGender: NSIndexPath!
     var dateBriday  = ""
-    
-    var changePassword =  false
-    
+
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
     }
@@ -600,18 +598,17 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     /**
      Calls updatePassword service
      */
-    func updatePassword(message: String){
+    func updatePassword(){
          self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
 
         let service = UpdatePasswordService()
         let params = service.buildParams(self.passworCurrent!.text!,newPassword:self.password!.text!)
         service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
-            self.alertView!.setMessage("\(message)")
-            self.alertView!.showDoneIcon()
-            //self.showPasswordData(self.changuePasswordButton!)
+            self.alertView!.setMessage("Cambiando contraseña ....")
+            self.showPasswordInfo = false
+            self.save(self.saveButton!)
             }, errorBlock: {(error: NSError) in
-                //self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
         })
@@ -622,13 +619,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      - parameter sender: save button
      */
     func save(sender:UIButton) {
-        if changePassword {
-            self.updatePassword("Mensaje")
+        if showPasswordInfo {
+            self.updatePassword()
         }
         else{
             if validateUser() {
                 if self.showAssociateInfo {
-                    if sender.tag == 100 {
+                    if sender.tag == 100 && self.alertView == nil {
                         self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                     }else{
                         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -681,12 +678,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
         service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
             if let message = resultCall!["message"] as? String {
-                if self.showPasswordInfo {
-                    self.updatePassword(message)
-                }else{
-                    self.alertView!.setMessage("\(message)")
-                    self.alertView!.showDoneIcon()
-                }
+                self.alertView!.setMessage("\(message)")
+                self.alertView!.showDoneIcon()
             }
             if self.delegate == nil {
                 self.navigationController!.popViewControllerAnimated(true)
@@ -883,8 +876,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 
     func showPasswordData(sender:UIButton) {
         self.changuePasswordButton!.selected = !self.changuePasswordButton!.selected
-        
-        changePassword = self.changuePasswordButton!.selected
         self.showPasswordInfo = self.changuePasswordButton!.selected
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.passwordInfoLabel.alpha = self.showPasswordInfo ? 1.0 : 0.0
