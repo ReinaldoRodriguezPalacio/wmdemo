@@ -266,8 +266,6 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getLinesForSearch</string>
-			<key>WalmartMG.GROrderByEmailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
@@ -369,7 +367,7 @@
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getItemByUpc</string>
+			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -437,8 +435,6 @@
 			<string>https://dl.dropboxusercontent.com/s/b2pv1fc74042thm/getTicketList.txt?dl=0</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
-			<key>WalmartMG.GROrderByEmailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
@@ -568,7 +564,7 @@
 			<key>WalmartMG.UpdateShippingAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/updateUserProfile</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.GRZipCodeService</key>
@@ -587,7 +583,7 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemsBySearching</string>
-			<key>WalmartMG.GRProductDetailService</key>
+			<key>WalmartMG.ProductDetailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
@@ -597,8 +593,8 @@
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/u/49807601/searchbytext3.txt</string>
-			<key>WalmartMG.GRProductDetailService</key>
+			<string>https://dl.dropboxusercontent.com/s/51qbjdrddxfcxub/searchbytext3.txt?dl=0</string>
+			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getItemByUpc</string>
 		</dict>
 	</dict>

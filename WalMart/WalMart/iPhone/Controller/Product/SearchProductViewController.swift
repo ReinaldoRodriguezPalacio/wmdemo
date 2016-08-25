@@ -317,7 +317,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        //println("View bounds: \(self.view.bounds)")
+        if self.isAplyFilter {
+            self.filterButton!.setTitle(NSLocalizedString("Restaurar", comment:"" ) , forState: .Normal)
+            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 90 , (self.header!.frame.size.height - 22)/2 , 70, 22)
+        }else{
+            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
+            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -920,22 +926,33 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - Filters
     
     func filter(sender:UIButton){
-        if controllerFilter == nil {
-            controllerFilter = FilterProductsViewController()
-            controllerFilter.facet = self.facet
-            controllerFilter.textToSearch = self.textToSearch
-            controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort! //self.idSort!//
-            controllerFilter.delegate = self
-            //controllerFilter.isTextSearch = false //para no llamar los servicios de facets
-            controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-            controllerFilter?.backFilter = {() in
-                self.loading?.stopAnnimating()
-                self.loading?.removeFromSuperview()
+        if self.isAplyFilter {
+            print("Resetea filtros")
+            self.isAplyFilter =  false
+            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
+            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
+            self.results!.resetResult()
+            self.getServiceProduct(resetTable: true)
+        }else{
+            print("Nuevos filtros")
+            if controllerFilter == nil {
+                controllerFilter = FilterProductsViewController()
+                controllerFilter.facet = self.facet
+                controllerFilter.textToSearch = self.textToSearch
+                controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort! 
+                controllerFilter.delegate = self
+                //controllerFilter.isTextSearch = false //para no llamar los servicios de facets
+                controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
+                controllerFilter?.backFilter = {() in
+                    self.loading?.stopAnnimating()
+                    self.loading?.removeFromSuperview()
+                }
             }
+            controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
+            self.navigationController?.pushViewController(controllerFilter, animated: true)
         }
-        controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
-        self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
+    
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         
@@ -990,6 +1007,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
     func apply(order:String, upcs: [String]) {
 
+        self.isAplyFilter =  true
+        
         if IS_IPHONE {
             self.isLoading = true
         } else {
