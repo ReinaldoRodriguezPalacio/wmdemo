@@ -238,7 +238,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.isPreorderable = self.strisPreorderable
             productDetailButton!.productDepartment = self.productDeparment
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
@@ -1111,7 +1111,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.idListSelect =  self.idListFromlistFind
             
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String

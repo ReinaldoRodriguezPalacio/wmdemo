@@ -300,35 +300,14 @@ class UserCurrentSession : NSObject {
         
         return fetchedResult!.count
     }
-    
-    
-    func userHasUPCWishlist(upc:String) -> Bool {
-        var predicate : NSPredicate? = nil
-        if userSigned != nil {
-            predicate = NSPredicate(format: "user == %@ && product.upc == %@ && status != %@", userSigned!,upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
-        }else {
-            predicate = NSPredicate(format: "user == nil && product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
-        }
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
-        request.predicate = predicate!
-        
-        var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
-        do {
-            fetchedResult = try context.executeFetchRequest(request)
-        } catch let error1 as NSError {
-            error = error1
-            fetchedResult = nil
-        }
-        if error != nil {
-            print("errore: \(error)")
-        }
-        
-        return fetchedResult?.count != 0
-    }
-    
+
+    /**
+     Find upc in local list
+     
+     - parameter upc: upc search
+     
+     - returns: true or false
+     */
     func userHasUPCUserlist(upc:String) -> Bool {
         var predicate : NSPredicate? = nil
         if userSigned != nil {
