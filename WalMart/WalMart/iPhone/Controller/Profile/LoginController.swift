@@ -685,6 +685,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     {
                         self.getFBUserData()
                         self.fbLoginMannager.logOut()
+                    }else{
+                        self.alertView!.setMessage(NSLocalizedString("Para continuar es necesario compartir tu correo",comment:""))
+                        self.alertView!.showErrorIcon("Aceptar")
+                        self.deleteFacebookPermission()
+                        self.fbLoginMannager.logOut()
                     }
                 }
             })
@@ -709,6 +714,29 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     self.alertView!.showErrorIcon("Aceptar")
                 }
             })
+        }
+    }
+    
+    /**
+     Delete Facebook Permissions
+     */
+    func deleteFacebookPermission(){
+        if((FBSDKAccessToken.currentAccessToken()) != nil){
+            let facebookRequest: FBSDKGraphRequest! = FBSDKGraphRequest(graphPath: "/me/permissions", parameters: nil, HTTPMethod: "DELETE")
+            facebookRequest.startWithCompletionHandler { (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+                if(error == nil && result != nil){
+                    print("Permission successfully revoked. This app will no longer post to Facebook on your behalf.")
+                    print("result = \(result)")
+                } else {
+                    if let error: NSError = error {
+                        if let errorString = error.userInfo["error"] as? String {
+                            print("errorString variable equals: \(errorString)")
+                        }
+                    } else {
+                        print("No value for error key")
+                    }
+                }
+            }
         }
     }
     
@@ -749,9 +777,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 withError error: NSError!) {
         if (error == nil) {
             self.loginWithEmail(user.profile.email, firstName: user.profile.givenName, lastName: user.profile.familyName, gender: "", birthDay: "")
+             GIDSignIn.sharedInstance().signOut()
         } else {
             self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
             self.alertView!.showErrorIcon("Aceptar")
+             GIDSignIn.sharedInstance().signOut()
         }
     }
     

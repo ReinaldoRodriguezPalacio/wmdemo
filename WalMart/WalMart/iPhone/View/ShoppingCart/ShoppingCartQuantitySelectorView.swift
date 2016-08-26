@@ -58,7 +58,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
      
         
-        let closeButton = UIButton(frame: CGRectMake(0, 0, 24, 24))
+        let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
         closeButton.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.closeSelectQuantity), forControlEvents: UIControlEvents.TouchUpInside)
         

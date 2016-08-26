@@ -304,7 +304,7 @@
 "profile.address.field.telephone" = "Teléfono";
 "profile.address.field.telephone.house" = "Teléfono de casa";
 "profile.address.field.telephone.office" = "Teléfono de oficina";
-"profile.address.field.telephone.cell" = "Teléfono celular";
+"profile.address.field.telephone.cell" = "Teléfono móvil";
 "profile.address.telephone" = "Teléfono";
 "profile.address.shiping.name" =  "Nombre";
 "profile.address.shiping.lastname" = "Apellidos";

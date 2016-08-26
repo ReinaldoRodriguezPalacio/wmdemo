@@ -578,7 +578,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             return false
         }
         
-        if textField == self.cellPhone! && fieldString.length() > 10 {
+        if textField == self.cellPhone! && fieldString.length() > 15 {
             return false
         }
         

@@ -23,9 +23,9 @@
 #endif
 
 
-//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
-//#error "TwitterKit doesn't support iOS 7.x and lower. Please, change your minimum deployment target to iOS 8.0"
-//#endif
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#error "TwitterKit doesn't support iOS 7.x and lower. Please, change your minimum deployment target to iOS 8.0"
+#endif
 
 #import "Twitter.h"
 #import "TWTRAPIClient.h"
@@ -43,7 +43,9 @@
 #import "TWTRNotificationConstants.h"
 #import "TWTROAuthSigning.h"
 #import "TWTRSearchTimelineDataSource.h"
+#import "TWTRTimelineCursor.h"
 #import "TWTRTimelineDataSource.h"
+#import "TWTRTimelineDelegate.h"
 #import "TWTRTimelineType.h"
 #import "TWTRTimelineViewController.h"
 #import "TWTRTweet.h"

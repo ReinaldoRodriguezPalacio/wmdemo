@@ -215,35 +215,48 @@
 	</dict>
 	<key>WMEnvironment</key>
 	<string>PRODUCTION</string>
-	<key>WMPayPalEnvironment</key>
-	<dict>
-		<key>PayPalEnvironment</key>
-		<string>SANDBOX</string>
-		<key>ProductionClientID</key>
-		<string>------</string>
-		<key>SandboxClientID</key>
-		<string>AQUxJRC5xGMz8nQKTfNOlMiTutWWStv9Ra35BNTB4W7tvhdGIb-EdznRbApl</string>
-	</dict>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.AddFiscalAddressService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
+			<key>WalmartMG.AddPreferedAddress</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/defaultShippingAddress</string>
 			<key>WalmartMG.AddPreferedAddressInvoice</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/defaultInvoiceAddress</string>
-			<key>WalmartMG.DeleteAddressesInvoiceService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteInvoiceAddress</string>
-			<key>WalmartMG.UpdatePasswordService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/changePassword</string>
-			<key>WalmartMG.InvoiceAddressByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/displayInvoiceAddress</string>
-			<key>WalmartMG.LoginWithIdService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/loginById</string>
-			<key>WalmartMG.UserProfileService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/displayUserProfile</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addReferedCustomer</string>
+			<key>WalmartMG.AddShippingAddressService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/addShippingAddress</string>
+			<key>WalmartMG.BannerService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/getBannersMGSuper</string>
+			<key>WalmartMG.CamFindService</key>
+			<string>https://api.cloudsightapi.com/image_requests</string>
+			<key>WalmartMG.CarouselService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/getCarrusel</string>
+			<key>WalmartMG.CartPromo</key>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
+			<key>WalmartMG.CategoryIcon</key>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
+			<key>WalmartMG.CategoryIconIpad</key>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
+			<key>WalmartMG.CategoryService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/getCategories</string>
+			<key>WalmartMG.ConfigService</key>
+			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
+			<key>WalmartMG.CrossSellingProductService</key>
+			<string>http://192.168.43.192:9080/walmartmg/ogin/getCrossSelling</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPractilist</string>
+			<key>WalmartMG.DeleteAddressesByUserService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/deleteShippingAddress</string>
+			<key>WalmartMG.DeleteAddressesInvoiceService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/deleteInvoiceAddress</string>
+			<key>WalmartMG.FamilyByCategoryService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/getFamylyByCategory</string>
+			<key>WalmartMG.ForgotPasswordService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/forgotPassword</string>
 			<key>WalmartMG.GRAddItemListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
@@ -252,6 +265,10 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getAddressById</string>
+			<key>WalmartMG.GRCategoryIcon</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
+			<key>WalmartMG.GRCategoryIconIpad</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRDeleteItemListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToList</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
@@ -262,6 +279,10 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getSaving</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPromotions</string>
+			<key>WalmartMG.GRHeaderCategory</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
+			<key>WalmartMG.GRHeaderCategoryIpad</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -296,54 +317,14 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getListByUser</string>
-			<key>WalmartMG.ReferedCustomerService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getReferedCustomer</string>
-			<key>WalmartMG.ValidateActiveReferedService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/isReferedActive</string>
-			<key>WalmartMG.AddFiscalAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
-			<key>WalmartMG.AddPreferedAddress</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/defaultShippingAddress</string>
-			<key>WalmartMG.AddShippingAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addShippingAddress</string>
-			<key>WalmartMG.ShippingAddressByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/displayShippingAddress</string>
-			<key>WalmartMG.BannerService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getBannersMGSuper</string>
-			<key>WalmartMG.CamFindService</key>
-			<string>https://api.cloudsightapi.com/image_requests</string>
-			<key>WalmartMG.CarouselService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getCarrusel</string>
-			<key>WalmartMG.CartPromo</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
-			<key>WalmartMG.CategoryIcon</key>
-			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
-			<key>WalmartMG.CategoryIconIpad</key>
-			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
-			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getCategories</string>
-			<key>WalmartMG.ConfigService</key>
-			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
-			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:9080/walmartmg/ogin/getCrossSelling</string>
-			<key>WalmartMG.DeleteAddressesByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteShippingAddress</string>
-			<key>WalmartMG.FamilyByCategoryService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getFamylyByCategory</string>
-			<key>WalmartMG.ForgotPasswordService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/forgotPassword</string>
-			<key>WalmartMG.GRCategoryIcon</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
-			<key>WalmartMG.GRCategoryIconIpad</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
-			<key>WalmartMG.GRHeaderCategory</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
-			<key>WalmartMG.GRHeaderCategoryIpad</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
+			<key>WalmartMG.GRZipCodeService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/getInfoByZipCode</string>
 			<key>WalmartMG.HeaderCategory</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceAddressByUserService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/displayInvoiceAddress</string>
 			<key>WalmartMG.LineService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -352,6 +333,8 @@
 			<string>http://192.168.43.192:9080/walmartmg/login</string>
 			<key>WalmartMG.LoginWithEmailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/loginByEmail</string>
+			<key>WalmartMG.LoginWithIdService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/loginById</string>
 			<key>WalmartMG.NotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
@@ -362,10 +345,14 @@
 			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPushNotifications</string>
+			<key>WalmartMG.ReferedCustomerService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.ShippingAddressByUserService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/displayShippingAddress</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -382,29 +369,57 @@
 			<string>http://192.168.43.192:9080/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateInvoiceAddress</string>
+			<key>WalmartMG.UpdatePasswordService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/changePassword</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
+			<key>WalmartMG.UserProfileService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/displayUserProfile</string>
+			<key>WalmartMG.ValidateActiveReferedService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/isReferedActive</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/isAssociated</string>
-			<key>WalmartMG.GRZipCodeService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.DeleteAddressesInvoiceService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteInvoiceAddress</string>
-			<key>WalmartMG.UpdatePasswordService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/changePassword</string>
-			<key>WalmartMG.LoginWithIdService</key>
-			<string>https://dl.dropboxusercontent.com/s/lsnkwozi84teul2/responseLogin.txt?dl=0</string>
-			<key>WalmartMG.UserProfileService</key>
-			<string>https://dl.dropboxusercontent.com/s/yodb3yz694mhyue/responseProfile.txt?dl=0</string>
+			<key>WalmartMG.AddFiscalAddressService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
+			<key>WalmartMG.AddPreferedAddress</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/defaultShippingAddress</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addReferedCustomer</string>
+			<key>WalmartMG.AddShippingAddressService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/addShippingAddress</string>
+			<key>WalmartMG.BannerService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
+			<key>WalmartMG.CamFindService</key>
+			<string>https://api.cloudsightapi.com/image_requests</string>
+			<key>WalmartMG.CarouselService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCarrusel</string>
+			<key>WalmartMG.CartPromo</key>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
+			<key>WalmartMG.CategoryIcon</key>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
+			<key>WalmartMG.CategoryIconIpad</key>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
+			<key>WalmartMG.CategoryService</key>
+			<string>https://dl.dropboxusercontent.com/s/zbu724mz15nxku4/allCategoriesNew.txt?dl=0</string>
+			<key>WalmartMG.ConfigService</key>
+			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
+			<key>WalmartMG.CrossSellingProductService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
+			<key>WalmartMG.DeleteAddressesByUserService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShippingAddress</string>
+			<key>WalmartMG.DeleteAddressesInvoiceService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteInvoiceAddress</string>
+			<key>WalmartMG.FamilyByCategoryService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getFamylyByCategory</string>
+			<key>WalmartMG.ForgotPasswordService</key>
+			<string>https://dl.dropboxusercontent.com/s/c1zey4oljbz27sk/forgotPassword.txt?dl=0</string>
 			<key>WalmartMG.GRAddItemListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
@@ -413,6 +428,10 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressById</string>
+			<key>WalmartMG.GRCategoryIcon</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
+			<key>WalmartMG.GRCategoryIconIpad</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRDeleteItemListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteItemToList</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
@@ -423,6 +442,10 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getSaving</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPromotions</string>
+			<key>WalmartMG.GRHeaderCategory</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
+			<key>WalmartMG.GRHeaderCategoryIpad</key>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://dl.dropboxusercontent.com/s/b2pv1fc74042thm/getTicketList.txt?dl=0</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -457,56 +480,14 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>https://dl.dropboxusercontent.com/s/ovfimwatv4esnhs/getListUser.txt?dl=0</string>
-			<key>WalmartMG.ReferedCustomerService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getReferedCustomer</string>
-			<key>WalmartMG.ValidateActiveReferedService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/isReferedActive</string>
-			<key>WalmartMG.AddFiscalAddressService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
-			<key>WalmartMG.AddPreferedAddress</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/defaultShippingAddress</string>
-			<key>WalmartMG.AddShippingAddressService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addShippingAddress</string>
-			<key>WalmartMG.ShippingAddressByUserService</key>
-			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getAddress.json</string>
-			<key>WalmartMG.InvoiceAddressByUserService</key>
-			<string>https://dl.dropboxusercontent.com/s/brqndy57lqnru9l/getAddressInvoice.txt</string>
-			<key>WalmartMG.BannerService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
-			<key>WalmartMG.CamFindService</key>
-			<string>https://api.cloudsightapi.com/image_requests</string>
-			<key>WalmartMG.CarouselService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCarrusel</string>
-			<key>WalmartMG.CartPromo</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
-			<key>WalmartMG.CategoryIcon</key>
-			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
-			<key>WalmartMG.CategoryIconIpad</key>
-			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
-			<key>WalmartMG.CategoryService</key>
-			<string>https://dl.dropboxusercontent.com/s/zbu724mz15nxku4/allCategoriesNew.txt?dl=0</string>
-			<key>WalmartMG.ConfigService</key>
-			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
-			<key>WalmartMG.CrossSellingProductService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
-			<key>WalmartMG.DeleteAddressesByUserService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShippingAddress</string>
-			<key>WalmartMG.FamilyByCategoryService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getFamylyByCategory</string>
-			<key>WalmartMG.ForgotPasswordService</key>
-			<string>https://dl.dropboxusercontent.com/s/c1zey4oljbz27sk/forgotPassword.txt?dl=0</string>
-			<key>WalmartMG.GRCategoryIcon</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
-			<key>WalmartMG.GRCategoryIconIpad</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
-			<key>WalmartMG.GRHeaderCategory</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
-			<key>WalmartMG.GRHeaderCategoryIpad</key>
-			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
+			<key>WalmartMG.GRZipCodeService</key>
+			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getZipCode.json</string>
 			<key>WalmartMG.HeaderCategory</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceAddressByUserService</key>
+			<string>https://dl.dropboxusercontent.com/s/brqndy57lqnru9l/getAddressInvoice.txt</string>
 			<key>WalmartMG.LineService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -515,6 +496,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login</string>
 			<key>WalmartMG.LoginWithEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/loginByEmail</string>
+			<key>WalmartMG.LoginWithIdService</key>
+			<string>https://dl.dropboxusercontent.com/s/lsnkwozi84teul2/responseLogin.txt?dl=0</string>
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
@@ -525,10 +508,14 @@
 			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPushNotifications</string>
+			<key>WalmartMG.ReferedCustomerService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.ShippingAddressByUserService</key>
+			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getAddress.json</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -545,18 +532,20 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateFiscalAddress</string>
+			<key>WalmartMG.UpdatePasswordService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/changePassword</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
+			<key>WalmartMG.UserProfileService</key>
+			<string>https://dl.dropboxusercontent.com/s/yodb3yz694mhyue/responseProfile.txt?dl=0</string>
+			<key>WalmartMG.ValidateActiveReferedService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/isReferedActive</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
-			<key>WalmartMG.GRZipCodeService</key>
-			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getZipCode.json</string>
 		</dict>
 	</dict>
-	<key>useSignalsServices</key>
-	<false/>
 	<key>WMMustangURLServicesSession</key>
 	<dict>
 		<key>DEVWM</key>
@@ -582,7 +571,18 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getItemByUpc</string>
 		</dict>
 	</dict>
+	<key>WMPayPalEnvironment</key>
+	<dict>
+		<key>PayPalEnvironment</key>
+		<string>SANDBOX</string>
+		<key>ProductionClientID</key>
+		<string>------</string>
+		<key>SandboxClientID</key>
+		<string>AQUxJRC5xGMz8nQKTfNOlMiTutWWStv9Ra35BNTB4W7tvhdGIb-EdznRbApl</string>
+	</dict>
 	<key>showCamFind</key>
 	<true/>
+	<key>useSignalsServices</key>
+	<false/>
 </dict>
 </plist>
