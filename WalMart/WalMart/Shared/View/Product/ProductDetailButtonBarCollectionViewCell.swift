@@ -127,14 +127,14 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         listButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToWishlist), forControlEvents: UIControlEvents.TouchUpInside)
         
         facebookButton = UIButton()
-        facebookButton.frame = CGRectMake(listButton.frame.maxX + 10 , 0, widthButtons, self.frame.height)
+        facebookButton.frame = CGRectMake(listButton.frame.maxX , 0, widthButtons, self.frame.height)
         facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)
         facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), forControlEvents: UIControlEvents.TouchUpInside)
       
         self.addToShoppingCartButton = UIButton()
-        self.addToShoppingCartButton.frame = CGRectMake(facebookButton.frame.maxX + 12, (self.frame.height / 2) - 17, 102, 34)
+        self.addToShoppingCartButton.frame = CGRectMake(facebookButton.frame.maxX + 10, (self.frame.height / 2) - 17, 102, 34)
         self.addToShoppingCartButton!.layer.cornerRadius = 17
         self.addToShoppingCartButton!.backgroundColor = WMColor.yellow
         self.addToShoppingCartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -242,11 +242,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        
         self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Selected)
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), forState: UIControlState.Selected)
         self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
-        
         self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
         
     }
