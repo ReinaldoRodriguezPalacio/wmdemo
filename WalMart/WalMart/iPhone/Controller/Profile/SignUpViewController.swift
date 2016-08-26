@@ -381,8 +381,12 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                     self.alertView!.addActionButtonsWithCustomText("Más tarde", leftAction: {
                         self.successCallBack?()
                         self.backRegistry(self.backButton!)
+                        self.alertView!.rightButton?.removeFromSuperview()
+                        self.alertView!.leftButton?.removeFromSuperview()
                         }, rightText: "Crear Dirección", rightAction: {
                             self.showAddressView()
+                            self.alertView!.rightButton?.removeFromSuperview()
+                            self.alertView!.leftButton?.removeFromSuperview()
                         }, isNewFrame: false)
                     }, errorBlock: { (error:NSError) -> Void in
                         self.backRegistry(self.backButton!)
