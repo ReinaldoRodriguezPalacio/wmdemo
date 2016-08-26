@@ -146,7 +146,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.view.addSubview(viewLoad)
         }
             
-        serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
+        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
             UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
                 
                 self.itemsInCart.removeAtIndex(indexPath.row)
@@ -183,7 +183,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             }, errorBlock: { (error:NSError) -> Void in
                 print("error")
         })
-        
+        */
         
       
         
@@ -325,7 +325,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         cont!.closeAlertOnSuccess = false
         cont!.successCallBack = {() in
                 NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
-                UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+                /*UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                     
                     if cont!.alertView != nil {
                         cont!.closeAlert(true, messageSucesss: true)
@@ -347,17 +347,17 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.viewShowLogin?.alpha = 0
                     self.viewShowLogin?.removeFromSuperview()
                     self.viewShowLogin = nil
-                }
+                }*/
         }
         return
     }
     
 
     override func reloadGRShoppingCart(){
-        UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+        /*UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
            
             self.loadGRShoppingCart()
-        }
+        }*/
     }
     
     func shareCart(){

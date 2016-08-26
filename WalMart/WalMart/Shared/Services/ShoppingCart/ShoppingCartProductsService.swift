@@ -297,7 +297,8 @@ class ShoppingCartProductsService : BaseService {
                 arratUpcsDelete.append(itemDeleted.product.upc)
                 
             }
-            serviceDelete.callService(["parameter":arratUpcsDelete], successBlock: { (result:NSDictionary) -> Void in
+            let paramUpc = serviceDelete.builParamsMultiple(arratUpcsDelete)
+            serviceDelete.callService(paramUpc, successBlock: { (result:NSDictionary) -> Void in
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)

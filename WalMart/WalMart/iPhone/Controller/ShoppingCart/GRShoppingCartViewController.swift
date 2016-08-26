@@ -193,9 +193,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func reloadGRShoppingCart(){
-        UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+        /*UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
             self.loadGRShoppingCart()
-        }
+        }*/
     }
     
     
@@ -351,16 +351,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.addViewload()
             //FACEBOOKLOG
             FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
-            UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+            /*UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                 self.buttonShop!.enabled = true
                 self.performSegueWithIdentifier("checkoutVC", sender: self)
-            }
+            }*/
         } else {
             let cont = LoginController.showLogin()
             self.buttonShop!.enabled = true
             cont!.closeAlertOnSuccess = false
             cont!.successCallBack = {() in
-                UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+                /*UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                     self.loadGRShoppingCart()
                     
                     
@@ -372,7 +372,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     
                     self.buttonShop!.enabled = true
                     
-                }
+                }*/
             }
         }
     }
@@ -703,7 +703,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let itemGRSC = itemsInCart[indexPath.row] as! [String:AnyObject]
         let upc = itemGRSC["upc"] as! String
         
-        let serviceWishDelete = GRShoppingCartDeleteProductsService()
+        /*let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
          allUPCS.append(upc)
         self.addViewload()
@@ -722,6 +722,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }, errorBlock: { (error:NSError) -> Void in
                 print("error")
             })
+         */
         
     }
     
@@ -778,7 +779,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         self.addViewload()
         
-        serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
+        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
             UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
                 //self.loadGRShoppingCart()
                 
@@ -796,7 +797,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             })
             }, errorBlock: { (error:NSError) -> Void in
                 print("error")
-        })
+        })*/
         self.editAction(self.editButton)
     }
     

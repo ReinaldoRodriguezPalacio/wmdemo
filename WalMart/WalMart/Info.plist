@@ -286,14 +286,6 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/createListByUser</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/sendOrderWithSlotPromo</string>
-			<key>WalmartMG.GRShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addItemToShoppingCartByUpcWithCommentsNew</string>
-			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToShoppingCartByUpcNew</string>
-			<key>WalmartMG.GRShoppingCartProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getShoppingCartByUser</string>
-			<key>WalmartMG.GRShoppingCartUpdateProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateShoppingCartItemNew</string>
 			<key>WalmartMG.GRTimeBands</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>
@@ -455,14 +447,6 @@
 			<string>https://dl.dropboxusercontent.com/s/8kkaxd2cq3u0axr/resposeSucces.txt?dl=0</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/sendOrderWithSlotPromo</string>
-			<key>WalmartMG.GRShoppingCartAddProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToShoppingCartByUpcWithCommentsNew</string>
-			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteItemToShoppingCartByUpcNew</string>
-			<key>WalmartMG.GRShoppingCartProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getShoppingCartByUser</string>
-			<key>WalmartMG.GRShoppingCartUpdateProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItemNew</string>
 			<key>WalmartMG.GRTimeBands</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>

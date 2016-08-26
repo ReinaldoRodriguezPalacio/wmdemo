@@ -122,6 +122,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.productDeparment = category
         self.isPreorderable = isPreorderable
         self.promotionDescription = promotionDescription
+        self.pesable = typeProd == 1
             
         //priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
         priceSelector.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
@@ -156,7 +157,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.productPriceThroughLabel!.hidden = true
         }
 
-        let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
+        let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:self.pesable,hasNote:false)
         self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
     }
     
@@ -229,7 +230,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
             updateService.isInCart = true
-            updateService.callCoreDataService(upc, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment ,successBlock: { (result:NSDictionary) -> Void in
+            updateService.callCoreDataService(upc, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment,pesable:String(self.pesable),successBlock: { (result:NSDictionary) -> Void in
                 
                 let totalInProducts = self.priceProduct * Double(quantity)
                 let totalPrice = NSString(format: "%.2f", totalInProducts)

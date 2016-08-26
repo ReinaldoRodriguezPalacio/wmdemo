@@ -13,15 +13,13 @@ import CoreData
 class ShoppingCartDeleteProductsService : BaseService {
  
     func builParams(upc:String) -> [String:AnyObject] {
-        return ["parameter":[upc]]
+        return ["removalCommerceIds":[upc], "removeAllItems": "false"]
     }
     
 
     func builParamsMultiple(upcs:[String]) -> [String:AnyObject] {
-        return ["parameter":upcs]
+        return ["removalCommerceIds":upcs, "removeAllItems": "false"]
     }
-
-    
     
     
     func callCoreDataService(upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -52,7 +50,7 @@ class ShoppingCartDeleteProductsService : BaseService {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let parameter = params["parameter"] as! NSArray
+        let parameter = params["removalCommerceIds"] as! NSArray
         if parameter.count > 0 {
             for paramItem in parameter {
                 let upc = paramItem as! NSString

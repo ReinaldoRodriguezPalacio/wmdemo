@@ -174,7 +174,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             callItemsService()
             }*/
             let allItems = multipleItems!["allitems"] as! NSArray
-            let serviceAddProduct = GRShoppingCartAddProductsService()
+            let serviceAddProduct = ShoppingCartAddProductsService()
             var paramsitems : [AnyObject] = []
             var wishlistDelete : [String] = []
             
@@ -231,7 +231,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             if type == ResultObjectType.Groceries.rawValue {
                 self.showBtnAddNote = false
-            serviceAddProduct.callService(requestParams : paramsitems, successBlock: { (result:NSDictionary) -> Void in
+            /*serviceAddProduct.callService(requestParams : paramsitems, successBlock: { (result:NSDictionary) -> Void in
                 self.finishCall = true
                 
                     if self.timmer == nil {
@@ -252,7 +252,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
-               })
+               })*/
             }else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in
@@ -310,7 +310,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
             
             
-            if let type = params["type"] as?  String {
+            /*if let type = params["type"] as?  String {
                 if type == ResultObjectType.Groceries.rawValue {
                     typeProduct = ResultObjectType.Groceries
                     print("Parametros = \(params)")
@@ -339,7 +339,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: self, userInfo: nil)
                         
-                            UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
+                            UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                                 UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
                             })
                         
@@ -360,10 +360,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     }
                     return
                 }
-            }
+            }*/
             
             typeProduct = ResultObjectType.Mg
-            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString as String,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
                 
                 self.finishCall = true
                 if self.timmer == nil {
@@ -433,7 +433,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
             
             let serviceAddProduct = ShoppingCartAddProductsService()
-            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category , successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category, pesable:params["pesable"] as! NSString as String, successBlock: { (result:NSDictionary) -> Void in
                 self.currentIndex += 1
                 self.callItemsService()
                 }) { (error:NSError) -> Void in
@@ -603,7 +603,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.titleLabel.text = NSLocalizedString("shoppingcart.saveNoteLoading",comment:"")
                     }
                     if let type = self.params["type"] as?  String {
-                        if type == ResultObjectType.Groceries.rawValue {
+                        /*if type == ResultObjectType.Groceries.rawValue {
                             self.typeProduct = ResultObjectType.Groceries
                             print("Parametros = \(self.params)")
                             
@@ -636,7 +636,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                     }
                             }
                             
-                        }
+                        }*/
                    // }
                     
                 }

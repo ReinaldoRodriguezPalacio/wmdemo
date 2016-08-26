@@ -38,16 +38,21 @@ class ShoppingCartAddProductsService : BaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
     }
     
-    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
+    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:AnyObject] {
+        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]
+    }
+    
+    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
         if useSignals && parameter != nil{
             parameterSend = parameter!
-            return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]]
+            return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]]
         }
-        return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category]]
+        return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]]
     }
     
     func builParamSvc(upc:String,quantity:String,comments:String) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"upc":upc]
+        //return ["comments":comments,"quantity":quantity,"upc":upc]
+        return ["catalogRefIds": "00841020507906_009537102", "productId": upc, "quantity": quantity, "orderedUOM": "EA", "itemComment": "EA","orderedQTYWeight": "6"]
     }
     
     func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:AnyObject] {
@@ -64,11 +69,11 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
     
-    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, parameter:parameter), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, pesable:pesable, parameter:parameter), successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String, pesable:NSString ,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,pesable:pesable,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
     }
     
     func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -234,6 +239,14 @@ class ShoppingCartAddProductsService : BaseService {
                 nameLine = lineObj["name"] as! String
             }
             cartProduct.product.nameLine = nameLine
+            var pesable : NSString = "0"
+            if let pesableP = product["pesable"] as? String {
+                pesable = pesableP
+            }
+            cartProduct.product.type = pesable.integerValue
+            if let comment  = product["comments"] as? NSString {
+                cartProduct.note = comment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            }
             //
             cartProduct.status = NSNumber(integer: statusForProduct())
             cartProduct.type = ResultObjectType.Mg.rawValue

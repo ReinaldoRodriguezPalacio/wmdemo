@@ -543,7 +543,7 @@ class UserCurrentSession : NSObject {
     
     
     
-    func loadGRShoppingCart(endLoadSC:(() -> Void)) {
+    /*func loadGRShoppingCart(endLoadSC:(() -> Void)) {
         let service = GRShoppingCartProductsService()
         service.callService(requestParams: [:],
             successBlock: { (resultCall:NSDictionary) -> Void in
@@ -555,7 +555,7 @@ class UserCurrentSession : NSObject {
                 endLoadSC()
             }
         )
-    }
+    }*/
     
     func isEmptyMG() -> Bool {
         if self.itemsMG != nil {

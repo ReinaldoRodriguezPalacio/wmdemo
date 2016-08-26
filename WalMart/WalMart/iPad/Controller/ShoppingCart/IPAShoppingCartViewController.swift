@@ -202,6 +202,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
+        //let paramUpc = deleteShoppingCartService.builParams(upc)
+        //deleteShoppingCartService.callService(paramUpc, successBlock: { (result:NSDictionary) -> Void in
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
             self.itemsInShoppingCart.removeAtIndex(indexPath.row)
             
@@ -405,7 +407,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 if maxProducts >= Int(quantity) {
                     let updateService = ShoppingCartUpdateProductsService()
                     updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: nil,errorBlock: nil)
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment, pesable:String(cell.pesable),successBlock: nil,errorBlock: nil)
                     self.reloadShoppingCart()
                     self.popup!.dismissPopoverAnimated(false)
                 } else {
