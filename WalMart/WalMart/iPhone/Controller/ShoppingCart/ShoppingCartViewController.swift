@@ -10,7 +10,7 @@ import Foundation
 import QuartzCore
 
 protocol ShoppingCartViewControllerDelegate {
-    func returnToView()
+    func closeShoppingCart()
 }
 
 class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableViewDataSource,ProductShoppingCartTableViewCellDelegate,SWTableViewCellDelegate,ProductDetailCrossSellViewDelegate,AlertPickerViewDelegate {
@@ -99,8 +99,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
         titleView.textAlignment = .Center
         
-        
-        
+    
         editButton = UIButton(frame:CGRectMake(self.view.frame.width - 82, 12, 55, 22))
         editButton.setTitle(NSLocalizedString("shoppingcart.edit",comment:""), forState: UIControlState.Normal)
         editButton.setTitle(NSLocalizedString("shoppingcart.endedit",comment:""), forState: UIControlState.Selected)
@@ -201,7 +200,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         emptyView = IPOShoppingCartEmptyView(frame:CGRectZero)
         emptyView.frame = CGRectMake(0,  viewHerader.frame.maxY,  self.view.frame.width,  self.view.frame.height - viewHerader.frame.height)
         emptyView.returnAction = {() in
-            self.closeShoppingCart()
+            self.delegate.closeShoppingCart()
+            //self.closeShoppingCart()
         }
         self.view.addSubview(emptyView)
         

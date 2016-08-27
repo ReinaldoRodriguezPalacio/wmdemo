@@ -143,9 +143,6 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
     
     override func openSearchProduct(){
-        
-
-        
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         
         if (self.btnShopping!.selected){
@@ -361,10 +358,23 @@ class IPACustomBarViewController :  CustomBarViewController {
  
         self.addChildViewController(shoppingCartVC)
         shoppingCartVC.view.frame = self.container!.frame
+        
+        shoppingCartVC.view.frame = CGRectMake(-shoppingCartVC.view.frame.minX, -shoppingCartVC.view.frame.height, shoppingCartVC.view.frame.width, shoppingCartVC.view.frame.height + self.headerView.frame.height)
+        
         self.view.addSubview(shoppingCartVC.view)
         self.view.bringSubviewToFront(self.headerView)
         shoppingCartVC.didMoveToParentViewController(self)
+        
+        UIView.animateWithDuration(0.5,
+                                   animations: {() in
+                                    self.shoppingCartVC.view.frame = CGRectMake(self.container!.frame.minX, self.container!.frame.minY - self.buttonContainer!.frame.height, self.shoppingCartVC.view.frame.width, self.shoppingCartVC.view.frame.height)
+            },
+                                   completion: {(finished : Bool) in
+                                    
+            }
+        )
 
+        
     }
 
 

@@ -23,7 +23,7 @@ class IPOShoppingCartEmptyView : IPOEmptyView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.descLabel.frame = CGRectMake(0.0, 60.0, self.bounds.width, 16.0)
+        self.descLabel.frame = CGRectMake(0.0, 25.0, self.bounds.width, 16.0)
         if IS_IPHONE_4_OR_LESS == true {
               self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.height - 100, 160 , 40)
         }

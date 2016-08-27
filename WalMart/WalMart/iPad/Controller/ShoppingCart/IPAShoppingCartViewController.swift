@@ -167,6 +167,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
     }
     
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return self.itemsInCartOrderSection.count
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
