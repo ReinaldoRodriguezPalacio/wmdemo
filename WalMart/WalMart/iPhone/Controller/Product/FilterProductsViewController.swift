@@ -58,6 +58,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var facet: NSArray? = nil
     
     var sliderTableViewCell : SliderTableViewCell?
+    var filterOrderViewCell : FilterOrderViewCell?
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_FILTER.rawValue
     }
@@ -355,6 +357,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             let cell = tableView.dequeueReusableCellWithIdentifier(self.ORDERCELL_ID, forIndexPath: indexPath) as! FilterOrderViewCell
             cell.delegate = self
             cell.setValues(self.selectedOrder!)
+            filterOrderViewCell =  cell
             return cell
         }
         

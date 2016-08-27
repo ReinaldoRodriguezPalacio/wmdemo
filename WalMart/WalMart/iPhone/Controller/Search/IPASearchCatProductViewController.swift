@@ -74,9 +74,9 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         if kind == UICollectionElementKindSectionHeader {
             let view = collection?.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! IPASectionHeaderSearchReusable
             self.header!.frame = CGRectMake(0, 0, 1024, 54)
-            
-            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 85, (self.header!.frame.size.height - 22)/2 , 55, 22)//CGRectMake(1024 - 87, 0 , 44, 22)
-            
+            if !self.isAplyFilter {
+                self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 85, (self.header!.frame.size.height - 22)/2 , 55, 22)//CGRectMake(1024 - 87, 0 , 44, 22)
+            }
             view.addSubview(self.header!)
             view.sendSubviewToBack(self.header!)
             view.delegate = delegateHeader

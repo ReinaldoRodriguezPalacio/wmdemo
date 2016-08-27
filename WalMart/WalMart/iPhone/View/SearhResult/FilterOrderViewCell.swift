@@ -146,4 +146,16 @@ class FilterOrderViewCell: UITableViewCell {
         self.contentView.addSubview(button)
         return button
     }
+    
+    func resetOrderFilter() {
+       
+        for button in self.buttons! {
+            button.selected = false
+            button.backgroundColor = UIColor.whiteColor()
+        }
+        self.setValues("popularity")
+        self.popularityButton!.selected = true
+        self.popularityButton!.backgroundColor = WMColor.light_blue
+    }
+    
 }

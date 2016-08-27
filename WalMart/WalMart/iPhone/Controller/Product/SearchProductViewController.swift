@@ -948,6 +948,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.loading?.removeFromSuperview()
                 }
             }
+            controllerFilter.selectedOrder! =  ""
+            controllerFilter.filterOrderViewCell?.resetOrderFilter()
             controllerFilter.sliderTableViewCell?.resetSlider()
             controllerFilter.upcPrices =  nil
             controllerFilter.selectedElementsFacet = [:]
