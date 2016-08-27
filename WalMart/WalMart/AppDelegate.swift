@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Fabric
 import TwitterKit
+import SafariServices
 
 
 @UIApplicationMain
@@ -167,7 +168,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
         let presented = controller!.presentedViewController
-        presented?.dismissViewControllerAnimated(false, completion: nil)
+        if #available(iOS 9.0, *) {
+            if presented != nil && !presented!.isKindOfClass(SFSafariViewController) {
+                presented?.dismissViewControllerAnimated(false, completion: nil)
+            }
+        } else {
+            if presented != nil && !presented!.isKindOfClass(UINavigationController) {
+                presented?.dismissViewControllerAnimated(false, completion: nil)
+            }
+        }
         if imgView == nil {
             imgView = UIImageView(frame: controller!.view.bounds)
             imgView!.image = UIImage(named:"spash_iphone")
@@ -179,6 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
         IPOSplashViewController.updateUserData(true)
     }
 
