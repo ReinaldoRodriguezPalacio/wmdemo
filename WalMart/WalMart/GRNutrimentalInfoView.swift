@@ -17,7 +17,7 @@ class GRNutrimentalInfoView : UIView {
     var viewBg : UIView!
     var scrollView : UIScrollView!
     
-    func setup(ingredients:String,nutrimentals:[String]) {
+    func setup(ingredients:String,nutrimentals:[String:String]) {
     
         
         
@@ -70,29 +70,26 @@ class GRNutrimentalInfoView : UIView {
             
             var white = true
             
-            for nutItem in nutrimentals {
+            for nutItem in nutrimentals.keys {
                 let viewItem = UIView(frame: CGRectMake(0, startPointY, self.frame.width, 20))
                 if white {
                     viewItem.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
                 }
                 white = !white
-                
-                let nutArray = nutItem.componentsSeparatedByString(":")
 
                 let leftLabel = UILabel(frame: CGRectMake(16, 0, self.frame.width - 32, 20))
                 leftLabel.textAlignment = .Left
                 leftLabel.textColor = UIColor.whiteColor()
                 leftLabel.font = WMFont.fontMyriadProSemiboldOfSize(14)
-                leftLabel.text = "\(nutArray[0]):"
+                leftLabel.text = "\(nutItem):"
                 
-                if nutArray.count > 1 {
-                    let rigthLabel = UILabel(frame: CGRectMake(16, 0, self.frame.width - 32, 20))
-                    rigthLabel.textAlignment = .Right
-                    rigthLabel.textColor = UIColor.whiteColor()
-                    rigthLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-                    rigthLabel.text = nutArray[1]
-                    viewItem.addSubview(rigthLabel)
-                }
+                
+                let rigthLabel = UILabel(frame: CGRectMake(16, 0, self.frame.width - 32, 20))
+                rigthLabel.textAlignment = .Right
+                rigthLabel.textColor = UIColor.whiteColor()
+                rigthLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+                rigthLabel.text = nutrimentals[nutItem]
+                viewItem.addSubview(rigthLabel)
                 
                 viewItem.addSubview(leftLabel)
                 startPointY = startPointY + 20

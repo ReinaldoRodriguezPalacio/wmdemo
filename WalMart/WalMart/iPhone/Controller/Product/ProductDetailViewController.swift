@@ -24,7 +24,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var listPrice : NSString = ""
     var comments : NSString = ""
     var ingredients: String = ""
-    var nutrimentalInfo: [String] = []
+    var nutrimentalInfo: [String:String] = [:]
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
     var bundleItems : [AnyObject] = []
@@ -919,13 +919,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.characteristics = characteristicsResult as [AnyObject]
         }
         
-        if let resultNutrimentalInfo = result["nutritional"] as? [String] {
+        if let resultNutrimentalInfo = result["nutritional"] as? [String:String] {
             self.nutrimentalInfo = resultNutrimentalInfo
         }else{
-            self.nutrimentalInfo = []
+            self.nutrimentalInfo = [:]
         }
         
-        self.ingredients = result["ingredients"] as? String ?? ""
+        self.ingredients = result["Ingredients"] as? String ?? ""
         
         var allCharacteristics : [AnyObject] = []
         

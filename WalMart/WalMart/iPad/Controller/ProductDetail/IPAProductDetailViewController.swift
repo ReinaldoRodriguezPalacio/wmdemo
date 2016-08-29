@@ -25,7 +25,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var price : NSString = ""
     var listPrice : NSString = ""
     var ingredients: String = ""
-    var nutrimentalInfo: [String] = []
+    var nutrimentalInfo: [String: String] = [:]
     var type : NSString = ResultObjectType.Mg.rawValue
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
@@ -1072,13 +1072,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let strLabel = "UPC"
         //let strValue = self.upc
         
-        if let resultNutrimentalInfo = result["nutritional"] as? [String] {
+        if let resultNutrimentalInfo = result["nutritional"] as? [String:String] {
             self.nutrimentalInfo = resultNutrimentalInfo
         }else{
-            self.nutrimentalInfo = []
+            self.nutrimentalInfo = [:]
         }
         
-        self.ingredients = result["ingredients"] as? String ?? ""
+        self.ingredients = result["Ingredients"] as? String ?? ""
         
         allCharacteristics.append(["label":strLabel,"value":self.upc])
         
