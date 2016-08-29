@@ -83,6 +83,10 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         return items.count
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 46.0
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableOrders.dequeueReusableCellWithIdentifier("prevousOrder") as! PreviousOrdersTableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -94,7 +98,8 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
-            cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr)
+            let countItems = item["countItems"] as! NSNumber
+            cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr, countsItem: String(countItems))
         }
         
         return cell
@@ -102,9 +107,10 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let item = self.items[indexPath.row] as! NSDictionary
-        let detailController = OrderDetailViewController()
+        let detailController = OrderShippingViewController()//OrderDetailViewController()
         
-        if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
+        
+        /*if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
             detailController.type = ResultObjectType.Mg
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
@@ -137,7 +143,20 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             self.navigationController!.pushViewController(detailController, animated: true)
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
-        }
+        }*/
+        
+        //let dateStr = item["placedDate"] as! String
+        let trackingStr = item["trackingNumber"] as! String
+        let statusStr = item["status"] as! String
+        detailController.trackingNumber = trackingStr
+        //let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
+        detailController.status = statusStr
+        //detailController.date = dateStr
+        //detailController.detailsOrderGroceries = item
+        self.navigationController!.pushViewController(detailController, animated: true)
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
+        
     }
     
     
@@ -157,17 +176,50 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
                 let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
-                dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
+                dictMGOrder["type"] =  ""
                 self.items.append(dictMGOrder)
             }
-            self.loadGROrders()
+            /*//self.loadGROrders()
+            for orderPrev in previous {
+                let dictGROrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
+                self.items.append(dictGROrder)
+            }*/
+            
+            let dateFormat = NSDateFormatter()
+            dateFormat.dateFormat = "dd/MM/yyyy"
+            self.items.sortInPlace({
+                let firstDate = $0["placedDate"] as! String
+                let secondDate = $1["placedDate"] as! String
+                let dateOne = dateFormat.dateFromString(firstDate)!
+                let dateTwo = dateFormat.dateFromString(secondDate)!
+                return dateOne.compare(dateTwo) == NSComparisonResult.OrderedDescending
+            })
+            
+            
+            self.emptyView.hidden = self.items.count > 0
+            self.facturasToolBar.hidden = !(self.items.count > 0)
+            if self.items.count > 0 {
+                self.facturasToolBar.backgroundColor = UIColor.whiteColor()
+            }
+            self.tableOrders.reloadData()
+            self.viewLoad.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
-                self.loadGROrders()
+                self.viewLoad.stopAnnimating()
+                self.tableOrders.reloadData()
+                self.emptyView.hidden = self.items.count > 0
+                self.facturasToolBar.hidden = !(self.items.count > 0)
+                if self.items.count > 0 {
+                    self.facturasToolBar.backgroundColor = UIColor.whiteColor()
+                }
+            
+            //}, errorBlock: { (error:NSError) -> Void in
+                //self.loadGROrders()
         })
     }
 
     
-    func loadGROrders() {
+    /*func loadGROrders() {
         let servicePrev = GRPreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
@@ -203,7 +255,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                     self.facturasToolBar.backgroundColor = UIColor.whiteColor()
                 }
         })
-    }
+    }*/
     
     
        func tabFooterView() {

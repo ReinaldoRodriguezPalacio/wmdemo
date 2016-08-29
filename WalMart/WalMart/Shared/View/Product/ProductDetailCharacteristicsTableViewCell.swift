@@ -8,11 +8,26 @@
 
 import Foundation
 
+protocol ProductDetailCharacteristicsTableViewCellDelegate {
+    func showShippingDetail(shippingDetail: NSDictionary)
+}
 
 class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
+    var headerView = UIView()
+    var titleShipping = UILabel()
+    var showDetailButton: UIButton?
+    var itemShipping = [:]
+    
+    var detailView = UIView()
+    var nameLabel = UILabel()
+    var deliveryTypeLabel = UILabel()
+    var deliveryAddressLabel = UILabel()
+    var paymentTypeLabel = UILabel()
+    
+    var delegateDetail : ProductDetailCharacteristicsTableViewCellDelegate!
+    
     var descLabel = UIView()
     var downBorder = UIView()
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -28,13 +43,84 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         labelDesc.numberOfLines = 0
         self.addSubview(labelDesc)
         
+        self.headerView = UIView(frame:CGRectMake(0, 0, self.frame.width, 40))
+        self.headerView.backgroundColor = WMColor.light_light_gray
         
+        self.titleShipping = UILabel(frame:CGRectMake(16, 0, self.frame.width / 2, 40))
+        self.titleShipping.font = WMFont.fontMyriadProRegularOfSize(16)
+        self.titleShipping.textColor = WMColor.dark_gray
+        self.headerView.addSubview(self.titleShipping)
+        
+        self.showDetailButton = UIButton(frame: CGRectMake(self.frame.width - 84.0, 9.0, 68.0, 22.0))
+        self.showDetailButton!.backgroundColor = WMColor.light_blue
+        self.showDetailButton!.layer.cornerRadius = 10.0
+        self.showDetailButton!.setTitle(NSLocalizedString("previousorder.showDetail", comment: ""), forState: .Normal)
+        self.showDetailButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.showDetailButton!.titleLabel?.textColor = UIColor.whiteColor()
+        self.showDetailButton!.addTarget(self, action: #selector(ProductDetailCharacteristicsTableViewCell.showDetail(_:)), forControlEvents: .TouchUpInside)
+        self.headerView.addSubview(self.showDetailButton!)
+        
+        self.detailView = UIView(frame:CGRectMake(0, 40, self.frame.width, self.frame.height - 40))
+        self.detailView.backgroundColor = UIColor.whiteColor()
+        
+        self.nameLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
+        self.nameLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.nameLabel.textColor = WMColor.gray
+        self.detailView.addSubview(self.nameLabel)
+        
+        self.deliveryTypeLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
+        self.deliveryTypeLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.deliveryTypeLabel.textColor = WMColor.gray
+        self.deliveryTypeLabel.numberOfLines = 2
+        self.detailView.addSubview(self.deliveryTypeLabel)
+        
+        self.deliveryAddressLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
+        self.deliveryAddressLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.deliveryAddressLabel.textColor = WMColor.gray
+        self.deliveryAddressLabel.numberOfLines = 4
+        self.detailView.addSubview(self.deliveryAddressLabel)
+        
+        self.paymentTypeLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
+        self.paymentTypeLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.paymentTypeLabel.textColor = WMColor.gray
+        self.detailView.addSubview(self.paymentTypeLabel)
+        
+        self.addSubview(self.headerView)
+        self.addSubview(self.detailView)
+        
+        /*
         descLabel = UIView()
         
         downBorder = UIView(frame: CGRectZero)
         downBorder.backgroundColor = WMColor.light_light_gray
-        self.addSubview(downBorder)
-        self.addSubview(descLabel)
+        //self.addSubview(downBorder)
+        //self.addSubview(descLabel)
+        */
+    }
+    
+    func showDetail(sender:UIButton){
+        //Pasar array o NSDictionary seleccionado
+        self.delegateDetail.showShippingDetail(self.itemShipping as NSDictionary)
+    }
+    
+    func setValuesDetail(values:NSDictionary){
+        
+        self.itemShipping = values
+        self.titleShipping.text = values["order"] as? String
+        
+        self.nameLabel.text = values["name"] as? String
+        self.deliveryTypeLabel.text = values["deliveryType"] as? String
+        //"Envio estandar - Hasta 5 días \n(Fecha estimada de entrega: 08/03/2016)"
+        
+        //let address = values["deliveryAddress"] as? String
+        let address = "Casa\nAv San Francisco no. 1621, Del valee,\nBenito Juarez, Ciudad de Mexico, 03100\nTel 5521365678"
+        let rectSize = size(forText: address, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        self.deliveryAddressLabel.text = address
+        self.paymentTypeLabel.text = values["paymentType"] as? String//"Pago en línea"
+        
+        self.deliveryTypeLabel.frame = CGRectMake(16, self.nameLabel.frame.maxY + 8.0, self.frame.width - 16.0, 16.0)
+        self.deliveryAddressLabel.frame = CGRectMake(16, self.deliveryTypeLabel.frame.maxY + 8.0, self.frame.width - 16.0, rectSize.height)
+        self.paymentTypeLabel.frame = CGRectMake(16, self.deliveryAddressLabel.frame.maxY + 8.0, self.frame.width - 16.0, 40.0)
     }
     
     func setValues(values:NSArray){
@@ -80,6 +166,15 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         for subview in view.subviews{
             subview.removeFromSuperview()
         }
+    }
+    
+    func size(forText text:NSString, withFont font:UIFont, andSize size:CGSize) -> CGSize {
+        let computedRect: CGRect = text.boundingRectWithSize(size,
+            options: .UsesLineFragmentOrigin,
+            attributes: [NSFontAttributeName:font],
+            context: nil)
+        
+        return CGSizeMake(computedRect.size.width, computedRect.size.height)
     }
     
     class func sizeForCell(width:CGFloat,values:NSArray) -> CGFloat {

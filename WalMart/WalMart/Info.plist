@@ -338,7 +338,7 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderById</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderById.txt</string>
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
@@ -501,9 +501,9 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderById</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderById.txt</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderByUser.txt</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 			<key>WalmartMG.PushNotificationService</key>
