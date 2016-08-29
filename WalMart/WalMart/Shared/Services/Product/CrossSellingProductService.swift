@@ -11,7 +11,7 @@ import Foundation
 
 class CrossSellingProductService : BaseService {
     
-    let JSON_CROSSSELL_RESULT = "responseArray"
+    let JSON_CROSSSELL_RESULT = "ProductList"
     
     func callService(UPC:String,successBlock:((NSArray?) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)

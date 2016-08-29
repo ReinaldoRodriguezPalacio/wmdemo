@@ -409,7 +409,7 @@
 			<key>WalmartMG.ConfigService</key>
 			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
+			<string>https://dl.dropboxusercontent.com/s/4v5lx4sxjqtjv8f/getRecommendedProducts.txt?dl=0</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
