@@ -9,22 +9,11 @@
 import Foundation
 
 class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionViewCell {
-    
-    var downBorder : UIView!
-    
     var type : String!
     
     override func setup() {
         super.setup()
         collection.registerClass(ProductDetailBundleItemCollectionViewCell.self, forCellWithReuseIdentifier: "productBundleCell")
-        
-        downBorder = UIView(frame: CGRectMake(0, 169, self.frame.width, AppDelegate.separatorHeigth()))
-        downBorder.backgroundColor = WMColor.light_light_gray
-        
-        
-        self.addSubview(downBorder)
-        
-               
         titleLabel.text = NSLocalizedString("productdetail.bundleitems",comment:"")
     }
     

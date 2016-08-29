@@ -1170,7 +1170,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 cellPromotion!.delegate = self
                 cellPromotion!.itemsUPC = bundleItems
                 cellPromotion!.type = "MG"
-                //cell = cellPromotion
+                cell = cellPromotion
             } else {
                 return cellForPoint((indexPath.section,1),indexPath: indexPath)
             }
