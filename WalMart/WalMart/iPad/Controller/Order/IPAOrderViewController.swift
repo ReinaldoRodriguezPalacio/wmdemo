@@ -106,9 +106,9 @@ class IPAOrderViewController: OrderViewController {
                 dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
                 self.items.append(dictMGOrder)
             }
-            self.loadGROrders()
+            //self.loadGROrders()
             }, errorBlock: { (error:NSError) -> Void in
-                self.loadGROrders()
+                //self.loadGROrders()
         })
     }
     

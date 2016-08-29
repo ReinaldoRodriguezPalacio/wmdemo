@@ -289,6 +289,9 @@
 "previousorder.upc" = "UPC";
 "previousorder.quantity" = "Artículos";
 "previousorder.quantityPesable" = "Cantidad";
+"previousorder.showDetail" = "Ver detalle";
+"previousorder.total" = "Total";
+"previousorder.saving" = "Ahorro";
 
 //address
 "profile.address.shortName" = "Nombre corto";

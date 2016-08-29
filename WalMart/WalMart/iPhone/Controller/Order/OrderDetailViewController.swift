@@ -98,6 +98,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
         
         showLoadingView()
+        self.tableDetailOrder.reloadData()
     }
     
     
@@ -132,7 +133,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         super.viewWillAppear(animated)
         
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-        reloadPreviousOrderDetail()
+        //reloadPreviousOrderDetail()
+        self.removeLoadingView()
     }
  
     
@@ -179,7 +181,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             case (0,0):
                 let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
                 cellDetail.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellDetail.frame.height)
-                cellDetail.setValues(self.detailsOrder)
+                cellDetail.setValuesDetail(self.detailsOrderGroceries)
                 cell = cellDetail
             case (0,1):
                 let cellCharacteristicsTitle = tableDetailOrder.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
@@ -374,7 +376,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return upcItems
     }
     
-    func reloadPreviousOrderDetail() {
+    /*func reloadPreviousOrderDetail() {
         if type == ResultObjectType.Mg {
             let servicePrev = PreviousOrderDetailService()
             servicePrev.callService(trackingNumber, successBlock: { (result:NSDictionary) -> Void in
@@ -491,7 +493,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.removeLoadingView()
             
         }
-    }
+    }*/
 
 
     //MARK: - Actions List Selector
