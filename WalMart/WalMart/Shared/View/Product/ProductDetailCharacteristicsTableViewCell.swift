@@ -17,6 +17,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
     var titleShipping = UILabel()
     var showDetailButton: UIButton?
     var itemShipping = [:]
+    var isHeaderView = true
     
     var detailView = UIView()
     var nameLabel = UILabel()
@@ -59,8 +60,11 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         self.showDetailButton!.titleLabel?.textColor = UIColor.whiteColor()
         self.showDetailButton!.addTarget(self, action: #selector(ProductDetailCharacteristicsTableViewCell.showDetail(_:)), forControlEvents: .TouchUpInside)
         self.headerView.addSubview(self.showDetailButton!)
+        self.addSubview(self.headerView)
         
-        self.detailView = UIView(frame:CGRectMake(0, 40, self.frame.width, self.frame.height - 40))
+        let spaceHeaderView : CGFloat = isHeaderView ? 40.0 : 0.0
+        
+        self.detailView = UIView(frame:CGRectMake(0, spaceHeaderView, self.frame.width, self.frame.height - 40))
         self.detailView.backgroundColor = UIColor.whiteColor()
         
         self.nameLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
@@ -85,7 +89,6 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         self.paymentTypeLabel.textColor = WMColor.gray
         self.detailView.addSubview(self.paymentTypeLabel)
         
-        self.addSubview(self.headerView)
         self.addSubview(self.detailView)
         
         /*
@@ -98,6 +101,11 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         */
     }
     
+    override func layoutSubviews() {
+        let spaceHeaderView : CGFloat = isHeaderView ? 40.0 : self.headerView.frame.minY
+        self.detailView.frame = CGRectMake(0, spaceHeaderView, self.frame.width, self.frame.height - spaceHeaderView)
+    }
+    
     func showDetail(sender:UIButton){
         //Pasar array o NSDictionary seleccionado
         self.delegateDetail.showShippingDetail(self.itemShipping as NSDictionary)
@@ -108,19 +116,26 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         self.itemShipping = values
         self.titleShipping.text = values["order"] as? String
         
+        self.headerView.hidden = !isHeaderView
+        
         self.nameLabel.text = values["name"] as? String
         self.deliveryTypeLabel.text = values["deliveryType"] as? String
         //"Envio estandar - Hasta 5 días \n(Fecha estimada de entrega: 08/03/2016)"
         
-        //let address = values["deliveryAddress"] as? String
-        let address = "Casa\nAv San Francisco no. 1621, Del valee,\nBenito Juarez, Ciudad de Mexico, 03100\nTel 5521365678"
-        let rectSize = size(forText: address, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        let address = values["deliveryAddress"] as? String
+        //let address = "Casa\nAv San Francisco no. 1621, Del valee,\nBenito Juarez, Ciudad de Mexico, 03100\nTel 5521365678"
+        
         self.deliveryAddressLabel.text = address
         self.paymentTypeLabel.text = values["paymentType"] as? String//"Pago en línea"
         
-        self.deliveryTypeLabel.frame = CGRectMake(16, self.nameLabel.frame.maxY + 8.0, self.frame.width - 16.0, 16.0)
+        var rectSize = size(forText: self.deliveryTypeLabel.text!, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        self.deliveryTypeLabel.frame = CGRectMake(16, self.nameLabel.frame.maxY + 8.0, self.frame.width - 16.0, rectSize.height)
+        
+        rectSize = size(forText: self.deliveryAddressLabel.text!, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
         self.deliveryAddressLabel.frame = CGRectMake(16, self.deliveryTypeLabel.frame.maxY + 8.0, self.frame.width - 16.0, rectSize.height)
-        self.paymentTypeLabel.frame = CGRectMake(16, self.deliveryAddressLabel.frame.maxY + 8.0, self.frame.width - 16.0, 40.0)
+        
+        rectSize = size(forText: self.paymentTypeLabel.text!, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        self.paymentTypeLabel.frame = CGRectMake(16, self.deliveryAddressLabel.frame.maxY + 8.0, self.frame.width - 16.0, rectSize.height)
     }
     
     func setValues(values:NSArray){
@@ -159,7 +174,6 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         
         descLabel.frame = CGRectMake(0, 0,  self.frame.width, currentY)
         downBorder.frame = CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth())
-
     }
     
     func clearView(view: UIView){
@@ -177,10 +191,35 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         return CGSizeMake(computedRect.size.width, computedRect.size.height)
     }
     
+    func sizeCell(width:CGFloat,values:NSDictionary, showHeader: Bool) -> CGFloat {
+        var heigth = 16.0 as CGFloat
+        
+        heigth += showHeader ? 40.0 : 0.0
+        
+        let name = values["name"] as? String
+        let type = values["deliveryType"] as? String
+        let address = values["deliveryAddress"] as? String
+        let typePaymen = values["paymentType"] as? String
+        
+        var rectSize = size(forText: name!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        heigth += rectSize.height + 8.0
+        
+        rectSize = size(forText: type!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        heigth += rectSize.height + 8.0
+        
+        rectSize = size(forText: address!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        heigth += rectSize.height + 8.0
+        
+        rectSize = size(forText: typePaymen!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
+        heigth += rectSize.height + (showHeader ? 32.0 : 16.0)
+        
+        return heigth
+    }
+    
     class func sizeForCell(width:CGFloat,values:NSArray) -> CGFloat {
         var heigth = 0.0 as CGFloat
+        
         //var valuesDict = NSMutableArray()
-       
         for dicValue in values {
             //var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {

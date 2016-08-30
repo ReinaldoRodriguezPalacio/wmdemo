@@ -24,7 +24,7 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         }
         
         self.tableDetailOrder.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        
+        /*
         self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
@@ -44,12 +44,12 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         
         let x = self.shareButton!.frame.maxX + 16.0
         addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
-
+        */
  
     }
     
     
-    override func shareList() {
+    /*override func shareList() {
          BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label:"")
         if let image = self.buildImageToShare() {
             
@@ -59,9 +59,9 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
 
         }
-    }
+    }*/
     
-    override func listSelectorDidShowList(listId: String, andName name:String) {
+    /*override func listSelectorDidShowList(listId: String, andName name:String) {
         let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? IPAUserListDetailViewController {
             vc.listId = listId
@@ -70,7 +70,7 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             vc.hiddenBackButton = false
             self.navigationController!.pushViewController(vc, animated: true)
         }
-    }
+    }*/
     
     override func showLoadingView() {
         if self.viewLoad != nil {

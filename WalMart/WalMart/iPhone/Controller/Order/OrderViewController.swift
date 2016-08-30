@@ -151,6 +151,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         detailController.trackingNumber = trackingStr
         //let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
         detailController.status = statusStr
+        detailController.type = ResultObjectType.Groceries
         //detailController.date = dateStr
         //detailController.detailsOrderGroceries = item
         self.navigationController!.pushViewController(detailController, animated: true)

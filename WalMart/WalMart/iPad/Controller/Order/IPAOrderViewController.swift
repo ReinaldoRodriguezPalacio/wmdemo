@@ -63,27 +63,26 @@ class IPAOrderViewController: OrderViewController {
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
             
-            detailController.trackingNumber = trackingStr
+            //detailController.trackingNumber = trackingStr
 
-            detailController.status = statusStr
-            detailController.date = dateStr
+            //detailController.status = statusStr
+            //detailController.date = dateStr
             self.navigationController!.pushViewController(detailController, animated: true)
         } else {
             detailController.type = ResultObjectType.Groceries
-            let dateStr = item["placedDate"] as! String
+            //let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
-            let statusStr = item["status"] as! String
+            //let statusStr = item["status"] as! String
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
                         
-            let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
+            //let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             
-            detailController.trackingNumber = trackingStr
-            detailController.status = statusDesc
-            detailController.date = dateStr
+            //detailController.trackingNumber = trackingStr
+            //detailController.status = statusDesc
+            //detailController.date = dateStr
             detailController.detailsOrderGroceries = item
             self.navigationController!.pushViewController(detailController, animated: true)
-            
         }
     }
     

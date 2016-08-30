@@ -18,14 +18,20 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
     var itemDetailProducts : NSArray!
     var detailsOrder : [AnyObject]!
     
+    var type : ResultObjectType!
+    var showFedexGuide : Bool = true
+    
     var tableOrders : UITableView!
     var viewLoad : WMLoadingView!
     var emptyView : IPOOrderEmptyView!
     var isShowingTabBar : Bool = true
     var isShowingButtonFactura : Bool = false
     
-    var barView: UIView?
-    var repeatBuyButton: UIButton?
+    var viewStatus : UIView!
+    
+    var viewFooter : UIView!
+    var shareButton: UIButton?
+    var addToCartButton: UIButton?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -39,15 +45,25 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         self.view.backgroundColor = UIColor.whiteColor()
         self.titleLabel!.text = trackingNumber
         
+        self.viewStatus = UIView(frame: CGRectMake(0.0, 46.0, self.view.frame.width, 24.0))
+        let backColor = PreviousOrdersTableViewCell.setColorStatus(status)
+        self.viewStatus.backgroundColor = backColor
+        let titleLabel = UILabel(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 24.0))
+        
+        titleLabel.text = status //trackingNumber
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textAlignment = .Center
+        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.viewStatus.addSubview(titleLabel)
+        
+        self.viewFooter = UIView(frame:CGRectMake(0, self.view.bounds.maxY - 72, self.view.bounds.width, 46))
+        
         tableOrders = UITableView()
         tableOrders.dataSource = self
         tableOrders.delegate = self
         
         tableOrders.registerClass(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
         tableOrders.registerClass(OrderShippingTotalTableViewCell.self, forCellReuseIdentifier: "totals")
-        
-        //Celda Envio
-        //Celda Total
         
         tableOrders.separatorStyle = UITableViewCellSeparatorStyle.None
         
@@ -58,40 +74,59 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
             self.back()
         }
         self.view.addSubview(emptyView)
+        self.viewFooter!.backgroundColor = UIColor.whiteColor()
         
-        self.barView = UIView()
-        self.barView!.backgroundColor = UIColor.whiteColor()
-        self.view.addSubview(self.barView!)
+        let y = (self.viewFooter!.frame.height - 34.0)/2
         
-        self.repeatBuyButton = UIButton(type: . Custom)
-        self.repeatBuyButton!.frame = CGRectMake(45.0, 12.0, 240.0, 35)
-        self.repeatBuyButton!.backgroundColor = WMColor.green
-        self.repeatBuyButton!.setTitle("Repetir Compra", forState: .Normal)
-        self.repeatBuyButton?.titleLabel!.textColor = UIColor.whiteColor()
-        //self.repeatBuyButton!.addTarget(self, action: #selector(ShoppingCartViewController.buy), forControlEvents: .TouchUpInside)
-        self.repeatBuyButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.repeatBuyButton!.layer.cornerRadius = 15
-        self.barView!.addSubview(self.repeatBuyButton!)
+        self.shareButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
+        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
+        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
+        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
+        self.shareButton!.addTarget(self, action: #selector(OrderShippingViewController.shareList), forControlEvents: .TouchUpInside)
+        self.viewFooter!.addSubview(self.shareButton!)
+        
+        let x = self.shareButton!.frame.maxX + 16.0
+        
+        self.addToCartButton = UIButton(frame: CGRectMake(x, y, (self.viewFooter!.frame.width - (x + 16.0)) - 32, 34.0))
+        self.addToCartButton!.backgroundColor = WMColor.green
+        self.addToCartButton!.layer.cornerRadius = 17.0
+        
+        self.addToCartButton?.setTitle(NSLocalizedString("order.shop.title.btn", comment: ""), forState: .Normal)
+        self.addToCartButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.addToCartButton?.titleLabel?.textColor = UIColor.whiteColor()
+        //self.addToCartButton?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
+        self.addToCartButton!.addTarget(self, action: #selector(OrderShippingViewController.addListToCart), forControlEvents: .TouchUpInside)
+        self.viewFooter!.addSubview(self.addToCartButton!)
+        
+        self.view.addSubview(self.viewStatus)
+        self.view.addSubview(viewFooter)
         
         showLoadingView()
         reloadPreviousOrderDetail()
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         isShowingTabBar = !TabBarHidden.isTabBarHidden
-        
-        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46 - 64)
-        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46 - 64)
+        self.emptyView!.frame = CGRectMake(0, 71, self.view.bounds.width, self.view.bounds.height - 71)
+        self.tableOrders.frame = CGRectMake(0, 71, self.view.bounds.width, self.view.bounds.height - 71)
         
-        self.barView!.frame = CGRectMake(0.0, self.view.bounds.height - 64, self.view.bounds.width, 64)
-        self.repeatBuyButton!.frame = CGRectMake(self.barView!.frame.width - 256, 12.0, 240.0, 35)
+        self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
+        
+        let y = (self.viewFooter!.frame.height - 34.0)/2
+        self.shareButton!.frame = CGRectMake(16.0, y, 34.0, 34.0)
+        
+        self.addToCartButton!.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, y, (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, 34.0)
+        
+        if isShowingTabBar {
+            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+        }else{
+            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
+        }
     }
     
     
@@ -147,34 +182,15 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row != self.shippingAll.count {
-            return 230.0
+            let cellDetail = tableView.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+            var valuesDetail : NSDictionary = [:]
+            let shipping = self.shippingAll[indexPath.row] as! NSDictionary
+            valuesDetail = ["order": "", "name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": shipping["items"] as! NSArray]
+            let size = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
+            return size
         } else {
             return 63.0
         }
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 24.0
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let headerView = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 24.0))
-        let backColor = PreviousOrdersTableViewCell.setColorStatus(status)
-        headerView.backgroundColor = backColor
-        let titleLabel = UILabel(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 24.0))
-        
-        titleLabel.text = status //trackingNumber
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        headerView.addSubview(titleLabel)
-        
-        return headerView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -182,6 +198,7 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         
         if indexPath.row != self.shippingAll.count {
             let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+            cellDetail.isHeaderView = true
             cellDetail.frame = CGRectMake(0, 0, self.tableOrders.frame.width, cellDetail.frame.height)
             
             var valuesDetail : NSDictionary = [:]
@@ -200,7 +217,6 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
             cellDetail.setValuesDetail(valuesDetail)
             cellDetail.selectionStyle = .None
             cellDetail.delegateDetail = self
-            //cellDetail.setValues(self.detailsOrder)
             cell = cellDetail
         } else {
             
@@ -218,26 +234,136 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         
     }
     
+    override func willShowTabbar() {
+        isShowingTabBar = true
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 109, 0)
+            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 109, 0)
+        })
+    }
+    
+    override func willHideTabbar() {
+        isShowingTabBar = false
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
+            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
+        })
+    }
+    
     func showShippingDetail(shippingDetail: NSDictionary){
         let detailController = OrderDetailViewController()
         
-        //let dateStr = item["placedDate"] as! String
-        //let trackingStr = shippingDetail["trackingNumber"] as! String
-        //let statusStr = shippingDetail["status"] as! String
-        
-        detailController.trackingNumber = self.trackingNumber
-        //let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
-        detailController.status = self.status
-        //detailController.date = dateStr
+        detailController.shipping = shippingDetail["order"] as! String
+        //detailController.status = self.status
         detailController.detailsOrderGroceries = shippingDetail
+        detailController.type = ResultObjectType.Mg //
         detailController.itemDetailProducts = shippingDetail["items"] as! NSArray
         self.navigationController!.pushViewController(detailController, animated: true)
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
     }
     
+    func addListToCart (){
+        
+        if self.itemDetailProducts != nil && self.itemDetailProducts!.count > 0 {
+            if type == ResultObjectType.Mg {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
+            }else {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
+            }
+            var upcs: [AnyObject] = []
+            if !showFedexGuide {
+                for item in self.itemDetailProducts! {
+                    upcs.append(getItemToShoppingCart(item as! NSDictionary))
+                }
+            } else {
+                for item in self.itemDetailProducts! {
+                    let itmProdVal = item["items"] as! [[String:AnyObject]]
+                    for itemProd in itmProdVal {
+                        upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
+                        
+                    }
+                }
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
+        }
+    }
+    
+    func getItemToShoppingCart(item:NSDictionary) ->  [String:AnyObject] {
+        
+        var params: [String:AnyObject] = [:]
+        params["upc"] = item["upc"] as! String
+        params["desc"] = item["description"] as! String
+        
+        
+        if let images = item["imageUrl"] as? NSArray {
+            params["imgUrl"] = images[0] as! String
+        }else
+        {
+            params["imgUrl"] = item["imageUrl"] as! String
+        }
+        if let price = item["price"] as? NSNumber {
+            params["price"] = "\(price)"
+        }
+        else if let price = item["price"] as? String {
+            params["price"] = price
+        }
+        
+        if let quantity = item["quantity"] as? Int {
+            params["quantity"] = "\(quantity)"
+        }else if let quantity = item["quantity"] as? NSNumber {
+            params["quantity"] = "\(quantity.integerValue)"
+        }
+        else if let quantity = item["quantity"] as? NSString {
+            params["quantity"] = "\(quantity.integerValue)"
+        }
+        
+        
+        params["wishlist"] = false
+        params["type"] = type.rawValue
+        params["comments"] = ""
+        if let type = item["type"] as? String {
+            if Int(type)! == 0 { //Piezas
+                params["onHandInventory"] = "99"
+            }
+            else { //Gramos
+                params["onHandInventory"] = "20000"
+            }
+        }
+        return params
+    }
+    
+    func shareList() {
+        if type == ResultObjectType.Mg {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        }else {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        }
+        if let image = self.buildImageToShare() {
+            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func buildImageToShare() -> UIImage? {
+        let oldFrame : CGRect = self.tableOrders!.frame
+        var frame : CGRect = self.tableOrders!.frame
+        frame.size.height = self.tableOrders!.contentSize.height
+        self.tableOrders!.frame = frame
+        
+        UIGraphicsBeginImageContextWithOptions(self.tableOrders!.bounds.size, false, 2.0)
+        self.tableOrders!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.tableOrders!.frame = oldFrame
+        return saveImage
+        
+    }
+    
     override func back() {
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         super.back()
     }
     

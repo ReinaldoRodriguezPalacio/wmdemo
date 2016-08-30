@@ -9,31 +9,22 @@
 import Foundation
 
 
-class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate, ListSelectorDelegate {
+class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate { //ListSelectorDelegate
     
-    var trackingNumber = ""
-    var status = ""
-    var date = ""
+    var shipping = ""
     var viewLoad : WMLoadingView!
     var tableDetailOrder : UITableView!
     
-    var viewFooter : UIView!
-    var shareButton: UIButton?
-    var addToCartButton: UIButton?
     var isShowingTabBar : Bool = true
-    var showFedexGuide : Bool = false
+    var showFedexGuide : Bool = true
     
-    var itemDetail : NSDictionary!
     var itemDetailProducts : NSArray!
     var type : ResultObjectType!
     
     var detailsOrder : [AnyObject]!
     var detailsOrderGroceries : NSDictionary!
     
-    var listSelectorController: ListsSelectorViewController?
-    var addToListButton: UIButton?
     var alertView: IPOWMAlertViewController?
-    
     var timmer : NSTimer!
 
     override func getScreenGAIName() -> String {
@@ -42,12 +33,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
-        
-        self.viewFooter = UIView(frame:CGRectMake(0, self.view.bounds.maxY - 72, self.view.bounds.width, 46))
         
         self.view.backgroundColor = UIColor.whiteColor()
-        self.titleLabel!.text = trackingNumber
+        self.titleLabel!.text = shipping
         
         tableDetailOrder = UITableView()
        
@@ -55,95 +43,39 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         tableDetailOrder.registerClass(ProductDetailLabelCollectionView.self, forCellReuseIdentifier: "labelCell")
         tableDetailOrder.registerClass(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
         tableDetailOrder.separatorStyle = UITableViewCellSeparatorStyle.None
-        
-        self.viewFooter!.backgroundColor = UIColor.whiteColor()
-        
-        
-        let y = (self.viewFooter!.frame.height - 34.0)/2
-        if self.type == ResultObjectType.Groceries {
-            self.addToListButton = UIButton()
-            self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
-            self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), forState: .Selected)
-            self.addToListButton!.addTarget(self, action: #selector(OrderDetailViewController.addCartToList), forControlEvents: .TouchUpInside)
-            self.viewFooter!.addSubview(self.addToListButton!)
-        }
-
-        self.shareButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
-        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareButton!.addTarget(self, action: #selector(OrderDetailViewController.shareList), forControlEvents: .TouchUpInside)
-        self.viewFooter!.addSubview(self.shareButton!)
-        
-        let x = self.shareButton!.frame.maxX + 16.0
-        
-        self.addToCartButton = UIButton(frame: CGRectMake(x, y, (self.viewFooter!.frame.width - (x + 16.0)) - 32, 34.0))
-        self.addToCartButton!.backgroundColor = WMColor.green
-        self.addToCartButton!.layer.cornerRadius = 17.0
- 
-        
-        self.addToCartButton?.setTitle(NSLocalizedString("order.shop.title.btn", comment: ""), forState: .Normal)
-        self.addToCartButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.addToCartButton?.titleLabel?.textColor = UIColor.whiteColor()
-        //self.addToCartButton?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
-        self.addToCartButton!.addTarget(self, action: #selector(OrderDetailViewController.addListToCart), forControlEvents: .TouchUpInside)
-        self.viewFooter!.addSubview(self.addToCartButton!)
-        
     
         self.view.addSubview(tableDetailOrder)
-        self.view.addSubview(viewFooter)
         
-        
-        self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-        self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
+        self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         
         showLoadingView()
+        
+        self.tableDetailOrder.dataSource = self
+        self.tableDetailOrder.delegate = self
+        
         self.tableDetailOrder.reloadData()
     }
-    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         self.tableDetailOrder.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-
-        self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
-        
-        let y = (self.viewFooter!.frame.height - 34.0)/2
-
-        if self.type == ResultObjectType.Groceries {
-            self.addToListButton!.frame = CGRectMake(16.0, y, 34.0, 34.0)
-            self.shareButton!.frame = CGRectMake(self.addToListButton!.frame.maxX + 16.0, y, 34.0, 34.0)
-        }
-        else {
-            self.shareButton!.frame = CGRectMake(16.0, y, 34.0, 34.0)
-        }
-        
-        self.addToCartButton!.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, y, (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, 34.0)
-  
-        if isShowingTabBar {
-            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
-        }else{
-            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
-        }
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-        //reloadPreviousOrderDetail()
+        self.tableDetailOrder.reloadData()
         self.removeLoadingView()
     }
- 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if showFedexGuide {
-             return self.itemDetailProducts.count + 1
+             return self.itemDetailProducts.count
         }
         return 1
-        
     }
     
     func showProducDetail(indexPath: NSIndexPath){
@@ -155,7 +87,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
         self.navigationController!.delegate = nil
         self.navigationController!.pushViewController(controller, animated: true)
-    
     }
     
     //MARK:TableViewDelegate
@@ -164,15 +95,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if section == 0 {
                 return 1
             }
-            let arrayProds = self.itemDetailProducts[section - 1] as! [String:AnyObject]
-            let arrayProdsItems = arrayProds["items"] as! [AnyObject]
-            return arrayProdsItems.count
+            return self.itemDetailProducts.count
         }
         return 2 + self.itemDetailProducts.count
-            
     }
-    
-   
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
@@ -180,6 +106,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         switch (indexPath.section, indexPath.row) {
             case (0,0):
                 let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+                cellDetail.isHeaderView = false
                 cellDetail.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellDetail.frame.height)
                 cellDetail.setValuesDetail(self.detailsOrderGroceries)
                 cell = cellDetail
@@ -193,9 +120,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 cellOrderProduct.type = self.type
                 var dictProduct = [:]
                 if showFedexGuide {
-                    let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as! [String:AnyObject]
-                    let productsArray = arrayProductsFed["items"] as! [AnyObject]
-                    dictProduct = productsArray[indexPath.row ] as! NSDictionary
+                    dictProduct = itemDetailProducts[indexPath.row ] as! NSDictionary
                 } else {
                     dictProduct = itemDetailProducts[indexPath.row - 2] as! NSDictionary
                 }
@@ -253,20 +178,18 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         cell!.selectionStyle = UITableViewCellSelectionStyle.None
 
         return cell!
-        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
        
         if indexPath.section == 0 && indexPath.row == 0{
-            let size = PreviousDetailTableViewCell.sizeForCell(self.view.frame.width, values: self.detailsOrder)
+            let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+            let size = cellDetail.sizeCell(self.view.frame.width, values: self.detailsOrderGroceries, showHeader: false)
             return size
         }else{
             return 109
         }
-  
     }
-   
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if !showFedexGuide {
@@ -284,7 +207,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.showProducDetail(indexPath)
         }
     }
-    
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section > 0 {
@@ -338,8 +260,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.presentViewController(webCtrl,animated:true,completion:nil)
             }
         }
-
-        
     }
     
     func getUPCItems() -> [[String:String]] {
@@ -375,129 +295,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         return upcItems
     }
-    
-    /*func reloadPreviousOrderDetail() {
-        if type == ResultObjectType.Mg {
-            let servicePrev = PreviousOrderDetailService()
-            servicePrev.callService(trackingNumber, successBlock: { (result:NSDictionary) -> Void in
-                
-                self.tableDetailOrder.dataSource = self
-                self.tableDetailOrder.delegate = self
-                
-                self.itemDetail = result
-                
-                var details : [[String:String]] = []
-                let deliveryType = result["deliveryType"] as! String
-                let name = result["name"] as! String
-                let address = result["deliveryAddress"] as! String
-                
-                let statusLbl = NSLocalizedString("previousorder.status",comment:"")
-                let dateLbl = NSLocalizedString("previousorder.date",comment:"")
-                let nameLbl = NSLocalizedString("previousorder.name",comment:"")
-                let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
-                let addressLbl = NSLocalizedString("previousorder.address",comment:"")
-                //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
-                
-                details.append(["label":statusLbl,"value":self.status])
-                details.append(["label":dateLbl,"value":self.date])
-                details.append(["label":nameLbl,"value":name])
-                details.append(["label":deliveryTypeLbl,"value":deliveryType])
-                details.append(["label":addressLbl,"value":address])
-                //details.append(["label":fedexLbl,"value":guide])
-                
-
-                var itemsFedex : [[String:AnyObject]] = []
-                self.detailsOrder = details
-                let resultsProducts =  result["items"] as! NSArray
-                
-                for itemProduct in resultsProducts {
-                    let guide = itemProduct["fedexGuide"] as! String
-                    let urlGuide = itemProduct["urlfedexGuide"] as! String
-                    
-                    var itemFedexFound = itemsFedex.filter({ (itemFedexFilter) -> Bool in
-                        let itemTwo =  itemFedexFilter["fedexGuide"] as! String
-                        return guide == itemTwo
-                    })
-
-                   
-                    
-                    if itemFedexFound.count == 0 {
-                        var itmNewProduct : [String:AnyObject] = [:]
-                        itmNewProduct["fedexGuide"] = guide
-                        itmNewProduct["urlfedexGuide"] = urlGuide
-                        itmNewProduct["items"] = [itemProduct]
-                        itemsFedex.append(itmNewProduct)
-                    } else {
-                        let index = itemsFedex.indexOf({ (itemFedexFilter) -> Bool in
-                            let itemTwo =  itemFedexFilter["fedexGuide"] as! String
-                            return guide == itemTwo
-                        })
-                        var itemFound = itemFedexFound[0] as  [String:AnyObject]
-                        var itemsFound = itemFound["items"] as!  [AnyObject]
-                        itemsFound.append(itemProduct)
-                        itemsFedex.removeAtIndex(index!)
-                        var itmNewProduct : [String:AnyObject] = [:]
-                        itmNewProduct["fedexGuide"] = guide
-                        itmNewProduct["urlfedexGuide"] = urlGuide
-                        itmNewProduct["items"] = itemsFound
-                        itemsFedex.append(itmNewProduct)
-     
-                    }
-                }
-                self.showFedexGuide = true
-                self.itemDetailProducts = itemsFedex
-                
-                self.tableDetailOrder.reloadData()
-                self.removeLoadingView()
-                }) { (error:NSError) -> Void in
-                    //
-                    self.back()
-                    self.removeLoadingView()
-            }
-        }else {
-            
-            self.tableDetailOrder.dataSource = self
-            self.tableDetailOrder.delegate = self
-            
-            var details : [[String:String]] = []
-            let deliveryType = detailsOrderGroceries["deliveryType"] as! String
-            let deliveryDate = detailsOrderGroceries["deliveryDate"] as! String
-            //let name = detailsOrderGroceries["name"] as NSString
-            
-            var statusGR = detailsOrderGroceries["status"] as! String
-            if (detailsOrderGroceries["type"] as! String) == ResultObjectType.Groceries.rawValue {
-                statusGR = NSLocalizedString("gr.order.status.\(statusGR)", comment: "")
-            }
-            
-            //let nameGR = detailsOrderGroceries["name"] as NSString
-           // let address = detailsOrderGroceries["deliveryAddress"] as NSString
-
-            
-            let statusLbl = NSLocalizedString("previousorder.status",comment:"")
-            let dateLbl = NSLocalizedString("previousorder.date",comment:"")
-            //let nameLbl = NSLocalizedString("previousorder.name",comment:"")
-            let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
-            //let addressLbl = NSLocalizedString("previousorder.address",comment:"")
-            //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
-            
-            details.append(["label":statusLbl,"value":statusGR])
-            details.append(["label":dateLbl,"value":deliveryDate])
-            //details.append(["label":nameLbl,"value":name])
-            details.append(["label":deliveryTypeLbl,"value":deliveryType])
-            //details.append(["label":addressLbl,"value":address])
-           // details.append(["label":fedexLbl,"value":""])
-            
-            self.detailsOrder = details
-            self.itemDetailProducts = detailsOrderGroceries["items"] as! NSArray
-            self.tableDetailOrder.reloadData()
-            self.removeLoadingView()
-            
-        }
-    }*/
-
 
     //MARK: - Actions List Selector
-    
+    /*
     func addCartToList() {
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
@@ -543,109 +343,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         else {
             self.removeListSelector(action: nil)
         }
-    }
+    }*/
     
-    func addListToCart (){
-        
-        if self.itemDetailProducts != nil && self.itemDetailProducts!.count > 0 {
-            if type == ResultObjectType.Mg {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
-            }else {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
-            }
-            var upcs: [AnyObject] = []
-            if !showFedexGuide {
-                for item in self.itemDetailProducts! {
-                    upcs.append(getItemToShoppingCart(item as! NSDictionary))
-                }
-            } else {
-                for item in self.itemDetailProducts! {
-                    let itmProdVal = item["items"] as! [[String:AnyObject]]
-                    for itemProd in itmProdVal {
-                        upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
-
-                    }
-                }
-            }
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
-        }
-    
-    }
-    
-    func getItemToShoppingCart(item:NSDictionary) ->  [String:AnyObject] {
-
-        var params: [String:AnyObject] = [:]
-        params["upc"] = item["upc"] as! String
-        params["desc"] = item["description"] as! String
-        
-        
-        if let images = item["imageUrl"] as? NSArray {
-            params["imgUrl"] = images[0] as! String
-        }else
-        {
-            params["imgUrl"] = item["imageUrl"] as! String
-        }
-        if let price = item["price"] as? NSNumber {
-            params["price"] = "\(price)"
-        }
-        else if let price = item["price"] as? String {
-            params["price"] = price
-        }
-        
-        if let quantity = item["quantity"] as? Int {
-            params["quantity"] = "\(quantity)"
-        }else if let quantity = item["quantity"] as? NSNumber {
-            params["quantity"] = "\(quantity.integerValue)"
-        }
-        else if let quantity = item["quantity"] as? NSString {
-            params["quantity"] = "\(quantity.integerValue)"
-        }
-        
-        
-        params["wishlist"] = false
-        params["type"] = type.rawValue
-        params["comments"] = ""
-        if let type = item["type"] as? String {
-            if Int(type)! == 0 { //Piezas
-                params["onHandInventory"] = "99"
-            }
-            else { //Gramos
-                params["onHandInventory"] = "20000"
-            }
-        }
-        return params
-    }
-
-    
-    func shareList() {
-        if type == ResultObjectType.Mg {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
-        }else {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
-        }
-        if let image = self.buildImageToShare() {
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-        }
-    }
-    
-    func buildImageToShare() -> UIImage? {
-        let oldFrame : CGRect = self.tableDetailOrder!.frame
-        var frame : CGRect = self.tableDetailOrder!.frame
-        frame.size.height = self.tableDetailOrder!.contentSize.height
-        self.tableDetailOrder!.frame = frame
-        
-        //UIGraphicsBeginImageContext(self.tableDetailOrder!.bounds.size)
-        UIGraphicsBeginImageContextWithOptions(self.tableDetailOrder!.bounds.size, false, 2.0)
-        self.tableDetailOrder!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.tableDetailOrder!.frame = oldFrame
-        return saveImage
-
-    }
-    
+    /*
     func removeListSelector(action action:(()->Void)?) {
         if self.listSelectorController != nil {
             UIView.animateWithDuration(0.5,
@@ -671,24 +371,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             )
         }
     }
-    
-    override func willShowTabbar() {
-        isShowingTabBar = true
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
-            self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 109, 0)
-            self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 109, 0)
-        })
-    }
-    
-    override func willHideTabbar() {
-        isShowingTabBar = false
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
-            self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-            self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
-        })
-    }
+    */
     
     
     /**
@@ -718,7 +401,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
 
     //MARK: - ListSelectorDelegate
-    
+    /*
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
@@ -856,7 +539,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.alertView!.showErrorIcon("Ok")
             }
         )
-    }
+    }*/
     
     override func back() {
         if type == ResultObjectType.Mg {
