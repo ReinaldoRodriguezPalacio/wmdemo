@@ -14,6 +14,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     var imagePromotion : UIImageView!
     var totalsView : IPAShoppingCartTotalView!
     var beforeLeave : IPAShoppingCartBeforeToLeave!
+    
+    var ctrlCheckOut : UINavigationController? = nil
+    var checkoutVC : IPAGRCheckOutViewController? = nil
+
     var viewSeparator : UIView!
     var popup : UIPopoverController?
     var onClose : ((isClose:Bool) -> Void)? = nil
@@ -50,8 +54,28 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.presentAddressFullScreen = true
         self.updateTotalItemsRow()
         
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            self.addchekout()
+        }
+        
+        
     }
  
+    
+    func addchekout(){
+        self.imagePromotion.hidden = true
+        self.checkoutVC = IPAGRCheckOutViewController()
+        checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
+        ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
+        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
+        //checkoutVC!.hiddenBack = true
+        ctrlCheckOut!.navigationBarHidden = true
+        
+        //checkoutVC?.itemsInCart = itemsInCart
+        //checkoutVC?.delegateCheckOut = self
+        self.addChildViewController(ctrlCheckOut!)
+        self.view.addSubview(ctrlCheckOut!.view)
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -119,6 +143,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
             let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
             self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject]) as! [AnyObject]
+            
+             checkoutVC?.itemsInCart = itemsUserCurren
+            
             self.arrayItems()
         }
         if self.itemsInShoppingCart.count == 0 {
