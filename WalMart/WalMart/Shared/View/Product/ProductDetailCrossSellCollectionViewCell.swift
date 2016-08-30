@@ -82,7 +82,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
         
         let desc = itemUPC["description"] as! String
         let price = "38.06" //itemUPC["price"] as! String
-        let imageUrl = itemUPC["thumbnailImageUrl"] as! String
+        let imageUrl = "https://www.walmart.com.mx/super\(itemUPC["thumbnailImageUrl"] as! String)"
         
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: price)
 
