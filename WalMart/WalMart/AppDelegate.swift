@@ -169,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         if #available(iOS 9.0, *) {
-            if presented != nil && !presented!.isKindOfClass(SFSafariViewController) {
+            if presented != nil && !presented!.isKindOfClass(SFSafariViewController) && !presented!.isKindOfClass(UINavigationController) {
                 presented?.dismissViewControllerAnimated(false, completion: nil)
             }
         } else {

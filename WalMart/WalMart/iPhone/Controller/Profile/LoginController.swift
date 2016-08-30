@@ -820,6 +820,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                         let name = json["name"] as! String
                         let email = json["email"] as? String ?? ""
                         self.loginWithEmail(email, firstName: name, lastName: "", gender: "", birthDay: "")
+                        //let signedInUserID = TWTRAPIClient.clientWithCurrentUser().userID
+                        //Twitter.sharedInstance().sessionStore.logOutUserID(signedInUserID!)
                     } catch {
                         print("json error: \(error)")
                         self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
