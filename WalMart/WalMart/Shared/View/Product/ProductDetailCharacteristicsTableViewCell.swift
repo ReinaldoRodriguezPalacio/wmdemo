@@ -115,16 +115,11 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         
         self.itemShipping = values
         self.titleShipping.text = values["order"] as? String
-        
         self.headerView.hidden = !isHeaderView
         
         self.nameLabel.text = values["name"] as? String
         self.deliveryTypeLabel.text = values["deliveryType"] as? String
-        //"Envio estandar - Hasta 5 días \n(Fecha estimada de entrega: 08/03/2016)"
-        
         let address = values["deliveryAddress"] as? String
-        //let address = "Casa\nAv San Francisco no. 1621, Del valee,\nBenito Juarez, Ciudad de Mexico, 03100\nTel 5521365678"
-        
         self.deliveryAddressLabel.text = address
         self.paymentTypeLabel.text = values["paymentType"] as? String//"Pago en línea"
         
