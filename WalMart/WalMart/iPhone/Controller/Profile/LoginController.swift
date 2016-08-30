@@ -815,13 +815,20 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     error: nil)
                 
                 client.sendTwitterRequest(request) { response, data, connectionError in
-                    do {
-                        let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String:AnyObject]
-                        let name = json["name"] as! String
-                        let email = json["email"] as? String ?? ""
-                        self.loginWithEmail(email, firstName: name, lastName: "", gender: "", birthDay: "")
-                    } catch {
-                        print("json error: \(error)")
+                    if data != nil {
+                        do {
+                            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String:AnyObject]
+                            let name = json["name"] as! String
+                            let email = json["email"] as? String ?? ""
+                            self.loginWithEmail(email, firstName: name, lastName: "", gender: "", birthDay: "")
+                            //let signedInUserID = TWTRAPIClient.clientWithCurrentUser().userID
+                            //Twitter.sharedInstance().sessionStore.logOutUserID(signedInUserID!)
+                        } catch {
+                            print("json error: \(error)")
+                            self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                            self.alertView!.showErrorIcon("Aceptar")
+                        }
+                    }else{
                         self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                         self.alertView!.showErrorIcon("Aceptar")
                     }
