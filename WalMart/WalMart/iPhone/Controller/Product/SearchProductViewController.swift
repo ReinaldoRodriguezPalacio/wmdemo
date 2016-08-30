@@ -251,7 +251,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+    
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
     override func viewDidDisappear(animated: Bool) {

@@ -199,8 +199,6 @@ class GRShoppingCartAddProductsService : GRBaseService {
             print(error1.description)
         }
         
-        WishlistService.shouldupdate = true
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
     }

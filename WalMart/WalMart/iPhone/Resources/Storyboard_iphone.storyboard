@@ -317,37 +317,6 @@
             </objects>
             <point key="canvasLocation" x="1225" y="1013.5"/>
         </scene>
-        <!--Wish List View Controller-->
-        <scene sceneID="Mm7-LU-R94">
-            <objects>
-                <viewController storyboardIdentifier="wishlitsItemVC" id="8ac-Sm-hiy" customClass="WishListViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="EjJ-Z5-97z"/>
-                        <viewControllerLayoutGuide type="bottom" id="hYQ-e3-REx"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="4du-Gd-KC2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fRy-LZ-TgT">
-                                <rect key="frame" x="0.0" y="46" width="320" height="415"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="s6r-Cu-ZSH"/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="461"/>
-                    <connections>
-                        <outlet property="wishlist" destination="fRy-LZ-TgT" id="ACt-NH-xo7"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ait-UL-VKk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1709" y="2215.5"/>
-        </scene>
         <!--Table View Controller-->
         <scene sceneID="wPu-A3-TFR">
             <objects>
@@ -576,7 +545,6 @@
                         <outlet property="searchContainer" destination="ckd-Mn-BmU" id="3Pv-Ip-fgp"/>
                         <outlet property="tableuserlist" destination="NGV-9b-ba2" id="pY2-FM-DFd"/>
                         <segue destination="ceM-IS-94f" kind="push" identifier="showListDetail" id="Ci7-eY-WOx"/>
-                        <segue destination="8ac-Sm-hiy" kind="push" identifier="showWishlist" id="LQV-H1-Vlf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Amc-Yw-j11" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -565,22 +565,22 @@ class SchoolListViewController : DefaultListDetailViewController {
                 }
                 
                 
-                let serviceAdd = AddItemWishlistService()
-                if ixCount < self.selectedItems!.count {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
-                        //let path = NSIndexPath(forRow: , inSection: 0)
-                        
-                        
-                        }, errorBlock: { (error:NSError) -> Void in
-                    })
-                }else {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
-                        self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
-                        animation.removeFromSuperview()
-                        }, errorBlock: { (error:NSError) -> Void in
-                            animation.removeFromSuperview()
-                    })
-                }
+//                let serviceAdd = AddItemWishlistService()
+//                if ixCount < self.selectedItems!.count {
+//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+//                        //let path = NSIndexPath(forRow: , inSection: 0)
+//                        
+//                        
+//                        }, errorBlock: { (error:NSError) -> Void in
+//                    })
+//                }else {
+//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
+//                        self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
+//                        animation.removeFromSuperview()
+//                        }, errorBlock: { (error:NSError) -> Void in
+//                            animation.removeFromSuperview()
+//                    })
+//                }
                 ixCount += 1
                 
             }

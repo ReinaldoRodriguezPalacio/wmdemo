@@ -14,7 +14,6 @@ protocol RecentProductsTableViewCellDelegate {
 
 class RecentProductsTableViewCell : ProductTableViewCell {
     
-    var emptyView : IPOWishlistEmptyView!
     var productPriceSavingLabelGR : UILabel!
     
     var delegateProduct : RecentProductsTableViewCellDelegate!

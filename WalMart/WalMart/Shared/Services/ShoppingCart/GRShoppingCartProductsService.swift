@@ -203,8 +203,6 @@ class GRShoppingCartProductsService : GRBaseService {
                 if currentItem == deteted.count {
                     serviceDelete.callService(requestParams: ["parameter":[itemDeleted.product.upc]], successBlock: { (result:NSDictionary) -> Void in
                         self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
-                        WishlistService.shouldupdate = true
-                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
                         
                         }, errorBlock: { (error:NSError) -> Void in
                             if error.code != -100 {
