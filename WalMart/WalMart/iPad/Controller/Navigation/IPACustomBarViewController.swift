@@ -306,7 +306,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         let controller = self.viewControllers[index!]
         if controller === self.currentController {
             
-            let controllerIdentifiers : [String] = ["categoriesVC","GRCategoriesVC",  "userListsVC","storeLocatorVC","moreVC"]//, "profileVC"
+            let controllerIdentifiers : [String] = ["categoriesVC","GRCategoriesVC",  "userListsVC","storeLocatorVC","moreVC"]
             
             if let navController = self.currentController as? UINavigationController {
                 if index! > 0 {
@@ -491,7 +491,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
-        case "WF": self.buttonSelected(self.buttonList[4])
+        case "WF": self.buttonSelected(self.buttonList[3])
         case "URL": self.openURLNotification(trimValue)
         case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "",andGrade:"", andSearchContextType: .WithCategoryForMG)
         case "SH":

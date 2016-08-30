@@ -30,7 +30,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var viewFooter : UIView!
     var delegate : ShoppingCartViewControllerDelegate!
     var titleView : UILabel!
-    var buttonWishlist : UIButton!
+    var buttonListSelect : UIButton!
     //var addProductToShopingCart : UIButton? = nil
     
     var listObj : NSDictionary!
@@ -144,14 +144,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         let x:CGFloat = 16
         
-        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34.0, 34.0))
-        buttonWishlist.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
-        buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
-        viewFooter.addSubview(buttonWishlist)
+        buttonListSelect = UIButton(frame: CGRectMake(x, 16, 34.0, 34.0))
+        buttonListSelect.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
+        buttonListSelect.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
+        viewFooter.addSubview(buttonListSelect)
         
         
         facebookButton = UIButton()
-        facebookButton.frame = CGRectMake(buttonWishlist.frame.maxX + 16, 16.0, 34.0, 34.0)
+        facebookButton.frame = CGRectMake(buttonListSelect.frame.maxX + 16, 16.0, 34.0, 34.0)
         facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)
@@ -339,7 +339,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_ADD_MY_LIST.rawValue, label: "")
         
         if self.listSelectorController == nil {
-            self.buttonWishlist!.selected = true
+            self.buttonListSelect!.selected = true
             let frame = self.view.frame
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
@@ -752,35 +752,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         return toReturn
     }
  
-
-    //Se quita funcionalidad ya que el saving ya viene en el servicio
-//    func updateItemSavingForUPC(indexPath: NSIndexPath,upc:String) {
-    
-//        let searchResult = idexesPath.filter({ (index) -> Bool in return index.row == indexPath.row })
-//        if searchResult.count == 0 {
-//            idexesPath.append(indexPath)
-//            
-//            let productService = ProductDetailService()
-//            productService.callService(upc, successBlock: { (result: NSDictionary) -> Void in
-//                let savingItem = result["saving"] as NSString
-//                if self.itemsInShoppingCart.count > indexPath.row {
-//                var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as [String:AnyObject]
-//                itemByUpc.updateValue(savingItem, forKey: "saving")
-//                self.itemsInShoppingCart[indexPath.row] = itemByUpc
-//                
-//                self.viewShoppingCart.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-//                self.updateTotalItemsRow()
-//                }
-//                }) { (error:NSError) -> Void in
-//                    
-//                    
-//            }
-//        }
-//        
-        
-//    }
-    
-    
     /**
         Present view in mode edit
      
@@ -1739,22 +1710,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      Share products
      */
     func shareProduct() {
-       
-            if self.isEdditing {
-                return
-            }
-            
-            self.viewShoppingCart!.setContentOffset(CGPoint.zero , animated: false)
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
-            
-            if let image = self.viewShoppingCart!.screenshot() {
-                let imageHead = UIImage(named:"detail_HeaderMail")
-                let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
-                let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
-                self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-            }
-            
-
+        
+        if self.isEdditing {
+            return
+        }
+        
+        self.viewShoppingCart!.setContentOffset(CGPoint.zero , animated: false)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
+        
+        if let image = self.viewShoppingCart!.screenshot() {
+            let imageHead = UIImage(named:"detail_HeaderMail")
+            let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        }
     }
     
     //MARK: ListSelectorDelegate
@@ -1887,7 +1856,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             self.listSelectorController!.removeFromParentViewController()
                             self.listSelectorController = nil
                         }
-                        self.buttonWishlist!.selected = false
+                        self.buttonListSelect!.selected = false
                         
                         action?()
                     }

@@ -78,9 +78,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let x : CGFloat = 16
         let wShop : CGFloat =  341 - 82
         
-        self.buttonWishlist.frame = CGRectMake(x,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
+        self.buttonListSelect.frame = CGRectMake(x,self.buttonListSelect.frame.minY,40,self.buttonListSelect.frame.height)
         
-        self.buttonShop.frame = CGRectMake( buttonWishlist.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
+        self.buttonShop.frame = CGRectMake( buttonListSelect.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
         
         self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
