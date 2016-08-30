@@ -1306,98 +1306,33 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      validate if user contain address, if not , call service to add new addres an save.
      */
     func showloginshop() {
-        picker?.closePicker()
-        //Event
-        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN_PRE_CHECKOUT.rawValue, label: "")
-        
-        self.canceledAction = false
-        self.buttonShop.enabled = false
-        self.buttonShop.alpha = 0.7
-        //let storyboard = self.loadStoryboardDefinition()
-        let addressService = ShippingAddressByUserService()
-        
-        self.buttonShop.enabled = true
-        self.buttonShop.alpha = 1.0
-        let cont = LoginController.showLogin()
-        var user = ""
+        self.buttonShop!.enabled = false
         if UserCurrentSession.hasLoggedUser() {
-            cont!.noAccount?.hidden = true
-            cont!.registryButton?.hidden = true
-            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email!.enabled = false
-            user = UserCurrentSession.sharedInstance().userSigned!.email as String
-        }
-        cont!.closeAlertOnSuccess = false
-        cont!.okCancelCallBack = {() in
-            self.canceledAction = true
-            //let response = self.navigationController?.popToRootViewControllerAnimated(true)
-            cont!.closeAlert(true, messageSucesss:false)
-        }
-        cont!.successCallBack = {() in
-            if UserCurrentSession.hasLoggedUser() {
-                if user !=  UserCurrentSession.sharedInstance().userSigned!.email {
-                    NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
-                    //self.reloadShoppingCart()
-                }
-            }
             
-            addressService.callService({ (resultCall:NSDictionary) -> Void in
-                var presentAddres = true
-                if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
-                {
-                    if shippingAddress.count > 0 {
-                        presentAddres = false
-                        if(cont!.email?.text == nil || cont!.email?.text == "" ){
-                            cont!.email?.text = cont!.signUp.email?.text
-                            cont!.password?.text = cont!.signUp.password?.text
-                        }
-                        if(cont!.password?.text == nil || cont!.password?.text == "" ){
-                            self.showloginshop()
-                            cont!.closeAlert(true, messageSucesss: true)
-                            return
-                        }
-                        self.presentedCheckOut(cont!, address: nil)
-                    }
-                }
-                if presentAddres {
-                    let address = AddressViewController()
-                    address.typeAddress = TypeAddress.Shiping
-                    address.item =  NSDictionary()
-                    address.successCallBack = {() in
-                        address.closeAlert()
-                        if(cont!.email?.text == nil || cont!.email?.text == "" ){
-                            cont!.email?.text = cont!.signUp.email?.text
-                            cont!.password?.text = cont!.signUp.password?.text
-                        }
-                        self.presentedCheckOut(cont!, address: address)
-                    }
-                    self.navigationController!.pushViewController(address, animated: true)
-                    cont!.closeAlert(true, messageSucesss: true)
-                }else{
-                    cont!.closeAlert(true, messageSucesss: true)
-                }
-                }, errorBlock: { (error:NSError) -> Void in
-                    
-                    self.buttonShop.enabled = true
-                    self.buttonShop.alpha = 1.0
-                    print("errorBlock")
-                    let address = AddressViewController()
-                    address.typeAddress = TypeAddress.Shiping
-                    address.item =  NSDictionary()
-                    address.successCallBack = {() in
-                        address.closeAlert()
-                        if(cont!.email?.text == nil || cont!.email?.text == "" ){
-                            cont!.email?.text = cont!.signUp.email?.text
-                            cont!.password?.text = cont!.signUp.password?.text
-                        }
-                        self.presentedCheckOut(cont!, address: address)
-                    }
-                    self.navigationController!.pushViewController(address, animated: true)
-                    
-                    cont!.closeAlert(true, messageSucesss: true)
-            })
+            //FACEBOOKLOG
+            FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
+            self.buttonShop!.enabled = true
+            self.performSegueWithIdentifier("checkoutVC", sender: self)
+        } else {
+            let cont = LoginController.showLogin()
+            self.buttonShop!.enabled = true
+            cont!.closeAlertOnSuccess = false
+            cont!.successCallBack = {() in
+                //UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+                //self.loadGRShoppingCart()
+                
+                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
+                 
+                 self.performSegueWithIdentifier("checkoutVC", sender: self)
+                 
+                 cont.closeAlert(true, messageSucesss: true)
+                 
+                 self.buttonShop!.enabled = true
+                 
+                 //}
+            }
         }
+
     }
     
     
@@ -1601,11 +1536,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
-                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
-                            let priceB = before["price"] as! NSString
-                            let priceA = after["price"] as! NSString
-                            return priceB.doubleValue < priceA.doubleValue
-                        })
+//                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
+//                            let priceB = before["price"] as! NSString
+//                            let priceA = after["price"] as! NSString
+//                            return priceB.doubleValue < priceA.doubleValue
+//                        })
                         var resultArray : [AnyObject] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
@@ -1625,7 +1560,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     
                 }
                 }, errorBlock: { (error:NSError) -> Void in
-                    print("Termina sevicio app")
+                    print("Termina sevicio app \(error.localizedDescription)")
             })
         }
     }

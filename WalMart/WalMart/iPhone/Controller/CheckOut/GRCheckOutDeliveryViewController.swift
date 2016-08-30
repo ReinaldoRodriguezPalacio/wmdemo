@@ -592,10 +592,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func reloadUserAddresses(){
         self.invokeAddressUserService({ () -> Void in
             self.getItemsTOSelectAddres()
-            self.getAddressDescription(self.selectedAddress!)
-            self.address!.onBecomeFirstResponder = {() in
-                self.showAddressPicker()
-            }
+            //Mustang
+//            self.getAddressDescription(self.selectedAddress!)
+//            self.address!.onBecomeFirstResponder = {() in
+//                self.showAddressPicker()
+//            }
             //TODO
             self.getAviableDates()
             self.selectedDate = self.datesItems!.first!["date"] as! NSDate
@@ -690,6 +691,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.buildSlotsPicker(self.selectedDate)
             })
         }
+        //TODO 
+        self.removeViewLoad()
     }
     /**
      Gets delivery types from an address

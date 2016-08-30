@@ -31,15 +31,12 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let cell = collection.dequeueReusableCellWithReuseIdentifier("shoppingCartCrossSellCell", forIndexPath: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         
         let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
-        let upc = itemUPC["upc"] as! String
+        let upc = itemUPC["upc"] as? String ?? ""
 
         let desc = itemUPC["description"] as! String
-        let price = itemUPC["price"] as! String
-        let imageArray = itemUPC["imageUrl"] as! NSArray
-        var imageUrl = ""
-        if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as! String
-        }
+        let price = itemUPC["price"] as? String ?? ""
+        let imageUrl = itemUPC["smallImageUrl"] as! String
+      
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc))
         
         return cell
