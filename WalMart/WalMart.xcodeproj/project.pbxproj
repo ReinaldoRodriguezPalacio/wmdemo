@@ -225,8 +225,6 @@
 		5673D1431A9D500400DCD20B /* RSUPCEGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5673D1321A9D500400DCD20B /* RSUPCEGenerator.swift */; };
 		5673D1441A9D500400DCD20B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5673D1331A9D500400DCD20B /* StringExtension.swift */; };
 		5673D1451A9D500400DCD20B /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5673D1341A9D500400DCD20B /* UIColorExtension.swift */; };
-		567676DF1A1BBFF4005C2FE5 /* IPAEmptyWishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567676DE1A1BBFF4005C2FE5 /* IPAEmptyWishlistView.swift */; };
-		567AB65B1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567AB65A1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift */; };
 		567AC2031A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567AC2021A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift */; };
 		567D62DA1A23A0CA00F07881 /* IPAProductDetailBundleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D62D91A23A0CA00F07881 /* IPAProductDetailBundleTableViewCell.swift */; };
 		5680A0901A48C4ED009C5515 /* GRBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A08F1A48C4ED009C5515 /* GRBaseService.swift */; };
@@ -329,7 +327,6 @@
 		56DE026619DE073C00FA2042 /* IPOEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE026519DE073C00FA2042 /* IPOEmptyView.swift */; };
 		56DE026819DE08C100FA2042 /* IPOShoppingCartEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE026719DE08C100FA2042 /* IPOShoppingCartEmptyView.swift */; };
 		56DE026A19DE1A2700FA2042 /* IPOOrderEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE026919DE1A2700FA2042 /* IPOOrderEmptyView.swift */; };
-		56DE026E19DE1C6600FA2042 /* IPOWishlistEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE026D19DE1C6600FA2042 /* IPOWishlistEmptyView.swift */; };
 		56DE027019DE244800FA2042 /* IPOAddressEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE026F19DE244800FA2042 /* IPOAddressEmptyView.swift */; };
 		56DE027319DE2BE400FA2042 /* www.aclaraciones.com.mx.cer in Resources */ = {isa = PBXBuildFile; fileRef = 56DE027219DE2BE400FA2042 /* www.aclaraciones.com.mx.cer */; };
 		56DFE4CE19D057C9001811F5 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 56DFE4C319D057C9001811F5 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -890,8 +887,6 @@
 		5673D1321A9D500400DCD20B /* RSUPCEGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RSUPCEGenerator.swift; path = Shared/Library/BarcodeGenerator/RSUPCEGenerator.swift; sourceTree = "<group>"; };
 		5673D1331A9D500400DCD20B /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Shared/Library/BarcodeGenerator/StringExtension.swift; sourceTree = "<group>"; };
 		5673D1341A9D500400DCD20B /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExtension.swift; path = Shared/Library/BarcodeGenerator/UIColorExtension.swift; sourceTree = "<group>"; };
-		567676DE1A1BBFF4005C2FE5 /* IPAEmptyWishlistView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAEmptyWishlistView.swift; path = iPad/View/Empty/IPAEmptyWishlistView.swift; sourceTree = "<group>"; };
-		567AB65A1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAWishListProductCollectionViewCell.swift; path = iPad/View/Wishlist/IPAWishListProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		567AC2021A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailBannerCollectionViewCell.swift; path = Shared/View/Product/ProductDetailBannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		567D62D91A23A0CA00F07881 /* IPAProductDetailBundleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailBundleTableViewCell.swift; path = iPad/View/ProductDetail/IPAProductDetailBundleTableViewCell.swift; sourceTree = "<group>"; };
 		5680A08F1A48C4ED009C5515 /* GRBaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRBaseService.swift; path = Shared/Services/GRBaseService.swift; sourceTree = "<group>"; };
@@ -1001,7 +996,6 @@
 		56DE026519DE073C00FA2042 /* IPOEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOEmptyView.swift; path = iPhone/View/EmptyView/IPOEmptyView.swift; sourceTree = "<group>"; };
 		56DE026719DE08C100FA2042 /* IPOShoppingCartEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOShoppingCartEmptyView.swift; sourceTree = "<group>"; };
 		56DE026919DE1A2700FA2042 /* IPOOrderEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOOrderEmptyView.swift; path = iPhone/View/EmptyView/IPOOrderEmptyView.swift; sourceTree = "<group>"; };
-		56DE026D19DE1C6600FA2042 /* IPOWishlistEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWishlistEmptyView.swift; path = iPhone/View/EmptyView/IPOWishlistEmptyView.swift; sourceTree = "<group>"; };
 		56DE026F19DE244800FA2042 /* IPOAddressEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOAddressEmptyView.swift; path = iPhone/View/EmptyView/IPOAddressEmptyView.swift; sourceTree = "<group>"; };
 		56DE027219DE2BE400FA2042 /* www.aclaraciones.com.mx.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = www.aclaraciones.com.mx.cer; sourceTree = "<group>"; };
 		56DFE4C219D057C9001811F5 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+SWUtilityButtons.h"; path = "Shared/Library/SWTableView/NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
@@ -2342,7 +2336,6 @@
 		567676DD1A1BBFDA005C2FE5 /* Empty */ = {
 			isa = PBXGroup;
 			children = (
-				567676DE1A1BBFF4005C2FE5 /* IPAEmptyWishlistView.swift */,
 				AC5479F61AB21785009DC7AB /* IPAShoppingCartEmptyView.swift */,
 			);
 			name = Empty;
@@ -2351,7 +2344,6 @@
 		567AB6591A005EB6007ADF50 /* Wishlist */ = {
 			isa = PBXGroup;
 			children = (
-				567AB65A1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift */,
 			);
 			name = Wishlist;
 			sourceTree = "<group>";
@@ -2689,7 +2681,6 @@
 				56DE026519DE073C00FA2042 /* IPOEmptyView.swift */,
 				56DE026719DE08C100FA2042 /* IPOShoppingCartEmptyView.swift */,
 				56DE026919DE1A2700FA2042 /* IPOOrderEmptyView.swift */,
-				56DE026D19DE1C6600FA2042 /* IPOWishlistEmptyView.swift */,
 				56DE026F19DE244800FA2042 /* IPOAddressEmptyView.swift */,
 				5681998319E35F1300362D3C /* IPOGenericEmptyView.swift */,
 				56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */,
@@ -3776,7 +3767,6 @@
 				564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */,
 				56253D9119D2242B002E128A /* OrderProductTableViewCell.swift in Sources */,
 				85A40B7D1C223AE40036C78A /* Order.swift in Sources */,
-				567AB65B1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift in Sources */,
 				04203FDF1A6F247400008366 /* GRDeleteUserListService.swift in Sources */,
 				56C5B22019AE871800BB81DE /* WMFont.swift in Sources */,
 				6C31B41B1CB70EEB00AB7670 /* GRAddressViewCell.swift in Sources */,
@@ -3826,7 +3816,6 @@
 				56E953931BB2378500E9B9F8 /* IPOEmptyNotificationView.swift in Sources */,
 				AC0918C619D1D99300BF48CA /* ShippingAddress.swift in Sources */,
 				569607A919B53042005D20DC /* ProductDetailMSITableViewCell.swift in Sources */,
-				56DE026E19DE1C6600FA2042 /* IPOWishlistEmptyView.swift in Sources */,
 				565E5A7419C0BDC300444DF7 /* Cart.swift in Sources */,
 				56527DE819AFEE38008032C6 /* CategorySelectorItemView.swift in Sources */,
 				AC37F6AD19B9008F000BB80D /* ProductDetailService.swift in Sources */,
@@ -4028,7 +4017,6 @@
 				56940AC91A644D7000BAFF78 /* GRShoppingCartWeightSelectorView.swift in Sources */,
 				5688470D19E87FF900D5C45D /* IPACategoryCollectionViewClass.swift in Sources */,
 				AC59118419DE0D2400EB095C /* FMResultSet.m in Sources */,
-				567676DF1A1BBFF4005C2FE5 /* IPAEmptyWishlistView.swift in Sources */,
 				85A40B8E1C223AE40036C78A /* MultipartFormData.swift in Sources */,
 				5673D1221A9D3F8700DCD20B /* OrderConfirmDetailView.swift in Sources */,
 				56EF81351A702FF600B81D09 /* GRShoppingCartViewController.swift in Sources */,
