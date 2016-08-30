@@ -31,15 +31,13 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let cell = collection.dequeueReusableCellWithReuseIdentifier("shoppingCartCrossSellCell", forIndexPath: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         
         let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
-        let upc = itemUPC["upc"] as! String
+        let upc = itemUPC["upc"] as? String ?? ""
 
         let desc = itemUPC["description"] as! String
-        let price = itemUPC["price"] as! String
-        let imageArray = itemUPC["imageUrl"] as! NSArray
-        var imageUrl = ""
-        if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as! String
-        }
+
+        let price = itemUPC["price"] as? String ?? ""
+        let imageUrl = itemUPC["smallImageUrl"] as! String
+
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc))
         
         return cell
@@ -51,11 +49,12 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let upc = itemUPC["upc"] as! String
         
         let shoppingCartItems  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
-        for itemInCart in shoppingCartItems! {
+       
+        /*for itemInCart in shoppingCartItems! {
             if let dictItem = itemInCart as? [String:AnyObject] {
-                if let preorderable = dictItem["isPreorderable"] {
-                    if(preorderable as! String == "true"){
-                        let array = dictItem["imageUrl"] as! [String]
+               // if let preorderable = dictItem["isPreorderable"] {
+               //     if(preorderable as! String == "true"){
+                
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named: "img_default_home"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))//Pass image to add
                         alert!.spinImage.hidden =  true
                         alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
@@ -69,10 +68,11 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
                         alert!.view.addSubview(buttonClose)
                         //
                         return
-                    }
-                }
+                 //   }
+                //}
             }
-        }
+        }*/
+        
         
         //
         if (!UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)) {
@@ -80,11 +80,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             let upc = itemUPC["upc"] as! String
             let desc = itemUPC["description"] as! String
             let price = itemUPC["price"] as! String
-            let imageArray = itemUPC["imageUrl"] as! NSArray
-            var imageUrl = ""
-            if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as! String
-            }
+            let imageUrl = itemUPC["smallImageUrl"] as! String
             
             var numOnHandInventory : String = "0"
             if let numberOf = itemUPC["onHandInventory"] as? String{

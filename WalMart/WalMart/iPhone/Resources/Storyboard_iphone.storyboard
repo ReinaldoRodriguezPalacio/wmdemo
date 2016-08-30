@@ -83,9 +83,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Nsb-ZA-nOt"/>
-                    <connections>
-                        <segue destination="MEq-cR-YbO" kind="push" identifier="checkoutVC" id="IVI-8q-2Fy"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q7R-dW-2f1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -100,7 +97,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Za5-ls-gcJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1uj-ZY-p6K">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -111,7 +108,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ya1-PQ-CHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2271" y="-1442.5"/>
+            <point key="canvasLocation" x="2247" y="-2044.5"/>
         </scene>
         <!--Check Out Confirm View Controller-->
         <scene sceneID="AOG-9J-8vi">
@@ -122,7 +119,7 @@
                         <viewControllerLayoutGuide type="bottom" id="PNP-Dd-CMU"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ogh-Zq-upo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -130,7 +127,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Td9-fz-aAc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2777" y="-1443"/>
+            <point key="canvasLocation" x="2663" y="-2044.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cgd-zD-dVj">
@@ -175,11 +172,12 @@
                     <size key="freeformSize" width="320" height="461"/>
                     <connections>
                         <outlet property="viewContent" destination="DjN-Qd-OyU" id="Jy5-yg-RdT"/>
+                        <segue destination="MEq-cR-YbO" kind="push" identifier="checkoutVC" id="EfW-pv-c3b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ht5-aI-xY4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1695" y="-2027.5"/>
+            <point key="canvasLocation" x="1695" y="-2044.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Xy-ed-Oja">
