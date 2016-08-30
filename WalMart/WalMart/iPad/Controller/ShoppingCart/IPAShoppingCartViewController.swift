@@ -102,9 +102,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let x : CGFloat = 16
         let wShop : CGFloat =  341 - 82
         
-        self.buttonWishlist.frame = CGRectMake(x,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
+        self.buttonListSelect.frame = CGRectMake(x,self.buttonListSelect.frame.minY,40,self.buttonListSelect.frame.height)
         
-        self.buttonShop.frame = CGRectMake( buttonWishlist.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
+        self.buttonShop.frame = CGRectMake( buttonListSelect.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
         
         self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
@@ -343,11 +343,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
-                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
-                            let priceB = before["price"] as! NSString
-                            let priceA = after["price"] as! NSString
-                            return priceB.doubleValue < priceA.doubleValue
-                        })
+//                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
+//                            let priceB = before["price"] as! NSString
+//                            let priceA = after["price"] as! NSString
+//                            return priceB.doubleValue < priceA.doubleValue
+//                        })
                         var resultArray : [AnyObject] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
@@ -422,43 +422,105 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     override func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
             let frameDetail = CGRectMake(0, 0, 320, 568)
+
             if cell.typeProd == 1 {
                 selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
-            } else {
-                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+                
+            }else{
+                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,upcProduct:cell.upc)
             }
-            let text = String(cell.quantity).characters.count < 2 ? "0" : ""
-            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
-            self.selectQuantity!.updateQuantityBtn()
-            selectQuantity!.closeAction = { () in
-                self.popup!.dismissPopoverAnimated(true)
-            }
-            selectQuantity!.addToCartAction = { (quantity:String) in
-                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
-                if maxProducts >= Int(quantity) {
-                    let updateService = ShoppingCartUpdateProductsService()
-                    updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment, pesable:String(cell.pesable),successBlock: nil,errorBlock: nil)
-                    self.reloadShoppingCart()
-                    self.popup!.dismissPopoverAnimated(false)
+            
+            
+            selectQuantity?.addToCartAction = { (quantity:String) in
+                //let quantity : Int = quantity.toInt()!
+                //self.ctrlCheckOut?.addViewLoad()
+                if cell.onHandInventory.integerValue >= Int(quantity) {
+                    self.selectQuantity?.closeAction()
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 } else {
-                     self.popup!.dismissPopoverAnimated(false)
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
                     let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
-                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    
+                    var secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    
+                    if cell.pesable {
+                        secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                    }
+                    
+                    let msgInventory = "\(firstMessage)\(cell.onHandInventory) \(secondMessage)"
                     alert!.setMessage(msgInventory)
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                    self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
                 }
+                
+                
             }
+            
+            selectQuantity?.addUpdateNote = {() in
+                let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+                var frame = vc!.view.frame
+                if (NSFoundationVersionNumber < NSFoundationVersionNumber_iOS_8_0) {
+                    frame = CGRectMake(0, 0, vc!.view.frame.height, vc!.view.frame.width)
+                }
+                
+                let addShopping = ShoppingCartUpdateController()
+                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+                addShopping.params = paramsToSC
+                vc!.addChildViewController(addShopping)
+                addShopping.view.frame = frame
+                vc!.view.addSubview(addShopping.view)
+                addShopping.didMoveToParentViewController(vc!)
+                addShopping.typeProduct = ResultObjectType.Groceries
+                addShopping.comments = cell.comments
+                addShopping.goToShoppingCart = {() in }
+                addShopping.removeSpinner()
+                addShopping.addActionButtons()
+                addShopping.addNoteToProduct(nil)
+                self.popup?.dismissPopoverAnimated(true)
+                
+            }
+            selectQuantity?.userSelectValue(String(cell.quantity))
+            selectQuantity?.first = true
+            if cell.comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+                selectQuantity!.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
+            }else {
+                selectQuantity!.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
+            }
+            selectQuantity?.showNoteButtonComplete()
+            selectQuantity?.closeAction = { () in
+                self.popup!.dismissPopoverAnimated(true)
+                
+            }
+            
             let viewController = UIViewController()
             viewController.view = selectQuantity
             viewController.view.frame = frameDetail
             popup = UIPopoverController(contentViewController: viewController)
-            popup!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
             popup!.backgroundColor = WMColor.light_blue
-            popup!.presentPopoverFromRect(cell.priceSelector.bounds, inView: cell.priceSelector, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+            popup!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
+            popup?.presentPopoverFromRect(cell.priceSelector.bounds, inView: cell.priceSelector, permittedArrowDirections: .Right, animated: true)
+            
+ 
+        } else {
+            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+            let frame = vc!.view.frame
+            
+            
+            let addShopping = ShoppingCartUpdateController()
+            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+            addShopping.params = params
+            vc!.addChildViewController(addShopping)
+            addShopping.view.frame = frame
+            vc!.view.addSubview(addShopping.view)
+            addShopping.didMoveToParentViewController(vc!)
+            addShopping.typeProduct = ResultObjectType.Groceries
+            addShopping.comments = cell.comments
+            addShopping.goToShoppingCart = {() in }
+            addShopping.removeSpinner()
+            addShopping.addActionButtons()
+            addShopping.addNoteToProduct(nil)
         }
     }
 

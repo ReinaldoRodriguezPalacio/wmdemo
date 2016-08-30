@@ -163,7 +163,6 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      Close legend view
      */
     func closeView(){
-        print("closeView")
         if onClose != nil {
             onClose!()
         }
@@ -175,18 +174,28 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      - parameter viewPresent: view on present
      */
     func showLegend(viewPresent:UIView){
-        
-        let window = UIApplication.sharedApplication().keyWindow
-        if let customBar = window!.rootViewController as? CustomBarViewController {
-           self.frame = CGRectMake(0,0 , viewPresent.bounds.width, customBar.view.frame.height)
-            
-            self.onClose  = {() in
-                self.removeLegend()
+        if IS_IPAD {
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? IPACustomBarViewController {
+                self.frame = CGRectMake(0,0 , customBar.view.bounds.width, customBar.view.frame.height)
+                
+                self.onClose  = {() in
+                    self.removeLegend()
+                }
+                customBar.view.addSubview(self)
             }
-            customBar.view.addSubview(self)
+    
+        }else{
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                self.frame = CGRectMake(0,0 , viewPresent.bounds.width, customBar.view.frame.height)
+                
+                self.onClose  = {() in
+                    self.removeLegend()
+                }
+                customBar.view.addSubview(self)
+            }
         }
-        
-        
     }
     
     /**

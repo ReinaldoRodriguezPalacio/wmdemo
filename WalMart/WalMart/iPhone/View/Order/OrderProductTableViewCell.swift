@@ -15,7 +15,8 @@ class OrderProductTableViewCell : ProductTableViewCell {
     var desc : String!
     var price : String!
     var imageURL : String!
-    var upcString : UILabel!
+    //var upcString : UILabel!
+    var priceString : CurrencyCustomLabel!
     var quantityString : UILabel!
     var separatorView : UIView!
     var btnShoppingCart : UIButton!
@@ -28,17 +29,14 @@ class OrderProductTableViewCell : ProductTableViewCell {
     override func setup() {
         super.setup()
         
-        
         self.productPriceLabel!.hidden = true
         
         productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
-        
         productImage!.frame = CGRectMake(16, 0, 80, 109)
         productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
-        
         
         btnShoppingCart = UIButton(frame: CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32))
         btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
@@ -47,20 +45,19 @@ class OrderProductTableViewCell : ProductTableViewCell {
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, 1))
         separatorView.backgroundColor = WMColor.light_gray
         
+        priceString = CurrencyCustomLabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18, 100, 18))
+        priceString.textAlignment = .Left
+        priceString.backgroundColor = UIColor.clearColor()
+        priceString.setCurrencyUserInteractionEnabled(true)
+        //upcString = UILabel(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12))
         
-        upcString = UILabel(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12))
-        
-
-        
-        quantityString = UILabel(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, upcString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12))
+        quantityString = UILabel(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, priceString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12))
        
-        
-        self.contentView.addSubview(upcString)
+        self.contentView.addSubview(priceString)
+        //self.contentView.addSubview(upcString)
         self.contentView.addSubview(quantityString)
         self.contentView.addSubview(btnShoppingCart)
         self.contentView.addSubview(separatorView)
-        
-        
     }
     
     
@@ -70,8 +67,9 @@ class OrderProductTableViewCell : ProductTableViewCell {
         productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
         btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
         separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, 1)
-        upcString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
-        quantityString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, upcString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
+        priceString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18, 100, 18)
+        //upcString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
+        quantityString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, priceString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
     }
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,quantity:NSString, type:ResultObjectType, pesable:Bool, onHandInventory:String,isActive:Bool,isPreorderable:String) {
@@ -95,7 +93,8 @@ class OrderProductTableViewCell : ProductTableViewCell {
         valuesDescItem.appendAttributedString(attrStringLab)
         valuesDescItem.appendAttributedString(attrStringVal)
         
-        upcString.attributedText = valuesDescItem
+        //upcString.attributedText = valuesDescItem
+        priceString.updateMount(productPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         var lblItems = NSLocalizedString("previousorder.quantity",comment:"")
         var attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
@@ -108,7 +107,6 @@ class OrderProductTableViewCell : ProductTableViewCell {
             attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
             attrStringValQ = NSAttributedString(string:quantitiString as String, attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         }
-        
         
         let valuesDescItemQ = NSMutableAttributedString()
         valuesDescItemQ.appendAttributedString(attrStringLabQ)
@@ -131,16 +129,13 @@ class OrderProductTableViewCell : ProductTableViewCell {
             }
         }
         
-        
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
-        
     }
     
     
     func addToShoppingCart() {
         let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
         if !hasUPC {
-            
             
             if type == ResultObjectType.Mg {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "")
