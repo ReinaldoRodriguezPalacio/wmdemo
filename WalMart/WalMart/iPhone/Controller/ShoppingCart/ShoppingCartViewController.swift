@@ -350,7 +350,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             for shoppingCartProduct  in self.itemsInShoppingCart {
                 let upc = shoppingCartProduct["upc"] as! String
                 let desc = shoppingCartProduct["description"] as! String
-                let price = shoppingCartProduct["price"] as! String
+                let price = shoppingCartProduct["price"] as! NSInteger
                 //let quantity = shoppingCartProduct["quantity"] as! String
                 
                 var onHandInventory = "0"
@@ -358,11 +358,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     onHandInventory = inventory
                 }
                 
-                let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
-                var imageUrl = ""
-                if imageArray.count > 0 {
-                    imageUrl = imageArray.objectAtIndex(0) as! String
-                }
+                let imageUrl = shoppingCartProduct["imageUrl"] as! String
+      
                 
                 var preorderable = "false"
                 if let preorder = shoppingCartProduct["isPreorderable"] as? String {
@@ -373,24 +370,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 if let categoryVal = shoppingCartProduct["category"] as? String {
                     category = categoryVal
                 }
-
-                
-                let serviceAdd = AddItemWishlistService()
-                if ixCount < self.itemsInShoppingCart.count {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
-                        //let path = NSIndexPath(forRow: , inSection: 0)
-
-                        
-                        }, errorBlock: { (error:NSError) -> Void in
-                    })
-                }else {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
-                        self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
-                        animation.removeFromSuperview()
-                        }, errorBlock: { (error:NSError) -> Void in
-                            animation.removeFromSuperview()
-                    })
-                }
+//Mustang sin wish list - agregar a listas
+//                
+//                let serviceAdd = AddItemWishlistService()
+//                if ixCount < self.itemsInShoppingCart.count {
+//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: "\(price)", isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+//                        //let path = NSIndexPath(forRow: , inSection: 0)
+//
+//                        
+//                        }, errorBlock: { (error:NSError) -> Void in
+//                    })
+//                }else {
+//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: "\(price)", isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
+//                        self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
+//                        animation.removeFromSuperview()
+//                        }, errorBlock: { (error:NSError) -> Void in
+//                            animation.removeFromSuperview()
+//                    })
+//                }
                 ixCount += 1
                 
             }

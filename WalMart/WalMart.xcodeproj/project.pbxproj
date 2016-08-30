@@ -289,7 +289,6 @@
 		56AAFF9C1A92A468007B8D91 /* GRAddressAddService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AAFF9B1A92A468007B8D91 /* GRAddressAddService.swift */; };
 		56AC6EA01B39CC1C00C599A2 /* DefaultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC6E9F1B39CC1C00C599A2 /* DefaultListViewController.swift */; };
 		56AC6EA31B39D18800C599A2 /* DefaultListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC6EA21B39D18800C599A2 /* DefaultListService.swift */; };
-		56AD15291A00375C00E1AFD9 /* IPAWishlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD15281A00375C00E1AFD9 /* IPAWishlistViewController.swift */; };
 		56AD99131BED1C4E00B0EB5D /* ReferedCustomerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD99121BED1C4E00B0EB5D /* ReferedCustomerService.swift */; };
 		56AD99151BED1CA600B0EB5D /* AddReferedCustumerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD99141BED1CA600B0EB5D /* AddReferedCustumerService.swift */; };
 		56AD99171BED1CE800B0EB5D /* ValidateActiveReferedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD99161BED1CE800B0EB5D /* ValidateActiveReferedService.swift */; };
@@ -315,8 +314,6 @@
 		56C5B22519AE879600BB81DE /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5B22419AE879600BB81DE /* BaseService.swift */; };
 		56C616BF1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */; };
 		56C94C3E1B877F26006E2443 /* UIButton+Walmart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C94C3D1B877F26006E2443 /* UIButton+Walmart.swift */; };
-		56CB42D419C0FFDF00C83FAC /* DeleteItemWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CB42D319C0FFDF00C83FAC /* DeleteItemWishlistService.swift */; };
-		56CB42D619C1072800C83FAC /* AddItemWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CB42D519C1072800C83FAC /* AddItemWishlistService.swift */; };
 		56CCE9FE19DB0D3B0071D990 /* CheckOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CCE9FD19DB0D3B0071D990 /* CheckOutViewController.swift */; };
 		56CCEA0319DB33840071D990 /* LoginWithEmailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CCEA0219DB33840071D990 /* LoginWithEmailService.swift */; };
 		56CDE17919C9E5A700CB2738 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CDE17819C9E5A700CB2738 /* LoginController.swift */; };
@@ -369,8 +366,6 @@
 		56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */; };
 		56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */; };
 		56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */; };
-		56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */; };
-		56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */; };
 		5A3AA78D1C9C74A3002F2886 /* GenerateOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */; };
 		5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */; };
 		5A5E5EE51C8773E100E519AD /* CarouselService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E5EE41C8773E100E519AD /* CarouselService.swift */; };
@@ -962,7 +957,6 @@
 		56AAFF9B1A92A468007B8D91 /* GRAddressAddService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressAddService.swift; path = Shared/Services/LoginSignUp/Address/GRAddressAddService.swift; sourceTree = "<group>"; };
 		56AC6E9F1B39CC1C00C599A2 /* DefaultListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListViewController.swift; path = iPhone/Controller/DefaultList/DefaultListViewController.swift; sourceTree = "<group>"; };
 		56AC6EA21B39D18800C599A2 /* DefaultListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListService.swift; path = Shared/Services/DefaultList/DefaultListService.swift; sourceTree = "<group>"; };
-		56AD15281A00375C00E1AFD9 /* IPAWishlistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAWishlistViewController.swift; path = iPad/Controller/Wishlist/IPAWishlistViewController.swift; sourceTree = "<group>"; };
 		56AD99121BED1C4E00B0EB5D /* ReferedCustomerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedCustomerService.swift; path = Shared/Services/LoginSignUp/Referred/ReferedCustomerService.swift; sourceTree = "<group>"; };
 		56AD99141BED1CA600B0EB5D /* AddReferedCustumerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReferedCustumerService.swift; path = Shared/Services/LoginSignUp/Referred/AddReferedCustumerService.swift; sourceTree = "<group>"; };
 		56AD99161BED1CE800B0EB5D /* ValidateActiveReferedService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValidateActiveReferedService.swift; path = Shared/Services/LoginSignUp/Referred/ValidateActiveReferedService.swift; sourceTree = "<group>"; };
@@ -992,8 +986,6 @@
 		56C5B22419AE879600BB81DE /* BaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseService.swift; path = Shared/Services/BaseService.swift; sourceTree = "<group>"; };
 		56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOSearchResultEmptyView.swift; path = iPhone/View/EmptyView/IPOSearchResultEmptyView.swift; sourceTree = "<group>"; };
 		56C94C3D1B877F26006E2443 /* UIButton+Walmart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIButton+Walmart.swift"; path = "Shared/View/Extention/UIButton+Walmart.swift"; sourceTree = "<group>"; };
-		56CB42D319C0FFDF00C83FAC /* DeleteItemWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteItemWishlistService.swift; path = Shared/Services/Wishlist/DeleteItemWishlistService.swift; sourceTree = "<group>"; };
-		56CB42D519C1072800C83FAC /* AddItemWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddItemWishlistService.swift; path = Shared/Services/Wishlist/AddItemWishlistService.swift; sourceTree = "<group>"; };
 		56CCE9FD19DB0D3B0071D990 /* CheckOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutViewController.swift; path = iPhone/Controller/CheckOut/CheckOutViewController.swift; sourceTree = "<group>"; };
 		56CCEA0219DB33840071D990 /* LoginWithEmailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginWithEmailService.swift; path = Shared/Services/LoginSignUp/LoginWithEmailService.swift; sourceTree = "<group>"; };
 		56CDE17819C9E5A700CB2738 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginController.swift; path = iPhone/Controller/Profile/LoginController.swift; sourceTree = "<group>"; };
@@ -1053,8 +1045,6 @@
 		56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOCheckOutTotalView.swift; path = iPhone/View/ShoppingCart/IPOCheckOutTotalView.swift; sourceTree = "<group>"; };
 		56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeBannerImageViewController.swift; sourceTree = "<group>"; };
 		56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALineTableViewCell.swift; path = iPad/View/Categories/IPALineTableViewCell.swift; sourceTree = "<group>"; };
-		56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishListViewController.swift; path = iPhone/Controller/WishList/WishListViewController.swift; sourceTree = "<group>"; };
-		56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserWishlistService.swift; path = Shared/Services/Wishlist/UserWishlistService.swift; sourceTree = "<group>"; };
 		5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateOrderView.swift; sourceTree = "<group>"; };
 		5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListTableViewCell.swift; path = iPhone/View/DefaultListTableViewCell.swift; sourceTree = "<group>"; };
 		5A5E5EE41C8773E100E519AD /* CarouselService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselService.swift; sourceTree = "<group>"; };
@@ -1860,7 +1850,6 @@
 				04D2A3991A2FD6E6008DAE37 /* StoreLocator */,
 				56C211861A24F1B2002D1C91 /* Notification */,
 				56253D8219D2064E002E128A /* PreviousOrders */,
-				56FE0EE419C0E8A200C8687C /* WishList */,
 				AC37F6AE19B90237000BB80D /* ShoppingCart */,
 				AC62C9B119B61E4700FFFC74 /* Product */,
 				5696078D19B4D929005D20DC /* Home */,
@@ -1920,7 +1909,6 @@
 				56F1D58E19D246B700FE647C /* Help */,
 				AC6AAE9A19CCC368004081C4 /* Order */,
 				56CDE17719C9E59600CB2738 /* Profile */,
-				56FE0EDE19C0E43000C8687C /* WishLits */,
 				AC3B64EB19BE641500564845 /* Search */,
 				5606BC2A19BA6381002A70ED /* ShoppingCart */,
 				AC6EF06519B1359200DB28AF /* Product */,
@@ -1965,7 +1953,6 @@
 				04D7C03B1AA62A3B00A780D8 /* StoreLocator */,
 				AC7275A51A04C58C00BF75B7 /* TmpHomeIPA */,
 				04448A351A9E74AF006AFEC4 /* UserList */,
-				56AD15271A00372C00E1AFD9 /* Wishlist */,
 				AC6B421119F86007005DF8F0 /* Help */,
 				566E546E19F571A20007C75A /* ShoppingCart */,
 				AC8793E919F56CC3001BF077 /* Order */,
@@ -2600,14 +2587,6 @@
 			name = DefaultList;
 			sourceTree = "<group>";
 		};
-		56AD15271A00372C00E1AFD9 /* Wishlist */ = {
-			isa = PBXGroup;
-			children = (
-				56AD15281A00375C00E1AFD9 /* IPAWishlistViewController.swift */,
-			);
-			name = Wishlist;
-			sourceTree = "<group>";
-		};
 		56AD99111BED1BD700B0EB5D /* Referred */ = {
 			isa = PBXGroup;
 			children = (
@@ -2862,30 +2841,12 @@
 			name = AlertPickerView;
 			sourceTree = "<group>";
 		};
-		56FE0EDE19C0E43000C8687C /* WishLits */ = {
-			isa = PBXGroup;
-			children = (
-				56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */,
-			);
-			name = WishLits;
-			sourceTree = "<group>";
-		};
 		56FE0EE119C0E75900C8687C /* Wishlist */ = {
 			isa = PBXGroup;
 			children = (
 				5681998119E3460A00362D3C /* WishlistAddProductStatus.swift */,
 			);
 			name = Wishlist;
-			sourceTree = "<group>";
-		};
-		56FE0EE419C0E8A200C8687C /* WishList */ = {
-			isa = PBXGroup;
-			children = (
-				56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */,
-				56CB42D319C0FFDF00C83FAC /* DeleteItemWishlistService.swift */,
-				56CB42D519C1072800C83FAC /* AddItemWishlistService.swift */,
-			);
-			name = WishList;
 			sourceTree = "<group>";
 		};
 		5A4FEE4F1B3B1A02002B9C12 /* DefaultList */ = {
@@ -3726,14 +3687,12 @@
 				AC6EF06A19B13E2E00DB28AF /* SearchProductCollectionViewCell.swift in Sources */,
 				5608AF7C1A0AB2AA00176CB0 /* IPACatHeaderSearchReusable.swift in Sources */,
 				5688D7A61B3C566700EDA086 /* DefaultListDetailViewController.swift in Sources */,
-				56CB42D619C1072800C83FAC /* AddItemWishlistService.swift in Sources */,
 				5606BC3B19BA782C002A70ED /* SelectorBandHandler.swift in Sources */,
 				5686DA551B59A67B004D4211 /* SearchItemsByUPCService.swift in Sources */,
 				5669022F1A942C56000D6FA6 /* RecentProductsTableViewCell.swift in Sources */,
 				6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */,
 				56DFE4D719D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift in Sources */,
 				AC0918CA19D1DA7700BF48CA /* FiscalAddressPersonM.swift in Sources */,
-				56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */,
 				6C31B41F1CB81C6800AB7670 /* GRAddressNoStoreView.swift in Sources */,
 				6C31B4171CB59DD900AB7670 /* GRAddressView.swift in Sources */,
 				04D7C03D1AA62A7000A780D8 /* IPAStoreLocatorViewController.swift in Sources */,
@@ -3768,7 +3727,6 @@
 				6C6001471D5395250027835E /* UpdatePasswordService.swift in Sources */,
 				AC87F45819F6CA2C00E66D47 /* IPASignUpViewController.swift in Sources */,
 				563C955119E59DB2001AB7D4 /* Product.swift in Sources */,
-				56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */,
 				5608AF791A0AAE4E00176CB0 /* CSStickyHeaderFlowLayout.m in Sources */,
 				AC6AAEA019CCF3A5004081C4 /* AddressViewController.swift in Sources */,
 				85A40B7E1C223AE40036C78A /* OrderItem.swift in Sources */,
@@ -3848,7 +3806,6 @@
 				04448A3B1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift in Sources */,
 				85A40B721C223AE40036C78A /* EVExtensions.swift in Sources */,
 				56F86FCF1A8BD464002181D2 /* AlertPickerView.swift in Sources */,
-				56CB42D419C0FFDF00C83FAC /* DeleteItemWishlistService.swift in Sources */,
 				4A5A9D5B1C84A99B00A2A7F4 /* UIMyButton.m in Sources */,
 				6CFDD8A81BC8275000124667 /* PushNotificationService.swift in Sources */,
 				56ED1B611A9FEB9400D561D6 /* IPAGRCategoriesViewController.swift in Sources */,
@@ -4104,7 +4061,6 @@
 				5673D13E1A9D500400DCD20B /* RSExtendedCode39Generator.swift in Sources */,
 				56C94C3E1B877F26006E2443 /* UIButton+Walmart.swift in Sources */,
 				AC0918C819D1DA5E00BF48CA /* FiscalAddressPersonF.swift in Sources */,
-				56AD15291A00375C00E1AFD9 /* IPAWishlistViewController.swift in Sources */,
 				85A40B951C223AE40036C78A /* Stream.swift in Sources */,
 				56DFE4CE19D057C9001811F5 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				85A40BA31C223AE40036C78A /* DDMultiFormatter.m in Sources */,
@@ -4293,8 +4249,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4336,7 +4292,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -4351,8 +4307,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4394,7 +4350,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";

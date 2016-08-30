@@ -56,7 +56,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
                 if let preorderable = dictItem["isPreorderable"] {
                     if(preorderable as! String == "true"){
                         let array = dictItem["imageUrl"] as! [String]
-                        let alert = IPOWMAlertViewController.showAlert(WishListViewController.createImage(array[0]),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                        let alert = IPOWMAlertViewController.showAlert(UIImage(named: "img_default_home"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))//Pass image to add
                         alert!.spinImage.hidden =  true
                         alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
                         let messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")

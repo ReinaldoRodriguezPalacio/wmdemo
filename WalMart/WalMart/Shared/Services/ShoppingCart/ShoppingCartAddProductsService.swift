@@ -102,14 +102,14 @@ class ShoppingCartAddProductsService : BaseService {
                     
                     
                     if self.updateShoppingCart() {
-                        
-                        let serviceWishDelete = DeleteItemWishlistService()
-
-                        for itemWishlistUPC in itemsWishList {
-                            serviceWishDelete.callCoreDataService(itemWishlistUPC, successBlock: { (result:NSDictionary) -> Void in
-                                }) { (error:NSError) -> Void in
-                            }
-                        }
+                        //Mustang
+//                        let serviceWishDelete = DeleteItemWishlistService()
+//
+//                        for itemWishlistUPC in itemsWishList {
+//                            serviceWishDelete.callCoreDataService(itemWishlistUPC, successBlock: { (result:NSDictionary) -> Void in
+//                                }) { (error:NSError) -> Void in
+//                            }
+//                        }
                         
                         UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
@@ -263,9 +263,7 @@ class ShoppingCartAddProductsService : BaseService {
         } catch {
            print("Error saving context callCoreDataService ")
         }
-        
-        WishlistService.shouldupdate = true
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
+    
         
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)

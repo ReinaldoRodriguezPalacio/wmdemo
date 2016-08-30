@@ -15,7 +15,6 @@ enum CustomBarNotification : String {
     case AddUPCToShopingCart = "kAddUPCToShopingCart"
     case AddItemsToShopingCart = "kAddItemsToShopingCart"
     case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
-    case ReloadWishList = "kReloadWishList"
     case UpdateBadge = "kUpdateBadge"
     case UserLogOut = "kUserLogOut"
     case UpdateShoppingCartBegin = "kUpdateShoppingCartBegin"
@@ -502,7 +501,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      */
     func buttonSelected(sender:UIButton) {
         
-        //WishlistService.shouldupdate = true
         if self.btnSearch!.selected {
             self.closeSearch(false,sender:sender)
         }

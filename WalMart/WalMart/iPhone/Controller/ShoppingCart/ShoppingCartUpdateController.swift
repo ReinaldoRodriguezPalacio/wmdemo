@@ -265,14 +265,15 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     
                     
                     if wishlistDelete.count > 0 {
-                        let deleteService = DeleteItemWishlistService()
-                        let toSend = deleteService.buildParamsMultipe(wishlistDelete)
-                        deleteService.callServiceWithParams(toSend, successBlock: { (response:NSDictionary) -> Void in
-                            WishlistService.shouldupdate = true
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
-                            }, errorBlock: { (error:NSError) -> Void in
-                                
-                        })
+                        //Mustang
+//                        let deleteService = DeleteItemWishlistService()
+//                        let toSend = deleteService.buildParamsMultipe(wishlistDelete)
+//                        deleteService.callServiceWithParams(toSend, successBlock: { (response:NSDictionary) -> Void in
+//                            WishlistService.shouldupdate = true
+//                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
+//                            }, errorBlock: { (error:NSError) -> Void in
+//                                
+//                        })
                     }
                     
                     }, errorBlock: { (error:NSError) -> Void in
@@ -368,10 +369,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 self.finishCall = true
                 if self.timmer == nil {
                     self.showDoneIcon()
-                    
-                    WishlistService.shouldupdate = true
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
-                    
+                                    
                 }
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
                 
