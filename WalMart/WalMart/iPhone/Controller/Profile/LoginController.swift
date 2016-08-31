@@ -827,7 +827,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     if data != nil {
                         do {
                             let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String:AnyObject]
-                            let name = json["name"] as! String
+                            let name = json["name"] as? String ?? ""
                             let email = json["email"] as? String ?? ""
                             self.loginWithEmail(email, firstName: name, lastName: "", gender: "", birthDay: "")
                             //let signedInUserID = TWTRAPIClient.clientWithCurrentUser().userID
