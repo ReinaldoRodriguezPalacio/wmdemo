@@ -254,7 +254,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             
             let loginService = LoginWithIdService()
             let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-            let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+            //let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
             loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
                 print(response)
                 }, errorBlock: { (error:NSError) -> Void in
