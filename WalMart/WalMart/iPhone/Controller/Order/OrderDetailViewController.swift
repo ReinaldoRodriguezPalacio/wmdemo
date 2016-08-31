@@ -71,13 +71,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.removeLoadingView()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if showFedexGuide {
-             return self.itemDetailProducts.count
-        }
-        return 1
-    }
-    
     func showProducDetail(indexPath: NSIndexPath){
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = getUPCItems(indexPath.section)
@@ -90,7 +83,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     //MARK:TableViewDelegate
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if showFedexGuide {
+            return self.itemDetailProducts.count
+        }
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if showFedexGuide {
             if section == 0 {
                 return 1

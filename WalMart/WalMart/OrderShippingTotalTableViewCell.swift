@@ -57,6 +57,16 @@ class OrderShippingTotalTableViewCell  : UITableViewCell {
         self.addSubview(valueTotalSaving)
     }
     
+    override func layoutSubviews() {
+        if IS_IPAD {
+            total.frame = CGRectMake(self.bounds.width - 175, 20, 101, 12)
+            totalSavingTitle.frame = CGRectMake(self.bounds.width - 175, 35, 101, 12)
+            
+            valueTotal.frame = CGRectMake(total.frame.maxX + 8, total.frame.minY, 50, 12)
+            valueTotalSaving.frame = CGRectMake(total.frame.maxX + 8, totalSavingTitle.frame.minY, 50, 12)
+        }
+    }
+    
     func setValues(total: String,totalSaving:String){
         
         let formatedTotal = CurrencyCustomLabel.formatString(total)

@@ -8,14 +8,13 @@
 
 import UIKit
 
-class OrderShippingViewController: NavigationViewController, ProductDetailCharacteristicsTableViewCellDelegate, UITableViewDataSource,UITableViewDelegate {
+class OrderShippingViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate {
     
     var trackingNumber = ""
     var status = ""
     var colorHeader = WMColor.yellow
     var itemDetail : NSDictionary! = [:]
     var shippingAll : NSArray! = []
-    var itemDetailProducts : NSArray!
     var detailsOrder : [AnyObject]!
     
     var type : ResultObjectType!
@@ -28,6 +27,7 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
     var isShowingButtonFactura : Bool = false
     
     var viewStatus : UIView!
+    var statusLabel : UILabel!
     
     var viewFooter : UIView!
     var shareButton: UIButton?
@@ -45,18 +45,17 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         self.view.backgroundColor = UIColor.whiteColor()
         self.titleLabel!.text = trackingNumber
         
-        self.viewStatus = UIView(frame: CGRectMake(0.0, 46.0, self.view.frame.width, 24.0))
+        self.viewStatus = UIView(frame: CGRectMake(0.0, 46.0, self.titleLabel!.frame.width, 24.0))
         let backColor = PreviousOrdersTableViewCell.setColorStatus(status)
         self.viewStatus.backgroundColor = backColor
-        let titleLabel = UILabel(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 24.0))
+        self.statusLabel = UILabel(frame: CGRectMake(0.0, 0.0, self.titleLabel!.frame.width, 24.0))
+        self.statusLabel.text = status //trackingNumber
+        self.statusLabel.textColor = UIColor.whiteColor()
+        self.statusLabel.textAlignment = .Center
+        self.statusLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.viewStatus.addSubview(self.statusLabel)
         
-        titleLabel.text = status //trackingNumber
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.viewStatus.addSubview(titleLabel)
-        
-        self.viewFooter = UIView(frame:CGRectMake(0, self.view.bounds.maxY - 72, self.view.bounds.width, 46))
+        self.viewFooter = UIView(frame:CGRectMake(0, self.view.bounds.maxY - 72, self.view.frame.width, 46))
         
         tableOrders = UITableView()
         tableOrders.dataSource = self
@@ -78,7 +77,8 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
         
-        self.shareButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
+        let xShare = (self.viewFooter!.frame.width - 239 - 34 - 16) / 2
+        self.shareButton = UIButton(frame: CGRectMake(IS_IPAD ? xShare : 16.0, y, 34.0, 34.0))
         self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
@@ -87,7 +87,8 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         
         let x = self.shareButton!.frame.maxX + 16.0
         
-        self.addToCartButton = UIButton(frame: CGRectMake(x, y, (self.viewFooter!.frame.width - (x + 16.0)) - 32, 34.0))
+        let toCartBtnWidth = IS_IPAD ? 239 : (self.viewFooter!.frame.width - (x + 16.0)) - 32
+        self.addToCartButton = UIButton(frame: CGRectMake(x, y, toCartBtnWidth, 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
         
@@ -112,23 +113,28 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.emptyView!.frame = CGRectMake(0, 71, self.view.bounds.width, self.view.bounds.height - 71)
+
+        self.viewStatus.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, 24.0)
+        self.statusLabel.frame = CGRectMake(0.0, 0.0, self.viewStatus.frame.width, 24.0)
+        
+        self.emptyView.frame = CGRectMake(0, 71, self.view.frame.width, self.view.frame.height - 71)
         self.tableOrders.frame = CGRectMake(0, 71, self.view.bounds.width, self.view.bounds.height - 71)
         
         self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
-        self.shareButton!.frame = CGRectMake(16.0, y, 34.0, 34.0)
+        let xShare = (self.viewFooter!.frame.width - 239 - 34 - 16) / 2
+        self.shareButton!.frame = CGRectMake(IS_IPAD ? xShare : 16.0, y, 34.0, 34.0)
         
-        self.addToCartButton!.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, y, (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, 34.0)
+        let toCartBtnWidth = IS_IPAD ? 239 : (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0
+        self.addToCartButton!.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, y, toCartBtnWidth, 34.0)
         
         if isShowingTabBar {
-            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - (IS_IPAD ? 0 : 45), self.view.frame.width, 64)
         }else{
             self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
         }
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -136,19 +142,19 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
     }
     
     func reloadPreviousOrderDetail() {
-            let servicePrev = PreviousOrderDetailService()
-            servicePrev.callService(trackingNumber, successBlock: { (result:NSDictionary) -> Void in
-                
-                self.itemDetail = result
-                self.shippingAll = result["Shipping"] as! NSArray
-                
-                self.emptyView.hidden = self.shippingAll.count > 0
-                self.tableOrders.reloadData()
-                self.removeLoadingView()
-            }) { (error:NSError) -> Void in
-                self.back()
-                self.removeLoadingView()
-            }
+        let servicePrev = PreviousOrderDetailService()
+        servicePrev.callService(trackingNumber, successBlock: { (result:NSDictionary) -> Void in
+            
+            self.itemDetail = result
+            self.shippingAll = result["Shipping"] as! NSArray
+            
+            self.emptyView.hidden = self.shippingAll.count > 0
+            self.tableOrders.reloadData()
+            self.removeLoadingView()
+        }) { (error:NSError) -> Void in
+            self.back()
+            self.removeLoadingView()
+        }
     }
     
     /**
@@ -176,55 +182,97 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         }
     }
     
+    //MARK:TableViewDelegate
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return self.shippingAll.count
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (self.shippingAll.count + 1)
+        
+        if section == (self.shippingAll.count - 1) {
+            return 2
+        } else {
+            return 1
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let headerView = UIView(frame:CGRectMake(0, 0, self.view.frame.width, 40))
+        headerView.backgroundColor = WMColor.light_light_gray
+        
+        let textOrder = "Envio \((section + 1)) de \(self.shippingAll.count)"
+        let titleShipping = UILabel(frame:CGRectMake(16, 0, self.view.frame.width / 2, 40))
+        titleShipping.font = WMFont.fontMyriadProRegularOfSize(16)
+        titleShipping.textColor = WMColor.dark_gray
+        titleShipping.text = textOrder
+        headerView.addSubview(titleShipping)
+        
+        var showDetailButton: UIButton?
+        showDetailButton = UIButton(frame: CGRectMake(self.view.frame.width - 84.0, 9.0, 68.0, 22.0))
+        showDetailButton!.backgroundColor = WMColor.light_blue
+        showDetailButton!.layer.cornerRadius = 10.0
+        showDetailButton!.setTitle(NSLocalizedString("previousorder.showDetail", comment: ""), forState: .Normal)
+        showDetailButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        showDetailButton!.titleLabel?.textColor = UIColor.whiteColor()
+        showDetailButton?.tag = section
+        showDetailButton!.addTarget(self, action: #selector(OrderShippingViewController.showShippingDetail(_:)), forControlEvents: .TouchUpInside)
+        headerView.addSubview(showDetailButton!)
+
+        return headerView
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row != self.shippingAll.count {
-            let cellDetail = tableView.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-            var valuesDetail : NSDictionary = [:]
-            let shipping = self.shippingAll[indexPath.row] as! NSDictionary
-            valuesDetail = ["order": "", "name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": shipping["items"] as! NSArray]
-            let size = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
-            return size
-        } else {
-            return 63.0
+            if indexPath.section == (self.shippingAll.count - 1) && indexPath.row == 1{
+                return 63.0
+            } else {
+                let cellDetail = tableView.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+                var valuesDetail : NSDictionary = [:]
+                let shipping = self.shippingAll[indexPath.section] as! NSDictionary
+                valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": shipping["items"] as! NSArray]
+                let size = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
+                return size
+            }
         }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
         
         if indexPath.row != self.shippingAll.count {
-            let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-            cellDetail.isHeaderView = true
-            cellDetail.frame = CGRectMake(0, 0, self.tableOrders.frame.width, cellDetail.frame.height)
             
-            var valuesDetail : NSDictionary = [:]
-            let textOrder = "Envio \((indexPath.row + 1)) de \(self.shippingAll.count)"
-            
-            let name = self.itemDetail["name"] as! String
-            
-            let shipping = self.shippingAll[indexPath.row] as! NSDictionary
-            let deliveryType = shipping["deliveryType"] as! String
-            let deliveryAddress = shipping["deliveryAddress"] as! String
-            let paymentType = shipping["paymentType"] as! String
-            let itemsShipping = shipping["items"] as! NSArray
-            
-            
-            valuesDetail = ["order": textOrder, "name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
-            cellDetail.setValuesDetail(valuesDetail)
-            cellDetail.selectionStyle = .None
-            cellDetail.delegateDetail = self
-            cell = cellDetail
-        } else {
-            
-            let totalCell = tableView.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! OrderShippingTotalTableViewCell
-            //let total = self.calculateTotalAmount()
-            totalCell.setValues("790", totalSaving: "50")
-            totalCell.selectionStyle = .None
-            cell = totalCell
+            if indexPath.section == (self.shippingAll.count - 1) && indexPath.row == 1{
+                let totalCell = tableView.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! OrderShippingTotalTableViewCell
+                //let total = self.calculateTotalAmount()
+                totalCell.setValues("790", totalSaving: "50")
+                totalCell.selectionStyle = .None
+                cell = totalCell
+            } else {
+                let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+                cellDetail.isHeaderView = true
+                cellDetail.frame = CGRectMake(0, 0, self.tableOrders.frame.width, cellDetail.frame.height)
+                
+                var valuesDetail : NSDictionary = [:]
+                
+                let name = self.itemDetail["name"] as! String
+                
+                let shipping = self.shippingAll[indexPath.section] as! NSDictionary
+                let deliveryType = shipping["deliveryType"] as! String
+                let deliveryAddress = shipping["deliveryAddress"] as! String
+                let paymentType = shipping["paymentType"] as! String
+                let itemsShipping = shipping["items"] as! NSArray
+                
+                valuesDetail = ["name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
+                cellDetail.setValuesDetail(valuesDetail)
+                cellDetail.selectionStyle = .None
+                cell = cellDetail
+            }
         }
         
         return cell!
@@ -252,14 +300,23 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
         })
     }
     
-    func showShippingDetail(shippingDetail: NSDictionary){
+    func showShippingDetail(sender:UIButton){
         let detailController = OrderDetailViewController()
         
-        detailController.shipping = shippingDetail["order"] as! String
-        //detailController.status = self.status
-        detailController.detailsOrderGroceries = shippingDetail
+        var valuesDetail : NSDictionary = [:]
+        
+        let name = self.itemDetail["name"] as! String
+        let shipping = self.shippingAll[sender.tag] as! NSDictionary
+        let deliveryType = shipping["deliveryType"] as! String
+        let deliveryAddress = shipping["deliveryAddress"] as! String
+        let paymentType = shipping["paymentType"] as! String
+        let itemsShipping = shipping["items"] as! NSArray
+        
+        valuesDetail = ["name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
+        detailController.shipping = "Envio \((sender.tag + 1)) de \(self.shippingAll.count)"
+        detailController.detailsOrderGroceries = valuesDetail
         detailController.type = ResultObjectType.Mg //
-        detailController.itemDetailProducts = shippingDetail["items"] as! NSArray
+        detailController.itemDetailProducts = shipping["items"] as! NSArray
         self.navigationController!.pushViewController(detailController, animated: true)
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
@@ -267,19 +324,14 @@ class OrderShippingViewController: NavigationViewController, ProductDetailCharac
     
     func addListToCart (){
         
-        if self.itemDetailProducts != nil && self.itemDetailProducts!.count > 0 {
-            if type == ResultObjectType.Mg {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
-            }else {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
-            }
+        if self.shippingAll != nil && self.shippingAll.count > 0 {
             var upcs: [AnyObject] = []
             if !showFedexGuide {
-                for item in self.itemDetailProducts! {
+                for item in self.shippingAll! {
                     upcs.append(getItemToShoppingCart(item as! NSDictionary))
                 }
             } else {
-                for item in self.itemDetailProducts! {
+                for item in self.shippingAll! {
                     let itmProdVal = item["items"] as! [[String:AnyObject]]
                     for itemProd in itmProdVal {
                         upcs.append(getItemToShoppingCart(itemProd as NSDictionary))

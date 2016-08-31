@@ -10,7 +10,6 @@ import UIKit
 
 class IPAOrderDetailViewController: OrderDetailViewController {
     
-    
     var sharePopover: UIPopoverController?
     
     override func viewWillLayoutSubviews() {
@@ -24,30 +23,7 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         }
         
         self.tableDetailOrder.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        /*
-        self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
-        
-        let y = (self.viewFooter!.frame.height - 34.0)/2
-        
-        if self.type == ResultObjectType.Groceries {
-            self.addToListButton!.frame = CGRectMake((self.view.frame.width / 2) - 186, y, 34.0, 34.0)
-            self.shareButton!.frame = CGRectMake(self.addToListButton!.frame.maxX + 16.0, y, 34.0, 34.0)
-        }
-        else {
-            self.shareButton!.frame = CGRectMake((self.view.frame.width/2) - 186, y, 34.0, 34.0)
-        }
-        
-        self.addToCartButton!.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, y, (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, 34.0)
-        
-        self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
-        
-        
-        let x = self.shareButton!.frame.maxX + 16.0
-        addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
-        */
- 
     }
-    
     
     /*override func shareList() {
          BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label:"")
@@ -90,7 +66,6 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     
     override func willHideTabbar() {
     }
-
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
