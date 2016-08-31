@@ -8,9 +8,8 @@
 
 import Foundation
 
-class IPAShoppingCartViewController : ShoppingCartViewController {
+class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutViewControllerDelegate, UIPopoverControllerDelegate {
     
-
     var imagePromotion : UIImageView!
     var totalsView : IPAShoppingCartTotalView!
     var beforeLeave : IPAShoppingCartBeforeToLeave!
@@ -28,28 +27,21 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
         
-        
         imagePromotion = UIImageView()
         //imagePromotion.image = UIImage(named:"cart_promo")
-        
-        
+
         self.viewContent.addSubview(imagePromotion)
-        
-        
+
         totalsView = IPAShoppingCartTotalView(frame: CGRectMake(0, 0, 0, 0))
         self.viewContent.addSubview(totalsView)
-        
-      
-        
+
         beforeLeave = IPAShoppingCartBeforeToLeave(frame:CGRectMake(0, 0, 682, 0))
         beforeLeave.backgroundColor = UIColor.whiteColor()
         self.viewContent.addSubview(beforeLeave)
         
-        
         viewSeparator = UIView()
         viewSeparator.backgroundColor = WMColor.light_gray
         self.viewContent.addSubview(viewSeparator)
-        
         
         self.presentAddressFullScreen = true
         self.updateTotalItemsRow()
@@ -57,25 +49,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if UserCurrentSession.sharedInstance().userSigned != nil {
             self.addchekout()
         }
-        
-        
     }
  
     
-    func addchekout(){
-        self.imagePromotion.hidden = true
-        self.checkoutVC = IPAGRCheckOutViewController()
-        checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
-        ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
-        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
-        //checkoutVC!.hiddenBack = true
-        ctrlCheckOut!.navigationBarHidden = true
-        
-        //checkoutVC?.itemsInCart = itemsInCart
-        //checkoutVC?.delegateCheckOut = self
-        self.addChildViewController(ctrlCheckOut!)
-        self.view.addSubview(ctrlCheckOut!.view)
-    }
+   
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -121,6 +98,51 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
        
     }
 
+    func addchekout(){
+        self.imagePromotion.hidden = true
+        self.viewFooter.hidden = true
+        self.checkoutVC = IPAGRCheckOutViewController()
+        checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
+        ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
+        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
+        //checkoutVC!.hiddenBack = true
+        ctrlCheckOut!.navigationBarHidden = true
+        //checkoutVC?.itemsInCart = itemsInCart
+        checkoutVC?.delegateCheckOut = self
+        self.addChildViewController(ctrlCheckOut!)
+        self.view.addSubview(ctrlCheckOut!.view)
+    }
+    
+    func shareShoppingCart(){
+        
+        if self.isEdditing {
+            return
+        }
+        
+        self.viewShoppingCart!.setContentOffset(CGPoint.zero , animated: false)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
+        
+        if let image = self.viewShoppingCart!.screenshot() {
+            let imageHead = UIImage(named:"detail_HeaderMail")
+            let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+           
+            popup = UIPopoverController(contentViewController: controller)
+            popup!.presentPopoverFromRect(CGRectMake(620, 650, 300, 250), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Down, animated: true)
+            
+            self.popup!.delegate = self
+            
+        }
+    }
+    
+    
+    func closeIPAGRCheckOutViewController(){
+        
+    }
+    
+    func showViewBackground(show:Bool){
+        
+    }
     
     override func updateTotalItemsRow() {
         let totalsItems = totalItems()
