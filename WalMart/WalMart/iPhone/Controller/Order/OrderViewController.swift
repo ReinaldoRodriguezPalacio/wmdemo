@@ -107,59 +107,22 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let item = self.items[indexPath.row] as! NSDictionary
-        let detailController = OrderShippingViewController()//OrderDetailViewController()
-        
-        
-        /*if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
-            detailController.type = ResultObjectType.Mg
-            let dateStr = item["placedDate"] as! String
-            let trackingStr = item["trackingNumber"] as! String
-            let statusStr = item["status"] as! String
-            
-            
-
-            detailController.trackingNumber = trackingStr
-            detailController.status = statusStr
-            detailController.date = dateStr
-            self.navigationController!.pushViewController(detailController, animated: true)
-            
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
-            
-            
-        } else {
-            detailController.type = ResultObjectType.Groceries
-            let dateStr = item["placedDate"] as! String
-            let trackingStr = item["trackingNumber"] as! String
-            let statusStr = item["status"] as! String
-            
-
-            
-            let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
-            
-            detailController.trackingNumber = trackingStr
-            detailController.status = statusDesc
-            detailController.date = dateStr
-            detailController.detailsOrderGroceries = item
-            self.navigationController!.pushViewController(detailController, animated: true)
-            
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
-        }*/
+        let detailController = OrderShippingViewController()
         
         //let dateStr = item["placedDate"] as! String
+        //let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
+        //detailController.date = dateStr
+        //detailController.detailsOrderGroceries = item
+        
         let trackingStr = item["trackingNumber"] as! String
         let statusStr = item["status"] as! String
         detailController.trackingNumber = trackingStr
-        //let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
         detailController.status = statusStr
         detailController.type = ResultObjectType.Groceries
-        //detailController.date = dateStr
-        //detailController.detailsOrderGroceries = item
         self.navigationController!.pushViewController(detailController, animated: true)
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
-        
     }
-    
     
     func reloadPreviousOrders() {
         self.items = []
@@ -180,12 +143,6 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 dictMGOrder["type"] =  ""
                 self.items.append(dictMGOrder)
             }
-            /*//self.loadGROrders()
-            for orderPrev in previous {
-                let dictGROrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
-                dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
-                self.items.append(dictGROrder)
-            }*/
             
             let dateFormat = NSDateFormatter()
             dateFormat.dateFormat = "dd/MM/yyyy"
@@ -196,7 +153,6 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 let dateTwo = dateFormat.dateFromString(secondDate)!
                 return dateOne.compare(dateTwo) == NSComparisonResult.OrderedDescending
             })
-            
             
             self.emptyView.hidden = self.items.count > 0
             self.facturasToolBar.hidden = !(self.items.count > 0)

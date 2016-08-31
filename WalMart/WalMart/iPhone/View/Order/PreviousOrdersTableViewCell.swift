@@ -31,28 +31,28 @@ class PreviousOrdersTableViewCell: UITableViewCell {
     
     func setup() {
         
-        trackingNumberLabel = UILabel(frame: CGRectMake(16, 0, 64, 46))
+        trackingNumberLabel = UILabel(frame: CGRectMake(16, 0, (IS_IPAD ? 182 : 64), 46))
         trackingNumberLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         trackingNumberLabel.textColor = WMColor.gray
         
-        dateLabel = UILabel(frame: CGRectMake(91, 0, 64, 46))
+        dateLabel = UILabel(frame: CGRectMake((IS_IPAD ? 214 : 91), 0, (IS_IPAD ? 182 : 64), 46))
         dateLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         dateLabel.textColor = WMColor.gray
         
-        statusLabel = UILabel(frame: CGRectMake(171, 0, 100, 46))
+        statusLabel = UILabel(frame: CGRectMake((IS_IPAD ? 412 : 171), 0, (IS_IPAD ? 193 : 100), 46))
         statusLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         statusLabel.textColor = WMColor.gray
         statusLabel.numberOfLines = 2
         statusLabel.textAlignment = NSTextAlignment.Left
         
-        countItems = UILabel(frame: CGRectMake(self.bounds.width - 34, 0, 18, 46))
+        countItems = UILabel(frame: CGRectMake((IS_IPAD ? 621 : self.bounds.width - 32), 0, (IS_IPAD ? 46 : 18), 46))
         countItems.font = WMFont.fontMyriadProRegularOfSize(12)
         countItems.textColor = WMColor.gray
         countItems.textAlignment = NSTextAlignment.Center
         
         viewSeparator = UIView()
         viewSeparator.backgroundColor = WMColor.light_gray
-        self.viewSeparator.frame = CGRectMake(dateLabel.frame.minX,self.frame.maxY - AppDelegate.separatorHeigth(),self.frame.width - dateLabel.frame.minX,AppDelegate.separatorHeigth())
+        self.viewSeparator.frame = CGRectMake(trackingNumberLabel.frame.minX ,self.frame.maxY - AppDelegate.separatorHeigth(),self.frame.width - trackingNumberLabel.frame.minX,AppDelegate.separatorHeigth())
         self.addSubview(viewSeparator)
         
         self.addSubview(trackingNumberLabel)
@@ -65,7 +65,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        viewSeparator.frame = CGRectMake(dateLabel.frame.minX,self.bounds.maxY - AppDelegate.separatorHeigth(),self.bounds.width - dateLabel.frame.minX,AppDelegate.separatorHeigth())
+        viewSeparator.frame = CGRectMake(trackingNumberLabel.frame.minX, self.bounds.maxY - AppDelegate.separatorHeigth(), self.bounds.width - trackingNumberLabel.frame.minX,AppDelegate.separatorHeigth())
         //statusLabel.frame = CGRectMake(self.bounds.width - 94, 18, 70, 14)
     }
     

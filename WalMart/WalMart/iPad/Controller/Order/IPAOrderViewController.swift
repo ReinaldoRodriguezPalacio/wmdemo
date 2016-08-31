@@ -45,7 +45,7 @@ class IPAOrderViewController: OrderViewController {
     
     //MARK: - TableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    /*override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
      
         let item = self.items[indexPath.row] as! NSDictionary
@@ -84,7 +84,7 @@ class IPAOrderViewController: OrderViewController {
             detailController.detailsOrderGroceries = item
             self.navigationController!.pushViewController(detailController, animated: true)
         }
-    }
+    }*/
     
     override func reloadPreviousOrders() {
         self.items = []
@@ -102,12 +102,35 @@ class IPAOrderViewController: OrderViewController {
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
                 let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
-                dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
+                dictMGOrder["type"] =  ""
                 self.items.append(dictMGOrder)
             }
             //self.loadGROrders()
+            let dateFormat = NSDateFormatter()
+            dateFormat.dateFormat = "dd/MM/yyyy"
+            self.items.sortInPlace({
+            let firstDate = $0["placedDate"] as! String
+            let secondDate = $1["placedDate"] as! String
+            let dateOne = dateFormat.dateFromString(firstDate)!
+            let dateTwo = dateFormat.dateFromString(secondDate)!
+            return dateOne.compare(dateTwo) == NSComparisonResult.OrderedDescending
+            })
+            
+            self.emptyView.hidden = self.items.count > 0
+            self.facturasToolBar.hidden = !(self.items.count > 0)
+            if self.items.count > 0 {
+                self.facturasToolBar.backgroundColor = UIColor.whiteColor()
+                }
+            self.tableOrders.reloadData()
+            self.viewLoad.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
-                //self.loadGROrders()
+                self.viewLoad.stopAnnimating()
+                self.tableOrders.reloadData()
+                self.emptyView.hidden = self.items.count > 0
+                self.facturasToolBar.hidden = !(self.items.count > 0)
+                if self.items.count > 0 {
+                    self.facturasToolBar.backgroundColor = UIColor.whiteColor()
+                }
         })
     }
     
