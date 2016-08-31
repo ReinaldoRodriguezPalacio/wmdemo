@@ -53,7 +53,7 @@ class IPAOrderViewController: OrderViewController {
         
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
             detailController.type = ResultObjectType.Mg
-            let dateStr = item["placedDate"] as! String
+            //let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
             
             var statusStr = item["status"] as! String

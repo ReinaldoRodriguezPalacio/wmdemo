@@ -129,12 +129,12 @@ class ChangeInfoLegalViewController : NavigationViewController {
         let service = UpdateUserProfileService()
        
         
-        if let user = UserCurrentSession.sharedInstance().userSigned {
-            let name = user.profile.name
-            let mail = user.email
-            let lastMame = user.profile.lastName
-            let birthDate = user.profile.birthDate
-            let gender = user.profile.sex
+        if  UserCurrentSession.hasLoggedUser() { //let user = UserCurrentSession.sharedInstance().userSigned {
+//            let name = user.profile.name
+//            let mail = user.email
+//            let lastMame = user.profile.lastName
+//            let birthDate = user.profile.birthDate
+//            let gender = user.profile.sex
             
             let allowMarketing = "\( self.promoAccept!.selected)"
             let allowTransfer = "\( self.acceptSharePersonal!.selected)"

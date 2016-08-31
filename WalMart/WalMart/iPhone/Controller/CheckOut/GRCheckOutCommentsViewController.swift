@@ -186,7 +186,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()

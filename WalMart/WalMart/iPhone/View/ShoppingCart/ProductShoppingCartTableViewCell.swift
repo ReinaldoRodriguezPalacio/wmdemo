@@ -243,9 +243,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                     let totalInSavings = self.savingProduct * Double(quantity)
                     let totalSavings = NSString(format: "%.2f", totalInSavings)
                     
-                    let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
-                    let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
-                    let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
+                    //let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
+                    //let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
+                    //let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
                     
                    // self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
                    // self.productPriceSavingLabel.hidden = false
