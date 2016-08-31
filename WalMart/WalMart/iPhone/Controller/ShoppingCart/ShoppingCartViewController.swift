@@ -184,11 +184,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.viewContent.sendSubviewToBack(viewShoppingCart)
         self.viewContent.addSubview(viewFooter)
 
-
-        
         picker = AlertPickerView.initPickerWithDefault()
         
-       initEmptyView()
+        initEmptyView()
         
        // loadShoppingCartService()
         
@@ -1297,7 +1295,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         //FACEBOOKLOG
         FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
 
-        
         UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
             let serviceReview = ReviewShoppingCartService()
             serviceReview.callService([:], successBlock: { (result:NSDictionary) -> Void in
