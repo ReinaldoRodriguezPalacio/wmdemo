@@ -205,6 +205,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         self.picker!.setValues(self.address!.nameField, values: itemsAddress)
         self.picker!.cellType = TypeField.Check
+        self.picker!.showDisclosure = true
+        self.picker!.showPrefered = true
         if !self.selectedAddressHasStore {
             self.picker!.onClosePicker = {
                 //--self.removeViewLoad()
@@ -468,6 +470,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 
                 self.picker!.setValues(self.addressInvoice!.nameField, values: itemsAddress)
                 self.picker!.cellType = TypeField.Check
+                self.picker!.showDisclosure = true
+                self.picker!.showPrefered = true
                 if !self.selectedAddressHasStore {
                     self.picker!.onClosePicker = {
                         //--self.removeViewLoad()

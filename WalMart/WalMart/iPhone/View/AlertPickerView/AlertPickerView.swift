@@ -65,6 +65,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var layerLine: CALayer?
     var contentHeight: CGFloat! = 316
     var contentWidth: CGFloat! = 288
+    var showDisclosure = false
+    var showPrefered = false
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -237,6 +239,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
                 cell.showButton?.tag = indexPath.row
                 cell.showButton?.addTarget(self, action: #selector(AlertPickerView.cellShowButtonSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             }
+            
+            cell.disclosureImage.hidden = !self.showDisclosure
+            cell.preferedImage.hidden = !(self.showPrefered && indexPath.row == 0)
             return cell
         }
     }
