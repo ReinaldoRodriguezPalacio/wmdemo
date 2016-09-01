@@ -67,7 +67,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
         btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
         separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, 1)
-        priceString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18, 100, 18)
+        priceString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 58, 100, 18)
         //upcString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
         quantityString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, priceString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
     }

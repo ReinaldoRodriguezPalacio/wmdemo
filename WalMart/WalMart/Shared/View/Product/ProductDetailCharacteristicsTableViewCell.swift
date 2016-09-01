@@ -8,24 +8,8 @@
 
 import Foundation
 
-protocol ProductDetailCharacteristicsTableViewCellDelegate {
-    func showShippingDetail(shippingDetail: NSDictionary)
-}
 
 class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
-    var headerView = UIView()
-    var titleShipping = UILabel()
-    var showDetailButton: UIButton?
-    var itemShipping = [:]
-    var isHeaderView = true
-    
-    var detailView = UIView()
-    var nameLabel = UILabel()
-    var deliveryTypeLabel = UILabel()
-    var deliveryAddressLabel = UILabel()
-    var paymentTypeLabel = UILabel()
-    
-    var delegateDetail : ProductDetailCharacteristicsTableViewCellDelegate!
     
     var descLabel = UIView()
     var downBorder = UIView()
@@ -44,93 +28,12 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         labelDesc.numberOfLines = 0
         self.addSubview(labelDesc)
         
-        self.headerView = UIView(frame:CGRectMake(0, 0, self.frame.width, 40))
-        self.headerView.backgroundColor = WMColor.light_light_gray
-        
-        self.titleShipping = UILabel(frame:CGRectMake(16, 0, self.frame.width / 2, 40))
-        self.titleShipping.font = WMFont.fontMyriadProRegularOfSize(16)
-        self.titleShipping.textColor = WMColor.dark_gray
-        self.headerView.addSubview(self.titleShipping)
-        
-        self.showDetailButton = UIButton(frame: CGRectMake(self.frame.width - 84.0, 9.0, 68.0, 22.0))
-        self.showDetailButton!.backgroundColor = WMColor.light_blue
-        self.showDetailButton!.layer.cornerRadius = 10.0
-        self.showDetailButton!.setTitle(NSLocalizedString("previousorder.showDetail", comment: ""), forState: .Normal)
-        self.showDetailButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.showDetailButton!.titleLabel?.textColor = UIColor.whiteColor()
-        self.showDetailButton!.addTarget(self, action: #selector(ProductDetailCharacteristicsTableViewCell.showDetail(_:)), forControlEvents: .TouchUpInside)
-        self.headerView.addSubview(self.showDetailButton!)
-        self.addSubview(self.headerView)
-        
-        let spaceHeaderView : CGFloat = isHeaderView ? 40.0 : 0.0
-        
-        self.detailView = UIView(frame:CGRectMake(0, spaceHeaderView, self.frame.width, self.frame.height - 40))
-        self.detailView.backgroundColor = UIColor.whiteColor()
-        
-        self.nameLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
-        self.nameLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.nameLabel.textColor = WMColor.gray
-        self.detailView.addSubview(self.nameLabel)
-        
-        self.deliveryTypeLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
-        self.deliveryTypeLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.deliveryTypeLabel.textColor = WMColor.gray
-        self.deliveryTypeLabel.numberOfLines = 2
-        self.detailView.addSubview(self.deliveryTypeLabel)
-        
-        self.deliveryAddressLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
-        self.deliveryAddressLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.deliveryAddressLabel.textColor = WMColor.gray
-        self.deliveryAddressLabel.numberOfLines = 4
-        self.detailView.addSubview(self.deliveryAddressLabel)
-        
-        self.paymentTypeLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
-        self.paymentTypeLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.paymentTypeLabel.textColor = WMColor.gray
-        self.detailView.addSubview(self.paymentTypeLabel)
-        
-        self.addSubview(self.detailView)
-        
-        /*
-        descLabel = UIView()
-        
-        downBorder = UIView(frame: CGRectZero)
-        downBorder.backgroundColor = WMColor.light_light_gray
-        //self.addSubview(downBorder)
-        //self.addSubview(descLabel)
-        */
-    }
-    
-    override func layoutSubviews() {
-        let spaceHeaderView : CGFloat = isHeaderView ? 40.0 : self.headerView.frame.minY
-        self.detailView.frame = CGRectMake(0, spaceHeaderView, self.frame.width, self.frame.height - spaceHeaderView)
-    }
-    
-    func showDetail(sender:UIButton){
-        //Pasar array o NSDictionary seleccionado
-        self.delegateDetail.showShippingDetail(self.itemShipping as NSDictionary)
-    }
-    
-    func setValuesDetail(values:NSDictionary){
-        
-        self.itemShipping = values
-        self.titleShipping.text = values["order"] as? String
-        self.headerView.hidden = !isHeaderView
-        
-        self.nameLabel.text = values["name"] as? String
-        self.deliveryTypeLabel.text = values["deliveryType"] as? String
-        let address = values["deliveryAddress"] as? String
-        self.deliveryAddressLabel.text = address
-        self.paymentTypeLabel.text = values["paymentType"] as? String//"Pago en línea"
-        
-        var rectSize = size(forText: self.deliveryTypeLabel.text!, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
-        self.deliveryTypeLabel.frame = CGRectMake(16, self.nameLabel.frame.maxY + 8.0, self.frame.width - 16.0, rectSize.height)
-        
-        rectSize = size(forText: self.deliveryAddressLabel.text!, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
-        self.deliveryAddressLabel.frame = CGRectMake(16, self.deliveryTypeLabel.frame.maxY + 8.0, self.frame.width - 16.0, rectSize.height)
-        
-        rectSize = size(forText: self.paymentTypeLabel.text!, withFont: deliveryAddressLabel.font, andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
-        self.paymentTypeLabel.frame = CGRectMake(16, self.deliveryAddressLabel.frame.maxY + 8.0, self.frame.width - 16.0, rectSize.height)
+         descLabel = UIView()
+         
+         downBorder = UIView(frame: CGRectZero)
+         downBorder.backgroundColor = WMColor.light_light_gray
+         self.addSubview(downBorder)
+         self.addSubview(descLabel)
     }
     
     func setValues(values:NSArray){
@@ -142,7 +45,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
             if let dicVal = dicValue as? NSDictionary {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String
-               
+                
                 let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size: 14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(self.frame.width - 32, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                 let bgView = UIView(frame: CGRectMake(0, currentY, self.frame.width, rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
@@ -177,44 +80,10 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         }
     }
     
-    func size(forText text:NSString, withFont font:UIFont, andSize size:CGSize) -> CGSize {
-        let computedRect: CGRect = text.boundingRectWithSize(size,
-            options: .UsesLineFragmentOrigin,
-            attributes: [NSFontAttributeName:font],
-            context: nil)
-        
-        return CGSizeMake(computedRect.size.width, computedRect.size.height)
-    }
-    
-    func sizeCell(width:CGFloat,values:NSDictionary, showHeader: Bool) -> CGFloat {
-        var heigth = 16.0 as CGFloat
-        
-        heigth += showHeader ? 40.0 : 0.0
-        
-        let name = values["name"] as? String
-        let type = values["deliveryType"] as? String
-        let address = values["deliveryAddress"] as? String
-        let typePaymen = values["paymentType"] as? String
-        
-        var rectSize = size(forText: name!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
-        heigth += rectSize.height + 8.0
-        
-        rectSize = size(forText: type!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
-        heigth += rectSize.height + 8.0
-        
-        rectSize = size(forText: address!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
-        heigth += rectSize.height + 8.0
-        
-        rectSize = size(forText: typePaymen!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSizeMake(self.frame.width - 16.0, CGFloat.max))
-        heigth += rectSize.height + (showHeader ? 32.0 : 16.0)
-        
-        return heigth
-    }
-    
     class func sizeForCell(width:CGFloat,values:NSArray) -> CGFloat {
         var heigth = 0.0 as CGFloat
-        
         //var valuesDict = NSMutableArray()
+        
         for dicValue in values {
             //var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {
@@ -223,7 +92,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size:14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                 heigth += rectSize.height + heightCharacteristic()
-
+                
             }
         }
         return heigth
@@ -231,10 +100,10 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
     
     class func buildAttributtedString(key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat ) -> NSAttributedString {
         //var valueItem = NSMutableAttributedString()
-                let valuesDescItem = NSMutableAttributedString()
+        let valuesDescItem = NSMutableAttributedString()
         if key != ""{
             let attrStringLab = NSAttributedString(string:"\(key): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(size),NSForegroundColorAttributeName:colorKey])
-             valuesDescItem.appendAttributedString(attrStringLab)
+            valuesDescItem.appendAttributedString(attrStringLab)
         }
         let attrStringVal = NSAttributedString(string:"\(value)", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(size),NSForegroundColorAttributeName:colorValue])
         valuesDescItem.appendAttributedString(attrStringVal)
