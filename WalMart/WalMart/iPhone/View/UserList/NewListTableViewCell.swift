@@ -95,7 +95,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     }
     
     func save(button:UIButton) {
-        if NewListTableViewCell.isValidName(self.inputNameList) {
+        if NewListTableViewCell.isValidName(self.inputNameList,showAlert: true) {//FRom new
             self.delegate?.createNewList(self.inputNameList!.text!)
         }
         self.inputNameList!.text = ""
@@ -110,16 +110,18 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
 
     //MARK: - Validaciones
     
-    class func isValidName(field:UITextField?) -> Bool {
+    class func isValidName(field:UITextField?,showAlert:Bool) -> Bool {
         if field == nil {
             return false
         }
         let string = field?.text
         if string == nil || string!.isEmpty {
-            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
-                UIImage(named:"noAvaliable"))
-            alert!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
-            alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+            if showAlert{
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+                    UIImage(named:"noAvaliable"))
+                alert!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
+                alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+            }
             return false
         }
         
@@ -128,10 +130,12 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         let trimmedString = string!.stringByTrimmingCharactersInSet(whitespaceset)
         let length = trimmedString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
         if length == 0 {
-            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
-                UIImage(named:"noAvaliable"))
-            alert!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
-            alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+            if showAlert {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+                    UIImage(named:"noAvaliable"))
+                alert!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
+                alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+            }
             return false
         }
         if length < 2 {

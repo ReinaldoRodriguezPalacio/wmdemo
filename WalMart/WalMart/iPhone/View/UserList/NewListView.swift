@@ -77,7 +77,7 @@ class NewListView: UIControl, UITextFieldDelegate {
     //MARK: - Actions
     
     func save(button:UIButton) {
-        if NewListTableViewCell.isValidName(self.inputNameList) {
+        if NewListTableViewCell.isValidName(self.inputNameList,showAlert: false) {
             self.delegate?.createNewList(self.inputNameList!.text!)
         }
         self.inputNameList!.text = ""

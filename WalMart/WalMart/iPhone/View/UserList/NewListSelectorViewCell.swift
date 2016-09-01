@@ -37,8 +37,8 @@ class NewListSelectorViewCell: NewListTableViewCell {
     
     //MARK: - Actions
     
-    override func save(button:UIButton) {
-        if NewListTableViewCell.isValidName(self.inputNameList) {
+    override func save(button:UIButton) {//Detalle
+        if NewListTableViewCell.isValidName(self.inputNameList,showAlert: true) {
             self.delegate?.createNewList(self.inputNameList!.text!)
         }
         self.inputNameList!.text = ""

@@ -100,6 +100,12 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         notification?.frame = CGRectMake(self.view.bounds.minX,self.header!.frame.maxY + 46,
                                          self.view.bounds.width,
                                          self.view.bounds.height - (self.headerNotification!.frame.height))
+        
+        self.viewLoad?.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height)
+        if self.viewLoad != nil {
+            let frameImg  = self.viewLoad!.loadImage.frame
+            self.viewLoad!.loadImage.frame = CGRectMake(self.viewLoad!.frame.midX - (frameImg.width / 2),self.viewLoad!.frame.midY - (frameImg.height / 2)  , frameImg.width, frameImg.height)
+        }
     }
     
     
@@ -242,7 +248,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, self.view.bounds.height))
         self.viewLoad!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
