@@ -278,8 +278,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
         
         
-        picker = AlertPickerView.initPickerWithDefault()
-        
+        picker = AlertPickerView.initPickerWithLeftButton()
+        picker.setLeftButtonStyle(WMColor.light_blue,titleText: "Nueva Direccion", titleColor:UIColor.whiteColor())
         self.addViewLoad()
         
             self.invokePaymentService { () -> Void in
@@ -297,7 +297,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.picker!.sender = self.paymentOptions!
                         self.picker!.delegate = self
                         self.picker!.setValues(self.paymentOptions!.nameField, values: itemsPayments)
-                        self.picker!.hiddenRigthActionButton(true)
                         self.picker!.cellType = TypeField.Check
                         self.picker!.showPicker()
                         
@@ -312,7 +311,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.picker!.delegate = self
                     self.picker!.selected = self.selectedConfirmation
                     self.picker!.setValues(self.discountAssociate!.nameField, values: discountAssociateItems)
-                    self.picker!.hiddenRigthActionButton(true)
                     self.picker!.cellType = TypeField.Alphanumeric
                     self.picker!.showPicker()
                     
@@ -365,7 +363,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.sender = self.confirmation!
                 self.picker!.delegate = self
                 self.picker!.setValues(self.confirmation!.nameField, values: itemsOrderOptions)
-                self.picker!.hiddenRigthActionButton(true)
                 self.picker!.cellType = TypeField.Check
                 self.picker!.showPicker()
                 
@@ -692,7 +689,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.sender = self.deliverySchedule!
                 self.picker!.delegate = self
                 self.picker!.setValues(self.deliverySchedule!.nameField, values: itemsSlots)
-                self.picker!.hiddenRigthActionButton(true)
                 self.picker!.cellType = TypeField.Check
                 self.picker!.showPicker()
             }
@@ -1025,7 +1021,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.picker!.sender = self.shipmentType!
                         self.picker!.delegate = self
                         self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
-                        self.picker!.hiddenRigthActionButton(true)
                         self.picker!.cellType = TypeField.Check
                         self.picker!.showPicker()
                     }
@@ -1669,15 +1664,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.picker!.sender = self.address!
         self.picker!.delegate = self
             
-        let btnNewAddress = WMRoundButton()
-        btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
-        btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        btnNewAddress.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
-        btnNewAddress.layer.cornerRadius = 2.0
-            
-        self.picker!.addRigthActionButton(btnNewAddress)
         self.picker!.setValues(self.address!.nameField, values: itemsAddress)
-        self.picker!.hiddenRigthActionButton(false)
         self.picker!.cellType = TypeField.Check
         if !self.selectedAddressHasStore {
             self.picker!.onClosePicker = {
