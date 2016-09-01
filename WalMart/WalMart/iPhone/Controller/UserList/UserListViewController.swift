@@ -576,8 +576,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      */
     
     func showNewListField() {
-
         
+    
         self.newListBtn!.enabled = false
         self.editBtn!.enabled = false
         if !self.newListEnabled {
@@ -797,7 +797,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.alertView!.close()
                     self.alertView = nil
                 }
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+               if  self.alertView ==  nil {
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+                }
+                
                 self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
                 self.alertView!.showErrorIcon("Ok")
             }
@@ -817,6 +820,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
                             self.alertView!.showDoneIcon()
+                            self.alertView?.removeFromParentViewController()
                         },
                         failure: { (error) -> Void in
                             self.alertView!.setMessage(error.localizedDescription)
@@ -1019,6 +1023,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
+   
     func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
         return !self.isEditingUserList
     }

@@ -83,7 +83,8 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func layoutButtons() {
         let space = (320 - (5 * TABBAR_HEIGHT))/7
-        var x: CGFloat = ((self.view.bounds.width / 2) - (435 / 2))  + CGFloat(space)
+        var x: CGFloat = self.view.frame.midX  - ((((6 * TABBAR_HEIGHT ) + (space * 5))) / 2 )
+     
         for button in  self.buttonList {
             button.frame = CGRectMake(x, 2, TABBAR_HEIGHT, TABBAR_HEIGHT)
             //var spacing: CGFloat = 1.0 // the space between the image and text
