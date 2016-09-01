@@ -217,7 +217,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.itemsInCartOrderSection.count
+        return self.itemsInCartOrderSection.count + 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -214,8 +214,8 @@ class ShoppingCartProductsService : BaseService {
             let stock = true
             let idLine = ""
             var nameLine = ""
-            if let nameLineBase = shoppingCartProduct["line"] as? AnyObject {
-                nameLine = (nameLineBase["name"] as? String)!
+            if let nameLineBase = shoppingCartProduct["fineContent"] as? AnyObject {
+                nameLine = (nameLineBase["fineLineName"] as? String)!
             }
             
             var imageUrl = ""
