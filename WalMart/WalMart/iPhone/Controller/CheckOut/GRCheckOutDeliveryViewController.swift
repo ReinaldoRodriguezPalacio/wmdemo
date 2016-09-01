@@ -29,6 +29,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var selectedAddress: String? = nil
     var selectedAddressHasStore: Bool = true
     var selectedAddressIx : NSIndexPath!
+    var addressInvoiceItems: [AnyObject]?
+    var addressInvoiceDesccription: String? = nil
+    var selectedAddressInvoice: String? = nil
+    var selectedAddressInvoiceIx : NSIndexPath!
     var saveButton: UIButton?
     var cancelButton: UIButton?
     var layerLine: CALayer!
@@ -211,6 +215,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }
         self.picker!.showPicker()
     }
+    
     /**
      Gets the address options
      
@@ -223,7 +228,32 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             for option in self.addressItems! {
                 if let text = option["name"] as? String {
                     itemsAddress.append(text)
-                    if let id = option["id"] as? String {
+                    if let id = option["addressId"] as? String {
+                        if id == self.selectedAddress {
+                            self.selectedAddressIx = NSIndexPath(forRow: ixSelected, inSection: 0)
+                            self.address!.text = text
+                        }
+                    }
+                }
+                ixSelected += 1
+            }
+        }
+        return itemsAddress
+    }
+    
+    /**
+     Gets the address options
+     
+     - returns: [String]
+     */
+    func getItemsToSelectInvoiceAddres()  -> [String]{
+        var itemsAddress : [String] = []
+        var ixSelected = 0
+        if self.addressInvoiceItems != nil {
+            for option in self.addressInvoiceItems! {
+                if let text = option["name"] as? String {
+                    itemsAddress.append(text)
+                    if let id = option["addressId"] as? String {
                         if id == self.selectedAddress {
                             self.selectedAddressIx = NSIndexPath(forRow: ixSelected, inSection: 0)
                             self.address!.text = text
@@ -298,7 +328,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.address! {
-                self.addViewLoad()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
@@ -308,7 +337,15 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.getAddressDescription(addressId)
                 }
                 self.selectedAddressIx = indexPath
- 
+            }
+            if formFieldObj ==  self.addressInvoice! {
+                self.addressInvoice!.text = selectedStr
+                var option = self.addressInvoiceItems![indexPath.row] as! [String:AnyObject]
+                if let addressId = option["id"] as? String {
+                    print("Asigned AddresID :::\(addressId) ---")
+                    self.selectedAddressInvoice = addressId
+                }
+                self.selectedAddressInvoiceIx = indexPath
             }
         }
     }
@@ -319,6 +356,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             if formFieldObj ==  self.address! {
                 self.address!.text = ""
                 self.selectedAddress = ""
+            }
+            if formFieldObj ==  self.addressInvoice! {
+                self.addressInvoice!.text = ""
+                self.selectedAddressInvoice = ""
             }
         }
     }
@@ -418,6 +459,27 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      Gets the user addresses
      */
     func reloadUserAddresses(){
+        self.invokeAddressInvoiceUserService({ () -> Void in
+            self.addressInvoice!.onBecomeFirstResponder = {() in
+                let itemsAddress : [String] = self.getItemsToSelectInvoiceAddres()
+                self.picker!.selected = self.selectedAddressInvoiceIx
+                self.picker!.sender = self.addressInvoice!
+                self.picker!.delegate = self
+                
+                self.picker!.setValues(self.addressInvoice!.nameField, values: itemsAddress)
+                self.picker!.cellType = TypeField.Check
+                if !self.selectedAddressHasStore {
+                    self.picker!.onClosePicker = {
+                        //--self.removeViewLoad()
+                        self.picker!.onClosePicker = nil
+                        self.navigationController?.popViewControllerAnimated(true)
+                        self.picker!.closePicker()
+                    }
+                }
+                self.removeViewLoad()
+                self.picker!.showPicker()
+            }
+        })
         self.invokeAddressUserService({ () -> Void in
             self.getItemsTOSelectAddres()
             //Mustang
@@ -426,6 +488,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.showAddressPicker()
             }
         })
+        
+        self.selectedAddressIx = NSIndexPath(forRow: 0, inSection: 0)
+        self.selectedAddressInvoiceIx = NSIndexPath(forRow: 0, inSection: 0)
     }
     /**
      Gets the user addresses service
@@ -484,6 +549,22 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 endCallAddress()
             }
         )
+    }
+    
+    func invokeAddressInvoiceUserService(endCallAddress:(() -> Void)) {
+        let addressService = InvoiceAddressByUserService()
+        addressService.callService({ (resultCall:NSDictionary) -> Void in
+            self.addressInvoiceItems = []
+            
+            if let fiscalAddress = resultCall["responseArray"] as? [AnyObject] {
+                self.addressInvoiceItems = fiscalAddress
+            }
+            self.removeViewLoad()
+            endCallAddress()
+            }, errorBlock: { (error:NSError) -> Void in
+                self.removeViewLoad()
+                endCallAddress()
+            })
     }
     
     func shoInvoiceAddress(sender:UIButton){

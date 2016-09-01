@@ -122,7 +122,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self
         tableData.dataSource = self
-        //tableData.separatorStyle = .None
 
         self.viewContentOptions.addSubview(tableData)
         
@@ -198,7 +197,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     {
         if cellType == TypeField.Alphanumeric
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             
             let cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
             cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
@@ -228,7 +226,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }
         else
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
             cell.selectionStyle = .None
             cell.textLabel?.text = itemsToShow[indexPath.row]
