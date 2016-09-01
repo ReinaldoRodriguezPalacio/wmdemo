@@ -25,10 +25,10 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
             var itemsSvc : [[String:AnyObject]] = []
             var upcSend = ""
             for itemSvc in params as! NSArray {
-                let upc = itemSvc["upc"] as! String
+                let upc = itemSvc["productId"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
-                let comments = itemSvc["comments"] as! String
+                let comments = itemSvc["itemComment"] as! String
                 itemsSvc.append(builParamSvc(upcSend,quantity:quantity,comments:comments))
             }
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
