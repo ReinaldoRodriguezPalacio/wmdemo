@@ -107,7 +107,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
         //checkoutVC!.hiddenBack = true
         ctrlCheckOut!.navigationBarHidden = true
-        //checkoutVC?.itemsInCart = itemsInCart
         checkoutVC?.delegateCheckOut = self
         self.addChildViewController(ctrlCheckOut!)
         self.view.addSubview(ctrlCheckOut!.view)
