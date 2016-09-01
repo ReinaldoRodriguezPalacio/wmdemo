@@ -1416,7 +1416,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if self.addressItems?.count < 12 {
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 //--self.addViewLoad()
-                print("Se realizao la direccion")
+                print("Se realizo la direccion")
                 self.picker!.closeNew()
                 self.picker!.closePicker()
                 

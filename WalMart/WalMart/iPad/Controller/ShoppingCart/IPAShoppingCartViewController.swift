@@ -107,7 +107,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
         //checkoutVC!.hiddenBack = true
         ctrlCheckOut!.navigationBarHidden = true
-        //checkoutVC?.itemsInCart = itemsInCart
         checkoutVC?.delegateCheckOut = self
         self.addChildViewController(ctrlCheckOut!)
         self.view.addSubview(ctrlCheckOut!.view)
@@ -217,7 +216,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.itemsInCartOrderSection.count
+        return self.itemsInCartOrderSection.count + 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

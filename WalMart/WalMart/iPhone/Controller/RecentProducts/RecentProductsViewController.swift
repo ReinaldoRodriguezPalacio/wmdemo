@@ -125,13 +125,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 
                 let objProduct = productItemsOriginal[idx]
                 
-                if objProduct["line"] != nil {
-                    let lineObj = objProduct["line"] as! NSDictionary
+                if objProduct["fineContent"] != nil {
+                    let lineObj = objProduct["fineContent"] as! NSDictionary
                     
                     
                     if indi == 0 {
                         //self.recentLineItems.insert(lineObj, atIndex: indi)
-                        recentLineItems.append(lineObj["name"] as! String == "" ? "Otros" : lineObj["name"] as! String)
+                        recentLineItems.append(lineObj["fineLineName"] as! String == "" ? "Otros" : lineObj["fineLineName"] as! String)
                         indi = indi + 1
                         flagOther = false
                     } else {
@@ -140,18 +140,18 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         for indx in 0 ..< recentLineItems.count {
                             let obj =  recentLineItems[indx]
                             //if obj["name"] as! String == lineObj["name"] as! String{
-                            if obj as! String == lineObj["name"] as! String{
+                            if obj as! String == lineObj["fineLineName"] as! String{
                                 flagOther = false
                                 flagInsert = false
                             }
-                            if lineObj["name"] as! String == "Otros" || lineObj["name"] as! String == ""{//obj
+                            if lineObj["fineLineName"] as! String == "Otros" || lineObj["fineLineName"] as! String == ""{//obj
                                 flagOther = true
                                 flagInsert = false
                             }
                         }
                         if flagInsert {
                             //self.recentLineItems.insert(lineObj, atIndex: indi)
-                            recentLineItems.append(lineObj["name"] as! String)
+                            recentLineItems.append(lineObj["fineLineName"] as! String)
                             indi = indi + 1
                         }
                     }
@@ -183,9 +183,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 let obj = recentLineItems[indx]
                 
                 if obj as? String == "Otros"{
-                    if objProduct["line"] != nil {
-                        let lineObj = objProduct["line"] as! NSDictionary
-                        if lineObj["name"] as! String == "" || lineObj["name"] as! String == "Otros" {
+                    if objProduct["fineContent"] != nil {
+                        let lineObj = objProduct["fineContent"] as! NSDictionary
+                        if lineObj["fineLineName"] as! String == "" || lineObj["fineLineName"] as! String == "Otros" {
                             objectsLine.insert(objProduct, atIndex: indLine)
                             lineString = "Otros"
                             indLine = indLine + 1
@@ -196,12 +196,12 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         indLine = indLine + 1
                     }
                 } else {
-                    if objProduct["line"] != nil {
-                        let lineObj = objProduct["line"] as! NSDictionary
+                    if objProduct["fineContent"] != nil {
+                        let lineObj = objProduct["fineContent"] as! NSDictionary
                         
-                        if obj as? String == lineObj["name"] as? String {
+                        if obj as? String == lineObj["fineLineName"] as? String {
                             objectsLine.insert(objProduct, atIndex: indLine)
-                            lineString = lineObj["name"] as! String
+                            lineString = lineObj["fineLineName"] as! String
                             indLine = indLine + 1
                         }
                     }
