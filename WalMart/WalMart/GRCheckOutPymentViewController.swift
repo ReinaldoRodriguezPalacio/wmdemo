@@ -150,7 +150,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.picker!.delegate = self
             self.picker!.selected = self.selectedConfirmation
             self.picker!.setValues(self.discountAssociate!.nameField, values: discountAssociateItems)
-            self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Alphanumeric
             self.picker!.showPicker()
             

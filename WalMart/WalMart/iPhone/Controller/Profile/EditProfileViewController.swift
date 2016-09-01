@@ -408,7 +408,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.picker!.sender = self.gender!
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("profile.gender",comment:""), values: [NSLocalizedString("profile.gender.female",comment:""),NSLocalizedString("profile.gender.male",comment:"")])
-            self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
             self.view.endEditing(true)

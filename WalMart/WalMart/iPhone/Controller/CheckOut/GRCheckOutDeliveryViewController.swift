@@ -87,8 +87,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         self.invoiceButton = UIButton()
         self.invoiceButton?.setTitle("Requiero factura", forState: UIControlState.Normal)
-        self.invoiceButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
-        self.invoiceButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.invoiceButton!.setImage(UIImage(named:"check_empty"), forState: UIControlState.Normal)
+        self.invoiceButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.invoiceButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.invoiceButton?.addTarget(self, action: #selector(GRCheckOutDeliveryViewController.shoInvoiceAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.invoiceButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
@@ -129,7 +129,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(saveButton!)
         
         self.selectedAddress = ""
-        self.picker = AlertPickerView.initPickerWithDefault()
+        picker = AlertPickerView.initPickerWithLeftButton()
+        picker.setLeftButtonStyle(WMColor.light_blue,titleText: "Nueva Direccion", titleColor:UIColor.whiteColor())
         self.addViewLoad()
         self.reloadUserAddresses()
     }
@@ -198,15 +199,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.picker!.sender = self.address!
         self.picker!.delegate = self
         
-        let btnNewAddress = WMRoundButton()
-        btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
-        btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        btnNewAddress.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
-        btnNewAddress.layer.cornerRadius = 2.0
-        
-        self.picker!.addRigthActionButton(btnNewAddress)
         self.picker!.setValues(self.address!.nameField, values: itemsAddress)
-        self.picker!.hiddenRigthActionButton(false)
         self.picker!.cellType = TypeField.Check
         if !self.selectedAddressHasStore {
             self.picker!.onClosePicker = {
