@@ -858,7 +858,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      */
     func showAssociateData(sender:UIButton) {
         self.isAssociateButton!.selected = !self.isAssociateButton!.selected
-        
         self.showAssociateInfo = self.isAssociateButton!.selected
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.associateNumber!.alpha = self.showAssociateInfo ? 1.0 : 0.0

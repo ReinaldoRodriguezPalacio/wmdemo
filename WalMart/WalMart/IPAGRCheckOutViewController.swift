@@ -54,7 +54,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.footer!.addSubview(self.addToListButton!)
         self.footer!.addSubview(self.buttonShare)
         
-        totalView = IPOCheckOutTotalView(frame:CGRectMake(0, self.toolTipLabel!.frame.maxY + 10, self.view.frame.width, 60))
+        totalView = IPOCheckOutTotalView(frame:CGRectMake(0, self.addressInvoice!.frame.maxY + 10, self.view.frame.width, 60))
         totalView.backgroundColor = WMColor.light_light_gray
         totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
