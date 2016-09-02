@@ -62,7 +62,7 @@ class CommentView : UIView {
         buttonMessage.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         buttonMessage.setTitle("Mensaje", forState: UIControlState.Normal)
         buttonMessage.backgroundColor = UIColor.whiteColor()
-        buttonMessage.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        buttonMessage.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         buttonMessage.addTarget(self, action: #selector(CommentView.comment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         buttonMessage.layer.cornerRadius = 4
         buttonMessage.titleLabel?.font = MercuryFont.fontSFUIRegularOfSize(14)
@@ -160,7 +160,7 @@ class CommentView : UIView {
     func actionCancel() {
         self.viewBack?.frame = self.originalFrame
         self.buttonMessage.setTitle("Mensaje", forState: UIControlState.Normal)
-        self.buttonMessage.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        self.buttonMessage.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.textMesage.alpha = 0

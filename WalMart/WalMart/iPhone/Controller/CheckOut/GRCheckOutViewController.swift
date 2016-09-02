@@ -14,7 +14,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
     let fieldSep: CGFloat = 10.0
-    let headerHeight: CGFloat = 46
+    //let headerHeight: CGFloat = 46
     var content: TPKeyboardAvoidingScrollView!
     var viewLoad : WMLoadingView!
     var errorView : FormFieldErrorView? = nil

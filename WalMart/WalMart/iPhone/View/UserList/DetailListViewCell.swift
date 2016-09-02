@@ -49,7 +49,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.promoDescription!.backgroundColor =  UIColor.whiteColor()
         self.contentView.addSubview(self.promoDescription!)
         
-        self.productShortDescriptionLabel!.textColor = WMColor.gray
+        self.productShortDescriptionLabel!.textColor = WMColor.gray_reg
         self.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.productShortDescriptionLabel!.numberOfLines = 2
         self.productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
@@ -413,7 +413,7 @@ class DetailListViewCell: ProductTableViewCell {
             self.quantityIndicator?.backgroundColor = WMColor.light_gray
             self.promoDescription?.textColor = WMColor.empty_gray_btn
         } else {
-            self.productShortDescriptionLabel!.textColor = WMColor.gray
+            self.productShortDescriptionLabel!.textColor = WMColor.gray_reg
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             self.productImage!.image = imageNormal
             self.quantityIndicator!.backgroundColor = self.hasStock ? WMColor.yellow : WMColor.light_gray

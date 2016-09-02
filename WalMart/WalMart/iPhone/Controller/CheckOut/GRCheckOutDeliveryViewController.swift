@@ -14,7 +14,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
     let fieldSep: CGFloat = 10.0
-    let headerHeight: CGFloat = 46
     var content: TPKeyboardAvoidingScrollView!
     var scrollForm : TPKeyboardAvoidingScrollView!
     var viewLoad : WMLoadingView!
@@ -61,7 +60,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(self.content)
         
         self.stepLabel = UILabel()
-        self.stepLabel.textColor = WMColor.gray
+        self.stepLabel.textColor = WMColor.gray_reg
         self.stepLabel.text = "1 de 4"
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
@@ -271,10 +270,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         let nextController = GRCheckOutCommentsViewController()
         
-        self.paramsToOrder = ["comments":"", "AddressID":self.selectedAddress!, "pickingInstruction":""]
-        self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"pickingInstruction":""]
-        nextController.paramsToOrder = self.paramsToOrder
-        nextController.paramsToConfirm = self.paramsToConfirm
+        //self.paramsToOrder = ["comments":"", "AddressID":self.selectedAddress!, "pickingInstruction":""]
+        //self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"pickingInstruction":""]
+        //nextController.paramsToOrder = self.paramsToOrder
+        //nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)
     }
  

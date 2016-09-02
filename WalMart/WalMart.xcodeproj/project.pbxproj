@@ -618,6 +618,7 @@
 		ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA91C063A64009709B5 /* libc++.tbd */; };
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
+		B12FA3511D78DE0700251416 /* TotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12FA3501D78DE0700251416 /* TotalView.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -1330,6 +1331,7 @@
 		ACF20CA91C063A64009709B5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B12FA3501D78DE0700251416 /* TotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TotalView.swift; path = Shared/View/General/TotalView.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -2197,6 +2199,7 @@
 				56527DF519B00953008032C6 /* CurrencyCustomLabel.swift */,
 				851EF5EF1CF7AD2F00C37BD5 /* WMTCopyLabel.swift */,
 				6592727D1D662B55003EFE3E /* PLPLegendView.swift */,
+				B12FA3501D78DE0700251416 /* TotalView.swift */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -3978,6 +3981,7 @@
 				561657D919B1423900DA056A /* FamilyViewController.swift in Sources */,
 				5608AF711A0AA24D00176CB0 /* IPASearchCatProductViewController.swift in Sources */,
 				04C711CA1A856C800095090E /* NewListSelectorViewCell.swift in Sources */,
+				B12FA3511D78DE0700251416 /* TotalView.swift in Sources */,
 				4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */,
 				5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */,
 				85A40B911C223AE40036C78A /* Response.swift in Sources */,

@@ -40,17 +40,17 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         self.addressLabel = UILabel(frame: CGRectMake(sep, self.titleLabel.frame.maxY, width, 45.0))
         self.addressLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addressLabel!.numberOfLines = 0
-        self.addressLabel!.textColor = WMColor.gray
+        self.addressLabel!.textColor = WMColor.gray_reg
         self.contentView.addSubview(self.addressLabel)
 
         self.hoursOpenLabel = UILabel()
         self.hoursOpenLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.hoursOpenLabel!.textColor = WMColor.gray
+        self.hoursOpenLabel!.textColor = WMColor.gray_reg
         self.contentView.addSubview(self.hoursOpenLabel)
         
         self.phoneLabel = UILabel()
         self.phoneLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.phoneLabel!.textColor = WMColor.gray
+        self.phoneLabel!.textColor = WMColor.gray_reg
         self.contentView.addSubview(self.phoneLabel)
 
         self.buttonContainer = UIView(frame: CGRectMake(0, frame.size.height - 48.0, frame.size.width, 48.0))

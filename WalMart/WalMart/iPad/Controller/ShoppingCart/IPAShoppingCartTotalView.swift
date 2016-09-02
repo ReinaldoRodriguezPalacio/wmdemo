@@ -36,19 +36,19 @@ class IPAShoppingCartTotalView : UIView {
         
         subtotalTitle = UILabel()
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
-        subtotalTitle.textColor = WMColor.gray
+        subtotalTitle.textColor = WMColor.gray_reg
         subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(18)
         subtotalTitle.textAlignment = .Right
         subtotalTitle.frame = CGRectMake(xPoint, 24, 120, 18)
         iva = UILabel()
         iva.text = NSLocalizedString("shoppingcart.iva",comment:"")
-        iva.textColor = WMColor.gray
+        iva.textColor = WMColor.gray_reg
         iva.font = WMFont.fontMyriadProSemiboldOfSize(18)
         iva.textAlignment = .Right
         iva.frame = CGRectMake(xPoint, subtotalTitle.frame.maxY + 16, 120, 18)
         total = UILabel()
         total.text = NSLocalizedString("shoppingcart.total",comment:"")
-        total.textColor = WMColor.gray
+        total.textColor = WMColor.gray_reg
         total.font = WMFont.fontMyriadProSemiboldOfSize(18)
         total.textAlignment = .Right
         total.frame = CGRectMake(xPoint, iva.frame.maxY + 40, 120, 18)
@@ -90,8 +90,8 @@ class IPAShoppingCartTotalView : UIView {
         if iva != "" {
             let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
             let formatedIVA = CurrencyCustomLabel.formatString(iva)
-            valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray, interLine: false)
-            valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray, interLine: false)
+            valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray_reg, interLine: false)
+            valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray_reg, interLine: false)
             self.valueSubtotal.hidden = false
             self.valueIva.hidden = false
             self.subtotalTitle.hidden = false
@@ -105,7 +105,7 @@ class IPAShoppingCartTotalView : UIView {
         }
         let formatedTotal = CurrencyCustomLabel.formatString(total)
         let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving)
-        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray, interLine: false)
+        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray_reg, interLine: false)
         
         var convertSaving = totalSaving
         if convertSaving == "" {

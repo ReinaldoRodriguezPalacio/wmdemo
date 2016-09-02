@@ -73,13 +73,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
 
         self.listName = UILabel()
         self.listName!.font = self.listNameFont
-        self.listName!.textColor = WMColor.gray
+        self.listName!.textColor = WMColor.gray_reg
         self.listName!.numberOfLines = 2
         self.contentView.addSubview(self.listName!)
         
         self.articlesTitle = UILabel()
         self.articlesTitle!.font = self.articlesTitleFont
-        self.articlesTitle!.textColor = WMColor.gray
+        self.articlesTitle!.textColor = WMColor.gray_reg
         self.articlesTitle!.text = NSLocalizedString("list.articles",comment:"")
         self.contentView.addSubview(self.articlesTitle!)
         

@@ -213,7 +213,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         self.addSubview(viewAddress!)
         
         self.preferedLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.preferedLabel!.textColor = WMColor.gray
+        self.preferedLabel!.textColor = WMColor.gray_reg
         self.preferedLabel!.textAlignment = .Right
         
         self.telephone = FormFieldView()

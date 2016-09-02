@@ -62,7 +62,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String
                 
-                let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size: 14)
+                let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray_reg, colorValue:WMColor.dark_gray, size: 14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(self.frame.width - 32, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                 let bgView = UIView(frame: CGRectMake(0, currentY, self.frame.width, rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
                 let labelCharacteristic = WMTCopyLable(frame: CGRectMake(16, 5, self.frame.width-32, rectSize.height))
@@ -98,7 +98,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
             if let dicVal = dicValue as? NSDictionary {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String
-                let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size:14)
+                let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray_reg, colorValue:WMColor.dark_gray, size:14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                 heigth += rectSize.height + heightCharacteristic()
                 

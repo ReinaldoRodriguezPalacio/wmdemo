@@ -55,17 +55,17 @@ class IPASupportViewController: SupportViewController {
         self.labelQuestion2!.textAlignment = .Center
         
         self.callme!.font = WMFont.fontMyriadProRegularOfSize(18)
-        self.callme!.textColor = WMColor.gray
+        self.callme!.textColor = WMColor.gray_reg
         self.callme!.backgroundColor = UIColor.clearColor()
         self.callme!.textAlignment = .Center
         
         self.callmeNumber!.font = WMFont.fontMyriadProBoldItOfSize(18)
-        self.callmeNumber!.textColor = WMColor.gray
+        self.callmeNumber!.textColor = WMColor.gray_reg
         self.callmeNumber!.backgroundColor = UIColor.clearColor()
         self.callmeNumber!.textAlignment = .Center
         
         self.sendmeMail!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.sendmeMail!.textColor = WMColor.gray
+        self.sendmeMail!.textColor = WMColor.gray_reg
         self.sendmeMail!.backgroundColor = UIColor.clearColor()
         self.sendmeMail!.textAlignment = .Center
         

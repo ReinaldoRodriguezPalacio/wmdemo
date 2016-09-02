@@ -72,7 +72,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         arrivalButton!.setTitle("Arribo", forState: UIControlState.Normal)
         arrivalButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         arrivalButton!.titleLabel?.textAlignment = .Left
-        arrivalButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        arrivalButton!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         arrivalButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         arrivalButton!.selected = true
         self.scrollForm.addSubview(self.arrivalButton!)
@@ -85,7 +85,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         departureButton!.setTitle("Salida", forState: UIControlState.Normal)
         departureButton!.titleLabel?.textAlignment = .Left
         departureButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        departureButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        departureButton!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         self.scrollForm.addSubview(self.departureButton!)
         
         self.errorLabel = UILabel()

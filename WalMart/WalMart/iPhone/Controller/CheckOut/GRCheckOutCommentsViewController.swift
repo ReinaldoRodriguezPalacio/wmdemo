@@ -14,7 +14,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
     let fieldSep: CGFloat = 10.0
-    let headerHeight: CGFloat = 46
+    //let headerHeight: CGFloat = 46
     var content: TPKeyboardAvoidingScrollView!
     var viewLoad : WMLoadingView!
     var saveButton: UIButton?
@@ -74,7 +74,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let lheight: CGFloat = 15.0
         
         self.stepLabel = UILabel()
-        self.stepLabel.textColor = WMColor.gray
+        self.stepLabel.textColor = WMColor.gray_reg
         self.stepLabel.text = "2 de 3"
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
@@ -262,13 +262,13 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      */
     func next(){
         self.comments!.resignFirstResponder()
-        let commentsText = self.comments!.text ==  NSLocalizedString("checkout.field.comments", comment:"") ? "" : self.comments!.text
-        self.paramsToOrder!["comments"] = commentsText
-        self.paramsToOrder!["pickingInstruction"] = self.confirmSelected
-        self.paramsToConfirm!["pickingInstruction"] = self.confirmText
-        let nextController = GRCheckOutPymentViewController()
-        nextController.paramsToOrder = self.paramsToOrder
-        nextController.paramsToConfirm = self.paramsToConfirm
+//        let commentsText = self.comments!.text ==  NSLocalizedString("checkout.field.comments", comment:"") ? "" : self.comments!.text
+//        self.paramsToOrder!["comments"] = commentsText
+//        self.paramsToOrder!["pickingInstruction"] = self.confirmSelected
+//        self.paramsToConfirm!["pickingInstruction"] = self.confirmText
+        let nextController = GRCheckOutConfirmViewController()
+//        nextController.paramsToOrder = self.paramsToOrder
+//        nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 
@@ -307,7 +307,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 self.showPhoneField = true
             }else{
                 self.phoneField?.enabled = false
-                self.phoneField?.textColor = WMColor.gray
+                self.phoneField?.textColor = WMColor.gray_reg
                 self.showPhoneField = false
             }
         
