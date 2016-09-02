@@ -34,13 +34,11 @@ class ComfirmViewCell: UITableViewCell {
         self.titleLabel!.textColor =  WMColor.light_blue
         self.contentView.addSubview(self.titleLabel!)
         
-        
         self.descriptionLabel  =  UILabel()
         self.descriptionLabel!.numberOfLines = 3
         self.descriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.descriptionLabel!.textColor =  WMColor.gray_reg
         self.contentView.addSubview(self.descriptionLabel!)
-        
         
         self.nameLabel  =  UILabel()
         self.nameLabel!.numberOfLines = 1
@@ -48,30 +46,31 @@ class ComfirmViewCell: UITableViewCell {
         self.nameLabel!.textColor =  WMColor.gray_reg
         self.contentView.addSubview(self.nameLabel!)
         
-        
         self.moreDetail =  UILabel()
         moreDetail!.font = WMFont.fontMyriadProRegularOfSize(14)
         moreDetail!.textColor =  WMColor.gray_reg
         self.contentView.addSubview(moreDetail!)
 
-    
     }
     
     override func layoutSubviews() {
         self.titleLabel?.frame = CGRect(x: 16, y:16 , width:self.contentView.frame.width - 32 , height:12)
-        self.descriptionLabel?.frame = CGRect(x: 16, y:titleLabel!.frame.maxY + 8 , width:self.contentView.frame.width - 32 , height:36)
-        self.nameLabel?.frame = CGRect(x: 16, y:titleLabel!.frame.maxY + 8 , width:self.contentView.frame.width - 32 , height:14)
-        self.moreDetail?.frame  = CGRect(x: 16, y:descriptionLabel!.frame.maxY + 8 , width:self.contentView.frame.width - 32 , height:14)
+        self.descriptionLabel?.frame = CGRect(x: 16, y:titleLabel!.frame.maxY + 4 , width:self.contentView.frame.width - 32 , height:42)
+        self.nameLabel?.frame = CGRect(x: 16, y:titleLabel!.frame.maxY + 4 , width:self.contentView.frame.width - 32 , height:14)
+        
+        let y = self.descriptionLabel?.text == "" ? nameLabel!.frame.maxY + 4 : descriptionLabel!.frame.maxY + 4
+        self.moreDetail?.frame  = CGRect(x: 16, y:y, width:self.contentView.frame.width - 32 , height:14)
     }
     
     
-    func setValues(title: String,name:String,description:String,detailDesc:String ) {
+    func setValues(title: String,name:String,description:String,detailDesc:String) {
         
         titleLabel!.text = title
         nameLabel?.text =  name
-        descriptionLabel!.text = description
-        descriptionLabel!.highlighted = description == ""
+        nameLabel!.hidden = name == ""
         
+        descriptionLabel!.text = description
+        descriptionLabel!.hidden = description == ""
         
         moreDetail!.hidden = detailDesc == ""
         moreDetail!.text = detailDesc
@@ -79,6 +78,4 @@ class ComfirmViewCell: UITableViewCell {
     }
     
     
-    
-
 }

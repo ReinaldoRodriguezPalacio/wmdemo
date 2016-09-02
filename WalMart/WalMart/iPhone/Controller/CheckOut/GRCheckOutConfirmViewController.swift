@@ -129,7 +129,7 @@ class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDele
             
         case 1:
         
-            let type  = shoppingsAddres[indexPath.row]["address"]! as String
+            let type  = shoppingsAddres[indexPath.row]["type"]! as String
             let confirmCell = tableView.dequeueReusableCellWithIdentifier(self.PERSONALCELL_ID) as! ComfirmViewCell
             confirmCell.setValues(type == "1" ? "Envio:":"Recoger en:",name: "", description: shoppingsAddres[indexPath.row]["address"]! as String, detailDesc: shoppingsAddres[indexPath.row]["phone"]! as String)
             return confirmCell
