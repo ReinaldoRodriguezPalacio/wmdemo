@@ -11,7 +11,6 @@ import Foundation
 
 class PreviousDetailTableViewCell : ProductDetailCharacteristicsTableViewCell {
     var itemShipping = [:]
-    var isHeaderView = true
     
     var detailView = UIView()
     var nameLabel = UILabel()

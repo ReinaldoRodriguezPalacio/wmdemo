@@ -179,13 +179,6 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         
         self.address!.onBecomeFirstResponder = { () in
             
-            let btnNewAddress = WMRoundButton()
-            btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
-            btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-            btnNewAddress.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
-            btnNewAddress.layer.cornerRadius = 2.0
-        
-            self.picker!.addRigthActionButton(btnNewAddress)
             self.picker!.selectOptionDelegate = self
             self.picker!.selectDelegate = true
             self.picker!.sender = self.address!
@@ -193,7 +186,6 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
             self.picker!.delegate = self
             //self.picker!.selected = self.selectedConfirmation
             self.picker!.setValues(self.address!.nameField, values: self.arrayAddressFiscalNames!)
-            self.picker!.hiddenRigthActionButton(false)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
         }

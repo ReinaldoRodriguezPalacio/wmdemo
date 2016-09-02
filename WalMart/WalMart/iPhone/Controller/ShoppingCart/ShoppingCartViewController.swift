@@ -1232,7 +1232,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.picker!.delegate = self
         self.picker!.selected = self.selectedConfirmation
         self.picker!.setValues("Descuento de asociado", values: discountAssociateItems)
-        self.picker!.hiddenRigthActionButton(true)
         self.picker!.cellType = TypeField.Alphanumeric
         self.picker!.showPicker()
         

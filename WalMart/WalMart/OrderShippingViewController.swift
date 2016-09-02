@@ -255,7 +255,6 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 cell = totalCell
             } else {
                 let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-                cellDetail.isHeaderView = true
                 cellDetail.frame = CGRectMake(0, 0, self.tableOrders.frame.width, cellDetail.frame.height)
                 
                 var valuesDetail : NSDictionary = [:]
@@ -388,18 +387,169 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     }
     
     func shareList() {
-        if type == ResultObjectType.Mg {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
-        }else {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
-        }
-        if let image = self.buildImageToShare() {
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        if let imgResult = self.imageToShareWishList() {
+            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         }
     }
     
-    func buildImageToShare() -> UIImage? {
+    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
+        return "Walmart"
+    }
+    
+    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
+        if activityType == UIActivityTypeMail {
+            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+        }
+        return ""
+    }
+    
+    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
+        if activityType == UIActivityTypeMail {
+            if UserCurrentSession.sharedInstance().userSigned == nil {
+                return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    
+    func imageToShareWishList() -> UIImage? {
+        
+        var unifiedImage : UIImage? = nil
+        var ixYSpace : CGFloat = 0
+        
+        let totalImageSize = self.getImageWislistShareSize()
+        UIGraphicsBeginImageContextWithOptions(totalImageSize, false, 2.0);
+        
+        for section in 0...shippingAll.count - 1 {
+            let shippingSect = self.shippingAll[section] as! NSDictionary
+            let itemsShipping = shippingSect["items"] as! NSArray
+            
+            let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+            var valuesDetail : NSDictionary = [:]
+            let shipping = itemsShipping[section] as! NSDictionary
+            valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shippingSect["deliveryType"] as! String, "deliveryAddress": shippingSect["deliveryAddress"] as! String, "paymentType": shippingSect["paymentType"] as! String, "items": shipping]
+            let sizeCellFirst = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
+            
+            cellDetail.frame = CGRectMake(0, 0, totalImageSize.width, sizeCellFirst)
+            loadShippingViewCellCollection(cellDetail,indexPath:NSIndexPath(forRow: 0, inSection: section))
+            cellDetail.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, sizeCellFirst), afterScreenUpdates: true)
+            ixYSpace = ixYSpace + sizeCellFirst
+            
+            for ixItem  in 0...itemsShipping.count - 1 {
+                tableOrders.registerClass(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
+                let cellItems = tableOrders.dequeueReusableCellWithIdentifier("orderCell") as! OrderProductTableViewCell
+                cellItems.frame = CGRectMake(0, 0, totalImageSize.width, 109)
+                loadItemsViewCellCollection(cellItems, indexPath: NSIndexPath(forRow: ixItem, inSection: section))
+                cellItems.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, 109), afterScreenUpdates: true)
+
+                ixYSpace = ixYSpace + 109
+            }
+        }
+        
+        unifiedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return unifiedImage!
+    }
+    
+    func loadShippingViewCellCollection(shippingCell:PreviousDetailTableViewCell,indexPath:NSIndexPath) {
+        shippingCell.frame = CGRectMake(0, 0, self.tableOrders.frame.width, shippingCell.frame.height)
+        
+        var valuesDetail : NSDictionary = [:]
+        
+        let name = self.itemDetail["name"] as! String
+        
+        let shipping = self.shippingAll[indexPath.section] as! NSDictionary
+        let deliveryType = shipping["deliveryType"] as! String
+        let deliveryAddress = shipping["deliveryAddress"] as! String
+        let paymentType = shipping["paymentType"] as! String
+        let itemsShipping = shipping["items"] as! NSArray
+        
+        valuesDetail = ["name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
+        shippingCell.setValuesDetail(valuesDetail)
+    }
+    
+    func loadItemsViewCellCollection(productCell:OrderProductTableViewCell,indexPath:NSIndexPath) {
+        productCell.frame = CGRectMake(0, 0, self.tableOrders.frame.width, 109)
+        
+        productCell.type = self.type
+        let dictSect = self.shippingAll[indexPath.section] as! NSDictionary
+        let items = dictSect["items"] as! NSArray
+        
+        let dictProduct = items[indexPath.row] as! NSDictionary
+        
+        let upcProduct = dictProduct["upc"] as! String
+        let descript = dictProduct["description"] as! String
+        var quantityStr = ""
+        if let quantityProd = dictProduct["quantity"] as? String {
+            quantityStr = quantityProd
+        }
+        if let quantityProd = dictProduct["quantity"] as? NSNumber {
+            quantityStr = quantityProd.stringValue
+        }
+        var urlImage = ""
+        if let imageURLArray = dictProduct["imageUrl"] as? NSArray {
+            if imageURLArray.count > 0 {
+                urlImage = imageURLArray[0] as! String
+            }
+        }
+        if let imageURLArray = dictProduct["imageUrl"] as? NSString {
+            urlImage = imageURLArray as String
+        }
+        var priceStr = ""
+        if let price = dictProduct["price"] as? NSString {
+            priceStr = price as String
+        }
+        if let price = dictProduct["price"] as? NSNumber {
+            priceStr = price.stringValue
+        }
+        
+        var isPesable : Bool = false
+        if let pesable = dictProduct["type"] as?  NSString {
+            isPesable = pesable.intValue == 1
+        }
+        
+        var onHandDefault = "10"
+        if let onHandInventory = dictProduct["onHandInventory"] as? NSString {
+            onHandDefault = onHandInventory as String
+        }
+        
+        var isPreorderable = "false"
+        if let isPreorderableVal = dictProduct["isPreorderable"] as? String {
+            isPreorderable = isPreorderableVal
+        }
+        
+        var isActive = true
+        if let stockSvc = dictProduct["stock"] as?  Bool {
+            isActive = stockSvc
+        }
+        
+        productCell.setValues(upcProduct,productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr , type: self.type, pesable:isPesable, onHandInventory: onHandDefault, isActive:isActive,isPreorderable:isPreorderable)
+    }
+    
+    func getImageWislistShareSize() -> CGSize {
+        
+        var height : CGFloat = 0.0
+        for ixItem  in 0...self.shippingAll.count - 1 {
+            
+            let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+            var valuesDetail : NSDictionary = [:]
+            let shipping = self.shippingAll[ixItem] as! NSDictionary
+            let items = shipping["items"] as! NSArray
+            
+            valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": items]
+            let sizeCellFirst = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
+            
+            height = height + sizeCellFirst + (CGFloat(items.count) * 109)
+        }
+
+        let widthItem : CGFloat = self.tableOrders.frame.width
+        return CGSize(width:widthItem, height: height)
+    }
+    
+    /*func buildImageToShare() -> UIImage? {
         let oldFrame : CGRect = self.tableOrders!.frame
         var frame : CGRect = self.tableOrders!.frame
         frame.size.height = self.tableOrders!.contentSize.height
@@ -412,8 +562,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         
         self.tableOrders!.frame = oldFrame
         return saveImage
-        
-    }
+    }*/
     
     override func back() {
         super.back()

@@ -106,7 +106,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         switch (indexPath.section, indexPath.row) {
             case (0,0):
                 let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-                cellDetail.isHeaderView = false
                 cellDetail.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellDetail.frame.height)
                 cellDetail.setValuesDetail(self.detailsOrderGroceries)
                 cell = cellDetail

@@ -172,7 +172,6 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             self.picker!.sender = self.frequencyField!
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues("Frecuencia del recordatorio", values: self.reminderService!.options)
-            self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
 

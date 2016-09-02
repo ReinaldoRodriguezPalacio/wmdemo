@@ -38,6 +38,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var headerView : UIView!
     
     var onClosePicker : (() -> Void)?
+    var leftAction : (() -> Void)?
+    var rightAction : (() -> Void)?
     
     var selected : NSIndexPath!
     var delegate : AlertPickerViewDelegate? = nil
@@ -45,9 +47,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     var sender : AnyObject? = nil
     
-    var buttonRight : WMRoundButton!
     var buttonOk : UIButton!
-    var buttonCancel : UIButton!
+    var buttonLeft : UIButton!
     
     var closeButton : UIButton?
     var viewButtonClose : UIButton!
@@ -60,9 +61,12 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var stopRemoveView: Bool? = false
     var isNewAddres: Bool  =  false
     var selectDelegate: Bool = false
-    var showCancelButton: Bool = false
+    var showLeftButton: Bool = false
     var layerLine: CALayer?
     var contentHeight: CGFloat! = 316
+    var contentWidth: CGFloat! = 288
+    var showDisclosure = false
+    var showPrefered = false
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -74,9 +78,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         setup()
     }
     
-    init(frame: CGRect, showCancelButton:Bool) {
+    init(frame: CGRect, showLeftButton:Bool) {
         super.init(frame:frame)
-        self.showCancelButton = true
+        self.showLeftButton = showLeftButton
         setup()
     }
     
@@ -120,7 +124,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self
         tableData.dataSource = self
-        tableData.separatorStyle = .None
 
         self.viewContentOptions.addSubview(tableData)
         
@@ -134,18 +137,18 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         buttonOk.center = CGPointMake(self.viewContent.frame.width / 2, 32)
         buttonOk.addTarget(self, action: #selector(AlertPickerView.okAction), forControlEvents: UIControlEvents.TouchUpInside)
         
-        buttonCancel = UIButton(frame: CGRectMake(0, 0, 120, 34))
-        buttonCancel.backgroundColor = WMColor.empty_gray_btn
-        buttonCancel.layer.cornerRadius = 17
-        buttonCancel.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonCancel.setTitle("Cancelar", forState: UIControlState.Normal)
-        buttonCancel.center = CGPointMake((self.viewContent.frame.width / 2) - 68 , 32)
-        buttonCancel.addTarget(self, action: #selector(AlertPickerView.closePicker), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonLeft = UIButton(frame: CGRectMake(0, 0, 120, 34))
+        buttonLeft.backgroundColor = WMColor.empty_gray_btn
+        buttonLeft.layer.cornerRadius = 17
+        buttonLeft.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        buttonLeft.setTitle("Cancelar", forState: UIControlState.Normal)
+        buttonLeft.center = CGPointMake((self.viewContent.frame.width / 2) - 68 , 32)
+        buttonLeft.addTarget(self, action: #selector(AlertPickerView.actionLeft), forControlEvents: UIControlEvents.TouchUpInside)
         
-        if self.showCancelButton{
+        if self.showLeftButton{
             buttonOk.frame = CGRectMake(0, 0, 120, 34)
             buttonOk.center = CGPointMake((self.viewContent.frame.width / 2) + 68 , 32)
-            viewFooter.addSubview(buttonCancel)
+            viewFooter.addSubview(buttonLeft)
         }
         
         viewFooter.backgroundColor = UIColor.whiteColor()
@@ -166,7 +169,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     override func layoutSubviews() {
         
-        viewContent.frame = CGRectMake(0, 0, 286, self.contentHeight)
+        viewContent.frame = CGRectMake(0, 0, self.contentWidth, self.contentHeight)
         headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
         viewContentOptions.frame = CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height - headerView.frame.height)
         tableData.frame = CGRectMake(0, 5, viewContentOptions.frame.width,viewContentOptions.frame.height - 64)
@@ -176,9 +179,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewFooter?.frame = CGRectMake(0, self.viewContentOptions.frame.height - 64, self.frame.width, 64)
         if !isNewAddres {
             titleLabel.frame = headerView.bounds
-        }
-        if buttonRight != nil  {
-            buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
         }
     }
     
@@ -199,7 +199,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     {
         if cellType == TypeField.Alphanumeric
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             
             let cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
             cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
@@ -229,7 +228,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }
         else
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
             cell.selectionStyle = .None
             cell.textLabel?.text = itemsToShow[indexPath.row]
@@ -241,6 +239,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
                 cell.showButton?.tag = indexPath.row
                 cell.showButton?.addTarget(self, action: #selector(AlertPickerView.cellShowButtonSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             }
+            
+            cell.disclosureImage.hidden = !self.showDisclosure
+            cell.preferedImage.hidden = !(self.showPrefered && indexPath.row == 0)
             return cell
         }
     }
@@ -276,6 +277,12 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
           self.removeFromSuperview()
         }
         self.stopRemoveView! = false
+    }
+    
+    func setLeftButtonStyle(color:UIColor,titleText:String, titleColor:UIColor){
+        buttonLeft.backgroundColor = color
+        buttonLeft.setTitle(titleText, forState: UIControlState.Normal)
+        buttonLeft.setTitleColor(titleColor, forState: .Normal)
     }
     
     
@@ -346,9 +353,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         return newAlert
     }
     
-    class func initPickerWithDefaultCancelButton() -> AlertPickerView {
+    class func initPickerWithLeftButton() -> AlertPickerView {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-        let newAlert = AlertPickerView(frame:vc!.view.bounds,showCancelButton: true)
+        let newAlert = AlertPickerView(frame:vc!.view.bounds,showLeftButton: true)
         return newAlert
     }
     
@@ -435,39 +442,25 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     }
     
     
-    
-    func addRigthActionButton(buttonRight:WMRoundButton) {
-        if self.buttonRight != nil {
-            self.buttonRight.removeFromSuperview()
-            self.buttonRight = nil
+    func actionLeft() {
+        if leftAction != nil {
+          leftAction!()
+        }else{
+           newItemForm()
         }
-        self.buttonRight = buttonRight
-        self.buttonRight.addTarget(self, action: #selector(AlertPickerView.newItemForm), forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
-        self.viewContent.addSubview(buttonRight)
+        
     }
     
-    func hiddenRigthActionButton(hidden:Bool) {
-        if self.buttonRight != nil {
-            self.buttonRight.hidden = hidden
-        }
-    }
     
     func newItemForm () {
-        if self.buttonRight.selected {
+        if self.buttonLeft.selected {
            //Save action
             self.delegate?.saveReplaceViewSelected()
         } else {
-            self.buttonRight.setBackgroundColor(WMColor.green, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
-            lastTitle = self.buttonRight.titleLabel?.text
+            //self.buttonLeft.setBackgroundColor(WMColor.green, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+            lastTitle = self.buttonLeft.titleLabel?.text
             isNewAddres =  true
-            if !IS_IPAD{
-                self.titleLabel.textAlignment = .Left
-                self.titleLabel.frame =  CGRectMake(40, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
-            }
-            
-            self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
-            
+
             viewButtonClose = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
             viewButtonClose.addTarget(self, action: #selector(AlertPickerView.closeNew), forControlEvents: UIControlEvents.TouchUpInside)
             viewButtonClose.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
@@ -475,14 +468,15 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             self.headerView.addSubview(viewButtonClose)
             self.closeButton!.hidden = true
             
-            self.buttonRight.selected = true
+            self.buttonLeft.selected = true
             let finalContentFrame = CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80)
             let finalContentInnerFrame = CGRectMake(0, self.headerView.frame.maxY, finalContentFrame.width, finalContentFrame.height - self.headerView.frame.maxY)
             self.viewReplace = self.delegate?.viewReplaceContent(finalContentInnerFrame)
             self.viewReplace?.alpha = 0
             self.viewContent.addSubview(viewReplace!)
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-          
+                self.contentHeight = finalContentFrame.height
+                self.contentWidth = finalContentFrame.width
                 self.viewContent.frame = finalContentFrame
                 self.viewContent.center = self.center
                 self.viewReplace?.alpha = 1
@@ -501,16 +495,17 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     func closeNew() {
         onClosePicker?()
         isNewAddres =  false
-         self.buttonRight.setBackgroundColor(WMColor.light_blue, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
          self.titleLabel.textAlignment = .Center
          self.titleLabel.frame =  CGRectMake(0, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
         
-        self.buttonRight.selected = false
+        self.buttonLeft.selected = false
         self.titleLabel.text = self.titleHeader
-        self.buttonRight.setTitle(lastTitle, forState: UIControlState.Normal)
+        self.buttonLeft.setTitle(lastTitle, forState: UIControlState.Normal)
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 286, 316)
-             self.viewContent.center = self.center
+            self.contentHeight = 316
+            self.contentWidth = 288
+            self.viewContent.frame = CGRectMake(0, 0, 288, 316)
+            self.viewContent.center = self.center
             self.viewContentOptions.alpha = 1
             self.viewReplace?.alpha = 0
             self.viewButtonClose.hidden = true
