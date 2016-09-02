@@ -53,12 +53,16 @@ class ShoppingCartTextViewCell: UITableViewCell {
         let margin:CGFloat = 20.0
         let width:CGFloat = bounds.width - (2*margin)
         self.descriptionTitle!.frame = CGRectMake(margin, 0.0, width, bounds.size.height)
-        self.delimiter!.frame = CGRectMake(0.0, bounds.height - 1.0, bounds.width, 1.0)
+       // self.delimiter!.frame = CGRectMake(0.0, bounds.height - 1.0, bounds.width, 1.0)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
+    func setValues(value: String , hiddenDelimiter: Bool) {
+         self.descriptionTitle!.text = value
+        self.delimiter!.hidden = hiddenDelimiter
+    }
 }
 

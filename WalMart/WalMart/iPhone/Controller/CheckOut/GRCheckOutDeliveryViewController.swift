@@ -276,13 +276,17 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             return
         }
         
-        let nextController = GRCheckOutCommentsViewController()
+       /* let nextController = GRCheckOutCommentsViewController()
         
         self.paramsToOrder = ["comments":"", "AddressID":self.selectedAddress!, "pickingInstruction":""]
         self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"pickingInstruction":""]
         nextController.paramsToOrder = self.paramsToOrder
         nextController.paramsToConfirm = self.paramsToConfirm
+        self.navigationController?.pushViewController(nextController, animated: true)*/
+       
+        let nextController = CheckOutProductShipping()
         self.navigationController?.pushViewController(nextController, animated: true)
+        
     }
  
     //MARK: - TPKeyboardAvoidingScrollViewDelegate

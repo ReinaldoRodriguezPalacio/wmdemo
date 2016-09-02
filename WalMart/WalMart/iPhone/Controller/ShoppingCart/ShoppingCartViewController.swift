@@ -467,7 +467,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         if indexPath.section  == 0  {
             let cell = viewShoppingCart.dequeueReusableCellWithIdentifier("textCell", forIndexPath: indexPath) as! ShoppingCartTextViewCell
-            
             return cell
         }
         
