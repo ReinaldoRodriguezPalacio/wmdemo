@@ -16,6 +16,8 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
     var saveButton: UIButton?
     var alertView: IPOWMAlertViewController?
     var onClose: (() -> Void)?
+    var showCancelButton: Bool = false
+    var cancelButton: UIButton?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,6 +44,16 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         self.sAddredssForm!.idAddress = ""
         self.scrollForm!.addSubview(sAddredssForm!)
         
+        self.cancelButton = UIButton()
+        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
+        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
+        self.cancelButton!.layer.cornerRadius = 17
+        self.cancelButton!.addTarget(self, action: #selector(GRAddAddressView.cancel), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.hidden = true
+        self.addSubview(cancelButton!)
+        
         self.saveButton = UIButton()
         self.saveButton!.setTitle("Guardar", forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
@@ -57,8 +69,28 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         self.scrollForm?.frame = CGRectMake(0,0,self.frame.width,self.frame.height - 66)
         self.sAddredssForm?.frame = CGRectMake(self.scrollForm!.frame.minX, 0, self.scrollForm!.frame.width, 700)
         self.layerLine.frame = CGRectMake(0,self.frame.height - 66,self.frame.width, 1)
-        self.saveButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
+        
+        if self.showCancelButton {
+           self.saveButton?.frame = CGRectMake((self.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 125, 34)
+           self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 133 , self.layerLine.frame.maxY + 16, 125, 34)
+           self.cancelButton!.hidden = false
+        }else{
+           self.saveButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
+           self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
+           self.cancelButton!.hidden = true
+        }
+        
     }
+    
+    /**
+     Cancel a new address
+     */
+
+    func cancel() {
+        onClose?()
+    }
+    
+    
     /**
      Save a new address
      */

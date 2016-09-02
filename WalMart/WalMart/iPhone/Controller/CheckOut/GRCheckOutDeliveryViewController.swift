@@ -374,6 +374,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func viewReplaceContent(frame:CGRect) -> UIView! {
         
         let addAddressView = GRAddAddressView(frame: frame)
+        addAddressView.showCancelButton = true
         self.picker!.closeButton!.hidden =  true
         if !self.selectedAddressHasStore{
             self.picker!.closeButton!.hidden =  false
