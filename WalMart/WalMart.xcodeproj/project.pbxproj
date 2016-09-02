@@ -620,6 +620,7 @@
 		ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA91C063A64009709B5 /* libc++.tbd */; };
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
+		B117CFEE1D79EC09004A16D3 /* ComfirmViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B117CFED1D79EC09004A16D3 /* ComfirmViewCell.swift */; };
 		B12FA3511D78DE0700251416 /* TotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12FA3501D78DE0700251416 /* TotalView.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
@@ -1335,6 +1336,7 @@
 		ACF20CA91C063A64009709B5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B117CFED1D79EC09004A16D3 /* ComfirmViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComfirmViewCell.swift; path = iPhone/View/CheckOut/ComfirmViewCell.swift; sourceTree = "<group>"; };
 		B12FA3501D78DE0700251416 /* TotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TotalView.swift; path = Shared/View/General/TotalView.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -3437,6 +3439,7 @@
 			isa = PBXGroup;
 			children = (
 				AC9035A31D78C6F60075FB34 /* CheckOutShippingCell.swift */,
+				B117CFED1D79EC09004A16D3 /* ComfirmViewCell.swift */,
 			);
 			name = CheckOut;
 			sourceTree = "<group>";
@@ -3942,6 +3945,7 @@
 				5698842D1BE1B1A700FEF4FA /* PromotionsMgService.swift in Sources */,
 				564578EA19AE33AB006A7152 /* AFHTTPRequestOperation.m in Sources */,
 				5673D13A1A9D500400DCD20B /* RSCodeLayer.swift in Sources */,
+				B117CFEE1D79EC09004A16D3 /* ComfirmViewCell.swift in Sources */,
 				56DB80481B0225B8002E65F7 /* GRProductsByUPCService.swift in Sources */,
 				85A40B991C223AE40036C78A /* StoreMerc.swift in Sources */,
 				5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */,

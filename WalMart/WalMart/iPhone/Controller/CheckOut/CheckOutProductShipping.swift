@@ -43,6 +43,15 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         tableProductsCheckout.registerClass(CheckOutShippingCell.self, forCellReuseIdentifier: "productShippingCell")
         
         self.view.addSubview(tableProductsCheckout)
+        
+        let cancelButton = UIButton(frame: CGRect(x:16 , y:16 , width: (self.view.frame.width - 40) / 2  , height:34))
+        cancelButton.setTitle("continuar", forState: .Normal)
+        cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        cancelButton.addTarget(self, action: #selector(CheckOutProductShipping.next), forControlEvents: .TouchUpInside)
+        cancelButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        cancelButton.backgroundColor =  WMColor.empty_gray
+        cancelButton.layer.cornerRadius =  17
+        self.view.addSubview(cancelButton)
 
         //tableProductsCheckout.reloadData()
         self.service()
@@ -138,6 +147,13 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         }
     }
     
+    
+    func next(){
+
+        let nextController = GRCheckOutCommentsViewController()
+        self.navigationController?.pushViewController(nextController, animated: true)
+        
+    }
     
     
     
