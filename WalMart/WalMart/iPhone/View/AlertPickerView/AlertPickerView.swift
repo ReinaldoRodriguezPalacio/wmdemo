@@ -14,7 +14,6 @@ import Foundation
     func didDeSelectOption(picker:AlertPickerView)
     
     func viewReplaceContent(frame:CGRect) -> UIView!
-    func saveReplaceViewSelected()
     func buttomViewSelected(sender:UIButton)
     optional func closeAlertPk()
 }
@@ -453,38 +452,33 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     func newItemForm () {
-        if self.buttonLeft.selected {
-           //Save action
-            self.delegate?.saveReplaceViewSelected()
-        } else {
-            //self.buttonLeft.setBackgroundColor(WMColor.green, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
-            lastTitle = self.buttonLeft.titleLabel?.text
-            isNewAddres =  true
+        //self.buttonLeft.setBackgroundColor(WMColor.green, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+        lastTitle = self.buttonLeft.titleLabel?.text
+        isNewAddres =  true
 
-            viewButtonClose = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
-            viewButtonClose.addTarget(self, action: #selector(AlertPickerView.closeNew), forControlEvents: UIControlEvents.TouchUpInside)
-            viewButtonClose.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
-            viewButtonClose.alpha = 0
-            self.headerView.addSubview(viewButtonClose)
-            self.closeButton!.hidden = true
+        viewButtonClose = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
+        viewButtonClose.addTarget(self, action: #selector(AlertPickerView.closeNew), forControlEvents: UIControlEvents.TouchUpInside)
+        viewButtonClose.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
+        viewButtonClose.alpha = 0
+        self.headerView.addSubview(viewButtonClose)
+        self.closeButton!.hidden = true
             
-            self.buttonLeft.selected = true
-            let finalContentFrame = CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80)
-            let finalContentInnerFrame = CGRectMake(0, self.headerView.frame.maxY, finalContentFrame.width, finalContentFrame.height - self.headerView.frame.maxY)
-            self.viewReplace = self.delegate?.viewReplaceContent(finalContentInnerFrame)
-            self.viewReplace?.alpha = 0
-            self.viewContent.addSubview(viewReplace!)
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.contentHeight = finalContentFrame.height
-                self.contentWidth = finalContentFrame.width
-                self.viewContent.frame = finalContentFrame
-                self.viewContent.center = self.center
-                self.viewReplace?.alpha = 1
-                self.viewContentOptions.alpha = 0
-                self.viewButtonClose.alpha = 1
-                }) { (completed:Bool) -> Void in
+        self.buttonLeft.selected = true
+        let finalContentFrame = CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80)
+        let finalContentInnerFrame = CGRectMake(0, self.headerView.frame.maxY, finalContentFrame.width, finalContentFrame.height - self.headerView.frame.maxY)
+        self.viewReplace = self.delegate?.viewReplaceContent(finalContentInnerFrame)
+        self.viewReplace?.alpha = 0
+        self.viewContent.addSubview(viewReplace!)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.contentHeight = finalContentFrame.height
+            self.contentWidth = finalContentFrame.width
+            self.viewContent.frame = finalContentFrame
+            self.viewContent.center = self.center
+            self.viewReplace?.alpha = 1
+            self.viewContentOptions.alpha = 0
+            self.viewButtonClose.alpha = 1
+            }) { (completed:Bool) -> Void in
                     
-            }
         }
     }
     
