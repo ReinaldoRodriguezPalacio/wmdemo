@@ -626,12 +626,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     func validateShortName(addressId:String)-> Bool {
         let id = addressId == "" ? "-1" : addressId
-        for item in  self.allAddress as! [NSDictionary]{
-            let idItem = item["id"] as! String
-            let name = item["name"] as! String
-            if id != idItem && name.uppercaseString ==  addressName!.text!.uppercaseString {
-                self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
-                return true
+        if self.allAddress?.count > 0 {
+            for item in  self.allAddress as! [NSDictionary]{
+                let idItem = item["id"] as! String
+                let name = item["name"] as! String
+                if id != idItem && name.uppercaseString ==  addressName!.text!.uppercaseString {
+                    self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
+                    return true
+                }
             }
         }
         return false

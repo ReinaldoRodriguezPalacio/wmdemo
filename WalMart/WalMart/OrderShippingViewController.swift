@@ -393,40 +393,39 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         }
     }
     
-    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
-        return "Walmart"
-    }
-    
-    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
-        if activityType == UIActivityTypeMail {
-            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
-        }
-        return ""
-    }
-    
-    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
-        if activityType == UIActivityTypeMail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
-                return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
-            } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
-            }
-        }
-        return ""
-    }
-    
     func imageToShareWishList() -> UIImage? {
-        
         var unifiedImage : UIImage? = nil
         var ixYSpace : CGFloat = 0
         
-        let totalImageSize = self.getImageWislistShareSize()
+        //imageHead
+        let imageHead = UIImage(named:"detail_HeaderMail")
+        let totalImageSize = self.getImageWislistShareSize(imageHead!)
         UIGraphicsBeginImageContextWithOptions(totalImageSize, false, 2.0);
         
+        imageHead?.drawInRect(CGRectMake(0, 0, imageHead!.size.width, imageHead!.size.height))
+        
+        ixYSpace = ixYSpace + imageHead!.size.height
+        
         for section in 0...shippingAll.count - 1 {
+            
+            let headerView = UIView(frame:CGRectMake(0, 0, totalImageSize.width, 40))
+            headerView.backgroundColor = WMColor.light_light_gray
+            
+            //header envios
+            let textOrder = "Envio \((section + 1)) de \(self.shippingAll.count)"
+            let titleShipping = UILabel(frame:CGRectMake(16, 0, self.view.frame.width / 2, 40))
+            titleShipping.font = WMFont.fontMyriadProRegularOfSize(16)
+            titleShipping.textColor = WMColor.dark_gray
+            titleShipping.text = textOrder
+            headerView.addSubview(titleShipping)
+            headerView.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, 40.0), afterScreenUpdates: true)
+            
+            ixYSpace = ixYSpace + 40.0
+            
             let shippingSect = self.shippingAll[section] as! NSDictionary
             let itemsShipping = shippingSect["items"] as! NSArray
             
+            //Cell envios
             let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
             var valuesDetail : NSDictionary = [:]
             let shipping = itemsShipping[section] as! NSDictionary
@@ -439,6 +438,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             ixYSpace = ixYSpace + sizeCellFirst
             
             for ixItem  in 0...itemsShipping.count - 1 {
+                //Cell items
                 tableOrders.registerClass(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
                 let cellItems = tableOrders.dequeueReusableCellWithIdentifier("orderCell") as! OrderProductTableViewCell
                 cellItems.frame = CGRectMake(0, 0, totalImageSize.width, 109)
@@ -479,59 +479,18 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let items = dictSect["items"] as! NSArray
         
         let dictProduct = items[indexPath.row] as! NSDictionary
+        let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct)
+        let valuesItems = itemShow[0] as NSDictionary
         
-        let upcProduct = dictProduct["upc"] as! String
-        let descript = dictProduct["description"] as! String
-        var quantityStr = ""
-        if let quantityProd = dictProduct["quantity"] as? String {
-            quantityStr = quantityProd
-        }
-        if let quantityProd = dictProduct["quantity"] as? NSNumber {
-            quantityStr = quantityProd.stringValue
-        }
-        var urlImage = ""
-        if let imageURLArray = dictProduct["imageUrl"] as? NSArray {
-            if imageURLArray.count > 0 {
-                urlImage = imageURLArray[0] as! String
-            }
-        }
-        if let imageURLArray = dictProduct["imageUrl"] as? NSString {
-            urlImage = imageURLArray as String
-        }
-        var priceStr = ""
-        if let price = dictProduct["price"] as? NSString {
-            priceStr = price as String
-        }
-        if let price = dictProduct["price"] as? NSNumber {
-            priceStr = price.stringValue
-        }
+        let pesableValue = valuesItems["pesable"] as! String == "true" ? true : false
+        let isActiveValue = valuesItems["isActive"] as! String == "true" ? true : false
         
-        var isPesable : Bool = false
-        if let pesable = dictProduct["type"] as?  NSString {
-            isPesable = pesable.intValue == 1
-        }
-        
-        var onHandDefault = "10"
-        if let onHandInventory = dictProduct["onHandInventory"] as? NSString {
-            onHandDefault = onHandInventory as String
-        }
-        
-        var isPreorderable = "false"
-        if let isPreorderableVal = dictProduct["isPreorderable"] as? String {
-            isPreorderable = isPreorderableVal
-        }
-        
-        var isActive = true
-        if let stockSvc = dictProduct["stock"] as?  Bool {
-            isActive = stockSvc
-        }
-        
-        productCell.setValues(upcProduct,productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr , type: self.type, pesable:isPesable, onHandInventory: onHandDefault, isActive:isActive,isPreorderable:isPreorderable)
+        productCell.setValues(valuesItems["upc"] as! String, productImageURL:valuesItems["imageUrl"] as! String,productShortDescription:valuesItems["description"] as! String, productPrice:valuesItems["price"] as! String,quantity:valuesItems["quantity"] as! NSString, type: self.type, pesable:pesableValue, onHandInventory: valuesItems["onHandDefault"] as! String, isActive:isActiveValue, isPreorderable:valuesItems["isPreorderable"] as! String)
     }
     
-    func getImageWislistShareSize() -> CGSize {
+    func getImageWislistShareSize(header:UIImage) -> CGSize {
         
-        var height : CGFloat = 0.0
+        var height : CGFloat = 0.0 + header.size.height
         for ixItem  in 0...self.shippingAll.count - 1 {
             
             let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
@@ -542,27 +501,12 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": items]
             let sizeCellFirst = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
             
-            height = height + sizeCellFirst + (CGFloat(items.count) * 109)
+            height = height + sizeCellFirst + 40 + (CGFloat(items.count) * 109)
         }
 
         let widthItem : CGFloat = self.tableOrders.frame.width
         return CGSize(width:widthItem, height: height)
     }
-    
-    /*func buildImageToShare() -> UIImage? {
-        let oldFrame : CGRect = self.tableOrders!.frame
-        var frame : CGRect = self.tableOrders!.frame
-        frame.size.height = self.tableOrders!.contentSize.height
-        self.tableOrders!.frame = frame
-        
-        UIGraphicsBeginImageContextWithOptions(self.tableOrders!.bounds.size, false, 2.0)
-        self.tableOrders!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.tableOrders!.frame = oldFrame
-        return saveImage
-    }*/
     
     override func back() {
         super.back()

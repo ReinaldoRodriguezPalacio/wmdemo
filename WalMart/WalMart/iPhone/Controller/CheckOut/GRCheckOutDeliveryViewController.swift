@@ -15,7 +15,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     let titleSep: CGFloat = 15.0
     let fieldSep: CGFloat = 10.0
     var content: TPKeyboardAvoidingScrollView!
-    var scrollForm : TPKeyboardAvoidingScrollView!
     var viewLoad : WMLoadingView!
     var picker : AlertPickerView!
     var sAddredssForm : FormSuperAddressView!
@@ -315,13 +314,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
  
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        if let scroll = sender as? TPKeyboardAvoidingScrollView {
-            if scrollForm != nil {
-                if scroll == scrollForm {
-                    return CGSizeMake(self.scrollForm.frame.width, self.scrollForm.contentSize.height)
-                }
-            }
-        }
         return CGSizeMake(self.view.frame.width, self.content.contentSize.height)
     }
     
@@ -380,85 +372,47 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      - returns:UIView
      */
     func viewReplaceContent(frame:CGRect) -> UIView! {
-        scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
-        self.scrollForm.scrollDelegate = self
-        scrollForm.contentSize = CGSizeMake(frame.width, 720)
-        if sAddredssForm == nil {
-            sAddredssForm = FormSuperAddressView(frame: CGRectMake(scrollForm.frame.minX, 0, scrollForm.frame.width, 700))
-        }
-        sAddredssForm.allAddress = self.addressItems
-        sAddredssForm.idAddress = ""
-        self.picker!.closeButton!.hidden =  true
-        if !self.selectedAddressHasStore{
-            self.picker!.closeButton!.hidden =  false
-            let serviceAddress = GRAddressesByIDService()
-            serviceAddress.addressId = self.selectedAddress!
-            serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
-                self.sAddredssForm.addressName.text = result["name"] as! String!
-                self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
-                self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
-                self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
-                self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
-                self.sAddredssForm.zipcode.text = result["zipCode"] as! String!
-                self.sAddredssForm.street.text = result["street"] as! String!
-                let neighborhoodID = result["neighborhoodID"] as! String!
-                let storeID = result["storeID"] as! String!
-                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
-                self.sAddredssForm.idAddress = result["addressID"] as! String!
-                }) { (error:NSError) -> Void in
-            }
-        }
-        
-        scrollForm.addSubview(sAddredssForm)
-        self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
-        return scrollForm
-    }
-    /**
-     Saves action of new view
-     */
-    func saveReplaceViewSelected() {
-        self.picker!.onClosePicker = nil
-        let service = GRAddressAddService()
-        let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete: false)
-        if dictSend != nil {
-            
-            self.scrollForm.resignFirstResponder()
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
-            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            if self.addressItems?.count < 12 {
-                service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
-                    //--self.addViewLoad()
-                    print("Se realizao la direccion")
-                    self.picker!.closeNew()
-                    self.picker!.closePicker()
-                    
-                    self.selectedAddress = resultCall["addressID"] as! String!
-                    print("saveReplaceViewSelected Address ID \(self.selectedAddress)---")
-                    if let message = resultCall["message"] as? String {
-                        self.alertView!.setMessage("\(message)")
-                    }
-                    self.alertView!.showDoneIcon()
-                    
-                    self.picker!.titleLabel.textAlignment = .Center
-                    self.picker!.titleLabel.frame =  CGRectMake(40, self.picker!.titleLabel.frame.origin.y, self.picker!.titleLabel.frame.width, self.picker!.titleLabel.frame.height)
-                    self.picker!.isNewAddres =  false
-                    self.reloadUserAddresses()
-                    
+        let sender = self.picker.sender as? FormFieldView
+        if sender == self.address {
+            let addAddressView = GRAddAddressView(frame: frame)
+            addAddressView.showCancelButton = true
+            self.picker!.closeButton!.hidden =  true
+            if !self.selectedAddressHasStore{
+                self.picker!.closeButton!.hidden =  false
+                let serviceAddress = GRAddressesByIDService()
+                serviceAddress.addressId = self.selectedAddress!
+                serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                    addAddressView.sAddredssForm!.addressName.text = result["name"] as! String!
+                    addAddressView.sAddredssForm!.outdoornumber.text = result["outerNumber"] as! String!
+                    addAddressView.sAddredssForm!.indoornumber.text = result["innerNumber"] as! String!
+                    addAddressView.sAddredssForm!.betweenFisrt.text = result["reference1"] as! String!
+                    addAddressView.sAddredssForm!.betweenSecond.text = result["reference2"] as! String!
+                    addAddressView.sAddredssForm!.zipcode.text = result["zipCode"] as! String!
+                    addAddressView.sAddredssForm!.street.text = result["street"] as! String!
+                    let neighborhoodID = result["neighborhoodID"] as! String!
+                    let storeID = result["storeID"] as! String!
+                    addAddressView.sAddredssForm!.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+                    addAddressView.sAddredssForm!.idAddress = result["addressID"] as! String!
                     }) { (error:NSError) -> Void in
-                        self.removeViewLoad()
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                        self.alertView!.close()
                 }
             }
-            else{
-                self.alertView!.setMessage(NSLocalizedString("profile.address.error.max",comment:""))
-                self.alertView!.showErrorIcon("Ok")
+            addAddressView.onClose = { Void -> Void in
+                self.picker!.closeNew()
             }
+            self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
+            return addAddressView
         }
+        
+        let addInvoiceAddressView = AddInvoiceAddressView(frame: frame)
+        addInvoiceAddressView.showCancelButton = true
+        self.picker!.closeButton!.hidden =  true
+        addInvoiceAddressView.onClose = { Void -> Void in
+            self.picker!.closeNew()
+        }
+        self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
+        return addInvoiceAddressView
     }
-
+    
     //MARK: Services
     /**
      Gets the user addresses
