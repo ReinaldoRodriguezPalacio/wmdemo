@@ -372,36 +372,45 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      - returns:UIView
      */
     func viewReplaceContent(frame:CGRect) -> UIView! {
-        
-        let addAddressView = GRAddAddressView(frame: frame)
-        addAddressView.showCancelButton = true
-        self.picker!.closeButton!.hidden =  true
-        if !self.selectedAddressHasStore{
-            self.picker!.closeButton!.hidden =  false
-            let serviceAddress = GRAddressesByIDService()
-            serviceAddress.addressId = self.selectedAddress!
-            serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
-                addAddressView.sAddredssForm!.addressName.text = result["name"] as! String!
-                addAddressView.sAddredssForm!.outdoornumber.text = result["outerNumber"] as! String!
-                addAddressView.sAddredssForm!.indoornumber.text = result["innerNumber"] as! String!
-                addAddressView.sAddredssForm!.betweenFisrt.text = result["reference1"] as! String!
-                addAddressView.sAddredssForm!.betweenSecond.text = result["reference2"] as! String!
-                addAddressView.sAddredssForm!.zipcode.text = result["zipCode"] as! String!
-                addAddressView.sAddredssForm!.street.text = result["street"] as! String!
-                let neighborhoodID = result["neighborhoodID"] as! String!
-                let storeID = result["storeID"] as! String!
-                addAddressView.sAddredssForm!.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
-                addAddressView.sAddredssForm!.idAddress = result["addressID"] as! String!
-                }) { (error:NSError) -> Void in
+        let sender = self.picker.sender as? FormFieldView
+        if sender == self.address {
+            let addAddressView = GRAddAddressView(frame: frame)
+            addAddressView.showCancelButton = true
+            self.picker!.closeButton!.hidden =  true
+            if !self.selectedAddressHasStore{
+                self.picker!.closeButton!.hidden =  false
+                let serviceAddress = GRAddressesByIDService()
+                serviceAddress.addressId = self.selectedAddress!
+                serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                    addAddressView.sAddredssForm!.addressName.text = result["name"] as! String!
+                    addAddressView.sAddredssForm!.outdoornumber.text = result["outerNumber"] as! String!
+                    addAddressView.sAddredssForm!.indoornumber.text = result["innerNumber"] as! String!
+                    addAddressView.sAddredssForm!.betweenFisrt.text = result["reference1"] as! String!
+                    addAddressView.sAddredssForm!.betweenSecond.text = result["reference2"] as! String!
+                    addAddressView.sAddredssForm!.zipcode.text = result["zipCode"] as! String!
+                    addAddressView.sAddredssForm!.street.text = result["street"] as! String!
+                    let neighborhoodID = result["neighborhoodID"] as! String!
+                    let storeID = result["storeID"] as! String!
+                    addAddressView.sAddredssForm!.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+                    addAddressView.sAddredssForm!.idAddress = result["addressID"] as! String!
+                    }) { (error:NSError) -> Void in
+                }
             }
+            addAddressView.onClose = { Void -> Void in
+                self.picker!.closeNew()
+            }
+            self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
+            return addAddressView
         }
         
-        addAddressView.onClose = { Void -> Void in
+        let addInvoiceAddressView = AddInvoiceAddressView(frame: frame)
+        addInvoiceAddressView.showCancelButton = true
+        self.picker!.closeButton!.hidden =  true
+        addInvoiceAddressView.onClose = { Void -> Void in
             self.picker!.closeNew()
         }
-        
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
-        return addAddressView
+        return addInvoiceAddressView
     }
     
     //MARK: Services

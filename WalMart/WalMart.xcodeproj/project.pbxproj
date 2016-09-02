@@ -434,6 +434,7 @@
 		6CA068971D3D8ACA0051200E /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068911D3D8ACA0051200E /* GoogleSignIn.framework */; };
 		6CA068981D3D8ACA0051200E /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068921D3D8ACA0051200E /* GoogleSymbolUtilities.framework */; };
 		6CA068991D3D8ACA0051200E /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068931D3D8ACA0051200E /* GoogleUtilities.framework */; };
+		6CA21A241D79F66D00260C47 /* AddInvoiceAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA21A231D79F66D00260C47 /* AddInvoiceAddressView.swift */; };
 		6CBCCFAC1C84C2E3002D7717 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */; };
 		6CBCCFAF1C8795EF002D7717 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */; };
 		6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */; };
@@ -1114,6 +1115,7 @@
 		6CA068911D3D8ACA0051200E /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = Shared/Library/GoogleSignIn/GoogleSignIn.framework; sourceTree = "<group>"; };
 		6CA068921D3D8ACA0051200E /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Shared/Library/GoogleSignIn/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
 		6CA068931D3D8ACA0051200E /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = Shared/Library/GoogleSignIn/GoogleUtilities.framework; sourceTree = "<group>"; };
+		6CA21A231D79F66D00260C47 /* AddInvoiceAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddInvoiceAddressView.swift; path = iPhone/View/Profile/AddInvoiceAddressView.swift; sourceTree = "<group>"; };
 		6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewController.swift; path = iPhone/Controller/Reminder/ReminderViewController.swift; sourceTree = "<group>"; };
 		6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarView.swift; path = iPhone/View/Reminder/CalendarView.swift; sourceTree = "<group>"; };
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
@@ -3409,6 +3411,7 @@
 				56AAFF961A92584B007B8D91 /* FormSuperAddressView.swift */,
 				569AB9F21AAA226D0036D5AB /* GRFormAddressAlertView.swift */,
 				6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */,
+				6CA21A231D79F66D00260C47 /* AddInvoiceAddressView.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -3802,6 +3805,7 @@
 				8BCA19721AAA619100065072 /* AlertButtomView.swift in Sources */,
 				56DFE4CF19D057C9001811F5 /* SWCellScrollView.m in Sources */,
 				5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */,
+				6CA21A241D79F66D00260C47 /* AddInvoiceAddressView.swift in Sources */,
 				56BB62971A5F05DD0008BD1F /* ProductDetailMSICollectionViewCell.swift in Sources */,
 				563666391A9688CA00BE2711 /* CommentBubbleView.swift in Sources */,
 				85A40B921C223AE40036C78A /* ResponseSerialization.swift in Sources */,
