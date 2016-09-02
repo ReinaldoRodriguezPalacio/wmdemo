@@ -604,6 +604,8 @@
 		AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */; };
 		AC88FA7419CA3FCD003BD859 /* UIEdgeTextFieldImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */; };
 		AC88FA7719CA48D6003BD859 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7619CA48D6003BD859 /* SignUpViewController.swift */; };
+		AC9035A11D78A0300075FB34 /* CheckOutProductShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9035A01D78A0300075FB34 /* CheckOutProductShipping.swift */; };
+		AC9035A41D78C6F60075FB34 /* CheckOutShippingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9035A31D78C6F60075FB34 /* CheckOutShippingCell.swift */; };
 		AC96C94A1D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC96C9491D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift */; };
 		AC96C94C1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC96C94B1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift */; };
 		AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9AF41C1BE2B1B700C7638B /* Images.xcassets */; };
@@ -1317,6 +1319,8 @@
 		AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextField.swift; path = Shared/View/Field/UIEdgeTextField.swift; sourceTree = "<group>"; };
 		AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextFieldImage.swift; path = Shared/View/Field/UIEdgeTextFieldImage.swift; sourceTree = "<group>"; };
 		AC88FA7619CA48D6003BD859 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = iPhone/Controller/Profile/SignUpViewController.swift; sourceTree = "<group>"; };
+		AC9035A01D78A0300075FB34 /* CheckOutProductShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutProductShipping.swift; path = iPhone/Controller/CheckOut/CheckOutProductShipping.swift; sourceTree = "<group>"; };
+		AC9035A31D78C6F60075FB34 /* CheckOutShippingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutShippingCell.swift; path = iPhone/View/CheckOut/CheckOutShippingCell.swift; sourceTree = "<group>"; };
 		AC96C9491D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddPreferedAddressInvoice.swift; path = Shared/Services/LoginSignUp/Address/AddPreferedAddressInvoice.swift; sourceTree = "<group>"; };
 		AC96C94B1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteAddressesInvoiceService.swift; path = Shared/Services/LoginSignUp/Address/DeleteAddressesInvoiceService.swift; sourceTree = "<group>"; };
 		AC9AF41C1BE2B1B700C7638B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -1868,6 +1872,7 @@
 		564578C419AE302E006A7152 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AC9035A21D78C68F0075FB34 /* CheckOut */,
 				6CBCCFAD1C8795A4002D7717 /* Reminder */,
 				6C8D5C281BF26FAF0020962E /* Refered */,
 				6C6294FB1BEA844E00613FB3 /* Invoice */,
@@ -2659,6 +2664,7 @@
 				4AEBFBB31C9B082C00A47C5B /* GRCheckOutPymentViewController.swift */,
 				6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */,
 				6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */,
+				AC9035A01D78A0300075FB34 /* CheckOutProductShipping.swift */,
 			);
 			name = CheckOut;
 			sourceTree = "<group>";
@@ -3427,6 +3433,14 @@
 			name = ScrollViewForm;
 			sourceTree = "<group>";
 		};
+		AC9035A21D78C68F0075FB34 /* CheckOut */ = {
+			isa = PBXGroup;
+			children = (
+				AC9035A31D78C6F60075FB34 /* CheckOutShippingCell.swift */,
+			);
+			name = CheckOut;
+			sourceTree = "<group>";
+		};
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -3705,6 +3719,7 @@
 				AC6EF06719B1361D00DB28AF /* SearchProductViewController.swift in Sources */,
 				5673D1401A9D500400DCD20B /* RSITF14Generator.swift in Sources */,
 				AC3243511A04D31700414BA5 /* TmpIPAHomeViewController.swift in Sources */,
+				AC9035A11D78A0300075FB34 /* CheckOutProductShipping.swift in Sources */,
 				5633AA631B5F33A7008006B0 /* CameraViewController.swift in Sources */,
 				5614A65A1A68674B0048B71A /* GRAddressesByIDService.swift in Sources */,
 				56C2118A1A25049F002D1C91 /* IPAGroceriesView.swift in Sources */,
@@ -3960,6 +3975,7 @@
 				56603D2919B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift in Sources */,
 				85A40B9B1C223AE40036C78A /* UserMerc.swift in Sources */,
 				569AB9F31AAA226D0036D5AB /* GRFormAddressAlertView.swift in Sources */,
+				AC9035A41D78C6F60075FB34 /* CheckOutShippingCell.swift in Sources */,
 				566E547219F572850007C75A /* IPAShoppingCartViewController.swift in Sources */,
 				85A40B9A1C223AE40036C78A /* UndeliveredView.swift in Sources */,
 				56E54E4C19EC7C920004161C /* IPASearchProductCollectionViewCell.swift in Sources */,
