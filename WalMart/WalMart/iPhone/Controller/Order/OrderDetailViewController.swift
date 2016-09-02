@@ -124,59 +124,73 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     dictProduct = itemDetailProducts[indexPath.row - 2] as! NSDictionary
                 }
                 
-                let upcProduct = dictProduct["upc"] as! String
-                let descript = dictProduct["description"] as! String
-                var quantityStr = ""
-                if let quantityProd = dictProduct["quantity"] as? String {
-                    quantityStr = quantityProd
-                }
-                if let quantityProd = dictProduct["quantity"] as? NSNumber {
-                    quantityStr = quantityProd.stringValue  
-                }
-                var urlImage = ""
-                if let imageURLArray = dictProduct["imageUrl"] as? NSArray {
-                    if imageURLArray.count > 0 {
-                        urlImage = imageURLArray[0] as! String
-                    }
-                }
-                if let imageURLArray = dictProduct["imageUrl"] as? NSString {
-                    urlImage = imageURLArray as String
-                }
-                var priceStr = ""
-                if let price = dictProduct["price"] as? NSString {
-                    priceStr = price as String
-                }
-                if let price = dictProduct["price"] as? NSNumber {
-                    priceStr = price.stringValue
-                }
-               
-                var isPesable : Bool = false
-                if let pesable = dictProduct["type"] as?  NSString {
-                    isPesable = pesable.intValue == 1
-                }
+                let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct)
+                let valuesItems = itemShow[0] as NSDictionary
                 
-                var onHandDefault = "10"
-                if let onHandInventory = dictProduct["onHandInventory"] as? NSString {
-                    onHandDefault = onHandInventory as String
-                }
+                let pesableValue = valuesItems["pesable"] as! String == "true" ? true : false
+                let isActiveValue = valuesItems["isActive"] as! String == "true" ? true : false
                 
-                var isPreorderable = "false"
-                if let isPreorderableVal = dictProduct["isPreorderable"] as? String {
-                    isPreorderable = isPreorderableVal
-                }
-                
-                var isActive = true
-                if let stockSvc = dictProduct["stock"] as?  Bool {
-                   isActive = stockSvc
-                }
-                
-                cellOrderProduct.setValues(upcProduct,productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr , type: self.type, pesable:isPesable, onHandInventory: onHandDefault, isActive:isActive,isPreorderable:isPreorderable)
+                cellOrderProduct.setValues(valuesItems["upc"] as! String, productImageURL:valuesItems["imageUrl"] as! String,productShortDescription:valuesItems["description"] as! String, productPrice:valuesItems["price"] as! String,quantity:valuesItems["quantity"] as! NSString, type: self.type, pesable:pesableValue, onHandInventory: valuesItems["onHandDefault"] as! String, isActive:isActiveValue, isPreorderable:valuesItems["isPreorderable"] as! String)
                 cell = cellOrderProduct
 
         }
         cell!.selectionStyle = UITableViewCellSelectionStyle.None
 
         return cell!
+    }
+    
+    class func prepareValuesItems (itemDetail : NSDictionary) -> [[String:String]]  {
+        var upcItems : [[String:String]] = []
+        
+        let upcProduct = itemDetail["upc"] as! String
+        let descript = itemDetail["description"] as! String
+        var quantityStr = ""
+        if let quantityProd = itemDetail["quantity"] as? String {
+            quantityStr = quantityProd
+        }
+        if let quantityProd = itemDetail["quantity"] as? NSNumber {
+            quantityStr = quantityProd.stringValue
+        }
+        var urlImage = ""
+        if let imageURLArray = itemDetail["imageUrl"] as? NSArray {
+            if imageURLArray.count > 0 {
+                urlImage = imageURLArray[0] as! String
+            }
+        }
+        if let imageURLArray = itemDetail["imageUrl"] as? NSString {
+            urlImage = imageURLArray as String
+        }
+        var priceStr = ""
+        if let price = itemDetail["price"] as? NSString {
+            priceStr = price as String
+        }
+        if let price = itemDetail["price"] as? NSNumber {
+            priceStr = price.stringValue
+        }
+        
+        var isPesable : Bool = false
+        if let pesable = itemDetail["type"] as?  NSString {
+            isPesable = pesable.intValue == 1
+        }
+        
+        var onHandDefault = "10"
+        if let onHandInventory = itemDetail["onHandInventory"] as? NSString {
+            onHandDefault = onHandInventory as String
+        }
+        
+        var isPreorderable = "false"
+        if let isPreorderableVal = itemDetail["isPreorderable"] as? String {
+            isPreorderable = isPreorderableVal
+        }
+        
+        var isActive = true
+        if let stockSvc = itemDetail["stock"] as?  Bool {
+            isActive = stockSvc
+        }
+        
+        upcItems.append(["upc":upcProduct,"description":descript,"quantity":quantityStr, "imageUrl": urlImage, "price": priceStr, "pesable": String(isPesable), "onHandDefault": onHandDefault, "isPreorderable": isPreorderable,"isActive": String(isActive)])
+        
+        return upcItems
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
