@@ -64,6 +64,8 @@ class SelectItemTableViewCell : UITableViewCell {
         checkSelected.frame = CGRectMake(0, 0, 33, 46)
         self.textLabel?.frame = CGRectMake(self.checkSelected.frame.maxX, self.textLabel!.frame.minY, 249, self.textLabel!.frame.height)
         self.showButton?.frame = CGRectMake(250, self.textLabel!.frame.minY, 22, self.textLabel!.frame.height)
+        self.disclosureImage?.frame = CGRectMake(self.frame.width - 38, 0, 22, self.textLabel!.frame.height)
+        self.preferedImage?.frame = CGRectMake(self.disclosureImage.frame.minX - 38, 0, 22, self.textLabel!.frame.height)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
