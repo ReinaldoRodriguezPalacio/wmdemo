@@ -65,6 +65,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var layerLine: CALayer?
     var contentHeight: CGFloat! = 316
     var contentWidth: CGFloat! = 288
+    var showDisclosure = false
+    var showPrefered = false
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -122,7 +124,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self
         tableData.dataSource = self
-        //tableData.separatorStyle = .None
 
         self.viewContentOptions.addSubview(tableData)
         
@@ -198,7 +199,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     {
         if cellType == TypeField.Alphanumeric
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             
             let cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
             cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
@@ -228,7 +228,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }
         else
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
             cell.selectionStyle = .None
             cell.textLabel?.text = itemsToShow[indexPath.row]
@@ -240,6 +239,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
                 cell.showButton?.tag = indexPath.row
                 cell.showButton?.addTarget(self, action: #selector(AlertPickerView.cellShowButtonSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             }
+            
+            cell.disclosureImage.hidden = !self.showDisclosure
+            cell.preferedImage.hidden = !(self.showPrefered && indexPath.row == 0)
             return cell
         }
     }
