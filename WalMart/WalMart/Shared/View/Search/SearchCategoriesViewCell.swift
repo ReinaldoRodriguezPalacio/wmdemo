@@ -20,7 +20,7 @@ class SearchCategoriesViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         
         self.departament = UILabel()
-        self.departament!.textColor = WMColor.gray
+        self.departament!.textColor = WMColor.gray_reg
         self.departament!.font = WMFont.fontMyriadProRegularOfSize(12)
         
         self.title = UILabel()

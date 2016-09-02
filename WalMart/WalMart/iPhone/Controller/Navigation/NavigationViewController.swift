@@ -13,6 +13,7 @@ class NavigationViewController: IPOBaseController {
     var backButton : UIButton? = nil
     var titleLabel: UILabel? = nil
     var hiddenBack = false
+    let headerHeight: CGFloat = 46
 
     override func viewDidLoad() {
         super.viewDidLoad()

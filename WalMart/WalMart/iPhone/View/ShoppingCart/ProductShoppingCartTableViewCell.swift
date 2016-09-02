@@ -49,7 +49,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        productShortDescriptionLabel!.textColor = WMColor.gray
+        productShortDescriptionLabel!.textColor = WMColor.gray_reg
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         

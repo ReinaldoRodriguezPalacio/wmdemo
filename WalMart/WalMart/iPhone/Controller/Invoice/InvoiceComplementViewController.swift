@@ -10,7 +10,7 @@
 import Foundation
 
 class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,AlertPickerViewDelegate, AlertPickerSelectOptionDelegate {
-    let headerHeight: CGFloat = 46
+    //let headerHeight: CGFloat = 46
     let fheight: CGFloat = 40.0
     let lheight: CGFloat = 25.0
     let margin: CGFloat = 15.0
@@ -75,7 +75,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
         iepsYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         iepsYesSelect!.titleLabel?.textAlignment = .Left
-        iepsYesSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        iepsYesSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         iepsYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         self.content.addSubview(self.iepsYesSelect!)
         
@@ -87,7 +87,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsNoSelect!.setTitle("No", forState: UIControlState.Normal)
         iepsNoSelect!.titleLabel?.textAlignment = .Left
         iepsNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        iepsNoSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        iepsNoSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         iepsNoSelect!.selected = true
         self.content.addSubview(self.iepsNoSelect!)
         
@@ -100,7 +100,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristYesSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         touristYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
         touristYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        touristYesSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        touristYesSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         touristYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         touristYesSelect!.titleLabel?.textAlignment = .Left
         self.content.addSubview(self.touristYesSelect!)
@@ -112,7 +112,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristNoSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         touristNoSelect!.setTitle("No", forState: UIControlState.Normal)
         touristNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        touristNoSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        touristNoSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         touristNoSelect!.selected = true
         touristNoSelect!.titleLabel?.textAlignment = .Left
         self.content.addSubview(self.touristNoSelect!)
@@ -126,7 +126,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalPersonSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         addressFiscalPersonSelect!.setTitle("Persona Física", forState: UIControlState.Normal)
         addressFiscalPersonSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        addressFiscalPersonSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        addressFiscalPersonSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         addressFiscalPersonSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         addressFiscalPersonSelect!.selected = true
         addressFiscalPersonSelect!.titleLabel?.textAlignment = .Left
@@ -139,7 +139,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalMoralSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         addressFiscalMoralSelect!.setTitle("Persona Moral", forState: UIControlState.Normal)
         addressFiscalMoralSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        addressFiscalMoralSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        addressFiscalMoralSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
         addressFiscalMoralSelect!.titleLabel?.textAlignment = .Left
         self.content.addSubview(self.addressFiscalMoralSelect!)
         

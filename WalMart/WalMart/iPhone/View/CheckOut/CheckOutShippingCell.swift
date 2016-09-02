@@ -30,7 +30,7 @@ class CheckOutShippingCell: UITableViewCell {
         self.descriptionTitle!.backgroundColor = UIColor.clearColor()
         
         self.descriptionTitle!.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.descriptionTitle!.textColor = WMColor.gray
+        self.descriptionTitle!.textColor = WMColor.gray_reg
         self.contentView.addSubview(self.descriptionTitle!)
         
      

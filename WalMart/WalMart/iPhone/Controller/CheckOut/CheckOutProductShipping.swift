@@ -11,7 +11,6 @@ import Foundation
 
 class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UITableViewDataSource {
 
-    let headerHeight: CGFloat = 46
     var tableProductsCheckout : UITableView!
     var shippingAll : NSArray! = []
     var itemDetail : NSDictionary! = [:]

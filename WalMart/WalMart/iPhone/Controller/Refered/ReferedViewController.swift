@@ -10,7 +10,7 @@ import Foundation
 
 class ReferedViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate, ReferedFormDelegate{
     
-    let headerHeight: CGFloat = 46
+    //let headerHeight: CGFloat = 46
     
     var referedTable: UITableView!
     var selectedRow: NSIndexPath! = nil

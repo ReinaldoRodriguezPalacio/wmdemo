@@ -129,7 +129,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             addressId = addId
         }
         cell!.selectionStyle = .None
-        let textColor = prefered ? WMColor.light_blue : WMColor.gray
+        let textColor = prefered ? WMColor.light_blue : WMColor.gray_reg
         cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: textColor,align:NSTextAlignment.Left,addressID: addressId)
         if let isAddressOK = item["isAddressOk"] as? String {
             cell!.showErrorFieldImage(isAddressOK == "False")

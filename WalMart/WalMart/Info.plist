@@ -397,7 +397,7 @@
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCarrusel</string>
+			<string>https://dl.dropboxusercontent.com/s/4q403ek0d7ayl62/getCarrucell.txt?dl=0</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>

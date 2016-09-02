@@ -110,7 +110,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,self.view.frame.width,36.0))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,self.view.frame.width,36.0))
-        titleView.textColor = WMColor.gray
+        titleView.textColor = WMColor.gray_reg
         titleView.font = WMFont.fontMyriadProRegularOfSize(11)
         titleView.backgroundColor = UIColor.clearColor()
         //        if section == 0 {

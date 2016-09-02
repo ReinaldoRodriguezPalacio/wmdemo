@@ -134,7 +134,7 @@ class ProductDetailColorSizeView: UIView {
         
         if item["selected"]! as! Bool {
             backView.layer.borderWidth = 1
-            backView.layer.borderColor = WMColor.gray.CGColor
+            backView.layer.borderColor = WMColor.gray_reg.CGColor
         }
 
         backView.addSubview(colorButton)
@@ -162,7 +162,7 @@ class ProductDetailColorSizeView: UIView {
         
         if item["selected"]! as! Bool {
             backView.layer.borderWidth = 1
-            backView.layer.borderColor = WMColor.gray.CGColor
+            backView.layer.borderColor = WMColor.gray_reg.CGColor
         }
 
         backView.addSubview(sizeButton)
@@ -189,7 +189,7 @@ class ProductDetailColorSizeView: UIView {
         let button  = sender as! UIButton
         let backView = button.superview!
         backView.layer.borderWidth = 1
-        backView.layer.borderColor = WMColor.gray.CGColor
+        backView.layer.borderColor = WMColor.gray_reg.CGColor
         let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
@@ -201,7 +201,7 @@ class ProductDetailColorSizeView: UIView {
         let button  = sender as! UIButton
         let backView = button.superview!
         backView.layer.borderWidth = 1
-        backView.layer.borderColor = WMColor.gray.CGColor
+        backView.layer.borderColor = WMColor.gray_reg.CGColor
         let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
