@@ -446,6 +446,15 @@
 "checkout.title.comments" = "¿Alguna instrucción o nota adicional?";
 "checkout.error.shipment" = "Esta dirección cuenta con un solo Tipo de Envío.";
 "checkout.error.slots" = "No hay horarios disponibles, intenta con otra fecha.";
+"checkout.confirm.title" = "Confirmación del pedido";
+"checkout.confirm.cancel" = "Cancelar";
+"checkout.confirm.btn" = "Confirmar";
+
+"checkout.confirm.name"="Nombre";
+"checkout.confirm.collect"="Recoger en:";
+"checkout.confirm.send"="Envío";
+"checkout.confirm.to"="de";
+"checkout.confirm.invoice"="Facturación";
 
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";

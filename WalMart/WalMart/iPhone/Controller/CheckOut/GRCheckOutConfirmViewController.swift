@@ -45,7 +45,7 @@ class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.titleLabel?.text = "Confirmación del pedido"
+        self.titleLabel?.text = NSLocalizedString("checkout.confirm.title", comment: "")
         
         self.contentTableView = UITableView(frame: CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120)))
         self.contentTableView.backgroundColor = UIColor.whiteColor()
@@ -64,20 +64,22 @@ class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDele
         layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         viewFooter!.layer.insertSublayer(layerLine, atIndex: 1000)
         layerLine.frame = CGRectMake(0, 0, self.viewFooter!.frame.width, 2)
-        
+
         let cancelButton = UIButton(frame: CGRect(x:16 , y:16 , width: (self.view.frame.width - 40) / 2  , height:34))
-        cancelButton.setTitle("Cancelar", forState: .Normal)
+        cancelButton.setTitle(NSLocalizedString("checkout.confirm.cancel", comment: ""), forState: .Normal)
         cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         cancelButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         cancelButton.backgroundColor =  WMColor.empty_gray
         cancelButton.layer.cornerRadius =  17
+        cancelButton.addTarget(self, action: #selector(GRCheckOutConfirmViewController.cancelORder), forControlEvents: .TouchUpInside)
         self.viewFooter?.addSubview(cancelButton)
         
         let confirmButton = UIButton(frame: CGRect(x:cancelButton.frame.maxX + 8 , y:cancelButton.frame.minY , width: cancelButton.frame.width , height:cancelButton.frame.height))
-        confirmButton.setTitle("Confirmar", forState: .Normal)
+        confirmButton.setTitle(NSLocalizedString("checkout.confirm.btn", comment: ""), forState: .Normal)
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         confirmButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        confirmButton.backgroundColor =  WMColor.light_blue
+        confirmButton.backgroundColor =  WMColor.green
+        confirmButton.addTarget(self, action: #selector(GRCheckOutConfirmViewController.continueOrder), forControlEvents: .TouchUpInside)
         confirmButton.layer.cornerRadius =  17
         
         self.viewFooter?.addSubview(confirmButton)
@@ -124,37 +126,58 @@ class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDele
         case 0:
             
             let confirmCell = tableView.dequeueReusableCellWithIdentifier(self.PERSONALCELL_ID) as! ComfirmViewCell
-            confirmCell.setValues("Nombre",name: dataUser["name"]! as String, description:"", detailDesc: dataUser["phone"]! as String)
+            confirmCell.setValues(NSLocalizedString("checkout.confirm.name", comment: ""),name: dataUser["name"]! as String, description:"", detailDesc: dataUser["phone"]! as String)
             return confirmCell
             
         case 1:
         
             let type  = shoppingsAddres[indexPath.row]["type"]! as String
             let confirmCell = tableView.dequeueReusableCellWithIdentifier(self.PERSONALCELL_ID) as! ComfirmViewCell
-            confirmCell.setValues(type == "1" ? "Envio:":"Recoger en:",name: "", description: shoppingsAddres[indexPath.row]["address"]! as String, detailDesc: shoppingsAddres[indexPath.row]["phone"]! as String)
+            confirmCell.setValues(type == "1" ? NSLocalizedString("checkout.confirm.send", comment: ""):NSLocalizedString("checkout.confirm.collect", comment: ""),name: "", description: shoppingsAddres[indexPath.row]["address"]! as String, detailDesc: shoppingsAddres[indexPath.row]["phone"]! as String)
             return confirmCell
             
         case 2:
             let confirmCell = tableView.dequeueReusableCellWithIdentifier(self.PERSONALCELL_ID) as! ComfirmViewCell
-            confirmCell.setValues("Envío \(indexPath.row + 1) de \(shoppings.count)",name: "", description: shoppings[indexPath.row]["description"]!, detailDesc: "")
+            confirmCell.setValues("\(NSLocalizedString("checkout.confirm.send", comment: "")) \(indexPath.row + 1) \(NSLocalizedString("checkout.confirm.to", comment: "")) \(shoppings.count)",name: "", description: shoppings[indexPath.row]["description"]!, detailDesc: "")
             return confirmCell
             
         case 3:
             
             let confirmCell = tableView.dequeueReusableCellWithIdentifier(self.PERSONALCELL_ID) as! ComfirmViewCell
-            confirmCell.setValues("Facturacion",name: "", description: dataUser["invoice"]! as String, detailDesc: "")
+            confirmCell.setValues(NSLocalizedString("checkout.confirm.invoice", comment: ""),name: "", description: dataUser["invoice"]! as String, detailDesc: "")
             return confirmCell
             
         case 4:
             let totals = TotalView(frame: CGRect(x:0, y:0, width:self.view.frame.width , height: 122))
             totals.setValues(articles: self.items, subtotal: self.subtotal, shippingCost: self.shippingCost, iva: self.iva, saving: self.saving, total: self.total)
             cell.addSubview(totals)
+            cell.selectionStyle = .None
             
         default:
             break
         }
         
         return cell
+    }
+    
+    func cancelORder(){
+         self.navigationController!.popToRootViewControllerAnimated(true)
+    }
+    
+    func continueOrder(){
+        let cont = LoginController.showLogin()
+        var user = ""
+        if UserCurrentSession.hasLoggedUser() {
+            cont!.noAccount?.hidden = true
+            cont!.registryButton?.hidden = true
+            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
+            cont!.email!.enabled = false
+            user = UserCurrentSession.sharedInstance().userSigned!.email as String
+        }
+        cont!.okCancelCallBack = {() in
+            print("cancel")
+        }
     }
     
     
