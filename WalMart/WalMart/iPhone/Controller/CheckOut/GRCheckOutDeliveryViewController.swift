@@ -282,13 +282,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     
     func getAddressDescription(addressId: String){
-        let serviceAddress = GRAddressesByIDService()
-        serviceAddress.addressId = self.selectedAddress!
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            self.addressDesccription = "\(result["street"] as! String!) \(result["outerNumber"] as! String!) \n\(result["county"] as! String!) \(result["city"] as! String!)"
-            }) { (error:NSError) -> Void in
-            self.addressDesccription = ""
-            }
+//        let serviceAddress = GRAddressesByIDService()
+//        serviceAddress.addressId = self.selectedAddress!
+//        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+//            self.addressDesccription = "\(result["street"] as! String!) \(result["outerNumber"] as! String!) \n\(result["county"] as! String!) \(result["city"] as! String!)"
+//            }) { (error:NSError) -> Void in
+//            self.addressDesccription = ""
+//            }
         
     }
     /**
