@@ -28,6 +28,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     
     var viewStatus : UIView!
     var statusLabel : UILabel!
+    var popup : UIPopoverController?
     
     var viewFooter : UIView!
     var shareButton: UIButton?
@@ -371,7 +372,6 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             params["quantity"] = "\(quantity.integerValue)"
         }
         
-        
         params["wishlist"] = false
         params["type"] = type.rawValue
         params["comments"] = ""
@@ -389,7 +389,13 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     func shareList() {
         if let imgResult = self.imageToShareWishList() {
             let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
-            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            
+            if IS_IPAD{
+                popup = UIPopoverController(contentViewController: controller)
+                popup!.presentPopoverFromRect(CGRectMake(65, 610, 300, 250), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Down, animated: true)
+            } else {
+                self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            }
         }
     }
     
@@ -419,6 +425,9 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             titleShipping.text = textOrder
             headerView.addSubview(titleShipping)
             headerView.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, 40.0), afterScreenUpdates: true)
+            if IS_IPAD{
+                headerView.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, 40.0), afterScreenUpdates: true)
+            }
             
             ixYSpace = ixYSpace + 40.0
             
