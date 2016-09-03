@@ -251,7 +251,18 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             if indexPath.section == (self.shippingAll.count - 1) && indexPath.row == 1{
                 let totalCell = tableView.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! OrderShippingTotalTableViewCell
                 //let total = self.calculateTotalAmount()
-                totalCell.setValues("790", totalSaving: "50")
+                
+                var totalValue = ""
+                if let total = self.itemDetail["total"] as? String{
+                    totalValue = total
+                }
+                
+                var savingValue = ""
+                if let saving = self.itemDetail["saving"] as? String{
+                    savingValue = saving
+                }
+                
+                totalCell.setValues(totalValue, totalSaving: savingValue)
                 totalCell.selectionStyle = .None
                 cell = totalCell
             } else {
