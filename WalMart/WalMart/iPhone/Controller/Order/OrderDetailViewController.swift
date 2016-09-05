@@ -238,7 +238,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             viewFedex.backgroundColor = WMColor.light_light_gray
             
             let lblGuide = UILabel(frame: CGRectMake(16, 0, 200, 44))
-            lblGuide.text = "Guia: \(guide)"
+            lblGuide.text = "Guía: \(guide)"
             lblGuide.textColor = WMColor.light_blue
             lblGuide.font = WMFont.fontMyriadProRegularOfSize(14)
             

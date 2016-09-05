@@ -524,7 +524,7 @@
 "gr.confirma.subtotal" = "Subtotal";
 "gr.confirma.total" = "Total";
 "gr.confirma.generatingorden" = "Generando pedido";
-"gr.confirma.costodeenvio" = "Costo de envio";
+"gr.confirma.costodeenvio" = "Costo de envío";
 "gr.confirma.descuentodeasociado" = "Descuento de asociado";
 "gr.addtolist.super" = "Añadir todo a una lista de súper";
 "gr.alert.phone" = "Si editas este número telefónico se actualizará en tus direcciones.";

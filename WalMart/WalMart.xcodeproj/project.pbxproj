@@ -623,6 +623,8 @@
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
 		B117CFEE1D79EC09004A16D3 /* ComfirmViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B117CFED1D79EC09004A16D3 /* ComfirmViewCell.swift */; };
 		B12FA3511D78DE0700251416 /* TotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12FA3501D78DE0700251416 /* TotalView.swift */; };
+		B138487A1D7DC4C000147212 /* OccupationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13848791D7DC4C000147212 /* OccupationsService.swift */; };
+		B138487C1D7DCDA900147212 /* UserListDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B138487B1D7DCDA900147212 /* UserListDetailService.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -1340,6 +1342,8 @@
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B117CFED1D79EC09004A16D3 /* ComfirmViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComfirmViewCell.swift; path = iPhone/View/CheckOut/ComfirmViewCell.swift; sourceTree = "<group>"; };
 		B12FA3501D78DE0700251416 /* TotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TotalView.swift; path = Shared/View/General/TotalView.swift; sourceTree = "<group>"; };
+		B13848791D7DC4C000147212 /* OccupationsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OccupationsService.swift; path = Shared/Services/LoginSignUp/OccupationsService.swift; sourceTree = "<group>"; };
+		B138487B1D7DCDA900147212 /* UserListDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListDetailService.swift; path = Shared/Services/UserList/UserListDetailService.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -2447,6 +2451,7 @@
 				04C628241A7174E3002BF858 /* GRAddItemListService.swift */,
 				04B538A01A8D2B6200B9F340 /* GRUpdateItemListService.swift */,
 				04BA491B1A8AB556009D5272 /* GRUpdateListService.swift */,
+				B138487B1D7DCDA900147212 /* UserListDetailService.swift */,
 			);
 			name = UserList;
 			sourceTree = "<group>";
@@ -2521,6 +2526,7 @@
 				6C822E9F1D46D3EC006A098C /* UserProfileService.swift */,
 				4A8C992E1D493C3900DEBB87 /* LoginWithIdService.swift */,
 				6C6001461D5395250027835E /* UpdatePasswordService.swift */,
+				B13848791D7DC4C000147212 /* OccupationsService.swift */,
 			);
 			name = LoginSignUp;
 			sourceTree = "<group>";
@@ -3806,8 +3812,10 @@
 				6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */,
 				5680A0901A48C4ED009C5515 /* GRBaseService.swift in Sources */,
 				8BCA19721AAA619100065072 /* AlertButtomView.swift in Sources */,
+				B138487A1D7DC4C000147212 /* OccupationsService.swift in Sources */,
 				56DFE4CF19D057C9001811F5 /* SWCellScrollView.m in Sources */,
 				5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */,
+				B138487C1D7DCDA900147212 /* UserListDetailService.swift in Sources */,
 				6CA21A241D79F66D00260C47 /* AddInvoiceAddressView.swift in Sources */,
 				56BB62971A5F05DD0008BD1F /* ProductDetailMSICollectionViewCell.swift in Sources */,
 				563666391A9688CA00BE2711 /* CommentBubbleView.swift in Sources */,

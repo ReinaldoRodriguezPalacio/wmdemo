@@ -33,7 +33,7 @@ class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDele
     
     let shoppingsAddres : [[String: String]] = [["type": "1","address": "Casa de la abuela\nAv.San francisco no.1298 Del valle\nBenito Juarez Ciudad de Mexico 03100","phone": "5512345678"],["type": "2","address": "Walmart Felix Cuevas\nAv.San francisco no.1298 Del valle\nBenito Juarez Ciudad de Mexico 03100","phone": "553332345"]]
 
-     let shoppings : [[String: String]] = [["description": "Envio Estandar - hasta 5 dias\nFecha estimada de entrega 98/98/12 "],["description": "Recoger en tienda \n fecha seleccionada (12/12/12 14:00)"]]
+     let shoppings : [[String: String]] = [["description": "Envío Estandar - hasta 5 dias\nFecha estimada de entrega 98/98/12 "],["description": "Recoger en tienda \n fecha seleccionada (12/12/12 14:00)"]]
     
     let dataUser = ["name":"Juan Javier Ramirez Herrera","phone":"5566123456","invoice":"RFC ASDM334F\nRazon Social Casa SA \n direccion de las casa benito juarez ciudad de mexico 03100 "]
 

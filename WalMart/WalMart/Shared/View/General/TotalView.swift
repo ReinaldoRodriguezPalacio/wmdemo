@@ -2,7 +2,7 @@
 //  TotalView.swift
 //  WalMart
 //
-//  Created by Ingenieria de Soluciones on 01/09/16.
+//  Created by Joel Juarez on 01/09/16.
 //  Copyright © 2016 BCG Inc. All rights reserved.
 //
 
@@ -47,7 +47,6 @@ class TotalView: UIView {
         articlesTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         articlesTitle.textAlignment = .Left
         articlesTitle.frame = CGRectMake(16, 16, 101, 14)
-        //articlesTitle.backgroundColor =  UIColor.blueColor()
         
         subtotalTitle = UILabel()
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
@@ -55,15 +54,13 @@ class TotalView: UIView {
         subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         subtotalTitle.textAlignment = .Right
         subtotalTitle.frame = CGRectMake(146, 16, 101, 14)
-        //subtotalTitle.backgroundColor =  UIColor.blueColor()
         
         shippingCostTitle = UILabel()
-        shippingCostTitle.text = NSLocalizedString("Costo envio",comment:"")
+        shippingCostTitle.text = NSLocalizedString("Costo envío",comment:"")
         shippingCostTitle.textColor = WMColor.gray_reg
         shippingCostTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         shippingCostTitle.textAlignment = .Right
         shippingCostTitle.frame = CGRectMake(146, subtotalTitle.frame.maxY + 6, 101, 14)
-        //shippingCostTitle.backgroundColor =  UIColor.blueColor()
         
         ivaTitle = UILabel()
         ivaTitle.text = NSLocalizedString("Impuestos",comment:"")
@@ -71,7 +68,6 @@ class TotalView: UIView {
         ivaTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         ivaTitle.textAlignment = .Right
         ivaTitle.frame = CGRectMake(146, shippingCostTitle.frame.maxY + 6, 101, 14)
-        //ivaTitle.backgroundColor =  UIColor.blueColor()
 
         savingTitle = UILabel()
         savingTitle.text = NSLocalizedString("Descuento",comment:"")
@@ -79,7 +75,6 @@ class TotalView: UIView {
         savingTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         savingTitle.textAlignment = .Right
         savingTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 3, 101, 14)
-        //savingTitle.backgroundColor =  UIColor.blueColor()
         
         totalTitle = UILabel()
         totalTitle.text = NSLocalizedString("Total",comment:"")
@@ -87,7 +82,6 @@ class TotalView: UIView {
         totalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         totalTitle.textAlignment = .Right
         totalTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 20, 101, 14)
-        //totalTitle.backgroundColor =  UIColor.blueColor()
         
         //values
         

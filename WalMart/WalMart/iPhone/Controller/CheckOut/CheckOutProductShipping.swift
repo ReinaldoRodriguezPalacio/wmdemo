@@ -26,7 +26,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.view.backgroundColor = WMColor.light_light_gray
         
         
-        self.titleLabel?.text = "Tipo de envio envío"
+        self.titleLabel?.text = "Tipo de envío"
         
         
         tableProductsCheckout = UITableView(frame:CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 46))
@@ -89,7 +89,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, self.view.frame.width, 40))
         
-        titleLabel.text = "Envio 1 de 2"
+        titleLabel.text = "Envío 1 de 2"
         titleLabel.textColor = WMColor.light_blue
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         

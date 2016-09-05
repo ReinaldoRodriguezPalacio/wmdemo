@@ -219,6 +219,10 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.UserListDetailService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/getGiftListByListId</string>
+			<key>WalmartMG.OccupationsService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/getOccupations</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -384,6 +388,12 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.UserListDetailService</key>
+			<string>https://dl.dropboxusercontent.com/s/3tk0zsbgacuguvb/detalleLista.txt?dl=0</string>
+			<key>WalmartMG.AddPreferedAddressInvoice</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/defaultInvoiceAddress</string>
+			<key>WalmartMG.OccupationsService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getOccupations</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
