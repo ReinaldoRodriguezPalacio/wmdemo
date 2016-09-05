@@ -135,7 +135,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         var savingPrice = ""
-        if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
+        if productPriceThrough != "" && productPriceThrough != "0" && productPriceThrough != "0.0"{ //&& type == ResultObjectType.Groceries.rawValue
             self.productPriceThroughLabel!.textColor = WMColor.green
             if isMoreArts {
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue

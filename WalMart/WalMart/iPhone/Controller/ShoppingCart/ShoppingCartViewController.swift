@@ -1080,16 +1080,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
                 iva = ivabase.stringValue
             }
+            
             var baseprice : NSString = ""
-            if let pricebase = shoppingCartProduct["basePrice"] as? NSString {
-                baseprice = pricebase
-            }
-            if let pricebase = shoppingCartProduct["basePrice"] as? NSNumber {
-                baseprice = pricebase.stringValue
+            if let priceEvent = shoppingCartProduct["priceEvent"] as? NSDictionary{
+                
+                if let pricebase = priceEvent["basePrice"] as? NSString {
+                    baseprice = pricebase
+                }
+                if let pricebase = priceEvent["basePrice"] as? NSNumber {
+                    baseprice = pricebase.stringValue
+                }
             }
             
             var quantity : NSString = ""
-            if let quantityN = shoppingCartProduct["quantity"] as? NSString {
+            if let quantityN = shoppingCartProduct["quantity"] as? NSString { //NSNumber
                 quantity = quantityN
             }
             if let quantityN = shoppingCartProduct["quantity"] as? NSNumber {
@@ -1103,11 +1107,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 savingVal = shoppingCartProduct["saving"]  as! String
                 totalSavings += (savingVal.doubleValue * quantity.doubleValue)
             }
-            if shoppingCartProduct["type"] as? NSNumber == 0 {
+            
+            total +=  (price.doubleValue * quantity.doubleValue)
+            /*if shoppingCartProduct["type"] as? NSNumber == 0 {
                 total +=  (price.doubleValue * quantity.doubleValue)
             } else {
                 total +=  ((quantity.doubleValue / 1000.0 ) * price.doubleValue)
-            }
+            }*/
             
             if showIva {
                 if iva != "" {
