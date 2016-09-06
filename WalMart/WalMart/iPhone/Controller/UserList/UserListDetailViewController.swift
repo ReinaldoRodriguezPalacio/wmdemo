@@ -853,8 +853,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.newArrayProducts = []
         if UserCurrentSession.hasLoggedUser() {
             for items in self.products! {
-                let line = items["line"] as? NSDictionary
-                let lineId = line!["name"] as? String
+                let line = items["fineContent"] as? NSDictionary
+                let lineId = line!["fineLineName"] as? String
                 if  !linesArray.containsObject(lineId!) {
                     print("se agrega")
                     linesArray.addObject(lineId!)
@@ -863,8 +863,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             for lineArray in linesArray {
                 var arrayitems : [AnyObject] = []
                 for  items in self.products!  {
-                    let line = items["line"] as? NSDictionary
-                    let lineId = line!["name"] as? String
+                    let line = items["fineContent"] as? NSDictionary
+                    let lineId = line!["fineLineName"] as? String
                     
                     if lineId! == lineArray as! String {
                         arrayitems.append(items)
@@ -1188,43 +1188,56 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     let serviceBase = GRZipCodeService()
     //MARK: - Services
     func invokeDetailListService(action:(()->Void)? , reloadList : Bool) {
+        let detailService = UserListDetailService()
         
-        if self.products == nil || self.products!.count == 0  {
-            self.selectedItems = []
-        } else {
-            if self.fromDelete {
-                self.fromDelete =  false
-                self.selectedItems = NSMutableArray()
-                for i in 0...self.products!.count - 1 {
-                    let item =  self.products![i] as? [String:AnyObject]
-                    self.selectedItems?.addObject(item!["upc"] as! String )
-                }
+        detailService.callService(detailService.buildParams(self.listId!),
+                                  successBlock: { (result:NSDictionary) -> Void in
+                                    
+                                    self.products = result["giftlistItems"] as? [AnyObject]
+                                    self.titleLabel?.text = result["name"] as? String
+                                    
+                                    if self.products == nil || self.products!.count == 0  {
+                                        self.selectedItems = []
+                                    } else {
+                                        if self.fromDelete {
+                                            self.fromDelete =  false
+                                            self.selectedItems = NSMutableArray()
+                                            for i in 0...self.products!.count - 1 {
+                                                let item =  self.products![i] as? [String:AnyObject]
+                                                self.selectedItems?.addObject(item!["upc"] as! String )
+                                            }
+                                        }
+                                        self.openEmpty =  false
+                                        self.removeEmpyView()
+                                        self.counSections()
+                                    }
+                                    
+                                    //self.layoutTitleLabel()
+                                    self.tableView!.reloadData()
+                                    if reloadList {
+                                        self.reloadTableListUserSelectedRow()
+                                    }
+                                    self.updateTotalLabel()
+                                    if self.products == nil || self.products!.count == 0 {
+                                        self.editBtn!.hidden = true
+                                        self.deleteAllBtn!.hidden = true
+                                        self.isEdditing = true
+                                        self.showEditionMode()
+                                        self.showEmptyView()
+                                    }
+                                    else {
+                                        self.editBtn!.hidden = false
+                                        self.deleteAllBtn!.hidden = false
+                                        self.removeEmpyView()
+                                    }
+                                    
+                                    action?()
+            },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Error at retrieve list detail")
+                                    self.back()
             }
-            self.openEmpty =  false
-            self.removeEmpyView()
-            self.counSections()
-        }
-        
-        //self.layoutTitleLabel()
-        self.tableView!.reloadData()
-        if reloadList {
-            self.reloadTableListUserSelectedRow()
-        }
-        self.updateTotalLabel()
-        if self.products == nil || self.products!.count == 0 {
-            self.editBtn!.hidden = true
-            self.deleteAllBtn!.hidden = true
-            self.isEdditing = true
-            self.showEditionMode()
-            self.showEmptyView()
-        }
-        else {
-            self.editBtn!.hidden = false
-            self.deleteAllBtn!.hidden = false
-            self.removeEmpyView()
-        }
-        
-        action?()
+        )
         
     }
     

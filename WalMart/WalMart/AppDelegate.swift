@@ -483,15 +483,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         //Quitar para produccion
         handleURLFacebookTag(url,sourceApplication:sourceApplication!)
         handleURL(url)
-        let fb = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        let fb =               FBSDKApplicationDelegate.sharedInstance().application(application,openURL: url,sourceApplication: sourceApplication,annotation: annotation)
+        var shouldOpen :Bool = FBSDKApplicationDelegate.sharedInstance().application(application,openURL: url,sourceApplication: sourceApplication,annotation: annotation)
         
         //var options: [String: AnyObject] = [UIApplicationOpenURLOptionsSourceApplicationKey: sourceApplication!,UIApplicationOpenURLOptionsAnnotationKey: annotation]
         let gid = GIDSignIn.sharedInstance().handleURL(url,
                                                     sourceApplication: sourceApplication,
                                                     annotation: annotation)
-        let option = annotation as? [NSObject : AnyObject] ?? [:]
         
-        let twitter = Twitter.sharedInstance().application(application, openURL:url, options: option)
+        shouldOpen = shouldOpen ? shouldOpen : GIDSignIn.sharedInstance().handleURL(url,
+                                                                                    sourceApplication: sourceApplication,
+                                                                                    annotation: annotation)
+        
+        var twitter = false
+        if shouldOpen {
+            let option = annotation as? [NSObject : AnyObject] ?? [:]
+            twitter = Twitter.sharedInstance().application(application, openURL:url, options: option)
+        }
+    
         
         return fb || gid || twitter
     }

@@ -131,6 +131,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.tableuserlist?.allowsMultipleSelection = false
         self.tableuserlist?.separatorStyle = .None
         hiddenSearchField()
+  
         
         
     }
@@ -1327,7 +1328,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
                 self.selectedIndex = indexPath
-                self.itemsList =  listItem["giftlistItems"] as! [[String:AnyObject]]
+                //self.itemsList =  listItem["giftlistItems"] as! [[String:AnyObject]]
 
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
