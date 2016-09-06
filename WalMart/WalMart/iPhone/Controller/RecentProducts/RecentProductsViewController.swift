@@ -89,7 +89,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
             self.invokeStop = true
             self.viewLoad = nil
-            //self.emptyView!.hidden = true
+            self.emptyView!.hidden = true
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.viewLoad.stopAnnimating()

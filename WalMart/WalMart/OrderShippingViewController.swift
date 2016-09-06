@@ -111,6 +111,11 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         isShowingTabBar = !TabBarHidden.isTabBarHidden
+        if !isShowingTabBar {
+            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
+            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -168,7 +173,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, (IS_IPAD ? 681.5 : self.view.frame.width), self.view.frame.height - 46))
         self.viewLoad!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
