@@ -291,6 +291,7 @@
 "previousorder.quantity" = "Artículos";
 "previousorder.quantityPesable" = "Cantidad";
 "previousorder.showDetail" = "Ver detalle";
+"previousorder.shipping" = "Envío %@ de %@";
 "previousorder.total" = "Total";
 "previousorder.saving" = "Ahorro";
 

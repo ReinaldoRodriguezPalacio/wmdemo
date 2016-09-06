@@ -73,7 +73,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         emptyView.returnAction = {() in
             self.back()
         }
-        self.view.addSubview(emptyView)
+        emptyView.returnButton.hidden = IS_IPAD
         self.viewFooter!.backgroundColor = UIColor.whiteColor()
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
@@ -102,6 +102,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         
         self.view.addSubview(self.viewStatus)
         self.view.addSubview(viewFooter)
+        self.view.addSubview(emptyView)
         
         showLoadingView()
         reloadPreviousOrderDetail()
@@ -118,7 +119,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         self.viewStatus.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, 24.0)
         self.statusLabel.frame = CGRectMake(0.0, 0.0, self.viewStatus.frame.width, 24.0)
         
-        self.emptyView.frame = CGRectMake(0, 71, self.view.frame.width, self.view.frame.height - 71)
+        self.emptyView.frame = CGRectMake(0, 46.0, self.view.bounds.width, self.view.frame.height - 46.0)
         self.tableOrders.frame = CGRectMake(0, 71, self.view.bounds.width, self.view.bounds.height - 71)
         
         self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
@@ -206,7 +207,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let headerView = UIView(frame:CGRectMake(0, 0, self.view.frame.width, 40))
         headerView.backgroundColor = WMColor.light_light_gray
         
-        let textOrder = "Envio \((section + 1)) de \(self.shippingAll.count)"
+        let textOrder = String(format: NSLocalizedString("previousorder.shipping", comment:""), String(section + 1), String(self.shippingAll.count))
         let titleShipping = UILabel(frame:CGRectMake(16, 0, self.view.frame.width / 2, 40))
         titleShipping.font = WMFont.fontMyriadProRegularOfSize(16)
         titleShipping.textColor = WMColor.dark_gray
@@ -324,7 +325,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let itemsShipping = shipping["items"] as! NSArray
         
         valuesDetail = ["name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
-        detailController.shipping = "Envio \((sender.tag + 1)) de \(self.shippingAll.count)"
+        detailController.shipping = String(format: NSLocalizedString("previousorder.shipping", comment:""), String(sender.tag + 1), String(self.shippingAll.count))
         detailController.detailsOrderGroceries = valuesDetail
         detailController.type = ResultObjectType.Mg //
         detailController.itemDetailProducts = shipping["items"] as! NSArray
@@ -427,9 +428,8 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             
             let headerView = UIView(frame:CGRectMake(0, 0, totalImageSize.width, 40))
             headerView.backgroundColor = WMColor.light_light_gray
-            
             //header envios
-            let textOrder = "Envio \((section + 1)) de \(self.shippingAll.count)"
+            let textOrder = String(format: NSLocalizedString("previousorder.shipping", comment:""), String(section + 1), String(self.shippingAll.count))
             let titleShipping = UILabel(frame:CGRectMake(16, 0, self.view.frame.width / 2, 40))
             titleShipping.font = WMFont.fontMyriadProRegularOfSize(16)
             titleShipping.textColor = WMColor.dark_gray
