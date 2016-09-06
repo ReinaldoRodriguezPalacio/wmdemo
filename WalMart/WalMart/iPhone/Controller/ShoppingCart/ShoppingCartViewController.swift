@@ -201,8 +201,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         emptyView = IPOShoppingCartEmptyView(frame:CGRectZero)
         emptyView.frame = CGRectMake(0,  viewHerader.frame.maxY,  self.view.frame.width,  self.view.frame.height - viewHerader.frame.height)
         emptyView.returnAction = {() in
-            self.delegate.closeShoppingCart()
+            //self.delegate.closeShoppingCart()
             //self.closeShoppingCart()
+            
+            self.testServiceShopping()
         }
         self.view.addSubview(emptyView)
         
@@ -210,7 +212,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
     
+    func testServiceShopping(){
+        
     
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

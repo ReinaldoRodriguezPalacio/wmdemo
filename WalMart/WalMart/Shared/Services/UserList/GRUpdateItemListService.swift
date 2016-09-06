@@ -18,8 +18,8 @@ class GRUpdateItemListService: GRBaseService {
         return ["upc":upc, "quantity":quantity, "comments":"", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""]
     }
     
-    func buildItemMustang(sku:String,quantity:Int) -> NSDictionary {
-        return ["skuId":sku,"quantity":quantity]
+    func buildItemMustang(upc:String,sku:String,quantity:Int) -> NSDictionary {
+        return ["upc":upc,"skuId":sku,"quantity":quantity]
         
     }
     

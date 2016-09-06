@@ -306,7 +306,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if self.products != nil  && self.products!.count > 0  {
                     for i in 0...self.products!.count - 1 {
                         let item =  self.products![i] as? [String:AnyObject]
-                        self.selectedItems?.addObject(item!["upc"] as! String )
+                        self.selectedItems?.addObject(item!["productId"] as! String )//TODO upc
                     }
                     self.updateTotalLabel()
                     self.showHelpViewDetail()
@@ -1204,12 +1204,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             self.selectedItems = NSMutableArray()
                                             for i in 0...self.products!.count - 1 {
                                                 let item =  self.products![i] as? [String:AnyObject]
-                                                self.selectedItems?.addObject(item!["upc"] as! String )
+                                                self.selectedItems?.addObject(item!["productId"] as! String )
                                             }
                                         }
                                         self.openEmpty =  false
                                         self.removeEmpyView()
-                                        self.counSections()
+                                        //self.counSections() //TODO Walmart
                                     }
                                     
                                     //self.layoutTitleLabel()
@@ -1326,7 +1326,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
             let service = GRUpdateItemListService()
-            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildItemMustang(upc, quantity: quantity))
+            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildItemMustang(upc,sku: upc, quantity: quantity))//TODO agregar skuid
             service.callService(params,
                                 successBlock: { (result:NSDictionary) -> Void in
                                     self.invokeDetailListService({ () -> Void in

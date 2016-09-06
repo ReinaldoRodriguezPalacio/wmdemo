@@ -26,7 +26,7 @@ class GRUserListService : GRBaseService {
                 successBlock: { (resultCall:NSDictionary) -> Void in
                     //self.jsonFromObject(resultCall)
                     if let list = resultCall["responseArray"] as? [AnyObject] {
-                        self.manageListData(list)
+                        //self.manageListData(list)
                     }
                     
                     self.mergeList(resultCall, successBlock: successBlock, errorBlock: errorBlock)
