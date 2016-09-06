@@ -111,6 +111,11 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         isShowingTabBar = !TabBarHidden.isTabBarHidden
+        if !isShowingTabBar {
+            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
+            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
+        }
     }
     
     override func viewWillLayoutSubviews() {
