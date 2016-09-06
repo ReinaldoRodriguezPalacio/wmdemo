@@ -168,7 +168,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, (IS_IPAD ? 681.5 : self.view.frame.width), self.view.frame.height - 46))
         self.viewLoad!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
