@@ -201,10 +201,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         if let name = item["addressName"] as? String {
             addressName = name
         }
-        if let pref = item["preferred"] as? NSNumber{
-            if pref.integerValue == 1 {
-                prefered = true
-            }
+        if indexPath.row == 0{
+            prefered = true
         }
         
         var addressId = ""
