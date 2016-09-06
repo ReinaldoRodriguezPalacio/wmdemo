@@ -38,6 +38,7 @@ class CheckOutShippingCell: UITableViewCell {
         self.labelNumber!.numberOfLines = 2
         self.labelNumber!.textAlignment = .Left
         self.labelNumber!.backgroundColor = UIColor.clearColor()
+        self.labelNumber!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.contentView.addSubview(self.labelNumber!)
         
     }
@@ -60,8 +61,9 @@ class CheckOutShippingCell: UITableViewCell {
         var quantyInt =  Int(quanty)
         
         self.descriptionTitle!.text = value
-        self.labelNumber!.text = "\(quanty)"
-        
+        if quanty != "" {
+            self.labelNumber!.text = "(\(quanty))"
+        }
     }
     
 }
