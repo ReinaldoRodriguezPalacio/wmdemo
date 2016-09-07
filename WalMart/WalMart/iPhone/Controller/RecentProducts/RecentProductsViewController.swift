@@ -81,14 +81,15 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         let service = GRRecentProductsService()
         service.callService({ (resultado:NSDictionary) -> Void in
             self.contResult(resultado)
-            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]!) as! [AnyObject]
+            // TODO : Servicios En walmart validar con servicio
+            // self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]!) as! [AnyObject]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
             }
             self.invokeStop = true
             self.viewLoad = nil
-            //self.emptyView!.hidden = true
+            self.emptyView!.hidden = true
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.viewLoad.stopAnnimating()

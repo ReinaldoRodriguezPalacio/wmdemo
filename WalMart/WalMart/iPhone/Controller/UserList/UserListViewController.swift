@@ -578,6 +578,42 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func showNewListField() {
         
+        //TODO Add
+//        let service = GRAddItemListService()
+//        let params = service.buildItemMustangObject(idList: "gl5890249", upcs:service.buildItemMustang("00750226892092", sku: "00750226892092_000897302", quantity: 2) )
+//        service.callService(params, successBlock: { (result:NSDictionary) -> Void in
+//            print("result")
+//            }, errorBlock: { (error:NSError) -> Void in
+//                print("Error at delete product from user")
+//            }
+//        )
+//    
+        //TODO Update 
+//        let service = GRUpdateItemListService()
+//        let params = service.buildItemMustangObject(idList: "gl5890249", upcs:service.buildItemMustang("00750226892092", sku: "00750226892092_000897302", quantity: 8))
+//        service.callService(params,
+//                            successBlock: { (result:NSDictionary) -> Void in
+//                         print("successBlock")
+//            }, errorBlock: { (error:NSError) -> Void in
+//                print("Error at delete product from user")
+//                           }
+//        )
+        
+        //TODO delete
+//        let service = GRDeleteItemListService()
+//        let params = service.buildItemMustangObject(idList: "gl5890249", upcs:service.buildDeleteItemMustang("gi920004")) //repositoryId =  gi920004
+//        service.jsonFromObject(params)
+//        service.callService(params,
+//                            successBlock:{ (result:NSDictionary) -> Void in
+//                                
+//                  print("successBlock ")
+//            },
+//                            errorBlock:{ (error:NSError) -> Void in
+//                                print("Error at delete product from user")
+//                                
+//            }
+//        )
+        
     
         self.newListBtn!.enabled = false
         self.editBtn!.enabled = false

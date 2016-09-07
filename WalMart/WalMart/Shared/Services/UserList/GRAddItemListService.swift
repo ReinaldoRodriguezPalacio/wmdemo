@@ -32,12 +32,12 @@ class GRAddItemListService: GRBaseService {
     }
     
     func buildItemMustangObject(idList idList:String, upcs:NSDictionary) -> NSDictionary {
-        return ["idList":idList,"items":upcs]
+        return ["idList":idList,"items":[upcs]]
     }
     
     
     func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        var toSneditem : [String:AnyObject] = [:]
+        /*var toSneditem : [String:AnyObject] = [:]
         let arrayItems = params["itemArrImp"] as! NSArray
         var arrayToSend : [[String:AnyObject]] = []
         for item in arrayItems {
@@ -48,9 +48,9 @@ class GRAddItemListService: GRBaseService {
             arrayToSend.append(toSendUPC)
         }
         toSneditem["idList"] = params["idList"] as! String
-        toSneditem["itemArrImp"] = arrayToSend
-        self.jsonFromObject(toSneditem)
-        self.callPOSTService(toSneditem,
+        toSneditem["itemArrImp"] = arrayToSend*/
+        self.jsonFromObject(params)
+        self.callPOSTService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
                 //self.jsonFromObject(resultCall)
                 self.manageList(resultCall)
