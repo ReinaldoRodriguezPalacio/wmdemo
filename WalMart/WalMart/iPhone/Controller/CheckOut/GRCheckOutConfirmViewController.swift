@@ -50,7 +50,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         super.viewDidLoad()
         self.titleLabel?.text = NSLocalizedString("checkout.confirm.title", comment: "")
         
-        self.contentTableView = UITableView(frame: CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120)))
+        self.contentTableView = UITableView(frame: CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120 + (IS_IPAD ? 64.0 : 0))))
         self.contentTableView.backgroundColor = UIColor.whiteColor()
         self.contentTableView.separatorStyle =  .None
         self.contentTableView.delegate =  self
@@ -68,7 +68,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         viewFooter!.layer.insertSublayer(layerLine, atIndex: 1000)
         layerLine.frame = CGRectMake(0, 0, self.viewFooter!.frame.width, 2)
 
-        let cancelButton = UIButton(frame: CGRect(x:16 , y:16 , width: (self.view.frame.width - 40) / 2  , height:34))
+        let cancelButton = UIButton(frame: CGRect(x:16 , y:16 , width: IS_IPAD ? 148.0 : ((self.view.frame.width - 40) / 2), height:34))
         cancelButton.setTitle(NSLocalizedString("checkout.confirm.cancel", comment: ""), forState: .Normal)
         cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         cancelButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
