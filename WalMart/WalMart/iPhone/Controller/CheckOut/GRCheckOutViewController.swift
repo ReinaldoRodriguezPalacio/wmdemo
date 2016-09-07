@@ -1625,9 +1625,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 //                }
                 
                 if !self.asociateDiscount {
-                    self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "0.0")
+                    //self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "0.0")
                 }else{
-                    self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
+                    //self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
                 
                 }
             
@@ -1828,7 +1828,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         print("idAuthorization::::\(idAuthorization)::::")
 
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
-        self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
+        //self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
 
                
             
@@ -2123,7 +2123,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let discountsAssociated = self.totalDiscountsOrder
                 
                 postDeliveryMercury.callMercuryDelivery(delivery, onPostDelivery: { (idDelivery) -> Void in
-                    self.serviceDetail?.completeOrder(idDelivery, deliveryDate: formattedDate, deliveryHour: self.deliverySchedule!.text! , paymentType: paymentSelectedText, subtotal: _formattedSubtotal, total: _formattedSubtotal,deliveryAmount : "",discountsAssociated : "\(discountsAssociated)")
+                    //self.serviceDetail?.completeOrder(idDelivery, deliveryDate: formattedDate, deliveryHour: self.deliverySchedule!.text! , paymentType: paymentSelectedText, subtotal: _formattedSubtotal, total: _formattedSubtotal,deliveryAmount : "",discountsAssociated : "\(discountsAssociated)")
                     self.buttonShop?.enabled = false
                     }, onError: { (error) -> Void in
                         self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")

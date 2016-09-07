@@ -8,12 +8,15 @@
 
 import Foundation
 
-class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDelegate,UITableViewDataSource {
+class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDetailViewDelegate, UITableViewDelegate,UITableViewDataSource {
     
     
     let PERSONALCELL_ID = "personalDataCell"
     let ADDRESSCELL_ID = "adreessCell"
     let TOTALSL_ID = "totalsCell"
+    
+    //Confirmation view
+    var serviceDetail : OrderConfirmDetailView? = nil
     
     var contentTableView: UITableView!
     var viewFooter : UIView?
@@ -165,6 +168,7 @@ class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDele
     }
     
     func continueOrder(){
+        /*
         let cont = LoginController.showLogin()
         var user = ""
         if UserCurrentSession.hasLoggedUser() {
@@ -177,7 +181,32 @@ class GRCheckOutConfirmViewController : NavigationViewController,UITableViewDele
         }
         cont!.okCancelCallBack = {() in
             print("cancel")
-        }
+        }*/
+        
+        //CONFIRM
+        serviceDetail = OrderConfirmDetailView.initDetail()
+        serviceDetail?.delegate = self
+        serviceDetail!.showDetail()
+        
+        let formatedSubotal = CurrencyCustomLabel.formatString("10500")
+        let formatedShippingCost = CurrencyCustomLabel.formatString("200")
+        let formatedTxes = CurrencyCustomLabel.formatString("200")
+        let formatedDiscount = CurrencyCustomLabel.formatString("5000")
+        let formatedTotal = CurrencyCustomLabel.formatString("5900")
+        
+        self.serviceDetail?.completeOrder("12345678912345", subtotal:formatedSubotal,shippingCost:formatedShippingCost, taxes:formatedTxes,discount:formatedDiscount,total: formatedTotal)
+    }
+    
+    /**
+     Close OrderConfirmDetailView delegate
+     */
+    func didFinishConfirm() {
+        print("Close")
+        self.navigationController!.popToRootViewControllerAnimated(true)
+    }
+    
+    func didErrorConfirm() {
+        self.navigationController!.popToRootViewControllerAnimated(true)
     }
     
     
