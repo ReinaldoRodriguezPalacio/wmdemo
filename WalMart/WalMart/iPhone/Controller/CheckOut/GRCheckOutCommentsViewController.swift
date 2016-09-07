@@ -29,7 +29,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var notConfirmCallButton: UIButton?
     var confirmCallOptionButton: UIButton?
     var paramsToOrder : NSMutableDictionary?
-    var paramsToConfirm : NSMutableDictionary?
+    //var paramsToConfirm : NSMutableDictionary?
     var confirmSelected: Int! = 3
     var confirmText: String! = ""
     var savePhoneButton: UIButton?
@@ -184,7 +184,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
+        self.cancelButton!.backgroundColor = WMColor.empty_gray
         self.cancelButton!.layer.cornerRadius = 17
         self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)

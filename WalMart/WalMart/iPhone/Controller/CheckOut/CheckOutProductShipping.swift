@@ -17,6 +17,8 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var cancelButton : UIButton?
     var nextButton : UIButton?
     var itemSelected : Int = -1
+    var paramsToOrder : NSMutableDictionary?
+    var shippingsToOrder : NSMutableArray?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -57,7 +59,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.nextButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.nextButton!.addTarget(self, action: #selector(CheckOutProductShipping.next), forControlEvents: .TouchUpInside)
         self.nextButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.nextButton!.backgroundColor =  WMColor.blue
+        self.nextButton!.backgroundColor =  WMColor.light_blue
         self.nextButton!.layer.cornerRadius =  17
         self.view.addSubview(self.nextButton!)
         self.service()
@@ -95,27 +97,32 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let content : UIView = UIView(frame: CGRectMake(0.0, 0.0 , self.view.frame.width, 56))
         content.backgroundColor = UIColor.whiteColor()
+        var configshiping = false
+        if ((self.shipping[section - 1] as? NSDictionary) != nil){
+            configshiping = true
+        }
       
         let headerView : UIView = UIView(frame: CGRectMake(0.0, 8.0, self.view.frame.width, 40))
-        headerView.backgroundColor = WMColor.light_gray
+        headerView.backgroundColor = WMColor.light_light_gray
       
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, 100, 40))
         titleLabel.text = "Envio \(section) de \(self.shippingAll.count)"
         titleLabel.textColor = WMColor.dark_gray
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         
-        let button = UILabel(frame: CGRectMake(self.view.frame.width - 150, 0.0, 150, 40))
-        button.text = "Selecciona tipo de envío "
-        button.textColor = WMColor.regular_blue
-        button.font = WMFont.fontMyriadProRegularOfSize(12)
-        
         let imageDisclousure = UIImageView(image: UIImage(named: "disclosure"))
         imageDisclousure.contentMode = UIViewContentMode.Center
         imageDisclousure.frame = CGRectMake(self.view.frame.width - 30 , 10 , 20, 20)
+        
+        let labelShipping = UILabel(frame: CGRectMake(imageDisclousure.frame.minX - 158, 0.0, 150, 40))
+        labelShipping.text = configshiping ? "Cambiar tipo de envio" : "Selecciona tipo de envío "
+        labelShipping.textColor = WMColor.light_blue
+        labelShipping.font = WMFont.fontMyriadProRegularOfSize(12)
+        labelShipping.textAlignment = .Right
      
         headerView.addSubview(imageDisclousure)
         headerView.addSubview(titleLabel)
-        headerView.addSubview(button)
+        headerView.addSubview(labelShipping)
         content.addSubview(headerView)
         
         content.tag = section
@@ -133,13 +140,13 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         var cell : UITableViewCell? = nil
         if indexPath.section  == 0  {
             let cell = tableProductsCheckout.dequeueReusableCellWithIdentifier("textCheckoutCell", forIndexPath: indexPath) as! ShoppingCartTextViewCell
-            cell.setValues("Este producto no puede ser entregado en un solo envío \nSelecciona un tipo de envío para cada grupo de artículo", hiddenDelimiter: true)
+            cell.setValues("Este pedido no puede ser entregado en un solo envío.\nSelecciona un tipo de envío para cada grupo de artículos", hiddenDelimiter: true)
             return cell
         }
 
         var shippingtype : NSDictionary = [:]
         var configshiping = false
-        var index = 0
+        //var index = 0
         
         if let shippingDic = self.shipping[indexPath.section - 1] as? NSDictionary{
             shippingtype = shippingDic
@@ -154,7 +161,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         }else
         if !configshiping && indexPath.row == 0 || (configshiping && indexPath.row == 1)  {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
-            cellText.setValues("Producto", quanty:"")
+            cellText.setValues("Productos", quanty:"")
             cell = cellText
         }
         else {
@@ -204,7 +211,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     }
     
     func next(){
+        let servicePrev = PreviousOrderDetailService()
+        servicePrev.jsonFromObject(self.paramsToOrder)
         let nextController = GRCheckOutCommentsViewController()
+        self.paramsToOrder?.setValue(self.shippingsToOrder, forKey: "shipping")
+        nextController.paramsToOrder =  self.paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
     }
     
@@ -232,7 +243,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         itemSelected = selectedItem - 1
         
         if let dic = self.shipping[itemSelected] as? NSDictionary{
-            var selected = dic["rowSelected"] as! Int
+            let selected = dic["rowSelected"] as! Int
             controller.rowSelected = selected
         }
         
@@ -243,8 +254,21 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
 
     
     func selectDataTypeShipping(envio: String, util: String, date: String, rowSelected: Int){
+        if  self.paramsToOrder?.objectForKey("shipping") == nil{
+            self.paramsToOrder?.addEntriesFromDictionary(["shipping":[]])
+        }
+        
         if itemSelected >= 0 {
+            
             let shippingDic = ["type":envio ,"util":util,"date":date , "rowSelected":rowSelected ]
+            //self.paramsToOrder?.setValue(shippingDic, forKey: "shipping")
+            if shippingsToOrder ==  nil {
+                self.shippingsToOrder = [["type":envio ,"util":util,"date":date , "rowSelected":rowSelected]]
+            }else{
+                shippingsToOrder?.addObject(["type":envio ,"util":util,"date":date , "rowSelected":rowSelected])
+            }
+            //self.paramsToOrder?.objectForKey("shipping")?.addEntriesFromDictionary(shippingDic as [NSObject : AnyObject])
+            
             shipping.updateValue(shippingDic, forKey: itemSelected)
             self.tableProductsCheckout.reloadData()
         }

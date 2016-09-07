@@ -50,7 +50,7 @@ class ShoppingCartTextViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         let bounds = self.frame
-        let margin:CGFloat = 20.0
+        let margin:CGFloat = 16.0
         let width:CGFloat = bounds.width - (2*margin)
         self.descriptionTitle!.frame = CGRectMake(margin, 0.0, width, bounds.size.height)
        // self.delimiter!.frame = CGRectMake(0.0, bounds.height - 1.0, bounds.width, 1.0)

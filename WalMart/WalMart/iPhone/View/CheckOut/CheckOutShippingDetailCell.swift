@@ -31,7 +31,7 @@ class CheckOutShippingDetailCell: UITableViewCell {
         self.type!.backgroundColor = UIColor.clearColor()
         
         self.type!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.type!.textColor = WMColor.gray_reg
+        self.type!.textColor = WMColor.light_blue
         self.contentView.addSubview(self.type!)
         
         self.util = UILabel()
@@ -39,6 +39,7 @@ class CheckOutShippingDetailCell: UITableViewCell {
         self.util!.textAlignment = .Left
         self.util!.backgroundColor = UIColor.clearColor()
         self.util!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.util!.textColor = WMColor.dark_gray
         self.contentView.addSubview(self.util!)
         
         self.date = UILabel()
@@ -47,7 +48,7 @@ class CheckOutShippingDetailCell: UITableViewCell {
         self.date!.backgroundColor = UIColor.clearColor()
         
         self.date!.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.date!.textColor = WMColor.gray_reg
+        self.date!.textColor = WMColor.dark_gray
         self.contentView.addSubview(self.date!)
         
     }

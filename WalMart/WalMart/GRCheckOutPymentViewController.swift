@@ -174,7 +174,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.cancelShop =  UIButton()
         cancelShop?.setTitle(NSLocalizedString("Cancelar", comment: ""), forState:.Normal)
         cancelShop?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        cancelShop?.backgroundColor = WMColor.empty_gray_btn
+        cancelShop?.backgroundColor = WMColor.empty_gray
         cancelShop?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         cancelShop?.layer.cornerRadius = 16
         cancelShop?.addTarget(self, action: #selector(GRCheckOutPymentViewController.cancelPurche), forControlEvents: UIControlEvents.TouchUpInside)

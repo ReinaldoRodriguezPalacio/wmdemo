@@ -18,7 +18,7 @@ class CheckOutShippingCell: UITableViewCell {
     var labelNumber: UILabel?
     var descriptionTitle: UILabel?
     var cartButton : UIButton?
-    var separator : UIView?
+    var separator : CALayer?
     var delegate : CheckOutShippingDelegate?
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,9 +34,8 @@ class CheckOutShippingCell: UITableViewCell {
         self.descriptionTitle!.numberOfLines = 1
         self.descriptionTitle!.textAlignment = .Left
         self.descriptionTitle!.backgroundColor = UIColor.clearColor()
-        
-        self.descriptionTitle!.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.descriptionTitle!.textColor = WMColor.gray_reg
+        self.descriptionTitle!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.descriptionTitle!.textColor = WMColor.dark_gray
         self.contentView.addSubview(self.descriptionTitle!)
         
      
@@ -44,20 +43,22 @@ class CheckOutShippingCell: UITableViewCell {
         self.labelNumber!.numberOfLines = 2
         self.labelNumber!.textAlignment = .Left
         self.labelNumber!.backgroundColor = UIColor.clearColor()
-        self.labelNumber!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.labelNumber!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.labelNumber!.textColor = WMColor.gray_reg
         self.contentView.addSubview(self.labelNumber!)
         
-        self.separator = UIView(frame:  CGRect(x:0 , y:0 , width: self.contentView.frame.width, height:1))
-        self.separator?.backgroundColor = WMColor.light_gray
-        self.contentView.addSubview(self.separator!)
+        separator = CALayer()
+        separator!.backgroundColor = WMColor.light_light_gray.CGColor
+        self.layer.insertSublayer(separator!, atIndex: 0)
+        //self.contentView.addSubview(self.separator!)
         
-        self.cartButton = UIButton(frame: CGRect(x:16 , y:30 , width: 80  , height:30))
+        self.cartButton = UIButton()
         self.cartButton!.setTitle("Editar Carrito", forState: .Normal)
         self.cartButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.cartButton!.addTarget(self, action: #selector(CheckOutShippingCell.shoppingCart), forControlEvents: .TouchUpInside)
-        self.cartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cartButton!.backgroundColor =  WMColor.blue
-        self.cartButton!.layer.cornerRadius =  17
+        self.cartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.cartButton!.backgroundColor =  WMColor.light_blue
+        self.cartButton!.layer.cornerRadius =  11
         self.contentView.addSubview(self.cartButton!)
         
         cartButton!.hidden = true
@@ -72,8 +73,8 @@ class CheckOutShippingCell: UITableViewCell {
         
         self.labelNumber!.frame = CGRectMake(bounds.width - 40, 0.0, 30.0, 30.0)
         self.descriptionTitle!.frame = CGRectMake(margin, 0.0, width -  self.labelNumber!.frame.width, 30.0)
-        self.separator!.frame = CGRectMake(0,  self.labelNumber!.frame.maxY, bounds.width, 1.0)
-        self.cartButton!.frame = CGRectMake(margin,  self.labelNumber!.frame.maxY + 12, 100.0, 30.0)
+        self.separator!.frame = CGRectMake(0, self.labelNumber!.frame.maxY, self.bounds.width, 1.0)
+        self.cartButton!.frame = CGRectMake(margin,  self.labelNumber!.frame.maxY + 12, 76, 22)
         
     }
     
@@ -82,7 +83,6 @@ class CheckOutShippingCell: UITableViewCell {
     }
     
     func setValues(value: String, quanty: String ) {
-        var quantyInt =  Int(quanty)
         self.descriptionTitle!.text = value
         if quanty != "" {
             self.labelNumber!.text = "(\(quanty))"

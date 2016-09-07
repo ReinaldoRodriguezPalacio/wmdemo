@@ -39,7 +39,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var sectionTitleInvoice: UILabel!
     var invoiceButton: UIButton!
     var paramsToOrder : NSMutableDictionary?
-    var paramsToConfirm : NSMutableDictionary?
+    //var paramsToConfirm : NSMutableDictionary?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -116,9 +116,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
+        self.cancelButton!.backgroundColor = WMColor.empty_gray
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
@@ -308,6 +308,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.navigationController?.pushViewController(nextController, animated: true)*/
        
         let nextController = CheckOutProductShipping()
+        nextController.paramsToOrder =  self.paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
         
     }
@@ -333,6 +334,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.selectedAddress = addressId
                     self.getAddressDescription(addressId)
                 }
+                self.paramsToOrder = ["addressShopping":["addressId":option["addressId"] as! String, "phoneNumberAddres":option["phoneNumber"] as! String, "nameAddres":option["name"] as! String,"storeId":option["storeId"] as! String]]
                 self.selectedAddressIx = indexPath
             }
             if formFieldObj ==  self.addressInvoice! {
@@ -342,6 +344,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddressInvoice = addressId
                 }
+                self.paramsToOrder?.addEntriesFromDictionary(["addressInvoice":["phoneNumberAddres":option["phoneNumber"] as! String, "nameAddres":option["name"] as! String,"storeId":option["storeId"] as! String]])
                 self.selectedAddressInvoiceIx = indexPath
             }
         }
