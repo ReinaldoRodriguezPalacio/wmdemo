@@ -57,9 +57,9 @@ class CheckOutShippingDetailCell: UITableViewCell {
         let margin:CGFloat = 20.0
         let width:CGFloat = bounds.width - (2*margin)
         
-        self.type!.frame = CGRectMake(10, 0.0, width, 15)
-        self.util!.frame = CGRectMake(10, self.type!.frame.maxY, width, 15)
-        self.date!.frame = CGRectMake(10, self.util!.frame.maxY, width, 15)
+        self.type!.frame = CGRectMake(16, 8, width, 15)
+        self.util!.frame = CGRectMake(16, self.type!.frame.maxY, width, 15)
+        self.date!.frame = CGRectMake(16, self.util!.frame.maxY, width, 15)
         
     }
     

@@ -554,6 +554,8 @@
 		AC44BCDE19D5CCE70055DE71 /* FieldInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC44BCDD19D5CCE70055DE71 /* FieldInputView.swift */; };
 		AC44BCE019D618E80055DE71 /* FormFieldErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC44BCDF19D618E80055DE71 /* FormFieldErrorView.swift */; };
 		AC47BBF619C0E9AD00B459BC /* BarCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC47BBF519C0E9AD00B459BC /* BarCodeViewController.swift */; };
+		AC5029781D7F390D00495A1C /* CheckOutShippingSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5029771D7F390D00495A1C /* CheckOutShippingSelectionCell.swift */; };
+		AC50297A1D7F39F400495A1C /* CheckOutShippingSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5029791D7F39F400495A1C /* CheckOutShippingSelectionController.swift */; };
 		AC536D3D19DB39CD007D2D42 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC536D3C19DB39CD007D2D42 /* HelpViewController.swift */; };
 		AC536D4019DB3C84007D2D42 /* help.json in Resources */ = {isa = PBXBuildFile; fileRef = AC536D3E19DB3C83007D2D42 /* help.json */; };
 		AC536D4319DB43CF007D2D42 /* HelpViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC536D4219DB43CF007D2D42 /* HelpViewCell.swift */; };
@@ -1256,6 +1258,8 @@
 		AC44BCDD19D5CCE70055DE71 /* FieldInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FieldInputView.swift; path = Shared/View/Field/FieldInputView.swift; sourceTree = "<group>"; };
 		AC44BCDF19D618E80055DE71 /* FormFieldErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormFieldErrorView.swift; path = Shared/View/Field/FormFieldErrorView.swift; sourceTree = "<group>"; };
 		AC47BBF519C0E9AD00B459BC /* BarCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarCodeViewController.swift; path = Shared/Controller/BarCodeViewController.swift; sourceTree = "<group>"; };
+		AC5029771D7F390D00495A1C /* CheckOutShippingSelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutShippingSelectionCell.swift; path = iPhone/View/CheckOut/CheckOutShippingSelectionCell.swift; sourceTree = "<group>"; };
+		AC5029791D7F39F400495A1C /* CheckOutShippingSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutShippingSelectionController.swift; path = iPhone/Controller/CheckOut/CheckOutShippingSelectionController.swift; sourceTree = "<group>"; };
 		AC536D3C19DB39CD007D2D42 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpViewController.swift; path = iPhone/Controller/Help/HelpViewController.swift; sourceTree = "<group>"; };
 		AC536D3E19DB3C83007D2D42 /* help.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = help.json; path = "Supporting Files/Help/help.json"; sourceTree = "<group>"; };
 		AC536D4219DB43CF007D2D42 /* HelpViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpViewCell.swift; path = Shared/View/Help/HelpViewCell.swift; sourceTree = "<group>"; };
@@ -2677,6 +2681,7 @@
 				6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */,
 				6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */,
 				AC9035A01D78A0300075FB34 /* CheckOutProductShipping.swift */,
+				AC5029791D7F39F400495A1C /* CheckOutShippingSelectionController.swift */,
 			);
 			name = CheckOut;
 			sourceTree = "<group>";
@@ -3452,6 +3457,7 @@
 				AC9035A31D78C6F60075FB34 /* CheckOutShippingCell.swift */,
 				B117CFED1D79EC09004A16D3 /* ComfirmViewCell.swift */,
 				ACFF6D731D7E55530034A274 /* CheckOutShippingDetailCell.swift */,
+				AC5029771D7F390D00495A1C /* CheckOutShippingSelectionCell.swift */,
 			);
 			name = CheckOut;
 			sourceTree = "<group>";
@@ -3673,6 +3679,7 @@
 				04D88CAD1A4B27CD00DB836B /* GRProductBySearchService.swift in Sources */,
 				5614A6641A6887860048B71A /* GRDeliveryTypeService.swift in Sources */,
 				5696079D19B4F4CA005D20DC /* ProductDetailLabelCollectionView.swift in Sources */,
+				AC5029781D7F390D00495A1C /* CheckOutShippingSelectionCell.swift in Sources */,
 				ACCBF5CC1A9404C2008D3239 /* SearchCategoriesViewCell.swift in Sources */,
 				85A40B6D1C223AE40036C78A /* Contact.swift in Sources */,
 				56E54E4619EC4E360004161C /* IPACategoriesResultViewController.swift in Sources */,
@@ -4096,6 +4103,7 @@
 				AC296C2A1A2D476A00B8EBBB /* IPABarCodeViewController.swift in Sources */,
 				566A2CBD19B149FB00E3291E /* IPOLineTableViewCell.swift in Sources */,
 				04D2A3921A2FCCB2008DAE37 /* StoreLocatorViewController.swift in Sources */,
+				AC50297A1D7F39F400495A1C /* CheckOutShippingSelectionController.swift in Sources */,
 				85A40B731C223AE40036C78A /* EVObject.swift in Sources */,
 				AC37F6B819B90932000BB80D /* UpdateUserProfileService.swift in Sources */,
 				562CAAF61A5C6D85007F8584 /* NumericKeyboardView.swift in Sources */,

@@ -509,7 +509,7 @@
 			<key>WalmartMG.OccupationsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getOccupations</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderById.txt</string>
+			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getPurchaseOrderById.json</string>
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderByUser.txt</string>
 			<key>WalmartMG.ProductDetailService</key>
