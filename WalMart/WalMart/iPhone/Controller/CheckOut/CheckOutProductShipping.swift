@@ -211,8 +211,6 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     }
     
     func next(){
-        let servicePrev = PreviousOrderDetailService()
-        servicePrev.jsonFromObject(self.paramsToOrder)
         let nextController = GRCheckOutCommentsViewController()
         self.paramsToOrder?.setValue(self.shippingsToOrder, forKey: "shipping")
         nextController.paramsToOrder =  self.paramsToOrder
@@ -239,17 +237,25 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
 
     func tapOnSection(sender:UITapGestureRecognizer) {
         let selectedItem = sender.view!.tag
-        let controller =  CheckOutShippingSelectionController()
-        itemSelected = selectedItem - 1
-        
-        if let dic = self.shipping[itemSelected] as? NSDictionary{
-            let selected = dic["rowSelected"] as! Int
-            controller.rowSelected = selected
+        if selectedItem == 1 {
+            let controller =  CheckOutShippingSelectionController()
+            itemSelected = selectedItem - 1
+            
+            if let dic = self.shipping[itemSelected] as? NSDictionary{
+                let selected = dic["rowSelected"] as! Int
+                controller.rowSelected = selected
+            }
+            controller.delegate = self
+            controller.titleString =  "Envio \(selectedItem) de \(self.shippingAll.count)"
+            self.navigationController?.pushViewController(controller, animated: true)
+        }else{
+            let controller = CheckOutProductTypeShipping()
+            
+            
+            self.navigationController?.pushViewController(controller, animated: true)
+            
+            
         }
-        
-        controller.delegate = self
-        controller.titleString =  "Envio \(selectedItem) de \(self.shippingAll.count)"
-        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     

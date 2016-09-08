@@ -74,6 +74,7 @@
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
 		4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */; };
 		4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */; };
+		4AB4838D1D80DC55001856CB /* CheckOutProductTypeShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB4838C1D80DC55001856CB /* CheckOutProductTypeShipping.swift */; };
 		4AD4397E1D62328E00C4DA17 /* LegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD4397D1D62328E00C4DA17 /* LegendView.swift */; };
 		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
@@ -723,6 +724,7 @@
 		4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
 		4AAE8F791D46DD70008FD7DC /* WalMart3.31.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.4.xcdatamodel; sourceTree = "<group>"; };
 		4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		4AB4838C1D80DC55001856CB /* CheckOutProductTypeShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutProductTypeShipping.swift; path = iPhone/Controller/CheckOut/CheckOutProductTypeShipping.swift; sourceTree = "<group>"; };
 		4AD4397D1D62328E00C4DA17 /* LegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LegendView.swift; path = Shared/View/Help/LegendView.swift; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
@@ -2682,6 +2684,7 @@
 				6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */,
 				AC9035A01D78A0300075FB34 /* CheckOutProductShipping.swift */,
 				AC5029791D7F39F400495A1C /* CheckOutShippingSelectionController.swift */,
+				4AB4838C1D80DC55001856CB /* CheckOutProductTypeShipping.swift */,
 			);
 			name = CheckOut;
 			sourceTree = "<group>";
@@ -3860,6 +3863,7 @@
 				AC0918C619D1D99300BF48CA /* ShippingAddress.swift in Sources */,
 				569607A919B53042005D20DC /* ProductDetailMSITableViewCell.swift in Sources */,
 				565E5A7419C0BDC300444DF7 /* Cart.swift in Sources */,
+				4AB4838D1D80DC55001856CB /* CheckOutProductTypeShipping.swift in Sources */,
 				56527DE819AFEE38008032C6 /* CategorySelectorItemView.swift in Sources */,
 				AC37F6AD19B9008F000BB80D /* ProductDetailService.swift in Sources */,
 				5673D1351A9D500400DCD20B /* RSCode39Generator.swift in Sources */,

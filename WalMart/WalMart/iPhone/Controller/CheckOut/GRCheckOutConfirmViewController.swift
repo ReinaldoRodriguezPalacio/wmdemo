@@ -168,22 +168,8 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     }
     
     func continueOrder(){
-        /*
-        let cont = LoginController.showLogin()
-        var user = ""
-        if UserCurrentSession.hasLoggedUser() {
-            cont!.noAccount?.hidden = true
-            cont!.registryButton?.hidden = true
-            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email!.enabled = false
-            user = UserCurrentSession.sharedInstance().userSigned!.email as String
-        }
-        cont!.okCancelCallBack = {() in
-            print("cancel")
-        }*/
-        
-        //CONFIRM
+
+        //TODO: CONFIRM
         serviceDetail = OrderConfirmDetailView.initDetail()
         serviceDetail?.delegate = self
         serviceDetail!.showDetail()

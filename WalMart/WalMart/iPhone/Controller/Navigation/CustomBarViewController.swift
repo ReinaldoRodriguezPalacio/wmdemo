@@ -1154,37 +1154,27 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
         
-        if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
-            
-            UIView.animateWithDuration(0.5,
-                                       animations: {() in
-                                        self.shoppingCartVC.view.frame = CGRectMake(-self.shoppingCartVC.view.frame.minX, -self.shoppingCartVC.view.frame.height, self.shoppingCartVC.view.frame.width, self.shoppingCartVC.view.frame.height)
-                                        
-                },
-                                       completion: {(finished : Bool) in
-                                        if finished {
-                                            self.shoppingCartVC.willMoveToParentViewController(nil)
-                                            self.shoppingCartVC.view.removeFromSuperview()
-                                            self.shoppingCartVC.removeFromParentViewController()
-                                            self.shoppingCartVC = nil
-                                            self.openSearch = false
-                                            self.shoppingCartVC = nil
-                                        }
-                }
-            )
-            
-           /* if shoppingCartVC != nil {
-                if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
-                    vcRoot.willMoveToParentViewController(nil)
-                    vcRoot.view.removeFromSuperview()
-                    vcRoot.removeFromParentViewController()
-                    self.shoppingCartVC = nil
-                    
-                    openSearch = false
-                    shoppingCartVC = nil
-                }
+        if shoppingCartVC != nil {
+            if ((shoppingCartVC.viewControllers.first as? ShoppingCartViewController) != nil) {
                 
-            }*/
+                UIView.animateWithDuration(0.5,
+                                           animations: {() in
+                                            self.shoppingCartVC.view.frame = CGRectMake(-self.shoppingCartVC.view.frame.minX, -self.shoppingCartVC.view.frame.height, self.shoppingCartVC.view.frame.width, self.shoppingCartVC.view.frame.height)
+                                            
+                    },
+                                           completion: {(finished : Bool) in
+                                            if finished {
+                                                self.shoppingCartVC.willMoveToParentViewController(nil)
+                                                self.shoppingCartVC.view.removeFromSuperview()
+                                                self.shoppingCartVC.removeFromParentViewController()
+                                                self.shoppingCartVC = nil
+                                                self.openSearch = false
+                                                self.shoppingCartVC = nil
+                                            }
+                    }
+                )
+            }
+            
             
             NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
             

@@ -147,12 +147,15 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
     
     
     func save () {
-        let dic = self.arrayTypeSelect![self.rowSelected!] as? NSDictionary
-        
-        let type = dic!["type"] as! String
-        let util = dic!["util"] as! String
-        let date = dic!["date"] as! String
-        self.delegate?.selectDataTypeShipping(type, util: util, date: date, rowSelected:self.rowSelected!)
+        //Seleccionar un Tipo de envio
+        if self.rowSelected! != -1  {
+            let dic = self.arrayTypeSelect![self.rowSelected!] as? NSDictionary
+            
+            let type = dic!["type"] as! String
+            let util = dic!["util"] as! String
+            let date = dic!["date"] as! String
+            self.delegate?.selectDataTypeShipping(type, util: util, date: date, rowSelected:self.rowSelected!)
+        }
         self.navigationController!.popViewControllerAnimated(true)
 
         
