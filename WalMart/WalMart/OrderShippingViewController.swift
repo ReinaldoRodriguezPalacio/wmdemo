@@ -63,7 +63,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         tableOrders.delegate = self
         
         tableOrders.registerClass(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
-        tableOrders.registerClass(OrderShippingTotalTableViewCell.self, forCellReuseIdentifier: "totals")
+        tableOrders.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totals")
         
         tableOrders.separatorStyle = UITableViewCellSeparatorStyle.None
         
@@ -216,7 +216,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let titleShipping = UILabel(frame:CGRectMake(16, 0, self.view.frame.width / 2, 40))
         titleShipping.font = WMFont.fontMyriadProRegularOfSize(16)
         titleShipping.textColor = WMColor.dark_gray
-        titleShipping.text = textOrder
+        titleShipping.text = self.shippingAll.count == 1 ? "Envío" : textOrder
         headerView.addSubview(titleShipping)
         
         var showDetailButton: UIButton?
@@ -246,16 +246,16 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 return size
             }
         }
-        return 0
+        return 63.0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
         
-        if indexPath.row != self.shippingAll.count {
+       // if indexPath.row != self.shippingAll.count {
             
             if indexPath.section == (self.shippingAll.count - 1) && indexPath.row == 1{
-                let totalCell = tableView.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! OrderShippingTotalTableViewCell
+                let totalCell = tableView.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
                 //let total = self.calculateTotalAmount()
                 
                 var totalValue = ""
@@ -268,8 +268,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                     savingValue = saving
                 }
                 
-                totalCell.setValues(totalValue, totalSaving: savingValue)
-                totalCell.selectionStyle = .None
+                totalCell.setValuesTotalSaving(Total: totalValue, saving:savingValue)
                 cell = totalCell
             } else {
                 let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
@@ -290,7 +289,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 cellDetail.selectionStyle = .None
                 cell = cellDetail
             }
-        }
+      //  }
         
         return cell!
     }

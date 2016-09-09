@@ -67,7 +67,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         tableShoppingCart.delegate = self
         tableShoppingCart.dataSource = self
         tableShoppingCart.registerClass(GRProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
-        tableShoppingCart.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totals")
+        tableShoppingCart.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totals")
         tableShoppingCart.separatorStyle = UITableViewCellSeparatorStyle.None
 
         
@@ -218,14 +218,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         
         if indexPath.row == itemsInCart.count {
-        let tblTotalCell = tableShoppingCart.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
+        let tblTotalCell = tableShoppingCart.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
             let subtotal = UserCurrentSession.sharedInstance().estimateTotalGR()
             let saving = UserCurrentSession.sharedInstance().estimateSavingGR()
             
-            tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "",
-                total: "\(subtotal - saving)",
-                totalSaving: "\(saving)",
-                numProds:"\(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
+            //tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "", total: "\(subtotal - saving)", totalSaving: "\(saving)", numProds:"\(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
+            tblTotalCell.setValuesAll(articles: "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", subtotal: "\(subtotal)", shippingCost: "", iva: "", saving: "\(saving)", total: "\(subtotal - saving)")
             
             return tblTotalCell
         }

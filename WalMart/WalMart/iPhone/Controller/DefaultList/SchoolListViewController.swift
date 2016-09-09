@@ -33,7 +33,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.titleLabel?.text = self.schoolName
         self.tableView!.registerClass(SchoolListTableViewCell.self, forCellReuseIdentifier: "schoolCell")
         self.tableView!.registerClass(SchoolProductTableViewCell.self, forCellReuseIdentifier: "schoolProduct")
-        self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totalsCell")
+        self.tableView!.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totalsCell")
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
     
         let y = (self.footerSection!.frame.height - 34.0)/2
@@ -140,9 +140,11 @@ class SchoolListViewController : DefaultListDetailViewController {
         
         
         if indexPath.row == self.detailItems!.count {
-            let totalCell = tableView.dequeueReusableCellWithIdentifier("totalsCell", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
+            let totalCell = tableView.dequeueReusableCellWithIdentifier("totalsCell", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
-            totalCell.setValuesBTS("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
+            //totalCell.setValuesBTS("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
+            //totalCell.setValues(articles: "\(self.selectedItems!.count)", subtotal: "", shippingCost: "", iva: "", saving: "", total: "\(total)")
+            totalCell.setValuesArtSubtTotal(articles: "\(self.selectedItems!.count)", subtotal: "", total: "\(total)")
             totalCell.selectionStyle = .None
             return totalCell
         }

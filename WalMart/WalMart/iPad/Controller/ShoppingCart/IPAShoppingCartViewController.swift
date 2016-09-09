@@ -48,23 +48,17 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         
         if UserCurrentSession.sharedInstance().userSigned != nil {
             self.addchekout()
+            self.showAlertAddress()
         }
     }
- 
-    
-   
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let url = NSURL(string: serviceUrl("WalmartMG.CartPromo"))
         imagePromotion.setImageWithURL(url, placeholderImage: UIImage(named:"cart_promo"))
     }
-
     
     override func viewDidLayoutSubviews() {
-        
-//        self.viewLoad.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-//        self.viewLoad.setNeedsLayout()
         
         self.viewHerader.frame = CGRectMake(0, 0, self.view.frame.width, 46)
         self.viewContent.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
@@ -83,15 +77,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         
         self.buttonShop.frame = CGRectMake( buttonListSelect.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
-        
         //self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
-        self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
-
-        self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
-
-       
-        // self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
         
+        self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
+        self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
+        
+        // self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
         if self.customlabel != nil {
             self.customlabel.frame = self.buttonShop.bounds
         }
@@ -133,7 +124,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             popup!.presentPopoverFromRect(CGRectMake(620, 650, 300, 250), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Down, animated: true)
             
             self.popup!.delegate = self
-            
         }
     }
     
@@ -153,7 +143,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         let total = totalsItems["total"] as String!
         let totalSaving = totalsItems["totalSaving"] as String!
         self.updateShopButton(total)
-        
         
         totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
     }
@@ -230,12 +219,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         listObj = self.itemsInCartOrderSection[section - 1] as! NSDictionary
         productObje = listObj["products"] as! NSArray
         
-        if section == (self.itemsInCartOrderSection.count) {
-            return productObje!.count + 1
-        } else {
-            return productObje!.count
-        }
-        //return 1
+        return productObje!.count
     }
     
 

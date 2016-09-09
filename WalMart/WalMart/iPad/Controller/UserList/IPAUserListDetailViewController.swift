@@ -303,7 +303,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var productsToShow:[AnyObject] = []
-        if !tableView.cellForRowAtIndexPath(indexPath)!.isKindOfClass(GRShoppingCartTotalsTableViewCell){
+        if !tableView.cellForRowAtIndexPath(indexPath)!.isKindOfClass(ShoppingCartTotalsTableViewCell){
             for productObj  in self.products! {
                 if let product = productObj as? [String:AnyObject] {
                     let upc = product["upc"] as! String

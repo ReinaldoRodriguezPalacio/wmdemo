@@ -12,21 +12,21 @@ import Foundation
 class ShoppingCartTotalsTableViewCell : UITableViewCell {
     
     var subtotalTitle : UILabel!
-    var iva : UILabel!
-    var total : UILabel!
-    var totalSavingTitle : UILabel!
+    var shippingCostTitle : UILabel!
+    var ivaTitle : UILabel!
+    var savingTitle : UILabel!
+    var totalTitle : UILabel!
+    var articlesTitle : UILabel!
     
     var valueSubtotal : CurrencyCustomLabel!
+    var valueShippingCost : CurrencyCustomLabel!
     var valueIva : CurrencyCustomLabel!
-    var valueTotal : CurrencyCustomLabel!
     var valueTotalSaving : CurrencyCustomLabel!
-    
-    
+    var valueTotal : CurrencyCustomLabel!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
-        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -36,97 +36,199 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
     
     func setup() {
         self.selectionStyle = .None
-        backgroundColor = WMColor.light_light_gray
+        self.backgroundColor =  WMColor.light_light_gray
         
-
+        articlesTitle = UILabel()
+        articlesTitle.text = NSLocalizedString("articulos",comment:"")
+        articlesTitle.textColor = WMColor.gray_reg
+        articlesTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        articlesTitle.textAlignment = .Left
+        articlesTitle.frame = CGRectMake(16, 16, 101, 14)
         
         subtotalTitle = UILabel()
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
         subtotalTitle.textColor = WMColor.gray_reg
-        subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         subtotalTitle.textAlignment = .Right
-        subtotalTitle.frame = CGRectMake(146, 18, 101, 12)
+        subtotalTitle.frame = CGRectMake(146, 16, 101, 14)
         
-        iva = UILabel()
-        iva.text = NSLocalizedString("shoppingcart.iva",comment:"")
-        iva.textColor = WMColor.gray_reg
-        iva.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        iva.textAlignment = .Right
-        iva.frame = CGRectMake(146, subtotalTitle.frame.maxY + 6, 101, 12)
+        shippingCostTitle = UILabel()
+        shippingCostTitle.text = NSLocalizedString("Costo envío",comment:"")
+        shippingCostTitle.textColor = WMColor.gray_reg
+        shippingCostTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        shippingCostTitle.textAlignment = .Right
+        shippingCostTitle.frame = CGRectMake(146, subtotalTitle.frame.maxY + 6, 101, 14)
         
-        total = UILabel()
-        total.text = NSLocalizedString("shoppingcart.total",comment:"")
-        total.textColor = WMColor.gray_reg
-        total.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        total.textAlignment = .Right
-        total.frame = CGRectMake(146, iva.frame.maxY + 20, 101, 12)
+        ivaTitle = UILabel()
+        ivaTitle.text = NSLocalizedString("Impuestos",comment:"")
+        ivaTitle.textColor = WMColor.gray_reg
+        ivaTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        ivaTitle.textAlignment = .Right
+        ivaTitle.frame = CGRectMake(146, shippingCostTitle.frame.maxY + 6, 101, 14)
         
-        totalSavingTitle = UILabel()
-        totalSavingTitle.text = NSLocalizedString("shoppingcart.saving",comment:"")
-        totalSavingTitle.textColor =  WMColor.green
-        totalSavingTitle.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        totalSavingTitle.textAlignment = .Right
-        totalSavingTitle.frame = CGRectMake(146, iva.frame.maxY + 3, 101, 12)
+        savingTitle = UILabel()
+        savingTitle.text = NSLocalizedString("Descuento",comment:"")
+        savingTitle.textColor =  WMColor.green
+        savingTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        savingTitle.textAlignment = .Right
+        savingTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 3, 101, 14)
         
-        valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 8, subtotalTitle.frame.minY, 50, 12))
+        totalTitle = UILabel()
+        totalTitle.text = NSLocalizedString("Total",comment:"")
+        totalTitle.textColor = WMColor.orange
+        totalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        totalTitle.textAlignment = .Right
+        totalTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 20, 101, 14)
+        
+        //values
+        valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 8, subtotalTitle.frame.minY, 50, 14))
         valueSubtotal.textAlignment = .Right
-        valueIva = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 8, iva.frame.minY, 50, 12))
+        
+        valueShippingCost = CurrencyCustomLabel(frame: CGRectMake(shippingCostTitle.frame.maxX + 8, shippingCostTitle.frame.minY, 50, 14))
+        valueShippingCost.textAlignment = .Right
+        
+        valueIva = CurrencyCustomLabel(frame: CGRectMake(ivaTitle.frame.maxX + 8, ivaTitle.frame.minY, 50, 14))
         valueIva.textAlignment = .Right
-        valueTotal = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 8, total.frame.minY, 50, 12))
+        
+        valueTotal = CurrencyCustomLabel(frame: CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 14))
         valueTotal.textAlignment = .Right
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 8, totalSavingTitle.frame.minY, 50, 12))
+        
+        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(ivaTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 14))
         valueTotalSaving.textAlignment = .Right
-
         
+        self.addSubview(articlesTitle)
         self.addSubview(subtotalTitle)
-        self.addSubview(iva)
-        self.addSubview(total)
-        self.addSubview(totalSavingTitle)
-        
-        
+        self.addSubview(shippingCostTitle)
+        self.addSubview(ivaTitle)
+        self.addSubview(savingTitle)
+        self.addSubview(totalTitle)
+        //values
         self.addSubview(valueSubtotal)
+        self.addSubview(valueShippingCost)
         self.addSubview(valueIva)
         self.addSubview(valueTotal)
         self.addSubview(valueTotalSaving)
+    }
+    
+    func setValuesAll(articles articles:String,subtotal:String,shippingCost:String,iva:String,saving:String,total:String){
         
+        articlesTitle.text  = "\(articles) \(NSLocalizedString("artículos",comment:""))"
+        
+        /*if shippingCost == "" {
+            ivaTitle.hidden = true
+            
+            ivaTitle.frame = shippingCostTitle.frame
+            savingTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 4, 101, 12)
+            totalTitle.frame = CGRectMake(146, savingTitle.frame.maxY + 4, 101, 12)
+            
+            valueIva.frame = valueShippingCost.frame
+            valueTotalSaving.frame = CGRectMake(savingTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 14)
+            valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 14)
+        } else {*/
+            let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost)
+            valueShippingCost.updateMount(formatedShippingCost, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        //}
+        
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
+        let formatedIVA = CurrencyCustomLabel.formatString(iva)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
+        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        
+        valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
+        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
+    }
+    
+    func setValuesTotalSaving(Total total:String, saving:String){
+        
+        subtotalTitle.hidden = true
+        shippingCostTitle.hidden = true
+        ivaTitle.hidden = true
+        articlesTitle.hidden = true
+        
+        valueSubtotal.hidden = true
+        valueShippingCost.hidden = true
+        valueIva.hidden = true
+        
+        savingTitle.text = NSLocalizedString("previousorder.saving",comment:"")
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
+        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        
+        valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
+        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
+        
+        let yLabel = (self.bounds.height - 27) / 2
+        
+        if IS_IPAD {
+            totalTitle.frame = CGRectMake(self.bounds.width - 175, yLabel, 101, 12)
+            savingTitle.frame = CGRectMake(self.bounds.width - 175, totalTitle.frame.maxY + 3, 101, 12)
+            
+            valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 12)
+            valueTotalSaving.frame = CGRectMake(totalTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 12)
+        } else {
+            totalTitle.frame = CGRectMake(146, yLabel, 101, 12)
+            savingTitle.frame = CGRectMake(146, totalTitle.frame.maxY + 3, 101, 12)
+            
+            valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 12)
+            valueTotalSaving.frame = CGRectMake(totalTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 12)
+        }
         
     }
     
-    func setValues(subtotal: String,iva: String,total: String,totalSaving:String){
+    func setValuesArtSubtTotal(articles articles:String, subtotal:String, total:String){
         
-        if iva != "" {
-            let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-            let formatedIVA = CurrencyCustomLabel.formatString(iva)
-            valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray_reg, interLine: false)
-            valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray_reg, interLine: false)
-            self.valueSubtotal.hidden = false
-            self.valueIva.hidden = false
-            self.subtotalTitle.hidden = false
-            self.iva.hidden = false
-            
-        }else{
-            self.valueSubtotal.hidden = true
-            self.valueIva.hidden = true
-            self.subtotalTitle.hidden = true
-            self.iva.hidden = true
-        }
+        subtotalTitle.hidden = true
+        shippingCostTitle.hidden = true
+        ivaTitle.hidden = true
+        savingTitle.hidden = true
+        
+        valueSubtotal.hidden = true
+        valueShippingCost.hidden = true
+        valueIva.hidden = true
+        valueTotalSaving.hidden = true
+        
+        articlesTitle.text  = "\(articles) \(NSLocalizedString("artículos",comment:""))"
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
         let formatedTotal = CurrencyCustomLabel.formatString(total)
-        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray_reg, interLine: false)
         
-        let totSaving = totalSaving as NSString
-        if totSaving.doubleValue > 0 {
-            let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving)
-            valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(12), color:  WMColor.green, interLine: false)
+        valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
+        
+        let yLabel = (self.bounds.height - 27) / 2
+        
+        articlesTitle.frame = CGRectMake(16, yLabel, 101, 14)
+        
+        if IS_IPAD {
+            subtotalTitle.frame = CGRectMake(self.bounds.width - 175, yLabel, 101, 12)
+            totalTitle.frame = CGRectMake(self.bounds.width - 175, totalTitle.frame.maxY + 3, 101, 12)
             
-            totalSavingTitle.hidden = false
-            valueTotalSaving.hidden = false
-        }else{
-            totalSavingTitle.hidden = true
-            valueTotalSaving.hidden = true
+            valueSubtotal.frame = CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 12)
+            valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 12)
+        } else {
+            subtotalTitle.frame = CGRectMake(146, yLabel, 101, 12)
+            totalTitle.frame = CGRectMake(146, totalTitle.frame.maxY + 3, 101, 12)
+            
+            valueSubtotal.frame = CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 12)
+            valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 12)
         }
+    }
+    
+    func setValuesNotArtNotShipping(subtotal subtotal:String,iva:String,saving:String,total:String) {
         
+        articlesTitle.hidden = true
+        shippingCostTitle.hidden = true
+        valueShippingCost.hidden = true
         
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
+        let formatedIVA = CurrencyCustomLabel.formatString(iva)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
+        let formatedTotal = CurrencyCustomLabel.formatString(total)
         
+        valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
+        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
     }
     
 }

@@ -13,6 +13,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     
     let PERSONALCELL_ID = "personalDataCell"
     let ADDRESSCELL_ID = "adreessCell"
+    let TOTALCELL_ID = "totalCell"
     let TOTALSL_ID = "totalsCell"
     
     //Confirmation view
@@ -59,6 +60,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         self.view.addSubview(self.contentTableView)
         
         self.contentTableView!.registerClass(ComfirmViewCell.self, forCellReuseIdentifier: self.PERSONALCELL_ID)
+        self.contentTableView!.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTALCELL_ID)
         
         self.viewFooter =  UIView(frame:CGRect(x:0 , y:self.contentTableView!.frame.maxY, width:self.view.bounds.width , height: 64 ))
         self.viewFooter?.backgroundColor = UIColor.whiteColor()
@@ -152,10 +154,14 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
             return confirmCell
             
         case 4:
-            let totals = TotalView(frame: CGRect(x:0, y:0, width:self.view.frame.width , height: 122))
+            let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTALCELL_ID) as! ShoppingCartTotalsTableViewCell
+            totalCell.setValuesAll(articles: self.items, subtotal: self.subtotal, shippingCost: self.shippingCost, iva: self.iva, saving: self.saving, total: self.total)
+            return totalCell
+            
+            /*let totals = TotalView(frame: CGRect(x:0, y:0, width:self.view.frame.width , height: 122))
             totals.setValues(articles: self.items, subtotal: self.subtotal, shippingCost: self.shippingCost, iva: self.iva, saving: self.saving, total: self.total)
             cell.addSubview(totals)
-            cell.selectionStyle = .None
+            cell.selectionStyle = .None*/
             
         default:
             break

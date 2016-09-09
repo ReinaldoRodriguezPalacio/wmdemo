@@ -173,7 +173,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         viewShoppingCart.registerClass(ShoppingCartTextViewCell.self, forCellReuseIdentifier: "textCell")
         viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
-        viewShoppingCart.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "productTotalsCell")
+        viewShoppingCart.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "TotalsCell")
         viewShoppingCart.registerClass(ShoppingCartCrossSellCollectionViewCell.self, forCellReuseIdentifier: "crossSellCell")
         
         viewShoppingCart.separatorStyle = .None
@@ -624,7 +624,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         else {
             if productObje.count == indexPath.row  {
-                let cellTotals = viewShoppingCart.dequeueReusableCellWithIdentifier("productTotalsCell", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
+                let cellTotals = viewShoppingCart.dequeueReusableCellWithIdentifier("TotalsCell", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
                 
                 let totalsItems = totalItems()
                 
@@ -635,11 +635,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                 updateShopButton(total)
                 
-                 let newTotal  = total
-                 let newTotalSavings = totalSaving
+                let newTotal  = total
+                let newTotalSavings = totalSaving
                 
-                cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
+                //cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
+                cellTotals.setValuesAll(articles: String(itemsInShoppingCart.count), subtotal: subTotalText, shippingCost: "", iva: iva, saving: newTotalSavings, total: newTotal)
                 cell = cellTotals
+                
             } else { //if productObje.count < indexPath.row
                 let cellPromotion = viewShoppingCart.dequeueReusableCellWithIdentifier("crossSellCell", forIndexPath: indexPath) as? ShoppingCartCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
@@ -1277,43 +1279,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
             self.buttonShop!.enabled = true
             
-            //Add alert
-            if UserCurrentSession().addressId != nil {//TODO
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"tabBar_storeLocator_active"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"tabBar_storeLocator_active"))
-                alert?.showicon(UIImage(named:"tabBar_storeLocator_active"))
-                alert?.setMessage(NSLocalizedString("alert.checkout.address", comment: ""))
-                //alert?.bgView.backgroundColor = WMColor.light_blue
-                alert?.addActionButtonsWithCustomText(NSLocalizedString("update.later", comment: ""), leftAction: {
-                    
-                    alert?.close()
-                    }, rightText: NSLocalizedString("checkout.alert.createAddress", comment: ""), rightAction: {
-                        alert?.showDoneIcon()
-                        alert?.close()
-                        
-                        //Add new address
-                        if self.alertAddress == nil {
-                            self.alertAddress = GRFormAddressAlertView.initAddressAlert()!
-                        }
-                        self.alertAddress?.showAddressAlert()
-                        self.alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
-                            self.alertAddress?.registryAddress(dictSend)
-                            //alert?.close()
-                        }
-                        
-                        self.alertAddress?.alertSaveSuccess = {() in
-                            self.performSegueWithIdentifier("checkoutVC", sender: self)
-                            self.alertAddress?.removeFromSuperview()
-                        }
-                        
-                        self.alertAddress?.cancelPress = {() in
-                            print("")
-                            self.alertAddress?.closePicker()
-                            
-                        }
-                    }, isNewFrame: false)
-            } else {
-                self.performSegueWithIdentifier("checkoutVC", sender: self)
-            }
+            self.showAlertAddress()
+            
             
         } else {
             let cont = LoginController.showLogin()
@@ -1326,18 +1293,56 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
                  
                  self.performSegueWithIdentifier("checkoutVC", sender: self)
-                 
                  cont.closeAlert(true, messageSucesss: true)
-                 
                  self.buttonShop!.enabled = true
-                 
                  //}
             }
         }
-
     }
     
-    
+    func showAlertAddress(){
+        //Add alert
+        if UserCurrentSession().addressId != nil {//TODO
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"tabBar_storeLocator_active"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"tabBar_storeLocator_active"))
+            alert?.showicon(UIImage(named:"tabBar_storeLocator_active"))
+            alert?.setMessage(NSLocalizedString("alert.checkout.address", comment: ""))
+            //alert?.bgView.backgroundColor = WMColor.light_blue
+            alert?.addActionButtonsWithCustomText(NSLocalizedString("update.later", comment: ""), leftAction: {
+                
+                alert?.close()
+                }, rightText: NSLocalizedString("checkout.alert.createAddress", comment: ""), rightAction: {
+                    alert?.showDoneIcon()
+                    alert?.close()
+                    
+                    //Add new address
+                    if self.alertAddress == nil {
+                        self.alertAddress = GRFormAddressAlertView.initAddressAlert()!
+                    }
+                    self.alertAddress?.showAddressAlert()
+                    self.alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+                        self.alertAddress?.registryAddress(dictSend)
+                        //alert?.close()
+                    }
+                    
+                    self.alertAddress?.alertSaveSuccess = {() in
+                        if !IS_IPAD{
+                            self.performSegueWithIdentifier("checkoutVC", sender: self)
+                        }
+                        self.alertAddress?.removeFromSuperview()
+                    }
+                    
+                    self.alertAddress?.cancelPress = {() in
+                        print("")
+                        self.alertAddress?.closePicker()
+                        
+                    }
+                }, isNewFrame: false)
+        } else {
+            if !IS_IPAD{
+                self.performSegueWithIdentifier("checkoutVC", sender: self)
+            }
+        }
+    }
     
     func presentedCheckOut(loginController: LoginController, address: AddressViewController?){
         //FACEBOOKLOG
@@ -1614,8 +1619,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                 //self.reloadShoppingCart()
                 self.removeLoadingView()
-              
-                
                 print("done")
                 
                 //EVENT

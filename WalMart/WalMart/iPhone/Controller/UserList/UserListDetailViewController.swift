@@ -110,7 +110,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
         self.titleLabel?.text = self.listName
         self.tableView!.registerClass(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
-        self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTAL_CELL_ID)
+        self.tableView!.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTAL_CELL_ID)
 
         self.footerSection!.backgroundColor = UIColor.whiteColor()
         
@@ -951,9 +951,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         if indexPath.section == self.newArrayProducts.count {
-            let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
+            let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
-            totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"")
+            //totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"")
+            totalCell.setValuesTotalSaving(Total: "\(total)", saving: "")
             return totalCell
         }
 
