@@ -84,8 +84,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.buttonShop.frame = CGRectMake( buttonListSelect.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
         
-        self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
-        self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
+        //self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
+        self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
+
+        self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
+
        
         // self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
         
@@ -102,9 +105,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.imagePromotion.hidden = true
         self.viewFooter.hidden = true
         self.checkoutVC = IPAGRCheckOutViewController()
-        checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
+        checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height)
         ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
-        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, self.viewContent.frame.height)
+        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height)
         //checkoutVC!.hiddenBack = true
         ctrlCheckOut!.navigationBarHidden = true
         checkoutVC?.delegateCheckOut = self

@@ -20,6 +20,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var collectButton : UIButton?
     var titleDelivery : UILabel?
     
+    var saveButton : UIButton?
+    
     var delivaryCost : CurrencyCustomLabel?
     var collectCost : CurrencyCustomLabel?
     var picker : AlertPickerView!
@@ -52,7 +54,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.view.backgroundColor = UIColor.whiteColor()
         self.titleLabel?.text = "Envio 2 de 2"
         
-        self.viewFooter =  UIView(frame:CGRect(x:0 , y:self.view.frame.maxY - 128, width:self.view.bounds.width , height: 64 ))
+        self.viewFooter =  UIView()
         self.viewFooter?.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(viewFooter!)
         
@@ -61,14 +63,14 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         viewFooter!.layer.insertSublayer(layerLine, atIndex: 1000)
         layerLine.frame = CGRectMake(0, 0, self.viewFooter!.frame.width, 2)
         
-        let cancelButton = UIButton(frame: CGRect(x:16 , y:16 , width:self.view.frame.width - 32, height:34))
-        cancelButton.setTitle(NSLocalizedString("Guardar", comment: ""), forState: .Normal)
-        cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        cancelButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        cancelButton.backgroundColor =  WMColor.green
-        cancelButton.layer.cornerRadius =  17
-        cancelButton.addTarget(self, action: #selector(CheckOutProductTypeShipping.save), forControlEvents: .TouchUpInside)
-        self.viewFooter?.addSubview(cancelButton)
+        saveButton = UIButton()
+        saveButton!.setTitle(NSLocalizedString("Guardar", comment: ""), forState: .Normal)
+        saveButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        saveButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        saveButton!.backgroundColor =  WMColor.green
+        saveButton!.layer.cornerRadius =  17
+        saveButton!.addTarget(self, action: #selector(CheckOutProductTypeShipping.save), forControlEvents: .TouchUpInside)
+        self.viewFooter?.addSubview(saveButton!)
         self.view.addSubview(viewFooter!)
         
         self.titleDelivery = UILabel()
@@ -124,6 +126,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        self.viewFooter?.frame = CGRect(x:0 , y:self.view.frame.maxY - 64, width:self.view.bounds.width , height: 64 )
+        
         self.titleDelivery?.frame =  CGRectMake(16,headerHeight + 16 ,self.view.frame.width - 32 ,46)
         
         self.deliveryButton?.frame =  CGRectMake(16,self.titleDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
@@ -141,6 +145,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         }else{
                 self.viewDelivery?.frame = CGRectMake(16,self.collectButton!.frame.maxY + 16 ,self.view.frame.width - 32 ,144)
         }
+        
+        self.saveButton?.frame =  CGRect(x:16 , y:16 , width:self.view.frame.width - 32, height:34)
 
     }
     
