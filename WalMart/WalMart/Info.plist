@@ -219,6 +219,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.DisplaySlotsService</key>
+			<string>http://192.168.43.192:9080walmartmg/list/displaySlots</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -388,6 +390,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.DisplaySlotsService</key>
+			<string>https://dl.dropboxusercontent.com/s/k4g68hue3ugzxux/displaySlots.txt?dl=0</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -509,7 +513,7 @@
 			<key>WalmartMG.OccupationsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getOccupations</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getPurchaseOrderById.json</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderById.txt</string>
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderByUser.txt</string>
 			<key>WalmartMG.ProductDetailService</key>
