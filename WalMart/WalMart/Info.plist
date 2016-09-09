@@ -401,7 +401,7 @@
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addReferedCustomer</string>
 			<key>WalmartMG.AddShippingAddressService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addShippingAddress</string>
+			<string>https://dl.dropboxusercontent.com/s/jymqrf594j8hm2d/succesAddres.txt?dl=0</string>
 			<key>WalmartMG.BannerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>

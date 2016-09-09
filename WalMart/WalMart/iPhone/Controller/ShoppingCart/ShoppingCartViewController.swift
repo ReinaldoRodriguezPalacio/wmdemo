@@ -1278,7 +1278,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.buttonShop!.enabled = true
             
             //Add alert
-            if UserCurrentSession().addressId == nil {
+            if UserCurrentSession().addressId != nil {//TODO
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"tabBar_storeLocator_active"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"tabBar_storeLocator_active"))
                 alert?.showicon(UIImage(named:"tabBar_storeLocator_active"))
                 alert?.setMessage(NSLocalizedString("alert.checkout.address", comment: ""))

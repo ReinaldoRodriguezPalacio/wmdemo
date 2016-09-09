@@ -40,6 +40,9 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var selectTypeDelivery = ""
     var slotSelected = ""
     
+    var viewLoad : WMLoadingView!
+
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
     }
@@ -114,9 +117,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         self.picker = AlertPickerView.initPickerWithDefault()
         self.picker.contentHeight = 220.0
-        
-        self.createView(CGRectMake(16,self.deliveryButton!.frame.maxY + 16 ,self.view.frame.width - 32 ,144))
-        self.invokeSloteService(HOME_DELIVERY)
+        self.showLoadingView()
+    
     }
     
     
@@ -139,8 +141,32 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         }else{
                 self.viewDelivery?.frame = CGRectMake(16,self.collectButton!.frame.maxY + 16 ,self.view.frame.width - 32 ,144)
         }
-        
 
+    }
+    
+  
+    override func viewDidAppear(animated: Bool) {
+        print("viewDidAppear ... . . ")
+        self.checkTypeDeliver(deliveryButton!)
+    }
+    
+    //MARK: LodingView 
+    
+    func showLoadingView(){
+        if viewLoad == nil {
+            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            viewLoad = WMLoadingView(frame: bounds)
+            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.startAnnimating(true)
+            self.view.addSubview(viewLoad)
+        }
+    }
+    
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad.stopAnnimating()
+            self.viewLoad = nil
+        }
     }
     
     
@@ -227,6 +253,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         viewDelivery!.addSubview(timeForm!)
         
         self.view.addSubview(viewDelivery!)
+        self.removeViewLoad()
 
     
     }
