@@ -20,6 +20,8 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var paramsToOrder : NSMutableDictionary?
     var shippingsToOrder : NSMutableArray?
     
+    var viewHeader :  UIView?
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
     }
@@ -29,8 +31,22 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.view.backgroundColor = UIColor.whiteColor()
         
         self.titleLabel?.text = "Tipo de envío"
+        
+        self.viewHeader =  UIView(frame:CGRectMake(0, 46 , self.view.frame.width, 62))
+        self.viewHeader!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.viewHeader!)
+        
+        let descriptionTitle = UILabel(frame:CGRectMake(16, 16 , self.viewHeader!.frame.width - 32, 30))
+        descriptionTitle.numberOfLines = 2
+        descriptionTitle.textAlignment = .Left
+        descriptionTitle.backgroundColor = UIColor.clearColor()
+        descriptionTitle.textColor = WMColor.gray_reg
+        descriptionTitle.font = WMFont.fontMyriadProRegularOfSize(12)
+        descriptionTitle.text = "Este pedido no puede ser entregado en un solo envío.\nSelecciona un tipo de envío para cada grupo de artículos"
+        self.viewHeader?.addSubview(descriptionTitle)
+        
 
-        tableProductsCheckout = UITableView(frame:CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 46))
+        tableProductsCheckout = UITableView(frame:CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - 46))
         tableProductsCheckout.clipsToBounds = true
         tableProductsCheckout.backgroundColor =  WMColor.light_light_gray
         tableProductsCheckout.backgroundColor =  UIColor.whiteColor()
@@ -67,31 +83,27 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.tableProductsCheckout.frame = CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 46 - 62)
+        self.viewHeader!.frame = CGRectMake(0, 46 , self.view.frame.width, 62)
+        self.tableProductsCheckout.frame = CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - (124 + self.headerHeight))
         self.cancelButton!.frame =  CGRectMake(16 , self.view.frame.height - 52 , (self.view.frame.width - 40) / 2  , 34)
         self.nextButton!.frame =  CGRectMake(self.view.frame.width - self.cancelButton!.frame.width - 16  , self.view.frame.height - 52 , (self.view.frame.width - 40) / 2  , 34)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }
-        let dic = self.shippingAll[section - 1] as! NSDictionary
-        var sending = false
-        if let _ = self.shipping[section - 1] as? NSDictionary{
-            sending = true
-        }
-        let items =   dic["items"] as! NSArray
-        return items.count + 1 + (sending ? 1 : 0)
+        let dic = self.shippingAll[section]["items"] as! NSArray
+        
+        print("numberOfRowsInSection ::: \(dic.count) section \(section)")
+        return dic.count + 1
     }
     
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
+        if self.shippingAll.count == 1 {
             return 0
         }
         return 56
     }
+    
     
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -102,11 +114,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             configshiping = true
         }
       
-        let headerView : UIView = UIView(frame: CGRectMake(0.0, 8.0, self.view.frame.width, 40))
+        let headerView : UIView = UIView(frame: CGRectMake(0.0,0.0, self.view.frame.width, 40))
         headerView.backgroundColor = WMColor.light_light_gray
       
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, 100, 40))
-        titleLabel.text = "Envio \(section) de \(self.shippingAll.count)"
+        titleLabel.text = "Envio \(section + 1) de \(self.shippingAll.count)"
         titleLabel.textColor = WMColor.dark_gray
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         
@@ -115,7 +127,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         imageDisclousure.frame = CGRectMake(self.view.frame.width - 30 , 10 , 20, 20)
         
         let labelShipping = UILabel(frame: CGRectMake(imageDisclousure.frame.minX - 158, 0.0, 150, 40))
-        labelShipping.text = configshiping ? "Cambiar tipo de envio" : "Selecciona tipo de envío "
+        labelShipping.text = configshiping ? "Cambiar tipo de envio" : "Selecciona tipo de envío"
         labelShipping.textColor = WMColor.light_blue
         labelShipping.font = WMFont.fontMyriadProRegularOfSize(12)
         labelShipping.textAlignment = .Right
@@ -132,21 +144,16 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.shippingAll.count + 1
+        
+        return self.shippingAll.count
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
-        if indexPath.section  == 0  {
-            let cell = tableProductsCheckout.dequeueReusableCellWithIdentifier("textCheckoutCell", forIndexPath: indexPath) as! ShoppingCartTextViewCell
-            cell.setValues("Este pedido no puede ser entregado en un solo envío.\nSelecciona un tipo de envío para cada grupo de artículos", hiddenDelimiter: true)
-            return cell
-        }
 
         var shippingtype : NSDictionary = [:]
         var configshiping = false
-        //var index = 0
         
         if let shippingDic = self.shipping[indexPath.section - 1] as? NSDictionary{
             shippingtype = shippingDic
@@ -158,18 +165,19 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             cellText .setValues(shippingtype["type"] as! String, util: shippingtype["util"] as! String, date: shippingtype["date"] as! String)
             cell = cellText
 
-        }else
-        if !configshiping && indexPath.row == 0 || (configshiping && indexPath.row == 1)  {
+        }
+        
+            
+        if indexPath.row == 0 {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
             cellText.setValues("Productos", quanty:"")
             cell = cellText
         }
         else {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
-            let dic = self.shippingAll[indexPath.section -  1] as! NSDictionary
+            let dic = self.shippingAll[indexPath.section ] as! NSDictionary
             let items =  dic["items"] as! NSArray
-            let dicItem =  items[indexPath.row - (configshiping ? 2 : 1)] as! NSDictionary
-                cellText.setValues(dicItem["description"] as! String, quanty: dicItem["quantity"] as! String)
+            cellText.setValues(items[indexPath.row - 1]["description"] as? String ?? "", quanty: items[indexPath.row - 1]["quantity"] as? String ?? "")
             cellText.cartButton?.hidden = true
             cellText.separator?.hidden = true
             cellText.delegate = self

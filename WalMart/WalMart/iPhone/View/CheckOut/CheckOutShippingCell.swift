@@ -31,7 +31,7 @@ class CheckOutShippingCell: UITableViewCell {
         self.selectionStyle = .None
         
         self.descriptionTitle = UILabel()
-        self.descriptionTitle!.numberOfLines = 1
+        self.descriptionTitle!.numberOfLines = 2
         self.descriptionTitle!.textAlignment = .Left
         self.descriptionTitle!.backgroundColor = UIColor.clearColor()
         self.descriptionTitle!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -71,8 +71,8 @@ class CheckOutShippingCell: UITableViewCell {
         let margin:CGFloat = 16.0
         let width:CGFloat = bounds.width - (2*margin)
         
-        self.labelNumber!.frame = CGRectMake(bounds.width - 40, 0.0, 30.0, 30.0)
-        self.descriptionTitle!.frame = CGRectMake(margin, 0.0, width -  self.labelNumber!.frame.width, 30.0)
+        self.labelNumber!.frame = CGRectMake(bounds.width - 61, 0.0, 45.0, 30.0)
+        self.descriptionTitle!.frame = CGRectMake(margin, 0.0, width -  (self.labelNumber!.frame.width + 8), 30.0)
         self.separator!.frame = CGRectMake(0, self.labelNumber!.frame.maxY, self.bounds.width, 1.0)
         self.cartButton!.frame = CGRectMake(margin,  self.labelNumber!.frame.maxY + 12, 76, 22)
         
@@ -86,6 +86,8 @@ class CheckOutShippingCell: UITableViewCell {
         self.descriptionTitle!.text = value
         if quanty != "" {
             self.labelNumber!.text = "(\(quanty))"
+        }else{
+         self.labelNumber!.text = ""
         }
     }
     
