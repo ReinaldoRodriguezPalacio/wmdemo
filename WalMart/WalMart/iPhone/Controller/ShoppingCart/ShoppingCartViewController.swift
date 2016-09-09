@@ -32,6 +32,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var titleView : UILabel!
     var buttonListSelect : UIButton!
     //var addProductToShopingCart : UIButton? = nil
+    var alertAddress : GRFormAddressAlertView? = nil
     
     var listObj : NSDictionary!
     var productObje : NSArray!
@@ -1275,7 +1276,45 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //FACEBOOKLOG
             FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
             self.buttonShop!.enabled = true
-            self.performSegueWithIdentifier("checkoutVC", sender: self)
+            
+            //Add alert
+            if UserCurrentSession().addressId == nil {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"tabBar_storeLocator_active"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"tabBar_storeLocator_active"))
+                alert?.showicon(UIImage(named:"tabBar_storeLocator_active"))
+                alert?.setMessage(NSLocalizedString("alert.checkout.address", comment: ""))
+                //alert?.bgView.backgroundColor = WMColor.light_blue
+                alert?.addActionButtonsWithCustomText(NSLocalizedString("update.later", comment: ""), leftAction: {
+                    
+                    alert?.close()
+                    }, rightText: NSLocalizedString("checkout.alert.createAddress", comment: ""), rightAction: {
+                        alert?.showDoneIcon()
+                        alert?.close()
+                        
+                        //Add new address
+                        if self.alertAddress == nil {
+                            self.alertAddress = GRFormAddressAlertView.initAddressAlert()!
+                        }
+                        self.alertAddress?.showAddressAlert()
+                        self.alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+                            self.alertAddress?.registryAddress(dictSend)
+                            //alert?.close()
+                        }
+                        
+                        self.alertAddress?.alertSaveSuccess = {() in
+                            self.performSegueWithIdentifier("checkoutVC", sender: self)
+                            self.alertAddress?.removeFromSuperview()
+                        }
+                        
+                        self.alertAddress?.cancelPress = {() in
+                            print("")
+                            self.alertAddress?.closePicker()
+                            
+                        }
+                    }, isNewFrame: false)
+            } else {
+                self.performSegueWithIdentifier("checkoutVC", sender: self)
+            }
+            
         } else {
             let cont = LoginController.showLogin()
             self.buttonShop!.enabled = true
