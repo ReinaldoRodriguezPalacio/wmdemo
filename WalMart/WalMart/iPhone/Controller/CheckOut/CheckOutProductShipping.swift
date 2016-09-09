@@ -83,8 +83,15 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.viewHeader!.frame = CGRectMake(0, 46 , self.view.frame.width, 62)
-        self.tableProductsCheckout.frame = CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - (124 + self.headerHeight))
+        if self.shippingAll.count > 1 {
+            self.viewHeader!.frame = CGRectMake(0, self.headerHeight, self.view.frame.width, 62)
+            self.tableProductsCheckout.frame = CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - (124 + self.headerHeight))
+        }else{
+            self.viewHeader!.hidden =  true
+            self.tableProductsCheckout.frame = CGRectMake(0, self.headerHeight , self.view.frame.width, self.view.frame.height - (124 ))
+        }
+        
+        
         self.cancelButton!.frame =  CGRectMake(16 , self.view.frame.height - 52 , (self.view.frame.width - 40) / 2  , 34)
         self.nextButton!.frame =  CGRectMake(self.view.frame.width - self.cancelButton!.frame.width - 16  , self.view.frame.height - 52 , (self.view.frame.width - 40) / 2  , 34)
     }
@@ -92,15 +99,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let dic = self.shippingAll[section]["items"] as! NSArray
         
-        print("numberOfRowsInSection ::: \(dic.count) section \(section)")
         return dic.count + 1
     }
     
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if self.shippingAll.count == 1 {
-            return 0
-        }
         return 56
     }
     
@@ -113,9 +116,10 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         if ((self.shipping[section - 1] as? NSDictionary) != nil){
             configshiping = true
         }
+        
       
         let headerView : UIView = UIView(frame: CGRectMake(0.0,0.0, self.view.frame.width, 40))
-        headerView.backgroundColor = WMColor.light_light_gray
+        headerView.backgroundColor = self.shippingAll.count == 1 ? UIColor.whiteColor() : WMColor.light_light_gray
       
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, 100, 40))
         titleLabel.text = "Envio \(section + 1) de \(self.shippingAll.count)"
@@ -136,6 +140,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         headerView.addSubview(titleLabel)
         headerView.addSubview(labelShipping)
         content.addSubview(headerView)
+        
+        let separator = CALayer()
+        separator.backgroundColor = WMColor.light_light_gray.CGColor
+        separator.frame = CGRectMake(0,39, headerView.frame.width, 1)
+        headerView.layer.insertSublayer(separator, atIndex: 100)
         
         content.tag = section
         content.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CheckOutProductShipping.tapOnSection(_:))))
@@ -163,6 +172,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         if configshiping && indexPath.row == 0 {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("textCheckoutDetailCell", forIndexPath: indexPath) as! CheckOutShippingDetailCell
             cellText .setValues(shippingtype["type"] as! String, util: shippingtype["util"] as! String, date: shippingtype["date"] as! String)
+           
             cell = cellText
 
         }
