@@ -8,14 +8,17 @@
 
 import Foundation
 
+protocol CheckOutProductTypeShippingDelegate {
+    func selectDataTypeShipping(envio: String, util: String, date: String, rowSelected: Int,idSolot:String)
+}
 
 
 class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOptionDelegate {
     
-    var HOME_DELIVERY = "homeDeliveryTaxi"
-    var STORE_PICK_UP = "storePickUp"
+    let HOME_DELIVERY = "homeDeliveryTaxi"
+    let STORE_PICK_UP = "storePickUp"
     
-    
+    var delegate: CheckOutProductTypeShippingDelegate?
     var deliveryButton : UIButton?
     var collectButton : UIButton?
     var titleDelivery : UILabel?
@@ -40,6 +43,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     let slotArray :NSMutableArray  = []
     
     var selectTypeDelivery = ""
+    var textFieldSelected = ""
     var slotSelected = ""
     
     var viewLoad : WMLoadingView!
@@ -200,7 +204,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         self.slotSelected = ""
         self.invokeSloteService(sender.tag == 1 ? HOME_DELIVERY : STORE_PICK_UP )
-    
+        self.selectTypeDelivery = sender.tag == 1 ? HOME_DELIVERY : STORE_PICK_UP
     }
     
     var  dateForm : FormFieldView?
@@ -229,13 +233,13 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         dateForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
         dateForm!.onBecomeFirstResponder = { () in
             self.picker!.selected = NSIndexPath(forRow: 0, inSection: 0)
-            self.picker!.sender = addressInvoice
+            self.picker!.sender = self.dateForm
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("Fechas de entrega disponibles",comment:""), values:self.dateSlot )
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
             self.view.endEditing(true)
-            self.selectTypeDelivery = self.HOME_DELIVERY
+            self.textFieldSelected = "Date"
         }
         viewDelivery!.addSubview(dateForm!)
 
@@ -248,12 +252,12 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         timeForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
         timeForm!.onBecomeFirstResponder = { () in
             self.picker!.selected = NSIndexPath(forRow: 0, inSection: 0)
-            self.picker!.sender = addressInvoice
+            self.picker!.sender = self.timeForm
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("Horarios disponibles",comment:""), values:self.timeSelect )
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
-            self.selectTypeDelivery = self.STORE_PICK_UP
+            self.textFieldSelected = "Time"
             self.view.endEditing(true)
         }
         viewDelivery!.addSubview(timeForm!)
@@ -267,6 +271,9 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     func save(){
         
+        
+        self.delegate?.selectDataTypeShipping(self.selectTypeDelivery, util: "", date: dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
+
          self.navigationController!.popViewControllerAnimated(true)
     }
     
@@ -321,7 +328,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     //MARK: - AlertPickerSelectOptionDelegate
     
     func didSelectOptionAtIndex(indexPath: NSIndexPath){
-        if selectTypeDelivery == HOME_DELIVERY {
+        
+        if self.textFieldSelected == "Date" {
            dateForm?.text =   self.dateSlot[indexPath.row]
             let times  =  self.hourArray.objectAtIndex(indexPath.row) as! [String]
             timeSelect =  times

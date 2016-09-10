@@ -71,7 +71,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
      
         if rowSelected >= 0 {
             var indexPath = NSIndexPath(forItem: rowSelected!, inSection: 0)
-            self.tableView(tableShippingSelection, didSelectRowAtIndexPath: indexPath)
+            tableShippingSelection.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .Top)
         }
         
         self.tableShippingSelection.bringSubviewToFront(self.view)

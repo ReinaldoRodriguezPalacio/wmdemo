@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UITableViewDataSource, CheckOutShippingDelegate, CheckOutShippingSelectionDelegate {
+class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UITableViewDataSource, CheckOutShippingDelegate, CheckOutShippingSelectionDelegate,CheckOutProductTypeShippingDelegate {
 
     var tableProductsCheckout : UITableView!
     var shippingAll : NSArray! = []
@@ -86,6 +86,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         if self.shippingAll.count > 1 {
             self.viewHeader!.frame = CGRectMake(0, self.headerHeight, self.view.frame.width, 62)
             self.tableProductsCheckout.frame = CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - (124 + self.headerHeight))
+             self.viewHeader!.hidden =  false
         }else{
             self.viewHeader!.hidden =  true
             self.tableProductsCheckout.frame = CGRectMake(0, self.headerHeight , self.view.frame.width, self.view.frame.height - (124 ))
@@ -96,15 +97,30 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.nextButton!.frame =  CGRectMake(self.view.frame.width - self.cancelButton!.frame.width - 16  , self.view.frame.height - 52 , (self.view.frame.width - 40) / 2  , 34)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let dic = self.shippingAll[section]["items"] as! NSArray
+    override func viewDidAppear(animated: Bool) {
         
-        return dic.count + 1
+        if self.shippingAll.count > 1 {
+            self.viewHeader!.frame = CGRectMake(0, self.headerHeight, self.view.frame.width, 62)
+            self.tableProductsCheckout.frame = CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - (124 + self.headerHeight))
+        }else{
+            self.tableProductsCheckout.frame = CGRectMake(0, self.headerHeight , self.view.frame.width, self.view.frame.height - (124 ))
+        }
+        
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let dic = self.shippingAll[section] as! NSDictionary
+        var sending = false
+        if let _ = self.shipping[section] as? NSDictionary{
+            sending = true
+        }
+        let items =   dic["items"] as! NSArray
+        return items.count + 1 + (sending ? 1 : 0)
     }
     
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 56
+        return 40
     }
     
     
@@ -122,7 +138,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         headerView.backgroundColor = self.shippingAll.count == 1 ? UIColor.whiteColor() : WMColor.light_light_gray
       
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, 100, 40))
-        titleLabel.text = "Envio \(section + 1) de \(self.shippingAll.count)"
+        titleLabel.text =  self.shippingAll.count == 1 ? "Envio":"Envio \(section + 1) de \(self.shippingAll.count)"
         titleLabel.textColor = WMColor.dark_gray
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         
@@ -164,7 +180,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         var shippingtype : NSDictionary = [:]
         var configshiping = false
         
-        if let shippingDic = self.shipping[indexPath.section - 1] as? NSDictionary{
+        if let shippingDic = self.shipping[indexPath.section] as? NSDictionary{
             shippingtype = shippingDic
             configshiping = true
         }
@@ -177,8 +193,8 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
 
         }
         
-            
-        if indexPath.row == 0 {
+        else
+        if !configshiping && indexPath.row == 0 || (configshiping && indexPath.row == 1)  {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
             cellText.setValues("Productos", quanty:"")
             cell = cellText
@@ -187,12 +203,12 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
             let dic = self.shippingAll[indexPath.section ] as! NSDictionary
             let items =  dic["items"] as! NSArray
-            cellText.setValues(items[indexPath.row - 1]["description"] as? String ?? "", quanty: items[indexPath.row - 1]["quantity"] as? String ?? "")
+            cellText.setValues(items[indexPath.row - (configshiping ? 2 : 1)]["description"] as? String ?? "", quanty: items[indexPath.row - (configshiping ? 2 : 1)]["quantity"] as? String ?? "")
             cellText.cartButton?.hidden = true
             cellText.separator?.hidden = true
             cellText.delegate = self
             
-            if indexPath.section ==  shippingAll.count {
+            if indexPath.section ==  shippingAll.count - 1 {
                 if (items.count  + (configshiping ? 1 : 0)) == indexPath.row {
                     cellText.cartButton?.hidden = false
                     cellText.separator?.hidden = false
@@ -206,26 +222,23 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 56
-        }
-        else {
+
             var configshiping = false
-            if let _ = self.shipping[indexPath.section - 1] as? NSDictionary{
+            if let _ = self.shipping[indexPath.section] as? NSDictionary{
                 configshiping = true
             }
             if configshiping && indexPath.row == 0 {
              return 114 / 2
             }
-            if indexPath.section ==  shippingAll.count {
-                let dic = self.shippingAll[indexPath.section - 1] as! NSDictionary
+            if indexPath.section ==  shippingAll.count - 1 {
+                let dic = self.shippingAll[indexPath.section] as! NSDictionary
                 let items =   dic["items"] as! NSArray
-                if (items.count  + (configshiping ? 1 : 0)) == indexPath.row {
+                if (items.count  + (configshiping ?  1 : 0)) == indexPath.row {
                     return 85
                 }
             }
             return 30
-        }
+        
     }
     
     func next(){
@@ -257,7 +270,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         let selectedItem = sender.view!.tag
         if selectedItem == 1 {
             let controller =  CheckOutShippingSelectionController()
-            itemSelected = selectedItem - 1
+            itemSelected = selectedItem
             
             if let dic = self.shipping[itemSelected] as? NSDictionary{
                 let selected = dic["rowSelected"] as! Int
@@ -268,11 +281,9 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             self.navigationController?.pushViewController(controller, animated: true)
         }else{
             let controller = CheckOutProductTypeShipping()
-            
-            
+            controller.delegate = self
+            itemSelected = selectedItem
             self.navigationController?.pushViewController(controller, animated: true)
-            
-            
         }
     }
 
@@ -298,6 +309,15 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         }
         
     }
+    
+    //MARK: CheckOutProductTypeShippingDelegate
+    
+    func selectDataTypeShipping(envio: String, util: String, date: String, rowSelected: Int, idSolot: String) {
+        self.selectDataTypeShipping(envio, util: util, date: date, rowSelected: rowSelected)
+        
+    }
+
+    
     
     
 }
