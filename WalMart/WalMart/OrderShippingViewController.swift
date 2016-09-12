@@ -403,8 +403,9 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     }
     
     func shareList() {
+        
         if let imgResult = self.imageToShareWishList() {
-            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: imgResult, applicationActivities: nil)
             
             if IS_IPAD{
                 popup = UIPopoverController(contentViewController: controller)
@@ -415,23 +416,35 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         }
     }
     
-    func imageToShareWishList() -> UIImage? {
-        var unifiedImage : UIImage? = nil
-        var ixYSpace : CGFloat = 0
+    func imageToShareWishList() -> [AnyObject]? {
         
-        //imageHead
-        let imageHead = UIImage(named:"detail_HeaderMail")
-        let totalImageSize = self.getImageWislistShareSize(imageHead!)
-        UIGraphicsBeginImageContextWithOptions(totalImageSize, false, 2.0);
-        
-        imageHead?.drawInRect(CGRectMake(0, 0, imageHead!.size.width, imageHead!.size.height))
-        
-        ixYSpace = ixYSpace + imageHead!.size.height
+        var objImages : [AnyObject] = []
         
         for section in 0...shippingAll.count - 1 {
+            var ixYSpace : CGFloat = 0
+            var unifiedImage : UIImage? = nil
+            let shippingSect = self.shippingAll[section] as! NSDictionary
+            let itemsShipping = shippingSect["items"] as! NSArray
             
-            let headerView = UIView(frame:CGRectMake(0, 0, totalImageSize.width, 40))
+            //imageHead
+            let imageHead = UIImage(named:"detail_HeaderMail")
+            //imageHead?.drawInRect(CGRectMake(0, 0, imageHead!.size.width, imageHead!.size.height))
+            
+            //Cell envios
+            var valuesDetail : NSDictionary = [:]
+            let shipping = itemsShipping[section] as! NSDictionary
+            valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shippingSect["deliveryType"] as! String, "deliveryAddress": shippingSect["deliveryAddress"] as! String, "paymentType": shippingSect["paymentType"] as! String, "items": shipping]
+            let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+            let sizeCellFirst = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
+            
+            let heighCel = CGFloat(109 * itemsShipping.count) + 40.0 + sizeCellFirst + imageHead!.size.height
+            UIGraphicsBeginImageContextWithOptions(CGSize(width:imageHead!.size.width, height: CGFloat(heighCel)), false, 2.0);
+            
+            imageHead?.drawInRect(CGRectMake(0, 0, imageHead!.size.width, imageHead!.size.height))
+            
+            let headerView = UIView(frame:CGRectMake(0, imageHead!.size.height, imageHead!.size.width, 40))
             headerView.backgroundColor = WMColor.light_light_gray
+            
             //header envios
             let textOrder = String(format: NSLocalizedString("previousorder.shipping", comment:""), String(section + 1), String(self.shippingAll.count))
             let titleShipping = UILabel(frame:CGRectMake(16, 0, self.view.frame.width / 2, 40))
@@ -439,43 +452,35 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             titleShipping.textColor = WMColor.dark_gray
             titleShipping.text = textOrder
             headerView.addSubview(titleShipping)
-            headerView.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, 40.0), afterScreenUpdates: true)
+            headerView.drawViewHierarchyInRect(CGRectMake(0.0, imageHead!.size.height, imageHead!.size.width, 40.0), afterScreenUpdates: true)
             if IS_IPAD{
-                headerView.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, 40.0), afterScreenUpdates: true)
+                headerView.drawViewHierarchyInRect(CGRectMake(0.0, imageHead!.size.height, imageHead!.size.width, 40.0), afterScreenUpdates: true)
             }
+            //ixYSpace = ixYSpace + 40.0
             
-            ixYSpace = ixYSpace + 40.0
-            
-            let shippingSect = self.shippingAll[section] as! NSDictionary
-            let itemsShipping = shippingSect["items"] as! NSArray
-            
-            //Cell envios
-            let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-            var valuesDetail : NSDictionary = [:]
-            let shipping = itemsShipping[section] as! NSDictionary
-            valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shippingSect["deliveryType"] as! String, "deliveryAddress": shippingSect["deliveryAddress"] as! String, "paymentType": shippingSect["paymentType"] as! String, "items": shipping]
-            let sizeCellFirst = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
-            
-            cellDetail.frame = CGRectMake(0, 0, totalImageSize.width, sizeCellFirst)
+            cellDetail.frame = CGRectMake(0, 0, imageHead!.size.width, sizeCellFirst)
             loadShippingViewCellCollection(cellDetail,indexPath:NSIndexPath(forRow: 0, inSection: section))
-            cellDetail.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, sizeCellFirst), afterScreenUpdates: true)
-            ixYSpace = ixYSpace + sizeCellFirst
+            cellDetail.drawViewHierarchyInRect(CGRectMake(0.0, (40.0 + imageHead!.size.height),imageHead!.size.width, sizeCellFirst), afterScreenUpdates: true)
+            
+            ixYSpace = 40 + sizeCellFirst + imageHead!.size.height
             
             for ixItem  in 0...itemsShipping.count - 1 {
                 //Cell items
                 tableOrders.registerClass(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
                 let cellItems = tableOrders.dequeueReusableCellWithIdentifier("orderCell") as! OrderProductTableViewCell
-                cellItems.frame = CGRectMake(0, 0, totalImageSize.width, 109)
+                cellItems.frame = CGRectMake(0, 0, imageHead!.size.width, 109)
                 loadItemsViewCellCollection(cellItems, indexPath: NSIndexPath(forRow: ixItem, inSection: section))
-                cellItems.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,totalImageSize.width, 109), afterScreenUpdates: true)
+                cellItems.drawViewHierarchyInRect(CGRectMake(0.0, ixYSpace,imageHead!.size.width, 109), afterScreenUpdates: true)
 
                 ixYSpace = ixYSpace + 109
             }
+            
+            unifiedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            objImages.append(unifiedImage!)
         }
         
-        unifiedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return unifiedImage!
+        return objImages
     }
     
     func loadShippingViewCellCollection(shippingCell:PreviousDetailTableViewCell,indexPath:NSIndexPath) {
@@ -510,26 +515,6 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let isActiveValue = valuesItems["isActive"] as! String == "true" ? true : false
         
         productCell.setValues(valuesItems["upc"] as! String, productImageURL:valuesItems["imageUrl"] as! String,productShortDescription:valuesItems["description"] as! String, productPrice:valuesItems["price"] as! String,quantity:valuesItems["quantity"] as! NSString, type: self.type, pesable:pesableValue, onHandInventory: valuesItems["onHandDefault"] as! String, isActive:isActiveValue, isPreorderable:valuesItems["isPreorderable"] as! String)
-    }
-    
-    func getImageWislistShareSize(header:UIImage) -> CGSize {
-        
-        var height : CGFloat = 0.0 + header.size.height
-        for ixItem  in 0...self.shippingAll.count - 1 {
-            
-            let cellDetail = tableOrders.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-            var valuesDetail : NSDictionary = [:]
-            let shipping = self.shippingAll[ixItem] as! NSDictionary
-            let items = shipping["items"] as! NSArray
-            
-            valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": items]
-            let sizeCellFirst = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
-            
-            height = height + sizeCellFirst + 40 + (CGFloat(items.count) * 109)
-        }
-
-        let widthItem : CGFloat = self.tableOrders.frame.width
-        return CGSize(width:widthItem, height: height)
     }
     
     override func back() {
