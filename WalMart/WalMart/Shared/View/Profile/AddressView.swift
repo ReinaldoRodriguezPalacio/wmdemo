@@ -277,7 +277,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         self.popupTable!.delegate = self
         self.popupTable!.dataSource = self
         self.popupTable!.hidden = true
-        self.addSubview(self.popupTable!)
+        self.viewAddress!.addSubview(self.popupTable!)
       
         if self.typeAddress == TypeAddress.Shiping {
             self.viewAddress!.addSubview(self.store)

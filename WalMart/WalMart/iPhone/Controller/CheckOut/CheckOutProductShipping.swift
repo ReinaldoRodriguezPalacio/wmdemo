@@ -64,7 +64,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.cancelButton = UIButton(frame: CGRect(x:16 , y:16 , width: (self.view.frame.width - 40) / 2  , height:34))
         self.cancelButton!.setTitle("Cancelar", forState: .Normal)
         self.cancelButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.cancelButton!.addTarget(self, action: #selector(CheckOutProductShipping.next), forControlEvents: .TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: .TouchUpInside)
         self.cancelButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor =  WMColor.empty_gray
         self.cancelButton!.layer.cornerRadius =  17

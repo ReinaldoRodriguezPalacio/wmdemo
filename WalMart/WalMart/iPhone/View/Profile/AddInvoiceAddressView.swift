@@ -19,6 +19,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
     var addressFiscalMoralButton: UIButton? = nil
     var viewTypeAdressFiscal: UIView? = nil
     var viewTypeAdress: UIView? = nil
+    var heightView: CGFloat = 500
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,7 +36,8 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
         
         self.scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm!.scrollDelegate = self
-        self.scrollForm!.contentSize = CGSizeMake(self.frame.width, (typeAddress == TypeAddress.FiscalMoral ? 500 : 550))
+        self.heightView = (typeAddress == TypeAddress.FiscalMoral ? 500 : 550)
+        self.scrollForm!.contentSize = CGSizeMake(self.frame.width,heightView)
         self.addSubview(scrollForm!)
         
         switch (typeAddress ) {
@@ -152,7 +154,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     override func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.scrollForm!.frame.width, 500)
+        return CGSizeMake(self.scrollForm!.frame.width, heightView)
     }
     
     func checkSelectedFisical(sender:UIButton) {
@@ -178,16 +180,18 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
         switch (typeAddress ) {
         case .FiscalPerson:
             self.setupViewFiscal()
-            let height  : CGFloat = self.viewAddressFisical!.showSuburb == true ? 658 : 658-190
-            self.viewAddressFisical?.frame = CGRectMake(0.0, self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
-            self.scrollForm!.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 40 )
+            let height: CGFloat =  698
+            self.heightView =  height + 40
+            self.viewAddressFisical?.frame = CGRectMake(0.0, self.viewTypeAdressFiscal!.frame.maxY, bounds.width , self.heightView)
+            self.scrollForm!.contentSize = CGSize(width: bounds.width, height:self.heightView )
             self.scrollForm!.bringSubviewToFront(self.viewTypeAdressFiscal!)
             self.scrollForm!.bringSubviewToFront(self.viewAddressFisical!)
         case .FiscalMoral:
             self.setupViewFiscal()
-            let height  : CGFloat = self.viewAddressMoral!.showSuburb == true ? 610 : 610-190
-            self.viewAddressMoral?.frame = CGRectMake(0.0,  self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
-            self.scrollForm!.contentSize = CGSize(width: bounds.width, height: self.viewAddressMoral!.frame.maxY + 40 )
+            let height: CGFloat = 650
+            self.heightView =  height + 40
+            self.viewAddressMoral?.frame = CGRectMake(0.0,  self.viewTypeAdressFiscal!.frame.maxY, bounds.width , self.heightView)
+            self.scrollForm!.contentSize = CGSize(width: bounds.width, height: self.heightView)
             self.scrollForm!.bringSubviewToFront(self.viewTypeAdressFiscal!)
             self.scrollForm!.bringSubviewToFront(self.viewAddressMoral!)
             
