@@ -464,7 +464,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         self.closeButton!.hidden = true
             
         self.buttonLeft.selected = true
-        let finalContentFrame = CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80)
+        let finalContentHeight: CGFloat = self.frame.height - 80
+        let finalContentFrame = CGRectMake(8, 40, 289, finalContentHeight > 468 ? 468 : finalContentHeight)
         let finalContentInnerFrame = CGRectMake(0, self.headerView.frame.maxY, finalContentFrame.width, finalContentFrame.height - self.headerView.frame.maxY)
         self.viewReplace = self.delegate?.viewReplaceContent(finalContentInnerFrame)
         self.viewReplace?.alpha = 0

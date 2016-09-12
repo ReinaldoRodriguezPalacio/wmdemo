@@ -48,7 +48,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.titleLabel?.text = "Dirección de envío"
+        self.titleLabel?.text = NSLocalizedString("checkout.field.address", comment:"")
         self.view.backgroundColor = UIColor.whiteColor()
         
         if IS_IPAD {
@@ -132,7 +132,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         self.selectedAddress = ""
         picker = AlertPickerView.initPickerWithLeftButton()
-        picker.setLeftButtonStyle(WMColor.light_blue,titleText: "Nueva Direccion", titleColor:UIColor.whiteColor())
+        picker.setLeftButtonStyle(WMColor.light_blue,titleText: "Nueva Dirección", titleColor:UIColor.whiteColor())
         self.addViewLoad()
         self.reloadUserAddresses()
     }
