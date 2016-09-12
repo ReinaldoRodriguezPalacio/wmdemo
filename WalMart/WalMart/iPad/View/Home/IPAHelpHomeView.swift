@@ -37,9 +37,9 @@ class IPAHelpHomeView: HelpHomeView {
     override func createTabBarButtons() {
         let images = self.retrieveTabBarOptions()
         let spaceLabel: CGFloat = -5
-        var xLabel: CGFloat = 300
+        var xLabel: CGFloat = self.frame.midX  - ((6 * 60 )  / 2 )
         let spaceImage: CGFloat = 32.4
-        var xImage: CGFloat = 317
+        var xImage: CGFloat = self.frame.midX  - ((((6 * 27 ) + (32 * 5))) / 2 )
         for image in images {
             var title = NSString(format: "tabbar.%@", image)
             title = NSLocalizedString(title as String, comment: "")
