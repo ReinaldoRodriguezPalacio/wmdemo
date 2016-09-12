@@ -9,7 +9,7 @@
 import Foundation
 
 
-class AddInvoiceAddressView:GRAddAddressView {
+class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
 
     var viewAddressFisical: AddressView? = nil
     var viewAddressMoral: AddressView? = nil
@@ -41,21 +41,24 @@ class AddInvoiceAddressView:GRAddAddressView {
         switch (typeAddress ) {
         case .FiscalPerson:
             self.viewAddressFisical = FiscalAddressPersonF(frame:CGRectMake(0, 78, self.bounds.width , 480), isLogin: false , isIpad: false, typeAddress: typeAddress)
+            self.viewAddressFisical!.usePopupPicker = false
             self.viewAddressFisical!.allAddress = self.allAddress
             self.scrollForm!.addSubview(self.viewAddressFisical!)
             self.viewAddressFisical?.defaultPrefered = false
             self.viewAddressFisical!.typeAddress = typeAddress
-            //self.viewAddressFisical!.delegate = self
+            self.viewAddressFisical!.delegate = self
             
         case .FiscalMoral:
             self.viewAddressMoral = FiscalAddressPersonM(frame:CGRectMake(0, 78, self.bounds.width , 432),  isLogin: false, isIpad:false, typeAddress: typeAddress)
+            self.viewAddressMoral!.usePopupPicker = false
             self.viewAddressMoral!.allAddress = self.allAddress
             self.viewAddressMoral?.defaultPrefered = false
             self.scrollForm!.addSubview(self.viewAddressMoral!)
             self.viewAddressMoral!.typeAddress = typeAddress
-            //self.viewAddressMoral!.delegate = self
+            self.viewAddressMoral!.delegate = self
         default:
             self.viewAddressFisical = FiscalAddressPersonF(frame:CGRectMake(0, 78, self.bounds.width , 480), isLogin: false , isIpad: false, typeAddress: typeAddress)
+            self.viewAddressFisical!.usePopupPicker = false
             self.viewAddressFisical!.allAddress = self.allAddress
             self.scrollForm!.addSubview(self.viewAddressFisical!)
             self.viewAddressFisical?.defaultPrefered = false
@@ -167,7 +170,30 @@ class AddInvoiceAddressView:GRAddAddressView {
         self.scrollForm!.removeFromSuperview()
         setup()
     }
-
-
+    
+    
+    //MARK: - AddressViewDelegate
+    func setContentSize(){
+        let bounds = self.bounds
+        switch (typeAddress ) {
+        case .FiscalPerson:
+            self.setupViewFiscal()
+            let height  : CGFloat = self.viewAddressFisical!.showSuburb == true ? 658 : 658-190
+            self.viewAddressFisical?.frame = CGRectMake(0.0, self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
+            self.scrollForm!.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 40 )
+            self.scrollForm!.bringSubviewToFront(self.viewTypeAdressFiscal!)
+            self.scrollForm!.bringSubviewToFront(self.viewAddressFisical!)
+        case .FiscalMoral:
+            self.setupViewFiscal()
+            let height  : CGFloat = self.viewAddressMoral!.showSuburb == true ? 610 : 610-190
+            self.viewAddressMoral?.frame = CGRectMake(0.0,  self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
+            self.scrollForm!.contentSize = CGSize(width: bounds.width, height: self.viewAddressMoral!.frame.maxY + 40 )
+            self.scrollForm!.bringSubviewToFront(self.viewTypeAdressFiscal!)
+            self.scrollForm!.bringSubviewToFront(self.viewAddressMoral!)
+            
+        default:
+            break
+        }
+    }
 
 }

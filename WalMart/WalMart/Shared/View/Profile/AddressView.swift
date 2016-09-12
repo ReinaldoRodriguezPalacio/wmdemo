@@ -18,7 +18,7 @@ import UIKit
     
 }
 
-class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
+class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource{
     
      var errorLabelStore: UILabel!
     
@@ -63,7 +63,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     var selectedNeighborhood : NSIndexPath!
     
     var viewLoad : WMLoadingView!
-    var delegate:AddressViewDelegate!
+    var delegate:AddressViewDelegate?
     var showSuburb : Bool! = false
     //var isLogin : Bool! = false
     var isIpad : Bool! = false
@@ -71,6 +71,13 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     var titleLabel: UILabel!
     var currentZipCode = ""
     var typeAddress: TypeAddress = TypeAddress.Shiping
+    
+    let tableHeight: CGFloat = 136.0
+    var popupTable: UITableView? = nil
+    var popupTableSelected : NSIndexPath? = nil
+    var popupTableItem: FormFieldView? = nil
+    var itemsToShow : [String] = []
+    var usePopupPicker = true
   
     
     var keyboardBar: FieldInputView? {
@@ -113,7 +120,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 }
                 
             }
-            self.delegate.textModify(field)
+            self.delegate?.textModify(field)
         })
         
         self.keyboardBar = viewAccess
@@ -264,6 +271,13 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         self.viewAddress!.addSubview(city!)
         self.viewAddress!.addSubview(state!)
         
+        self.itemsToShow = []
+        self.popupTable = UITableView(frame: CGRectMake(0, 0,  self.store!.frame.width,tableHeight))
+        self.popupTable!.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
+        self.popupTable!.delegate = self
+        self.popupTable!.dataSource = self
+        self.popupTable!.hidden = true
+        self.addSubview(self.popupTable!)
       
         if self.typeAddress == TypeAddress.Shiping {
             self.viewAddress!.addSubview(self.store)
@@ -278,11 +292,18 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                     self.endEditing(true)
                 
                     if (self.stores.count > 0){
-                        self.picker!.selected = self.selectedStore
-                        self.picker!.sender = self.store!
-                        self.picker!.delegate = self
-                        self.picker!.setValues(self.store!.nameField, values: self.stores)
-                        self.picker!.showPicker()
+                        if self.usePopupPicker {
+                            self.picker!.selected = self.selectedStore
+                            self.picker!.sender = self.store!
+                            self.picker!.delegate = self
+                            self.picker!.setValues(self.store!.nameField, values: self.stores)
+                            self.picker!.showPicker()
+                        }else{
+                            self.popupTableSelected = self.selectedStore
+                            self.setValues(self.stores)
+                            self.store!.imageList?.image = UIImage(named: "fieldListClose")
+                            self.addPopupTable(self.store)
+                        }
                     }
                 }
             
@@ -292,11 +313,19 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         self.suburb!.onBecomeFirstResponder = { () in
             if self.neighborhoods.count > 0 {
                 self.endEditing(true)
-                self.picker!.selected = self.selectedNeighborhood
-                self.picker!.sender = self.suburb!
-                self.picker!.delegate = self
-                self.picker!.setValues(self.suburb!.nameField, values: self.neighborhoods)
-                self.picker!.showPicker()
+                if self.usePopupPicker {
+                    self.picker!.selected = self.selectedNeighborhood
+                    self.picker!.sender = self.suburb!
+                    self.picker!.delegate = self
+                    self.picker!.setValues(self.suburb!.nameField, values: self.neighborhoods)
+                    self.picker!.showPicker()
+                }else{
+                    self.endEditing(true)
+                    self.popupTableSelected = self.selectedNeighborhood
+                    self.setValues(self.neighborhoods)
+                    self.suburb!.imageList?.image = UIImage(named: "fieldListClose")
+                    self.addPopupTable(self.suburb!)
+                }
             }
         }
         
@@ -544,8 +573,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 self.state!.hidden = false
                 self.store!.hidden = false
                 showSuburb = true
-                delegate.validateZip!(true)
-                delegate.setContentSize()
+                delegate?.validateZip?(true)
+                delegate?.setContentSize()
             }
         } else {
             if showSuburb == true {
@@ -556,7 +585,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 self.state!.hidden = true
                 self.store!.hidden = true
                 showSuburb = false
-                delegate.setContentSize()
+                delegate?.setContentSize()
             }
         }
         
@@ -702,6 +731,75 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         
     }
     
+    /**
+     Adds a popup view with an options table
+     
+     - parameter itemView: item which is to be added the popup
+     */
+    func addPopupTable(itemView: FormFieldView){
+        if itemView == self.popupTableItem {
+            self.popupTable!.hidden = true
+            self.popupTableItem!.imageList?.image = UIImage(named: "fieldListOpen")
+            self.popupTableItem = nil
+        }else{
+            self.popupTable?.frame = CGRectMake(itemView.frame.minX, itemView.frame.maxY - 0.1, itemView.frame.width, tableHeight)
+            self.popupTable?.backgroundColor =  WMColor.light_light_gray
+            self.popupTableItem = itemView
+            self.popupTable!.hidden = false
+        }
+    }
+    
+    //MARK - TableView
+    /**
+     Reloads the popup view with new options
+     
+     - parameter values: New options from table
+     */
+    func setValues(values:[String]) {
+        self.itemsToShow = values
+        popupTable!.reloadData()
+    }
+    
+    //MARK: TableViewDelegate
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return itemsToShow.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        self.popupTable!.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
+        cell.textLabel?.text = itemsToShow[indexPath.row]
+        self.popupTableSelected = self.popupTableSelected ?? indexPath
+        if self.popupTable != nil {
+            cell.setSelected(indexPath.row == self.popupTableSelected!.row, animated: true)
+            cell.backgroundColor = WMColor.light_light_gray
+        }
+        return cell
+    }
     
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedStr = self.itemsToShow[indexPath.row]
+        if popupTableItem ==  self.store! {
+            self.store!.text = selectedStr
+            self.store!.imageList?.image = UIImage(named: "fieldListOpen")
+            self.selectedStore = indexPath
+        }
+        
+        if popupTableItem ==  self.suburb! {
+            self.suburb!.text = selectedStr
+            self.suburb!.imageList?.image = UIImage(named: "fieldListOpen")
+            self.selectedNeighborhood = indexPath
+        }
+        self.popupTable!.hidden = true
+        self.popupTableItem = nil
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let textCell = itemsToShow[indexPath.row]
+        return  SelectItemTableViewCell.sizeText(textCell, width: 247.0)
+    }
+
 }
