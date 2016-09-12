@@ -82,7 +82,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         service.callService({ (resultado:NSDictionary) -> Void in
             self.contResult(resultado)
             // TODO : Servicios En walmart validar con servicio
-            // self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]!) as! [AnyObject]
+            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]!) as! [AnyObject]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()

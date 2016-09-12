@@ -33,6 +33,10 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         
         self.view.backgroundColor = UIColor.whiteColor()
         
+        if IS_IPAD {
+            self.backButton?.hidden = true
+        }
+        
         self.titleLabel?.text = titleString
         
         tableShippingSelection = UITableView(frame:CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 46))

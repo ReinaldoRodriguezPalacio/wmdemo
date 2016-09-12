@@ -53,6 +53,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.titleLabel?.text = NSLocalizedString("checkout.title.commentsview", comment: "")
         self.view.backgroundColor = UIColor.whiteColor()
         
+//        if IS_IPAD {
+//            self.backButton?.hidden = true
+//        }
+        
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             self.savePhone()
         })

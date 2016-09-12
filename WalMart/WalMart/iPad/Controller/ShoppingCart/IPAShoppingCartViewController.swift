@@ -96,9 +96,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.imagePromotion.hidden = true
         self.viewFooter.hidden = true
         self.checkoutVC = IPAGRCheckOutViewController()
-        checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height)
+        checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height + 35)
         ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
-        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height)
+        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height + 35)
         //checkoutVC!.hiddenBack = true
         ctrlCheckOut!.navigationBarHidden = true
         checkoutVC?.delegateCheckOut = self
