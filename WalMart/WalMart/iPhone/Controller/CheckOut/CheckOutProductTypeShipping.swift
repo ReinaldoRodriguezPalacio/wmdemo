@@ -57,6 +57,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
         self.titleLabel?.text = "Envio 2 de 2"
+        self.backButton?.hidden =  IS_IPAD
         
         self.viewFooter =  UIView()
         self.viewFooter?.backgroundColor = UIColor.whiteColor()
@@ -282,7 +283,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     func invokeSloteService(type:String) {
         
         let service =  DisplaySlotsService()
-        
+         self.dateSlot =  []
         service.callService(requestParams: service.buildParamsHomeDelivery(""), succesBlock: { (responce:NSDictionary) in
             
             let slots =  responce["responseObject"] as! NSDictionary
@@ -303,7 +304,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                     slot.addObject(daySlot["slotId"] as! String)
                     
                     let date  = daySlot["DeliveryDateCalendar.time"] as! NSDictionary
-                    let dayDelivery  = "\(daySlot["deliveryDay"] as! String)  \(date.objectForKey("formattedDate") as! String)"
+                    let dayDelivery  = "\(date.objectForKey("formattedDate") as! String)"
                     
                     if !self.dateSlot.contains(dayDelivery) {
                         self.dateSlot.append(dayDelivery)
@@ -313,7 +314,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                 self.hourArray.addObject(horsSlot)
                 self.slotArray.addObject(slot)
             }
-            
+            self.getAviableDates()
             print(self.hourArray)
             print(self.dateSlot)
             
@@ -324,6 +325,42 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         })
         
     }
+    
+    
+    func getAviableDates(){
+        
+        let dateFmt = NSDateFormatter()
+        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+        
+        var datearray : [String] = []
+        var index =  0
+        for dates in self.dateSlot {
+            
+            dateFmt.dateFormat = "dd/MM/yyyy"
+            let dateform =  dateFmt.dateFromString(dates)
+            dateFmt.dateFormat = "EEEE dd, MMMM"
+            var stringDate = dateFmt.stringFromDate(dateform!).capitalizedString
+            if index == 0{
+                stringDate = "Hoy \(stringDate)"
+            }else if index == 1{
+                stringDate = "Mañana \(stringDate)"
+            }
+            
+            datearray.append(stringDate)
+            index =  index + 1
+            
+        }
+        self.dateSlot =  datearray
+    }
+    
+    func getTimes(){
+        var typeArray : [String] = []
+        
+        for time in self.timeSelect {
+            typeArray.append("Entre \(time.stringByReplacingOccurrencesOfString("-", withString: " y "))")
+        }
+        timeSelect = typeArray
+    }
 
     //MARK: - AlertPickerSelectOptionDelegate
     
@@ -333,6 +370,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
            dateForm?.text =   self.dateSlot[indexPath.row]
             let times  =  self.hourArray.objectAtIndex(indexPath.row) as! [String]
             timeSelect =  times
+            self.getTimes()
+            
             let slots  =  self.slotArray.objectAtIndex(indexPath.row) as! [String]
             groupSlotSelect = slots
         }else{

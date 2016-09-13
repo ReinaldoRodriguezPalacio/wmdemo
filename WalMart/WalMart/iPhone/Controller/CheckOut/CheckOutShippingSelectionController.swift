@@ -32,10 +32,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()
-        
-        if IS_IPAD {
-            self.backButton?.hidden = true
-        }
+        self.backButton?.hidden = IS_IPAD
         
         self.titleLabel?.text = titleString
         
@@ -50,7 +47,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         tableShippingSelection.dataSource = self
         tableShippingSelection.separatorStyle = .None
         tableShippingSelection.registerClass(CheckOutShippingSelectionCell.self, forCellReuseIdentifier: "CheckOutShippingSelection")
-         tableShippingSelection.reloadData()
+        tableShippingSelection.reloadData()
         
         self.view.addSubview(tableShippingSelection)
      
