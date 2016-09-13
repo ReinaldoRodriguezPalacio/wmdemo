@@ -39,6 +39,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var sectionTitleInvoice: UILabel!
     var invoiceButton: UIButton!
     var paramsToOrder : NSMutableDictionary?
+    var modalView: AlertModalView?
     //var paramsToConfirm : NSMutableDictionary?
     
     override func getScreenGAIName() -> String {
@@ -173,6 +174,23 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.viewLoad.stopAnnimating()
             self.viewLoad = nil
         }
+    }
+    
+    
+    func showNoAddressAlert(){
+        let noAddressView = AddressNoStoreView(frame: CGRectMake(0,0,290,210))
+        noAddressView.newAdressForm = { void in
+            let finalContentHeight: CGFloat = self.view.frame.height - 80
+            let finalContentFrame = CGRectMake(0, 46, 289, finalContentHeight > 468 ? 468 : finalContentHeight)
+            let addInvoiceAddressView = AddInvoiceAddressView(frame: finalContentFrame)
+            addInvoiceAddressView.showCancelButton = true
+            addInvoiceAddressView.onClose = { Void -> Void in
+                self.modalView!.closeNew()
+            }
+            self.modalView!.resizeViewContent(NSLocalizedString("checkout.field.new.address", comment:""),view: addInvoiceAddressView)
+        }
+        self.modalView = AlertModalView.initModalWithView("Dirección de Facturación", innerView: noAddressView)
+        self.modalView!.showPicker()
     }
     
     /**
@@ -424,24 +442,27 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.invokeAddressInvoiceUserService({ () -> Void in
             self.addressInvoice!.onBecomeFirstResponder = {() in
                 let itemsAddress : [String] = self.getItemsToSelectInvoiceAddres()
-                self.picker!.selected = self.selectedAddressInvoiceIx
-                self.picker!.sender = self.addressInvoice!
-                self.picker!.delegate = self
-                
-                self.picker!.setValues(self.addressInvoice!.nameField, values: itemsAddress)
-                self.picker!.cellType = TypeField.Check
-                self.picker!.showDisclosure = true
-                self.picker!.showPrefered = true
-                if !self.selectedAddressHasStore {
-                    self.picker!.onClosePicker = {
-                        //--self.removeViewLoad()
-                        self.picker!.onClosePicker = nil
-                        self.navigationController?.popViewControllerAnimated(true)
-                        self.picker!.closePicker()
+                if itemsAddress.count == 0 { //TODO: QUTAR
+                    self.picker!.selected = self.selectedAddressInvoiceIx
+                    self.picker!.sender = self.addressInvoice!
+                    self.picker!.delegate = self
+                    self.picker!.setValues(self.addressInvoice!.nameField, values: itemsAddress)
+                    self.picker!.cellType = TypeField.Check
+                    self.picker!.showDisclosure = true
+                    self.picker!.showPrefered = true
+                    if !self.selectedAddressHasStore {
+                        self.picker!.onClosePicker = {
+                            //--self.removeViewLoad()
+                            self.picker!.onClosePicker = nil
+                            self.navigationController?.popViewControllerAnimated(true)
+                            self.picker!.closePicker()
+                        }
                     }
+                    self.removeViewLoad()
+                    self.picker!.showPicker()
+                }else{
+                    self.showNoAddressAlert()
                 }
-                self.removeViewLoad()
-                self.picker!.showPicker()
             }
         })
         self.invokeAddressUserService({ () -> Void in

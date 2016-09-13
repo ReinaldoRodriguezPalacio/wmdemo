@@ -1,5 +1,5 @@
 //
-//  GRAddressNoStoreView.swift
+//  AddressNoStoreView.swift
 //  WalMart
 //
 //  Created by Luis Alonso Salcido Martinez on 08/04/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRAddressNoStoreView: UIView {
+class AddressNoStoreView: UIView {
     var layerLine: CALayer!
     var newAdressForm: (() -> Void)?
     var newButton: UIButton?
@@ -26,8 +26,8 @@ class GRAddressNoStoreView: UIView {
     
     func setup() {
         self.infoLabel = UILabel()
-        self.infoLabel!.text = "Para poder ver el inventario de una tienda debes de registrar una dirección."
-        self.infoLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.infoLabel!.text = "Ingresa una dirección para poder facturar tu compra."
+        self.infoLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.infoLabel!.textColor = WMColor.light_blue
         self.infoLabel!.numberOfLines = 2
         self.addSubview(infoLabel!)
@@ -37,12 +37,12 @@ class GRAddressNoStoreView: UIView {
         self.layer.insertSublayer(layerLine, atIndex: 0)
         
         self.newButton = UIButton()
-        self.newButton!.setTitle("Nueva Dirección", forState:.Normal)
+        self.newButton!.setTitle("Crear Dirección", forState:.Normal)
         self.newButton!.titleLabel!.textColor = UIColor.whiteColor()
-        self.newButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.newButton!.backgroundColor = WMColor.light_blue
+        self.newButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.newButton!.backgroundColor = WMColor.green
         self.newButton!.layer.cornerRadius = 17
-        self.newButton!.addTarget(self, action: #selector(GRAddressNoStoreView.new), forControlEvents: UIControlEvents.TouchUpInside)
+        self.newButton!.addTarget(self, action: #selector(AddressNoStoreView.new), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(newButton!)
     }
     

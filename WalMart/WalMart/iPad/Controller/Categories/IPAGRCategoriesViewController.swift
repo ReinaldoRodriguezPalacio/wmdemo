@@ -306,7 +306,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     //MARK changeStore
     func changeStore(){
         if titleLabel!.text! == NSLocalizedString("profile.default.store", comment: "")  && UserCurrentSession.sharedInstance().addressId == nil{
-            let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,338,210))
+            let noAddressView = AddressNoStoreView(frame: CGRectMake(0,0,338,210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRectMake(0,49,338,self.view.frame.height - 90))
                 addAddress.addressArray = []
