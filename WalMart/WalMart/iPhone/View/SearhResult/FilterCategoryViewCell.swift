@@ -71,13 +71,13 @@ class FilterCategoryViewCell: UITableViewCell {
                 self.type = .family
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
-                self.check!.highlightedImage = UIImage(named: "filter_check_blue_selected")
+                self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
             }
             else if level.integerValue == 2 {
                 self.type = .line
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
-                self.check!.highlightedImage = UIImage(named: "check_blue")
+                self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
             }
         }
 

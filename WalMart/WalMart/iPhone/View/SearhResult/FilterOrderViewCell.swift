@@ -140,7 +140,7 @@ class FilterOrderViewCell: UITableViewCell {
         button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         button.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         button.layer.cornerRadius = self.BUTTON_HEIGHT/2
-        button.layer.borderWidth = 1.0
+        button.layer.borderWidth = 0.5
         button.layer.borderColor = WMColor.light_blue.CGColor
         button.addTarget(self, action: #selector(FilterOrderViewCell.filter(_:)), forControlEvents: .TouchUpInside)
         self.contentView.addSubview(button)
