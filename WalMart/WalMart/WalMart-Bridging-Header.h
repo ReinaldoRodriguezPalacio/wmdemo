@@ -78,7 +78,3 @@
 
 //Google
 #import <GoogleSignIn/GoogleSignIn.h>
-
-//MERCURY
-// Stompkit
-#import "StompKit.h"

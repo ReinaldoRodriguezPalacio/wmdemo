@@ -260,7 +260,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
                 
                 var desc = ""
-                if let descs = recommendProduct["description"] as? String {
+                if let descs = recommendProduct["characteristics"] as? String {
                     desc = descs
                 }
                 

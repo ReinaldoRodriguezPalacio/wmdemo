@@ -112,10 +112,6 @@ class UserCurrentSession : NSObject {
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
                 let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
                 
-                //MercuryUser
-                MercuryService.sharedInstance().setActiveUserName(emailUser as String)
-
-                
                 loginService.callService(["profileId":idUser], successBlock: { (result:NSDictionary) -> Void in
                     print("User signed")
                     }, errorBlock: { (error:NSError) -> Void in
@@ -221,9 +217,6 @@ class UserCurrentSession : NSObject {
         //UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
         //UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
         
-        //MercuryUser
-        MercuryService.sharedInstance().setActiveUserName(usr.email as String)
-
 //        self.loadShoppingCarts { () -> Void in
 //            self.invokeGroceriesUserListService()
 //        }
