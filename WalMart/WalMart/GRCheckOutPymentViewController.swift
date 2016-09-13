@@ -101,10 +101,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.view.backgroundColor =  UIColor.whiteColor()
         self.titleLabel?.text = NSLocalizedString("Método de Pago", comment:"")
-        
-        if IS_IPAD {
-            self.backButton?.hidden = true
-        }
+        self.backButton?.hidden = IS_IPAD
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray_reg

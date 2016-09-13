@@ -10,7 +10,6 @@ import Foundation
 
 class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutViewControllerDelegate, UIPopoverControllerDelegate {
     
-    var imagePromotion : UIImageView!
     var totalsView : IPAShoppingCartTotalView!
     var beforeLeave : IPAShoppingCartBeforeToLeave!
     
@@ -27,10 +26,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         
         viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
         
-        imagePromotion = UIImageView()
-        //imagePromotion.image = UIImage(named:"cart_promo")
-
-        self.viewContent.addSubview(imagePromotion)
 
         totalsView = IPAShoppingCartTotalView(frame: CGRectMake(0, 0, 0, 0))
         self.viewContent.addSubview(totalsView)
@@ -54,19 +49,16 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let url = NSURL(string: serviceUrl("WalmartMG.CartPromo"))
-        imagePromotion.setImageWithURL(url, placeholderImage: UIImage(named:"cart_promo"))
     }
     
     override func viewDidLayoutSubviews() {
-        
+    
         self.viewHerader.frame = CGRectMake(0, 0, self.view.frame.width, 46)
         self.viewContent.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         self.viewFooter.frame = CGRectMake(self.viewContent.frame.width - 341, viewContent.frame.height - 72 , 341 , 72)
         self.viewShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.viewContent.frame.width - 341, 434)
         self.beforeLeave.frame = CGRectMake(0,self.viewShoppingCart.frame.maxY,self.viewContent.frame.width - 341, viewContent.frame.height - self.viewShoppingCart.frame.maxY)
-        self.imagePromotion.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, 434)
-        self.totalsView.frame = CGRectMake(self.viewContent.frame.width - 341, self.imagePromotion.frame.maxY, 341, 168)
+        self.totalsView.frame = CGRectMake(self.viewContent.frame.width - 341, self.beforeLeave.frame.maxY, 341, 168)
         
         self.viewSeparator.frame = CGRectMake(0,self.viewShoppingCart.frame.maxY,self.viewShoppingCart.frame.width,AppDelegate.separatorHeigth())
         
@@ -76,31 +68,29 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.buttonListSelect.frame = CGRectMake(x,self.buttonListSelect.frame.minY,40,self.buttonListSelect.frame.height)
         
         self.buttonShop.frame = CGRectMake( buttonListSelect.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
-        //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
-        //self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
         
         self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
         self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
         
-        // self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
         if self.customlabel != nil {
             self.customlabel.frame = self.buttonShop.bounds
         }
         if self.deleteall != nil {
             self.deleteall.frame = CGRectMake(editButton.frame.minX - 82, 12, 75, 22)
         }
+        
+        ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height - 16)
        
     }
 
     func addchekout(){
-        self.imagePromotion.hidden = true
         self.viewFooter.hidden = true
         self.checkoutVC = IPAGRCheckOutViewController()
         checkoutVC!.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height)
         ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
         ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height)
-        //checkoutVC!.hiddenBack = true
         ctrlCheckOut!.navigationBarHidden = true
+        checkoutVC!.backButton?.hidden =  true
         checkoutVC?.delegateCheckOut = self
         self.addChildViewController(ctrlCheckOut!)
         self.view.addSubview(ctrlCheckOut!.view)
