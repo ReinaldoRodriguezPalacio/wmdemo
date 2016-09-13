@@ -153,7 +153,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.addressInvoice!.frame = CGRectMake(margin, invoiceButton.frame.maxY + 8, width, fheight)
         
         self.content!.contentSize = CGSize(width: width, height: self.addressInvoice!.frame.maxY)
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 110)
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height  - (IS_IPAD ? 0 : 110))
         self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.content!.frame.maxY + 16, 140, 34)
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.content!.frame.maxY + 16, 140, 34)

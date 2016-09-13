@@ -49,6 +49,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.backButton!.hidden =  IS_IPAD
         self.view.backgroundColor =  UIColor.whiteColor()
         self.titleLabel?.text = NSLocalizedString("checkout.confirm.title", comment: "")
         
@@ -98,6 +99,9 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     
 
     override func viewDidLayoutSubviews() {
+        self.contentTableView.frame =  CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.frame.height - (headerHeight + 64))
+        self.viewFooter!.frame = CGRect(x:0 , y:self.contentTableView!.frame.maxY, width:self.view.bounds.width , height: 64 )
+
         
     }
     
