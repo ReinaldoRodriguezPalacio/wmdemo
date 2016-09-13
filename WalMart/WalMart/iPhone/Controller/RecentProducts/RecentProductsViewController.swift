@@ -82,7 +82,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         service.callService({ (resultado:NSDictionary) -> Void in
             self.contResult(resultado)
             // TODO : Servicios En walmart validar con servicio
-            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]!) as! [AnyObject]
+            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]! , isShoppingCart: false) as! [AnyObject]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -111,7 +111,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
      
      - parameter resultDictionary: NSDictionary recent products service
      */
-    class func adjustDictionary(resultDictionary: AnyObject) -> AnyObject {
+    class func adjustDictionary(resultDictionary: AnyObject, isShoppingCart:Bool) -> AnyObject {
         var recentLineItems : [AnyObject] = []
         
         let productItemsOriginal = resultDictionary  as! [AnyObject] //["responseArray"] as! [AnyObject]
@@ -126,9 +126,16 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 
                 let objProduct = productItemsOriginal[idx]
                 
-                if objProduct["fineContent"] != nil {
-                    let lineObj = objProduct["fineContent"] as! NSDictionary
+                if objProduct["fineContent"] != nil  {
                     
+                    
+                    var lineObj : NSDictionary = [:]
+                    
+                    if isShoppingCart {
+                        lineObj = objProduct["fineContent"] as! NSDictionary
+                    } else {
+                        lineObj = objProduct as! NSDictionary
+                    }
                     
                     if indi == 0 {
                         //self.recentLineItems.insert(lineObj, atIndex: indi)
@@ -183,9 +190,17 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 let objProduct = productItemsOriginal[idx] as! NSDictionary
                 let obj = recentLineItems[indx]
                 
+                var lineObj : NSDictionary = [:]
+                if isShoppingCart {
+                    lineObj = objProduct["fineContent"] as! NSDictionary
+                } else {
+                    lineObj = objProduct
+                }
+                
                 if obj as? String == "Otros"{
-                    if objProduct["fineContent"] != nil {
-                        let lineObj = objProduct["fineContent"] as! NSDictionary
+                    if objProduct["fineContent"] != nil || !isShoppingCart{
+                        //let lineObj = objProduct["fineContent"] as! NSDictionary
+                        
                         if lineObj["fineLineName"] as! String == "" || lineObj["fineLineName"] as! String == "Otros" {
                             objectsLine.insert(objProduct, atIndex: indLine)
                             lineString = "Otros"
@@ -197,8 +212,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         indLine = indLine + 1
                     }
                 } else {
-                    if objProduct["fineContent"] != nil {
-                        let lineObj = objProduct["fineContent"] as! NSDictionary
+                    if objProduct["fineContent"] != nil || !isShoppingCart{
+                        //let lineObj = objProduct["fineContent"] as! NSDictionary
                         
                         if obj as? String == lineObj["fineLineName"] as? String {
                             objectsLine.insert(objProduct, atIndex: indLine)
@@ -251,10 +266,16 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         let listObj = self.recentProductItems[indexPath.section] as! NSDictionary
         let prodObj = listObj["products"] as! NSArray
         let objProduct = prodObj[indexPath.row] as! NSDictionary
-        let img = objProduct["imageUrl"] as! String
-        let description = objProduct["description"] as! String
+        //image
+        let parentProd = objProduct["parentProducts"] as! NSArray
+        
+        let img = parentProd[0]["thumbnailImageUrl"] as! String
+        
+        let description = parentProd[0]["description"] as! String
         let price = objProduct["specialPrice"] as? String
-        let upc = objProduct["upc"] as! String
+        let upc = objProduct["itemNumber"] as! String
+        
+        //Falta pesable
         var pesable = "false"
         if let pesableValue = objProduct["pesable"] as? NSString {
             pesable = pesableValue as String
@@ -262,11 +283,12 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         var promoDescription : NSString = ""
         var isActive = true
         
+        //Falta stock
         if let active = objProduct["stock"] as? Bool {
             isActive = active
         }
         let plpArray = UserCurrentSession.sharedInstance().getArrayPLP(objProduct)
-        
+        //Falta priceEvent
         promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! String
         
         cellRecentProducts.selectionStyle = .None

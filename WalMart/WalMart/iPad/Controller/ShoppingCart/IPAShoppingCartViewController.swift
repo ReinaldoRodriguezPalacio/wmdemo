@@ -147,7 +147,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         if UserCurrentSession.sharedInstance().itemsMG != nil {
             //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
             let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject]) as! [AnyObject]
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject], isShoppingCart: true) as! [AnyObject]
             
              checkoutVC?.itemsInCart = itemsUserCurren
             

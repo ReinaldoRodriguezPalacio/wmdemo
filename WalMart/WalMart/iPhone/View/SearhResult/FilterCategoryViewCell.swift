@@ -18,6 +18,7 @@ class FilterCategoryViewCell: UITableViewCell {
     var name: UILabel?
     var type: CategoryType = .department
     var upcs: [String]?
+    var separator: UIView?
     
     var upperTextColor = WMColor.light_blue
     var lineTextColor = WMColor.gray_reg
@@ -37,6 +38,11 @@ class FilterCategoryViewCell: UITableViewCell {
         self.name!.font = WMFont.fontMyriadProLightOfSize(16)
         self.name!.backgroundColor = UIColor.whiteColor()
         self.contentView.addSubview(self.name!)
+        
+        self.separator = UIView()
+        self.separator!.backgroundColor = WMColor.light_gray
+        self.separator!.hidden = true
+        self.contentView.addSubview(self.separator!)
     }
     
     override func layoutSubviews() {
@@ -53,6 +59,8 @@ class FilterCategoryViewCell: UITableViewCell {
         
         self.check!.frame = CGRectMake(x, (size.height - 16.0)/2, 16.0, 16.0)
         self.name!.frame = CGRectMake(self.check!.frame.maxX + separation, 0.0, size.width - (self.check!.frame.maxX + separation), size.height)
+        
+        self.separator!.frame = CGRectMake(0.0, size.height - 1, size.width, 1.0)
     }
     
     //MARK: - Actions
@@ -66,6 +74,7 @@ class FilterCategoryViewCell: UITableViewCell {
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_blue_selected")
+                 self.separator!.hidden = false
             }
             else if level.integerValue == 1 {
                 self.type = .family
@@ -97,6 +106,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
         self.check!.highlightedImage = UIImage(named: "check_blue")
+        self.separator!.hidden = false
         
         if item?["itemName"] as? String == ""{
             self.check!.hidden = true
@@ -113,9 +123,6 @@ class FilterCategoryViewCell: UITableViewCell {
             countItem = self.upcs!.count
             name =  item!["itemName"] as! String
         }
-        
-            
-        
         
         self.name!.text = item != nil ? "\(name) (\(countItem))": nameBrand
         
