@@ -75,7 +75,3 @@
 //#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <Bolts/Bolts.h>
-
-//MERCURY
-// Stompkit
-#import "StompKit.h"
