@@ -308,8 +308,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateNumber!.isRequired = true
         self.associateNumber!.setCustomPlaceholder(NSLocalizedString("profile.edit.associateNumber",comment:""))
         self.associateNumber!.typeField = TypeField.Number
-        self.associateNumber!.minLength = 3
-        self.associateNumber!.maxLength = 25
+        self.associateNumber!.minLength = 10
+        self.associateNumber!.maxLength = 10
         self.associateNumber!.nameField = NSLocalizedString("profile.edit.associateNumber",comment:"")
         self.associateNumber!.alpha = 0.0
         self.content?.addSubview(self.associateNumber!)
@@ -318,8 +318,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDeterminant!.isRequired = true
         self.associateDeterminant!.setCustomPlaceholder(NSLocalizedString("profile.edit.determinant",comment:""))
         self.associateDeterminant!.typeField = TypeField.Number
-        self.associateDeterminant!.minLength = 3
-        self.associateDeterminant!.maxLength = 25
+        self.associateDeterminant!.minLength = 5
+        self.associateDeterminant!.maxLength = 5
         self.associateDeterminant!.nameField = NSLocalizedString("profile.edit.determinant",comment:"")
         self.associateDeterminant!.alpha = 0.0
         self.content?.addSubview(self.associateDeterminant!)

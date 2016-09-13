@@ -57,7 +57,7 @@
 "product.searh.cancel" = "Cancelar";
 "product.search.scann.help" = "También puedes buscar escaneando un código de barras";
 "product.search.minimum" = "Ingrese mínimo 2 caracteres";
-"product.search.filterall" = "Seleccionar todos";
+"product.search.filterall" = "Todos las Marcas";
 
 //filter
 "filter.title" = "Filtrar";
@@ -424,7 +424,7 @@
 "checkout.title.paymentOptions" = "Opciones de Pago";
 "checkout.field.paymentOptions" = "Opciones de Pago";
 "checkout.title.shipmentOptions" = "Opciones de envío";
-"checkout.field.address" = "Dirección de envío";
+"checkout.field.address" = "Dirección de Envío";
 "checkout.field.new.address" = "Agregar Nueva Dirección";
 "checkout.field.shipmentType" = "Tipo de envío";
 "checkout.field.deliverySchedule" = "Horario de Entrega";

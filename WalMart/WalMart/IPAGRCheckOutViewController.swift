@@ -24,7 +24,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     var delegateCheckOut : IPAGRCheckOutViewControllerDelegate!
     var footer: UIView?
     var buttonShop: UIButton?
-    var totalView : IPOCheckOutTotalView!
+    var totalView : TotalView!
     var customlabel : CurrencyCustomLabel!
     
     override func viewDidLoad() {
@@ -54,11 +54,14 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.footer!.addSubview(self.addToListButton!)
         self.footer!.addSubview(self.buttonShare)
         
-        totalView = IPOCheckOutTotalView(frame:CGRectMake(0, self.addressInvoice!.frame.maxY + 10, self.view.frame.width, 60))
+        totalView = TotalView(frame:CGRectMake(0, self.addressInvoice!.frame.maxY + 10, self.view.frame.width, 60))
         totalView.backgroundColor = WMColor.light_light_gray
-        totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+        totalView.setValues(articles: "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+            shippingCost: "",
+            iva:"",
+            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())",
+            total: "\(UserCurrentSession.sharedInstance().estimateTotalGR())")
         self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
         self.view.addSubview(totalView)
         self.view.addSubview(footer!)
@@ -75,7 +78,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view!.frame.height - 206)
         self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
-        self.totalView.frame = CGRectMake(0, self.view!.frame.height - 160, self.view.bounds.width, 95)
+        self.totalView.frame = CGRectMake(0, self.view!.frame.height - 180, self.view.bounds.width, 115)
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
         self.footer!.frame = CGRectMake(0.0, self.view!.bounds.height - footerHeight, bounds.width, footerHeight)

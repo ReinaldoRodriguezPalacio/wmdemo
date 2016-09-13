@@ -20,6 +20,9 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
     var viewTypeAdressFiscal: UIView? = nil
     var viewTypeAdress: UIView? = nil
     var heightView: CGFloat = 500
+    var addressShippingCont = 0
+    var addressFiscalCount = 0
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -151,6 +154,67 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             self.cancelButton!.hidden = true
         }
     }
+    
+    override func save() {
+        self.saveBock(self.saveButton!, successBlock: nil)
+    }
+    
+    func saveBock(sender:UIButton?,successBlock:((Bool) -> Void)?) {
+        var params : NSDictionary? = nil
+        var service :  BaseService!
+        
+        switch (typeAddress) {
+        case .FiscalPerson:
+            if self.viewAddressFisical!.validateAddress(){
+                params = self.viewAddressFisical?.getParams()
+                service = AddFiscalAddressService()
+            }
+        case .FiscalMoral:
+            if self.viewAddressMoral!.validateAddress(){
+                params = self.viewAddressMoral?.getParams()
+                service = AddFiscalAddressService()
+            }
+            default:
+              break
+        }
+        if params != nil{
+            self.endEditing(true)
+            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            
+            if addressShippingCont >= 12 && typeAddress == .Shiping {
+                self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
+                self.alertView!.showErrorIcon("OK")
+                self.cancel()
+                return
+            }
+            
+            if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral) {
+                self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
+                self.alertView!.showErrorIcon("OK")
+                self.cancel()
+                return
+            }
+            
+            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+            
+            service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
+                if let message = resultCall!["message"] as? String {
+                    let addres  = params!["AddressID"] as? String
+                    self.alertView!.setMessage(NSLocalizedString("profile.address.add.ok",comment:""))
+                    self.alertView!.showDoneIcon()
+                }
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_UPDATE_ADDRESS.rawValue, label:"")
+                
+                }
+                , errorBlock: {(error: NSError) in
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+            })
+        }
+        
+    }
+
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     override func contentSizeForScrollView(sender:AnyObject) -> CGSize {
