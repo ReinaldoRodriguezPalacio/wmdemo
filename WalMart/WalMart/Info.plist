@@ -511,7 +511,7 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/saveToken</string>
 			<key>WalmartMG.OccupationsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getOccupations</string>
+			<string>https://dl.dropboxusercontent.com/s/0mvkcjycc5pn1bs/getOccupations.txt</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/y94hzd9c81sa4ci/getPurchaseOrderById.txt?dl=0</string>
 			<key>WalmartMG.PreviousOrdersService</key>

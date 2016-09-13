@@ -67,6 +67,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var picker : AlertPickerView!
     var selectedGender: NSIndexPath!
     var dateBriday  = ""
+    
+    var occupationList: [String]! = []
+    var selectedOccupation: NSIndexPath?
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
@@ -208,13 +211,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.gender!.setImageTypeField()
         self.content?.addSubview(self.gender!)
         
-        self.ocupation = FormFieldView()
+        self.ocupation = FormFieldView(frame:CGRectMake(16, 0, self.view.frame.width - 32, 40))
         self.ocupation!.isRequired = false
         self.ocupation!.setCustomPlaceholder(NSLocalizedString("profile.edit.ocupation",comment:""))
-        self.ocupation!.typeField = TypeField.String
-        self.ocupation!.minLength = 3
-        self.ocupation!.maxLength = 25
+        self.ocupation!.typeField = TypeField.List
         self.ocupation!.nameField = NSLocalizedString("profile.edit.ocupation",comment:"")
+        self.ocupation!.setImageTypeField()
         self.content?.addSubview(self.ocupation!)
         
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
@@ -399,15 +401,27 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content.clipsToBounds = true
         self.view.bringSubviewToFront(self.header!)
         self.showTabbar = !TabBarHidden.isTabBarHidden
+        self.getOccupationList()
         
         self.picker = AlertPickerView.initPickerWithDefault()
-        self.picker.contentHeight = 220.0 
         self.selectedGender = NSIndexPath(forRow: 0, inSection: 0)
         self.gender?.onBecomeFirstResponder = { () in
+            self.picker.contentHeight = 220.0
             self.picker!.selected = self.selectedGender
             self.picker!.sender = self.gender!
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("profile.gender",comment:""), values: [NSLocalizedString("profile.gender.female",comment:""),NSLocalizedString("profile.gender.male",comment:"")])
+            self.picker!.cellType = TypeField.Check
+            self.picker!.showPicker()
+            self.view.endEditing(true)
+        }
+        
+        self.ocupation?.onBecomeFirstResponder = { () in
+            self.picker.contentHeight = 316
+            self.picker!.selected = self.selectedOccupation ?? NSIndexPath(forRow: 0, inSection: 0)
+            self.picker!.sender = self.ocupation!
+            self.picker!.selectOptionDelegate = self
+            self.picker!.setValues(NSLocalizedString("profile.edit.ocupation",comment:""), values: self.occupationList!)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
             self.view.endEditing(true)
@@ -529,6 +543,32 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 
             }
         }
+    }
+    
+    /**
+     Calls OcuppationService
+     */
+    func getOccupationList(){
+       let occupationService = OccupationsService()
+        occupationService.callService([:], successBlock: { (result) -> Void in
+            print(result)
+            if let code = result["codeMessage"] as? Int {
+                if code == 0{
+                    self.ocupation.enabled = true
+                    let responceObject = result["responseObject"] as! [String:AnyObject]
+                    self.occupationList = responceObject["occupationList"] as! [String]
+                }else{
+                   self.occupationList = []
+                   self.ocupation.enabled = false
+                }
+            }else{
+                self.occupationList = []
+                self.ocupation.enabled = false
+            }
+           }, errorBlock: {(error) -> Void in
+               self.occupationList = []
+               self.ocupation.enabled = false
+        })
     }
     
     /**
@@ -937,9 +977,17 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.errorView!.focusError = nil
             self.errorView = nil
         }
-        self.selectedGender = indexPath
-        self.gender?.text = indexPath.row == 1 ? NSLocalizedString("profile.gender.male",comment:"") : NSLocalizedString("profile.gender.female",comment:"")
-        self.gender?.layer.borderWidth = 0
+        let sender = self.picker.sender as? FormFieldView
+        if sender == self.gender {
+            self.selectedGender = indexPath
+            self.gender?.text = indexPath.row == 1 ? NSLocalizedString("profile.gender.male",comment:"") : NSLocalizedString("profile.gender.female",comment:"")
+            self.gender?.layer.borderWidth = 0
+        }
+        if sender == self.ocupation {
+            self.selectedOccupation = indexPath
+            self.ocupation?.text = self.occupationList[indexPath.row]
+            self.ocupation?.layer.borderWidth = 0
+        }
     }
     
     

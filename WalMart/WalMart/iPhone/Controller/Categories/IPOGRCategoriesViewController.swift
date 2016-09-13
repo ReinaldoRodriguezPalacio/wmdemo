@@ -443,7 +443,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     //MARK changeStore
     func changeStore(){
         if titleLabel!.text! == NSLocalizedString("profile.default.store", comment: "") && UserCurrentSession.sharedInstance().addressId == nil {
-            let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,288,210))
+            let noAddressView = AddressNoStoreView(frame: CGRectMake(0,0,288,210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
                 addAddress.addressArray = []
