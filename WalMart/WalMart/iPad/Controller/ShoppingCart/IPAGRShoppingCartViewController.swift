@@ -379,10 +379,12 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
         }
         
-        self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+        self.checkoutVC?.totalView.setValues(articles: "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
-        
+            shippingCost: "",
+            iva:"",
+            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())",
+            total: "\(UserCurrentSession.sharedInstance().estimateTotalGR())")
         
         self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
         

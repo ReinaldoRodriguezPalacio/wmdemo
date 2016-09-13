@@ -52,7 +52,11 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         self.view.backgroundColor =  UIColor.whiteColor()
         self.titleLabel?.text = NSLocalizedString("checkout.confirm.title", comment: "")
         
-        self.contentTableView = UITableView(frame: CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120 + (IS_IPAD ? 64.0 : 0))))
+//        if IS_IPAD {
+//            self.backButton?.hidden = true
+//        }
+        
+        self.contentTableView = UITableView(frame: CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 125)))
         self.contentTableView.backgroundColor = UIColor.whiteColor()
         self.contentTableView.separatorStyle =  .None
         self.contentTableView.delegate =  self
