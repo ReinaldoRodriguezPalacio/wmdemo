@@ -185,9 +185,9 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     func setvalues(){
         
-        delivaryCost!.updateMount( CurrencyCustomLabel.formatString(String("120.50")), font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.orange, interLine: false)
+        delivaryCost!.updateMount( CurrencyCustomLabel.formatString(String("120.50")), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
         
-        collectCost!.updateMount( CurrencyCustomLabel.formatString(String("10.50")), font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.orange, interLine: false)
+        collectCost!.updateMount( CurrencyCustomLabel.formatString(String("10.50")), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
     
     }
     
@@ -220,6 +220,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         let  addressInvoice = FormFieldView(frame: CGRectMake(0, 0, frame.width, 40))
         addressInvoice.setCustomPlaceholder("Mi casa")
         addressInvoice.isRequired = true
+        addressInvoice.enabled = false
         addressInvoice.typeField = TypeField.List
         addressInvoice.setImageTypeField()
         addressInvoice.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")

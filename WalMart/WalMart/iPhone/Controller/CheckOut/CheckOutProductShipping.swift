@@ -165,7 +165,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         let labelShipping = UILabel(frame: CGRectMake(imageDisclousure.frame.minX - 158, 0.0, 150, 40))
         labelShipping.text = configshiping ? "Cambiar tipo de envío" : "Selecciona tipo de envío"
         labelShipping.textColor = WMColor.light_blue
-        labelShipping.font = WMFont.fontMyriadProRegularOfSize(12)
+        labelShipping.font = WMFont.fontMyriadProLightOfSize(12)
         labelShipping.textAlignment = .Right
      
         headerView.addSubview(imageDisclousure)
@@ -291,6 +291,8 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             if let dic = self.shipping[itemSelected] as? NSDictionary{
                 let selected = dic["rowSelected"] as! Int
                 controller.rowSelected = selected
+            }else{
+                controller.rowSelected = 0
             }
             controller.delegate = self
             controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"

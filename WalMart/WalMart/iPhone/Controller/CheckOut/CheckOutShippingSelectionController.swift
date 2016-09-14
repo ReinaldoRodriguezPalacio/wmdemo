@@ -59,9 +59,9 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         self.saveButton!.backgroundColor =  WMColor.green
         self.saveButton!.layer.cornerRadius =  17
         self.view.addSubview(self.saveButton!)
-        
+    
         let shippingNormal = ["type":"Envío normal" ,"util":"Hasta 7 días" ,"date":"(Fecha estimada de entrega 15/03/2016)" ]
-        let shippingEstandar = ["type":"Envío estandar" ,"util":"Hasta 5 días" ,"date":"(Fecha estimada de entrega 13/03/2016)" ]
+        let shippingEstandar = ["type":"Envío estándar" ,"util":"Hasta 5 días" ,"date":"(Fecha estimada de entrega 13/03/2016)" ]
         let shippingExpress = ["type":"Envío express" ,"util":"Hasta 1 días" ,"date":"(Fecha estimada de entrega 08/03/2016)" ]
 
         arrayTypeSelect = NSMutableArray()

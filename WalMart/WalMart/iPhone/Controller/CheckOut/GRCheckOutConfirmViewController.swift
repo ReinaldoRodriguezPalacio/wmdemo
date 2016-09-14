@@ -59,10 +59,6 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         self.stepLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel!)
         
-//        if IS_IPAD {
-//            self.backButton?.hidden = true
-//        }
-        
         self.contentTableView = UITableView(frame: CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 125)))
         self.contentTableView.backgroundColor = UIColor.whiteColor()
         self.contentTableView.separatorStyle =  .None
@@ -173,10 +169,6 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
             totalCell.setValuesAll(articles: self.items, subtotal: self.subtotal, shippingCost: self.shippingCost, iva: self.iva, saving: self.saving, total: self.total)
             return totalCell
             
-            /*let totals = TotalView(frame: CGRect(x:0, y:0, width:self.view.frame.width , height: 122))
-            totals.setValues(articles: self.items, subtotal: self.subtotal, shippingCost: self.shippingCost, iva: self.iva, saving: self.saving, total: self.total)
-            cell.addSubview(totals)
-            cell.selectionStyle = .None*/
             
         default:
             break
