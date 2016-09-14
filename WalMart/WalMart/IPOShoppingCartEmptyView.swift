@@ -14,6 +14,7 @@ class IPOShoppingCartEmptyView : IPOEmptyView {
         super.setup()
         iconImageView.image = UIImage(named:"empty_cart")
         descLabel.text = NSLocalizedString("empty.shoppingcart",comment:"")
+        returnButton.setTitle( NSLocalizedString("noti.keepshopping",comment:"") , forState: .Normal)
         
         if IS_IPHONE_4_OR_LESS == true {
             self.addSubview(returnButton)
