@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "radio_button.png",
+      "filename" : "check_blue_empty.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "radio_button@2x.png",
+      "filename" : "check_blue_empty@2x.png",
       "scale" : "2x"
     },
     {
