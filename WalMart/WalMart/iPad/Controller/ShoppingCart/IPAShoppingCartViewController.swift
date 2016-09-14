@@ -19,7 +19,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     var viewSeparator : UIView!
     var popup : UIPopoverController?
     var onClose : ((isClose:Bool) -> Void)? = nil
+    var separatorRight : CALayer!
 
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewFooter.backgroundColor  =  WMColor.light_light_gray
@@ -45,6 +48,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             self.addchekout()
             self.showAlertAddress()
         }
+        separatorRight = CALayer()
+        separatorRight.backgroundColor = WMColor.light_light_gray.CGColor
+        self.view!.layer.insertSublayer(separatorRight!, atIndex: 1000)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -80,7 +86,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         ctrlCheckOut?.view.frame = CGRectMake(self.viewContent.frame.width - 341, 0, 341, self.viewContent.frame.height - 16)
-       
+        separatorRight!.frame = CGRectMake(self.viewSeparator.frame.maxX - 1, 0, 1.0, self.view.bounds.width)
+
     }
 
     func addchekout(){
