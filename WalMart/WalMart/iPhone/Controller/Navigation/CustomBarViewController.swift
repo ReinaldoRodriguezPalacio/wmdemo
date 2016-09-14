@@ -948,7 +948,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     //MARK: - SearchViewControllerDelegate
     func closeSearch(addShoping:Bool, sender:UIButton?) {
-        self.view.bringSubviewToFront(headerView!)
+        //self.view.bringSubviewToFront(headerView!)
         container!.clipsToBounds = true
         if self.searchController != nil {
             self.btnSearch!.enabled = false
@@ -1094,6 +1094,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func clearSearch() {
+        
+        if self.helpView != nil {
+            return
+        }
+        
         self.view.bringSubviewToFront(headerView!)
         container!.clipsToBounds = true
         if self.searchController != nil{
@@ -1529,6 +1534,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             //UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.helpView!.alpha = 1.0
             //})
+            
+            self.view.bringSubviewToFront(self.helpView!)
         }
         return showTurial
     }

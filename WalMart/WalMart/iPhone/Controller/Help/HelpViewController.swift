@@ -152,7 +152,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         else  if  indexPath.row  == 0 {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
             
-            //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CloseSearch.rawValue, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CloseShoppingCart.rawValue, object: nil)
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHelp.rawValue, object: nil)
         } else {
