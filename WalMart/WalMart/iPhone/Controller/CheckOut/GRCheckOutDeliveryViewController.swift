@@ -187,7 +187,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             addInvoiceAddressView.onClose = { Void -> Void in
                 self.modalView!.closeNew()
             }
-            self.modalView!.resizeViewContent(NSLocalizedString("checkout.field.new.address", comment:""),view: addInvoiceAddressView)
+            self.modalView!.resizeViewContent("Nueva Dirección de Facturación",view: addInvoiceAddressView)
         }
         self.modalView = AlertModalView.initModalWithView("Dirección de Facturación", innerView: noAddressView)
         self.modalView!.showPicker()
@@ -420,7 +420,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             addAddressView.onClose = { Void -> Void in
                 self.picker!.closeNew()
             }
-            self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
+            self.picker!.titleLabel.text = "Nueva Dirección"
             return addAddressView
         }
         
@@ -430,7 +430,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         addInvoiceAddressView.onClose = { Void -> Void in
             self.picker!.closeNew()
         }
-        self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
+        self.picker!.titleLabel.text = "Nueva Dirección de Facturación"
         return addInvoiceAddressView
     }
     

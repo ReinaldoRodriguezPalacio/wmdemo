@@ -14,6 +14,8 @@ class SelectItemTableViewCell : UITableViewCell {
     var checkSelected : UIImageView!
     var disclosureImage : UIImageView!
     var preferedImage : UIImageView!
+    var layerLine: CALayer!
+    var showSeparator: Bool = true
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -56,6 +58,10 @@ class SelectItemTableViewCell : UITableViewCell {
         self.preferedImage.hidden = true
         self.addSubview(preferedImage)
         
+        self.layerLine = CALayer()
+        self.layerLine.backgroundColor = WMColor.light_light_gray.CGColor
+        self.layer.insertSublayer(layerLine, atIndex: 100)
+        
     }
     
     
@@ -66,6 +72,11 @@ class SelectItemTableViewCell : UITableViewCell {
         self.showButton?.frame = CGRectMake(250, self.textLabel!.frame.minY, 22, self.textLabel!.frame.height)
         self.disclosureImage?.frame = CGRectMake(self.frame.width - 38, 0, 22, self.textLabel!.frame.height)
         self.preferedImage?.frame = CGRectMake(self.disclosureImage.frame.minX - 38, 0, 22, self.textLabel!.frame.height)
+        if self.showSeparator {
+            self.layerLine.frame = CGRectMake(22, self.frame.height - 1, self.frame.width - 24, 1)
+        }else{
+            self.layerLine.frame = CGRectMake(0, 0, 0, 0)
+        }
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

@@ -269,7 +269,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.viewTypeAdressFiscal!.addSubview(titleLabel!)
             self.viewTypeAdressFiscal!.addSubview(viewButton!)
             
-            titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )
+            titleLabel!.frame = CGRectMake(16, 0, self.view.bounds.width - 20, 35 )
             
             addressFiscalPersonButton!.frame = CGRectMake(0, 0, 107 , 45)
             addressFiscalMoralButton!.frame = CGRectMake(121, 0, 107 , 45)

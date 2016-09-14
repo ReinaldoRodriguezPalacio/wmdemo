@@ -112,7 +112,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.searchField = FormFieldView()
         self.searchField!.maxLength = 100
         self.searchField!.delegate = self
-        self.searchField!.setCustomPlaceholderRegular(NSLocalizedString("list.search.placeholder",comment:""))
+        self.searchField!.setCustomPlaceholder(NSLocalizedString("list.search.placeholder",comment:""))
         self.searchField!.typeField = .String
         self.searchField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
         
