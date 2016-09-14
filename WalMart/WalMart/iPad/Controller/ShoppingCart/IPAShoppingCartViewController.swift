@@ -55,8 +55,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
         let tap = UITapGestureRecognizer(target: self, action: #selector(IPAGRShoppingCartViewController.hideBackgroundView))
         self.backgroundView?.addGestureRecognizer(tap)
-        separatorRight = CALayer()
-        separatorRight.backgroundColor = WMColor.light_light_gray.CGColor
+        
+        self.separatorRight = CALayer()
+        self.separatorRight.backgroundColor = WMColor.light_light_gray.CGColor
         self.view!.layer.insertSublayer(separatorRight!, atIndex: 1000)
     }
     
@@ -231,6 +232,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         
         self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
         self.editButton.hidden = self.itemsInShoppingCart.count == 0
+        self.separatorRight.hidden = !self.emptyView!.hidden
         
         self.titleView.frame = CGRectMake(0, 0, !self.emptyView.hidden ? self.view.frame.width:self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
 

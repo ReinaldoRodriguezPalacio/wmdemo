@@ -19,7 +19,6 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var itemSelected : Int = -1
     var paramsToOrder : NSMutableDictionary?
     var shippingsToOrder : NSMutableArray?
-    var layerLine: CALayer!
     var stepLabel: UILabel!
     
     var viewHeader :  UIView?
@@ -88,11 +87,6 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.nextButton!.backgroundColor =  WMColor.light_blue
         self.nextButton!.layer.cornerRadius =  17
         self.view.addSubview(self.nextButton!)
-        
-        self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view.layer.insertSublayer(layerLine, atIndex: 1000)
-        
         self.service()
     }
     
@@ -107,7 +101,6 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             self.tableProductsCheckout.frame = CGRectMake(0, self.headerHeight , self.view.frame.width, self.view.frame.height - (124 ))
         }
         
-        self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 66,  self.view.frame.width, 1)
         self.cancelButton!.frame =  CGRectMake(16 , self.view.frame.height - 50 , (self.view.frame.width - 40) / 2  , 34)
         self.nextButton!.frame =  CGRectMake(self.view.frame.width - self.cancelButton!.frame.width - 16  , self.view.frame.height - 52 , (self.view.frame.width - 40) / 2  , 34)
     }
