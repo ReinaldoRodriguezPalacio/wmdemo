@@ -69,7 +69,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         
         self.buttonShop.frame = CGRectMake( buttonListSelect.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
         
-        self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
+        self.titleView.frame = CGRectMake(0, 0, !self.emptyView.hidden ? self.view.frame.width:self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
         self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
         
         if self.customlabel != nil {
@@ -191,11 +191,13 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
        
         
         self.loadCrossSell()
-        self.removeLoadingView()
         
         self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
         self.editButton.hidden = self.itemsInShoppingCart.count == 0
-       
+        
+        self.titleView.frame = CGRectMake(0, 0, !self.emptyView.hidden ? self.view.frame.width:self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
+
+       self.removeLoadingView()
         
     }
     

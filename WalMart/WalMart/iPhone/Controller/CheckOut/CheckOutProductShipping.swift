@@ -293,11 +293,12 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
                 controller.rowSelected = selected
             }
             controller.delegate = self
-            controller.titleString =  "Envío \(selectedItem) de \(self.shippingAll.count)"
+            controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             self.navigationController?.pushViewController(controller, animated: true)
         }else{
             let controller = CheckOutProductTypeShipping()
             controller.delegate = self
+            controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             itemSelected = selectedItem
             self.navigationController?.pushViewController(controller, animated: true)
         }

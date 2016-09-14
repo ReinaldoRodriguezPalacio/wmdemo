@@ -888,23 +888,24 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var maxY = self.collection!.frame.minY
         
         if self.idListFromSearch != "" && !IS_IPAD {
-          maxY =   maxY + 64
+          maxY = maxY + 64
         }
       
         if self.emptyMGGR == nil {
-            self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
-            self.emptyMGGR.returnAction = { () in
+            self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
+            //self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
+            self.empty.returnAction = { () in
                 self.returnBack()
             }
         }
         
         if self.searchFromContextType != .FromSearchTextList{
-            self.emptyMGGR.descLabel.text = "No existe ese artículo"
+            self.empty.descLabel.text = "No existe ese artículo"
         } else {
-            self.emptyMGGR.descLabel.text = "No existen artículos"
+            self.empty.descLabel.text = "No existen artículos"
         }
         
-        self.view.addSubview(self.emptyMGGR)
+        self.view.addSubview(self.empty)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
     }
     
