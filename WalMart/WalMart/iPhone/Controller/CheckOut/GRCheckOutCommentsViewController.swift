@@ -76,7 +76,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray_reg
-        self.stepLabel.text = "2 de 3"
+        self.stepLabel.text = "3 de 4"
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
         

@@ -83,10 +83,13 @@ class CheckOutShippingCell: UITableViewCell {
     }
     
     func setValues(value: String, quanty: String ) {
-        self.descriptionTitle!.text = value
         if quanty != "" {
+            self.descriptionTitle!.text = value
+            self.descriptionTitle!.textColor = WMColor.gray_reg
             self.labelNumber!.text = "(\(quanty))"
         }else{
+         self.descriptionTitle!.text = value
+            self.descriptionTitle!.textColor = WMColor.dark_gray
          self.labelNumber!.text = ""
         }
     }

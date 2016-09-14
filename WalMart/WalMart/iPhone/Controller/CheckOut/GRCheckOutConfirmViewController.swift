@@ -31,7 +31,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     var iva = "20"
     var saving = "100"
     var total = "470"
-    
+    var stepLabel: UILabel?
     
   
     
@@ -52,6 +52,12 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         self.backButton!.hidden =  IS_IPAD
         self.view.backgroundColor =  UIColor.whiteColor()
         self.titleLabel?.text = NSLocalizedString("checkout.confirm.title", comment: "")
+        
+        self.stepLabel = UILabel()
+        self.stepLabel!.textColor = WMColor.gray_reg
+        self.stepLabel!.text = "4 de 4"
+        self.stepLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.header?.addSubview(self.stepLabel!)
         
 //        if IS_IPAD {
 //            self.backButton?.hidden = true
@@ -99,6 +105,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     
 
     override func viewDidLayoutSubviews() {
+        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.contentTableView.frame =  CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.frame.height - (headerHeight + 64))
         self.viewFooter!.frame = CGRect(x:0 , y:self.contentTableView!.frame.maxY, width:self.view.bounds.width , height: 64 )
 

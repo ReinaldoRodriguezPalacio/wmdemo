@@ -20,6 +20,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var paramsToOrder : NSMutableDictionary?
     var shippingsToOrder : NSMutableArray?
     var layerLine: CALayer!
+    var stepLabel: UILabel!
     
     var viewHeader :  UIView?
     
@@ -32,7 +33,13 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.view.backgroundColor = UIColor.whiteColor()
         self.backButton!.hidden =  IS_IPAD
         
-        self.titleLabel?.text = "Tipo de envío"
+        self.titleLabel?.text = "Tipo de Envío"
+        
+        self.stepLabel = UILabel()
+        self.stepLabel.textColor = WMColor.gray_reg
+        self.stepLabel.text = "2 de 4"
+        self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.header?.addSubview(self.stepLabel)
         
         self.viewHeader =  UIView(frame:CGRectMake(0, 46 , self.view.frame.width, 62))
         self.viewHeader!.backgroundColor = UIColor.whiteColor()
@@ -44,8 +51,9 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         descriptionTitle.backgroundColor = UIColor.clearColor()
         descriptionTitle.textColor = WMColor.gray_reg
         descriptionTitle.font = WMFont.fontMyriadProRegularOfSize(12)
-        descriptionTitle.text = "Este pedido no puede ser entregado en un solo envío.\nSelecciona un tipo de envío para cada grupo de artículos"
+        descriptionTitle.text = "Este pedido no puede ser entregado en un solo envío.\nSelecciona un tipo de envío para cada grupo de artículos."
         self.viewHeader?.addSubview(descriptionTitle)
+        
         
 
         tableProductsCheckout = UITableView(frame:CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - 46))
@@ -108,6 +116,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         
         if self.shippingAll.count > 1 {
             self.viewHeader!.frame = CGRectMake(0, self.headerHeight, self.view.frame.width, 62)
+            self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
             self.tableProductsCheckout.frame = CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - (124 + self.headerHeight))
         }else{
             self.tableProductsCheckout.frame = CGRectMake(0, self.headerHeight , self.view.frame.width, self.view.frame.height - (124 ))
@@ -145,16 +154,16 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         headerView.backgroundColor = self.shippingAll.count == 1 ? UIColor.whiteColor() : WMColor.light_light_gray
       
         let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, 100, 40))
-        titleLabel.text =  self.shippingAll.count == 1 ? "Envio":"Envio \(section + 1) de \(self.shippingAll.count)"
+        titleLabel.text =  self.shippingAll.count == 1 ? "Envío":"Envío \(section + 1) de \(self.shippingAll.count)"
         titleLabel.textColor = WMColor.dark_gray
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         
         let imageDisclousure = UIImageView(image: UIImage(named: "disclosure"))
         imageDisclousure.contentMode = UIViewContentMode.Center
         imageDisclousure.frame = CGRectMake(self.view.frame.width - 30 , 10 , 20, 20)
         
         let labelShipping = UILabel(frame: CGRectMake(imageDisclousure.frame.minX - 158, 0.0, 150, 40))
-        labelShipping.text = configshiping ? "Cambiar tipo de envio" : "Selecciona tipo de envío"
+        labelShipping.text = configshiping ? "Cambiar tipo de envío" : "Selecciona tipo de envío"
         labelShipping.textColor = WMColor.light_blue
         labelShipping.font = WMFont.fontMyriadProRegularOfSize(12)
         labelShipping.textAlignment = .Right
@@ -284,7 +293,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
                 controller.rowSelected = selected
             }
             controller.delegate = self
-            controller.titleString =  "Envio \(selectedItem) de \(self.shippingAll.count)"
+            controller.titleString =  "Envío \(selectedItem) de \(self.shippingAll.count)"
             self.navigationController?.pushViewController(controller, animated: true)
         }else{
             let controller = CheckOutProductTypeShipping()

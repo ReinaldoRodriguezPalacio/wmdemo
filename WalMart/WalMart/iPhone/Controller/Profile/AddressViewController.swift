@@ -68,7 +68,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
         self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: #selector(AddressViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ).lowercaseString , forState: UIControlState.Normal)
         self.saveButton!.hidden = true
         self.saveButton!.alpha = 0
         self.saveButton!.tag = 1

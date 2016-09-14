@@ -30,6 +30,7 @@ class AddressNoStoreView: UIView {
         self.infoLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.infoLabel!.textColor = WMColor.light_blue
         self.infoLabel!.numberOfLines = 2
+        self.infoLabel!.textAlignment = .Center
         self.addSubview(infoLabel!)
         
         self.layerLine = CALayer()
