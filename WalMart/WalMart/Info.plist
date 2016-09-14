@@ -503,7 +503,7 @@
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.LoginService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login</string>
+			<string>https://dl.dropboxusercontent.com/s/rhif0nc54535n0n/login_output.txt?dl=0</string>
 			<key>WalmartMG.LoginWithEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/loginByEmail</string>
 			<key>WalmartMG.LoginWithIdService</key>
@@ -537,7 +537,7 @@
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/userRegistry</string>
+			<string>https://dl.dropboxusercontent.com/s/4b8t1r2kohryxxw/registryUser.txt?dl=0</string>
 			<key>WalmartMG.Splash</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>

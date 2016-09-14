@@ -1166,12 +1166,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     },
                                            completion: {(finished : Bool) in
                                             if finished {
-                                                self.shoppingCartVC.willMoveToParentViewController(nil)
-                                                self.shoppingCartVC.view.removeFromSuperview()
-                                                self.shoppingCartVC.removeFromParentViewController()
-                                                self.shoppingCartVC = nil
-                                                self.openSearch = false
-                                                self.shoppingCartVC = nil
+                                                if self.shoppingCartVC != nil {
+                                                    self.shoppingCartVC.willMoveToParentViewController(nil)
+                                                    self.shoppingCartVC.view.removeFromSuperview()
+                                                    self.shoppingCartVC.removeFromParentViewController()
+                                                    self.shoppingCartVC = nil
+                                                    self.openSearch = false
+                                                    self.shoppingCartVC = nil
+                                                }
                                             }
                     }
                 )
@@ -1190,7 +1192,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func showShoppingCart(sender:UIButton,closeIfNeedded:Bool) {
         if (!sender.selected){
             sender.selected = !sender.selected
-            self.addtoShopingCar()
+            if (self.btnSearch!.selected)  {
+                self.closeSearch(true, sender:nil)
+            }else{
+                self.addtoShopingCar()
+            }
             
             self.endUpdatingShoppingCart(self)
             self.hidebadge()

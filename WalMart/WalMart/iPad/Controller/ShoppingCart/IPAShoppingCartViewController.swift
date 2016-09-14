@@ -233,6 +233,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.editButton.hidden = self.itemsInShoppingCart.count == 0
         
         self.titleView.frame = CGRectMake(0, 0, !self.emptyView.hidden ? self.view.frame.width:self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
+        self.separatorRight.hidden = !(self.itemsInShoppingCart.count > 0)
 
        self.removeLoadingView()
         

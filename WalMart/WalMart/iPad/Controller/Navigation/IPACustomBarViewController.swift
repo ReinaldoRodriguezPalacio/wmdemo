@@ -17,7 +17,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     @IBOutlet var logoImageView: UIImageView!
     
     var selectedBeforeWishlistIx : Int = 0
-    var searchView : IPASearchView!
+    var searchView : IPASearchView?
     var searchBackView: UIView!
     var camFind : Bool = false
     
@@ -61,7 +61,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
     
     func removePop(sender:UITapGestureRecognizer) {
-        self.searchView.closeSearch()
+        self.searchView?.closeSearch()
     }
     
     override func retrieveTabBarOptions() -> [String] {
@@ -111,7 +111,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func editSearch(notification:NSNotification){
         let searchKey = notification.object as! String
         self.openSearchProduct()
-        self.searchView.field.text = searchKey
+        self.searchView!.field.text = searchKey
         self.isEditingSearch = true
     }
     
@@ -145,6 +145,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func openSearchProduct(){
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
+        self.btnSearch!.selected =  true
         
         if (self.btnShopping!.selected){
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
@@ -154,14 +155,14 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         
         searchView = IPASearchView(frame: CGRectMake(self.btnSearch!.frame.minX,20,350,self.headerView.frame.height - 20))
-        searchView.clipsToBounds = true
-        searchView.delegate = self
-        searchView.camfine =  contextSearch == SearchServiceContextType.WithTextForCamFind ? true : false
-        searchView.viewContent.clipsToBounds = true
-        searchView.viewContent.frame = CGRectMake(40,searchView.viewContent.frame.minY,searchView.frame.width - 40,self.btnSearch!.frame.height)
-        self.headerView.addSubview(searchView)
+        searchView!.clipsToBounds = true
+        searchView!.delegate = self
+        searchView!.camfine =  contextSearch == SearchServiceContextType.WithTextForCamFind ? true : false
+        searchView!.viewContent.clipsToBounds = true
+        searchView!.viewContent.frame = CGRectMake(40,searchView!.viewContent.frame.minY,searchView!.frame.width - 40,self.btnSearch!.frame.height)
+        self.headerView.addSubview(searchView!)
         
-        searchView.closeanimation =  {() -> Void in
+        searchView!.closeanimation =  {() -> Void in
             self.searchBackView.removeFromSuperview()
             self.btnSearch!.alpha = 1.0
             self.btnSearch!.frame = CGRectMake(0,self.btnSearch!.frame.minY,self.btnSearch!.frame.width,self.btnSearch!.frame.height)
@@ -174,15 +175,15 @@ class IPACustomBarViewController :  CustomBarViewController {
             }) { (com:Bool) -> Void in
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
                     if self.searchView != nil {
-                        self.searchView.field.frame = CGRectMake(0,self.searchView.field.frame.minY,self.searchView.field.frame.width,self.searchView.field.frame.height)
+                        self.searchView!.field.frame = CGRectMake(0,self.searchView!.field.frame.minY,self.searchView!.field.frame.width,self.searchView!.field.frame.height)
                         //searchView.viewContent.frame = CGRectMake(0,searchView.viewContent.frame.minY, searchView.frame.width - searchView.viewContent.frame.minX ,self.btnSearch!.frame.height)
                     }
                     }) { (complete:Bool) -> Void in
                         UIView.animateWithDuration(0.2, animations: { () -> Void in
                             if self.searchView != nil {
-                                self.searchView.backButton.alpha = 1
-                                self.searchView.viewContent.clipsToBounds = false
-                                self.searchView.clipsToBounds = false
+                                self.searchView!.backButton.alpha = 1
+                                self.searchView!.viewContent.clipsToBounds = false
+                                self.searchView!.clipsToBounds = false
                             }
                         })
                         
@@ -344,8 +345,8 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func addtoShopingCar() {
         self.view.endEditing(true)
         if self.searchView != nil {
-            self.searchView.viewContent.clipsToBounds = true
-            self.searchView.clipsToBounds = true
+            self.searchView!.viewContent.clipsToBounds = true
+            self.searchView!.clipsToBounds = true
             self.searchView!.closeSearch()
         }
         

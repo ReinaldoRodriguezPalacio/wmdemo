@@ -421,6 +421,10 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         alertAddress?.cancelPress = {() in
             print("")
+            self.successCallBack?()
+            self.backRegistry(self.backButton!)
+            self.alertView!.rightButton?.removeFromSuperview()
+            self.alertView!.leftButton?.removeFromSuperview()
             self.alertAddress?.closePicker()
         }
     }

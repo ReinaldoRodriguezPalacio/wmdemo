@@ -14,7 +14,7 @@ class ShoppingCartTextViewCell: UITableViewCell {
     var labelNumber: UILabel?
     var descriptionTitle: UILabel?
     var codeView: UIImageView?
-    var delimiter: UIView?
+    var delimiter: CALayer?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -42,9 +42,9 @@ class ShoppingCartTextViewCell: UITableViewCell {
         self.descriptionTitle!.textColor = WMColor.gray_reg
         self.contentView.addSubview(self.descriptionTitle!)
         
-        self.delimiter = UIView()
-        self.delimiter!.backgroundColor  =  WMColor.light_gray
-        self.contentView.addSubview(self.delimiter!)
+        self.delimiter = CALayer()
+        self.delimiter!.backgroundColor  =  WMColor.light_gray.CGColor
+        self.contentView.layer.insertSublayer(self.delimiter!, atIndex: 1000)
         
     }
     
@@ -53,7 +53,7 @@ class ShoppingCartTextViewCell: UITableViewCell {
         let margin:CGFloat = 16.0
         let width:CGFloat = bounds.width - (2*margin)
         self.descriptionTitle!.frame = CGRectMake(margin, 0.0, width, bounds.size.height)
-       // self.delimiter!.frame = CGRectMake(0.0, bounds.height - 1.0, bounds.width, 1.0)
+        self.delimiter!.frame = CGRectMake(0.0, bounds.height - 1.0, bounds.width, 1.0)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
