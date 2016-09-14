@@ -78,7 +78,7 @@ class TotalView: UIView {
         
         totalTitle = UILabel()
         totalTitle.text = NSLocalizedString("Total",comment:"")
-        totalTitle.textColor = WMColor.gray_reg
+        totalTitle.textColor = WMColor.orange
         totalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         totalTitle.textAlignment = .Right
         totalTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 20, 101, 14)
@@ -135,7 +135,7 @@ class TotalView: UIView {
         valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
         
         let formatedTotal = CurrencyCustomLabel.formatString(total)
-        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
         
     }
     

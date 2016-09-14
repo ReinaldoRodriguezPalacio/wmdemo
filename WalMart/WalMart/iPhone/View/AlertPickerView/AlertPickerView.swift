@@ -123,6 +123,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self
         tableData.dataSource = self
+        tableData.separatorStyle = .None
 
         self.viewContentOptions.addSubview(tableData)
         
@@ -247,6 +248,13 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if self.selected == indexPath {
+            let cell = tableView.cellForRowAtIndexPath(indexPath)
+            cell?.setSelected(true, animated: false)
+            return
+        }
+        
         if self.selected == nil{
             self.selected = indexPath
         }
