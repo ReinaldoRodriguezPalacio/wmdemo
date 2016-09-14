@@ -45,6 +45,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var selectTypeDelivery = ""
     var textFieldSelected = ""
     var slotSelected = ""
+    var titleString : String?
+
     
     var viewLoad : WMLoadingView!
 
@@ -56,7 +58,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
-        self.titleLabel?.text = "Envio 2 de 2"
+        self.titleLabel?.text = titleString
         self.backButton?.hidden =  IS_IPAD
         
         self.viewFooter =  UIView()
