@@ -105,7 +105,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.type = .facet
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
-        self.check!.highlightedImage = UIImage(named: "check_blue")
+        self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
         self.separator!.hidden = false
         
         if item?["itemName"] as? String == ""{
