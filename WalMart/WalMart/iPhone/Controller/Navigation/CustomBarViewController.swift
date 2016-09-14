@@ -35,6 +35,7 @@ enum CustomBarNotification : String {
     case TapBarFinish = "kTapBarFinish"
     case ShowHomeSelected = "kShowHomeSelected"
     case CloseShoppingCart = "KCloseShoppingCart"
+    case CloseSearch = "KCloseSearch"
     
 }
 
@@ -138,8 +139,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.scanBarcode(_:)), name: CustomBarNotification.ScanBarCode.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.updateNotificationBadge), name: CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCart), name: CustomBarNotification.CloseShoppingCart.rawValue, object: nil)
-        
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.closeSearch(_:sender:)), name: CustomBarNotification.CloseSearch.rawValue, object: nil)
         
         
         self.isTabBarHidden = false

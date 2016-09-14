@@ -19,6 +19,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     var viewSeparator : UIView!
     var popup : UIPopoverController?
     var onClose : ((isClose:Bool) -> Void)? = nil
+    var backgroundView: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             self.addchekout()
             self.showAlertAddress()
         }
+        
+        self.backgroundView = UIView()
+        self.backgroundView?.frame = CGRectMake(0.0, 0.0, 684.0, self.view.frame.height)
+        self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(IPAGRShoppingCartViewController.hideBackgroundView))
+        self.backgroundView?.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -125,7 +132,30 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     }
     
     func showViewBackground(show:Bool){
-        
+        self.showBackgroundView(show)
+    }
+    
+    func showBackgroundView(show:Bool){
+        if show {
+            self.backgroundView?.alpha = 0.0
+            self.view.addSubview(self.backgroundView!)
+            UIView.animateWithDuration(0.3, animations: {
+                self.backgroundView?.alpha = 1
+                }, completion: nil)
+        }else{
+            UIView.animateWithDuration(0.3, animations: {
+                self.backgroundView?.alpha = 0.0
+                }, completion: {(complete) in
+                    self.backgroundView!.removeFromSuperview()
+            })
+            
+            
+        }
+    }
+    
+    func hideBackgroundView() {
+        self.showBackgroundView(false)
+        self.checkoutVC?.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     override func updateTotalItemsRow() {
