@@ -124,6 +124,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         let date = dic!["date"] as! String
         
         cellText.setValues(type, util: util, date: date)
+        cellText.type!.textColor = WMColor.dark_gray
         cellText.setCostDelivery("120.22")
         cellText.selectionStyle = UITableViewCellSelectionStyle.None
         
