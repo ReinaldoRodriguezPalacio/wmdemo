@@ -91,7 +91,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.invoiceButton = UIButton()
         self.invoiceButton?.setTitle("Requiero factura", forState: UIControlState.Normal)
         self.invoiceButton!.setImage(UIImage(named:"check_empty"), forState: UIControlState.Normal)
-        self.invoiceButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
+        self.invoiceButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.invoiceButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.invoiceButton?.addTarget(self, action: #selector(GRCheckOutDeliveryViewController.shoInvoiceAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.invoiceButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left

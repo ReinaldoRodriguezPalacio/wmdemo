@@ -265,9 +265,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 }
                 
                 var price = ""
-                if let priceStr = recommendProduct["price"] as? String {
+                if let priceStr = recommendProduct["specialPrice"] as? String {
                     price = priceStr
-                }else  if let priceNum = recommendProduct["price"] as? NSNumber {
+                }else  if let priceNum = recommendProduct["specialPrice"] as? NSNumber {
                     price = "\(priceNum)"
                 }
                 
