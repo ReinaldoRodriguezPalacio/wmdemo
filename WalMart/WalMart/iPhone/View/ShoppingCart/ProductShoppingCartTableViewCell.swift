@@ -82,12 +82,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 8, self.frame.width - (productImage!.frame.maxX + 16) - 16, 34)
         self.separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, self.frame.height - 1,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
 
-        if  self.productPriceThroughLabel!.hidden {
-            self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 36)
-        }else {
-            self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 20)
-            self.productPriceThroughLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 10)
-        }
+        self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 8 , 100 , 20)
+        self.productPriceThroughLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 10)
       
         let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
         priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
