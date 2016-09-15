@@ -258,10 +258,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
                 let arrayItemsResult =  arrayItems as! [AnyObject]
                 let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
-                
+               
                 var desc = ""
-                if let descs = recommendProduct["characteristics"] as? String {
-                    desc = descs
+                var imageUrl = ""
+                var preorderable = false
+                
+                if let sku = recommendProduct["sku"] as? NSDictionary {
+                    if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                        if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                            desc = item["longDescription"] as! String
+                            imageUrl = item["largeImageUrl"] as! String
+                        }
+                    }
+                    preorderable = sku.objectForKey("weighable") as! String  == "N" ? false : true
                 }
                 
                 var price = ""
@@ -271,27 +280,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     price = "\(priceNum)"
                 }
                 
-                var imageUrl = ""
-                if let imageArray = recommendProduct["imageUrl"] as? NSArray {
-                   
-                    if imageArray.count > 0 {
-                        imageUrl = imageArray.objectAtIndex(0) as! String
-                    }
-                } else if let imageStr = recommendProduct["image"] as? String 	 {
-                    imageUrl = imageStr
-                }
                 
                 var saving = ""
                 if let savingVal  = recommendProduct["promoDescription"] as? String {
                     saving = savingVal
-                }
-                
-                var preorderable = false
-                if let preorderableVal  = recommendProduct["isPreorderable"] as? Bool {
-                    preorderable = preorderableVal
-                }
-                if let preorderableVal  = recommendProduct["isPreorderable"] as? String {
-                    preorderable = preorderableVal == "false" ? false : true
                 }
                 
                 var listPrice = false
@@ -334,15 +326,18 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
             let arrayItemsResult =  arrayItems as! [AnyObject]
             let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
-            
             var upc = ""
-            if let upcSV = recommendProduct["upc"] as? String {
-                upc = upcSV
-            }
             var desc = ""
-            if let descs = recommendProduct["description"] as? String {
-                desc = descs
+            
+            if let sku = recommendProduct["sku"] as? NSDictionary {
+                if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                    if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                        upc = item["id"] as! String
+                        desc = item["longDescription"] as! String
+                    }
+                }
             }
+            
             
             let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
 
