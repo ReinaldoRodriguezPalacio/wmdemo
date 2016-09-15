@@ -150,7 +150,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         
             let type  = shoppingsAddres[indexPath.row]["type"]! as String
             let confirmCell = tableView.dequeueReusableCellWithIdentifier(self.PERSONALCELL_ID) as! ComfirmViewCell
-            confirmCell.setValues(type == "1" ? NSLocalizedString("checkout.confirm.send", comment: ""):NSLocalizedString("checkout.confirm.collect", comment: ""),name: "", description: shoppingsAddres[indexPath.row]["address"]! as String, detailDesc: shoppingsAddres[indexPath.row]["phone"]! as String)
+            confirmCell.setValues(type == "1" ? "\(NSLocalizedString("checkout.confirm.send", comment: "")):":NSLocalizedString("checkout.confirm.collect", comment: ""),name: "", description: shoppingsAddres[indexPath.row]["address"]! as String, detailDesc: shoppingsAddres[indexPath.row]["phone"]! as String)
             return confirmCell
             
         case 2:
