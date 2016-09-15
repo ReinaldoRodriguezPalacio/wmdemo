@@ -426,6 +426,7 @@
 		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
 		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
+		6C8DC8871D8B09C1002852B9 /* SelectedSlotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DC8861D8B09C1002852B9 /* SelectedSlotService.swift */; };
 		6CA068861D3D7D4D0051200E /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6CA068841D3D7D4C0051200E /* GoogleSignIn.bundle */; };
 		6CA068871D3D7D4D0051200E /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068851D3D7D4D0051200E /* GoogleSignIn.framework */; };
 		6CA0688B1D3D82AA0051200E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA0688A1D3D82AA0051200E /* AddressBook.framework */; };
@@ -1051,6 +1052,7 @@
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
 		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
+		6C8DC8861D8B09C1002852B9 /* SelectedSlotService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectedSlotService.swift; path = Shared/Services/checkout/SelectedSlotService.swift; sourceTree = "<group>"; };
 		6CA068841D3D7D4C0051200E /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = Shared/Library/GoogleSignIn/GoogleSignIn.bundle; sourceTree = "<group>"; };
 		6CA068851D3D7D4D0051200E /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = Shared/Library/GoogleSignIn/GoogleSignIn.framework; sourceTree = "<group>"; };
 		6CA0688A1D3D82AA0051200E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -1516,6 +1518,7 @@
 				6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */,
 				6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */,
 				4AB4838E1D81B01A001856CB /* DisplaySlotsService.swift */,
+				6C8DC8861D8B09C1002852B9 /* SelectedSlotService.swift */,
 			);
 			name = Checkout;
 			sourceTree = "<group>";
@@ -3616,6 +3619,7 @@
 				5696078F19B4D955005D20DC /* BannerService.swift in Sources */,
 				4AB4838F1D81B01A001856CB /* DisplaySlotsService.swift in Sources */,
 				564578ED19AE33AB006A7152 /* AFNetworkActivityLogger.m in Sources */,
+				6C8DC8871D8B09C1002852B9 /* SelectedSlotService.swift in Sources */,
 				5688470A19E87E2800D5C45D /* IPACategoriesViewController.swift in Sources */,
 				04D605A21A9F9DFB006B36D5 /* IPAListTableViewCell.swift in Sources */,
 				565E5B5A19C0BF2F00444DF7 /* UserCurrentSession.swift in Sources */,
