@@ -45,6 +45,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var selectTypeDelivery = ""
     var textFieldSelected = ""
     var slotSelected = ""
+    var selectedSlotIdx: NSIndexPath! = NSIndexPath(forRow: 0, inSection: 0)
+    var selectedDateIdx: NSIndexPath! = NSIndexPath(forRow: 0, inSection: 0)
     var titleString : String?
 
     
@@ -125,7 +127,6 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         setvalues()
         
         self.picker = AlertPickerView.initPickerWithDefault()
-        self.picker.contentHeight = 220.0
         self.showLoadingView()
     
     }
@@ -236,7 +237,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         dateForm!.setImageTypeField()
         dateForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
         dateForm!.onBecomeFirstResponder = { () in
-            self.picker!.selected = NSIndexPath(forRow: 0, inSection: 0)
+            self.picker!.selected = self.selectedDateIdx
             self.picker!.sender = self.dateForm
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("Fechas de entrega disponibles",comment:""), values:self.dateSlot )
@@ -255,7 +256,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         timeForm!.setImageTypeField()
         timeForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
         timeForm!.onBecomeFirstResponder = { () in
-            self.picker!.selected = NSIndexPath(forRow: 0, inSection: 0)
+            self.picker!.selected = self.selectedSlotIdx
             self.picker!.sender = self.timeForm
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("Horarios disponibles",comment:""), values:self.timeSelect )
@@ -377,9 +378,11 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
             
             let slots  =  self.slotArray.objectAtIndex(indexPath.row) as! [String]
             groupSlotSelect = slots
+            selectedDateIdx = indexPath
         }else{
             timeForm?.text = timeSelect[indexPath.row]
             slotSelected = groupSlotSelect[indexPath.row]
+            selectedSlotIdx = indexPath
         }
     }
     
