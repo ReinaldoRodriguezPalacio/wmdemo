@@ -86,7 +86,6 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.titleDelivery!.textColor = WMColor.light_blue
         self.titleDelivery!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleDelivery!.text = "Selecciona el tipo de envío"
-        self.titleDelivery!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(titleDelivery!)
 
 
@@ -94,7 +93,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.deliveryButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.deliveryButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
         self.deliveryButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
-        self.deliveryButton!.setTitle("Envio a domicilio", forState: .Normal)
+        self.deliveryButton!.setTitle("Envío a domicilio", forState: .Normal)
         self.deliveryButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right:0)
         self.deliveryButton!.contentHorizontalAlignment = .Left
         self.deliveryButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -136,7 +135,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         super.viewWillLayoutSubviews()
         self.viewFooter?.frame = CGRect(x:0 , y:self.view.frame.maxY - 64, width:self.view.bounds.width , height: 64 )
         
-        self.titleDelivery?.frame =  CGRectMake(16,headerHeight + 16 ,self.view.frame.width - 32 ,46)
+        self.titleDelivery?.frame =  CGRectMake(16,headerHeight + 16 ,self.view.frame.width - 32 ,14)
         
         self.deliveryButton?.frame =  CGRectMake(16,self.titleDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
         

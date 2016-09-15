@@ -20,8 +20,10 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var paramsToOrder : NSMutableDictionary?
     var shippingsToOrder : NSMutableArray?
     var stepLabel: UILabel!
-    
     var viewHeader :  UIView?
+    
+    var viewLoad : WMLoadingView!
+
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -87,6 +89,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.nextButton!.backgroundColor =  WMColor.light_blue
         self.nextButton!.layer.cornerRadius =  17
         self.view.addSubview(self.nextButton!)
+        self.addViewLoad()
         self.service()
     }
     
@@ -265,6 +268,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             //self.setTypeShipping()
             self.tableProductsCheckout.bringSubviewToFront(self.view)
             self.tableProductsCheckout.reloadData()
+            self.removeViewLoad()
             }) { (error:NSError) -> Void in
             //self.back()
         }
@@ -326,9 +330,24 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     
     func selectDataTypeShipping(envio: String, util: String, date: String, rowSelected: Int, idSolot: String) {
         self.selectDataTypeShipping(envio, util: util, date: date, rowSelected: rowSelected)
-        
     }
 
+    func addViewLoad(){
+        if viewLoad == nil {
+            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            viewLoad = WMLoadingView(frame: bounds)
+            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.startAnnimating(true)
+            self.view.addSubview(viewLoad)
+        }
+    }
+    
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
     
     
     

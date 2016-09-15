@@ -123,7 +123,9 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         let util = dic!["util"] as! String
         let date = dic!["date"] as! String
         
-        cellText .setValues(type, util: util, date: date)
+        cellText.setValues(type, util: util, date: date)
+        cellText.type!.textColor = WMColor.dark_gray
+        cellText.setCostDelivery("120.22")
         cellText.selectionStyle = UITableViewCellSelectionStyle.None
         
         if indexPath.row == rowSelected {
@@ -134,6 +136,8 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
              cellText.selectedButton!.selected = false
             
         }
+        
+        
         return cellText
     }
     

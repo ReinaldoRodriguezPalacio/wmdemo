@@ -12,7 +12,8 @@ import UIKit
 class CheckOutShippingSelectionCell: CheckOutShippingDetailCell {
     
     var selectedButton: UIButton?
-
+    var delivaryCost : CurrencyCustomLabel?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -27,6 +28,10 @@ class CheckOutShippingSelectionCell: CheckOutShippingDetailCell {
         self.selectedButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.selectedButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.contentView.addSubview(self.selectedButton!)
+        
+        delivaryCost = CurrencyCustomLabel(frame: CGRectMake(self.frame.width - 66, 16, 50, 18))
+        delivaryCost!.textAlignment = .Right
+        self.contentView.addSubview(delivaryCost!)
     }
     
     override func layoutSubviews() {
@@ -35,6 +40,7 @@ class CheckOutShippingSelectionCell: CheckOutShippingDetailCell {
         self.type!.frame = CGRectMake(self.selectedButton!.frame.maxX + 16.0, 16 , 205, 12)
         self.util!.frame = CGRectMake(self.selectedButton!.frame.maxX + 16.0, self.type!.frame.maxY + 6, 205, 10)
         self.date!.frame = CGRectMake(self.selectedButton!.frame.maxX + 16.0, self.util!.frame.maxY + 6, 205, 12)
+        self.delivaryCost!.frame =  CGRectMake(self.frame.width - 66, 16, 50, 18)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -48,6 +54,10 @@ class CheckOutShippingSelectionCell: CheckOutShippingDetailCell {
         self.util!.text = util
         self.date!.text = date
         self.selectedButton!.selected = self.selected
+    }
+    
+    func setCostDelivery(cost:String){
+        delivaryCost!.updateMount( CurrencyCustomLabel.formatString(cost), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
     }
     
     
