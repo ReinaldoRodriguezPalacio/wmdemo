@@ -219,8 +219,10 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.SelectedSlotService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/selectedSlot</string>
 			<key>WalmartMG.DisplaySlotsService</key>
-			<string>http://192.168.43.192:9080walmartmg/list/displaySlots</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/displaySlots</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -390,6 +392,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.SelectedSlotService</key>
+			<string>https://dl.dropboxusercontent.com/s/7jly2yo4ea6mcuf/selectedSlot.txt?dl=0</string>
 			<key>WalmartMG.DisplaySlotsService</key>
 			<string>https://dl.dropboxusercontent.com/s/k4g68hue3ugzxux/displaySlots.txt?dl=0</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
