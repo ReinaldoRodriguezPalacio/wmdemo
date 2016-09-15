@@ -341,7 +341,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
             
             dateFmt.dateFormat = "dd/MM/yyyy"
             let dateform =  dateFmt.dateFromString(dates)
-            dateFmt.dateFormat = "EEEE dd, MMMM"
+            dateFmt.dateFormat = "EEEE dd '\(NSLocalizedString("checkout.confirm.to", comment: ""))' MMMM"
             var stringDate = dateFmt.stringFromDate(dateform!).capitalizedString
             if index == 0{
                 stringDate = "Hoy \(stringDate)"
@@ -360,7 +360,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         var typeArray : [String] = []
         
         for time in self.timeSelect {
-            typeArray.append("Entre \(time.stringByReplacingOccurrencesOfString("-", withString: " y "))")
+            typeArray.append("Entre \(time.stringByReplacingOccurrencesOfString("-", withString: " y ").stringByReplacingOccurrencesOfString(":00 ", withString: " "))")
         }
         timeSelect = typeArray
     }
