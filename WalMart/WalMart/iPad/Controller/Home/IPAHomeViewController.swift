@@ -105,11 +105,19 @@ class IPAHomeViewController : HomeViewController {
             paginatedProductDetail.ixSelected = indexPath.row
             paginatedProductDetail.itemsToShow = []
             for productRecomm  in arrayItemsResult {
-                let upc = productRecomm["upc"] as! String
+                
                 var desc = ""
-                if let  descs = productRecomm["description"] as? String{
-                   desc =  descs
+                var upc = ""
+                
+                if let sku = productRecomm["sku"] as? NSDictionary {
+                    if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                        if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                            upc = item["id"] as! String
+                            desc = item["longDescription"] as! String
+                        }
+                    }
                 }
+            
                 
                 let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
 

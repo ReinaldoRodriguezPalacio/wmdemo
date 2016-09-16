@@ -11,7 +11,7 @@
 
 //More Options
 "moreoptions.title.Profile" = "Perfil y contraseña";
-"moreoptions.title.Recents" = "Mis Básicos";
+"moreoptions.title.Recents" = "Mis favoritos";
 "moreoptions.title.Address" = "Mis Direcciones";
 "moreoptions.title.Orders" = "Mis Pedidos";
 "moreoptions.title.Invoice" = "Facturación electrónica";
@@ -241,7 +241,7 @@
 "profile.forgot.password" = "¿Olvidaste tu contraseña?";
 "profile.privacy.notice" = "Aviso de privacidad";
 "profile.misarticulos" = "Mis Artículos Más Comprados";
-"profile.misbasicos.title" = "Mis Básicos";
+"profile.misbasicos.title" = "Mis favoritos";
 "profile.myAddress" = "Mis Direcciones";
 "profile.myOrders" = "Mis Pedidos";
 "profile.no.account" = "Inicia sesión o crea una cuenta con:";

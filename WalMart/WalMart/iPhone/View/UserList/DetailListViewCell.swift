@@ -112,7 +112,23 @@ class DetailListViewCell: ProductTableViewCell {
      - parameter disabled: validate if row is active
      */
     func setValuesDictionary(product:[String:AnyObject],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
-        let imageUrl = product["imageUrl"] as! String
+        var imageUrl = ""
+        var descriptionItem = ""
+        var upcItem = ""
+        var weighable = ""
+        
+        if let sku = product["sku"] as? NSDictionary {
+            if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                    imageUrl = item["largeImageUrl"] as! String
+                    descriptionItem = item["description"] as! String
+                    upcItem = item["repositoryId"] as! String
+                }
+            }
+            weighable = sku["weighable"] as! String
+        }
+        
+        
         self.productImage!.contentMode = UIViewContentMode.Center
         self.productImage!.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: imageUrl)!),
             placeholderImage: UIImage(named:"img_default_table"),
@@ -147,9 +163,10 @@ class DetailListViewCell: ProductTableViewCell {
             self.promoDescription!.hidden = true
         }
         
-        self.productShortDescriptionLabel!.text = product["description"] as? String
-        self.upcVal = product["upc"] as? String
+        self.productShortDescriptionLabel!.text = descriptionItem // product["description"] as? String
+        self.upcVal = upcItem// product["upc"] as? String
  
+        //TODO Pendiente como llgara parametro
         if let equivalence = product["equivalenceByPiece"] as? NSNumber {
             self.equivalenceByPiece = equivalence
         }
@@ -160,35 +177,35 @@ class DetailListViewCell: ProductTableViewCell {
             }
         }
         
-        if let type = product["isWeighable"] as? String {
+        if  weighable != "" {
             
-            let quantity = product["quantity"] as! NSNumber
-            let price = product["price"] as! NSNumber
+            let quantity =  product["quantityDesired"] as! String
+            let price = product["specialPrice"]  as! String
             var text: String? = ""
             var total: Double = 0.0
             
             //Piezas
-            if type  == "false" {
-                if quantity.integerValue == 1 {
+            if weighable  == "N" {
+                if Int(quantity) == 1 {
                     text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                 }
                 else {
                     text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
                 }
-                total = (quantity.doubleValue * price.doubleValue)
+                total = (Double(quantity)! * Double(price)!)
             }
                 //Gramos
             else {
-                let q = quantity.doubleValue
+                let q = Double(quantity)
                 if q < 1000.0 {
                     text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
                 }
                 else {
-                    let kg = q/1000.0
+                    let kg = q!/1000.0
                     text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(double: kg))
                 }
-                let kgrams = quantity.doubleValue / 1000.0
-                total = (kgrams * price.doubleValue)
+                let kgrams = Double(quantity)! / 1000.0
+                total = (kgrams * Double(price)!)
             }
             self.quantityIndicator!.setTitle(text!, forState: .Normal)
             
