@@ -243,9 +243,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             lblGuide.font = WMFont.fontMyriadProRegularOfSize(14)
             
             if guideurl != "" {
+                let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(68, 22), radius: 10)
+                let iconSelected = UIImage(color: WMColor.dark_gray, size: CGSizeMake(68, 22), radius: 10)
+                
                 let btnGoToGuide = UIButton(frame:CGRectMake(self.view.frame.width - 84 , 11, 68, 22))
                 btnGoToGuide.setTitle("Rastrear", forState: UIControlState.Normal)
-                btnGoToGuide.backgroundColor = WMColor.light_blue
+                btnGoToGuide.setBackgroundImage(iconSelected, forState: .Selected)
+                btnGoToGuide.setBackgroundImage(iconImage, forState: .Normal)
                 btnGoToGuide.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 btnGoToGuide.layer.cornerRadius = btnGoToGuide.frame.height / 2
                 btnGoToGuide.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
