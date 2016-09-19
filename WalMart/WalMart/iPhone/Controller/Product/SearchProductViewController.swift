@@ -883,8 +883,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func showEmptyView(){
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-        self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
+        
+        self.filterButton?.alpha = 0
         var maxY = self.collection!.frame.minY
         
         if self.idListFromSearch != "" && !IS_IPAD {

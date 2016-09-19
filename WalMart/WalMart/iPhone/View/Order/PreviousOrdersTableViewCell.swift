@@ -90,7 +90,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         
         switch status {
         case "Pedido creado":
-            ColorStatus = WMColor.yellow
+            ColorStatus =  WMColor.yellow
         case "Pago pendiente":
             ColorStatus = WMColor.UIColorFromRGB(0xFE8C25)
         case "Pago no confirmado":
@@ -100,9 +100,9 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         case "Revisando pago":
             ColorStatus = WMColor.UIColorFromRGB(0xF70C1A)
         case "Cancelado":
-            ColorStatus = WMColor.dark_gray
+            ColorStatus =  WMColor.dark_gray
         default:
-            ColorStatus = WMColor.dark_gray
+            ColorStatus =  WMColor.dark_gray
         }
         
         return ColorStatus
