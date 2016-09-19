@@ -35,7 +35,7 @@ class IPAProductCrossSellView : UIView {
         
         let viewTitle = UILabel(frame:CGRectMake(16,viewSeparator.frame.maxY + 11 ,self.frame.width,14))
         viewTitle.font = WMFont.fontMyriadProLightOfSize(14)
-        viewTitle.textColor = WMColor.orange
+        viewTitle.textColor = WMColor.light_blue
         viewTitle.text = NSLocalizedString("productdetail.related",comment:"")
         
         productCrossSell = IPAProductDetailCrossSellView(frame: CGRectMake(0, viewTitle.frame.maxY + 4, self.frame.width, 196), cellClass: IPAProductDetailCrossSellItemCollectionViewCell.self, cellIdentifier: "iPACrossSell")

@@ -836,7 +836,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func openContainer(viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationFinish:(() -> Void)) {
         self.isContainerHide = false
-        
+        self.tabledetail!.setContentOffset(CGPointZero, animated:true)
         CATransaction.begin()
         CATransaction.setCompletionBlock({ () -> Void in
             

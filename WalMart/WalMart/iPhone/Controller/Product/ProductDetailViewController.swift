@@ -827,8 +827,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Gets product detail info from service
      */
     func loadDataFromService() {
-        
-        
         print("parametro para signals MG Iphone :::\(self.indexRowSelected)")
         
         self.type = ResultObjectType.Mg
