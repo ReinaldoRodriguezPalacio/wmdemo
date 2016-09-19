@@ -444,6 +444,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.empty = IPOGenericEmptyView(frame:CGRectMake(0,46, self.view.bounds.width, self.view.bounds.height - 46))
         }
         
+        self.empty.descLabel.text = "No existe ese artículo"
         self.empty.returnAction = { () in
          self.returnBack()
         }

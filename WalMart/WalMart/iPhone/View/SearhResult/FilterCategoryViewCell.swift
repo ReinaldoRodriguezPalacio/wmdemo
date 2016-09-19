@@ -59,7 +59,6 @@ class FilterCategoryViewCell: UITableViewCell {
         
         self.check!.frame = CGRectMake(x, (size.height - 16.0)/2, 16.0, 16.0)
         self.name!.frame = CGRectMake(self.check!.frame.maxX + separation, 0.0, size.width - (self.check!.frame.maxX + separation), size.height)
-        
         self.separator!.frame = CGRectMake(0.0, size.height - 1, size.width, 1.0)
     }
     

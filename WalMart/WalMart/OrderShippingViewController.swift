@@ -219,11 +219,16 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         titleShipping.text = self.shippingAll.count == 1 ? "Envío" : textOrder
         headerView.addSubview(titleShipping)
         
+        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(68, 22), radius: 10)
+        let iconSelected = UIImage(color: WMColor.dark_gray, size: CGSizeMake(68, 22), radius: 10)
+        
         var showDetailButton: UIButton?
         showDetailButton = UIButton(frame: CGRectMake(self.view.frame.width - 84.0, 9.0, 68.0, 22.0))
-        showDetailButton!.backgroundColor = WMColor.light_blue
-        showDetailButton!.layer.cornerRadius = 10.0
+        showDetailButton!.setBackgroundImage(iconSelected, forState: .Selected)
+        showDetailButton!.setBackgroundImage(iconImage, forState: .Normal)
         showDetailButton!.setTitle(NSLocalizedString("previousorder.showDetail", comment: ""), forState: .Normal)
+        showDetailButton!.layer.cornerRadius = 10.0
+        
         showDetailButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         showDetailButton!.titleLabel?.textColor = UIColor.whiteColor()
         showDetailButton?.tag = section

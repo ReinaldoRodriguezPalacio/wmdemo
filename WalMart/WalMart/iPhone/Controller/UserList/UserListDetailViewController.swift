@@ -753,24 +753,23 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
             if UserCurrentSession.hasLoggedUser() {
                 for upcSelected in selectedItems! {
-                    var index = 0
                     for lines in self.products! {
-                        var upc = ""
+                        let upc = upcSelected as! String
                         if let sku = lines["sku"] as? NSDictionary {
                             if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                                 if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
                                     if  item["repositoryId"] as! String  == upc {
                                         
                                         if let typeProd = sku["weighable"] as? NSString {
-                                            let quantity = sku["quantityDesired"] as! NSNumber
-                                            let price = sku["specialPrice"] as! NSNumber
+                                            let quantity = lines["quantityDesired"] as! String
+                                            let price = lines["specialPrice"] as! String
                                             
-                                            if typeProd == "false" {
-                                                total += (quantity.doubleValue * price.doubleValue)
+                                            if typeProd == "N" {
+                                                total += (Double(quantity)! * Double(price)!)
                                             }
                                             else {
-                                                let kgrams = quantity.doubleValue / 1000.0
-                                                total += (kgrams * price.doubleValue)
+                                                let kgrams = Double(quantity)! / 1000.0
+                                                total += (kgrams * Double(price)!)
                                             }
                                         }
                                     }
@@ -778,39 +777,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                 }//Item
                             }
                         }
-//                        let array =  lines[linesArray[index] as! String] as! NSArray
-//                        for product in array {
-//                            let upc = upcSelected as! String
-//                            if  product["upc"] as! String  == upc {
-//                                
-//                                if let typeProd = product["isWeighable"] as? NSString {
-//                                    let quantity = product["quantity"] as! NSNumber
-//                                    let price = product["price"] as! NSNumber
-//                                    
-//                                    if typeProd == "false" {
-//                                        total += (quantity.doubleValue * price.doubleValue)
-//                                    }
-//                                    else {
-//                                        let kgrams = quantity.doubleValue / 1000.0
-//                                        total += (kgrams * price.doubleValue)
-//                                    }
-//                                }
-//                            }
-//                        }
-                        
-                        index = index+1
-                    }
+
+                }
                 }//for upcSelected in selectedItems!
                 
             }else{// if UserCurrentSession.hasLoggedUser()
-
-               // for upcSelected in selectedItems! {
-                    var index = 0
+            
+                var index = 0
                     
                 for lines in self.products!{
-                    let arrayItems =  lines[linesArray[index] as! String] as! NSArray
-                    for item  in  arrayItems {
-                        let productItem = item as? Product
+                   // let arrayItems =  lines[linesArray[index] as! String] as! NSArray
+                    //for item  in  arrayItems {
+                        let productItem = lines as? Product
                         if selectedItems!.containsObject(productItem!.upc){
                             print("suma: \(productItem!.price.doubleValue)")
                             let quantity = productItem!.quantity
@@ -824,7 +802,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             }
                             
                         }
-                    }
+                    //}
                     index = index+1
                 }
 
@@ -833,6 +811,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             
         }
+        print("total::")
+        print(total)
         return total
     }
     
@@ -995,15 +975,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         var plpArray : NSDictionary = [:]
             if self.products!.count > 0{
-                let items = self.products![indexPath.section]
+                let items = self.products![indexPath.row]
            
-                //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
-                //let product =  listProduct.objectAtIndex(indexPath.row)
-                //var through: NSString! = ""
-                //if UserCurrentSession.hasLoggedUser() {
-                //    plpArray = UserCurrentSession.sharedInstance().getArrayPLP((product as? NSDictionary)!)
-                //    through = plpArray["promo"] as! String
-                //}
                 var upc = ""
                 if let sku = items["sku"] as? NSDictionary {
                     if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
@@ -1017,8 +990,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if UserCurrentSession.hasLoggedUser() {
                 listCell.setValuesDictionary(items as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(upc), productPriceThrough: "", isMoreArts: true)
                 }else{
-                    let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
-                    let product =  listProduct.objectAtIndex(indexPath.row) as! Product
+                    //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
+                    let product =  items as! Product
                     print(product.upc)
                     listCell.setValues(product,disabled:!self.selectedItems!.containsObject(product.upc))
                 }
@@ -1164,7 +1137,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let pesable = item["type"] as? NSString {
                     isPesable = pesable.intValue == 1
                 }
-                price = item["price"] as? NSNumber
+                let numberPrice =  NSNumberFormatter()
+                numberPrice.numberStyle = .DecimalStyle
+                price = numberPrice.numberFromString(item["specialPrice"] as! String)
             }
             else if let item = self.products![indexPath!.row] as? Product {
                 isPesable = item.type == "false" ?  false : true //mustang
@@ -1192,8 +1167,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 if let item = self.products![indexPath!.row] as? [String:AnyObject] {
-                    let upc = item["upc"] as? String
-                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
+                    
+                    if let sku = item["sku"] as? NSDictionary {
+                        if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                            if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                                self.invokeUpdateProductFromListService(item["repositoryId"] as! String , quantity: Int(quantity)!)
+                            }
+                        }
+                    }
+                    
+                    
                 }
                 else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(integer: Int(quantity)!)
