@@ -533,7 +533,7 @@
 			<key>WalmartMG.ShippingAddressByUserService</key>
 			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getAddress.json</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToOrder</string>
+			<string>https://dl.dropboxusercontent.com/s/eqadxhjmktdodso/addItemToOrder.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>

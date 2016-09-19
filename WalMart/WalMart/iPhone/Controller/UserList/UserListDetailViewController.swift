@@ -481,11 +481,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         var hasActive = false
         for product in self.products! {
             if let item = product as? [String:AnyObject] {
-                if let stock = item["stock"] as? Bool {
+                if let stock = item["stock"] as? Bool { //Preguntar con que se valida la venta
                     if stock == true {
                         hasActive = true
                         break
                     }
+                }else{//TODO Prueba
+                    hasActive = true
+                    break
                 }
             }
             if let item = product as? Product {
@@ -513,16 +516,29 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if  UserCurrentSession.hasLoggedUser() {
                     var index = 0
                     for lines in self.products! {
-                        if lines["upc"] as! String == idxVal as! String{
-                            params["upc"] = lines["upc"] as! String
-                            params["desc"] = lines["description"] as! String
-                            params["imgUrl"] = lines["imageUrl"] as! String
-                            if let price = lines["price"] as? NSNumber {
-                                params["price"] = "\(price)"
+                        var productItem : NSDictionary? = [:]
+                        
+                        let quantityItem = lines["quantityDesired"] as! String
+                        let priceItem = lines["specialPrice"] as! String
+                        
+                        if let sku = lines["sku"] as? NSDictionary {
+                            
+                            if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                                if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                                    productItem = item
+                                }
                             }
-                            if let quantity = lines["quantity"] as? NSNumber {
-                                params["quantity"] = "\(quantity)"
-                            }
+                        }
+                        
+                        if productItem!["repositoryId"] as! String == idxVal as! String {
+                            params["upc"] = productItem!["repositoryId"] as! String
+                            params["desc"] = productItem!["description"] as! String
+                            params["imgUrl"] = productItem!["smallImageUrl"] as! String
+                            
+                            params["price"] = priceItem
+                            
+                            params["quantity"] = quantityItem
+                         
                             
                             params["pesable"] = lines["type"] as? NSString
                             params["wishlist"] = false

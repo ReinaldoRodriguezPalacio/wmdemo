@@ -306,9 +306,17 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         if !tableView.cellForRowAtIndexPath(indexPath)!.isKindOfClass(ShoppingCartTotalsTableViewCell){
             for productObj  in self.products! {
                 if let product = productObj as? [String:AnyObject] {
-                    let upc = product["upc"] as! String
-                    let description = product["description"] as! String
-                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                    
+                    if let sku = product["sku"] as? NSDictionary {
+                        if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                            if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                                let upc = item["repositoryId"] as! String
+                                let description = item["description"] as! String
+                                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                            }
+                        }
+                    }
+                    
                 }
                 else if let product = productObj as? Product {
                     productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
@@ -337,9 +345,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             if let pesable = item["type"] as?  NSString {
                 isPesable = pesable.intValue == 1
             }
+            let numberPrice =  NSNumberFormatter()
+            numberPrice.numberStyle = .DecimalStyle
+            price = numberPrice.numberFromString(item["specialPrice"] as! String)
             
-            
-            price = item["price"] as? NSNumber
         }
         else if let item = self.products![indexPath!.row] as? Product {
             isPesable = item.type.boolValue
@@ -368,8 +377,15 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
              self.sharePopover?.dismissPopoverAnimated(false)
             
              if let item = self.products![indexPath!.row] as? [String:AnyObject] {
-                 let upc = item["upc"] as? String
-                 self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
+                
+                if let sku = item["sku"] as? NSDictionary {
+                    if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                        if let productItem =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                            self.invokeUpdateProductFromListService(productItem["repositoryId"] as! String, quantity: Int(quantity)!)
+                        }
+                    }
+                }
+                
              }
              else if let item = self.products![indexPath!.row] as? Product {
                  item.quantity = NSNumber(integer: Int(quantity)!)

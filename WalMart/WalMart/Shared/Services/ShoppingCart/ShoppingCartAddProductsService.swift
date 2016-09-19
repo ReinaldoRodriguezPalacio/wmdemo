@@ -97,20 +97,12 @@ class ShoppingCartAddProductsService : BaseService {
             
             if itemsSvc.count > 1 {
                 
-                
+                print("callPOSTService::")
+                print(self.jsonFromObject(itemsSvc))
                 self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     
                     if self.updateShoppingCart() {
-                        //Mustang
-//                        let serviceWishDelete = DeleteItemWishlistService()
-//
-//                        for itemWishlistUPC in itemsWishList {
-//                            serviceWishDelete.callCoreDataService(itemWishlistUPC, successBlock: { (result:NSDictionary) -> Void in
-//                                }) { (error:NSError) -> Void in
-//                            }
-//                        }
-                        
                         UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
                             successBlock!([:])
@@ -132,6 +124,8 @@ class ShoppingCartAddProductsService : BaseService {
                     }else{
                         send = itemsSvc
                     }
+                    print("ShoppingCartAddProductsService::")
+                    print(self.jsonFromObject(send!))
                         self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
                         
                         

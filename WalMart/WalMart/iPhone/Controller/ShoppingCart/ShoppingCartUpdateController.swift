@@ -176,7 +176,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             let allItems = multipleItems!["allitems"] as! NSArray
             let serviceAddProduct = ShoppingCartAddProductsService()
             var paramsitems : [AnyObject] = []
-            var wishlistDelete : [String] = []
             
             var type : NSString = ""
             
@@ -217,10 +216,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 if let pesableP = itemToShop["pesable"] as? NSString{
                     pesable = pesableP
                 }
-                if wishlistObj {
-                    wishlistDelete.append(itemToShop["upc"] as! String)
-                }
-                
                 
                 let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable,isPreorderable:isPreorderable,category:category)
                 
@@ -253,7 +248,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
                })*/
-            }else {
+            //}else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in
                     self.finishCall = true
@@ -263,18 +258,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         
                     }
                     
-                    
-                    if wishlistDelete.count > 0 {
-                        //Mustang
-//                        let deleteService = DeleteItemWishlistService()
-//                        let toSend = deleteService.buildParamsMultipe(wishlistDelete)
-//                        deleteService.callServiceWithParams(toSend, successBlock: { (response:NSDictionary) -> Void in
-//                            WishlistService.shouldupdate = true
-//                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
-//                            }, errorBlock: { (error:NSError) -> Void in
-//                                
-//                        })
-                    }
                     
                     }, errorBlock: { (error:NSError) -> Void in
                         self.spinImage.layer.removeAllAnimations()
