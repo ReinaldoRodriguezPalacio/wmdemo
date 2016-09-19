@@ -99,9 +99,9 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         content.backgroundColor = UIColor.whiteColor()
         
         let titleLabel = UILabel(frame: CGRectMake(15.0, 15.0, self.view.frame.width, 16))
-        titleLabel.text = "Selecciona un tipo de Envío"
+        titleLabel.text = "Selecciona un tipo de envío"
         titleLabel.textColor = WMColor.light_blue
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabel.font = WMFont.fontMyriadProLightOfSize(14)
         
         
         content.addSubview(titleLabel)

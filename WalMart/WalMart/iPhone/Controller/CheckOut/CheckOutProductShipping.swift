@@ -161,7 +161,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         let labelShipping = UILabel(frame: CGRectMake(imageDisclousure.frame.minX - 158, 0.0, 150, 40))
         labelShipping.text = configshiping ? "Cambiar tipo de envío" : "Selecciona tipo de envío"
         labelShipping.textColor = WMColor.light_blue
-        labelShipping.font = WMFont.fontMyriadProLightOfSize(12)
+        labelShipping.font = WMFont.fontMyriadProRegularOfSize(12)
         labelShipping.textAlignment = .Right
      
         headerView.addSubview(imageDisclousure)

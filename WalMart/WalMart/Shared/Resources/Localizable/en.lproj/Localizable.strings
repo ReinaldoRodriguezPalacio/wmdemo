@@ -512,10 +512,10 @@
 
 
 //GroceriesCheckout descriptions
-"gr.confirmacall" = "Llamarme para revisar alternativas.";
+"gr.confirmacall" = "Deseo recibir llamada de confirmación.";
 "gr.not.confirmacall.option" = "No deseo recibir llamada de confirmación.";
-"gr.not.confirmacall.option.detail" = "No es necesario llamarme, sustituir con artículos de precio y calidad similar.";
-"gr.not.confirmacall.detal" = "No es necesario llamarme, traer sólo lo que esté disponible sin sustituir artículos.";
+"gr.not.confirmacall.option.detail" = "No deseo recibir llamada de confirmación. Envíame el mejor sustituto disponible con el precio más bajo.";
+"gr.not.confirmacall.detal" = "No deseo recibir llamada de confirmación. Envíame solo los productos que estén disponibles.";
 
 //Checkout
 "gr.confirma.title" = "Tu pedido se realizó con éxito";

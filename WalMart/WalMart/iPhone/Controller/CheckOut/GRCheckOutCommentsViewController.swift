@@ -62,6 +62,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.savePhone()
         })
         
+        let viewAccessComments = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", saveText: { (field:UITextView?) -> Void in
+            self.saveComments()
+        })
+        
         self.content = TPKeyboardAvoidingScrollView()
         self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
@@ -159,6 +163,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.textColor = UIColor.grayColor()
         self.comments!.backgroundColor = WMColor.light_light_gray
         self.comments!.delegate = self
+        self.comments!.inputAccessoryView = viewAccessComments
         self.content.addSubview(self.comments!)
         let  commentsDefault = NSMutableAttributedString(string: UserCurrentSession.sharedInstance().messageInCommens )
         commentsDefault.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsDefault.length))
@@ -216,8 +221,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
-        let checkImageBottom: CGFloat = 14//IS_IPAD && !IS_IPAD_MINI ? 28 : 14
-        let checkButtonHeight: CGFloat = 30//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
+        let checkImageBottom: CGFloat = 28//IS_IPAD && !IS_IPAD_MINI ? 28 : 14
+        let checkButtonHeight: CGFloat = 45//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
         
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
@@ -413,6 +418,36 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
         SignUpViewController.presentMessage(self.phoneField!, nameField:self.phoneField!.nameField, message: message! , errorView:self.errorView! , becomeFirstResponder: true)
         return false
+    }
+    
+    /**
+     Saves de user comments
+     */
+    func saveComments(){
+        self.comments?.resignFirstResponder()
+        
+        if self.comments!.text == commentsString!.string || self.comments!.text.trim() == ""{
+            return
+        }
+        
+        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"userProfile"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"userProfile"))
+        //alert?.showicon(UIImage(named:"userProfile"))
+        alert?.setMessage("Guardando comentario ...")
+        let updateCommentService = UpdateCommentsService()
+        let updateCommentParams = updateCommentService.buildParameterOrder(self.comments!.text)
+        updateCommentService.callService(requestParams: updateCommentParams, succesBlock: {(result) -> Void in
+            let codeMessage = result["codeMessage"] as! NSString
+            if codeMessage.intValue == 0 {
+                alert?.setMessage("Guardado")
+                alert?.showDoneIcon()
+            }else{
+                alert?.setMessage("Intenta nuevamente")
+                alert?.showErrorIcon("Aceptar")
+            }
+            }, errorBlock: {(error) -> Void in
+                alert?.setMessage("Intenta nuevamente")
+                alert?.showErrorIcon("Aceptar")
+        })
     }
     
     /**
