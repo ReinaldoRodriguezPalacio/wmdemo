@@ -10,7 +10,7 @@ import Foundation
 
 class UpdateCommentsService:GRBaseService {
     
-    func buildParameterOrder(orderComent:[String:AnyObject]) -> NSDictionary {
+    func buildParameterOrder(orderComent:String) -> [String:AnyObject] {
         return ["updateOrderComment":"true","orderComment":orderComent]
     }
     

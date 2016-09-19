@@ -12,10 +12,10 @@ class FieldInputView: UIInputView {
     
     var saveBarButton : UIButton? = nil
     var textField : UITextField? = nil
-    
+    var textView : UITextView? = nil
     var titleSave : String? = nil
-    
     var saveBlock : ((field:UITextField?) -> Void)? = nil
+    var saveBlockTextView : ((field:UITextView?) -> Void)? = nil
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
@@ -33,6 +33,13 @@ class FieldInputView: UIInputView {
         self.saveBlock = save
     }
     
+    init(frame: CGRect, inputViewStyle: UIInputViewStyle,titleSave : String,saveText:((field:UITextView?) -> Void)?) {
+        super.init(frame: frame, inputViewStyle:  inputViewStyle)
+        self.titleSave = titleSave
+        setup()
+        self.saveBlockTextView = saveText
+    }
+    
     func setup(){
         self.saveBarButton = UIButton(type: .Custom) as UIButton
         self.saveBarButton!.frame = CGRectMake(self.bounds.width - 100 , 0, 100, self.bounds.height)
@@ -45,6 +52,9 @@ class FieldInputView: UIInputView {
     func save(button:UIButton) {
         if self.saveBlock != nil {
             self.saveBlock!(field:textField)
+        }
+        if self.saveBlockTextView != nil {
+            self.saveBlockTextView!(field:textView)
         }
     }
     
