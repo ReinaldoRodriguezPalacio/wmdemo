@@ -313,7 +313,6 @@ class IPAUserListViewController: UserListViewController {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
                 self.selectedId = listId
-                self.itemsList =  listItem["giftlistItems"] as! [[String:AnyObject]]
                 self.delegate?.showListDetailAnimated(forId: self.selectedListId, orEntity: nil, andName: self.selectedListName)
                 
                 
