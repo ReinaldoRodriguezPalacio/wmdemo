@@ -374,6 +374,7 @@
 		654FFBBC1D70B363004458BB /* OrderShippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654FFBBB1D70B363004458BB /* OrderShippingViewController.swift */; };
 		654FFBBE1D710F01004458BB /* OrderShippingTotalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654FFBBD1D710F01004458BB /* OrderShippingTotalTableViewCell.swift */; };
 		6592727E1D662B55003EFE3E /* PLPLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6592727D1D662B55003EFE3E /* PLPLegendView.swift */; };
+		6C0150211D9054CD00C268A0 /* UpdateCommentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0150201D9054CD00C268A0 /* UpdateCommentsService.swift */; };
 		6C120F661D5E8C93008706DC /* ProductDetailPickBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C120F651D5E8C93008706DC /* ProductDetailPickBar.swift */; };
 		6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */; };
 		6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -999,6 +1000,7 @@
 		654FFBBB1D70B363004458BB /* OrderShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderShippingViewController.swift; sourceTree = "<group>"; };
 		654FFBBD1D710F01004458BB /* OrderShippingTotalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderShippingTotalTableViewCell.swift; sourceTree = "<group>"; };
 		6592727D1D662B55003EFE3E /* PLPLegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLPLegendView.swift; sourceTree = "<group>"; };
+		6C0150201D9054CD00C268A0 /* UpdateCommentsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateCommentsService.swift; path = Shared/Services/ShoppingCart/UpdateCommentsService.swift; sourceTree = "<group>"; };
 		6C120F651D5E8C93008706DC /* ProductDetailPickBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailPickBar.swift; path = Shared/View/Product/ProductDetailPickBar.swift; sourceTree = "<group>"; };
 		6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
@@ -2876,6 +2878,7 @@
 				56684B301A02A57800DB2570 /* ReviewShoppingCartService.swift */,
 				56EF144A1BE05CEF00F3A874 /* ValidateAssociateService.swift */,
 				5698842C1BE1B1A700FEF4FA /* PromotionsMgService.swift */,
+				6C0150201D9054CD00C268A0 /* UpdateCommentsService.swift */,
 			);
 			name = ShoppingCart;
 			sourceTree = "<group>";
@@ -3559,6 +3562,7 @@
 				4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */,
 				4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */,
 				56AE80E219D9CC5000D5DDA4 /* ProductDetailBundleItemCollectionViewCell.swift in Sources */,
+				6C0150211D9054CD00C268A0 /* UpdateCommentsService.swift in Sources */,
 				56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */,
 				654FFBBE1D710F01004458BB /* OrderShippingTotalTableViewCell.swift in Sources */,
 				56895A501AA644D900561B12 /* MD5Util.swift in Sources */,

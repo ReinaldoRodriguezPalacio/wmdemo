@@ -424,7 +424,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
                     let frame = vc!.view.frame
                     
-                    
                     let addShopping = ShoppingCartUpdateController()
                     let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
                     addShopping.params = paramsToSC
@@ -438,9 +437,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     addShopping.removeSpinner()
                     addShopping.addActionButtons()
                     addShopping.addNoteToProduct(nil)
-                
-
-            
             }
             selectQuantityGR?.userSelectValue(String(cell.quantity))
             selectQuantityGR?.first = true

@@ -552,9 +552,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             return
         }
         
-        //if self.commentTextView?
-
-                //Event
         BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
         
         self.view.endEditing(true)
@@ -570,75 +567,68 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             self.btnAddNote!.alpha = 0.0
             
             }) { (complete:Bool) -> Void in
-                
-               // if complete {
-                    self.closeDone = true
-                    self.titleLabel.alpha = 1.0
-                    self.commentTextView!.hidden = true
-                    self.goToShoppingCartButton!.hidden = true
-                    self.keepShoppingButton!.hidden = true
-                    self.btnAddNote!.hidden = true
-                    self.spinImage.hidden = false
-                    self.titleLabel.hidden = false
-                    if  self.imageDone != nil {
-                        self.imageDone.hidden = true
-                    }
-                    self.imageProduct.image = UIImage(named:"waiting_note")
-                    self.imageProduct.frame = CGRectMake(0, 0, 80, 80)
-                    self.viewBgImage.addSubview(self.imageProduct)
-                    self.viewBgImage.hidden = false
-                    self.viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-                    self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, repeats: 100)
-                    self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ShoppingCartUpdateController.showDoneIcon), userInfo: nil, repeats: false)
-                    self.finishCall = false
+                self.closeDone = true
+                self.titleLabel.alpha = 1.0
+                self.commentTextView!.hidden = true
+                self.goToShoppingCartButton!.hidden = true
+                self.keepShoppingButton!.hidden = true
+                self.btnAddNote!.hidden = true
+                self.spinImage.hidden = false
+                self.titleLabel.hidden = false
+                if  self.imageDone != nil {
+                    self.imageDone.hidden = true
+                }
+                self.imageProduct.image = UIImage(named:"waiting_note")
+                self.imageProduct.frame = CGRectMake(0, 0, 80, 80)
+                self.viewBgImage.addSubview(self.imageProduct)
+                self.viewBgImage.hidden = false
+                self.viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+                self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, repeats: 100)
+                self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ShoppingCartUpdateController.showDoneIcon), userInfo: nil, repeats: false)
+                self.finishCall = false
 
-                    if (sender == self.keepShoppingButton) {
-                        self.comments  = " ";
-                        self.titleLabel.text = NSLocalizedString("shoppingcart.deleteNote",comment:"")
-                    }
-                    else {
-                        self.comments = self.commentTextView!.field!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        self.titleLabel.text = NSLocalizedString("shoppingcart.saveNoteLoading",comment:"")
-                    }
-                    if let type = self.params["type"] as?  String {
-                        /*if type == ResultObjectType.Groceries.rawValue {
-                            self.typeProduct = ResultObjectType.Groceries
-                            print("Parametros = \(self.params)")
-                            
-                            var numOnHandInventory : NSString = "0"
-                            if let numberOf = self.params["onHandInventory"] as? NSString{
-                                numOnHandInventory  = numberOf
-                            }
-                            let pesable = self.params["pesable"] as! NSString
-                            let serviceAddProduct = GRShoppingCartAddProductsService()
-                            serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable,parameter:nil, successBlock: { (result:NSDictionary) -> Void in
-                                
-                                self.finishCall = true
-                                
-                                if self.timmer == nil {
-                                    self.showDoneIcon()
-                                    WishlistService.shouldupdate = true
-                                }
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: self, userInfo: nil)
-                                
-                                }) { (error:NSError) -> Void in
-                                    self.spinImage.layer.removeAllAnimations()
-                                    self.spinImage.hidden = true
-                                    if error.code == 1 || error.code == 999 {
-                                        self.titleLabel.text = error.localizedDescription
-                                    }else{
-                                        self.titleLabel.text = error.localizedDescription
-                                        self.imageProduct.image = UIImage(named:"alert_ups")
-                                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
-                                    }
-                            }
-                            
-                        }*/
-                   // }
-                    
+                if (sender == self.keepShoppingButton) {
+                    self.comments  = " ";
+                    self.titleLabel.text = NSLocalizedString("shoppingcart.deleteNote",comment:"")
+                }
+                else {
+                    self.comments = self.commentTextView!.field!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    self.titleLabel.text = NSLocalizedString("shoppingcart.saveNoteLoading",comment:"")
                 }
                 
+                
+                let updateCommentService = UpdateCommentsService()
+                let updateCommentParams = updateCommentService.buildParameterItem(self.commentTextView!.field!.text!.trim(), itemId: self.params["upc"] as! String)
+                
+                updateCommentService.callService(requestParams: updateCommentParams, succesBlock: {(result) -> Void in
+                    let codeMessage = result["codeMessage"] as! NSString
+                    if codeMessage.intValue == 0 {
+                        self.finishCall = true
+                    
+                        if self.timmer == nil {
+                            self.showDoneIcon()
+                        }
+                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: self, userInfo: nil)
+                    }else{
+                        self.spinImage.layer.removeAllAnimations()
+                        self.spinImage.hidden = true
+                        self.titleLabel.text = result["message"] as? String
+                        self.imageProduct.image = UIImage(named:"alert_ups")
+                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                    }
+                    }, errorBlock: {(error) -> Void in
+                        self.spinImage.layer.removeAllAnimations()
+                        self.spinImage.hidden = true
+                        if error.code == 1 || error.code == 999 {
+                            self.titleLabel.text = error.localizedDescription
+                        }else{
+                            self.titleLabel.text = error.localizedDescription
+                            self.imageProduct.image = UIImage(named:"alert_ups")
+                            self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                        }
+
+                })
         }
     }
     
