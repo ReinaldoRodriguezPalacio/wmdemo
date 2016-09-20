@@ -918,10 +918,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if let stock = item["stock"] as? Bool {
                 active = stock
             }
-            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+            //products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+           products.append(service.buildItemMustang(upc, sku: "00750226892092_000897302", quantity: quantity)) //obtener sku
         }
-
-        service.callService(service.buildParams(idList: listId, upcs: products),
+        
+        service.callService( service.buildItemMustangObject(idList: listId, upcs:products),
             successBlock: { (result:NSDictionary) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()

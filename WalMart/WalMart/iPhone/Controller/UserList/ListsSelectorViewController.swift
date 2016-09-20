@@ -126,7 +126,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                 return firstString.name < secondString.name
                 
             })
-            //self.retrieveItemsFromService()
+            self.retrieveItemsFromService()
         }
         else {
             let service = GRUserListService()
@@ -199,7 +199,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         cell.hiddenOpenList = self.hiddenOpenList
         let idx = indexPath.row - 1
         if let item = self.list![idx] as? NSDictionary {
-            let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
+            let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["repositoryId"] as! String)
             cell.setListObject(item, productIncluded: isIncluded)
         }
         
@@ -222,7 +222,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
         let idx = indexPath.row - 1
         if let item = self.list![idx] as? NSDictionary {
-            let listId = item["id"] as? String
+            let listId = item["repositoryId"] as? String
             let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
             if product != nil {
                 self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
@@ -346,7 +346,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         if let indexPath = self.tableView!.indexPathForCell(cell) {
             let idx = indexPath.row - 1
             if let item = self.list![idx] as? NSDictionary {
-                self.delegate!.listSelectorDidShowList(item["id"] as! String, andName: item["name"] as! String)
+                self.delegate!.listSelectorDidShowList(item["repositoryId"] as! String, andName: item["name"] as! String)
             }
             else if let entity = self.list![idx] as? List {
                 if entity.idList == nil {

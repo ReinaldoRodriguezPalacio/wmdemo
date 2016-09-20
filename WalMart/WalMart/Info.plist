@@ -56,7 +56,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -411,7 +411,7 @@
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>https://dl.dropboxusercontent.com/s/jymqrf594j8hm2d/succesAddres.txt?dl=0</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
+			<string>https://dl.dropboxusercontent.com/s/qlwvo7kjj8dx5e3/bannerTerms.txt?dl=0</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>

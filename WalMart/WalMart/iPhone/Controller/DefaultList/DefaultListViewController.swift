@@ -97,7 +97,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
                 let quantity = itmProduct["quantity"] as! NSNumber
                 let price = itmProduct["price"] as! NSNumber
                 //piezas
-                if typeProd == "false" {
+                if typeProd == "N" {
                     totalInList += (quantity.doubleValue * price.doubleValue)
                 }
                     //gramos

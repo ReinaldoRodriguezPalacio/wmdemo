@@ -108,11 +108,12 @@ class GRUserListService : GRBaseService {
                 let addItemService = GRAddItemListService()
                 var params:[AnyObject] = []
                 for product in array {
-                    let param = addItemService.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue,pesable:product.type.stringValue)
+                    //let param = addItemService.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue,pesable:product.type.stringValue)
+                    let param =  addItemService.buildItemMustang(product.upc, sku: "00750226892092_000897302", quantity: product.quantity.integerValue)
                     params.append(param)
                 }
                 
-                addItemService.callService(addItemService.buildParams(idList: listId, upcs: params),
+                addItemService.callService(addItemService.buildItemMustangObject(idList: listId, upcs: params),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.managedContext!.deleteObject(list!)
                         self.saveContext()

@@ -25,13 +25,13 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 //if let products = result["items"] as? NSArray {
                     for idx in 0 ..< products.count {
                         var product = products[idx] as! [String:AnyObject]
-                        let quantity = product["quantity"] as! NSNumber
+                        let quantity = product["quantityDesired"] as! String
                         var  nameLine = ""
                         if let line = product["line"] as? NSDictionary {
                             nameLine = line["name"] as! String
                         }
                         if let upc = product["upc"] as? String {
-                            let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
+                            let item = service.buildProductObject(upc: upc, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
                             items.append(item)
                         }
                     }
