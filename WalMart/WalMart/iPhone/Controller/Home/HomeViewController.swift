@@ -328,11 +328,13 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
             var upc = ""
             var desc = ""
+            var skuId =  ""
             
             if let sku = recommendProduct["sku"] as? NSDictionary {
+                skuId =  sku.objectForKey("id") as! String
                 if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                     if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                        upc = item["id"] as! String
+                        upc = item["repositoryId"] as! String
                         desc = item["longDescription"] as! String
                     }
                 }
@@ -342,7 +344,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
 
             
-            controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
+            controller.itemsToShow = [["upc":upc,"description":desc,"type":type,"sku":skuId]]//pendiente sku en carrucel
             
             
             //EVENT

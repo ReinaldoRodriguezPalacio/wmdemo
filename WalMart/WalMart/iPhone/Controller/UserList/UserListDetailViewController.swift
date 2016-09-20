@@ -1076,20 +1076,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if let indexPath = self.tableView!.indexPathForCell(cell) {
                 if let item = self.products![indexPath.row] as? NSDictionary {
                     
-                    if let sku = item["sku"] as? NSDictionary {
-                        if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                            if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                                //Event
-                                if self.selectedItems!.containsObject(indexPath.row) {
-                                    self.selectedItems?.removeObject(indexPath.row)
-                                }
-                                self.fromDelete =  true
-                                self.invokeDeleteProductFromListService(item["repositoryId"] as! String, succesDelete: { () -> Void in
-                                    print("succesDelete")
-                                })
-                            }
-                        }
+                    //Event
+                    if self.selectedItems!.containsObject(indexPath.row) {
+                        self.selectedItems?.removeObject(indexPath.row)
                     }
+                    self.fromDelete =  true
+                    self.invokeDeleteProductFromListService(repositoryId: item["repositoryId"] as! String, succesDelete: { () -> Void in
+                        print("succesDelete")
+                    })
+                    
                     
                 }
                 else if let item = self.products![indexPath.row] as? Product {
@@ -1191,7 +1186,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     if let sku = item["sku"] as? NSDictionary {
                         if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                             if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                                self.invokeUpdateProductFromListService(item["repositoryId"] as! String , quantity: Int(quantity)!)
+                                self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku.objectForKey("id") as! String, quantity: Int(quantity)!)
                             }
                         }
                     }
@@ -1296,14 +1291,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
     
-    func invokeDeleteProductFromListService(upc:String,succesDelete:(()->Void)) {
+    func invokeDeleteProductFromListService(repositoryId repositoryId:String,succesDelete:(()->Void)) {
         if !self.deleteProductServiceInvoked {
             
             self.deleteProductServiceInvoked = true
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
             let service = GRDeleteItemListService()
-            let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(upc))
+            let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(repositoryId: repositoryId))
             service.jsonFromObject(params)
             service.callService(params,
                                 successBlock:{ (result:NSDictionary) -> Void in
@@ -1367,9 +1362,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         )
     }
     
-    func invokeUpdateProductFromListService(upc:String, quantity:Int) {
+    func invokeUpdateProductFromListService(fromUpc upc:String,skuId:String, quantity:Int) {
         if quantity == 0 {
-            invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
+            invokeDeleteProductFromListService(repositoryId: upc, succesDelete: { () -> Void in
                 print("succesDelete")
             })
             return
@@ -1381,7 +1376,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
             let service = GRUpdateItemListService()
-            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildItemMustang(upc,sku: upc, quantity: quantity))//TODO agregar skuid
+            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildItemMustang(upc,sku: skuId, quantity: quantity))
             service.callService(params,
                                 successBlock: { (result:NSDictionary) -> Void in
                                     self.invokeDetailListService({ () -> Void in
@@ -1872,8 +1867,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if let stock = item["stock"] as? Bool {
                             active = stock
                         }
-                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+                        products.append(service.buildItemMustang(upc, sku: "00750226892092_000897302", quantity: quantity))
+                        //(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
                     }
+                   
+
                     
                     self.invokeAddproductTolist(nil, products:products, succesBlock: { () -> Void in
                         print("Se agrega correctamnete")

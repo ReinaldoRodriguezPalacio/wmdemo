@@ -14,13 +14,14 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
     var animationController : ProductDetailNavigatinAnimationController!
     
     
-    override func getControllerToShow(upc:String,descr:String,type:String,saving:String?) -> UIViewController? {
+    override func getControllerToShow(upc:String,descr:String,type:String,saving:String?,sku:String ) -> UIViewController? {
             
         storyBoard = loadStoryboardDefinition()
         switch(type) {
         case ResultObjectType.Mg.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
                 vc.upc = upc
+                vc.sku = sku
                 //vc.indexRowSelected = self.itemSelectedSolar // ixSelected
                 vc.name = descr
                 vc.stringSearch = self.stringSearching
@@ -31,6 +32,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
         case ResultObjectType.Groceries.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
                 vc.upc = upc
+                vc.sku = sku
                 vc.indexRowSelected = self.itemSelectedSolar//ixSelected
                 vc.stringSearch = self.stringSearching
                 vc.name = descr
