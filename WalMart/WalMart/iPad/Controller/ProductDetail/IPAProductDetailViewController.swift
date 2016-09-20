@@ -486,9 +486,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,2),(0,4) :
             return 15.0
         case (0,5) :
-            return 232.0
+            return 222.0
         case (0,6) :
-            return 292.0
+            return 222.0
         case (1,0):
             if  msi.count != 0 {
                 return (CGFloat(msi.count) * 14) + 180.0
@@ -786,13 +786,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
             self.productDetailButton?.setOpenQuantitySelector()
             self.selectQuantity?.imageBlurView.frame = frameDetail
-            self.productDetailButton!.addToShoppingCartButton.selected = true
-            self.productDetailButton?.reloadShoppinhgButton()
+            //self.productDetailButton?.reloadShoppinhgButton()
             },additionalAnimationClose:{ () -> Void in
                 self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
-                self.productDetailButton!.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
                 self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
+                self.productDetailButton!.addToShoppingCartButton.selected = true
             })
         
         

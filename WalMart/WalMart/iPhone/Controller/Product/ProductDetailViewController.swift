@@ -339,6 +339,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
+                        self.selectQuantity!.closeAction()
                         self.selectQuantity!.removeFromSuperview()
                         self.selectQuantity = nil
                         self.detailCollectionView.scrollEnabled = true
@@ -346,6 +347,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     }
             })
         }
+        
         
         //EVENT
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(self.name) - \(self.upc)")
@@ -385,17 +387,21 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
         
         self.closeProductDetail()
-        if self.selectQuantityGR != nil {
-            self.closeContainer(
-                { () -> Void in
-                    self.productDetailButton?.reloadShoppinhgButton()
-                }, completeClose: { () -> Void in
-                    self.isShowShoppingCart = false
-                    self.selectQuantityGR = nil
-                    self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable,category:category,added: added)
-                }
-            )
-            return
+        
+        if isShowShoppingCart {
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.isShowShoppingCart = false
+                self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
+                //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
+                }, completion: { (animated:Bool) -> Void in
+                    if self.selectQuantity != nil {
+                        self.selectQuantity!.closeAction()
+                        self.selectQuantity!.removeFromSuperview()
+                        self.selectQuantity = nil
+                        self.detailCollectionView.scrollEnabled = true
+                        self.gestureCloseDetail.enabled = false
+                    }
+            })
         }
         
         //Event
@@ -453,8 +459,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                             delay: 0.0,
                                             options: .LayoutSubviews,
                                             animations: { () -> Void in
-                                                self.listSelectorContainer!.frame = CGRectMake(0, 360.0, 320.0, 0.0)
-                                                self.listSelectorBackgroundView!.frame = CGRectMake(0, -360.0, 320.0, 360.0)
+                                                self.listSelectorContainer?.frame = CGRectMake(0, 360.0, 320.0, 0.0)
+                                                self.listSelectorBackgroundView?.frame = CGRectMake(0, -360.0, 320.0, 360.0)
                                             }, completion: { (complete:Bool) -> Void in
                                                 if complete {
                                                     self.listSelectorController!.willMoveToParentViewController(nil)
@@ -490,6 +496,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String)
     {
+        if self.listSelectorContainer != nil {
+            self.listSelectorDidClose()
+        }
+        
+        
         if selectQuantity == nil {
             if isShowProductDetail == true {
                 self.closeProductDetail()
