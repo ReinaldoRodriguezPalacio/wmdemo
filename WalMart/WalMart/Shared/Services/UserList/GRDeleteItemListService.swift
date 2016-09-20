@@ -19,8 +19,12 @@ class GRDeleteItemListService: GRAddItemListService {
         return ["parameter":upcs!]
     }
     
-    func buildDeleteItemMustang(sku:String) -> NSDictionary {
+    func buildDeleteItemMustang(sku:String) -> [String:AnyObject]!{
         return ["repositoryId":sku]
+    }
+    
+    func buildDeleteItemMustangObject(idList idList:String, upcs:NSDictionary) -> NSDictionary {
+        return ["idList":idList,"items":upcs]
     }
     
     

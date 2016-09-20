@@ -1252,7 +1252,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 controller.listId = self.selectedListId
                 controller.listName = self.selectedListName
                 controller.listEntity = self.selectedEntityList
-                controller.products = self.itemsList 
+                //controller.products = self.itemsList
             }
         }
     }

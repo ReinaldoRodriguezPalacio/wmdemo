@@ -31,8 +31,8 @@ class GRAddItemListService: GRBaseService {
     
     }
     
-    func buildItemMustangObject(idList idList:String, upcs:NSDictionary) -> NSDictionary {
-        return ["idList":idList,"items":[upcs]]
+    func buildItemMustangObject(idList idList:String, upcs:[AnyObject]?) -> NSDictionary {
+        return ["idList":idList,"items":upcs!]
     }
     
     

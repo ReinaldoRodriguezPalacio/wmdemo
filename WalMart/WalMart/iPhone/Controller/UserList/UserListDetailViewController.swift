@@ -957,7 +957,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var size = 0
 
-        print("self.newArrayProducts.count::: \(self.products!.count)")
         print(section)
         if section == 1 {//self.products!.count  {
             return 1
@@ -1025,7 +1024,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
       
-        if indexPath.section == self.products!.count {
+        if indexPath.section == self.products?.count {
             return 56.0
         }
         return  114.0
@@ -1076,17 +1075,22 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
             if let indexPath = self.tableView!.indexPathForCell(cell) {
                 if let item = self.products![indexPath.row] as? NSDictionary {
-                    if let upc = item["upc"] as? String {
-                        //Event
-                      
-                        if self.selectedItems!.containsObject(indexPath.row) {
-                            self.selectedItems?.removeObject(indexPath.row)
+                    
+                    if let sku = item["sku"] as? NSDictionary {
+                        if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                            if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                                //Event
+                                if self.selectedItems!.containsObject(indexPath.row) {
+                                    self.selectedItems?.removeObject(indexPath.row)
+                                }
+                                self.fromDelete =  true
+                                self.invokeDeleteProductFromListService(item["repositoryId"] as! String, succesDelete: { () -> Void in
+                                    print("succesDelete")
+                                })
+                            }
                         }
-                         self.fromDelete =  true
-                        self.invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
-                            print("succesDelete")
-                        })
                     }
+                    
                 }
                 else if let item = self.products![indexPath.row] as? Product {
                     self.managedContext!.deleteObject(item)
@@ -1299,7 +1303,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
             let service = GRDeleteItemListService()
-            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(upc))
+            let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(upc))
             service.jsonFromObject(params)
             service.callService(params,
                                 successBlock:{ (result:NSDictionary) -> Void in
