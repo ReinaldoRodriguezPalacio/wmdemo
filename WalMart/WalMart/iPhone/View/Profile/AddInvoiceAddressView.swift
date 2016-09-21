@@ -80,7 +80,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             viewTypeAdressFiscal = UIView(frame:CGRectMake(0, 0 , self.bounds.width , 78))
             
             let checkTermOff : UIImage = UIImage(named:"checkTermOff")!
-            let checkTermOn : UIImage = UIImage(named:"checkAddressOn")!
+            let checkTermOn : UIImage = UIImage(named:"check_full")!
             
             var titleLabel: UILabel? = nil
             var viewButton : UIView? = nil

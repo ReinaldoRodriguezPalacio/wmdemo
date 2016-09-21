@@ -530,7 +530,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-                promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+                promSelect.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
                 promSelect.addTarget(self, action: #selector(GRCheckOutViewController.promCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 promSelect.addSubview(titleLabel)
                 promSelect.selected = false

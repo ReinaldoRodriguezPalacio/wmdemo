@@ -115,7 +115,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         titleView.backgroundColor = UIColor.clearColor()
         //        if section == 0 {
         //            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
-        //            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
+        //            var checkTermOn : UIImage = UIImage(named:"check_full")!
         //            var allButton = UIButton()
         //            allButton.setImage(checkTermOff, forState: UIControlState.Normal)
         //            allButton.setImage(checkTermOn, forState: UIControlState.Selected)

@@ -88,8 +88,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(self.sectionTitle!)
         
         self.confirmCallButton = UIButton()
-        self.confirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.confirmCallButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.confirmCallButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.confirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), forState: .Normal)
         self.confirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
@@ -124,8 +124,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content!.addSubview(self.savePhoneButton!)
         
         self.confirmCallOptionButton = UIButton()
-        self.confirmCallOptionButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.confirmCallOptionButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.confirmCallOptionButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.confirmCallOptionButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), forState: .Normal)
         self.confirmCallOptionButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
@@ -137,8 +137,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(self.confirmCallOptionButton!)
         
         self.notConfirmCallButton = UIButton()
-        self.notConfirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.notConfirmCallButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.notConfirmCallButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.notConfirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), forState: .Normal)
         self.notConfirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)

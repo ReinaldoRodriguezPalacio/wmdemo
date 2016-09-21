@@ -152,7 +152,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                  addressShipingButton!.setTitleColor(UIColor.whiteColor() , forState: UIControlState.Normal)
                  addressFiscalButton!.setTitleColor(UIColor.whiteColor() , forState: UIControlState.Normal)
             }else {
-                named = "checkAddressOn"
+                named = "check_full"
                 addressShipingButton!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
                 addressFiscalButton!.setTitleColor(WMColor.gray_reg , forState: UIControlState.Normal)
             }
@@ -212,7 +212,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             viewTypeAdressFiscal = UIView(frame:CGRectMake(0,  self.viewTypeAdress != nil ? 45 : 0 , self.view.bounds.width , 78))
 
             let checkTermOff : UIImage = UIImage(named:"checkTermOff")!
-            let checkTermOn : UIImage = UIImage(named:"checkAddressOn")!
+            let checkTermOn : UIImage = UIImage(named:"check_full")!
         
             var titleLabel: UILabel? = nil
             var viewButton : UIView? = nil

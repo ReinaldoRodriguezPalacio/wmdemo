@@ -24,7 +24,7 @@ class CheckOutShippingSelectionCell: CheckOutShippingDetailCell {
         
         self.selectedButton = UIButton()
         self.selectedButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.selectedButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.selectedButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.selectedButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.selectedButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.contentView.addSubview(self.selectedButton!)
