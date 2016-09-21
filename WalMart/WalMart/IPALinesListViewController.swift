@@ -20,8 +20,8 @@ class IPALinesListViewController : LineViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     
             let lineSelect  = self.families[indexPath.row] as NSDictionary
-            let linesId = lineSelect["id"] as! String
-            let name = lineSelect["name"] as! String
+            let linesId = lineSelect["subCategoryId"] as! String
+            let name = lineSelect["subCategoryName"] as! String
             delegate.didSelectLineList(departmentId,family: "_",line: linesId, name: name)
         
     }
