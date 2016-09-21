@@ -32,6 +32,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     var saving = "100"
     var total = "470"
     var stepLabel: UILabel?
+    var paramsToOrder : NSMutableDictionary?
     
   
     
@@ -97,6 +98,13 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         
         self.viewFooter?.addSubview(confirmButton)
         
+        
+         self.items = self.paramsToOrder!["countItems"] as! String
+         self.subtotal = self.paramsToOrder!["subtotal"] as! String
+         self.shippingCost = self.paramsToOrder!["shippingCost"] as! String
+         self.iva = self.paramsToOrder!["iva"] as! String
+         self.saving = self.paramsToOrder!["discount"] as! String
+         self.total =  self.paramsToOrder!["total"] as! String
     }
     
 

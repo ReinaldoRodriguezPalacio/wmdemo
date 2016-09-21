@@ -29,7 +29,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var notConfirmCallButton: UIButton?
     var confirmCallOptionButton: UIButton?
     var paramsToOrder : NSMutableDictionary?
-    //var paramsToConfirm : NSMutableDictionary?
     var confirmSelected: Int! = 3
     var confirmText: String! = ""
     var savePhoneButton: UIButton?
@@ -273,8 +272,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
 //        self.paramsToOrder!["pickingInstruction"] = self.confirmSelected
 //        self.paramsToConfirm!["pickingInstruction"] = self.confirmText
         let nextController = GRCheckOutConfirmViewController()
-//        nextController.paramsToOrder = self.paramsToOrder
-//        nextController.paramsToConfirm = self.paramsToConfirm
+        nextController.paramsToOrder = self.paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 

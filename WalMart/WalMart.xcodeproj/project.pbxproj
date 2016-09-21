@@ -52,6 +52,7 @@
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		4A26BC841D47C03600714FF5 /* ListHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26BC831D47C03600714FF5 /* ListHelpView.swift */; };
+		4A4CFB221D9302C20009C9DD /* DetailedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4CFB211D9302C20009C9DD /* DetailedService.swift */; };
 		4A4E7B271D5161B5001514BD /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E7B261D5161B5001514BD /* CFNetwork.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4A4E7B2B1D516361001514BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E7B2A1D516361001514BD /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */; };
@@ -618,6 +619,7 @@
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A26BC831D47C03600714FF5 /* ListHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHelpView.swift; sourceTree = "<group>"; };
+		4A4CFB211D9302C20009C9DD /* DetailedService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedService.swift; path = Shared/Services/checkout/DetailedService.swift; sourceTree = "<group>"; };
 		4A4E7B261D5161B5001514BD /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4A4E7B281D51627F001514BD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4A4E7B2A1D516361001514BD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -1521,6 +1523,7 @@
 				6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */,
 				4AB4838E1D81B01A001856CB /* DisplaySlotsService.swift */,
 				6C8DC8861D8B09C1002852B9 /* SelectedSlotService.swift */,
+				4A4CFB211D9302C20009C9DD /* DetailedService.swift */,
 			);
 			name = Checkout;
 			sourceTree = "<group>";
@@ -3542,6 +3545,7 @@
 				6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */,
 				56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */,
 				5A3AA78D1C9C74A3002F2886 /* GenerateOrderView.swift in Sources */,
+				4A4CFB221D9302C20009C9DD /* DetailedService.swift in Sources */,
 				AC37F6B019B902AF000BB80D /* ShoppingCartProductsService.swift in Sources */,
 				4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */,
 				04D7C0411AA63BD300A780D8 /* IPAStoreView.swift in Sources */,
