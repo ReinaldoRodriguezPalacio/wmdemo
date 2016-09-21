@@ -675,8 +675,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             controller.ixSelected = self.itemSelect//indexPath.row
             
             let item = productObje[indexPath.row] as! [String:AnyObject]
-            let  name = item["description"] as! String
-            let upc = item["upc"] as! String
+            let  name = item["productDisplayName"] as! String
+            let upc = item["productId"] as! String
             //EVENT
             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             if self.navigationController != nil {
@@ -1185,15 +1185,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var countItems = 0
         
         //Get UPC of All items
-         for sect in 0 ..< self.itemsInCartOrderSection.count {
-            let lineItems = self.itemsInCartOrderSection[sect]
-            let productsline = lineItems["products"]
-            for idx in 0 ..< productsline!.count {
-                if section == sect && row == idx {
-                    self.itemSelect = countItems
-                }
-                let upc = productsline![idx]["upc"] as! String
-                let desc = productsline![idx]["description"] as! String
+         for lineItems in self.itemsInCartOrderSection {
+            let productsline = lineItems["products"] as! [[String:AnyObject]]
+            for product in productsline {
+//                if section == sect && row == idx {
+//                    self.itemSelect = countItems
+//                }
+                let upc = product["productId"] as! String
+                let desc = product["productDisplayName"] as! String
                 upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue,"sku":upc])//sku
                 countItems = countItems + 1
             }
