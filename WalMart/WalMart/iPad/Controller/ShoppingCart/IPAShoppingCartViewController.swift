@@ -184,10 +184,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.itemsInCartOrderSection =  []
         if UserCurrentSession.sharedInstance().itemsMG != nil {
             //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject], isShoppingCart: true) as! [AnyObject]
+            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG! as! Dictionary<String, AnyObject>
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren, isShoppingCart: true) as! [AnyObject]
             
-             checkoutVC?.itemsInCart = itemsUserCurren
+             checkoutVC?.itemsInCart = itemsUserCurren["commerceItems"] as! [AnyObject]
             
             self.arrayItems()
         }
@@ -201,9 +201,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
-            self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
-            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
+            let priceInfo = UserCurrentSession.sharedInstance().itemsMG!["priceInfo"] as! NSDictionary
+            self.subtotal = Int(priceInfo["rawSubtotal"] as! String)//subtotal
+            self.ivaprod = Int(priceInfo["amount"] as! String)//ivaSubtotal
+            self.totalest = Int(priceInfo["total"] as! String)//totalEstimado
         }else{
             self.subtotal = NSNumber(int: 0)
             self.ivaprod = NSNumber(int: 0)

@@ -280,8 +280,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         if UserCurrentSession.sharedInstance().itemsMG != nil {
             //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject],isShoppingCart: true) as! [AnyObject]
+            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG! as! Dictionary<String, AnyObject>//["order"] as? NSDictionary as? [AnyObject]
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren,isShoppingCart: true) as! [AnyObject]
             self.arrayItems()
         }
         
@@ -290,9 +290,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
-            self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
-            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
+            let priceInfo = UserCurrentSession.sharedInstance().itemsMG!["priceInfo"] as! NSDictionary
+            self.subtotal = Int(priceInfo["rawSubtotal"] as! String)//subtotal
+            self.ivaprod = Int(priceInfo["amount"] as! String)//ivaSubtotal
+            self.totalest = Int(priceInfo["total"] as! String)//totalEstimado
         }else{
             self.subtotal = NSNumber(int: 0)
             self.ivaprod = NSNumber(int: 0)
@@ -491,13 +492,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //let listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
             //let prodObj = listObj["products"] as! NSArray
             let shoppingCartProduct = productObje[indexPath.row] //as! NSDictionary
-            let upc = shoppingCartProduct["upc"] as! String
-            let desc = shoppingCartProduct["description"] as! String
+            let upc = shoppingCartProduct["productId"] as! String
+            let desc = shoppingCartProduct["productDisplayName"] as! String
             var price : NSString = ""
-            if let priceValue = shoppingCartProduct["price"] as? NSNumber{
+            
+            let priceInfo = shoppingCartProduct["priceInfo"] as? NSDictionary
+            if let priceValue = priceInfo!["amount"] as? NSNumber{
                 price = priceValue.stringValue
             }
-            if let priceValueS = shoppingCartProduct["price"] as? NSString{
+            if let priceValueS = priceInfo!["amount"] as? NSString{
                 price = priceValueS
             }
             //let quantity = shoppingCartProduct["quantity"] as! NSString
@@ -1068,18 +1071,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
             
             var price : NSString = ""
-            if let priceValue = shoppingCartProduct["price"] as? NSNumber{
+            
+            let priceInfo = shoppingCartProduct["priceInfo"] as? NSDictionary
+            if let priceValue = priceInfo!["amount"] as? NSNumber{
                 price = priceValue.stringValue
             }
-            if let priceValueS = shoppingCartProduct["price"] as? NSString{
+            if let priceValueS = priceInfo!["amount"] as? NSString{
                 price = priceValueS
             }
             
             var iva : NSString = ""
-            if let ivabase = shoppingCartProduct["ivaAmount"] as? NSString {
+            if let ivabase = priceInfo!["savingsAmount"] as? NSString {
                 iva = ivabase
             }
-            if let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
+            if let ivabase = priceInfo!["savingsAmount"] as? NSNumber {
                 iva = ivabase.stringValue
             }
             
@@ -1154,16 +1159,18 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
            for shoppingCartProduct in  itemsInShoppingCart {
             //let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
             var price : NSString = ""
-            if let priceValue = shoppingCartProduct["price"] as? NSNumber{
+            let priceInfo = shoppingCartProduct["priceInfo"] as! NSDictionary
+            
+            if let priceValue = priceInfo["amount"] as? NSNumber{
                 price = priceValue.stringValue
             }
-            if let priceValueS = shoppingCartProduct["price"] as? NSString{
+            if let priceValueS = priceInfo["amount"] as? NSString{
                 price = priceValueS
             }
             if price.doubleValue < priceLasiItem {
                 continue
             }
-            upc = shoppingCartProduct["upc"] as! NSString as String
+            upc = shoppingCartProduct["productId"] as! NSString as String
         }
         return upc
     }
@@ -1204,7 +1211,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         var upcItems :String = "["
         for shoppingCartProduct in  itemsInShoppingCart {
-            let upc = shoppingCartProduct["upc"] as! String
+            let upc = shoppingCartProduct["productId"] as! String
             upcItems.appendContentsOf("'\(upc)',")
         }
         upcItems.appendContentsOf("]")

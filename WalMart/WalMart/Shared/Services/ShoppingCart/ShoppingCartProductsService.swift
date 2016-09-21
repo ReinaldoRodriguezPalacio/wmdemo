@@ -26,12 +26,10 @@ class ShoppingCartProductsService : BaseService {
                 self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     //println("Items in shoppingCart: \(resultCall)")
+                    self.saveItemsAndSuccess(resultCall["responseObject"] as! NSDictionary)
                     
-                   
-                    self.saveItemsAndSuccess(resultCall)
-                    
-                    
-                    successBlock!(resultCall)
+                    let responseObj = resultCall["responseObject"] as! NSDictionary
+                    successBlock!(responseObj["order"] as! NSDictionary)
                     ShoppingCartService.isSynchronizing  = false
                     }) { (error:NSError) -> Void in
                         if error.code == 1 {
@@ -141,7 +139,7 @@ class ShoppingCartProductsService : BaseService {
     
     func saveItemsAndSuccess(resultCall:NSDictionary) {
        
-        let itemsInShoppingCart = resultCall["items"] as! NSArray
+        let itemsInShoppingCart = resultCall["order"] as! NSDictionary
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -169,37 +167,44 @@ class ShoppingCartProductsService : BaseService {
             fatalError()
         }
         
-        for shoppingCartProduct in itemsInShoppingCart {
-            
+        let commerceItems = itemsInShoppingCart["commerceItems"] as! NSArray
+        
+        for indx in 0...(commerceItems.count - 1){
+            let shoppingCartProduct = commerceItems[indx] as! NSDictionary
             
             var carProduct : Cart!
             var carProductItem : Product!
-            let upc = shoppingCartProduct["upc"] as! String
+            let upc = shoppingCartProduct["productId"] as! String
             //let quantity = shoppingCartProduct["quantity"] as! NSNumber
             var quantiValue = 0
             if let quantity = shoppingCartProduct["quantity"] as? NSNumber {
                 quantiValue = quantity.integerValue
             }
             
-            let desc = shoppingCartProduct["description"] as! String
+            let desc = shoppingCartProduct["productDisplayName"] as! String
             var price = "" //shoppingCartProduct["price"] as! String
             if  let priceValue = shoppingCartProduct["price"] as? NSNumber {
                 price = priceValue.stringValue
             }
+            
             var baseprice = ""
-            if  let base = shoppingCartProduct["basePrice"] as? String {
-                baseprice = base
-            }
-            if  let base = shoppingCartProduct["basePrice"] as? NSNumber {
-                baseprice = base.stringValue
-            }
             var iva = ""
-            if  let ivabase = shoppingCartProduct["ivaAmount"] as? String {
-                iva = ivabase
+            if let priceInfo = shoppingCartProduct["priceInfo"] as? NSDictionary {
+                if  let base = priceInfo["amount"] as? String {
+                    baseprice = base
+                }
+                if  let base = priceInfo["amount"] as? NSNumber {
+                    baseprice = base.stringValue
+                }
+                
+                if  let ivabase = priceInfo["savingsAmount"] as? String {
+                    iva = ivabase
+                }
+                if  let ivabase = priceInfo["savingsAmount"] as? NSNumber {
+                    iva = ivabase.stringValue
+                }
             }
-            if  let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
-                iva = ivabase.stringValue
-            }
+           
             var department = ""
             if  let departmentBase = shoppingCartProduct["department"] as? String {
                 department = departmentBase
@@ -214,9 +219,9 @@ class ShoppingCartProductsService : BaseService {
             let stock = true
             let idLine = ""
             var nameLine = ""
-            if let nameLineBase = shoppingCartProduct["fineContent"] as? AnyObject {
+            /*if let nameLineBase = shoppingCartProduct["fineContent"] as? AnyObject {
                 nameLine = (nameLineBase["fineLineName"] as? String)!
-            }
+            }*/
             
             var imageUrl = ""
             if let images = shoppingCartProduct["imageUrl"] as? NSArray {
@@ -263,6 +268,10 @@ class ShoppingCartProductsService : BaseService {
             carProduct.status = NSNumber(integer:CartStatus.Synchronized.rawValue)
             currentQuantity += quantiValue
         }
+        
+        /*for shoppingCartProduct in itemsInShoppingCart {
+         
+        }*/
         
         do {
             try context.save()
