@@ -21,6 +21,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         
         
                 let service = GRSaveUserListService()
+                let serviceAdd = GRAddItemListService()
                 var items: [AnyObject] = []
                 //if let products = result["items"] as? NSArray {
                     for idx in 0 ..< products.count {
@@ -30,19 +31,43 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                         if let line = product["line"] as? NSDictionary {
                             nameLine = line["name"] as! String
                         }
-                        if let upc = product["upc"] as? String {
-                            let item = service.buildProductObject(upc: upc, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
-                            items.append(item)
+                        
+                        if let sku = product["sku"] as? NSDictionary {
+                            if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
+                                if let itemParent =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                                    
+                                    //let itemAdd = service.buildProductObject(upc: itemParent["repositoryId"] as! String, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
+                                    let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku.objectForKey("id") as! String , quantity: Int(quantity)!)
+                                    items.append(itemAdd)
+                                }
+                            }
                         }
+                        
+                       
                     }
                 //}
                 
                 let copyName = self.buildDuplicateNameList(listName)
                 print("duplicate::List")
-                print(service.jsonFromObject(service.buildParams(copyName, items: items)))
-                service.callService(service.buildParams(copyName, items: items),
+        //saveService.buildParamsMustang(name)
+        //service.buildParams(copyName, items: items)
+                print(service.jsonFromObject(service.buildParamsMustang(copyName)))//invocar servicios como en tiket
+        
+        
+                service.callService(service.buildParamsMustang(copyName),
                     successBlock: { (result:NSDictionary) -> Void in
-                        successDuplicateList()
+                        let idList = result["idList"] as! String
+                        
+                        serviceAdd.callService(serviceAdd.buildItemMustangObject(idList: idList, upcs: items), successBlock: { (result:NSDictionary) in
+                            
+                            successDuplicateList()
+                            
+                            }, errorBlock: { (error:NSError) in
+                                self.alertView!.setMessage(error.localizedDescription)
+                                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                                
+                        })
+                        
                     },
                     errorBlock: { (error:NSError) -> Void in
                         print("Error at duplicate list")
