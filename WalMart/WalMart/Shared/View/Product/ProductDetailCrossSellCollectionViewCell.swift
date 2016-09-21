@@ -107,7 +107,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String
             let type = ResultObjectType.Mg.rawValue
-            upcItems.append(["upc":upc,"description":desc,"type":type])
+            upcItems.append(["upc":upc,"description":desc,"type":type,"sku":upc])//sku
         }
         
         let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!

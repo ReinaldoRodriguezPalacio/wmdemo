@@ -603,7 +603,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             through = priceThr as String
                         }
                         //***Type se le agrega MG por default. esperar para ProductDetailPageViewController
-                        productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue ,"saving":through])
+                        productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue ,"saving":through,"sku":upc])//pendiente sku
                     }
                 }
             }

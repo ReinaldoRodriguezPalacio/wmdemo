@@ -1045,7 +1045,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                 let upc = item["repositoryId"] as! String
                                 let description = item["description"] as! String
                                 
-                                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":"","sku":sku.objectForKey("id") as! String])
                             }
                         }
                     }

@@ -334,7 +334,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 skuId =  sku.objectForKey("id") as! String
                 if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                     if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                        upc = item["repositoryId"] as! String
+                        upc = item["repositoryId"] as? String ?? item["id"] as! String
                         desc = item["longDescription"] as! String
                     }
                 }
@@ -498,7 +498,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     func showProductDetail(upcProduct:String,type:String){
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = [["upc":upcProduct,"description":"","type":type]]
+        controller.itemsToShow = [["upc":upcProduct,"description":"","type":type,"sku":upcProduct]]//sku
         
         willHideTabbar()
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)

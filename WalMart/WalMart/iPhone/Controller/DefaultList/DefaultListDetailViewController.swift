@@ -176,7 +176,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString
 
-            productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+            productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":"","sku": product["id"] as! NSString])
         }
         controller.itemsToShow = productsToShow
         controller.ixSelected = indexPath.row

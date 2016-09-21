@@ -290,10 +290,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            let priceInfo = UserCurrentSession.sharedInstance().itemsMG!["priceInfo"] as! NSDictionary
-            self.subtotal = Int(priceInfo["rawSubtotal"] as! String)//subtotal
-            self.ivaprod = Int(priceInfo["amount"] as! String)//ivaSubtotal
-            self.totalest = Int(priceInfo["total"] as! String)//totalEstimado
+            //let priceInfo = UserCurrentSession.sharedInstance().itemsMG!["commerceItems"] as! NSDictionary
+            self.subtotal = Int(UserCurrentSession.sharedInstance().itemsMG!["rawSubtotal"] as? String ?? "0")//subtotal
+            self.ivaprod = Int(UserCurrentSession.sharedInstance().itemsMG!["amount"] as? String ?? "0")//ivaSubtotal
+            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["total"] as! NSNumber//totalEstimado
         }else{
             self.subtotal = NSNumber(int: 0)
             self.ivaprod = NSNumber(int: 0)
@@ -1195,7 +1195,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
                 let upc = productsline![idx]["upc"] as! String
                 let desc = productsline![idx]["description"] as! String
-                upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
+                upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue,"sku":upc])//sku
                 countItems = countItems + 1
             }
         }

@@ -366,7 +366,7 @@
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getShoppingCartByUser</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/summary</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
@@ -485,7 +485,7 @@
 			<key>WalmartMG.GRRecentProductsService</key>
 			<string>https://dl.dropboxusercontent.com/u/49807601/myBasics.txt</string>
 			<key>WalmartMG.GRSaveUserListService</key>
-			<string>https://dl.dropboxusercontent.com/s/8kkaxd2cq3u0axr/resposeSucces.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/r8zjrt8qgu2zi8z/succesAddList.txt?dl=0</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRTimeBands</key>
@@ -541,7 +541,7 @@
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>https://dl.dropboxusercontent.com/u/49807601/getShoppingCart.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/m8ksh5i40b77r5d/getShoppingCart.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
@@ -579,7 +579,7 @@
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemsBySearching</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getItemByUpc</string>
+			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -590,7 +590,7 @@
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://dl.dropboxusercontent.com/s/51qbjdrddxfcxub/searchbytext3.txt?dl=0</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getItemByUpc</string>
+			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 		</dict>
 	</dict>
 	<key>WMPayPalEnvironment</key>
