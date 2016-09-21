@@ -40,8 +40,9 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         let name = selected["description"] as! String
         let type = selected["type"] as! String
         let saving = selected["saving"] as? String
+        let sku = selected["sku"] as? String
         
-        let ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving)
+        let ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving,sku: sku!)
         if ctrlToShow != nil {
             self.pageController.setViewControllers([ctrlToShow!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         }
@@ -58,8 +59,8 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     }
     
     
-    func getControllerToShow(upc:String,descr:String,type:String) -> UIViewController? {
-       return self.getControllerToShow(upc, descr: descr, type: type, saving: "")
+    func getControllerToShow(upc:String,descr:String,type:String,sku:String) -> UIViewController? {
+       return self.getControllerToShow(upc, descr: descr, type: type, saving: "",sku: sku)
     }
     /**
      validate type product and present detail gr or mg, recived parameters necesary
@@ -71,36 +72,21 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
      
      - returns: ProductDetailViewController mg or gr
      */
-    func getControllerToShow(upc:String,descr:String,type:String,saving:String?) -> UIViewController? {
+    func getControllerToShow(upc:String,descr:String,type:String,saving:String?,sku:String) -> UIViewController? {
         storyBoard = loadStoryboardDefinition()
-        switch(type) {
-        case ResultObjectType.Mg.rawValue :
-            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
-                vc.upc = upc
-                vc.indexRowSelected = self.itemSelectedSolar
-                vc.stringSearching = self.stringSearching
-                vc.name = descr
-                vc.fromSearch =  self.isForSeach
-                vc.view.tag = ixSelected
-                
-                
-                return vc
-            }
-        case ResultObjectType.Groceries.rawValue :
-                if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
-                    vc.upc = upc
-                    vc.indexRowSelected = self.itemSelectedSolar
-                    vc.stringSearching =  self.stringSearching
-                    vc.fromSearch =  self.isForSeach
-                    vc.name = descr
-                    vc.saving = saving == nil ? "" : saving!
-                    vc.view.tag = ixSelected
-                    vc.idListFromlistFind = self.idListSeleted! // new
-                   
-                    return vc
-            }
-        default:
-            return nil
+    
+        if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
+            vc.upc = upc
+            vc.sku = sku //nuevo
+            vc.indexRowSelected = self.itemSelectedSolar
+            vc.stringSearching =  self.stringSearching
+            vc.fromSearch =  self.isForSeach
+            vc.name = descr
+            vc.saving = saving == nil ? "" : saving!
+            vc.view.tag = ixSelected
+            vc.idListFromlistFind = self.idListSeleted! // new
+            
+            return vc
         }
         return nil
     }
@@ -128,9 +114,10 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String
+            let sku = selected["sku"] as! String
             //let saving = selected["saving"] as? String
             
-            let controllerBefore = getControllerToShow(upc,descr:name,type:type)
+            let controllerBefore = getControllerToShow(upc,descr:name,type:type,sku: sku)
             return controllerBefore
         }
         return nil
@@ -146,9 +133,10 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String
+            let sku = selected["sku"] as! String
             //let saving = selected["saving"] as? String
             
-            let controllerBefore = getControllerToShow(upc,descr:name,type:type)
+            let controllerBefore = getControllerToShow(upc,descr:name,type:type,sku: sku)
 
             return controllerBefore
         }

@@ -19,6 +19,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var viewLoad : WMLoadingView!
     var msi : NSArray = []
     var upc : NSString = ""
+    var sku : NSString = ""
     var name : NSString = ""
     var detail : NSString = ""
     var saving : NSString = ""

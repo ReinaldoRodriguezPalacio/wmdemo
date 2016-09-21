@@ -250,6 +250,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                })*/
             //}else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
+                serviceAddProductMG.jsonFromObject(paramsitems)
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in
                     self.finishCall = true
                     

@@ -381,7 +381,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 if let sku = item["sku"] as? NSDictionary {
                     if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                         if let productItem =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                            self.invokeUpdateProductFromListService(productItem["repositoryId"] as! String, quantity: Int(quantity)!)
+                            self.invokeUpdateProductFromListService(fromUpc:productItem["repositoryId"] as! String , skuId:sku.objectForKey("id") as! String , quantity: Int(quantity)!)
                         }
                     }
                 }
@@ -473,8 +473,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
-    override func invokeDeleteProductFromListService(upc: String, succesDelete: (() -> Void)) {
-        super.invokeDeleteProductFromListService(upc) { () -> Void in
+    override func invokeDeleteProductFromListService(repositoryId repositoryId: String, succesDelete: (() -> Void)) {
+        super.invokeDeleteProductFromListService(repositoryId: repositoryId) { () -> Void in
             self.delegate!.reloadTableListUser()
         }
         

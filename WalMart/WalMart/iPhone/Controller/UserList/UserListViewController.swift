@@ -1662,8 +1662,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }
                     
                     
-                    saveService.callService(saveService.buildParams(name, items: products),
-                        successBlock: { (result:NSDictionary) -> Void in
+                    saveService.callService(saveService.buildParamsMustang(name), successBlock: { (result:NSDictionary) in
+                        //Agregar items to list
+                        let idList = result["idList"] as! String
+                        let service = GRAddItemListService()
+                        service.callService(service.buildItemMustangObject(idList: idList, upcs: products), successBlock: { (result:NSDictionary) in
+                           
                             if let cell = self.tableuserlist!.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? NewListTableViewCell {
                                 cell.scanning = false
                             }
@@ -1682,12 +1686,18 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                     self.alertView!.showErrorIcon("Ok")
                                 }
                             )
-                        },
-                        errorBlock: { (error:NSError) -> Void in
+                            
+                            }, errorBlock: { (error:NSError) in
+                                self.alertView!.setMessage(error.localizedDescription)
+                                self.alertView!.showErrorIcon("Ok")
+                        })
+                        
+                        
+                        }, errorBlock: { (error:NSError) in
                             self.alertView!.setMessage(error.localizedDescription)
                             self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
+                    })
+                    
                 }
             }, errorBlock: { (error:NSError) -> Void in
                 self.alertView!.setMessage(error.localizedDescription)
