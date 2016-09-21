@@ -386,13 +386,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.itemsInShoppingCart =  []
         var ind = 0
         
-        for itemSection in 0 ..< self.itemsInCartOrderSection.count {
-            listObj = self.itemsInCartOrderSection[itemSection] as! NSDictionary
-
-                productObje = listObj["products"] as! [AnyObject]
+        for itemSection in self.itemsInCartOrderSection {
+            listObj = itemSection as! NSDictionary
+            productObje = listObj["products"] as! [AnyObject]
                 
-            for prodSection in 0 ..< productObje.count {
-                self.itemsInShoppingCart.insert(productObje[prodSection], atIndex: ind)//as! NSArray
+            for prodSection in productObje {
+                self.itemsInShoppingCart.insert(prodSection, atIndex: ind)//as! NSArray
                     ind = ind + 1
                 }
             }

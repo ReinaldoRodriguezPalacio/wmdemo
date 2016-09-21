@@ -114,27 +114,19 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     class func adjustDictionary(resultDictionary: AnyObject, isShoppingCart:Bool) -> AnyObject {
         var recentLineItems : [AnyObject] = []
         
-        let productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [AnyObject] : resultDictionary  as! [AnyObject] //["responseArray"] as! [AnyObject]
+        let productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [AnyObject] : resultDictionary  as! [[String:AnyObject]] //["responseArray"] as! [AnyObject]
         var objectsFinal : [NSDictionary] = []
         var indi = 0
     
         //search different lines and add in NSDictionary
         if productItemsOriginal.count > 0 {
             var flagOther = false
-            
-            for idx in 0 ..< productItemsOriginal.count {
-                
-                let objProduct = productItemsOriginal[idx]
-                
-                if objProduct["fineContent"] != nil  {
-                    
-                    
+            for objProduct in productItemsOriginal {
+                if let fineContent = objProduct["fineContent"] as? NSDictionary  {
                     var lineObj : NSDictionary = [:]
                     
                     if isShoppingCart {
-                        if let lineObjValue = objProduct["fineContent"] as? NSDictionary {
-                            lineObj = lineObjValue
-                        }
+                        lineObj = fineContent
                     } else {
                         lineObj = objProduct as! NSDictionary
                     }
@@ -148,8 +140,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         } else {
                             //Compare
                             var flagInsert = true
-                            for indx in 0 ..< recentLineItems.count {
-                                let obj =  recentLineItems[indx]
+                            for obj in recentLineItems {
                                 //if obj["name"] as! String == lineObj["name"] as! String{
                                 if obj as! String == lineObj["fineLineName"] as! String{
                                     flagOther = false
@@ -180,7 +171,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             recentLineItems = sortedArray
             
             if flagOther{
-                //self.recentLineItems.append(["id" : 0, "name" : "Otros"])
+                if recentLineItems.count == 0 {
+                    recentLineItems.append("Otros")
+                }
                 if recentLineItems[0] as! String != "" && recentLineItems.count != 1 {
                     recentLineItems.append("Otros")
                 }
