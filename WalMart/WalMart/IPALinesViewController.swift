@@ -68,8 +68,8 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             self.searchProduct.titleCategory = ""
             self.searchProduct.idFamily  = "_"
             self.searchProduct.idDepartment = "_"
-            self.searchProduct.idLine = lineSelect["id"] as? String
-            self.searchProduct.titleHeader = lineSelect["name"] as? String
+            self.searchProduct.idLine = lineSelect["subCategoryId"] as? String
+            self.searchProduct.titleHeader = lineSelect["subCategoryName"] as? String
             self.searchProduct.hiddenBack = true
             self.searchProduct.delegateHeader = self
             self.view.addSubview(self.viewImageContent)
@@ -117,7 +117,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         print("familyId::::\(familyId)")
         let service =  LineService()
         service.callService(requestParams:familyId, successBlock: { (response:NSDictionary) -> Void in
-            let listLines  =  response["responseArray"] as! NSArray
+            let listLines  =  response["subCategories"] as! NSArray
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
             //self.removeLoadingView()
