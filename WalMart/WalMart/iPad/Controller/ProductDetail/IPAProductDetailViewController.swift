@@ -1036,21 +1036,26 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func reloadViewWithData(result:NSDictionary){
-        self.name = result["description"] as! String
+        
+        let sku = result["sku"] as! [String:AnyObject]
+        let parentProducts = sku["parentProducts"] as! [[String:AnyObject]]
+        let parentProduct = parentProducts.first
+        
+        self.name = parentProduct!["displayName"] as! String
         
         if let resultPrice = result["price"] as? NSString {
             self.price = resultPrice
         }else {
-            self.price = (result["price"] as! NSNumber).stringValue
+            self.price = "0.0"
         }
         
-        if let resultDetail = result["detail"] as? NSString {
+        if let resultDetail = sku["description"] as? NSString {
             self.detail = resultDetail
         }else {
-            self.detail = result["details"] as! NSString
+            self.detail = ""
         }
         
-        self.upc = result["upc"] as! NSString
+        self.upc = sku["id"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
         }
@@ -1061,7 +1066,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         if let savingResult = result["saving"] as? NSString {
             self.saving = savingResult
         }
-        self.listPrice = result["original_listprice"] as! String
+        self.listPrice = result["original_listprice"] as? NSString ?? ""
         self.characteristics = []
         if let cararray = result["characteristics"] as? [AnyObject] {
             self.characteristics = cararray
@@ -1095,13 +1100,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }
         }
         
-        if let images = result["imageUrl"] as? [AnyObject] {
+        if let images = parentProduct!["largeImageUrl"] as? [AnyObject] {
             self.imageUrl = images
         }else{
-            self.imageUrl = [(result["imageUrl"] as! String)]
+            self.imageUrl = [(parentProduct!["largeImageUrl"] as! String)]
         }
         
-        let freeShippingStr  = result["freeShippingItem"] as! String
+        let freeShippingStr  = result["freeShippingItem"] as? NSString ?? ""
         self.freeShipping = "true" == freeShippingStr
         
         var numOnHandInventory : NSString = "0"
@@ -1110,8 +1115,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         self.onHandInventory  = numOnHandInventory
         
-        self.strisActive  = result["isActive"] as! String
-        self.isActive = "true" == self.strisActive
+        self.isActive = sku["onSale"] as! Bool
+        self.strisActive = (self.isActive! ? "true" : "false")
         
         if self.isActive == true {
             self.isActive = self.price.doubleValue > 0
@@ -1121,7 +1126,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.isActive = self.onHandInventory.integerValue > 0
         }
         
-        self.strisPreorderable  = result["isPreorderable"] as! String
+        self.strisPreorderable  = sku["isPreOrderable"] as? String ?? ""
         self.isPreorderable = "true" == self.strisPreorderable
         
         

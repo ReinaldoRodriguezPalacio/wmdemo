@@ -894,7 +894,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let parentProducts = sku["parentProducts"] as! [[String:AnyObject]]
         let parentProduct = parentProducts.first
         
-        self.name = result["characteristics"] as! NSString
+        self.name = parentProduct!["displayName"] as! NSString
         
         if let resultPrice = result["price"] as? NSString {
             self.price = resultPrice

@@ -40,9 +40,9 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         let name = selected["description"] as! String
         let type = selected["type"] as! String
         let saving = selected["saving"] as? String
-        let sku = selected["sku"] as? String
+        let sku = selected["sku"] as? String ?? upc
         
-        let ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving,sku: sku!)
+        let ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving,sku: sku)
         if ctrlToShow != nil {
             self.pageController.setViewControllers([ctrlToShow!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         }
