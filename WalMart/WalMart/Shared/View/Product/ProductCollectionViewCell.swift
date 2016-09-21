@@ -19,8 +19,6 @@ class ProductCollectionViewCell : UICollectionViewCell {
     var productPriceLabel : CurrencyCustomLabel? = nil
     var hideImage : UIView!
     var completeimageaction : (() -> Void)?
-    var lowStock : UILabel?
-    
     
     let contentModeOrig = UIViewContentMode.ScaleAspectFit
     
@@ -57,15 +55,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
         //productPriceLabel!.textColor = WMColor.orange
-        
-        lowStock = UILabel()
-        lowStock!.font = WMFont.fontMyriadProRegularOfSize(12)
-        lowStock!.numberOfLines = 1
-        lowStock!.textColor =  WMColor.light_red
-        lowStock!.hidden = true
-        lowStock!.text = "Últimas piezas"
-        
-        self.contentView.addSubview(lowStock!)
+    
         self.contentView.addSubview(productImage!)
         self.contentView.addSubview(productShortDescriptionLabel!)
         self.contentView.addSubview(productPriceLabel!)

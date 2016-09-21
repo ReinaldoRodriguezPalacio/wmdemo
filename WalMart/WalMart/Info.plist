@@ -219,6 +219,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.DetailedService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/detailed</string>
 			<key>WalmartMG.UpdateCommentsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateComments</string>
 			<key>WalmartMG.SelectedSlotService</key>
@@ -394,6 +396,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.DetailedService</key>
+			<string>https://dl.dropboxusercontent.com/s/dv3t4s71ttgfv2e/detailed.txt?dl=0</string>
 			<key>WalmartMG.UpdateCommentsService</key>
 			<string>https://dl.dropboxusercontent.com/s/wzc56m5dtvkyorw/updateComments.txt</string>
 			<key>WalmartMG.SelectedSlotService</key>

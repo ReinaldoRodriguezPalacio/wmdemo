@@ -21,6 +21,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var shippingsToOrder : NSMutableArray?
     var stepLabel: UILabel!
     var viewHeader :  UIView?
+    var orderDictionary : NSDictionary?
     
     var viewLoad : WMLoadingView!
 
@@ -90,7 +91,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.nextButton!.layer.cornerRadius =  17
         self.view.addSubview(self.nextButton!)
         self.addViewLoad()
-        self.service()
+        self.invokeDetailedService()
     }
     
     override func viewWillLayoutSubviews() {
@@ -126,7 +127,8 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         if let _ = self.shipping[section] as? NSDictionary{
             sending = true
         }
-        let items =   dic["items"] as! NSArray
+       
+        let items =   self.orderDictionary?.objectForKey("commerceItems") as! NSArray
         return items.count + 1 + (sending ? 1 : 0)
     }
     
@@ -208,14 +210,14 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         else
         if !configshiping && indexPath.row == 0 || (configshiping && indexPath.row == 1)  {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
-            cellText.setValues("Productos", quanty:"")
+            cellText.setValues("Productos", quanty:0)
             cell = cellText
         }
         else {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
             let dic = self.shippingAll[indexPath.section ] as! NSDictionary
-            let items =  dic["items"] as! NSArray
-            cellText.setValues(items[indexPath.row - (configshiping ? 2 : 1)]["description"] as? String ?? "", quanty: items[indexPath.row - (configshiping ? 2 : 1)]["quantity"] as? String ?? "")
+            let items =  self.orderDictionary?.objectForKey("commerceItems") as! NSArray
+            cellText.setValues(items[indexPath.row - (configshiping ? 2 : 1)]["productDisplayName"] as? String ?? "", quanty: items[indexPath.row - (configshiping ? 2 : 1)]["quantity"] as? NSNumber ?? 0)
             cellText.cartButton?.hidden = true
             cellText.separator?.hidden = true
             cellText.delegate = self
@@ -244,7 +246,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             }
             if indexPath.section ==  shippingAll.count - 1 {
                 let dic = self.shippingAll[indexPath.section] as! NSDictionary
-                let items =   dic["items"] as! NSArray
+                let items =   self.orderDictionary?.objectForKey("commerceItems") as! NSArray
                 if (items.count  + (configshiping ?  1 : 0)) == indexPath.row {
                     return 85
                 }
@@ -254,24 +256,34 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     }
     
     func next(){
+        
+        let priceInfo  =  self.orderDictionary?.objectForKey("priceInfo") as! NSDictionary
+        
         let nextController = GRCheckOutCommentsViewController()
         self.paramsToOrder?.setValue(self.shippingsToOrder, forKey: "shipping")
+        self.paramsToOrder?.addEntriesFromDictionary(["subtotal":priceInfo["rawSubtotal"]!,"shippingCost":priceInfo["shipping"]!,"iva":"","discount":"","total":priceInfo["total"]!,"countItems":self.orderDictionary!.objectForKey("totalCommerceItemCount")! ])
+        
         nextController.paramsToOrder =  self.paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
     }
+   
     
-    func service() {
-        let servicePrev = PreviousOrderDetailService()
-        servicePrev.callService("test", successBlock: { (result:NSDictionary) -> Void in
-            self.itemDetail = result
-            self.shippingAll = result["Shipping"] as! NSArray
-            //self.setTypeShipping()
-            self.tableProductsCheckout.bringSubviewToFront(self.view)
+    func invokeDetailedService() {
+        
+        let detailedService = DetailedService()
+        detailedService.callService(requestParams: [], succesBlock: { (result: NSDictionary) in
+            let response  =  result["responseObject"]  as! NSDictionary
+            
+            self.orderDictionary = response["order"] as? NSDictionary
+            self.shippingAll = self.orderDictionary!.objectForKey("shippingGroups") as! NSArray
+            
             self.tableProductsCheckout.reloadData()
             self.removeViewLoad()
-            }) { (error:NSError) -> Void in
-            //self.back()
-        }
+        }, errorBlock: { (error:NSError) in
+            print("Error al consultar servicios : DetailedService")
+        })
+        
+
     }
     
     
@@ -295,8 +307,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             self.navigationController?.pushViewController(controller, animated: true)
         }else{
+            let paymentGroups = self.orderDictionary?.objectForKey("paymentGroups") as! NSArray
+           
             let controller = CheckOutProductTypeShipping()
             controller.delegate = self
+            controller.paymentSelected =  paymentGroups.objectAtIndex(0) as? NSDictionary
             controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             itemSelected = selectedItem
             self.navigationController?.pushViewController(controller, animated: true)

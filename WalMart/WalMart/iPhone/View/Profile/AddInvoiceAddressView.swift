@@ -127,7 +127,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             self.viewTypeAdressFiscal!.addSubview(titleLabel!)
             self.viewTypeAdressFiscal!.addSubview(viewButton!)
             
-            titleLabel!.frame = CGRectMake(10, 0, self.bounds.width - 20, 35 )
+            titleLabel!.frame = CGRectMake(16, 0, self.bounds.width - 20, 35 )
             self.viewTypeAdressFiscal!.backgroundColor = UIColor.whiteColor()
             
             addressFiscalPersonButton!.frame = CGRectMake(0, 0, 107 , 45)

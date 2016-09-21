@@ -125,14 +125,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         imagePresale.hidden = !isPreorderable
         imagePresale.frame = CGRectMake(-1, 0, imagePresale.frame.width, imagePresale.frame.height)
         
-        if isLowStock {
-            self.lowStock?.frame = CGRectMake(8, 0 ,self.frame.width - 16 , 14)
-            self.lowStock?.textAlignment =  .Center
-            self.lowStock?.hidden =  false
-        }else{
-            self.lowStock?.hidden = true
-        }
-        
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
 

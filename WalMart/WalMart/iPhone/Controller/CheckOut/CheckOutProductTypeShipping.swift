@@ -39,6 +39,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var timeSelect : [String] = []
     var groupSlotSelect : [String] = []
     
+    
     let hourArray :NSMutableArray  = []
     let slotArray :NSMutableArray  = []
     
@@ -48,6 +49,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var selectedSlotIdx: NSIndexPath! = NSIndexPath(forRow: 0, inSection: 0)
     var selectedDateIdx: NSIndexPath! = NSIndexPath(forRow: 0, inSection: 0)
     var titleString : String?
+    
+    var paymentSelected : NSDictionary?
 
     
     var viewLoad : WMLoadingView!

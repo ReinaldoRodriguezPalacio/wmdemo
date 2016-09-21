@@ -82,8 +82,8 @@ class CheckOutShippingCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setValues(value: String, quanty: String ) {
-        if quanty != "" {
+    func setValues(value: String, quanty: NSNumber) {
+        if quanty != 0 {
             self.descriptionTitle!.text = value
             self.descriptionTitle!.textColor = WMColor.gray_reg
             self.labelNumber!.text = "(\(quanty))"
