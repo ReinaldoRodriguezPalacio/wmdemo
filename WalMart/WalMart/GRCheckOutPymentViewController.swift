@@ -196,7 +196,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.payPalPaymentField = UIButton()
         self.payPalPaymentField!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.payPalPaymentField!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.payPalPaymentField!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.payPalPaymentField!.addTarget(self, action: #selector(GRCheckOutPymentViewController.paypalCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.payPalPaymentField!.addSubview(titleLabelPayPal)
         self.payPalPaymentField!.selected = false
@@ -214,7 +214,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.payPalFuturePaymentField = UIButton()
         self.payPalFuturePaymentField!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.payPalFuturePaymentField!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.payPalFuturePaymentField!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.payPalFuturePaymentField!.addTarget(self, action: #selector(GRCheckOutPymentViewController.paypalCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.payPalFuturePaymentField!.addSubview(titleLabelPayPalFuture)
         self.payPalFuturePaymentField!.selected = false
@@ -987,7 +987,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 
                 let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-                promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+                promSelect.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
                 promSelect.addTarget(self, action: #selector(GRCheckOutPymentViewController.promCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 promSelect.addSubview(titleLabel)
                 promSelect.selected = false

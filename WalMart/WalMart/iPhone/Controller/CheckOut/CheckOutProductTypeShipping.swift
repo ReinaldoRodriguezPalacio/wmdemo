@@ -91,7 +91,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
 
         self.deliveryButton = UIButton()
         self.deliveryButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.deliveryButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.deliveryButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.deliveryButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.deliveryButton!.setTitle("Envío a domicilio", forState: .Normal)
         self.deliveryButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right:0)
@@ -109,7 +109,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         self.collectButton = UIButton()
         self.collectButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.collectButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.collectButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.collectButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.collectButton!.setTitle("Recoger en tienda", forState: .Normal)
         self.collectButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
