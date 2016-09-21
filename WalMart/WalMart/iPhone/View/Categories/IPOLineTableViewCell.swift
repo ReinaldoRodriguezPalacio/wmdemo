@@ -87,8 +87,8 @@ class IPOLineTableViewCell : UITableViewCell {
     
     func setValues(price:String){
         self.newFrame  =  true
-        label!.hidden =  false
-        priceLabel?.hidden =  false
+        label!.hidden =  true
+        priceLabel?.hidden =  true
         let fmtTotal = CurrencyCustomLabel.formatString(price)
         priceLabel?.updateMount(fmtTotal, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     }

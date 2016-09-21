@@ -68,7 +68,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
         if indexPath.row == 0 {
             let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as! IPOFamilyTableViewCell
             let selectedSection = families[indexPath.section]
-            let nameFamily = selectedSection["familyName"] as? String ?? ""
+            let nameFamily = selectedSection["subCategoryName"] as? String ?? ""
             cellFamily.setTitle(nameFamily)
             cell = cellFamily
         } else {
@@ -104,7 +104,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 selectSection(indexPath)
                 self.familyTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
             }
-            let label = families[indexPath.section]["familyName"] as! String
+            let label = families[indexPath.section]["subCategoryName"] as! String
             let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
             BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
         }

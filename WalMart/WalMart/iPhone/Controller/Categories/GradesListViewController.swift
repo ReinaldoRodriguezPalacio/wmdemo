@@ -70,7 +70,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let grades = self.gradesList![indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("lineCell", forIndexPath: indexPath) as! IPOLineTableViewCell
-        cell.titleLabel?.text = grades["name"] as? String
+        cell.titleLabel?.text = grades["subCategoryName"] as? String
         cell.showSeparator =  true
         cell.oneLine = true
         return cell
@@ -79,12 +79,12 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let grade = self.gradesList![indexPath.row]
         let listController = IS_IPAD ? IPASchoolListViewController() : SchoolListViewController()
-        listController.lineId = grade["id"] as? String
+        listController.lineId = grade["subCategoryId"] as? String
         listController.schoolName = self.schoolName
         listController.familyId = self.familyId
         listController.departmentId = self.departmentId
-        listController.gradeName = grade["name"] as? String
-        listController.listPrice = grade["price"] as? String
+        listController.gradeName = grade["subCategoryName"] as? String
+        listController.listPrice = ""//grade["price"] as? String //TODO
         self.navigationController?.pushViewController(listController, animated: true)
     }
     
@@ -94,7 +94,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     func invokeServiceLines(){
         let service =  LineService()
         service.callService(requestParams: self.familyId, successBlock: { (response:NSDictionary) -> Void in
-            let grades  =  response["responseArray"] as! NSArray
+            let grades  =  response["subCategories"] as! NSArray
             self.gradesList = grades as? [[String : AnyObject]]
             if  self.gradesList.count == 0 {
                 self.loading?.stopAnnimating()

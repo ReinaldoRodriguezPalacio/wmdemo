@@ -41,7 +41,6 @@ class FilterCategoryViewCell: UITableViewCell {
         
         self.separator = UIView()
         self.separator!.backgroundColor = WMColor.light_gray
-        self.separator!.hidden = true
         self.contentView.addSubview(self.separator!)
     }
     
@@ -80,12 +79,14 @@ class FilterCategoryViewCell: UITableViewCell {
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
+                self.separator!.hidden = true
             }
             else if level.integerValue == 2 {
                 self.type = .line
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
+                self.separator!.hidden = true
             }
         }
 
@@ -105,7 +106,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
         self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
-        self.separator!.hidden = false
+        //self.separator!.hidden = false
         
         if item?["itemName"] as? String == ""{
             self.check!.hidden = true
@@ -134,6 +135,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
         self.check!.highlightedImage = UIImage(named: "radio_full")
+        self.separator!.hidden = false
         
         self.name!.text = NSLocalizedString("product.search.filterall", comment: "")
         self.check!.highlighted = selected

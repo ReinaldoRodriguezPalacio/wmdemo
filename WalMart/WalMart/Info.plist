@@ -507,7 +507,7 @@
 			<key>WalmartMG.InvoiceAddressByUserService</key>
 			<string>https://dl.dropboxusercontent.com/s/brqndy57lqnru9l/getAddressInvoice.txt</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
+			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.LoginService</key>

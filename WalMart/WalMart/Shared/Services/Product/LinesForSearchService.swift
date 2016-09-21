@@ -11,7 +11,7 @@ import Foundation
 class LinesForSearchService: BaseService {
 
     func buildParams(string:String) -> [String:AnyObject] {
-        return ["pText":string]
+        return ["id":string]
     }
 
     func callService(params:NSDictionary, successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
@@ -22,7 +22,7 @@ class LinesForSearchService: BaseService {
             success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
                 self.jsonFromObject(json)
                 self.printTimestamp("success LinesForSearchService")
-                if let response = json["responseArray"] as? [AnyObject] {
+                if let response = json["subCategories"] as? [AnyObject] {
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
                             let values = [AnyObject](dictionary.values)
@@ -81,7 +81,7 @@ class LinesForSearchService: BaseService {
         var strInLines : String = ""
         for i in 0 ..< response.count {
             var responseObject = response[i] as! [String:AnyObject]
-            let id = responseObject["id"] as? String
+            let id = responseObject["subCategoryId"] as? String
             if id == nil {
                 continue
             }
