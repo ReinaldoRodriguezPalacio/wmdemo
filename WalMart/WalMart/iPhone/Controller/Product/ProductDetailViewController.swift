@@ -363,11 +363,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 if self.listSelectorContainer != nil {
                     self.removeListSelector(action: nil)
                 }
-                if self.viewDetail == nil {
+                if self.viewDetail == nil && self.nutrimentalsView == nil {
                     self.isShowProductDetail = true
                     self.startAnimatingProductDetail()
                 } else {
                     self.closeProductDetail()
+                    self.closeProductDetailNutrimental()
                 }
         })
     }
@@ -439,6 +440,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                                 self.listSelectorContainer!.frame = CGRectMake(0, 0, 320, 360)
                                                 self.listSelectorBackgroundView!.frame = CGRectMake(0, 0, 320, 360)
                                                 self.listSelectorController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 360.0)
+                                                self.productDetailButton?.listButton.selected = true
                                             })
                                         }
             })

@@ -177,7 +177,7 @@ class UserCurrentSession : NSObject {
         }
         
         profile.name = loginProfile["name"] as! String
-        profile.lastName = loginProfile["middleName"] as? String ?? ""
+        profile.lastName = loginProfile["lastName"] as? String ?? ""
         
         profile.lastName2 = loginProfile["lastName2"] as! String
         
