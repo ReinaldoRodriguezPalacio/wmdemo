@@ -890,23 +890,27 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter result: product detail data
      */
     func reloadViewWithData(result:NSDictionary){
-        self.name = result["description"] as! NSString
+        let sku = result["sku"] as! [String:AnyObject]
+        let parentProducts = sku["parentProducts"] as! [[String:AnyObject]]
+        let parentProduct = parentProducts.first
+        
+        self.name = result["characteristics"] as! NSString
         
         if let resultPrice = result["price"] as? NSString {
             self.price = resultPrice
         }else {
-            self.price = (result["price"] as! NSNumber).stringValue
+            self.price = "0.0"
         }
         
-        if let resultDetail = result["detail"] as? NSString {
+        if let resultDetail = sku["description"] as? NSString {
             self.detail = resultDetail
         }else {
-            self.detail = result["details"] as! NSString
+            self.detail = ""
         }
         
         self.saving = ""
         self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
-        self.upc = result["upc"] as! NSString
+        self.upc = sku["id"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
         }
@@ -925,7 +929,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         print(self.saving)
         
         
-        self.listPrice = result["original_listprice"] as! NSString
+        self.listPrice = result["original_listprice"] as? NSString ?? ""
         self.characteristics = []
         if let characteristicsResult = result["characteristics"] as? NSArray {
             self.characteristics = characteristicsResult as [AnyObject]
@@ -959,13 +963,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         }
         
-        if let images = result["imageUrl"] as? [AnyObject] {
+        if let images = parentProduct!["largeImageUrl"] as? [AnyObject] {
             self.imageUrl = images
         }else{
-            self.imageUrl = [(result["imageUrl"] as! String)]
+            self.imageUrl = [(parentProduct!["largeImageUrl"] as! String)]
         }
         
-        let freeShippingStr  = result["freeShippingItem"] as! NSString
+        let freeShippingStr  = result["freeShippingItem"] as? NSString ?? ""
         self.freeShipping = "true" == freeShippingStr
         
         var numOnHandInventory : NSString = "0"
@@ -974,14 +978,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         self.onHandInventory  = numOnHandInventory
         
-        self.strisActive  = result["isActive"] as! String
-        self.isActive = "true" == self.strisActive
+        self.isActive = sku["onSale"] as! Bool
+        self.strisActive = (self.isActive! ? "true" : "false")
         
         if self.isActive == true {
             self.isActive = self.price.doubleValue > 0
         }
         
-        self.strisPreorderable  = result["isPreorderable"] as! String
+        self.strisPreorderable  = sku["isPreOrderable"] as? String ?? ""
         
         self.isPreorderable = "true" == self.strisPreorderable
         self.bundleItems = [AnyObject]()
