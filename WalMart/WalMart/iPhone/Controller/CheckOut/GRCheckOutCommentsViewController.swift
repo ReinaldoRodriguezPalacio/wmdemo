@@ -22,6 +22,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var layerLine: CALayer!
     var stepLabel: UILabel!
     var comments: UITextView?
+    var sectionTitleWine : UILabel!
     var phoneField: FormFieldView?
     var sectionTitle: UILabel?
     var sectionTitleComments: UILabel?
@@ -94,7 +95,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton!.selected = true
         self.confirmCallButton!.tag = 3
         self.content.addSubview(self.confirmCallButton!)
-        
+
         self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
         let phone = self.getDefaultPhone()
         //self.phoneField!.setCustomPlaceholder("Teléfono: \(phone)")
@@ -159,6 +160,23 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.backgroundColor = WMColor.light_light_gray
         self.comments!.delegate = self
         self.content.addSubview(self.comments!)
+
+        self.sectionTitleWine = self.buildSectionTitle(NSLocalizedString("checkout.title.wine", comment: ""), frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
+        self.sectionTitleWine.textColor = UIColor.darkGrayColor()
+        self.sectionTitleWine.numberOfLines = 4
+        self.sectionTitleWine.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.content.addSubview(self.sectionTitleWine!)
+
+
+
+
+
+
+
+
+        
+        
+        
         let  commentsDefault = NSMutableAttributedString(string: UserCurrentSession.sharedInstance().messageInCommens )
         commentsDefault.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsDefault.length))
         commentsDefault.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsDefault.length))
@@ -179,7 +197,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.layerLine = CALayer()
         layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(layerLine, atIndex: 1000)
-        
+
         self.cancelButton = UIButton()
         self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
@@ -230,7 +248,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
-        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,95)
+        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,65)
+        self.sectionTitleWine!.frame = CGRectMake(margin,self.comments!.frame.maxY + margin,width,50)
+
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.content!.contentSize = CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
         self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 65,  self.view.frame.width, 1)

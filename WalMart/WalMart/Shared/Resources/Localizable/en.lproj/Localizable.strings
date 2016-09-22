@@ -396,6 +396,7 @@
 "checkout.title.confirmation" = "Confirmación";
 "checkout.field.confirmation" = "Confirmación";
 "checkout.title.discounts" = "Descuentos";
+"checkout.title.wine" = "La venta de vinos y licores está limitada sólo a mayores de edad. Al entregar tu pedido solicitaremos tu IFE/INE.";
 "checkout.field.discountAssociate" = "Descuento de Asociado";
 "checkout.discount.associateNumber" = "Numero Asociado";
 "checkout.discount.dateAdmission" = "Fecha Ingreso";

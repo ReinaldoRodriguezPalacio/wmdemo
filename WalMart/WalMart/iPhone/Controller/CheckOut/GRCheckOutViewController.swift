@@ -1969,6 +1969,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     
     func validateMercuryDelivery() {
+                
         self.sendMercuryDeliveryValidation({ () -> Void in
             self.buildAndConfigureDeliveryType()
             }, onError: { () -> Void in

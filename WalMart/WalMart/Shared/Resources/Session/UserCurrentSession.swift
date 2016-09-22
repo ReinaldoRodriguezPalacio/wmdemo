@@ -116,7 +116,7 @@ class UserCurrentSession : NSObject {
                 
                 let loginService = LoginWithEmailService()
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-                
+
                 //MercuryUser
                 MercuryService.sharedInstance().setActiveUserName(emailUser as String)
 

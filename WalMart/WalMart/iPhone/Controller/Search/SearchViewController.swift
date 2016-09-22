@@ -674,7 +674,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     func validateSearch(toValidate:String) -> Bool{
-        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú ]{0,100}[._-]{0,2}$";
+        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú /]{0,100}[._-]{0,2}$";
         return validateRegEx(regString,toValidate:toValidate)
     }
     

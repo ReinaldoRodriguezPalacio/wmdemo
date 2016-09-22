@@ -234,6 +234,7 @@ public class PostDelivery : HelpMercuryViewDelegate {
         let toSendObject : [String:AnyObject] = ["customerUserName":user]
         
         request(Method.POST, "\(PostDelivery.sharedInstance().baseUrl)\(PostDelivery.sharedInstance().urlMercuryCurrent)" , parameters: toSendObject , encoding: ParameterEncoding.JSON).debugLog().responseJSON(completionHandler: { (response:Response<AnyObject, NSError>) -> Void in
+                        
             if response.result.isSuccess{
                 let resultStatus = response.result.value!["status"] as! Int
                 if resultStatus != 1 {
