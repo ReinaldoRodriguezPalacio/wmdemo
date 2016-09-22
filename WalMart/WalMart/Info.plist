@@ -308,7 +308,7 @@
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getSavingItems</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.GRRecentProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getMyBasics</string>
 			<key>WalmartMG.GRSaveUserListService</key>
@@ -366,7 +366,7 @@
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addItemToOrder</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteShoppingCartItem</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/summary</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
@@ -543,7 +543,7 @@
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://dl.dropboxusercontent.com/s/eqadxhjmktdodso/addItemToOrder.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShoppingCartItem</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
 			<string>https://dl.dropboxusercontent.com/s/m8ksh5i40b77r5d/getShoppingCart.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
