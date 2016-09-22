@@ -38,3 +38,9 @@ extension NSString {
         return NSString(format: output)
     }
 }
+
+extension String {
+    func toDouble() -> Double? {
+        return NSNumberFormatter().numberFromString(self)?.doubleValue
+    }
+}

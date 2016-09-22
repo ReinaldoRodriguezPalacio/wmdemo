@@ -139,9 +139,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         
-        //MERCURY
-        //TODO: Uncomment
-        //MercuryService.sharedInstance().startMercuryService()
         
         //Tune.framework
         //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
@@ -186,10 +183,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         //Facebook
         FBSDKAppEvents.activateApp()
-        
-        //MERCURY
-        //TODO: Uncomment
-        //MercuryService.sharedInstance().updateMercuryService()
 
         
         if imgView != nil {
@@ -344,10 +337,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
        UIApplication.sharedApplication().applicationIconBadgeNumber = 1
        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         self.handleNotification(application,userInfo: userInfo)
-        
-        //MERCURY
-        //TODO: Uncomment
-        //MercuryService.sharedInstance().startMercuryService()
 
     }
     
