@@ -436,15 +436,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         var upcItems : [[String:String]] = []
         var countItems = 0
         //Get UPC of All items
-        for sect in 0 ..< self.itemsInCartOrderSection.count {
-            let lineItems = self.itemsInCartOrderSection[sect]
-            let productsline = lineItems["products"]
-            for idx in 0 ..< productsline!.count {
-                if section == sect && row == idx {
-                    self.itemSelect = countItems
-                    }
-                let upc = productsline![idx]["upc"] as! String
-                let desc = productsline![idx]["description"] as! String
+        for lineItems in self.itemsInCartOrderSection {
+            let productsline = lineItems["products"] as! [[String:AnyObject]]
+            for product in productsline {
+//                if section == sect && row == idx {
+//                    self.itemSelect = countItems
+//                }
+                let upc = product["productId"] as! String
+                let desc = product["productDisplayName"] as! String
                 upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
                 countItems = countItems + 1
             }

@@ -446,7 +446,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.invokeAddressInvoiceUserService({ () -> Void in
             self.addressInvoice!.onBecomeFirstResponder = {() in
                 let itemsAddress : [String] = self.getItemsToSelectInvoiceAddres()
-                if itemsAddress.count == 0 { //TODO: QUTAR
+                if itemsAddress.count != 0 {
                     self.picker!.selected = self.selectedAddressInvoiceIx
                     self.picker!.sender = self.addressInvoice!
                     self.picker!.delegate = self

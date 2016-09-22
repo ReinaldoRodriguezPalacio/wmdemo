@@ -318,7 +318,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         if self.isAplyFilter {
-            self.filterButton!.setTitle(NSLocalizedString("Restaurar", comment:"" ) , forState: .Normal)
+            self.filterButton!.setTitle(NSLocalizedString("restaurar", comment:"" ) , forState: .Normal)
             self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 90 , (self.header!.frame.size.height - 22)/2 , 70, 22)
         }else{
             self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
