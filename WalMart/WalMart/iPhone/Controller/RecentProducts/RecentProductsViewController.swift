@@ -122,18 +122,18 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         if productItemsOriginal.count > 0 {
             var flagOther = false
             for objProduct in productItemsOriginal {
-                if let fineContent = objProduct["fineContent"] as? NSDictionary  {
-                    var lineObj : NSDictionary = [:]
+                if (objProduct["familyName"] as? String) != nil {
+                    var lineObj :  NSDictionary = [:]
+                    lineObj = objProduct as! NSDictionary
                     
-                    if isShoppingCart {
-                        lineObj = fineContent
+                    /*if isShoppingCart {
+                        lineObj = objProduct as! NSDictionary
                     } else {
                         lineObj = objProduct as! NSDictionary
-                    }
+                    }*/
                     
                     if lineObj.count > 0 {
                         if indi == 0 {
-                            //self.recentLineItems.insert(lineObj, atIndex: indi)
                             recentLineItems.append(lineObj["fineLineName"] as! String == "" ? "Otros" : lineObj["fineLineName"] as! String)
                             indi = indi + 1
                             flagOther = false
@@ -141,7 +141,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                             //Compare
                             var flagInsert = true
                             for obj in recentLineItems {
-                                //if obj["name"] as! String == lineObj["name"] as! String{
                                 if obj as! String == lineObj["fineLineName"] as! String{
                                     flagOther = false
                                     flagInsert = false
@@ -152,7 +151,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                                 }
                             }
                             if flagInsert {
-                                //self.recentLineItems.insert(lineObj, atIndex: indi)
                                 recentLineItems.append(lineObj["fineLineName"] as! String)
                                 indi = indi + 1
                             }
@@ -160,7 +158,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                     } else {
                         recentLineItems.append("Otros")
                     }
-                    
                 } else {
                     flagOther = true
                 }
@@ -202,7 +199,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 if lineObj.count > 0 {
                     if obj as? String == "Otros"{
                         if objProduct["fineContent"] != nil || !isShoppingCart{
-                            //let lineObj = objProduct["fineContent"] as! NSDictionary
                             
                             if lineObj["fineLineName"] as! String == "" || lineObj["fineLineName"] as! String == "Otros" {
                                 objectsLine.insert(objProduct, atIndex: indLine)
@@ -216,7 +212,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         }
                     } else {
                         if objProduct["fineContent"] != nil || !isShoppingCart{
-                            //let lineObj = objProduct["fineContent"] as! NSDictionary
                             
                             if obj as? String == lineObj["fineLineName"] as? String {
                                 objectsLine.insert(objProduct, atIndex: indLine)

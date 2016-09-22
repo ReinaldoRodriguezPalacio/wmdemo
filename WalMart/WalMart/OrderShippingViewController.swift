@@ -115,7 +115,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
             self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
             self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
-        } else {
+        } else if !IS_IPAD {
             willShowTabbar()
         }
     }
