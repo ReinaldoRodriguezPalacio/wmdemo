@@ -129,7 +129,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     override func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         super.apply(order, filters: filters, isForGroceries: flag)
-        self.filterButton?.setTitle(NSLocalizedString("Restaurar", comment:"" ) , forState: .Normal)
+        self.filterButton?.setTitle(NSLocalizedString("restaurar", comment:"" ) , forState: .Normal)
         self.filterButton?.frame = CGRectMake(self.view.bounds.maxX - 90 , (self.header!.frame.size.height - 22)/2 , 70, 22)
         
     }
@@ -425,7 +425,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     override func apply(order:String, upcs: [String]) {
         super.apply(order, upcs: upcs)
-        self.filterButton?.setTitle(NSLocalizedString("Restaurar", comment:"" ) , forState: .Normal)
+        self.filterButton?.setTitle(NSLocalizedString("restaurar", comment:"" ) , forState: .Normal)
         self.filterButton?.frame = CGRectMake(self.view.bounds.maxX - 90 , (self.header!.frame.size.height - 22)/2 , 70, 22)
         if upcs.count == 0 {
          self.showEmptyView()
