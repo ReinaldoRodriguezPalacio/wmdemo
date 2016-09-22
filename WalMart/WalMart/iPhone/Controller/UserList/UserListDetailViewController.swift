@@ -1763,7 +1763,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
             paddedUPC = "\(toFill)\(paddedUPC)"
         }
-        let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//position
+        //let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//position
+        let params = svcValidate.buildMustangParams(paddedUPC as String, skuId:paddedUPC as String )//TODO Enviar sku
         svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
             //[["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
             print("Correcto el producto es::::")

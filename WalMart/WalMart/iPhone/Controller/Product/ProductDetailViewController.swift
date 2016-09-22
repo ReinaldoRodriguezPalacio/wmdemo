@@ -849,7 +849,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let productService = ProductDetailService(dictionary: signalsDictionary)
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
-            let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
+            //let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
+            let params = productService.buildMustangParams(upc as String, skuId:self.sku as String)
             productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
                 self.reloadViewWithData(result)
                 if let facets = result["facets"] as? [[String:AnyObject]] {
