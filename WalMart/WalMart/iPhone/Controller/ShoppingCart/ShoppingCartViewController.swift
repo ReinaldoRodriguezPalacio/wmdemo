@@ -1793,7 +1793,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         for idx in 0 ..< self.itemsInShoppingCart.count {
             let item = self.itemsInShoppingCart[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as! String
+            let upc = item["productId"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
@@ -1809,10 +1809,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if let stock = item["stock"] as? Bool {
                 active = stock
             }
-            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+            var sku = ""
+            if let skuId = item["catalogRefId"] as? String {
+                sku = skuId
+            }
+            //products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+            products.append(service.buildItemMustang(upc, sku: sku, quantity: quantity)) //sku
         }
         
-        service.callService(service.buildParams(idList: listId, upcs: products),
+        service.callService(service.buildItemMustangObject(idList: listId, upcs: products),
                             successBlock: { (result:NSDictionary) -> Void in
                                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                                 self.alertView!.showDoneIcon()
@@ -1946,7 +1951,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         for idx in 0 ..< self.itemsInShoppingCart.count {
             let item = self.itemsInShoppingCart[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as! String
+            let upc = item["productId"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? NSNumber {
                 quantity = qIntProd.integerValue
@@ -1954,7 +1959,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             else if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
             }
-            var price: String? = nil
+            var price: String = ""
             if  let priceNum = item["price"] as? NSNumber {
                 price = "\(priceNum)"
             }
@@ -1962,8 +1967,16 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 price = priceTxt
             }
             
-            let imgUrl = item["imageUrl"] as? String
-            let description = item["description"] as? String
+            var imgUrl = ""
+            if let image = item["imageUrl"] as? String {
+                imgUrl =  image
+            }
+            
+            var  description = ""
+            if let desc = item["description"] as? String{
+                description = desc
+            }
+            
             let type = item["type"] as? String
             
             var  nameLine = ""
@@ -1971,7 +1984,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 nameLine = line["name"] as! String
             }
             
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,nameLine:nameLine)
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type,nameLine:nameLine)
             products.append(serviceItem)
         }
         

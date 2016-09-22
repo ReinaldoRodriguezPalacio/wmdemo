@@ -352,7 +352,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.selectedAddress = addressId
                     self.getAddressDescription(addressId)
                 }
-                self.paramsToOrder = ["addressShopping":["addressId":option["addressId"] as! String, "phoneNumberAddres":option["phoneNumber"] as! String, "nameAddres":option["name"] as! String,"storeId":option["storeId"] as! String]]
+                if self.paramsToOrder == nil {
+                    self.paramsToOrder = [:]
+                }
+                self.paramsToOrder = ["addressShopping":["addressId":option["addressId"] as! String, "phoneNumberAddres":option["phoneNumber"] as? String ?? "", "nameAddres":option["name"] as! String,"storeId":option["storeId"] as! String]]
+                
                 self.selectedAddressIx = indexPath
             }
             if formFieldObj ==  self.addressInvoice! {

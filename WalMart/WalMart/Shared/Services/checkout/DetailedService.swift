@@ -14,6 +14,8 @@ class DetailedService: GRBaseService {
     
     func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
         self.callGETService([], successBlock: { (resultCall:NSDictionary) -> Void in
+            print("DetailedService:::")
+            self.jsonFromObject(resultCall)
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

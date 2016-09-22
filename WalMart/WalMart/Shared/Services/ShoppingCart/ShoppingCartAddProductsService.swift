@@ -50,7 +50,7 @@ class ShoppingCartAddProductsService : BaseService {
         return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]]
     }
     
-    func builParamSvc(upc:String,quantity:String,comments:String) -> [String:AnyObject] {
+    func builParamSvc(upc:String,quantity:String,comments:String) -> NSDictionary {
         //return ["comments":comments,"quantity":quantity,"upc":upc]
         return ["catalogRefIds": "00841020507906_009537102", "productId": upc, "quantity": quantity, "orderedUOM": "EA", "itemComment": "EA","orderedQTYWeight": "6"]
     }
@@ -59,7 +59,7 @@ class ShoppingCartAddProductsService : BaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist]
     }
     
-    func buildProductObject(upcsParams:[AnyObject]) -> AnyObject {
+    func buildProductObject(upcsParams:NSDictionary) -> AnyObject {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]
@@ -79,27 +79,26 @@ class ShoppingCartAddProductsService : BaseService {
     func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             
-            var itemsSvc : [[String:AnyObject]] = []
-            var itemsWishList : [String] = []
+            //var itemsSvc : [String:AnyObject]
+            var itemsSvc : NSDictionary?
+           
            
             var upcSend = ""
             for itemSvc in params as! NSArray {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
-                itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:""))
+                //itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:"") as! [String : AnyObject])
+                itemsSvc = builParamSvc(upc,quantity:quantity,comments:"")
                 
-                if  let _ = itemSvc["wishlist"] as? Bool {
-                    itemsWishList.append(upc)
-                }
                 
             }
             
-            if itemsSvc.count > 1 {
+            if itemsSvc!.count > 1 {
                 
                 print("callPOSTService::")
                 print(self.jsonFromObject(itemsSvc))
-                self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+                self.callPOSTService(itemsSvc!, successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     
                     if self.updateShoppingCart() {
@@ -120,7 +119,7 @@ class ShoppingCartAddProductsService : BaseService {
                 if !hasUPC {
                     var send  : AnyObject?
                     if useSignals  && self.parameterSend != nil{
-                        send = buildProductObject(itemsSvc)
+                        send = buildProductObject(itemsSvc!)
                     }else{
                         send = itemsSvc
                     }

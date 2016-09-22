@@ -369,7 +369,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as! String
+            let upc = item["productId"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? NSNumber {
                 quantity = qIntProd.integerValue
@@ -377,7 +377,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             else if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
             }
-            var price: String? = nil
+            var price: String = ""
             if  let priceNum = item["price"] as? NSNumber {
                 price = "\(priceNum)"
             }
@@ -385,9 +385,17 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
                 price = priceTxt as String
             }
             
-            let imgUrl = item["imageUrl"] as? String
-            let description = item["description"] as? String
-            let type = item["type"] as! String
+            var imgUrl = ""
+            if let image =  item["imageUrl"] as? String {
+                imgUrl = image
+            }
+            
+            var description = ""
+            if let desc =  item["productDisplayName"] as? String {
+                description =  desc
+            }
+            
+            let type = item["isWeighable"] as! String
             
             var  nameLine = ""
             if let line = item["line"] as? NSDictionary {
@@ -395,7 +403,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             }
             
             
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,nameLine: nameLine)
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type,nameLine: nameLine)
             products.append(serviceItem)
         }
         

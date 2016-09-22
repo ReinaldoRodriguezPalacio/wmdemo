@@ -296,7 +296,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         let service =  DisplaySlotsService()
          self.dateSlot =  []
-        service.callService(requestParams: service.buildParamsHomeDelivery(""), succesBlock: { (responce:NSDictionary) in
+        service.callService(requestParams: service.buildParamsHomeDelivery(type), succesBlock: { (responce:NSDictionary) in
             
             let slots =  responce["responseObject"] as! NSDictionary
             let key =  slots.allKeys.sort({ (first, second) -> Bool in
