@@ -178,7 +178,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     }
     
     override func loadShoppingCartService() {
-        
+        super.loadShoppingCartService()
         idexesPath = []
         
         self.itemsInCartOrderSection =  []
@@ -201,10 +201,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            let priceInfo = UserCurrentSession.sharedInstance().itemsMG!["priceInfo"] as! NSDictionary
-            self.subtotal = Int(priceInfo["rawSubtotal"] as! String)//subtotal
-            self.ivaprod = Int(priceInfo["amount"] as! String)//ivaSubtotal
-            self.totalest = Int(priceInfo["total"] as! String)//totalEstimado
+            //let priceInfo = UserCurrentSession.sharedInstance().itemsMG!["priceInfo"] as! NSDictionary
+            self.subtotal = Int(UserCurrentSession.sharedInstance().itemsMG!["rawSubtotal"] as? String ?? "0")//subtotal
+            self.ivaprod = Int(UserCurrentSession.sharedInstance().itemsMG!["amount"] as? String ?? "0")//ivaSubtotal
+            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["total"] as! NSNumber//totalEstimado
         }else{
             self.subtotal = NSNumber(int: 0)
             self.ivaprod = NSNumber(int: 0)
