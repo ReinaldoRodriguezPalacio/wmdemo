@@ -28,12 +28,17 @@ class ProductDetailService : BaseService {
     
 
 
-    func buildParams(upc:String,eventtype:String,stringSearching:String,position:String) -> AnyObject{
-        if useSignalsServices {
-            let channel = IS_IPAD ? "ipad" : "iphone"
-            return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"mg","channel": channel,"q":stringSearching,"position":position]]
-        }
-        return upc
+//    func buildParams(upc:String,eventtype:String,stringSearching:String,position:String) -> AnyObject{
+//        if useSignalsServices {
+//            let channel = IS_IPAD ? "ipad" : "iphone"
+//            return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"mg","channel": channel,"q":stringSearching,"position":position]]
+//        }
+//        return upc
+//    }
+    
+    func buildMustangParams(upc:String,skuId:String) -> NSDictionary{
+    
+        return ["upc":upc,"skuId":skuId]
     }
     
     func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
