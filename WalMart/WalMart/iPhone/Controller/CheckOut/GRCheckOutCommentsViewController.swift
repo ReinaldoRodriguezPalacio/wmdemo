@@ -434,7 +434,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let updateCommentService = UpdateCommentsService()
         let updateCommentParams = updateCommentService.buildParameterOrder(self.comments!.text)
         updateCommentService.callService(requestParams: updateCommentParams, succesBlock: {(result) -> Void in
-            let codeMessage = result["codeMessage"] as! NSString
+            let codeMessage = result["codeMessage"] as! NSNumber
             if codeMessage.intValue == 0 {
                 alert?.setMessage("Guardado")
                 alert?.showDoneIcon()
