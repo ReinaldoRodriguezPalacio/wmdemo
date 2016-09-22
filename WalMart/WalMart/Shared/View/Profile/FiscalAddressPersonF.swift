@@ -103,12 +103,12 @@ class FiscalAddressPersonF: AddressView {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
             self.name!.text = self.item!["firstName"] as? String
-            self.lastName!.text = self.item!["lastName"] as? String
+            self.lastName!.text = self.item!["middleName"] as? String
             self.lastName2!.text = self.item!["lastName2"] as? String
             self.rfc!.text = self.item!["rfc"] as? String
             self.ieps!.text = self.item!["ieps"] as? String
-            self.email!.text = self.item!["rfcEmail"] as? String
-            self.telephone!.text = self.item!["phoneNumber"] as? String
+            self.email!.text = self.item!["email"] as? String
+            self.telephone!.text = self.item!["mobileNumber"] as? String
         }
     }
     
@@ -149,7 +149,7 @@ class FiscalAddressPersonF: AddressView {
          let paramsAdd : NSMutableDictionary? = [:]
         paramsAdd!.addEntriesFromDictionary(super.getParams() as [NSObject : AnyObject])
         //let paramsAddress =  super.getParams()
-        paramsAdd?.addEntriesFromDictionary(["RFC":self.rfc!.text!,"email":self.email!.text!,"IEPS":self.ieps!.text!,"phoneNumber":self.telephone!.text!])
+        paramsAdd?.addEntriesFromDictionary(["RFC":self.rfc!.text!,"email":self.email!.text!,"IEPS":self.ieps!.text!,"mobileNumber":self.telephone!.text!])
         paramsAdd?.addEntriesFromDictionary(["lastName2":self.lastName2!.text! ,"firstName":self.name!.text! ,"lastName":self.lastName!.text!,"persona":"F" ])
       //  let userParams = ["profile":["lastName2":self.lastName2!.text! ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]]
 //        paramsAddress.updateValue(userParams as AnyObject, forKey: "user")

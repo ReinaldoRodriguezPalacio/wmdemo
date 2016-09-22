@@ -243,7 +243,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
                 if self.neighbourhoods.count > 0  {
                     self.suburbField?.becomeFirstResponder()
                     self.suburbField!.text = self.neighbourhoodsDict[0].objectForKey("neighbourhoodName") as? String
-                    self.idSuburb = self.neighbourhoodsDict[0].objectForKey("neighbourhoodId") as? String
+                    self.idSuburb = self.neighbourhoodsDict[0].objectForKey("neighborhoodId") as? String
                 }
                 
                 if  self.stores.count > 0  {
@@ -294,7 +294,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
             self.selectedNeighborhood = indexPath
             let suburb = self.neighbourhoodsDict[indexPath.row]
             self.suburbField!.text = suburb.objectForKey("neighbourhoodName") as? String
-            self.idSuburb = suburb.objectForKey("neighbourhoodId") as? String
+            self.idSuburb = suburb.objectForKey("neighborhoodId") as? String
         }
     }
     

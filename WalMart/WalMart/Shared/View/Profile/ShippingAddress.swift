@@ -85,7 +85,7 @@ class ShippingAddress: AddressView {
         if self.item != nil && self.idAddress != nil {
             self.name!.text = self.item!["firstName"] as? String
             self.lastName!.text = self.item!["lastName"] as? String
-            self.telephone!.text = self.item!["phoneNumber"] as? String
+            self.telephone!.text = self.item!["mobileNumber"] as? String
         }
     }
     
@@ -112,7 +112,7 @@ class ShippingAddress: AddressView {
      override func getParams() -> NSDictionary {
         let paramsAdd : NSMutableDictionary? = [:]
         paramsAdd!.addEntriesFromDictionary(super.getParams() as [NSObject : AnyObject])
-       paramsAdd!.addEntriesFromDictionary(["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":"","phoneExtension":"","mobileNumber":"" ])
+       paramsAdd!.addEntriesFromDictionary(["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":self.telephone!.text!,"phoneExtension":"","mobileNumber":self.telephone!.text!])
        
         
         return paramsAdd!

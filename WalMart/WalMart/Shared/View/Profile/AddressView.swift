@@ -370,7 +370,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 self.zipcode!.text = self.item!["zipCode"] as? String
                 self.outdoornumber!.text = self.item!["outerNumber"] as? String
                 self.indoornumber!.text = self.item!["innerNumber"] as? String
-                self.idSuburb = self.item!["neighbourhoodId"] as? String
+                self.idSuburb = self.item!["neighborhoodId"] as? String
+                
                 self.idStoreSelected = self.item!["storeId"] as? String
                 self.municipality!.text = self.item!["county"] as? String
                 self.city!.text = self.item!["city"] as? String
@@ -677,7 +678,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     
     func getParams() -> NSDictionary {//"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser,
            let paramsAdd : NSMutableDictionary? = [:]
-        let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighbourhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!]
+        let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!]
         if idAddress != nil{
            paramsAdd?.addEntriesFromDictionary(paramsAddress)
             paramsAdd?.addEntriesFromDictionary(["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser])
@@ -702,6 +703,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             if formFieldObj ==  self.suburb! {
                 self.suburb!.text = selectedStr
                 self.selectedNeighborhood = indexPath
+                self.idSuburb = self.neighborhoods[indexPath.row]
+                
                 /*if delegate != nil {
                     self.delegate.showUpdate!()
                 }*/
