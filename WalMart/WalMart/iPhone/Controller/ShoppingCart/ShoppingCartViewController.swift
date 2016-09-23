@@ -538,20 +538,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 savingVal = savingProd
             }
             
-            //equivalenceByPiece GR
-            var equivalenceByPiece = NSNumber(int:0)
-            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSNumber {
-                equivalenceByPiece = equivalence
-            }
+//            //equivalenceByPiece GR
+//            var equivalenceByPiece = NSNumber(int:0)
+//            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSNumber {
+//                equivalenceByPiece = equivalence
+//            }
             
-            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSString {
-                if equivalence != "" {
-                    equivalenceByPiece =  NSNumber(int: equivalence.intValue)
-                }
-            }
+//            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSString {
+//                if equivalence != "" {
+//                    equivalenceByPiece =  NSNumber(int: equivalence.intValue)
+//                }
+//            }
             
             //comments GR
-            let comments = shoppingCartProduct["comments"] as? String
+            let comments = shoppingCartProduct["itemComment"] as? String
             
             var productDeparment = ""
             if let category = shoppingCartProduct["category"] as? String{
@@ -601,7 +601,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
-            cellProduct.setValues(upc!,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId)
+            cellProduct.setValues(upc!,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments!)
             
             cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
             

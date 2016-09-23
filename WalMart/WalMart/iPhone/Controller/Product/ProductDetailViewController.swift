@@ -990,7 +990,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.isPreorderable = "true" == self.strisPreorderable
         self.bundleItems = [AnyObject]()
-        if let bndl = result["bundleItems"] as?  [AnyObject] {
+        if let bndl = sku["bundleLinks"] as?  [AnyObject] {
             self.bundleItems = bndl
         }
         
