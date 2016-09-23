@@ -39,6 +39,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var comments : String! = ""
     var pesable : Bool = false
     var promotiosView  : UIView?
+    var commerceIds : String!
     
     override func setup() {
         super.setup()
@@ -106,10 +107,11 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool,commerceItemId:String) {
         imagePresale.hidden = isPreorderable == "true" ? false : true
         self.priceProduct = productPrice.doubleValue
         self.upc = upc
+        self.commerceIds = commerceItemId
         self.desc = productShortDescription
         self.price = productPrice
         self.imageurl = productImageURL

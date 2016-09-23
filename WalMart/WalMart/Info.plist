@@ -254,7 +254,7 @@
 			<key>WalmartMG.ConfigService</key>
 			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:9080/walmartmg/ogin/getCrossSelling</string>
+			<string>http://192.168.43.192:9080/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPractilist</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -352,7 +352,7 @@
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
+			<string>http://192.168.43.192:9080/walmartmg/login/getSkuSummaryDetails</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.ReferedCustomerService</key>
@@ -583,7 +583,7 @@
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getItemsBySearching</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/getSkuSummaryDetails</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>

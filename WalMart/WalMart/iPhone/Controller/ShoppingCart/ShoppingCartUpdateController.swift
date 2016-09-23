@@ -582,10 +582,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
                 
                 let updateCommentService = UpdateCommentsService()
-                let updateCommentParams = updateCommentService.buildParameterItem(self.commentTextView!.field!.text!.trim(), itemId: self.params["upc"] as! String)
+                let updateCommentParams = updateCommentService.buildParameterItem(self.commentTextView!.field!.text!.trim(), itemId: self.params["commerceItemId"] as! String)
                 
                 updateCommentService.callService(requestParams: updateCommentParams, succesBlock: {(result) -> Void in
-                    let codeMessage = result["codeMessage"] as! NSString
+                    let codeMessage = result["codeMessage"] as! NSNumber
                     if codeMessage.intValue == 0 {
                         self.finishCall = true
                     
