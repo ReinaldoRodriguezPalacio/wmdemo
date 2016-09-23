@@ -427,7 +427,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             productObje = listObj["products"] as! NSArray
             
         if section == (self.itemsInCartOrderSection.count) {
-            return productObje!.count + 2
+            return productObje!.count + (self.itemsUPC.count > 0 ? 2 : 1)
             } else {
             return productObje!.count
         }
@@ -491,7 +491,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //let listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
             //let prodObj = listObj["products"] as! NSArray
             let shoppingCartProduct = productObje[indexPath.row] //as! NSDictionary
-            let upc = shoppingCartProduct["productId"] as! String
+            let upc = shoppingCartProduct["productId"] as? String
             let desc = shoppingCartProduct["productDisplayName"] as! String
             var price : NSString = ""
             let commerceItemId = shoppingCartProduct["commerceItemId"] as! String
@@ -601,7 +601,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId)
+            cellProduct.setValues(upc!,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId)
             
             cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
             
@@ -1004,12 +1004,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         listObj = self.itemsInCartOrderSection[indexPath.section - 1] as! NSDictionary
         productObje = listObj["products"] as! NSArray
         let itemWishlist = productObje[indexPath.row] as! [String:AnyObject]
-        let upc = itemWishlist["upc"] as! String
+        let upc = itemWishlist["commerceItemId"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        let descriptions =  itemWishlist["description"] as! String
-        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(descriptions) - \(upc)")
+        //let descriptions =  itemWishlist["description"] as! String
+       // BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(descriptions) - \(upc)")
         //let paramUpc = deleteShoppingCartService.builParams(upc)
-        //deleteShoppingCartService.callService(paramUpc, successBlock: { (result:NSDictionary) -> Void in
+        //deleteShoppingCartService.callService(upc, successBlock: { (result:NSDictionary) -> Void in
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
             //self.idexesPath = []
             
@@ -1170,7 +1170,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if price.doubleValue < priceLasiItem {
                 continue
             }
-            upc = shoppingCartProduct["productId"] as! NSString as String
+            if let u = shoppingCartProduct["productId"] as? NSString  {
+                upc = u as String
+            }
+          
         }
         return upc
     }
