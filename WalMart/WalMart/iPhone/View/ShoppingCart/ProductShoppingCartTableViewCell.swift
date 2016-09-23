@@ -39,6 +39,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var comments : String! = ""
     var pesable : Bool = false
     var promotiosView  : UIView?
+    var commerceIds : String!
     
     override func setup() {
         super.setup()
@@ -106,10 +107,11 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }
     }
     
-    func setValues(upc:String?,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool) {
+    func setValues(upc:String?,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool,commerceItemId:String,comments:NSString) {
         imagePresale.hidden = isPreorderable == "true" ? false : true
         self.priceProduct = productPrice.doubleValue
         self.upc = upc
+        self.commerceIds = commerceItemId
         self.desc = productShortDescription
         self.price = productPrice
         self.imageurl = productImageURL
@@ -119,7 +121,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.isPreorderable = isPreorderable
         self.promotionDescription = promotionDescription
         self.pesable = typeProd == 1
-            
+        self.comments = comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         //priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
         priceSelector.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
         

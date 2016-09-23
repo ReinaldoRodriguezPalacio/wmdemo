@@ -494,6 +494,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let upc = shoppingCartProduct["productId"] as? String
             let desc = shoppingCartProduct["productDisplayName"] as! String
             var price : NSString = ""
+            let commerceItemId = shoppingCartProduct["commerceItemId"] as! String
             
             let priceInfo = shoppingCartProduct["priceInfo"] as? NSDictionary
             if let priceValue = priceInfo!["amount"] as? NSNumber{
@@ -537,20 +538,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 savingVal = savingProd
             }
             
-            //equivalenceByPiece GR
-            var equivalenceByPiece = NSNumber(int:0)
-            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSNumber {
-                equivalenceByPiece = equivalence
-            }
+//            //equivalenceByPiece GR
+//            var equivalenceByPiece = NSNumber(int:0)
+//            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSNumber {
+//                equivalenceByPiece = equivalence
+//            }
             
-            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSString {
-                if equivalence != "" {
-                    equivalenceByPiece =  NSNumber(int: equivalence.intValue)
-                }
-            }
+//            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSString {
+//                if equivalence != "" {
+//                    equivalenceByPiece =  NSNumber(int: equivalence.intValue)
+//                }
+//            }
             
             //comments GR
-            let comments = shoppingCartProduct["comments"] as? String
+            let comments = shoppingCartProduct["itemComment"] as? String
             
             var productDeparment = ""
             if let category = shoppingCartProduct["category"] as? String{
@@ -600,7 +601,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
+            cellProduct.setValues(upc!,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments!)
             
             cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
             
@@ -940,7 +941,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
         let pesable = cell.pesable ? "1" : "0"
-        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"commerceItemId":cell.commerceIds]
     }
     
     //MARK: SWTableViewCellDelegate

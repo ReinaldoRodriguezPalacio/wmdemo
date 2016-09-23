@@ -1132,7 +1132,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         
         self.bundleItems = [AnyObject]()
-        if let bndl = result["bundleItems"] as?  [AnyObject] {
+        if let bndl = sku["bundleLinks"] as?  [AnyObject] {
             self.bundleItems = bndl
         }
         

@@ -98,8 +98,8 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var upcItems : [[String:String]] = []
         for upcStr in itemsUPC {
-            let upc = upcStr["upc"] as! String
-            let desc = upcStr["description"] as! String
+            let upc = upcStr["id"] as! String
+            let desc = upcStr["displayName"] as! String
             upcItems.append(["upc":upc,"description":desc])
         }
         
