@@ -214,7 +214,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
@@ -545,7 +545,7 @@
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>https://dl.dropboxusercontent.com/s/m8ksh5i40b77r5d/getShoppingCart.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getShoppingCart.json</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>

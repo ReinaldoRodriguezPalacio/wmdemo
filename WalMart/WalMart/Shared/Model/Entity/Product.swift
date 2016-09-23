@@ -12,6 +12,7 @@ import CoreData
 class Product : NSManagedObject {
     
     @NSManaged var upc: String
+    @NSManaged var commerceItemId: String
     @NSManaged var img : String
     @NSManaged var desc : String
     @NSManaged var price : NSString
@@ -29,7 +30,9 @@ class Product : NSManagedObject {
     @NSManaged var promoDescription : String
     @NSManaged var saving : String
     @NSManaged var stock : Bool
-    
+    @NSManaged var orderedQtyWeight: NSNumber
+    @NSManaged var isWeighable: NSNumber
+    @NSManaged var catalogRefId: String
     
     @NSManaged var cart : Cart
     @NSManaged var list: List
