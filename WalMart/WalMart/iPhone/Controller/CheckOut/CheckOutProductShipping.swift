@@ -104,7 +104,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             self.viewHeader!.hidden =  true
             self.tableProductsCheckout.frame = CGRectMake(0, self.headerHeight , self.view.frame.width, self.view.frame.height - (124 ))
         }
-        
+        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.cancelButton!.frame =  CGRectMake(16 , self.view.frame.height - 50 , (self.view.frame.width - 40) / 2  , 34)
         self.nextButton!.frame =  CGRectMake(self.view.frame.width - self.cancelButton!.frame.width - 16  , self.view.frame.height - 52 , (self.view.frame.width - 40) / 2  , 34)
     }
@@ -113,7 +113,6 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         
         if self.shippingAll.count > 1 {
             self.viewHeader!.frame = CGRectMake(0, self.headerHeight, self.view.frame.width, 62)
-            self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
             self.tableProductsCheckout.frame = CGRectMake(0, self.viewHeader!.frame.maxY , self.view.frame.width, self.view.frame.height - (124 + self.headerHeight))
         }else{
             self.tableProductsCheckout.frame = CGRectMake(0, self.headerHeight , self.view.frame.width, self.view.frame.height - (124 ))
