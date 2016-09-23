@@ -80,15 +80,23 @@ class ShoppingCartProductsService : BaseService {
         var totalest : Double = 0.0
         var totalQuantity = 0
         
-        var arrayUpcsUpdate : [AnyObject] = []
+        var arrayUpcsUpdate : [String] = []
         var arrayUPCQuantity : [[String:String]] = []
         
-        let service = GRProductsByUPCService()
+        
         for item in array {
-            arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
+            arrayUpcsUpdate.append(item.product.upc)
+            
+            // arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
         }
         
-        service.callService(requestParams: arrayUPCQuantity, successBlock: { (response:NSDictionary) -> Void in
+        if arrayUpcsUpdate.count > 0 {
+            
+            let service = ShoppingCartDeleteProductsService()
+            let dic = service.builParamsMultiple(arrayUpcsUpdate)
+
+        
+           service.callService(dic, successBlock: { (response:NSDictionary) -> Void in
             print("")
            
             self.saveItemsAndSuccess(response)
@@ -104,7 +112,7 @@ class ShoppingCartProductsService : BaseService {
             errorBlock?(error)
         }
         
-        
+        }
         /*
         for itemSC in array {
 
