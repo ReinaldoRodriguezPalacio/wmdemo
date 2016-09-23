@@ -25,12 +25,12 @@ class ShoppingCartProductsService : BaseService {
             synchronizeWebShoppingCartFromCoreData({ () -> Void in
                 self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
                     
-                    let itemsInShoppingCart =  resultCall["items"] as! NSArray
+                   // let itemsInShoppingCart =  resultCall["items"] as! NSArray
                     
                     //println("Items in shoppingCart: \(resultCall)")
                     //self.saveItemsAndSuccess( resultCall["responseObject"] as! NSDictionary)
                     
-                    self.saveItemsAndSuccess([],resultCall: resultCall,successBlock: nil)
+                    self.saveItemsAndSuccess([],resultCall: resultCall["responseObject"] as! NSDictionary,successBlock: nil)
 
                     let responseObj = resultCall["responseObject"] as! NSDictionary
                     successBlock!(responseObj["order"] as! NSDictionary)
@@ -151,8 +151,8 @@ class ShoppingCartProductsService : BaseService {
         
         let commerceItems = itemsInShoppingCart["commerceItems"] as! NSArray
         
-        if commerceItems.count > 1 {
-        for indx in 0...(commerceItems.count - 1){
+        if itemsInShoppingCart.count > 1 {
+            for indx in 0 ..< commerceItems.count  {
             let shoppingCartProduct = commerceItems[indx] as! NSDictionary
             
             var carProduct : Cart!
