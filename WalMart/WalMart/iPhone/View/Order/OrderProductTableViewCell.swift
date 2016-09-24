@@ -11,6 +11,7 @@ import Foundation
 class OrderProductTableViewCell : ProductTableViewCell {
     
     var upc : String!
+    var skuid: String!
     var stock : String!
     var desc : String!
     var price : String!
@@ -72,9 +73,10 @@ class OrderProductTableViewCell : ProductTableViewCell {
         quantityString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, priceString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,quantity:NSString, type:ResultObjectType, pesable:Bool, onHandInventory:String,isActive:Bool,isPreorderable:String) {
+    func setValues(skuid:String,upc:String,productImageURL:String,productShortDescription:String,productPrice:String,quantity:NSString, type:ResultObjectType, pesable:Bool, onHandInventory:String,isActive:Bool,isPreorderable:String) {
         
         self.upc = upc
+        self.skuid = skuid
         self.desc = productShortDescription
         self.imageURL = productImageURL
         self.price = productPrice
@@ -153,7 +155,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue , label:"\(self.desc) \(self.upc)")
                 
                 
-                let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type.rawValue , pesable: (self.pesable == true ? "1" : "0"),isPreorderable:isPreorderable)
+                let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.skuid,upc:self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type.rawValue , pesable: (self.pesable == true ? "1" : "0"),isPreorderable:isPreorderable)
                 
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 
@@ -161,7 +163,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
             else {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue , label:"\(self.desc) \(self.upc)")
                 
-                let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String, wishlist:false,type:self.type.rawValue ,pesable:"0",isPreorderable:isPreorderable, category: "")
+                let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.skuid, upc:self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String, wishlist:false,type:self.type.rawValue ,pesable:"0",isPreorderable:isPreorderable, category: "")
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
             }
             

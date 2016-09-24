@@ -20,6 +20,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     var resultObjectType : ResultObjectType! = ResultObjectType.Mg
     var separatorView : UIView?
     var btnShoppingCart : UIButton!
+    var skuId: String!
     var upc : String!
     var desc : String!
     var price : String!
@@ -126,7 +127,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
                     quanty = "50"
                 }
                
-                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty,onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable:self.isPreorderable)
+                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.skuId, upc:self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty,onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable:self.isPreorderable)
                 btnShoppingCart.setImage(UIImage(named: "wishlist_done"), forState:UIControlState.Normal)
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 
@@ -143,11 +144,12 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         }
     }
     
-    func setValues(upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isMoreArts:Bool, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString) {
+    func setValues(skuid:String, upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isMoreArts:Bool, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString) {
         
         imagePresale.hidden = !isPreorderable
         
         self.upc = upc
+        self.skuId = skuid
         self.desc = productShortDescription
         self.imageURL = productImageURL
         self.price = productPrice

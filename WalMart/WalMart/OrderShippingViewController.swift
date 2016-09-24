@@ -517,11 +517,11 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let dictProduct = items[indexPath.row] as! NSDictionary
         let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct)
         let valuesItems = itemShow[0] as NSDictionary
-        
+        //valuesItems["skuid"] as! String
         let pesableValue = valuesItems["pesable"] as! String == "true" ? true : false
         let isActiveValue = valuesItems["isActive"] as! String == "true" ? true : false
         
-        productCell.setValues(valuesItems["upc"] as! String, productImageURL:valuesItems["imageUrl"] as! String,productShortDescription:valuesItems["description"] as! String, productPrice:valuesItems["price"] as! String,quantity:valuesItems["quantity"] as! NSString, type: self.type, pesable:pesableValue, onHandInventory: valuesItems["onHandDefault"] as! String, isActive:isActiveValue, isPreorderable:valuesItems["isPreorderable"] as! String)
+        productCell.setValues("", upc:valuesItems["upc"] as! String, productImageURL:valuesItems["imageUrl"] as! String,productShortDescription:valuesItems["description"] as! String, productPrice:valuesItems["price"] as! String,quantity:valuesItems["quantity"] as! NSString, type: self.type, pesable:pesableValue, onHandInventory: valuesItems["onHandDefault"] as! String, isActive:isActiveValue, isPreorderable:valuesItems["isPreorderable"] as! String)
     }
     
     override func back() {

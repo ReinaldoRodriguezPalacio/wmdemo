@@ -275,6 +275,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         let description = parentProd[0]["description"] as! String
         let price = objProduct["specialPrice"] as? String
+        let skuid = objProduct["id"] as? String
         let upc = objProduct["itemNumber"] as! String
         
         //Falta pesable
@@ -295,7 +296,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         cellRecentProducts.selectionStyle = .None
         cellRecentProducts.delegateProduct = self
-        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
+        cellRecentProducts.setValues(skuid!, upc:upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
 
         let controller = self.view.window!.rootViewController
         cellRecentProducts.viewIpad = controller!.view

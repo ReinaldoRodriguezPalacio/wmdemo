@@ -29,7 +29,8 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 let comments = itemSvc["itemComment"] as! String
-                itemsSvc.append(builParamSvc(upcSend,quantity:quantity,comments:comments) as! [String : AnyObject])
+                //Add skuId
+                itemsSvc.append(builParamSvc("",upc:upcSend,quantity:quantity,comments:comments) as! [String : AnyObject])
             }
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                 

@@ -491,6 +491,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //let listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
             //let prodObj = listObj["products"] as! NSArray
             let shoppingCartProduct = productObje[indexPath.row] //as! NSDictionary
+            let skuId = shoppingCartProduct["catalogRefId"] as? String ?? ""
             let upc = shoppingCartProduct["productId"] as? String ?? ""
             let desc = shoppingCartProduct["productDisplayName"] as! String
             var price : NSString = ""
@@ -601,7 +602,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments)
+            cellProduct.setValues(skuId,upc:upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments)
             
             cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
             

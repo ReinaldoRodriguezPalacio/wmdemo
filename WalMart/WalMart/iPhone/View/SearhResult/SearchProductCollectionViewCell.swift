@@ -18,6 +18,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var addProductToShopingCart : UIButton? = nil
     var productPriceThroughLabel : UILabel!
     var upc : String!
+    var skuId : String!
     var desc : String!
     var price : String!
     var imageURL : String!
@@ -118,7 +119,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String, isMoreArts:Bool, isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
+    func setValues(upc:String,skuId:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String, isMoreArts:Bool, isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         self.positionSelected = position
@@ -152,6 +153,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
         
         self.upc = upc
+        self.skuId = skuId
         self.desc = productShortDescription
         self.imageURL = productImageURL
         self.price = productPrice

@@ -128,10 +128,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct)
                 let valuesItems = itemShow[0] as NSDictionary
                 
+                //valuesItems["skuId"] as! String
                 let pesableValue = valuesItems["pesable"] as! String == "true" ? true : false
                 let isActiveValue = valuesItems["isActive"] as! String == "true" ? true : false
                 
-                cellOrderProduct.setValues(valuesItems["upc"] as! String, productImageURL:valuesItems["imageUrl"] as! String,productShortDescription:valuesItems["description"] as! String, productPrice:valuesItems["price"] as! String,quantity:valuesItems["quantity"] as! NSString, type: self.type, pesable:pesableValue, onHandInventory: valuesItems["onHandDefault"] as! String, isActive:isActiveValue, isPreorderable:valuesItems["isPreorderable"] as! String)
+                cellOrderProduct.setValues("",upc:valuesItems["upc"] as! String, productImageURL:valuesItems["imageUrl"] as! String,productShortDescription:valuesItems["description"] as! String, productPrice:valuesItems["price"] as! String,quantity:valuesItems["quantity"] as! NSString, type: self.type, pesable:pesableValue, onHandInventory: valuesItems["onHandDefault"] as! String, isActive:isActiveValue, isPreorderable:valuesItems["isPreorderable"] as! String)
                 cell = cellOrderProduct
 
         }

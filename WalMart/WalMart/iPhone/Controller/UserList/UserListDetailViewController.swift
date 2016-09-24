@@ -532,6 +532,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         
                         if productItem!["repositoryId"] as! String == idxVal as! String {
                             params["upc"] = productItem!["repositoryId"] as! String
+                            params["skuId"] = "skuidList"
                             params["desc"] = productItem!["description"] as! String
                             params["imgUrl"] = productItem!["smallImageUrl"] as! String
                             
@@ -565,6 +566,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             let productItem = lines as? Product
                             if selectedItems!.containsObject(productItem!.upc){
                                 //let productItem = item as? Product
+                                params["skuId"] = "skuidList"
                                 params["upc"] = productItem!.upc
                                 params["desc"] = productItem!.desc
                                 params["imgUrl"] = productItem!.img
