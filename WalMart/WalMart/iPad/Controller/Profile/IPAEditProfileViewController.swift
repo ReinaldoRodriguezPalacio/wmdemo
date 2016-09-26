@@ -15,7 +15,8 @@ class IPAEditProfileViewController: EditProfileViewController {
         self.navigationController!.setNavigationBarHidden(true, animated: true)
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
-        self.cancelButton!.layer.cornerRadius = 20
+        self.cancelButton!.removeFromSuperview()
+        self.cancelButton = nil
         self.saveButton!.layer.cornerRadius = 20
         // Do any additional setup after loading the view.
     }
@@ -81,8 +82,7 @@ class IPAEditProfileViewController: EditProfileViewController {
         self.content.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - downSpace)
         
         self.layerLine.frame = CGRectMake(0, self.content.frame.maxY, self.view.bounds.width, 1)
-        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 40)
-        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 40)
+        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) - 70 , self.layerLine.frame.maxY + 16, 140, 40)
     }
 
     

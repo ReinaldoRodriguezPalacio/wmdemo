@@ -350,6 +350,19 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             typeProduct = ResultObjectType.Mg
             serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString as String,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
                 
+                let responceObject = result["responseObject"] as! [String: AnyObject]
+                let order = responceObject["order"] as! [String: AnyObject]
+                let commerceItems = order["commerceItems"] as! [[String:AnyObject]]
+                
+                for item in commerceItems {
+                    let productId = item["productId"] as! String
+                    let commerceId = item["commerceItemId"] as! String
+                    //if productId == self.params["upc"] as! String{ //TODO:quitar
+                        self.params["commerceItemId"] = commerceId
+                        //break
+                   // }
+                }
+                
                 self.finishCall = true
                 if self.timmer == nil {
                     self.showDoneIcon()
@@ -716,7 +729,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                 //Event
                                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE.rawValue, label:"")
 
-                                
                                 self.titleLabel.hidden = true
                                 if  self.comments != "" {
                                 self.commentTextView!.field?.text = self.comments

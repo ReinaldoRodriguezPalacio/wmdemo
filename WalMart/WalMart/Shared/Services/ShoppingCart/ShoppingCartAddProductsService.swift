@@ -104,11 +104,11 @@ class ShoppingCartAddProductsService : BaseService {
                     if self.updateShoppingCart() {
                         UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
-                            successBlock!([:])
+                            successBlock!(resultCall)
                         })
                     }else{
                         
-                        successBlock!([:])
+                        successBlock!(resultCall)
                     }
                     }) { (error:NSError) -> Void in
                         errorBlock!(error)

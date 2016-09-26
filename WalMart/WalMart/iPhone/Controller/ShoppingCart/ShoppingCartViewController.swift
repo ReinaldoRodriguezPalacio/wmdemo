@@ -1019,7 +1019,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
             if UserCurrentSession.sharedInstance().itemsMG != nil {
                 //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-                let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+                let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["commerceItems"] as! NSArray as [AnyObject]
                 self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject], isShoppingCart: true) as! [AnyObject]
                 self.arrayItems()
             }
