@@ -470,7 +470,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func addActionButtons() {
         if goToShoppingCart != nil {
-            if typeProduct == ResultObjectType.Groceries && self.showBtnAddNote {
+            if self.showBtnAddNote {
                 btnAddNote = UIButton(frame: CGRectMake(0, 248, self.view.frame.width, 20))
                 btnAddNote.setImage(UIImage(named: "notes_alert"), forState: UIControlState.Normal)
                 self.btnAddNote!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
