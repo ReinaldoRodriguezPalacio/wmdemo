@@ -352,7 +352,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         if listObj.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
-            crossService.callService(upcValue, successBlock: { (result:NSArray?) -> Void in
+            crossService.callService(requestParams: ["skuId":upcValue], successBlock: { (result:NSArray?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false

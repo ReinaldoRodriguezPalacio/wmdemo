@@ -82,8 +82,8 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             let selectedSection = families[indexPath.section]
             let linesArr = selectedSection["fineContent"] as! NSArray
             let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
-            let selectedItem = itemLine["fineLineId"] as! String
-            cellLine.setTitle(itemLine["fineLineName"] as! String)
+            let selectedItem = itemLine["id"] as! String
+            cellLine.setTitle(itemLine["displayName"] as! String)
             cellLine.showSeparator =  linesArr.count == indexPath.row 
             cell = cellLine
             
@@ -136,13 +136,13 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 }
              
             }
-            controller.titleHeader = itemLine["fineLineName"] as? String
+            controller.titleHeader = itemLine["displayName"] as? String
             controller.idDepartment = departmentId
             controller.idFamily = selectedSection["id"] as? String
-            controller.idLine = itemLine["fineLineId"] as? String
+            controller.idLine = itemLine["id"] as? String
 
             self.navigationController!.pushViewController(controller, animated: true)
-            let label = itemLine["fineLineName"] as! String
+            let label = itemLine["displayName"] as! String
             let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
             BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
         }

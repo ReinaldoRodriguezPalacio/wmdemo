@@ -266,7 +266,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 if let sku = recommendProduct["sku"] as? NSDictionary {
                     if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                         if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                            desc = item["longDescription"] as! String
+                            desc = item["longDescription"] as? String ?? (item["description"] as? String)!
                             imageUrl = item["largeImageUrl"] as! String
                         }
                     }
@@ -335,7 +335,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                     if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
                         upc = item["repositoryId"] as? String ?? item["id"] as! String
-                        desc = item["longDescription"] as! String
+                        desc = item["longDescription"] as? String ?? item["description"] as! String
                     }
                 }
             }

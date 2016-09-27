@@ -427,8 +427,8 @@ class BaseService : NSObject {
                                     let lineArray : AnyObject = itemFamily["fineContent"] as AnyObject!
                                     let namefamily = itemFamily["familyName"] as! String
                                     for itemLine in lineArray as! [AnyObject] {
-                                        let idLine =  itemLine["fineLineId"] as! String
-                                        let nameLine =  itemLine["fineLineName"] as! String
+                                        let idLine =  itemLine["id"] as! String
+                                        let nameLine =  itemLine["displayName"] as! String
                                         let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:bussines, idLine:idLine)
                                         if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
                                             var exist = false

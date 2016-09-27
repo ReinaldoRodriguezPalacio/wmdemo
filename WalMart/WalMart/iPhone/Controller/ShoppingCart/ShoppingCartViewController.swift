@@ -842,7 +842,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             selectQuantity?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
-                if cell.onHandInventory.integerValue >= Int(quantity) {
+                if cell.onHandInventory.integerValue <= Int(quantity) {
                     self.selectQuantity?.closeAction()
                     
                     if cell.typeProd == 0 {
@@ -939,7 +939,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
         let pesable = cell.pesable ? "1" : "0"
-        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"commerceItemId":cell.commerceIds]
+        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"commerceItemId":cell.commerceIds,"skuId":cell.skuId]
     }
     
     //MARK: SWTableViewCellDelegate
@@ -1167,7 +1167,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if price.doubleValue < priceLasiItem {
                 continue
             }
-            if let u = shoppingCartProduct["productId"] as? NSString  {
+            if let u = shoppingCartProduct["catalogRefId"] as? NSString  {
                 upc = u as String
             }
           
@@ -1525,9 +1525,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      */
     func loadCrossSell() {
          if self.itemsInCartOrderSection.count >  0 {
-            let upcValue = getExpensive()
+            let uskuIdValue = getExpensive()
             let crossService = CrossSellingProductService()
-            crossService.callService(upcValue, successBlock: { (result:NSArray?) -> Void in
+            crossService.callService(requestParams: ["skuId":uskuIdValue], successBlock: { (result:NSArray?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false

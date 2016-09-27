@@ -20,6 +20,10 @@ class ListHelpView: UIView,UIGestureRecognizerDelegate {
     var onClose: ((Void) -> Void)?
     
     var listHelpContextType: ListHelpContextType?
+    
+    var descriptionHelp :  UILabel?
+    var arrowImage : UIImageView?
+    var icon : UIImageView?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -64,6 +68,19 @@ class ListHelpView: UIView,UIGestureRecognizerDelegate {
     
     override func layoutSubviews() {
         
+        if descriptionHelp != nil {
+            descriptionHelp?.frame =   CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16,
+                                                  IS_IPAD ? self.frame.maxY - 30  : (self.frame.height -  (TabBarHidden.isTabBarHidden ? 145 : 190)),
+                                                  self.frame.width - 32,
+                                                  28)
+            
+        if IS_IPHONE_4_OR_LESS || IS_IPOD {
+                descriptionHelp!.frame = CGRectMake(descriptionHelp!.frame.origin.x,descriptionHelp!.frame.maxY + 37,descriptionHelp!.frame.width ,descriptionHelp!.frame.height)
+        }
+            arrowImage!.frame = CGRectMake(IS_IPAD ? self.bounds.midX + 195 : 65, descriptionHelp!.frame.maxY + 5, 66, 58)
+            icon!.frame = CGRectMake(arrowImage!.frame.maxX - 15, arrowImage!.frame.maxY , 34.0, 34.0)
+        }
+
     }
     /**
      Help view when create new list ,the first time
@@ -99,30 +116,28 @@ class ListHelpView: UIView,UIGestureRecognizerDelegate {
     func helpReminder(){
         
         
-        let descriptionHelp =  UILabel(frame: CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16,
+         descriptionHelp =  UILabel(frame: CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16,
             IS_IPAD ? self.frame.maxY - 30  : (self.frame.height -  (TabBarHidden.isTabBarHidden ? 145 : 190)),
             self.frame.width - 32,
             28))
-        if IS_IPHONE_4_OR_LESS || IS_IPOD {
-            descriptionHelp.frame = CGRectMake(descriptionHelp.frame.origin.x,descriptionHelp.frame.maxY + 37,descriptionHelp.frame.width ,descriptionHelp.frame.height)
-        }
+    
         
-        descriptionHelp.backgroundColor = UIColor.clearColor()
-        descriptionHelp.text = NSLocalizedString("list.message.create.reminder", comment: "")
-        descriptionHelp.numberOfLines =  2
-        descriptionHelp.textAlignment = .Center
-        descriptionHelp.font = WMFont.fontMyriadProRegularOfSize(16)
-        descriptionHelp.textColor =  UIColor.whiteColor()
-        self.addSubview(descriptionHelp)
+        descriptionHelp!.backgroundColor = UIColor.clearColor()
+        descriptionHelp!.text = NSLocalizedString("list.message.create.reminder", comment: "")
+        descriptionHelp!.numberOfLines =  2
+        descriptionHelp!.textAlignment = .Center
+        descriptionHelp!.font = WMFont.fontMyriadProRegularOfSize(16)
+        descriptionHelp!.textColor =  UIColor.whiteColor()
+        self.addSubview(descriptionHelp!)
         
-        let arrowImage = UIImageView(frame: CGRectMake(IS_IPAD ? self.bounds.midX + 195 : 65, descriptionHelp.frame.maxY + 5, 66, 58))
-        arrowImage.image = UIImage(named:"help3")
-        arrowImage.contentMode = .Center
-        self.addSubview(arrowImage)
+        arrowImage = UIImageView(frame: CGRectMake(IS_IPAD ? self.bounds.midX + 195 : 65, descriptionHelp!.frame.maxY + 5, 66, 58))
+        arrowImage!.image = UIImage(named:"help3")
+        arrowImage!.contentMode = .Center
+        self.addSubview(arrowImage!)
         
-        let icon = UIImageView(image: UIImage(named: "reminder"))
-        icon.frame = CGRectMake(arrowImage.frame.maxX - 15, arrowImage.frame.maxY , 34.0, 34.0)
-        self.addSubview(icon)
+        icon = UIImageView(image: UIImage(named: "reminder"))
+        icon!.frame = CGRectMake(arrowImage!.frame.maxX - 15, arrowImage!.frame.maxY , 34.0, 34.0)
+        self.addSubview(icon!)
     
         
     }

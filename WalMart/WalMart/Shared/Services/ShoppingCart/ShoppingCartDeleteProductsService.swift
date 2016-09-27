@@ -54,9 +54,9 @@ class ShoppingCartDeleteProductsService : BaseService {
         if parameter.count > 0 {
             for paramItem in parameter {
                 let upc = paramItem as! NSString
-                var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
+                var predicate = NSPredicate(format: "product.commerceItemId == %@ AND user == nil ",upc)
                 if UserCurrentSession.hasLoggedUser() {
-                    predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
+                    predicate  = NSPredicate(format: "product.commerceItemId == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
                 }
                 let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                 

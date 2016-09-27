@@ -136,13 +136,13 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         let famArray : AnyObject = item["familyContent"] as AnyObject!
         let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
         let famSelected = itemsFam[0]
-        let idFamDefault = famSelected["id"] as! String
+        let idFamDefault = famSelected["familyId"] as! String
         
         let lineArray : AnyObject = famSelected["fineContent"] as AnyObject!
         let itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
         let lineSelected = itemsLine[0]
-        let idLineDefault = lineSelected["fineLineId"] as! String
-        let nameLineDefault = lineSelected["fineLineName"] as! String
+        let idLineDefault = lineSelected["id"] as! String
+        let nameLineDefault = lineSelected["displayName"] as! String
         
         CategoryShouldShowFamily.shouldshowfamily = true
         controllerAnimateView = IPACategoriesResultViewController()
