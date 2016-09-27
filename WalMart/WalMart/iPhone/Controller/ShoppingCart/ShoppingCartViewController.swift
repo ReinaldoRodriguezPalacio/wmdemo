@@ -317,9 +317,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.removeLoadingView()
         self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
         self.editButton.hidden = self.itemsInShoppingCart.count == 0
-        
-        
-
     }
     
     /**
@@ -1032,9 +1029,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             self.loadShoppingCartService()
             
-            self.updateTotalItemsRow()
-            self.viewShoppingCart.reloadData()
-            
+            //self.updateTotalItemsRow()
+            //self.viewShoppingCart.reloadData()
             //self.viewShoppingCart.endUpdates()
             
             if self.itemsInShoppingCart.count == 0 {

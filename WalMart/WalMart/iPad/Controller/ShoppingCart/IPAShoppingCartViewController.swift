@@ -271,29 +271,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             self.updateTotalItemsRow()
         }
     }
-    
-    override func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
-        let upc = itemWishlist["upc"] as! String
-        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        //let paramUpc = deleteShoppingCartService.builParams(upc)
-        //deleteShoppingCartService.callService(paramUpc, successBlock: { (result:NSDictionary) -> Void in
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
-            self.itemsInShoppingCart.removeAtIndex(indexPath.row)
-            
-            if self.itemsInShoppingCart.count > 0 {
-                self.viewShoppingCart.reloadData()
-                self.updateTotalItemsRow()
-            } else {
-                 self.onClose?(isClose: true)
-                self.navigationController?.popViewControllerAnimated(true)
-            }
-            
-            }, errorBlock: { (error:NSError) -> Void in
-                print("delete pressed Errro \(error)")
-        })
-    }
-    
 
     override func showloginshop() {
         self.canceledAction = false

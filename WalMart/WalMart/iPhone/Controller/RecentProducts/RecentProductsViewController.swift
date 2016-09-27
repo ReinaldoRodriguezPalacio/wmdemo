@@ -114,7 +114,14 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     class func adjustDictionary(resultDictionary: AnyObject, isShoppingCart:Bool) -> AnyObject {
         var recentLineItems : [AnyObject] = []
         
-        let productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [AnyObject] : resultDictionary  as! [[String:AnyObject]] //["responseArray"] as! [AnyObject]
+        var productItemsOriginal:[AnyObject] = []
+        
+        if let resultArray = resultDictionary as? [AnyObject] {
+            productItemsOriginal = resultArray
+        }else{
+           productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [AnyObject] : resultDictionary  as! [[String:AnyObject]] //["responseArray"] as! [AnyObject]
+        }
+        
         var objectsFinal : [NSDictionary] = []
         var indi = 0
     
