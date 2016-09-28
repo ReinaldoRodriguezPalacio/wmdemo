@@ -67,14 +67,14 @@ class ProductDetailMSITableViewCell : UITableViewCell {
         self.deliberyLabel.font =  WMFont.fontMyriadProRegularOfSize(14)
         self.deliberyLabel.numberOfLines = 1
         self.deliberyLabel.textAlignment = .Left
-        self.deliberyLabel.textColor = WMColor.gray_reg
+        self.deliberyLabel.textColor = WMColor.reg_gray
         
         self.safeSellLabel = UILabel()
         self.safeSellLabel.text = "en Walmart.com.mx"
         self.safeSellLabel.font =  WMFont.fontMyriadProRegularOfSize(14)
         self.safeSellLabel.numberOfLines = 1
         self.safeSellLabel.textAlignment = .Left
-        self.safeSellLabel.textColor = WMColor.gray_reg
+        self.safeSellLabel.textColor = WMColor.reg_gray
         
         
         self.addSubview(self.titleMSILabel)
@@ -109,12 +109,12 @@ class ProductDetailMSITableViewCell : UITableViewCell {
             let lblPay = UILabel(frame: CGRectMake(40, currntY, 55, 14))
             lblPay.textAlignment = NSTextAlignment.Left
             lblPay.font = WMFont.fontMyriadProRegularOfSize(14)
-            lblPay.textColor = WMColor.gray_reg
+            lblPay.textColor = WMColor.reg_gray
             lblPay.text = "\(msiVal) \(lblPagos)"
             
             let lblDesc = CurrencyCustomLabel(frame: CGRectMake(lblPay.frame.maxX + 4, currntY, 150, 14))
             lblDesc.textAlignment = NSTextAlignment.Left
-            lblDesc.updateMount("\(lblOf) \(formattedStr)", font:  WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.gray_reg, interLine: false)
+            lblDesc.updateMount("\(lblOf) \(formattedStr)", font:  WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.reg_gray, interLine: false)
             
             self.addSubview(lblPay)
             self.addSubview(lblDesc)

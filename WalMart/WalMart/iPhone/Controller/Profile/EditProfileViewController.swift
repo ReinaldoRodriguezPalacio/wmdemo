@@ -390,7 +390,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.legalInformationLabel = UILabel()
         self.legalInformationLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.legalInformationLabel!.textColor = WMColor.gray_reg
+        self.legalInformationLabel!.textColor = WMColor.reg_gray
         self.legalInformationLabel!.text = NSLocalizedString("profile.legalinfo.label", comment: "")
         self.content?.addSubview(self.legalInformationLabel!)
         

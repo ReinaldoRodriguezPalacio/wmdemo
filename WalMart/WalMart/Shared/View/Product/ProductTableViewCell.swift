@@ -40,7 +40,7 @@ class ProductTableViewCell : SWTableViewCell {
         productShortDescriptionLabel = UILabel()
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         productShortDescriptionLabel!.numberOfLines = 2
-        productShortDescriptionLabel!.textColor =  WMColor.gray_reg
+        productShortDescriptionLabel!.textColor =  WMColor.reg_gray
         productShortDescriptionLabel!.textAlignment = .Left
         
         

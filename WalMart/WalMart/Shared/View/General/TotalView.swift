@@ -43,28 +43,28 @@ class TotalView: UIView {
         
         articlesTitle = UILabel()
         articlesTitle.text = NSLocalizedString("articulos",comment:"")
-        articlesTitle.textColor = WMColor.gray_reg
+        articlesTitle.textColor = WMColor.reg_gray
         articlesTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         articlesTitle.textAlignment = .Left
         articlesTitle.frame = CGRectMake(16, 16, 101, 14)
         
         subtotalTitle = UILabel()
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
-        subtotalTitle.textColor = WMColor.gray_reg
+        subtotalTitle.textColor = WMColor.reg_gray
         subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         subtotalTitle.textAlignment = .Right
         subtotalTitle.frame = CGRectMake(146, 16, 101, 14)
         
         shippingCostTitle = UILabel()
         shippingCostTitle.text = NSLocalizedString("Costo envío",comment:"")
-        shippingCostTitle.textColor = WMColor.gray_reg
+        shippingCostTitle.textColor = WMColor.reg_gray
         shippingCostTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         shippingCostTitle.textAlignment = .Right
         shippingCostTitle.frame = CGRectMake(146, subtotalTitle.frame.maxY + 6, 101, 14)
         
         ivaTitle = UILabel()
         ivaTitle.text = NSLocalizedString("Impuestos",comment:"")
-        ivaTitle.textColor = WMColor.gray_reg
+        ivaTitle.textColor = WMColor.reg_gray
         ivaTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
         ivaTitle.textAlignment = .Right
         ivaTitle.frame = CGRectMake(146, shippingCostTitle.frame.maxY + 6, 101, 14)
@@ -127,9 +127,9 @@ class TotalView: UIView {
         let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost)
         let formatedIVA = CurrencyCustomLabel.formatString(iva)
 
-        valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
-        valueShippingCost.updateMount(formatedShippingCost, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
-        valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray_reg, interLine: false)
+        valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
+        valueShippingCost.updateMount(formatedShippingCost, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
+        valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         
         let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
         valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)

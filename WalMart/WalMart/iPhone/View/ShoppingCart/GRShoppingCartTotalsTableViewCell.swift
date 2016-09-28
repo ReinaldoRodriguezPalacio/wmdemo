@@ -19,7 +19,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         
         numProducts = UILabel(frame: CGRectMake(16, 25, 75, 14))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        numProducts.textColor = WMColor.gray_reg
+        numProducts.textColor = WMColor.reg_gray
         numProducts.numberOfLines = 2
         self.addSubview(numProducts)
         
@@ -66,7 +66,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         //super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
         super.setValuesAll(articles: numProds, subtotal: subtotal, shippingCost: "", iva: iva, saving: totalSaving, total: total)
         let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-        self.valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray_reg, interLine: false)
+        self.valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.reg_gray, interLine: false)
         self.firstTotal = false
         self.subtotalY = savingTitle.hidden ? 0.0 : 18.0
         self.subtotalTitle.hidden = savingTitle.hidden

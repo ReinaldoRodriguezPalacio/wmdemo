@@ -220,7 +220,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         self.addSubview(viewAddress!)
         
         self.preferedLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.preferedLabel!.textColor = WMColor.gray_reg
+        self.preferedLabel!.textColor = WMColor.reg_gray
         self.preferedLabel!.textAlignment = .Right
         
         self.telephone = FormFieldView()
@@ -650,9 +650,9 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     func validateShortName()-> Bool {
         let id = self.idAddress == nil ? "-1" : self.idAddress!
         for item in  self.allAddress as! [NSDictionary]{
-            let idItem = item["addressId"] as! NSString
+            let idItem = item["addressId"] as? NSString
             let name = item["name"] as! NSString
-            if id != idItem && name.uppercaseString ==  shortNameField!.text!.uppercaseString {
+            if idItem != nil && id != idItem! && name.uppercaseString ==  shortNameField!.text!.uppercaseString {
                 self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true
             }

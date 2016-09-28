@@ -87,7 +87,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         self.resultLabel = UILabel()
         self.resultLabel!.backgroundColor = UIColor.clearColor()
-        self.resultLabel!.textColor = WMColor.gray_reg
+        self.resultLabel!.textColor = WMColor.reg_gray
         self.resultLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.resultLabel?.text = NSLocalizedString("product.searh.shown.recent",comment:"")
         
@@ -301,7 +301,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36.0))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36.0))
-        titleView.textColor = WMColor.gray_reg
+        titleView.textColor = WMColor.reg_gray
         titleView.font = WMFont.fontMyriadProRegularOfSize(11)
         titleView.backgroundColor = UIColor.clearColor()
         //        if section == 0 {

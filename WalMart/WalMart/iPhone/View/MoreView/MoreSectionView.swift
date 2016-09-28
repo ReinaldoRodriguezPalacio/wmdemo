@@ -16,7 +16,7 @@ class MoreSectionView : UIView {
         
         viewReturn = UILabel()
         viewReturn.font = WMFont.fontMyriadProRegularOfSize(11)
-        viewReturn.textColor = WMColor.gray_reg
+        viewReturn.textColor = WMColor.reg_gray
         viewReturn.backgroundColor = WMColor.light_light_gray
         viewReturn.text = title
         self.addSubview(viewReturn)

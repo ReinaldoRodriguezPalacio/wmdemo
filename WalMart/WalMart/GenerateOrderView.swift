@@ -92,19 +92,19 @@ protocol GenerateOrderViewDelegate {
         //right
         let lblTitleSubtotal = labelTitle(CGRectMake(marginViews, lblNumberItems.frame.maxY + 16, self.viewContent.frame.width - (32 + 75) , 14))
         lblTitleSubtotal.text = NSLocalizedString("gr.generate.subtotal", comment: "")
-        lblTitleSubtotal.textColor = WMColor.gray_reg
+        lblTitleSubtotal.textColor = WMColor.reg_gray
         lblTitleSubtotal.font = WMFont.fontMyriadProRegularOfSize(14)
         
         
         let lblTitledeliveryAmount = labelTitle(CGRectMake(marginViews, lblTitleSubtotal.frame.maxY + 8,lblTitleSubtotal.frame.width,15))
         lblTitledeliveryAmount.text = NSLocalizedString("gr.generate.deliveryAmount", comment: "")
-        lblTitledeliveryAmount.textColor = WMColor.gray_reg
+        lblTitledeliveryAmount.textColor = WMColor.reg_gray
         lblTitledeliveryAmount.font = WMFont.fontMyriadProRegularOfSize(14)
         lblTitledeliveryAmount.tag =  100
         
         let lbldiscounts = labelTitle(CGRectMake(marginViews, lblTitledeliveryAmount.frame.maxY + 8, lblTitleSubtotal.frame.width, 14))
         lbldiscounts.text = NSLocalizedString("gr.generate.discount", comment: "")
-        lbldiscounts.textColor = WMColor.gray_reg
+        lbldiscounts.textColor = WMColor.reg_gray
         lbldiscounts.font = WMFont.fontMyriadProRegularOfSize(14)
         
         
@@ -121,7 +121,7 @@ protocol GenerateOrderViewDelegate {
         
         lblValueAddress = labelValue(CGRectMake(marginViews, lbldeliveryAddress.frame.maxY, self.viewContent.frame.width - 32, 28))
         lblValueAddress.numberOfLines = 2
-        lblValueAddress.textColor = WMColor.gray_reg
+        lblValueAddress.textColor = WMColor.reg_gray
 
 
         let lblTitleDeliveryDate = labelTitleBlue(CGRectMake(marginViews, lblValueAddress.frame.maxY + 6, self.viewContent.frame.width - 32, 10))
@@ -130,7 +130,7 @@ protocol GenerateOrderViewDelegate {
         lbldeliveryAddress.font = WMFont.fontMyriadProRegularOfSize(10)
         
         lblValueDeliveryDate = labelValue(CGRectMake(marginViews, lblTitleDeliveryDate.frame.maxY, self.viewContent.frame.width - 32, 14))
-        lblValueDeliveryDate.textColor = WMColor.gray_reg
+        lblValueDeliveryDate.textColor = WMColor.reg_gray
         lblValueDeliveryDate.numberOfLines = 2
         
         
@@ -140,7 +140,7 @@ protocol GenerateOrderViewDelegate {
         lblTitleDeliveryHour.font = WMFont.fontMyriadProRegularOfSize(10)
         
         lblValueDeliveryHour = labelValue(CGRectMake(marginViews, lblTitleDeliveryHour.frame.maxY, self.viewContent.frame.width - 32, lblValueDeliveryDate.frame.height))
-        lblValueDeliveryHour.textColor = WMColor.gray_reg
+        lblValueDeliveryHour.textColor = WMColor.reg_gray
         lblValueDeliveryHour.numberOfLines = 2
 
         
@@ -149,7 +149,7 @@ protocol GenerateOrderViewDelegate {
         lblTitlePaymentType.text = NSLocalizedString("gr.generate.paymenttype", comment: "")
         
         lblValuePaymentType = labelValue(CGRectMake(marginViews, lblTitlePaymentType.frame.maxY, self.viewContent.frame.width - 32, lblValueDeliveryDate.frame.height))
-        lblValuePaymentType.textColor = WMColor.gray_reg
+        lblValuePaymentType.textColor = WMColor.reg_gray
 
         
 
@@ -157,7 +157,7 @@ protocol GenerateOrderViewDelegate {
         lblTitleCommens.text = NSLocalizedString("checkout.title.confirm", comment: "")
         
         lblValueCommenst = labelValue(CGRectMake(marginViews, lblTitleCommens.frame.maxY, self.viewContent.frame.width - 32, 28))
-        lblValueCommenst.textColor = WMColor.gray_reg
+        lblValueCommenst.textColor = WMColor.reg_gray
         lblValueCommenst.numberOfLines = 2
         
         //

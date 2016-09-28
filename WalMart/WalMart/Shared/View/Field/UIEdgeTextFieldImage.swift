@@ -59,7 +59,7 @@ class UIEdgeTextFieldImage : UITextField {
     override func becomeFirstResponder() -> Bool {
         if self.secureTextEntry {
             self.font = UIFont.systemFontOfSize(14)
-              self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+              self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.empty_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
         }
         imageIcon?.image = imageSelected
         return super.becomeFirstResponder()
@@ -72,7 +72,7 @@ class UIEdgeTextFieldImage : UITextField {
         }
         if self.secureTextEntry {
             self.font = UIFont.systemFontOfSize(14)
-            self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+            self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.empty_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
             
         }
 
@@ -86,7 +86,7 @@ class UIEdgeTextFieldImage : UITextField {
     
     func setPlaceholderEdge(placeholder : String){
         imageIcon?.image = imageNotSelected
-        self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+        self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.empty_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
     func validate() -> String {

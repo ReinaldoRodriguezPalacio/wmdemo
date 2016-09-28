@@ -105,7 +105,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
                 
                 let promoLabel = UILabel()
                 promoLabel.text = promotion["text"] as? String
-                promoLabel.textColor = WMColor.gray_reg
+                promoLabel.textColor = WMColor.reg_gray
                 promoLabel.textAlignment = .Left
                 promoLabel.font = WMFont.fontMyriadProRegularOfSize(9)
                 promoLabel.frame = CGRectMake(promoTag.frame.maxX + 4, promoTag.frame.minY + 3, 60, 9)

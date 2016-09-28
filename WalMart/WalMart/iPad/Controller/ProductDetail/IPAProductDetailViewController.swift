@@ -326,7 +326,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if self.saving.doubleValue > 0{
                 let cellListPrice = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
                 let formatedValue = "\(CurrencyCustomLabel.formatString(self.listPrice))"
-                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.gray_reg, interLine: true)
+                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.reg_gray, interLine: true)
                 cell = cellListPrice
             }else{
                 let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)

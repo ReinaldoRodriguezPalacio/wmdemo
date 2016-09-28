@@ -53,7 +53,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         //self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
         //self.productPriceThroughLabel!.textColor = WMColor.green
         
-        self.productShortDescriptionLabel!.textColor = WMColor.gray_reg
+        self.productShortDescriptionLabel!.textColor = WMColor.reg_gray
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2

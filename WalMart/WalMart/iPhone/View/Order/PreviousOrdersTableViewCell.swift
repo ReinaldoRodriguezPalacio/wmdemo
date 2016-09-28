@@ -33,21 +33,21 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         
         trackingNumberLabel = UILabel(frame: CGRectMake(16, 0, (IS_IPAD ? 182 : 64), 46))
         trackingNumberLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        trackingNumberLabel.textColor = WMColor.gray_reg
+        trackingNumberLabel.textColor = WMColor.reg_gray
         
         dateLabel = UILabel(frame: CGRectMake((IS_IPAD ? 214 : 91), 0, (IS_IPAD ? 182 : 64), 46))
         dateLabel.font = WMFont.fontMyriadProRegularOfSize(12)
-        dateLabel.textColor = WMColor.gray_reg
+        dateLabel.textColor = WMColor.reg_gray
         
         statusLabel = UILabel(frame: CGRectMake((IS_IPAD ? 412 : 171), 0, (IS_IPAD ? 193 : 100), 46))
         statusLabel.font = WMFont.fontMyriadProRegularOfSize(12)
-        statusLabel.textColor = WMColor.gray_reg
+        statusLabel.textColor = WMColor.reg_gray
         statusLabel.numberOfLines = 2
         statusLabel.textAlignment = NSTextAlignment.Left
         
         countItems = UILabel(frame: CGRectMake((IS_IPAD ? 621 : self.bounds.width - 32), 0, (IS_IPAD ? 46 : 18), 46))
         countItems.font = WMFont.fontMyriadProRegularOfSize(12)
-        countItems.textColor = WMColor.gray_reg
+        countItems.textColor = WMColor.reg_gray
         countItems.textAlignment = NSTextAlignment.Center
         
         viewSeparator = UIView()

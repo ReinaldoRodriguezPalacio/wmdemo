@@ -72,7 +72,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         invoiceSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         invoiceSelect!.setTitle(NSLocalizedString("invoice.button.invoice",comment:""), forState: UIControlState.Normal)
         invoiceSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        invoiceSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
+        invoiceSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
         invoiceSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
         invoiceSelect!.selected = true
         self.content.addSubview(self.invoiceSelect!)
@@ -84,7 +84,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         consultSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         consultSelect!.setTitle(NSLocalizedString("invoice.button.consult",comment:""), forState: UIControlState.Normal)
         consultSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
-        consultSelect!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
+        consultSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
         self.content.addSubview(self.consultSelect!)
         
         self.sectionUserInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.yourdata",comment:""), frame: CGRectMake(margin, self.invoiceSelect!.frame.maxY + 5.0, width, lheight))

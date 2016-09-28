@@ -34,7 +34,7 @@ class LoadingProductCollectionViewCell: UICollectionViewCell {
 //        self.contentView.addSubview(self.loading!)
 
         self.title = UILabel()
-        self.title!.textColor = WMColor.gray_reg
+        self.title!.textColor = WMColor.reg_gray
         self.title!.textAlignment = .Center
         self.title!.backgroundColor = UIColor.clearColor()
         self.title!.font = WMFont.fontMyriadProRegularOfSize(16)

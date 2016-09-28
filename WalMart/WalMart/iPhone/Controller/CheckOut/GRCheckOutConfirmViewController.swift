@@ -55,7 +55,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         self.titleLabel?.text = NSLocalizedString("checkout.confirm.title", comment: "")
         
         self.stepLabel = UILabel()
-        self.stepLabel!.textColor = WMColor.gray_reg
+        self.stepLabel!.textColor = WMColor.reg_gray
         self.stepLabel!.text = "4 de 4"
         self.stepLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel!)
@@ -99,12 +99,12 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
         self.viewFooter?.addSubview(confirmButton)
         
         
-         self.items = self.paramsToOrder!["countItems"] as! String
-         self.subtotal = self.paramsToOrder!["subtotal"] as! String
-         self.shippingCost = self.paramsToOrder!["shippingCost"] as! String
-         self.iva = self.paramsToOrder!["iva"] as! String
-         self.saving = self.paramsToOrder!["discount"] as! String
-         self.total =  self.paramsToOrder!["total"] as! String
+//         self.items = self.paramsToOrder!["countItems"] as! String
+//         self.subtotal = self.paramsToOrder!["subtotal"] as! String
+//         self.shippingCost = self.paramsToOrder!["shippingCost"] as! String
+//         self.iva = self.paramsToOrder!["iva"] as! String
+//         self.saving = self.paramsToOrder!["discount"] as! String
+//         self.total =  self.paramsToOrder!["total"] as! String
     }
     
 

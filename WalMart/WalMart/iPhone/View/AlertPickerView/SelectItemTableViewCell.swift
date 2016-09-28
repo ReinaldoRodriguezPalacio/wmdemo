@@ -35,7 +35,7 @@ class SelectItemTableViewCell : UITableViewCell {
         self.addSubview(checkSelected)
         
         self.textLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.textLabel?.textColor = WMColor.gray_reg
+        self.textLabel?.textColor = WMColor.reg_gray
         self.textLabel?.numberOfLines = 0
         
         
@@ -85,7 +85,7 @@ class SelectItemTableViewCell : UITableViewCell {
             self.textLabel?.textColor = WMColor.light_blue
         } else {
             self.checkSelected.image = UIImage(named: "checkTermOff")
-            self.textLabel?.textColor = WMColor.gray_reg
+            self.textLabel?.textColor = WMColor.reg_gray
         }
         super.setSelected(selected,animated:animated)
         

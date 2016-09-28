@@ -183,12 +183,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? AddressViewCell
         var prefered = false
-        var isViewLine = true
         var item : NSDictionary
         var isFisicalAddress = false
         if indexPath.section == 0{
             item = self.arrayAddressShipping![indexPath.item] as! NSDictionary
-            isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
         }else{
             item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
             isFisicalAddress = true
@@ -214,7 +212,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             addressId = addId
         }
         
-        cell!.setValues(addressName, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.gray_reg, padding: 12,align:NSTextAlignment.Left, isViewLine:isViewLine, isPrefered:prefered, addressID: addressId, isFisicalAddress: isFisicalAddress)
+        cell!.setValues(addressName, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.reg_gray, padding: 12,align:NSTextAlignment.Left, isPrefered:prefered, addressID: addressId, isFisicalAddress: isFisicalAddress)
         
         cell!.delegateAddres = self
         cell!.delegate = self

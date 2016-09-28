@@ -64,7 +64,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(self.content)
         
         self.stepLabel = UILabel()
-        self.stepLabel.textColor = WMColor.gray_reg
+        self.stepLabel.textColor = WMColor.reg_gray
         self.stepLabel.text = "1 de 4"
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)

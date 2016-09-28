@@ -71,17 +71,17 @@ class StoreView: UIView {
         self.addressLabel = UILabel(frame: CGRectMake(sep, self.distanceLabel!.frame.maxY + sep, width, 45))
         self.addressLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addressLabel!.numberOfLines = 0
-        self.addressLabel!.textColor = WMColor.gray_reg
+        self.addressLabel!.textColor = WMColor.reg_gray
         self.addSubview(self.addressLabel!)
         
         self.hoursOpenLabel = UILabel(frame: CGRectMake(0.0, 0.0, width, 15.0))
         self.hoursOpenLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.hoursOpenLabel!.textColor = WMColor.gray_reg
+        self.hoursOpenLabel!.textColor = WMColor.reg_gray
         self.addSubview(self.hoursOpenLabel!)
         
         self.phoneLabel = UILabel(frame: CGRectMake(0.0, 0.0, width, 15.0))
         self.phoneLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.phoneLabel!.textColor = WMColor.gray_reg
+        self.phoneLabel!.textColor = WMColor.reg_gray
         self.addSubview(self.phoneLabel!)
         
         self.footerView = UIView()

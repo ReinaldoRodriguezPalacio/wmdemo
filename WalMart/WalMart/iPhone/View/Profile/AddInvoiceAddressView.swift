@@ -91,8 +91,8 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             addressFiscalPersonButton!.addTarget(self, action: #selector(AddInvoiceAddressView.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), forState: UIControlState.Normal)
             addressFiscalPersonButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalPersonButton!.titleLabel?.textColor = WMColor.gray_reg
-            addressFiscalPersonButton!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
+            addressFiscalPersonButton!.titleLabel?.textColor = WMColor.reg_gray
+            addressFiscalPersonButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
             addressFiscalPersonButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             addressFiscalPersonButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
@@ -102,8 +102,8 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             addressFiscalMoralButton!.addTarget(self, action: #selector(AddInvoiceAddressView.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), forState: UIControlState.Normal)
             addressFiscalMoralButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalMoralButton!.titleLabel?.textColor = WMColor.gray_reg
-            addressFiscalMoralButton!.setTitleColor(WMColor.gray_reg, forState: UIControlState.Normal)
+            addressFiscalMoralButton!.titleLabel?.textColor = WMColor.reg_gray
+            addressFiscalMoralButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
             addressFiscalMoralButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             addressFiscalMoralButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             

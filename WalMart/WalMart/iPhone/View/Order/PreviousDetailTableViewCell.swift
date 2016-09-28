@@ -38,24 +38,24 @@ class PreviousDetailTableViewCell : ProductDetailCharacteristicsTableViewCell {
         
         self.nameLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
         self.nameLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.nameLabel.textColor = WMColor.gray_reg
+        self.nameLabel.textColor = WMColor.reg_gray
         self.detailView.addSubview(self.nameLabel)
         
         self.deliveryTypeLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
         self.deliveryTypeLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.deliveryTypeLabel.textColor = WMColor.gray_reg
+        self.deliveryTypeLabel.textColor = WMColor.reg_gray
         self.deliveryTypeLabel.numberOfLines = 2
         self.detailView.addSubview(self.deliveryTypeLabel)
         
         self.deliveryAddressLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
         self.deliveryAddressLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.deliveryAddressLabel.textColor = WMColor.gray_reg
+        self.deliveryAddressLabel.textColor = WMColor.reg_gray
         self.deliveryAddressLabel.numberOfLines = 4
         self.detailView.addSubview(self.deliveryAddressLabel)
         
         self.paymentTypeLabel = UILabel(frame:CGRectMake(16, 16, self.frame.width - 16.0, 16.0))
         self.paymentTypeLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.paymentTypeLabel.textColor = WMColor.gray_reg
+        self.paymentTypeLabel.textColor = WMColor.reg_gray
         self.detailView.addSubview(self.paymentTypeLabel)
         
         self.addSubview(self.detailView)

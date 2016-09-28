@@ -39,7 +39,7 @@ class NotificationTableViewCell : UITableViewCell {
         self.addSubview(hourLabel!)
         
         descLabel = UILabel (frame: CGRectMake(16, hourLabel!.frame.maxY + 8, self.frame.size.width - 32, 40))
-        descLabel?.textColor = WMColor.gray_reg
+        descLabel?.textColor = WMColor.reg_gray
         descLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         descLabel?.numberOfLines = 3
         descLabel?.lineBreakMode =  .ByClipping

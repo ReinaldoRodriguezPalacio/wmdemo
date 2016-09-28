@@ -38,7 +38,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         self.titleLabel?.text = "Tipo de Envío"
         
         self.stepLabel = UILabel()
-        self.stepLabel.textColor = WMColor.gray_reg
+        self.stepLabel.textColor = WMColor.reg_gray
         self.stepLabel.text = "2 de 4"
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
@@ -51,7 +51,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         descriptionTitle.numberOfLines = 2
         descriptionTitle.textAlignment = .Left
         descriptionTitle.backgroundColor = UIColor.clearColor()
-        descriptionTitle.textColor = WMColor.gray_reg
+        descriptionTitle.textColor = WMColor.reg_gray
         descriptionTitle.font = WMFont.fontMyriadProRegularOfSize(12)
         descriptionTitle.text = "Este pedido no puede ser entregado en un solo envío.\nSelecciona un tipo de envío para cada grupo de artículos."
         self.viewHeader?.addSubview(descriptionTitle)

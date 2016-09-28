@@ -133,12 +133,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                     var lineObj :  NSDictionary = [:]
                     lineObj = objProduct as! NSDictionary
                     
-                    /*if isShoppingCart {
-                        lineObj = objProduct as! NSDictionary
-                    } else {
-                        lineObj = objProduct as! NSDictionary
-                    }*/
-                    
                     if lineObj.count > 0 {
                         if indi == 0 {
                             recentLineItems.append(lineObj["fineLineName"] as! String == "" ? "Otros" : lineObj["fineLineName"] as! String)

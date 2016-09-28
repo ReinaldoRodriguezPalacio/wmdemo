@@ -39,7 +39,7 @@ class ShoppingCartTextViewCell: UITableViewCell {
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         
         self.descriptionTitle!.attributedText  = attrString
-        self.descriptionTitle!.textColor = WMColor.gray_reg
+        self.descriptionTitle!.textColor = WMColor.reg_gray
         self.contentView.addSubview(self.descriptionTitle!)
         
         self.delimiter = CALayer()

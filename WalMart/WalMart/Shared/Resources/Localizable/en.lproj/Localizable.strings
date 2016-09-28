@@ -428,7 +428,7 @@
 "checkout.title.paymentOptions" = "Opciones de Pago";
 "checkout.field.paymentOptions" = "Opciones de Pago";
 "checkout.title.shipmentOptions" = "Opciones de envío";
-"checkout.field.address" = "Dirección de Envío";
+"checkout.field.address" = "Dirección de envío";
 "checkout.field.new.address" = "Agregar Nueva Dirección";
 "checkout.field.shipmentType" = "Tipo de envío";
 "checkout.field.deliverySchedule" = "Horario de Entrega";

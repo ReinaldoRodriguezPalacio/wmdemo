@@ -78,7 +78,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let lheight: CGFloat = 15.0
         
         self.stepLabel = UILabel()
-        self.stepLabel.textColor = WMColor.gray_reg
+        self.stepLabel.textColor = WMColor.reg_gray
         self.stepLabel.text = "3 de 4"
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
@@ -311,7 +311,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 self.showPhoneField = true
             }else{
                 self.phoneField?.enabled = false
-                self.phoneField?.textColor = WMColor.gray_reg
+                self.phoneField?.textColor = WMColor.reg_gray
                 self.showPhoneField = false
             }
         

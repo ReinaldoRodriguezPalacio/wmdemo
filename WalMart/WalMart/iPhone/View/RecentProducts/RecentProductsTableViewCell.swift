@@ -44,7 +44,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
     override func setup() {
         super.setup()
         
-        productShortDescriptionLabel!.textColor = WMColor.gray_reg
+        productShortDescriptionLabel!.textColor = WMColor.reg_gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true

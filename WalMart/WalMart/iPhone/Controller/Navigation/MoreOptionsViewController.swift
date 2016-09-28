@@ -207,13 +207,13 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             default :
                 print("option don't exist")
             }
-            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray_reg, colorSeparate: WMColor.light_gray)
+            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.reg_gray, colorSeparate: WMColor.light_gray)
         } else  {
             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
             
             if UserCurrentSession.sharedInstance().userSigned == nil && !self.showCamfind && indexPath.section == 1 && indexPath.row == 1   {
                 image = "menu_scanTicket_disable"
-                cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray_reg, colorSeparate: WMColor.light_gray)
+                cell.setValues(srtOption, image: image, size:16, colorText: WMColor.reg_gray, colorSeparate: WMColor.light_gray)
             }
         }
         

@@ -130,7 +130,7 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
             iconDescription.text = legends[index]
             iconDescription.textAlignment = .Center
             iconDescription.font = WMFont.fontMyriadProRegularOfSize(9)
-            iconDescription.textColor = WMColor.gray_reg
+            iconDescription.textColor = WMColor.reg_gray
             iconDescription.textAlignment =  .Left
             legendForm!.addSubview(iconDescription)
             

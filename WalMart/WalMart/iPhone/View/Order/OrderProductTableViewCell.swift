@@ -32,7 +32,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         self.productPriceLabel!.hidden = true
         
-        productShortDescriptionLabel!.textColor = WMColor.gray_reg
+        productShortDescriptionLabel!.textColor = WMColor.reg_gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
@@ -88,7 +88,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         let lblUPC = NSLocalizedString("previousorder.upc",comment:"")
 
         //var valueItem = NSMutableAttributedString()
-        let attrStringLab = NSAttributedString(string:"\(lblUPC): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray_reg])
+        let attrStringLab = NSAttributedString(string:"\(lblUPC): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.reg_gray])
         let attrStringVal = NSAttributedString(string:"\(upc)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         
         let valuesDescItem = NSMutableAttributedString()
@@ -99,14 +99,14 @@ class OrderProductTableViewCell : ProductTableViewCell {
         priceString.updateMount(productPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         var lblItems = NSLocalizedString("previousorder.quantity",comment:"")
-        var attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray_reg])
+        var attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.reg_gray])
         var attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         
         if pesable {
             lblItems = NSLocalizedString("previousorder.quantityPesable",comment:"")
             let quantityDouble: Double = quantity.integerValue >= 100 ? (quantity.doubleValue / 1000) : quantity.doubleValue
             let quantitiString: NSString = quantity.integerValue >= 100 ? NSString(format: "%.2f kg", quantityDouble) : NSString(format: "%.0f gr", quantityDouble)
-            attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray_reg])
+            attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.reg_gray])
             attrStringValQ = NSAttributedString(string:quantitiString as String, attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         }
         

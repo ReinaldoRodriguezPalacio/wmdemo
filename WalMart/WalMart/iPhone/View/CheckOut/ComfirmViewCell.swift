@@ -37,18 +37,18 @@ class ComfirmViewCell: UITableViewCell {
         self.descriptionLabel  =  UILabel()
         self.descriptionLabel!.numberOfLines = 3
         self.descriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.descriptionLabel!.textColor =  WMColor.gray_reg
+        self.descriptionLabel!.textColor =  WMColor.reg_gray
         self.contentView.addSubview(self.descriptionLabel!)
         
         self.nameLabel  =  UILabel()
         self.nameLabel!.numberOfLines = 1
         self.nameLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.nameLabel!.textColor =  WMColor.gray_reg
+        self.nameLabel!.textColor =  WMColor.reg_gray
         self.contentView.addSubview(self.nameLabel!)
         
         self.moreDetail =  UILabel()
         moreDetail!.font = WMFont.fontMyriadProRegularOfSize(14)
-        moreDetail!.textColor =  WMColor.gray_reg
+        moreDetail!.textColor =  WMColor.reg_gray
         self.contentView.addSubview(moreDetail!)
 
     }

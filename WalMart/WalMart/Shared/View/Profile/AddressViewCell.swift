@@ -15,7 +15,7 @@ protocol AddressViewCellDelegate {
 
 class AddressViewCell: SWTableViewCell {
     var titleLabel : UILabel!
-    var viewLine : UIView!
+    var layerLine : CALayer!
     var preferedButton : UIButton!
     var delegateAddres:AddressViewCellDelegate!
     var addressID : String!
@@ -44,7 +44,7 @@ class AddressViewCell: SWTableViewCell {
         titleLabel = UILabel()
         self.titleLabel!.numberOfLines = 2
         
-        viewLine = UIView()
+        layerLine = CALayer()
         preferedButton = UIButton()
         
         imageDisclousure = UIImageView(image: UIImage(named: "disclosure"))
@@ -60,7 +60,7 @@ class AddressViewCell: SWTableViewCell {
         
         self.contentView.addSubview(preferedButton)
         self.contentView.addSubview(titleLabel)
-        self.contentView.addSubview(viewLine)
+        self.contentView.layer.addSublayer(layerLine)
         self.contentView.addSubview(imageDisclousure)
         self.contentView.addSubview(imageErrorField)
     }
@@ -81,22 +81,16 @@ class AddressViewCell: SWTableViewCell {
         
     }
     
-    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment,isViewLine:Bool, isPrefered:Bool,addressID: String , isFisicalAddress: Bool){
+    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment, isPrefered:Bool,addressID: String , isFisicalAddress: Bool){
         
-        viewLine.frame =  CGRectMake(padding, self.bounds.height - AppDelegate.separatorHeigth() , self.bounds.width - padding, AppDelegate.separatorHeigth() )
+        layerLine.frame =  CGRectMake(padding, self.bounds.height - AppDelegate.separatorHeigth() , self.bounds.width - padding, AppDelegate.separatorHeigth() )
         titleLabel.text  = title
         titleLabel.font = font
         titleLabel.numberOfLines = numberOfLines
         titleLabel.textAlignment = align
         titleLabel.textColor = textColor
         self.addressID = addressID
-        
-        if isViewLine{
-            viewLine.backgroundColor = WMColor.light_gray
-        }else{
-            viewLine.backgroundColor = UIColor.clearColor()
-        }
-       
+        self.layerLine.backgroundColor = WMColor.light_gray.CGColor
         self.isFisicalAddress = isFisicalAddress
         self.preferedButton.selected = isPrefered
     }

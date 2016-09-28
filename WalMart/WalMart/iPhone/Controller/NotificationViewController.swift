@@ -43,7 +43,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.view.addSubview(self.headerNotification!)
         
         self.receiveNotificationLabel = UILabel()
-        self.receiveNotificationLabel?.textColor = WMColor.gray_reg
+        self.receiveNotificationLabel?.textColor = WMColor.reg_gray
         self.receiveNotificationLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.receiveNotificationLabel?.text = "Permitir Notificaciones"
         
@@ -52,10 +52,10 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         
         self.receiveNotificationButton = CMSwitchView(frame: CGRectMake(0.0, 0.0, 54, 34))
         self.receiveNotificationButton!.borderWidth = 1
-        self.receiveNotificationButton!.borderColor =  showNotification ? WMColor.green : WMColor.gray_reg
+        self.receiveNotificationButton!.borderColor =  showNotification ? WMColor.green : WMColor.reg_gray
         self.receiveNotificationButton!.dotColor = UIColor.whiteColor()
         self.receiveNotificationButton!.dotBorderColor = WMColor.light_gray
-        self.receiveNotificationButton!.color = WMColor.gray_reg
+        self.receiveNotificationButton!.color = WMColor.reg_gray
         self.receiveNotificationButton!.tintColor = WMColor.green
         self.receiveNotificationButton!.delegate =  self
         self.receiveNotificationButton!.dotWeight = 32.0
@@ -220,7 +220,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     //MARK: CMSwitchViewDelegate
     
     func switchValueChanged(sender: AnyObject!, andNewValue value: Bool) {
-        self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.gray_reg
+        self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.reg_gray
 
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
@@ -231,7 +231,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }) { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )
-                self.receiveNotificationButton!.borderColor = !value ? WMColor.green : WMColor.gray_reg
+                self.receiveNotificationButton!.borderColor = !value ? WMColor.green : WMColor.reg_gray
                 self.receiveNotificationButton!.drawSelected(!value)
                 //TODO: quitar
                //CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
