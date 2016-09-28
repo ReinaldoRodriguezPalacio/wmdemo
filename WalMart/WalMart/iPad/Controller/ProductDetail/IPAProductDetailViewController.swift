@@ -487,7 +487,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,2),(0,4) :
             return 15.0
         case (0,5) :
-            return 222.0
+            return (msi.count == 0 ? 302.0 : 222.0)
         case (0,6) :
             return 222.0
         case (1,0):
