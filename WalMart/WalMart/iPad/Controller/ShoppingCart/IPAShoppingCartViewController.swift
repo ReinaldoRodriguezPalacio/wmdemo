@@ -458,9 +458,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                     let updateOrderService = UpdateItemToOrderService()
                     let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
                     updateOrderService.callService(requestParams: params, succesBlock: {(result) in
-                        
+                        self.reloadShoppingCart()
                         }, errorBlock: {(error) in
-                            
+                         self.reloadShoppingCart()
                     })
 
                 } else {

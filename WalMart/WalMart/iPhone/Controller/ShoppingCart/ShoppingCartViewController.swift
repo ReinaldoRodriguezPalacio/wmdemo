@@ -854,9 +854,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     let updateOrderService = UpdateItemToOrderService()
                     let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
                     updateOrderService.callService(requestParams: params, succesBlock: {(result) in
-                        
+                        self.reloadShoppingCart()
                         }, errorBlock: {(error) in
-                    
+                         self.reloadShoppingCart()
                     })
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
