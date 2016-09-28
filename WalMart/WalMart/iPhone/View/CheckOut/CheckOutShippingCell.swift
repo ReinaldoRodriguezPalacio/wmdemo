@@ -41,7 +41,7 @@ class CheckOutShippingCell: UITableViewCell {
      
         self.labelNumber = UILabel()
         self.labelNumber!.numberOfLines = 2
-        self.labelNumber!.textAlignment = .Left
+        self.labelNumber!.textAlignment = .Right
         self.labelNumber!.backgroundColor = UIColor.clearColor()
         self.labelNumber!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.labelNumber!.textColor = WMColor.gray_reg
@@ -86,7 +86,7 @@ class CheckOutShippingCell: UITableViewCell {
         if quanty != 0 {
             self.descriptionTitle!.text = value
             self.descriptionTitle!.textColor = WMColor.gray_reg
-            self.labelNumber!.text = "(\(quanty))"
+            self.labelNumber!.text = quanty == 1 ? "" : "(\(quanty))"
         }else{
          self.descriptionTitle!.text = value
             self.descriptionTitle!.textColor = WMColor.dark_gray
