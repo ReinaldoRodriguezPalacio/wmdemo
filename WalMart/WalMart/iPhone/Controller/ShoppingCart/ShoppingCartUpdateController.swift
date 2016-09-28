@@ -90,8 +90,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 self.imageProduct!.contentMode = self.contentModeOrig
                 self.imageProduct!.image = image
                 }, failure: nil)
-        } else
-        {
+        } else {
             if let imageName = self.multipleItems!["image"] as? String {
                 imageProduct.image = UIImage(named:imageName)
                 imageProduct.frame = CGRectMake(0,0,imageProduct.image!.size.width,imageProduct.image!.size.height)

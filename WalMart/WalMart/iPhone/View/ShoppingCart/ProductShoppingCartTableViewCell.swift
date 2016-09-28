@@ -24,7 +24,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var priceProduct : Double!
     var savingProduct : Double!
     var skuId : String!
-    var upc : String!
+    var productId : String!
     var delegateProduct : ProductShoppingCartTableViewCellDelegate!
     var desc : String!
     var price : NSString = ""
@@ -108,11 +108,11 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }
     }
     
-    func setValues(skuid:String?,upc:String?,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool,commerceItemId:String,comments:NSString) {
+    func setValues(skuid:String?,productId:String?,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool,commerceItemId:String,comments:NSString) {
         imagePresale.hidden = isPreorderable == "true" ? false : true
         self.priceProduct = productPrice.doubleValue
         self.skuId = skuid
-        self.upc = upc
+        self.productId = productId
         self.commerceIds = commerceItemId
         self.desc = productShortDescription
         self.price = productPrice
@@ -125,7 +125,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.pesable = typeProd == 1
         self.comments = comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         //priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
-        priceSelector.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
+        priceSelector.setValues(self.productId, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
         
         let totalInProducts = productPrice.doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
@@ -216,7 +216,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     func addProductQuantity(quantity:Int) {
         let maxProduct = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
         if maxProduct < quantity {
-            priceSelector.setValues(self.upc, quantity: quantity, hasNote: false, aviable: true, pesable: false)
+            priceSelector.setValues(self.productId, quantity: quantity, hasNote: false, aviable: true, pesable: false)
             
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
             
@@ -230,7 +230,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
             updateService.isInCart = true
-            updateService.callCoreDataService(skuId,upc:upc, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment,pesable:String(self.pesable),successBlock: { (result:NSDictionary) -> Void in
+            updateService.callCoreDataService(skuId,upc:productId, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment,pesable:String(self.pesable),successBlock: { (result:NSDictionary) -> Void in
                 
                 let totalInProducts = self.priceProduct * Double(quantity)
                 let totalPrice = NSString(format: "%.2f", totalInProducts)
@@ -269,7 +269,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     
     func startEdditingQuantity() {
         //EVENT
-        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "\(desc) - \(upc)")
+        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "\(desc) - \(productId)")
         UIView.animateWithDuration(0.01, animations: { () -> Void in
             self.productPriceLabel?.alpha = 0.0
             self.productPriceThroughLabel!.alpha = 0.0

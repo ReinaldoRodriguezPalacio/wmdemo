@@ -443,10 +443,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             let frameDetail = CGRectMake(0, 0, 320, 568)
 
             if cell.typeProd == 1 {
-                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.productId)
                 
             }else{
-                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,upcProduct:cell.upc)
+                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,upcProduct:cell.productId)
             }
             
             
@@ -455,9 +455,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                 //self.ctrlCheckOut?.addViewLoad()
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     self.selectQuantity?.closeAction()
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    let updateOrderService = UpdateItemToOrderService()
+                    let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
+                    updateOrderService.callService(requestParams: params, succesBlock: {(result) in
+                        
+                        }, errorBlock: {(error) in
+                            
+                    })
+
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
@@ -485,8 +490,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                 }
                 
                 let addShopping = ShoppingCartUpdateController()
-                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
-                addShopping.params = paramsToSC
+                let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+                addShopping.params = params
                 vc!.addChildViewController(addShopping)
                 addShopping.view.frame = frame
                 vc!.view.addSubview(addShopping.view)
