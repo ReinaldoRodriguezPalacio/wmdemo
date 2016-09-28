@@ -219,7 +219,7 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.update</key>
+			<key>WalmartMG.UpdateItemToOrderService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateItemToOrder</string>
 			<key>WalmartMG.DetailedService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/detailed</string>
@@ -400,6 +400,8 @@
 		<dict>
 			<key>WalmartMG.DetailedService</key>
 			<string>https://dl.dropboxusercontent.com/s/dv3t4s71ttgfv2e/detailed.txt?dl=0</string>
+			<key>WalmartMG.UpdateItemToOrderService</key>
+			<string>https://dl.dropboxusercontent.com/s/a9zjl765uq7ej5t/updateItemToOrder.txt</string>
 			<key>WalmartMG.UpdateCommentsService</key>
 			<string>https://dl.dropboxusercontent.com/s/wzc56m5dtvkyorw/updateComments.txt</string>
 			<key>WalmartMG.SelectedSlotService</key>
@@ -547,7 +549,7 @@
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getShoppingCart.json</string>
+			<string>https://dl.dropboxusercontent.com/s/u67pzwnx3b9oydg/getShoppingCart.txt</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>

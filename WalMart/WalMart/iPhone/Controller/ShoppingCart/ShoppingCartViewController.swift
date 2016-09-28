@@ -489,7 +489,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //let prodObj = listObj["products"] as! NSArray
             let shoppingCartProduct = productObje[indexPath.row] //as! NSDictionary
             let skuId = shoppingCartProduct["catalogRefId"] as? String ?? ""
-            let upc = shoppingCartProduct["productId"] as? String ?? ""
+            let productId = shoppingCartProduct["productId"] as? String ?? ""
             let desc = shoppingCartProduct["productDisplayName"] as! String
             var price : NSString = ""
             let commerceItemId = shoppingCartProduct["commerceItemId"] as! String
@@ -599,7 +599,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
-            cellProduct.setValues(skuId,upc:upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments)
+            cellProduct.setValues(skuId,productId:productId,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments)
             
             cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
             
@@ -834,9 +834,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //cell.typeProd
             
             if cell.typeProd == 1 {
-                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.productId)
             } else {
-                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.productId as String)
             }
             
             selectQuantity?.addToCartAction = { (quantity:String) in
@@ -851,9 +851,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue, label: "")
                     }
                     
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    let updateOrderService = UpdateItemToOrderService()
+                    let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
+                    updateOrderService.callService(requestParams: params, succesBlock: {(result) in
+                        self.reloadShoppingCart()
+                        }, errorBlock: {(error) in
+                         self.reloadShoppingCart()
+                    })
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
@@ -879,8 +883,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                 
                 let addShopping = ShoppingCartUpdateController()
-                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
-                addShopping.params = paramsToSC
+                let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+                addShopping.params = params
                 vc!.addChildViewController(addShopping)
                 addShopping.view.frame = frame
                 vc!.view.addSubview(addShopping.view)
@@ -891,9 +895,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 addShopping.removeSpinner()
                 addShopping.addActionButtons()
                 addShopping.addNoteToProduct(nil)
-                
-                
-                
             }
             selectQuantity?.userSelectValue(String(cell.quantity))
             selectQuantity?.first = true
@@ -939,7 +940,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
         let pesable = cell.pesable ? "1" : "0"
-        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"commerceItemId":cell.commerceIds,"skuId":cell.skuId]
+        return ["upc":cell.skuId,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"commerceItemId":cell.commerceIds,"skuId":cell.skuId]
     }
     
     //MARK: SWTableViewCellDelegate
