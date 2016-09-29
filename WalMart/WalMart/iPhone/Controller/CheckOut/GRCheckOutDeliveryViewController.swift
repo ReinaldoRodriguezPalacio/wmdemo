@@ -347,7 +347,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
-                if let addressId = option["id"] as? String {
+                if let addressId = option["addressId"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
                     self.getAddressDescription(addressId)
@@ -356,8 +356,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.paramsToOrder = [:]
                 }
                 self.paramsToOrder = ["addressShopping":["addressId":option["addressId"] as! String, "phoneNumberAddres":option["phoneNumber"] as? String ?? "", "nameAddres":option["name"] as! String,"storeId":option["storeId"] as! String]]
-                
+                self.address!.layer.borderColor = WMColor.light_light_gray.CGColor
                 self.selectedAddressIx = indexPath
+                self.errorView?.removeFromSuperview()
+                self.errorView = nil
             }
             if formFieldObj ==  self.addressInvoice! {
                 self.addressInvoice!.text = selectedStr
@@ -368,6 +370,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 }
                 self.paramsToOrder?.addEntriesFromDictionary(["addressInvoice":["phoneNumberAddres":option["phoneNumber"] as! String, "nameAddres":option["name"] as! String,"storeId":option["storeId"] as! String]])
                 self.selectedAddressInvoiceIx = indexPath
+                self.addressInvoice!.layer.borderColor = WMColor.light_light_gray.CGColor
+                self.errorView?.removeFromSuperview()
+                self.errorView = nil
             }
         }
     }
@@ -587,6 +592,14 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func validate() -> Bool{
         if !self.selectedAddressHasStore  {
             return self.viewError(self.address!,message: NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+        }
+        
+        if self.address!.text == "" || self.selectedAddress! == "" {
+            return self.viewError(self.address!,message: "Selecciona una dirrección de envío")
+        }
+        
+        if self.invoiceButton.selected && (self.addressInvoice!.text == "") {
+            return self.viewError(self.addressInvoice!,message: "Selecciona una dirrección de facturacion")
         }
         return true
     }

@@ -406,7 +406,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     func showAddressView() {
         if alertAddress == nil {
             alertAddress = GRFormAddressAlertView.initAddressAlert()!
-            alertAddress!.titleLabel.text = NSLocalizedString("profile.address.new.title", comment: "") 
+            alertAddress!.titleLabel.text = NSLocalizedString("profile.address.new.title", comment: "")
         }
         alertAddress?.showAddressAlert()
         alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
