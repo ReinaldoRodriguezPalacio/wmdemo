@@ -142,8 +142,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         newItemsFacet.append(itemFac)
                     }
                 }
-               
-                
                 
                 if newItemsFacet.count > 0 {
                     facetEnd.append(["itemsFacet":newItemsFacet,"type":facetItemsCount["type"],"name":facetItemsCount["name"],"order":facetItemsCount["order"]])
@@ -331,7 +329,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return 1
         }
         if self.originalSearchContext != nil && self.isTextSearch {
-            return self.tableElements != nil ? self.tableElements!.count + 1 : 0 // + 1
+            return self.tableElements != nil ? self.tableElements!.count + 1 : 0
         }
         if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
             let itemFacet = self.facet![section - 1] as! [String:AnyObject]
@@ -601,19 +599,18 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return
         }
         
-        //
         if indexPath.row == 0 {
             self.selectedElementsFacet = [:]
                 self.tableElements = nil
                 self.tableElements = self.tableReset
-                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
-                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
                 self.selectedElements![0] = true
+                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
             return
             }
         
-        let isAlreadyOpen = self.selectedElements![indexPath.row] //
+        let isAlreadyOpen = self.selectedElements![indexPath.row]
         if isAlreadyOpen {
             return
         }
@@ -625,7 +622,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
         }
         
-        var item = self.tableElements![indexPath.row - 1] as! [String:AnyObject] // - 1
+        var item = self.tableElements![indexPath.row - 1] as! [String:AnyObject]
         let itemLevel = (item["level"] as! NSNumber).integerValue
         let itemId = item["id"] as! String
         let itemParentId = item["parentId"] as! String
@@ -682,9 +679,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         else {
             self.selectedElements![indexPath.row] = true
-        
-             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
-            
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
         }
 
         for idx in 1 ..< self.selectedElements!.count {
@@ -694,7 +689,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
         }
-        //
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
