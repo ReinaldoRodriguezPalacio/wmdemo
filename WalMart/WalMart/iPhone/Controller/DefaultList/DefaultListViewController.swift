@@ -110,7 +110,6 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
             
         let cellFormatedTotal = CurrencyCustomLabel.formatString("\(totalInList)")
         cellreturn.setValues(listName!, numberItems: "\(items!.count)",total:cellFormatedTotal)
-        cellreturn.selectionStyle = .None
 
         return cellreturn
     }
