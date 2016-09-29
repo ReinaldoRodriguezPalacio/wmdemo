@@ -129,7 +129,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.check!.highlighted = selected
     }
     
-    func setValuesSelectAll( selected:Bool){
+     func setValuesSelectAll( selected:Bool, isFacet:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor
@@ -137,7 +137,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.check!.highlightedImage = UIImage(named: "radio_full")
         self.separator!.hidden = false
         
-        self.name!.text = NSLocalizedString("product.search.filterall", comment: "")
+         self.name!.text = isFacet ? NSLocalizedString("product.search.filterall", comment: "") : NSLocalizedString("product.search.departments", comment: "")
         self.check!.highlighted = selected
     }
     

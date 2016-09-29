@@ -38,6 +38,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var searchContext: SearchServiceContextType?
     var categories: [AnyObject]?
     var tableElements: [AnyObject]?
+    var tableReset: [AnyObject]?
     var selectedElements: [Bool]?
     var selectedElementsFacet: [NSIndexPath:Bool]?
     var selectedOrder: String?
@@ -330,7 +331,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return 1
         }
         if self.originalSearchContext != nil && self.isTextSearch {
-            return self.tableElements != nil ? self.tableElements!.count : 0
+            return self.tableElements != nil ? self.tableElements!.count + 1 : 0 // + 1
         }
         if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
             let itemFacet = self.facet![section - 1] as! [String:AnyObject]
@@ -392,7 +393,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     selected = false
                 }
                 
-                listCell.setValuesSelectAll(selected)
+                listCell.setValuesSelectAll(selected, isFacet: true)
             }
             
             return listCell
@@ -426,7 +427,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                                 selected = valSelected!
                             }
                         }
-                        listCell.setValuesSelectAll(selected)
+                        listCell.setValuesSelectAll(selected, isFacet: true)
                     }
                     return listCell
                     
@@ -450,10 +451,33 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
         } else {
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
-            if self.selectedElements != nil {
+            /*if self.selectedElements != nil {
+             let selected = self.selectedElements![indexPath.row]
+             let item = self.tableElements![indexPath.row] as! [String:AnyObject]
+             listCell.setValues(item, selected:selected)
+            }*/
+            
+            var selected = false
+            let valSelected =  self.selectedElementsFacet?[indexPath]
+            if ((valSelected) != nil) {
+                selected = valSelected!
+                }
+
+            if indexPath.row > 0 {
                 let selected = self.selectedElements![indexPath.row]
-                let item = self.tableElements![indexPath.row] as! [String:AnyObject]
+                let item = self.tableElements![indexPath.row - 1] as! [String:AnyObject]
                 listCell.setValues(item, selected:selected)
+                } else {
+                if self.selectedElementsFacet!.count == 0  {
+                    self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
+                        selected = true
+                    } else {
+                    selected = false
+                    if ((valSelected) != nil) {
+                        selected = valSelected!
+                        }
+                    }
+                listCell.setValuesSelectAll(selected, isFacet: false)
             }
             return listCell
         }
@@ -577,7 +601,19 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return
         }
         
-        let isAlreadyOpen = self.selectedElements![indexPath.row]
+        //
+        if indexPath.row == 0 {
+            self.selectedElementsFacet = [:]
+                self.tableElements = nil
+                self.tableElements = self.tableReset
+                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
+                self.selectedElements![0] = true
+            return
+            }
+        
+        let isAlreadyOpen = self.selectedElements![indexPath.row] //
         if isAlreadyOpen {
             return
         }
@@ -589,7 +625,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
         }
         
-        var item = self.tableElements![indexPath.row] as! [String:AnyObject]
+        var item = self.tableElements![indexPath.row - 1] as! [String:AnyObject] // - 1
         let itemLevel = (item["level"] as! NSNumber).integerValue
         let itemId = item["id"] as! String
         let itemParentId = item["parentId"] as! String
@@ -617,12 +653,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
             self.tableElements = filteredElements
-            self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)
+            self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
+            self.selectedElements![0] = false
             tableView.deleteRowsAtIndexPaths(indexes, withRowAnimation: .Automatic)
             
             var updatedIndex:NSIndexPath? = nil
-            for idx in 0 ..< self.tableElements!.count {
-                var element = self.tableElements![idx] as! [String:AnyObject]
+            for idx in 1 ..< (self.tableElements!.count + 1) {
+                var element = self.tableElements![idx - 1] as! [String:AnyObject]
                 let elementId = element["id"] as! String
                 if self.itemIsContained(item, node: element) {
                     self.selectedElements![idx] = true
@@ -650,14 +687,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
         }
 
-        for idx in 0 ..< self.selectedElements!.count {
+        for idx in 1 ..< self.selectedElements!.count {
             if self.selectedElements![idx] {
-                if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: idx, inSection: 1)) as? FilterCategoryViewCell {
+                if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: (idx), inSection: 1)) as? FilterCategoryViewCell {
                     cell.check!.highlighted = true
                 }
             }
         }
-
+        //
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -702,11 +739,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             var indexes:[NSIndexPath] = []
             var idx = 0
             for key in items.keys {
-                let index = indexPath.row + (idx + 1)
+                let index = indexPath.row + (idx)
                 let inner = items[key] as! [String:AnyObject]
-                indexes.append(NSIndexPath(forRow: index, inSection: 1))
+                indexes.append(NSIndexPath(forRow: (index + 1), inSection: 1))
                 self.tableElements!.insert(inner, atIndex: index)
-                self.selectedElements!.insert(false, atIndex: index)
+                self.selectedElements!.insert(false, atIndex: (index + 1))
                 idx += 1
             }
             self.tableView!.insertRowsAtIndexPaths(indexes, withRowAnimation: .Automatic)
@@ -724,7 +761,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     let innerId = innerElement["id"] as! String
                     if id == innerId {
                         self.tableElements!.removeAtIndex(idxe)
-                        indexes.append(NSIndexPath(forRow: idxe, inSection: 1))
+                        indexes.append(NSIndexPath(forRow: (idxe + 1), inSection: 1))
                         break
                     }
                 }
@@ -831,7 +868,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     NSLog("if self.tableElements?.count > 0 {")
                     if self.tableElements?.count > 0 {
                         NSLog("self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)")
-                        self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)
+                        self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
                     }
                     NSLog("successBlock?()")
                     successBlock?()
@@ -878,10 +915,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
                 else {
                     self.tableElements = [AnyObject](categories)
+                    self.tableReset = self.tableElements
                 }
                 
                 if self.tableElements?.count > 0 {
-                    self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)
+                    self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
                 }
                 NSLog("Termina pintado de datos")
                 successBlock?()

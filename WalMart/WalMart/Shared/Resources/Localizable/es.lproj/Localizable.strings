@@ -58,6 +58,7 @@
 "product.search.scann.help" = "También puedes buscar escaneando un código de barras";
 "product.search.minimum" = "Ingrese mínimo 2 caracteres";
 "product.search.filterall" = "Todos las Marcas";
+"product.search.departments" = "Todos los Departamentos";
 
 //filter
 "filter.title" = "Filtrar";
