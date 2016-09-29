@@ -501,7 +501,7 @@
 			<key>WalmartMG.GRUpdateItemListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateItemToList</string>
 			<key>WalmartMG.GRUpdateListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateList</string>
+			<string>https://dl.dropboxusercontent.com/s/ws9jsuccefptr97/updateListByUser.txt?dl=0</string>
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListService</key>
