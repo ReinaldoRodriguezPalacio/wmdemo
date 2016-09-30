@@ -78,11 +78,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(sectionTitle)
         
         self.address = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + margin, width, fheight))
-        self.address!.setCustomPlaceholder(NSLocalizedString("checkout.field.address", comment:""))
+        self.address!.setCustomPlaceholder("Dirección de envío")
         self.address!.isRequired = true
         self.address!.typeField = TypeField.List
         self.address!.setImageTypeField()
-        self.address!.nameField = NSLocalizedString("checkout.field.address", comment:"")
+        self.address!.nameField = "Dirección de envío"
         self.content.addSubview(self.address!)
         
         self.sectionTitleInvoice = self.buildSectionTitle("Facturación", frame: CGRectMake(margin, self.address!.frame.maxY + 28, width, lheight))
@@ -595,11 +595,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }
         
         if self.address!.text == "" || self.selectedAddress! == "" {
-            return self.viewError(self.address!,message: "Selecciona una dirrección de envío")
+            return self.viewError(self.address!,message: "Selecciona una dirección de envío")
         }
         
         if self.invoiceButton.selected && (self.addressInvoice!.text == "") {
-            return self.viewError(self.addressInvoice!,message: "Selecciona una dirrección de facturacion")
+            return self.viewError(self.addressInvoice!,message: "Selecciona una dirección de facturación")
         }
         return true
     }
