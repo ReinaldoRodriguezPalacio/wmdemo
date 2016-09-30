@@ -11,9 +11,9 @@
 
 //More Options
 "moreoptions.title.Profile" = "Perfil y contraseña";
-"moreoptions.title.Recents" = "Artículos más comprados";
+"moreoptions.title.Recents" = "Mis Favoritos";
 "moreoptions.title.Address" = "Mis Direcciones";
-"moreoptions.title.Orders" = "Pedidos anteriores";
+"moreoptions.title.Orders" = "Pedidos Anteriores";
 "moreoptions.title.Invoice" = "Facturación electrónica";
 "moreoptions.title.ReferedList" = "Referidos";
 "moreoptions.title.Promotions" = "Centro de promociones";
@@ -226,7 +226,7 @@
 "profile.signOut" = "cerrar sesión";
 "profile.forgot.password" = "Olvidé mi contraseña";
 "profile.privacy.notice" = "Aviso de privacidad";
-"profile.misarticulos" = "Mis Artículos Más Comprados";
+"profile.misarticulos" = "Mis Favoritos";
 "profile.myAddress" = "Mis Direcciones";
 "profile.myOrders" = "Pedidos Anteriores";
 "profile.no.account" = "¿No Tienes Cuenta?";
