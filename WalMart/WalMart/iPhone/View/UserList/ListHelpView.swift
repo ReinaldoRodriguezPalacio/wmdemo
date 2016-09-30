@@ -69,13 +69,11 @@ class ListHelpView: UIView,UIGestureRecognizerDelegate {
     override func layoutSubviews() {
         
         if descriptionHelp != nil {
-            descriptionHelp?.frame =   CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16,
-                                                  IS_IPAD ? self.frame.maxY - 30  : (self.frame.height -  (TabBarHidden.isTabBarHidden ? 145 : 190)),
-                                                  self.frame.width - 32,
-                                                  28)
+            let y =  IS_IPAD ? self.frame.maxY - 30  : (self.frame.height -  (TabBarHidden.isTabBarHidden ? 145 : 190))
+            descriptionHelp?.frame =   CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16,y,self.frame.width - 32,28)
             
         if IS_IPHONE_4_OR_LESS || IS_IPOD {
-                descriptionHelp!.frame = CGRectMake(descriptionHelp!.frame.origin.x,descriptionHelp!.frame.maxY + 37,descriptionHelp!.frame.width ,descriptionHelp!.frame.height)
+                descriptionHelp!.frame = CGRectMake(descriptionHelp!.frame.origin.x,y,descriptionHelp!.frame.width ,descriptionHelp!.frame.height)
         }
             arrowImage!.frame = CGRectMake(IS_IPAD ? self.bounds.midX + 195 : 65, descriptionHelp!.frame.maxY + 5, 66, 58)
             icon!.frame = CGRectMake(arrowImage!.frame.maxX - 15, arrowImage!.frame.maxY , 34.0, 34.0)

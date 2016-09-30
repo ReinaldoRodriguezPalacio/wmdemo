@@ -54,7 +54,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
         }
         
-        generateBlurImage()
+        //generateBlurImage()
         
         if IS_IPAD == true {
             minContentY = 62
