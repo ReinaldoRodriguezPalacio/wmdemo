@@ -438,7 +438,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //        
         item = self.allProducts?[indexPath.item] as! NSDictionary
         let upc = item["upc"] as! String
-        let skuid = item["skuId"] as! String
+        let skuid = item["skuId"] as? String ?? ""
         let description = item["description"] as? String
         
         var price: NSString? = "0"

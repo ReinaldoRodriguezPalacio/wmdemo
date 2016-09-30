@@ -281,7 +281,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         let selectedSlotService = SelectedSlotService()
         let params = selectedSlotService.buildParams(self.selectTypeDelivery, selectedSlotId: self.slotSelected)
         selectedSlotService.callService(requestParams: params, succesBlock: { (result) -> Void in
-            self.delegate?.selectDataTypeShipping(self.selectTypeDelivery, util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
+            self.delegate?.selectDataTypeShipping(NSLocalizedString(self.selectTypeDelivery, comment: ""), util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
             self.navigationController!.popViewControllerAnimated(true)
         }, errorBlock: { (error) -> Void in
             

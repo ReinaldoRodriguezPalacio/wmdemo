@@ -455,6 +455,9 @@
 "checkout.confirm.invoice"="Facturación";
 "checkout.alert.createAddress"= "Crear Dirección";
 
+"homeDeliveryTaxi" = "Envío a domicilio";
+"storePickUp" = "Recoger en tienda";
+
 
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";

@@ -531,6 +531,9 @@
 "gr.confirma.descuento" = "Descuento";
 "gr.addtolist.super" = "Añadir todo a una lista de súper";
 "gr.alert.phone" = "Si editas este número telefónico se actualizará en tus direcciones.";
+"homeDeliveryTaxi" = "Envío a domicilio";
+"storePickUp" = "Recoger en tienda";
+
 
 //Estatus pedidos groceries
 "gr.order.status.1" = "Enviado a tienda";

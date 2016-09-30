@@ -314,7 +314,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(requestParams:self.upc, successBlock: { (result:NSArray?) -> Void in
+        crossService.callService(requestParams:["skuId":self.sku], successBlock: { (result:NSArray?) -> Void in
                 if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0  {
@@ -911,7 +911,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.saving = ""
         self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
-        self.upc = sku["id"] as! NSString
+        self.upc = parentProduct!["id"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
         }
