@@ -16,14 +16,14 @@ struct ShoppingCartParams {
 
 
 struct ConfigServices {
-    static var ConfigIdMG : String = "WMURLServices"
-    static var ConfigIdGRSign : String = "WMGroceriesURLServicesSession"
-    static var ConfigIdGR : String = "WMGroceriesURLServices"
+    static var ConfigIdMG : String = "clusterWMURLServices"
+    static var ConfigIdGRSign : String = "clusterWMGroceriesURLServicesSession"
+    static var ConfigIdGR : String = "clusterWMGroceriesURLServices"
     
-    static var ConfigIdMGSignals : String = "WMURLSignalsServices"
-    static var ConfigIdGRSignals : String = "WMGroceriesURLSignalsServices"
-    static var ConfigIdGRSignalsSing : String = "WMGroceriesURLSignalsServicesSession"
-    
+    static var ConfigIdMGSignals : String = "clusterWMURLSignalsServices"
+    static var ConfigIdGRSignals : String = "clusterWMGroceriesURLSignalsServices"
+    static var ConfigIdGRSignalsSing : String = "clusterWMGroceriesURLSignalsServicesSession"
+  
     
     static var camfindparams : String = ""
 }
@@ -173,14 +173,16 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         }
         
         if let serviceapp = itemsconfig["serviceUrl"] as? String {
-            if serviceapp == "cluster" {
-                ConfigServices.ConfigIdMG = "clusterWMURLServices"
-                ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
-                ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
+            if serviceapp == "standalone" {
+                ConfigServices.ConfigIdMG = "WMURLServices"
+                ConfigServices.ConfigIdGRSign = "WMGroceriesURLServicesSession"
+                ConfigServices.ConfigIdGR = "WMGroceriesURLServices"
                 
-                ConfigServices.ConfigIdMGSignals = "clusterWMURLSignalsServices"
-                ConfigServices.ConfigIdGRSignals = "clusterWMGroceriesURLSignalsServices"
-                ConfigServices.ConfigIdGRSignalsSing = "clusterWMGroceriesURLSignalsServicesSession"
+                ConfigServices.ConfigIdMGSignals = "WMURLSignalsServices"
+                ConfigServices.ConfigIdGRSignals = "WMGroceriesURLSignalsServices"
+                ConfigServices.ConfigIdGRSignalsSing = "WMGroceriesURLSignalsServicesSession"
+                
+             
             }
         }
         
