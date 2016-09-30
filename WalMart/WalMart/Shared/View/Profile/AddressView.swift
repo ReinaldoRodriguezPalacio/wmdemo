@@ -423,6 +423,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             }
         }
         if textField == zipcode{
+             self.errorView?.removeFromSuperview()
+             self.errorView = nil
             
             if Int(keyword) == nil && keyword != "" {
                 return false
@@ -616,9 +618,9 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         }
         if !error{
             error = viewError(zipcode!)
-            let message = suburb!.validate()
+            let message = zipcode!.validate()
             if message != nil {
-                error = viewError(zipcode!,message:NSLocalizedString("field.validate.zipcode",comment:""))
+                error = viewError(zipcode!,message:message)
             }
             
         }

@@ -36,6 +36,7 @@ enum CustomBarNotification : String {
     case ShowHomeSelected = "kShowHomeSelected"
     case CloseShoppingCart = "KCloseShoppingCart"
     case CloseSearch = "KCloseSearch"
+    case CloseTutorial = "KCloseTutorial"
     
 }
 
@@ -140,7 +141,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.updateNotificationBadge), name: CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCart), name: CustomBarNotification.CloseShoppingCart.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.closeSearch(_:sender:)), name: CustomBarNotification.CloseSearch.rawValue, object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.closeTutorial), name: CustomBarNotification.CloseTutorial.rawValue, object: nil)
         
         self.isTabBarHidden = false
         
@@ -1126,6 +1127,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.btnShopping!.enabled = true
             self.btnSearch!.selected = false
         }
+        self.closeTutorial()
     }
     
     
@@ -1179,6 +1181,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                                                     self.shoppingCartVC = nil
                                                     self.openSearch = false
                                                     self.shoppingCartVC = nil
+                                                    self.btnCloseShopping?.alpha = 0
+                                                    //self.showBadge()
+                                                    self.btnShopping?.alpha = 1
+
                                                 }
                                             }
                     }
@@ -1539,6 +1545,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.view.bringSubviewToFront(self.helpView!)
         }
         return showTurial
+    }
+    
+    func closeTutorial() {
+        self.totuView?.removeHelp()
     }
     
     func showHelpHomeView(){

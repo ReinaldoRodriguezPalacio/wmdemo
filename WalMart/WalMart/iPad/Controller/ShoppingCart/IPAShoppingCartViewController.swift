@@ -254,7 +254,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         listObj = self.itemsInCartOrderSection[section - 1] as! NSDictionary
         productObje = listObj["products"] as! NSArray
         
-        return productObje!.count
+        if section == (self.itemsInCartOrderSection.count) {
+            return productObje!.count + (self.itemsUPC.count > 0 ? 2 : 1)
+        } else {
+            return productObje!.count
+        }
     }
     
 
@@ -453,7 +457,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             selectQuantity?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 //self.ctrlCheckOut?.addViewLoad()
-                if cell.onHandInventory.integerValue >= Int(quantity) {
+                if cell.onHandInventory.integerValue <= Int(quantity) {
                     self.selectQuantity?.closeAction()
                     let updateOrderService = UpdateItemToOrderService()
                     let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
@@ -559,8 +563,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     override func deleteAll() {
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs : [String] = []
-        for itemSClist in self.itemsInCartOrderSection {
-            let upc = itemSClist["upc"] as! String
+        for itemSClist in self.itemsInShoppingCart {
+            let upc = itemSClist["commerceItemId"] as! String
             upcs.append(upc)
         }
         
@@ -586,6 +590,15 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             }) { (error:NSError) -> Void in
                 print("error al eliminar todos los productos del carrito: ")
                 print(error.localizedDescription)
+                
+                if self.viewLoad != nil {
+                    self.viewLoad.stopAnnimating()
+                    self.viewLoad = nil
+                }
+                
+                self.editAction(self.editButton!)
+                self.removeLoadingView()
+                self.loadShoppingCartService()
                 
         }
         
