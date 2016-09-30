@@ -595,11 +595,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }
         
         if self.address!.text == "" || self.selectedAddress! == "" {
-            return self.viewError(self.address!,message: "Selecciona una dirrección de envío")
+            return self.viewError(self.address!,message: "Selecciona una dirección de envío")
         }
         
         if self.invoiceButton.selected && (self.addressInvoice!.text == "") {
-            return self.viewError(self.addressInvoice!,message: "Selecciona una dirrección de facturación")
+            return self.viewError(self.addressInvoice!,message: "Selecciona una dirección de facturación")
         }
         return true
     }
