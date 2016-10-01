@@ -108,6 +108,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     var  isAplyFilter : Bool =  false
     var removeEmpty =  false
+    var searchAlertView: SearchAlertView? = nil
 
     
     override func getScreenGAIName() -> String {
@@ -212,6 +213,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
             }
         }
+        
+        self.searchAlertView = SearchAlertView()
+        self.searchAlertView?.setValues("Peñafiel", correction: "Agua peñafiel", underline: "rojo")
+        self.view.addSubview(self.searchAlertView!)
     }
     
     
@@ -324,10 +329,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         super.viewDidAppear(animated)
         
 		self.collection!.reloadData()
-//        if self.hasEmptyView && self.isOriginalTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
-//            self.showEmptyMGGRView()
-//        }
-//        self.hasEmptyView = true
         
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch  {
             if finsihService && viewEmptyImage { //&&
@@ -372,9 +373,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         var startPoint = self.header!.frame.maxY
         if self.isTextSearch || self.isOriginalTextSearch {
-            viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+            searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
+            viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
             startPoint = viewBgSelectorBtn.frame.maxY + 20
         }else {
+            searchAlertView!.alpha = 0
             viewBgSelectorBtn.alpha = 0
         }
         

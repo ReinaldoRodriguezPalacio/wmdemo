@@ -49,9 +49,6 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
  
         viewTapClose = UIView()
         self.viewBackground = UIView()
@@ -166,7 +163,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     override func viewDidLayoutSubviews() {
         let bounds = self.view.frame.size
-        self.header!.frame = CGRectMake(0.0, 0.0, bounds.width, 97.0 - 24 )
+        self.header!.frame = CGRectMake(0.0, 0.0, bounds.width, 73 )
         self.headerTable!.frame = CGRectMake(0.0, 73 , bounds.width, 24.0)
         self.field!.frame = CGRectMake(16.0, 15, 225, 40.0)
         //        self.labelHelpScan!.frame = CGRectMake(40 , 17.0, self.field!.frame.width  -  49 - 24 - 20, 40.0)
