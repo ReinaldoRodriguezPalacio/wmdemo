@@ -956,13 +956,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
-            successBlock: { (arrayProduct:NSArray?, landingP:NSDictionary?) -> Void in
+                            successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
                 
-                if landingP!.count > 0 && arrayProduct!.count == 0 {
+                let landingP = resultDic["landingPage"] as! [String:AnyObject]
+                if landingP.count > 0 && arrayProduct!.count == 0 {
                     let controller = LandingPageViewController()
-                    controller.urlTicer = landingP!["img"] as! String
-                    controller.departmentId = landingP!["departmentid"] as! String
-                    controller.titleHeader = landingP!["text"] as? String
+                    controller.urlTicer = landingP["img"] as! String
+                    controller.departmentId = landingP["departmentid"] as! String
+                    controller.titleHeader = landingP["text"] as? String
                     controller.startView = 46.0
                     controller.searchFieldSpace = 0
                     self.navigationController!.pushViewController(controller, animated: true)
@@ -971,7 +972,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
-                    if landingP!.count == 0 { // > 0 TODO cambiar
+                    if landingP.count == 0 { // > 0 TODO cambiar
                         let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                         
                         self.bannerView = UIImageView()
