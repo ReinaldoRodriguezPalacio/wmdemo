@@ -17,6 +17,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     var gradesTable : UITableView!
     var loading: WMLoadingView?
     var emptyView: IPOGenericEmptyView!
+    var isSearching = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRADESLIST.rawValue
@@ -78,14 +79,25 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let grade = self.gradesList![indexPath.row]
-        let listController = IS_IPAD ? IPASchoolListViewController() : SchoolListViewController()
-        listController.lineId = grade["id"] as? String
-        listController.schoolName = self.schoolName
-        listController.familyId = self.familyId
-        listController.departmentId = self.departmentId
-        listController.gradeName = grade["name"] as? String
-        listController.listPrice = grade["price"] as? String
-        self.navigationController?.pushViewController(listController, animated: true)
+        if isSearching {
+            let controller = SearchProductViewController()
+            controller.searchContextType = .WithCategoryForMG
+            controller.titleHeader = grade["name"] as? String
+            controller.idDepartment = self.departmentId
+            controller.idFamily = self.familyId
+            controller.idLine = "_" //grade["id"] as? String
+            //searchContextType
+            self.navigationController!.pushViewController(controller, animated: true)
+        } else {
+            let listController = IS_IPAD ? IPASchoolListViewController() : SchoolListViewController()
+            listController.lineId = grade["id"] as? String
+            listController.schoolName = self.schoolName
+            listController.familyId = self.familyId
+            listController.departmentId = self.departmentId
+            listController.gradeName = grade["name"] as? String
+            listController.listPrice = grade["price"] as? String
+            self.navigationController?.pushViewController(listController, animated: true)
+        }
     }
     
     /**

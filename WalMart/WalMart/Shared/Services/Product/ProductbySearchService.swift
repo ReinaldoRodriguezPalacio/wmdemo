@@ -62,6 +62,12 @@ class ProductbySearchService : BaseService {
                     errorBlock?(error)
                     return
                 }
+                
+                var landingPageDict : NSDictionary? = [:]
+                if let landingPa = resultJSON["landingPage"] as? NSDictionary {
+                    landingPageDict = landingPa
+                }
+                
                 let itemObjectResult = resultJSON[JSON_KEY_RESPONSEOBJECT] as! NSDictionary
                 var newItemsArray = Array<AnyObject>()
                 if let items = itemObjectResult["items"] as? NSArray {

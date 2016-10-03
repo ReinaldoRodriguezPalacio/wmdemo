@@ -55,7 +55,7 @@ class GRProductBySearchService: GRBaseService {
         ] as [String:AnyObject]
     }
 
-    func callService(params:NSDictionary, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(params:NSDictionary, successBlock:((NSArray,landingP:NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params)
         self.callPOSTService(params,
@@ -66,6 +66,11 @@ class GRProductBySearchService: GRBaseService {
                 if let error = self.validateCodeMessage(resultJSON) {
                     errorBlock?(error)
                     return
+                }
+                
+                var landingPageDict : NSDictionary? = [:]
+                if let landingPa = resultJSON["landingPage"] as? NSDictionary {
+                    landingPageDict = landingPa
                 }
                 
                 if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? NSArray {
@@ -85,7 +90,7 @@ class GRProductBySearchService: GRBaseService {
                         newItemsArray.append(item)
                     }
                     
-                    successBlock?(newItemsArray)
+                    successBlock?(newItemsArray, landingP: landingPageDict!)
                 }
             },
             errorBlock: { (error:NSError) -> Void in

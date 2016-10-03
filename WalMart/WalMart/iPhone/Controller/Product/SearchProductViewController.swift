@@ -61,6 +61,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var allProducts: NSMutableArray? = []
     var upcsToShow : [String]? = []
     var upcsToShowApply : [String]? = []
+    var flagtest = true
     
     var titleHeader: String?
     var originalSort: String?
@@ -74,6 +75,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var idSort:String?
     var maxResult: Int = 20
     var brandText: String? = ""
+    
+    var bannerView : UIImageView!
+    var isLandingPage = false
     
     var viewBgSelectorBtn : UIView!
     var btnSuper : UIButton!
@@ -129,7 +133,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()
-       
         
         collection = getCollectionView()
         collection?.registerClass(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
@@ -146,6 +149,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.searchContextType! == .WithCategoryForMG {
             self.idSort =  FilterType.rankingASC.rawValue
         }
+        
+        
+        //bannerView.backgroundColor = WMColor.empty_gray
+        
         
         self.filterButton = UIButton(type: .Custom)
         //self.filterButton!.setImage(iconImage, forState: .Normal)
@@ -383,6 +390,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.idListFromSearch != "" {
             startPoint = self.header!.frame.maxY
+        }
+        if isLandingPage {
+            bannerView!.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 100)
+            viewBgSelectorBtn.frame =  CGRectMake(16,  self.bannerView!.frame.maxY + 20, 288, 28)
+            startPoint = viewBgSelectorBtn.frame.maxY + 20
         }
         
         //TODO MAke Search only one resultset
@@ -830,6 +842,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             print("MG Search IS COMPLETE!!!")
             self.mgResults!.totalResults = self.allProducts!.count
             self.mgResults!.resultsInResponse = self.mgResults!.totalResults
+            if self.mgResults!.totalResults == 0 && self.mgResults!.resultsInResponse == 0 {
+                self.finsihService =  true
+                self.removeEmpty =  false
+                self.showEmptyView()
+            }
             actionSuccess?()
             return
         }
@@ -921,8 +938,38 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
-            successBlock: { (arrayProduct:NSArray?) -> Void in
+            successBlock: { (arrayProduct:NSArray?, landingP:NSDictionary?) -> Void in
+                
+                if landingP!.count > 0 && arrayProduct!.count == 0 {
+                    let controller = LandingPageViewController()
+                    controller.urlTicer = landingP!["img"] as! String
+                    controller.departmentId = landingP!["departmentid"] as! String
+                    controller.titleHeader = landingP!["text"] as? String
+                    controller.startView = 46.0
+                    controller.searchFieldSpace = 0
+                    self.navigationController!.pushViewController(controller, animated: true)
+                    
+                    return
+                }
+                
                 if arrayProduct != nil && arrayProduct!.count > 0 {
+                    if landingP!.count == 0 { // > 0 TODO cambiar
+                        let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
+                        
+                        self.bannerView = UIImageView()
+                        self.bannerView.contentMode = UIViewContentMode.ScaleAspectFill
+                        //self.bannerView.setImageWithURL(NSURL(string: "http://\(imageURL)"))
+                        
+                        self.bannerView.setImageWithURL(NSURL(string: "http://\(imageURL)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                            self.bannerView.image = image
+                        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                            print("Error al presentar imagen")
+                        }
+                        
+                        self.view.addSubview(self.bannerView)
+                        self.isLandingPage = true
+                    }
+                    
                     if let item = arrayProduct?[0] as? NSDictionary {
                         //println(item)
                         if let results = item["resultsInResponse"] as? NSString {
