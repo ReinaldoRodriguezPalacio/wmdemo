@@ -55,7 +55,7 @@ class GRProductBySearchService: GRBaseService {
         ] as [String:AnyObject]
     }
 
-    func callService(params:NSDictionary, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(params:NSDictionary, successBlock:((NSArray,resultDic:[String:AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params)
         self.callPOSTService(params,
@@ -68,7 +68,13 @@ class GRProductBySearchService: GRBaseService {
                     return
                 }
                 
-                if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? NSArray {
+                let suggestion:String = resultJSON["suggestion"] as? String ?? ""
+                let alternativeCombination:String = resultJSON["alternativeCombination"]as? String ?? ""
+                let landingPage = resultJSON["landingPage"] as? [String:AnyObject] ?? [:]
+                let dic: [String:AnyObject] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
+                let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEARRAY))
+                
+                if let items = resultJSON[arrayKey] as? NSArray {
                     self.saveKeywords(items) //Creating keywords
                     
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
@@ -80,12 +86,12 @@ class GRProductBySearchService: GRBaseService {
                                 item["saving"] = promodesc
                             }
                         }
-                        item["pesable"] =  item["type"] as! NSString
+                        item["pesable"] =  item["type"] as? NSString ?? "0"
                         item["type"] = ResultObjectType.Groceries.rawValue
                         newItemsArray.append(item)
                     }
                     
-                    successBlock?(newItemsArray)
+                    successBlock?(newItemsArray,resultDic:dic)
                 }
             },
             errorBlock: { (error:NSError) -> Void in

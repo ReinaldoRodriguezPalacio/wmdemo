@@ -51,7 +51,7 @@ class ProductbySearchService : BaseService {
     }
     
     
-    func callService(params:NSDictionary, successBlock:((NSArray,facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(params:NSDictionary, successBlock:((NSArray,facet:NSArray,resultDic:[String:AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("PARAMS FOR ProductbySearchService")
         self.jsonFromObject(params)
         self.callPOSTService(params,
@@ -62,7 +62,15 @@ class ProductbySearchService : BaseService {
                     errorBlock?(error)
                     return
                 }
-                let itemObjectResult = resultJSON[JSON_KEY_RESPONSEOBJECT] as! NSDictionary
+                
+                let suggestion:String = resultJSON["suggestion"] as? String ?? ""
+                let alternativeCombination:String = resultJSON["alternativeCombination"]as? String ?? ""
+                let landingPage = resultJSON["landingPage"] as? [String:AnyObject] ?? [:]
+                let dic: [String:AnyObject] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
+                let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEOBJECT))
+                
+                
+                let itemObjectResult = resultJSON[arrayKey] as! NSDictionary
                 var newItemsArray = Array<AnyObject>()
                 if let items = itemObjectResult["items"] as? NSArray {
                     //println(items)
@@ -77,7 +85,7 @@ class ProductbySearchService : BaseService {
                 if let itemsFacets = itemObjectResult["facet"] as? [AnyObject] {
                     facets = itemsFacets
                 }
-                successBlock?(newItemsArray,facet: facets)
+                successBlock?(newItemsArray,facet: facets,resultDic: dic)
             },
             errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

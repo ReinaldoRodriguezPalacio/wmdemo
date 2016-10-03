@@ -109,6 +109,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var  isAplyFilter : Bool =  false
     var removeEmpty =  false
     var searchAlertView: SearchAlertView? = nil
+    var showAlertView = false
 
     
     override func getScreenGAIName() -> String {
@@ -373,8 +374,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         var startPoint = self.header!.frame.maxY
         if self.isTextSearch || self.isOriginalTextSearch {
-            searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
-            viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
+            if self.showAlertView {
+                searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
+                viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
+            }else{
+                viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+            }
+            searchAlertView!.alpha = self.showAlertView ? 1 : 0
             startPoint = viewBgSelectorBtn.frame.maxY + 20
         }else {
             searchAlertView!.alpha = 0
@@ -842,7 +848,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
-            successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
+            successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     if let item = arrayProduct?[0] as? NSDictionary {
@@ -854,6 +860,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.mgResults!.totalResults = total.integerValue
                         }
                     }
+                    
+                    if (resultDic["alternativeCombination"] as! String) != "" {
+                        let alternativeCombination = resultDic["alternativeCombination"] as! String
+                        let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
+                        self.showAlertView = true
+                        self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
+                    }
+                    if (resultDic["suggestion"] as! String) != "" {
+                        self.showAlertView = true
+                        self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
+                    }
+                    
                     self.mgResults!.addResults(arrayProduct!)
                     if var sortFacet = facet as? [[String:AnyObject]] {
                         sortFacet.sortInPlace { (item, seconditem) -> Bool in
@@ -921,7 +939,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
-            successBlock: { (arrayProduct:NSArray?) -> Void in
+                successBlock: { (arrayProduct:NSArray?,resultDic:[String:AnyObject]) -> Void in
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     if let item = arrayProduct?[0] as? NSDictionary {
                         //println(item)
@@ -932,20 +950,24 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.grResults!.totalResults = total.integerValue
                         }
                     }
-                    self.grResults!.addResults(arrayProduct!)
                     
-                    //                    if self.allProducts != nil {
-                    //                        self.allProducts = self.allProducts!.arrayByAddingObjectsFromArray(arrayProduct!)
-                    //                    }
-                    //                    else {
-                    //                        self.allProducts = arrayProduct
-                    //                    }
+                    if (resultDic["alternativeCombination"] as! String) != "" {
+                        let alternativeCombination = resultDic["alternativeCombination"] as! String
+                        let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
+                        self.showAlertView = true
+                        self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
+                    }
+                    if (resultDic["suggestion"] as! String) != "" {
+                        self.showAlertView = true
+                        self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
+                    }
+                    
+                    self.grResults!.addResults(arrayProduct!)
                 }
                 else {
                     self.grResults!.resultsInResponse = 0
                     self.grResults!.totalResults = 0
                 }
-                
                 actionSuccess?()
             }, errorBlock: {(error: NSError) in
                 print(error)

@@ -12,6 +12,8 @@ import CoreData
 let ERROR_SERIVCE_DOMAIN = "com.bcg.service.error"
 let JSON_KEY_DESCRIPTION = "description"
 let JSON_KEY_RESPONSEARRAY = "responseArray"
+let JSON_KEY_RESPONSEARRAY_CORRECTION = "responseArrayCorrection"
+let JSON_KEY_RESPONSEARRAY_ALTERNATIVE = "responseArrayAlternative"
 let JSON_KEY_RESPONSEOBJECT = "responseObject"
 
 let JSON_KEY_TEXT = "pText"

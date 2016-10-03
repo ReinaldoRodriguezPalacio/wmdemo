@@ -234,7 +234,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         let service = GRProductBySearchService()
         let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6,brand:"")
         service.callService(params,
-            successBlock: { (arrayProduct:NSArray?) -> Void in
+            successBlock: { (arrayProduct:NSArray?,resultDic:[String:AnyObject]) -> Void in
                 NSLog("lcs 2")
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     NSLog("lcs 2")
