@@ -438,6 +438,7 @@
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
 		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
 		6C905A3F1D9F183200746B2D /* SearchAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C905A3E1D9F183200746B2D /* SearchAlertView.swift */; };
+		6C933C4B1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C933C4A1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf */; };
 		6CBCCFAC1C84C2E3002D7717 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */; };
 		6CBCCFAF1C8795EF002D7717 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */; };
 		6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */; };
@@ -1051,6 +1052,8 @@
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
 		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
 		6C905A3E1D9F183200746B2D /* SearchAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchAlertView.swift; path = iPhone/View/SearhResult/SearchAlertView.swift; sourceTree = "<group>"; };
+		6C933C4A1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MyriadPro-SemiboldIt.otf"; path = "Shared/Resources/Fonts/MyriadPro-SemiboldIt.otf"; sourceTree = "<group>"; };
+		6C933C4C1DA2C8EE003EF62E /* MyriadPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MyriadPro-SemiboldIt.otf"; path = "WalMart/Shared/Resources/Fonts/MyriadPro-SemiboldIt.otf"; sourceTree = "<group>"; };
 		6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewController.swift; path = iPhone/Controller/Reminder/ReminderViewController.swift; sourceTree = "<group>"; };
 		6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarView.swift; path = iPhone/View/Reminder/CalendarView.swift; sourceTree = "<group>"; };
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
@@ -1528,6 +1531,7 @@
 		5645788D19AE2E00006A7152 = {
 			isa = PBXGroup;
 			children = (
+				6C933C4C1DA2C8EE003EF62E /* MyriadPro-SemiboldIt.otf */,
 				ACBA55C519BF583700393E02 /* Frameworks */,
 				5645789819AE2E00006A7152 /* WalMart */,
 				564578AE19AE2E00006A7152 /* WalMartTests */,
@@ -2479,6 +2483,7 @@
 		56C5B22619AE87FD00BB81DE /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				6C933C4A1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf */,
 				56527DB519AFA8C2008032C6 /* MyriadPro-Black.otf */,
 				56527DB619AFA8C2008032C6 /* MyriadPro-BlackCond.otf */,
 				56527DB719AFA8C2008032C6 /* MyriadPro-BlackCondIt.otf */,
@@ -3242,6 +3247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C933C4B1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf in Resources */,
 				56527DC919AFA8C2008032C6 /* MyriadPro-BlackCondIt.otf in Resources */,
 				56527DCA19AFA8C2008032C6 /* MyriadPro-BlackSemiExtIt.otf in Resources */,
 				8B44A1BC1AA7E16C008E3CC0 /* PagoSeguro.pdf in Resources */,

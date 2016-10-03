@@ -52,9 +52,9 @@ class SearchAlertView: UIView {
     func setValues(key:String,correction:String,underline:String?)
     {
         let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
-        let attrsBold = [NSFontAttributeName : WMFont.fontMyriadProSemiboldSize(12)]
-        let attrsOrange = [NSFontAttributeName : WMFont.fontMyriadProSemiboldSize(12), NSForegroundColorAttributeName: WMColor.yellow]
-        let attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldSize(12), NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue]
+        let attrsBold = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12)]
+        let attrsOrange = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12), NSForegroundColorAttributeName: WMColor.yellow]
+        let attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12), NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue]
         
         let messageString = NSMutableAttributedString(string: "No se encontró: ", attributes: attrs)
         let boldString = NSMutableAttributedString(string:"\(key) ", attributes:attrsBold)

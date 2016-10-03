@@ -59,6 +59,10 @@ class WMFont {
         return UIFont(name:"MyriadPro-LightSemiExtIt", size: size)
     }
     
+    class func fontMyriadProSemiboldItalicOfSize (size:CGFloat) -> UIFont!{
+        return UIFont(name:"MyriadPro-SemiboldIt", size: size)
+    }
+    
     class func fontMyriadProRegularOfSize (size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-Regular", size: size)
     }

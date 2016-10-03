@@ -91,6 +91,7 @@
 	<string>Localización de tiendas</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>MyriadPro-SemiboldIt.otf</string>
 		<string>MyriadPro-Black.otf</string>
 		<string>MyriadPro-BlackCond.otf</string>
 		<string>MyriadPro-BlackCondIt.otf</string>
