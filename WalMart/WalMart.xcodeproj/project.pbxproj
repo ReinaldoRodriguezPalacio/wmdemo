@@ -51,6 +51,8 @@
 		04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */; };
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
+		4A223E721DA2A8F20033B310 /* GetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */; };
+		4A223E741DA2A91A0033B310 /* SetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */; };
 		4A26BC841D47C03600714FF5 /* ListHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26BC831D47C03600714FF5 /* ListHelpView.swift */; };
 		4A4CFB221D9302C20009C9DD /* DetailedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4CFB211D9302C20009C9DD /* DetailedService.swift */; };
 		4A4E7B271D5161B5001514BD /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E7B261D5161B5001514BD /* CFNetwork.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -619,6 +621,8 @@
 		04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPaymentTypeService.swift; path = Shared/Services/checkout/GRPaymentTypeService.swift; sourceTree = "<group>"; };
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetPreferencesService.swift; path = Shared/Services/Profile/GetPreferencesService.swift; sourceTree = "<group>"; };
+		4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetPreferencesService.swift; path = Shared/Services/Profile/SetPreferencesService.swift; sourceTree = "<group>"; };
 		4A26BC831D47C03600714FF5 /* ListHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHelpView.swift; sourceTree = "<group>"; };
 		4A4CFB211D9302C20009C9DD /* DetailedService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedService.swift; path = Shared/Services/checkout/DetailedService.swift; sourceTree = "<group>"; };
 		4A4E7B261D5161B5001514BD /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1508,6 +1512,8 @@
 				56AAFF991A929E73007B8D91 /* GRZipCodeService.swift */,
 				566902301A9431B7000D6FA6 /* GRRecentProductsService.swift */,
 				5673D11E1A9D278D00DCD20B /* GRPreviousOrdersService.swift */,
+				4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */,
+				4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -3487,6 +3493,7 @@
 				56E54E5819ECA00B0004161C /* IPAProductDetailBannerView.swift in Sources */,
 				5673D13C1A9D500400DCD20B /* RSCornersLayer.swift in Sources */,
 				56C616BF1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift in Sources */,
+				4A223E721DA2A8F20033B310 /* GetPreferencesService.swift in Sources */,
 				4AD4397E1D62328E00C4DA17 /* LegendView.swift in Sources */,
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
@@ -3656,6 +3663,7 @@
 				56823B3019CB732C007DD932 /* NSString+HashUtil.m in Sources */,
 				56AC6EA01B39CC1C00C599A2 /* DefaultListViewController.swift in Sources */,
 				5639DF3B19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift in Sources */,
+				4A223E741DA2A91A0033B310 /* SetPreferencesService.swift in Sources */,
 				AC37F6B419B906FE000BB80D /* CrossSellingProductService.swift in Sources */,
 				5696079F19B512AE005D20DC /* ProductDetailBannerTableViewCell.swift in Sources */,
 				ACAFDB0419ED8E970040A8C8 /* IPAMyAddressViewController.swift in Sources */,

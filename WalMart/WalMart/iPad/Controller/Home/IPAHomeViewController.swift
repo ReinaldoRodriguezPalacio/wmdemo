@@ -112,7 +112,7 @@ class IPAHomeViewController : HomeViewController {
                 if let sku = productRecomm["sku"] as? NSDictionary {
                     if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
                         if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                            upc = item["id"] as! String
+                            upc = item["id"] as? String ?? ""
                             desc = item["longDescription"] as! String
                         }
                     }

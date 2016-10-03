@@ -219,6 +219,10 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.SetPreferencesService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/setPreferences</string>
+			<key>WalmartMG.GetPreferencesService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/getPreferences</string>
 			<key>WalmartMG.UpdateItemToOrderService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateItemToOrder</string>
 			<key>WalmartMG.DetailedService</key>
@@ -398,6 +402,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.SetPreferencesService</key>
+			<string>https://dl.dropboxusercontent.com/s/d3tsuq8tlwghpmv/setPreferences.txt?dl=0</string>
+			<key>WalmartMG.GetPreferencesService</key>
+			<string>https://dl.dropboxusercontent.com/s/umanp14fknz7t8s/getPreferences.txt?dl=0</string>
 			<key>WalmartMG.DetailedService</key>
 			<string>https://dl.dropboxusercontent.com/s/dv3t4s71ttgfv2e/detailed.txt?dl=0</string>
 			<key>WalmartMG.UpdateItemToOrderService</key>

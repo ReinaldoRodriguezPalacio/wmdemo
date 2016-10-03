@@ -41,6 +41,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var messageInCommens = ""
     var commentsString : NSMutableAttributedString?
     var showMessageInCommens =  false
+    var userPreferences : NSMutableDictionary = [:]
+    var changePreferences : Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -53,9 +55,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.titleLabel?.text = NSLocalizedString("checkout.title.commentsview", comment: "")
         self.view.backgroundColor = UIColor.whiteColor()
         
-//        if IS_IPAD {
-//            self.backButton?.hidden = true
-//        }
         
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             self.savePhone()
@@ -89,7 +88,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton = UIButton()
         self.confirmCallButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.confirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:) ), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), forState: .Normal)
         self.confirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
@@ -125,7 +124,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton = UIButton()
         self.confirmCallOptionButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.confirmCallOptionButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), forState: .Normal)
         self.confirmCallOptionButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.confirmCallOptionButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -138,7 +137,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton = UIButton()
         self.notConfirmCallButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.notConfirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), forState: .Normal)
         self.notConfirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.notConfirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -181,6 +180,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             }
         }
         
+        self.invokePreferenceService()
+        
         self.layerLine = CALayer()
         layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(layerLine, atIndex: 1000)
@@ -210,6 +211,28 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.buildSubViews()
+        
+        switch userPreferences["onlyTelephonicAlert"] as!  String {
+            
+        case OnlyAlertPreferences.receiveCallConfirmation.rawValue:
+            self.confirmCallSelected(self.confirmCallOptionButton!,changePrefeered: true)
+            print("receiveCallConfirmation")
+            break
+            
+        case OnlyAlertPreferences.onlySubstituteAvailable.rawValue:
+            print("onlySubstituteAvailable")
+            self.confirmCallSelected(self.notConfirmCallButton!,changePrefeered: true)
+            break
+    
+        case OnlyAlertPreferences.onlyOrderedProducts.rawValue:
+            print("onlyOrderedProducts")
+            self.confirmCallSelected(self.confirmCallButton!,changePrefeered: true)
+            
+            break
+        default:
+            break
+        }
+        
     }
     
     /**
@@ -267,14 +290,20 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      */
     func next(){
         self.comments!.resignFirstResponder()
-//        let commentsText = self.comments!.text ==  NSLocalizedString("checkout.field.comments", comment:"") ? "" : self.comments!.text
-//        self.paramsToOrder!["comments"] = commentsText
-//        self.paramsToOrder!["pickingInstruction"] = self.confirmSelected
-//        self.paramsToConfirm!["pickingInstruction"] = self.confirmText
+        if self.changePreferences {
+                self.invokeSavepeferences()
+        }
+        
+
         let nextController = GRCheckOutConfirmViewController()
         nextController.paramsToOrder = self.paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
+        
+        
     }
+    
+    
+    
 
     func addViewLoad(){
         if viewLoad == nil {
@@ -296,8 +325,16 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      
      - parameter button: selected button
      */
-    func confirmCallSelected(button:UIButton){
+    func confirmCallSelected(button:UIButton,changePrefeered:Bool){
+        self.changePreferences = !changePrefeered
+        
+        
         if self.confirmSelected != button.tag {
+           // 2= only Substitute Available
+            // 3 = onlyOrderedProducts
+            // 1 =  receiveCallConfirmation
+            
+            
             self.confirmCallButton?.selected = (self.confirmCallButton == button)
             self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
             self.confirmCallOptionButton?.selected = (self.confirmCallOptionButton == button)
@@ -305,6 +342,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.confirmText = button.titleLabel!.text!
         
             if confirmSelected == 3{
+           
+                self.userPreferences.setObject(OnlyAlertPreferences.receiveCallConfirmation.rawValue, forKey:"onlyTelephonicAlert")
+                
                 self.confirmText = "\(self.confirmText)\n\(self.phoneField!.text!)"
                 self.phoneField?.enabled = true
                 self.phoneField?.textColor = UIColor.blackColor()
@@ -313,7 +353,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 self.phoneField?.enabled = false
                 self.phoneField?.textColor = WMColor.reg_gray
                 self.showPhoneField = false
+                
+                self.userPreferences.setObject(confirmSelected == 1 ? OnlyAlertPreferences.onlyOrderedProducts.rawValue : OnlyAlertPreferences.onlySubstituteAvailable.rawValue , forKey:"onlyTelephonicAlert")
             }
+            
+            
         
             self.showPhoneFieldAnimated()
         }
@@ -417,6 +461,37 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         SignUpViewController.presentMessage(self.phoneField!, nameField:self.phoneField!.nameField, message: message! , errorView:self.errorView! , becomeFirstResponder: true)
         return false
     }
+    
+    //MARK: Services
+    
+   
+    func invokePreferenceService(){
+        let peferences = GetPreferencesService()
+        peferences.getLocalPreferences({ (result:NSDictionary) in
+                self.userPreferences.addEntriesFromDictionary(result as [NSObject : AnyObject])
+            
+        }, errorBlock: { (error:NSError) in
+                print("Error invokePreferenceService \(error.localizedDescription)")
+        })
+        
+    }
+    
+    func invokeSavepeferences(){
+        let peferencesService =  SetPreferencesService()
+        //TODO preguntar por valor:: acceptConsent
+        let  params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
+        peferencesService.jsonFromObject(params)
+        peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
+            print("Preferencias Guardadas")
+            self.invokePreferenceService()
+            
+        }, errorBlock: { (error:NSError) in
+            print("Hubo un error al guardar las Preferencias")
+            
+        })
+    
+    }
+    
     
     /**
      Saves de user comments
