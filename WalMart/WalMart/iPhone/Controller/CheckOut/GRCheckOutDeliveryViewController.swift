@@ -565,6 +565,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.invoiceButton!.selected = !self.invoiceButton!.selected
         self.addressInvoice!.hidden =  !self.invoiceButton!.selected
         self.addressInvoice!.enabled = self.invoiceButton!.selected
+        
+        self.addressInvoice!.layer.borderColor = UIColor.clearColor().CGColor
+        self.errorView?.removeFromSuperview()
+        self.errorView = nil
+
     }
     
     
