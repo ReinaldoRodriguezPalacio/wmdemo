@@ -500,37 +500,33 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
-                            if let preferred = dictDir["preferred"] as? NSNumber {
-                                if self.selectedAddress == nil {
-                                    if preferred.boolValue == true {
-                                        self.selectedAddressIx = NSIndexPath(forRow: ixCurrent, inSection: 0)
-                                        if let nameDict = dictDir["name"] as? String {
-                                            self.address?.text =  nameDict
-                                        }
-                                        if let idDir = dictDir["id"] as? String {
-                                            print("invokeAddressUserService idAdress \(idDir)")
-                                            self.selectedAddress = idDir
-                                            
-                                        }
-                                        if let isAddressOK = dictDir["isAddressOk"] as? String {
-                                            self.selectedAddressHasStore = !(isAddressOK == "False")
-                                            if !self.selectedAddressHasStore{
-                                                self.showAddressPicker()
-                                                self.picker!.newItemForm()
-                                                self.picker!.viewButtonClose.hidden = true
-                                                let delay = 0.7 * Double(NSEC_PER_SEC)
-                                                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                                                dispatch_after(time, dispatch_get_main_queue()) {
-                                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                                                    self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
-                                                    self.alertView!.showDoneIconWithoutClose()
-                                                    self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
-                                                }
-                                            }
+                            if self.selectedAddress == nil || self.selectedAddress == "" {
+                                self.selectedAddressIx = NSIndexPath(forRow: ixCurrent, inSection: 0)
+                                if let nameDict = dictDir["name"] as? String {
+                                    self.address?.text =  nameDict
+                                }
+                                if let idDir = dictDir["addressId"] as? String {
+                                    print("invokeAddressUserService idAdress \(idDir)")
+                                    self.selectedAddress = idDir
+                                }
+                                if let isAddressOK = dictDir["isAddressOk"] as? String {
+                                    self.selectedAddressHasStore = !(isAddressOK == "False")
+                                    if !self.selectedAddressHasStore{
+                                        self.showAddressPicker()
+                                        self.picker!.newItemForm()
+                                        self.picker!.viewButtonClose.hidden = true
+                                        let delay = 0.7 * Double(NSEC_PER_SEC)
+                                        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                                        dispatch_after(time, dispatch_get_main_queue()) {
+                                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                                            self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+                                            self.alertView!.showDoneIconWithoutClose()
+                                            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                                         }
                                     }
                                 }
                             }
+                            break
                         }
                     }
                 }

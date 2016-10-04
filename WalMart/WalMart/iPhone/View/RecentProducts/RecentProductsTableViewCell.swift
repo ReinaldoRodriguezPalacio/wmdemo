@@ -128,7 +128,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
                 }
                
                 let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.skuId, upc:self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty,onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable:self.isPreorderable)
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), forState:UIControlState.Normal)
+                btnShoppingCart.setImage(UIImage(named: "products_done"), forState:UIControlState.Normal)
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 
             }else{
@@ -167,7 +167,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
             isDisabled = true
         }else{
             if isInShoppingCart {
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), forState:UIControlState.Normal)
+                btnShoppingCart.setImage(UIImage(named: "products_done"), forState:UIControlState.Normal)
             }else {
                 btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
             }
