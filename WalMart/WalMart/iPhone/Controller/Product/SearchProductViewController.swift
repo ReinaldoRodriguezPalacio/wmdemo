@@ -972,7 +972,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
-                    if landingP.count == 0 { // > 0 TODO cambiar
+                    if landingP.count > 0 { // > 0 TODO cambiar
                         let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                         
                         self.bannerView = UIImageView()
