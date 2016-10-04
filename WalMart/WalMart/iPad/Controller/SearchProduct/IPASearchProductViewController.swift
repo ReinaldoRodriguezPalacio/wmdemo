@@ -39,7 +39,15 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.titleLabel!.frame = CGRectMake((bounds.width - self.titleLabel!.frame.width) / 2,  0, titleLabel!.frame.width , self.header!.frame.height)
            // frameTitle = self.titleLabel!.frame
         }
-        self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 16, 320, 28)
+        
+        if self.showAlertView {
+            searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
+            self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.searchAlertView!.frame.maxY + 20, 320, 28)
+        }else{
+            self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 20, 320, 28)
+        }
+        searchAlertView!.alpha = self.showAlertView ? 1 : 0
+        
         self.btnSuper.frame = CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2)
         self.btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
         self.btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)

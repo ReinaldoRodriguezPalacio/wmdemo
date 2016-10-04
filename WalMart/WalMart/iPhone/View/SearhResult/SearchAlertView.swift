@@ -79,7 +79,8 @@ class SearchAlertView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.imageIcon!.frame = CGRectMake(12, 15, 16, 16)
+        let imageOriginX: CGFloat = IS_IPAD ? 352 : 12
+        self.imageIcon!.frame = CGRectMake(imageOriginX, 15, 16, 16)
         self.labelMessage!.frame = CGRectMake(self.imageIcon!.frame.maxX + 12, 8, 270, 12)
         self.resultsOf!.frame = CGRectMake(self.imageIcon!.frame.maxX + 12, 26, 270, 12)
     }
