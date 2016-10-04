@@ -52,7 +52,7 @@ class SelectItemTableViewCell : UITableViewCell {
         self.disclosureImage.hidden = true
         self.addSubview(disclosureImage)
         
-        self.preferedImage = UIImageView(frame: CGRectMake(self.disclosureImage.frame.minX - 38, 0, 22, self.textLabel!.frame.height))
+        self.preferedImage = UIImageView(frame: CGRectMake(self.disclosureImage.frame.minX - 16, 0, 22, self.textLabel!.frame.height))
         self.preferedImage.image = UIImage(named: "favorite_selected")
         self.preferedImage.contentMode = UIViewContentMode.Center
         self.preferedImage.hidden = true
@@ -71,7 +71,7 @@ class SelectItemTableViewCell : UITableViewCell {
         self.textLabel?.frame = CGRectMake(self.checkSelected.frame.maxX, self.textLabel!.frame.minY, 249, self.textLabel!.frame.height)
         self.showButton?.frame = CGRectMake(250, self.textLabel!.frame.minY, 22, self.textLabel!.frame.height)
         self.disclosureImage?.frame = CGRectMake(self.frame.width - 38, 0, 22, self.textLabel!.frame.height)
-        self.preferedImage?.frame = CGRectMake(self.disclosureImage.frame.minX - 38, 0, 22, self.textLabel!.frame.height)
+        self.preferedImage?.frame = CGRectMake(self.disclosureImage.frame.minX - 26, 0, 22, self.textLabel!.frame.height)
         if self.showSeparator {
             self.layerLine.frame = CGRectMake(22, self.frame.height - 1, self.frame.width - 24, 1)
         }else{
