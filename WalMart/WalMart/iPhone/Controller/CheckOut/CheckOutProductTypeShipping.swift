@@ -88,7 +88,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.titleDelivery = UILabel()
         self.titleDelivery!.textColor = WMColor.light_blue
         self.titleDelivery!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.titleDelivery!.text = "Selecciona el tipo de envío"
+        self.titleDelivery!.text = "Selecciona un tipo de envío"
         self.view.addSubview(titleDelivery!)
 
 
@@ -97,7 +97,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.deliveryButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.deliveryButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.deliveryButton!.setTitle("Envío a domicilio", forState: .Normal)
-        self.deliveryButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right:0)
+        self.deliveryButton!.titleEdgeInsets = UIEdgeInsets(top: 3, left: 10, bottom: 0, right:0)
         self.deliveryButton!.contentHorizontalAlignment = .Left
         self.deliveryButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.deliveryButton?.tag =  1
@@ -116,7 +116,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.collectButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.collectButton!.setTitle("Recoger en tienda", forState: .Normal)
         self.collectButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.collectButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right:0)
+        self.collectButton!.titleEdgeInsets = UIEdgeInsets(top: 3, left: 10, bottom: 0, right:0)
         self.collectButton!.addTarget(self, action: #selector(CheckOutProductTypeShipping.checkTypeDeliver(_:)), forControlEvents: .TouchUpInside)
         self.collectButton?.tag =  2
         self.collectButton!.contentHorizontalAlignment = .Left
@@ -140,17 +140,17 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         self.titleDelivery?.frame =  CGRectMake(16,headerHeight + 16 ,self.view.frame.width - 32 ,14)
         
-        self.deliveryButton?.frame =  CGRectMake(16,self.titleDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
+        self.deliveryButton?.frame =  CGRectMake(16,self.titleDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,46)
         
-        delivaryCost?.frame = CGRectMake(self.view.frame.width - (self.deliveryButton!.frame.width + 16) , deliveryButton!.frame.minY, self.deliveryButton!.frame.width , 18)
+        delivaryCost?.frame = CGRectMake(self.view.frame.width - (self.deliveryButton!.frame.width + 16) , deliveryButton!.frame.minY, self.deliveryButton!.frame.width , 46)
         
-        self.collectButton?.frame =  CGRectMake(16,self.deliveryButton!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
-        collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 18)
+        self.collectButton?.frame =  CGRectMake(16,self.deliveryButton!.frame.maxY + 8 ,self.view.frame.midX - 16 ,46)
+        collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 46)
         
         if afterSelected != nil &&  afterSelected!.tag == 1 {
                 
-                self.collectButton?.frame =  CGRectMake(16,self.viewDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
-                collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 18)
+                self.collectButton?.frame =  CGRectMake(16,self.viewDelivery!.frame.maxY + 8 ,self.view.frame.midX - 16 ,46)
+                collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 46)
             
         }else{
                 self.viewDelivery?.frame = CGRectMake(16,self.collectButton!.frame.maxY + 16 ,self.view.frame.width - 32 ,144)
@@ -221,12 +221,13 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         viewDelivery = UIView(frame: frame)
         
         let  addressInvoice = FormFieldView(frame: CGRectMake(0, 0, frame.width, 40))
-        addressInvoice.setCustomPlaceholder("Mi casa")
+        addressInvoice.attributedPlaceholder = NSAttributedString(string: "Mi casa", attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
         addressInvoice.isRequired = true
         addressInvoice.enabled = false
         addressInvoice.typeField = TypeField.List
         addressInvoice.setImageTypeField()
         addressInvoice.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
+    
         addressInvoice.imageList!.hidden = true
         viewDelivery!.addSubview(addressInvoice)
         

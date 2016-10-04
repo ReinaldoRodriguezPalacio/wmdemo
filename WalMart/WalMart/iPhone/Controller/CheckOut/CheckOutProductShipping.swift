@@ -121,7 +121,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let dic = self.shippingAll[section] as! NSDictionary
+        
         var sending = false
         if let _ = self.shipping[section] as? NSDictionary{
             sending = true
@@ -214,7 +214,6 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         }
         else {
             let cellText = tableProductsCheckout.dequeueReusableCellWithIdentifier("productShippingCell", forIndexPath: indexPath) as! CheckOutShippingCell
-            let dic = self.shippingAll[indexPath.section ] as! NSDictionary
             let items =  self.orderDictionary?.objectForKey("commerceItems") as! NSArray
             cellText.setValues(items[indexPath.row - (configshiping ? 2 : 1)]["productDisplayName"] as? String ?? "", quanty: items[indexPath.row - (configshiping ? 2 : 1)]["quantity"] as? NSNumber ?? 0)
             cellText.cartButton?.hidden = true
@@ -244,7 +243,6 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
              return 114 / 2
             }
             if indexPath.section ==  shippingAll.count - 1 {
-                let dic = self.shippingAll[indexPath.section] as! NSDictionary
                 let items =   self.orderDictionary?.objectForKey("commerceItems") as! NSArray
                 if (items.count  + (configshiping ?  1 : 0)) == indexPath.row {
                     return 85
@@ -326,13 +324,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         if itemSelected >= 0 {
             
             let shippingDic = ["type":envio ,"util":util,"date":date , "rowSelected":rowSelected ]
-            //self.paramsToOrder?.setValue(shippingDic, forKey: "shipping")
             if shippingsToOrder ==  nil {
                 self.shippingsToOrder = [["type":envio ,"util":util,"date":date , "rowSelected":rowSelected]]
             }else{
                 shippingsToOrder?.addObject(["type":envio ,"util":util,"date":date , "rowSelected":rowSelected])
             }
-            //self.paramsToOrder?.objectForKey("shipping")?.addEntriesFromDictionary(shippingDic as [NSObject : AnyObject])
             
             shipping.updateValue(shippingDic, forKey: itemSelected)
             self.tableProductsCheckout.reloadData()
