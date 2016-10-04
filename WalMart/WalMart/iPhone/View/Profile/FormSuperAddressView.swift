@@ -598,7 +598,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         if self.neighborhoods.count > 0 {
             if selectedNeighborhood !=  nil {
                 let neightDict =  self.neighborhoodsDic[selectedNeighborhood.row]
-                neightId = neightDict["id"] as! String
+                neightId = neightDict["neighbourhoodId"] as! String
             }
         }
         let name = self.addressName.text
@@ -610,8 +610,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         var  storeName = ""
         if self.storesDic.count > 0 {
             let storeDict =  self.storesDic[selectedStore.row]
-            storeId = storeDict["id"] as! String!
-            storeName = storeDict["name"] as! String!
+            storeId = storeDict["storeId"] as! String!
+            storeName = storeDict["storeName"] as! String!
         }
         
         var action = "A"
