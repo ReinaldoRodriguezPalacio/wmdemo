@@ -51,8 +51,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var titleString : String?
     
     var paymentSelected : NSDictionary?
+    var errorView : FormFieldErrorView? = nil
 
-    
     var viewLoad : WMLoadingView!
 
     
@@ -211,6 +211,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.slotSelected = ""
         self.invokeSloteService(sender.tag == 1 ? HOME_DELIVERY : STORE_PICK_UP )
         self.selectTypeDelivery = sender.tag == 1 ? HOME_DELIVERY : STORE_PICK_UP
+        self.dateSelected = false
+        self.slotIsSelected = false
     }
     
     var  dateForm : FormFieldView?
@@ -238,7 +240,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         dateForm!.isRequired = true
         dateForm!.typeField = TypeField.List
         dateForm!.setImageTypeField()
-        dateForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
+        dateForm!.nameField = NSLocalizedString("Fechas disponibles", comment:"")
         dateForm!.onBecomeFirstResponder = { () in
             self.picker!.selected = self.selectedDateIdx
             self.picker!.sender = self.dateForm
@@ -257,7 +259,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         timeForm!.isRequired = true
         timeForm!.typeField = TypeField.List
         timeForm!.setImageTypeField()
-        timeForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
+        timeForm!.nameField = NSLocalizedString("Horarios disponibles", comment:"")
         timeForm!.onBecomeFirstResponder = { () in
             self.picker!.selected = self.selectedSlotIdx
             self.picker!.sender = self.timeForm
@@ -278,16 +280,17 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     
     func save(){
-        
-        let selectedSlotService = SelectedSlotService()
-        let params = selectedSlotService.buildParams(self.selectTypeDelivery, selectedSlotId: self.slotSelected)
-        selectedSlotService.callService(requestParams: params, succesBlock: { (result) -> Void in
-            self.delegate?.selectDataTypeShipping(NSLocalizedString(self.selectTypeDelivery, comment: ""), util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
-            self.navigationController!.popViewControllerAnimated(true)
-        }, errorBlock: { (error) -> Void in
-            
-           print("error guardando slot")
-        })
+        if validate(){
+            let selectedSlotService = SelectedSlotService()
+            let params = selectedSlotService.buildParams(self.selectTypeDelivery, selectedSlotId: self.slotSelected)
+            selectedSlotService.callService(requestParams: params, succesBlock: { (result) -> Void in
+                self.delegate?.selectDataTypeShipping(NSLocalizedString(self.selectTypeDelivery, comment: ""), util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
+                self.navigationController!.popViewControllerAnimated(true)
+                }, errorBlock: { (error) -> Void in
+                    
+                    print("error guardando slot")
+            })
+        }
         
     }
     
@@ -377,6 +380,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
 
     //MARK: - AlertPickerSelectOptionDelegate
     
+    var dateSelected = false
+    var slotIsSelected =  false
     func didSelectOptionAtIndex(indexPath: NSIndexPath){
         
         if self.textFieldSelected == "Date" {
@@ -388,12 +393,47 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
             let slots  =  self.slotArray.objectAtIndex(indexPath.row) as! [String]
             groupSlotSelect = slots
             selectedDateIdx = indexPath
+            dateSelected =  true
+            self.dateForm!.layer.borderColor = UIColor.clearColor().CGColor
+            self.errorView?.removeFromSuperview()
+            self.errorView = nil
+            
         }else{
             timeForm?.text = timeSelect[indexPath.row]
             slotSelected = groupSlotSelect[indexPath.row]
             selectedSlotIdx = indexPath
+            slotIsSelected =  true
+            self.timeForm!.layer.borderColor = UIColor.clearColor().CGColor
+            self.errorView?.removeFromSuperview()
+            self.errorView = nil
         }
     }
+    
+    
+    func viewError(field: FormFieldView,message:String?)-> Bool{
+        if message != nil {
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: false)
+            return false
+        }
+        return true
+    }
+    
+ 
+    func validate() -> Bool{
+        if !self.dateSelected  {
+            return self.viewError(self.dateForm!,message: NSLocalizedString("Selecciona una fecha disponible",comment:""))
+        }
+        
+        if !self.slotIsSelected {
+            return self.viewError(self.timeForm!,message: "Selecciona un horario disponible")
+        }
+        
+        return true
+    }
+
     
     
     
