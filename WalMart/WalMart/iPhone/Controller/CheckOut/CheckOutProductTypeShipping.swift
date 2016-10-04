@@ -51,8 +51,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var titleString : String?
     
     var paymentSelected : NSDictionary?
+    var errorView : FormFieldErrorView? = nil
 
-    
     var viewLoad : WMLoadingView!
 
     
@@ -88,7 +88,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.titleDelivery = UILabel()
         self.titleDelivery!.textColor = WMColor.light_blue
         self.titleDelivery!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.titleDelivery!.text = "Selecciona el tipo de envío"
+        self.titleDelivery!.text = "Selecciona un tipo de envío"
         self.view.addSubview(titleDelivery!)
 
 
@@ -97,7 +97,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.deliveryButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.deliveryButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.deliveryButton!.setTitle("Envío a domicilio", forState: .Normal)
-        self.deliveryButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right:0)
+        self.deliveryButton!.titleEdgeInsets = UIEdgeInsets(top: 3, left: 10, bottom: 0, right:0)
         self.deliveryButton!.contentHorizontalAlignment = .Left
         self.deliveryButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.deliveryButton?.tag =  1
@@ -116,7 +116,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.collectButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.collectButton!.setTitle("Recoger en tienda", forState: .Normal)
         self.collectButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.collectButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right:0)
+        self.collectButton!.titleEdgeInsets = UIEdgeInsets(top: 3, left: 10, bottom: 0, right:0)
         self.collectButton!.addTarget(self, action: #selector(CheckOutProductTypeShipping.checkTypeDeliver(_:)), forControlEvents: .TouchUpInside)
         self.collectButton?.tag =  2
         self.collectButton!.contentHorizontalAlignment = .Left
@@ -140,17 +140,17 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         self.titleDelivery?.frame =  CGRectMake(16,headerHeight + 16 ,self.view.frame.width - 32 ,14)
         
-        self.deliveryButton?.frame =  CGRectMake(16,self.titleDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
+        self.deliveryButton?.frame =  CGRectMake(16,self.titleDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,46)
         
-        delivaryCost?.frame = CGRectMake(self.view.frame.width - (self.deliveryButton!.frame.width + 16) , deliveryButton!.frame.minY, self.deliveryButton!.frame.width , 18)
+        delivaryCost?.frame = CGRectMake(self.view.frame.width - (self.deliveryButton!.frame.width + 16) , deliveryButton!.frame.minY, self.deliveryButton!.frame.width , 46)
         
-        self.collectButton?.frame =  CGRectMake(16,self.deliveryButton!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
-        collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 18)
+        self.collectButton?.frame =  CGRectMake(16,self.deliveryButton!.frame.maxY + 8 ,self.view.frame.midX - 16 ,46)
+        collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 46)
         
         if afterSelected != nil &&  afterSelected!.tag == 1 {
                 
-                self.collectButton?.frame =  CGRectMake(16,self.viewDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,17)
-                collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 18)
+                self.collectButton?.frame =  CGRectMake(16,self.viewDelivery!.frame.maxY + 8 ,self.view.frame.midX - 16 ,46)
+                collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 46)
             
         }else{
                 self.viewDelivery?.frame = CGRectMake(16,self.collectButton!.frame.maxY + 16 ,self.view.frame.width - 32 ,144)
@@ -211,6 +211,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         self.slotSelected = ""
         self.invokeSloteService(sender.tag == 1 ? HOME_DELIVERY : STORE_PICK_UP )
         self.selectTypeDelivery = sender.tag == 1 ? HOME_DELIVERY : STORE_PICK_UP
+        self.dateSelected = false
+        self.slotIsSelected = false
     }
     
     var  dateForm : FormFieldView?
@@ -221,12 +223,13 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         viewDelivery = UIView(frame: frame)
         
         let  addressInvoice = FormFieldView(frame: CGRectMake(0, 0, frame.width, 40))
-        addressInvoice.setCustomPlaceholder("Mi casa")
+        addressInvoice.attributedPlaceholder = NSAttributedString(string: "Mi casa", attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
         addressInvoice.isRequired = true
         addressInvoice.enabled = false
         addressInvoice.typeField = TypeField.List
         addressInvoice.setImageTypeField()
         addressInvoice.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
+    
         addressInvoice.imageList!.hidden = true
         viewDelivery!.addSubview(addressInvoice)
         
@@ -237,7 +240,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         dateForm!.isRequired = true
         dateForm!.typeField = TypeField.List
         dateForm!.setImageTypeField()
-        dateForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
+        dateForm!.nameField = NSLocalizedString("Fechas disponibles", comment:"")
         dateForm!.onBecomeFirstResponder = { () in
             self.picker!.selected = self.selectedDateIdx
             self.picker!.sender = self.dateForm
@@ -256,7 +259,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         timeForm!.isRequired = true
         timeForm!.typeField = TypeField.List
         timeForm!.setImageTypeField()
-        timeForm!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
+        timeForm!.nameField = NSLocalizedString("Horarios disponibles", comment:"")
         timeForm!.onBecomeFirstResponder = { () in
             self.picker!.selected = self.selectedSlotIdx
             self.picker!.sender = self.timeForm
@@ -277,16 +280,17 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     
     func save(){
-        
-        let selectedSlotService = SelectedSlotService()
-        let params = selectedSlotService.buildParams(self.selectTypeDelivery, selectedSlotId: self.slotSelected)
-        selectedSlotService.callService(requestParams: params, succesBlock: { (result) -> Void in
-            self.delegate?.selectDataTypeShipping(NSLocalizedString(self.selectTypeDelivery, comment: ""), util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
-            self.navigationController!.popViewControllerAnimated(true)
-        }, errorBlock: { (error) -> Void in
-            
-           print("error guardando slot")
-        })
+        if validate(){
+            let selectedSlotService = SelectedSlotService()
+            let params = selectedSlotService.buildParams(self.selectTypeDelivery, selectedSlotId: self.slotSelected)
+            selectedSlotService.callService(requestParams: params, succesBlock: { (result) -> Void in
+                self.delegate?.selectDataTypeShipping(NSLocalizedString(self.selectTypeDelivery, comment: ""), util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
+                self.navigationController!.popViewControllerAnimated(true)
+                }, errorBlock: { (error) -> Void in
+                    
+                    print("error guardando slot")
+            })
+        }
         
     }
     
@@ -376,6 +380,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
 
     //MARK: - AlertPickerSelectOptionDelegate
     
+    var dateSelected = false
+    var slotIsSelected =  false
     func didSelectOptionAtIndex(indexPath: NSIndexPath){
         
         if self.textFieldSelected == "Date" {
@@ -387,12 +393,47 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
             let slots  =  self.slotArray.objectAtIndex(indexPath.row) as! [String]
             groupSlotSelect = slots
             selectedDateIdx = indexPath
+            dateSelected =  true
+            self.dateForm!.layer.borderColor = UIColor.clearColor().CGColor
+            self.errorView?.removeFromSuperview()
+            self.errorView = nil
+            
         }else{
             timeForm?.text = timeSelect[indexPath.row]
             slotSelected = groupSlotSelect[indexPath.row]
             selectedSlotIdx = indexPath
+            slotIsSelected =  true
+            self.timeForm!.layer.borderColor = UIColor.clearColor().CGColor
+            self.errorView?.removeFromSuperview()
+            self.errorView = nil
         }
     }
+    
+    
+    func viewError(field: FormFieldView,message:String?)-> Bool{
+        if message != nil {
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: false)
+            return false
+        }
+        return true
+    }
+    
+ 
+    func validate() -> Bool{
+        if !self.dateSelected  {
+            return self.viewError(self.dateForm!,message: NSLocalizedString("Selecciona una fecha disponible",comment:""))
+        }
+        
+        if !self.slotIsSelected {
+            return self.viewError(self.timeForm!,message: "Selecciona un horario disponible")
+        }
+        
+        return true
+    }
+
     
     
     

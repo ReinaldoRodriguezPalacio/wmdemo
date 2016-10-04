@@ -86,7 +86,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(self.sectionTitle!)
         
         self.confirmCallButton = UIButton()
-        self.confirmCallButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.confirmCallButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.confirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:) ), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), forState: .Normal)
@@ -122,7 +122,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content!.addSubview(self.savePhoneButton!)
         
         self.confirmCallOptionButton = UIButton()
-        self.confirmCallOptionButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.confirmCallOptionButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.confirmCallOptionButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), forState: .Normal)
@@ -135,7 +135,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(self.confirmCallOptionButton!)
         
         self.notConfirmCallButton = UIButton()
-        self.notConfirmCallButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.notConfirmCallButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.notConfirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), forState: .Normal)
@@ -211,26 +211,27 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.buildSubViews()
-        
-        switch userPreferences["onlyTelephonicAlert"] as!  String {
-            
-        case OnlyAlertPreferences.receiveCallConfirmation.rawValue:
-            self.confirmCallSelected(self.confirmCallOptionButton!,changePrefeered: true)
-            print("receiveCallConfirmation")
-            break
-            
-        case OnlyAlertPreferences.onlySubstituteAvailable.rawValue:
-            print("onlySubstituteAvailable")
-            self.confirmCallSelected(self.notConfirmCallButton!,changePrefeered: true)
-            break
-    
-        case OnlyAlertPreferences.onlyOrderedProducts.rawValue:
-            print("onlyOrderedProducts")
-            self.confirmCallSelected(self.confirmCallButton!,changePrefeered: true)
-            
-            break
-        default:
-            break
+        if userPreferences.count > 0 {
+            switch userPreferences["onlyTelephonicAlert"] as!  String {
+                
+            case OnlyAlertPreferences.receiveCallConfirmation.rawValue:
+                self.confirmCallSelected(self.confirmCallOptionButton!,changePrefeered: true)
+                print("receiveCallConfirmation")
+                break
+                
+            case OnlyAlertPreferences.onlySubstituteAvailable.rawValue:
+                print("onlySubstituteAvailable")
+                self.confirmCallSelected(self.notConfirmCallButton!,changePrefeered: true)
+                break
+                
+            case OnlyAlertPreferences.onlyOrderedProducts.rawValue:
+                print("onlyOrderedProducts")
+                self.confirmCallSelected(self.confirmCallButton!,changePrefeered: true)
+                
+                break
+            default:
+                break
+            }
         }
         
     }
