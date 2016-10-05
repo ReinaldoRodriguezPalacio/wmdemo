@@ -281,6 +281,13 @@
 "profile.edit.password.min" = "La contraseña debe contener mínimo 8 caracteres.";
 "profile.edit.password.button" = "Deseo modificar mi contraseña";
 
+// Preferences
+"preferences.myPreferences" = "Mis preferencias";
+"preferences.title.Category" = "Categorías de mi interés";
+"preferences.title.Notifications" = "Alertas y Notificaciones";
+"preferences.title.ProductNotAvailable" = "En caso de producto no disponible";
+"preferences.title.LegalInformation" = "Información Legal";
+
 //Preious orders
 "previousorder.status" = "Status";
 "previousorder.date" = "Fecha";
