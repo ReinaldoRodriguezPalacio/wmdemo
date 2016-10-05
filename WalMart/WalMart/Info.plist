@@ -620,7 +620,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -675,7 +675,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/getItemsBySearchingWithFacets</string>
+			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
@@ -1112,7 +1112,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -1167,7 +1167,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemsBySearchingWithFacets</string>
+			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>

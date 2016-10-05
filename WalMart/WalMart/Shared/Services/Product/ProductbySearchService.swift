@@ -67,12 +67,10 @@ class ProductbySearchService : BaseService {
                 let alternativeCombination:String = resultJSON["alternativeCombination"]as? String ?? ""
                 let landingPage = resultJSON["landingPage"] as? [String:AnyObject] ?? [:]
                 let dic: [String:AnyObject] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
-                let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEOBJECT))
+                let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEARRAY))
                 
-                
-                let itemObjectResult = resultJSON[arrayKey] as! NSDictionary
                 var newItemsArray = Array<AnyObject>()
-                if let items = itemObjectResult["items"] as? NSArray {
+                if let items = resultJSON[arrayKey] as? NSArray {
                     //println(items)
                     self.saveKeywords(items) //Creating keywords
                     for idx in 0 ..< items.count {
@@ -82,7 +80,7 @@ class ProductbySearchService : BaseService {
                     }
                 }
                 var facets = Array<AnyObject>()
-                if let itemsFacets = itemObjectResult["facet"] as? [AnyObject] {
+                if let itemsFacets = resultJSON["facet"] as? [AnyObject] {
                     facets = itemsFacets
                 }
                 successBlock?(newItemsArray,facet: facets,resultDic: dic)
