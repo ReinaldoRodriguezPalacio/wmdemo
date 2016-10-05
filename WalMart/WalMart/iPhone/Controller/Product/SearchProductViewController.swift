@@ -883,7 +883,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 let landingMg = resultDic["landingPage"] as! [String:AnyObject]
                 self.landingP = landingMg.count > 0 ? landingMg : self.landingP
-                if self.landingP!.count > 0 && arrayProduct!.count == 0 {
+                if self.landingP != nil && self.landingP!.count > 0 && arrayProduct!.count == 0 {
                     if self.controller == nil {
                         self.controller = LandingPageViewController()
                         self.controller!.urlTicer = self.landingP!["img"] as! String
