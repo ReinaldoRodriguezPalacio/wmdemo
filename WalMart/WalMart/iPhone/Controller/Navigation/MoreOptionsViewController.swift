@@ -302,6 +302,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 print("Abrir promosiones")
             
         case .Preferences:
+            let controller = PreferencesController()
+            self.navigationController!.pushViewController(controller, animated: true)
              print("Abrir preferencias")
             
         }

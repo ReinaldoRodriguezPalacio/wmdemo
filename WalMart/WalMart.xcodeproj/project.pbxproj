@@ -80,6 +80,7 @@
 		4AB4838D1D80DC55001856CB /* CheckOutProductTypeShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB4838C1D80DC55001856CB /* CheckOutProductTypeShipping.swift */; };
 		4AB4838F1D81B01A001856CB /* DisplaySlotsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB4838E1D81B01A001856CB /* DisplaySlotsService.swift */; };
 		4AD4397E1D62328E00C4DA17 /* LegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD4397D1D62328E00C4DA17 /* LegendView.swift */; };
+		4AE2A69A1DA56DE700FBBD1B /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2A6991DA56DE700FBBD1B /* PreferencesController.swift */; };
 		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
@@ -673,6 +674,7 @@
 		4AB4838C1D80DC55001856CB /* CheckOutProductTypeShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutProductTypeShipping.swift; path = iPhone/Controller/CheckOut/CheckOutProductTypeShipping.swift; sourceTree = "<group>"; };
 		4AB4838E1D81B01A001856CB /* DisplaySlotsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisplaySlotsService.swift; path = Shared/Services/checkout/DisplaySlotsService.swift; sourceTree = "<group>"; };
 		4AD4397D1D62328E00C4DA17 /* LegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LegendView.swift; path = Shared/View/Help/LegendView.swift; sourceTree = "<group>"; };
+		4AE2A6991DA56DE700FBBD1B /* PreferencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesController.swift; path = iPhone/Controller/Preferences/PreferencesController.swift; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
@@ -1422,6 +1424,14 @@
 			path = ABCalendarPicker;
 			sourceTree = "<group>";
 		};
+		4AE2A6981DA56DB600FBBD1B /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				4AE2A6991DA56DE700FBBD1B /* PreferencesController.swift */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
 		56054B8A1B2118AE003F8536 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -1788,6 +1798,7 @@
 		564578C519AE3032006A7152 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4AE2A6981DA56DB600FBBD1B /* Preferences */,
 				6CBCCFA81C84C284002D7717 /* Reminder */,
 				6C8D5C251BF250DD0020962E /* Refered */,
 				6C3448911BDED98100092965 /* Invoice */,
@@ -3522,6 +3533,7 @@
 				6C31B41B1CB70EEB00AB7670 /* GRAddressViewCell.swift in Sources */,
 				569E004B19BE2DB700756B88 /* ShoppingCartViewController.swift in Sources */,
 				AC88FA6919C9FAD6003BD859 /* FormFieldView.swift in Sources */,
+				4AE2A69A1DA56DE700FBBD1B /* PreferencesController.swift in Sources */,
 				4A5A9D4B1C84A99B00A2A7F4 /* ABCalendarPickerDefaultDaysProvider.m in Sources */,
 				56AAFF9C1A92A468007B8D91 /* GRAddressAddService.swift in Sources */,
 				AC96C94C1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift in Sources */,
