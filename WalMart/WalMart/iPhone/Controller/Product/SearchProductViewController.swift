@@ -115,7 +115,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var removeEmpty =  false
     var searchAlertView: SearchAlertView? = nil
     var showAlertView = false
-
+    var mgResponceDic: [String:AnyObject] = [:]
+    var grResponceDic: [String:AnyObject] = [:]
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -287,8 +288,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
         self.header?.addSubview(self.filterButton!)
         if IS_IPAD {
         self.view.addSubview(collection!)
@@ -905,7 +904,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                     }
                     
-                    if landingP.count == 0{ // > 0 TODO cambiar
+                    self.mgResponceDic = resultDic
+                    self.setAlertViewValues(resultDic)
+                    
+                    if landingP.count > 0{ // > 0 TODO cambiar
                         let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                         //let imageURL = IS_IPAD ? landingP["imgipad"] as! String : landingP["imgiphone"] as! String
                         self.bannerView.setImageWithURL(NSURL(string: "http://\(imageURL)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
@@ -919,17 +921,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         //Se muestra listado de MG
                         self.btnTech.selected = true
                         self.btnSuper.selected = false
-                    }
-                    
-                    if (resultDic["alternativeCombination"] as! String) != "" {
-                        let alternativeCombination = resultDic["alternativeCombination"] as! String
-                        let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
-                        self.showAlertView = true
-                        self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
-                    }
-                    if (resultDic["suggestion"] as! String) != "" {
-                        self.showAlertView = true
-                        self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
+                        self.showAlertView = false
                     }
                     
                     self.mgResults!.addResults(arrayProduct!)
@@ -1000,21 +992,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
                             successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
-                
                 let landingP = resultDic["landingPage"] as! [String:AnyObject]
-                /*if landingP.count > 0 && arrayProduct!.count == 0 {
-                    let controller = LandingPageViewController()
-                    controller.urlTicer = landingP["img"] as! String
-                    controller.departmentId = landingP["departmentid"] as! String
-                    controller.titleHeader = landingP["text"] as? String
-                    controller.startView = 46.0
-                    controller.searchFieldSpace = 0
-                    self.navigationController!.pushViewController(controller, animated: true)
-                    
-                    return
-                }*/
-                
                 if arrayProduct != nil && arrayProduct!.count > 0 {
+                    self.grResponceDic = resultDic
+                    self.setAlertViewValues(resultDic)
                     if landingP.count > 0{ // > 0 TODO cambiar
                         let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                         //let imageURL = IS_IPAD ? landingP["imgipad"] as! String : landingP["imgiphone"] as! String
@@ -1028,6 +1009,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         //Se muestra listado de MG
                         self.btnTech.selected = false
                         self.btnSuper.selected = true
+                        self.showAlertView = false
                     }
                     
                     if let item = arrayProduct?[0] as? NSDictionary {
@@ -1038,17 +1020,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         if let total = item["totalResults"] as? NSString {
                             self.grResults!.totalResults = total.integerValue
                         }
-                    }
-                    
-                    if (resultDic["alternativeCombination"] as! String) != "" {
-                        let alternativeCombination = resultDic["alternativeCombination"] as! String
-                        let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
-                        self.showAlertView = true
-                        self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
-                    }
-                    if (resultDic["suggestion"] as! String) != "" {
-                        self.showAlertView = true
-                        self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
                     }
                     
                     self.grResults!.addResults(arrayProduct!)
@@ -1084,8 +1055,38 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         )
     }
     
-    func updateViewAfterInvokeService(resetTable resetTable:Bool) {
+    func setAlertViewValues(resultDic: [String:AnyObject]){
+        if (resultDic["alternativeCombination"] as! String) != "" {
+            let alternativeCombination = resultDic["alternativeCombination"] as! String
+            let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
+            self.showAlertView = true
+            self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
+        }
+        else if (resultDic["suggestion"] as! String) != "" {
+            self.showAlertView = true
+            self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
+        }else{
+           self.showAlertView = false
+        }
         
+        if self.isTextSearch || self.isOriginalTextSearch {
+            if self.showAlertView {
+                searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
+                viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
+            }else{
+                viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+            }
+            searchAlertView!.alpha = self.showAlertView ? 1 : 0
+        }else {
+            searchAlertView!.alpha = 0
+            viewBgSelectorBtn.alpha = 0
+        }
+        
+        let startPoint = viewBgSelectorBtn.frame.maxY + 20
+        self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+    }
+    
+    func updateViewAfterInvokeService(resetTable resetTable:Bool) {
         if  self.searchContextType == .WithCategoryForGR {
             if self.idDepartment !=  nil {
                 self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
@@ -1616,18 +1617,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
             self.searchContextType = SearchServiceContextType.WithCategoryForGR
+            self.setAlertViewValues(self.grResponceDic)
         } else if sender == btnTech &&  !sender.selected {
             sender.selected = true
             btnSuper.selected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
             self.searchContextType = SearchServiceContextType.WithCategoryForMG
+            self.setAlertViewValues(self.mgResponceDic)
         }
         
     }
     
     //MARK: SearchProductCollectionViewCellDelegate
-    
     func buildGRSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
         var prodQuantity = "1"
         if cell.pesable! {
@@ -1822,7 +1824,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     /**
      Hides tap bar and hides image header
      */
-    
     override func willHideTabbar() {
         super.willHideTabbar()
         if self.isLandingPage{
