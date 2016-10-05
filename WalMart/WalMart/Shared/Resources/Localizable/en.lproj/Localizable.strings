@@ -459,6 +459,17 @@
 "checkout.confirm.invoice"="Facturación";
 "checkout.alert.createAddress"= "Crear Dirección";
 
+"dates.aviables" = "Fechas disponibles";
+"dates.delivery.aviables" = "Fechas de entrega disponibles";
+"times.aviables" = "Horarios disponibles";
+"select.dates.aviables" = "Selecciona una fecha disponible";
+"select.times.aviables" = "Selecciona un horario disponible";
+"select.type.delivery" = "Selecciona un tipo de envío";
+"home.delivery" = "Envío a domicilio";
+"store.pickup" = "Recoger en tienda";
+
+
+
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";
 "home.gotosuper" = "Ir al Súper";

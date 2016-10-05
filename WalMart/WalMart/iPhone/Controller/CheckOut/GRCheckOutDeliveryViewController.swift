@@ -82,7 +82,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.address!.isRequired = true
         self.address!.typeField = TypeField.List
         self.address!.setImageTypeField()
-        self.address!.nameField = "Dirección de envío"
+        self.address!.nameField = "Dirección de Envío"
         self.content.addSubview(self.address!)
         
         self.sectionTitleInvoice = self.buildSectionTitle("Facturación", frame: CGRectMake(margin, self.address!.frame.maxY + 28, width, lheight))
