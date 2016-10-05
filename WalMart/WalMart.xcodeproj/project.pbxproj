@@ -3937,7 +3937,7 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				STRIP_STYLE = debugging;
@@ -3992,7 +3992,7 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				STRIP_STYLE = debugging;
