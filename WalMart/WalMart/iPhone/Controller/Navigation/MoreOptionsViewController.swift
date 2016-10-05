@@ -13,6 +13,7 @@ enum OptionsController : String {
     case Recents = "Recents"
     case Address = "Address"
     case Orders = "Orders"
+    case Preferences = "Preferences"
     //case Refered = "ReferedList"
     
     case StoreLocator = "StoreLocator"
@@ -34,7 +35,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Preferences.rawValue,OptionsController.Promotions.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -148,7 +149,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
-                return 3
+                return 4
             case 1:
                 let rows = self.showCamfind! ? 6 : 5
                 return rows
@@ -169,9 +170,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + (self.showCamfind! ? 9 : 8)
+            currentOption = indexPath.row + (self.showCamfind! ? 10 : 9)
         default:
             print("")
         }
@@ -184,6 +185,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Recents : image = "Recents-icon"
         case .Address : image = "Address-icon"
         case .Orders : image = "Orders-icon"
+        case .Preferences : image = "Orders-icon"
         case .StoreLocator : image = "StoreLocator-icon"
         case .Invoice : image = "Factura-icon"
         case .Notification : image = "menu_icon_notification"
@@ -201,6 +203,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case .Recents : image = "Recents-disable-icon"
             case .Address : image = "Address-disable-icon"
             case .Orders : image = "Orders-disable-icon"
+            case .Preferences : image = "Orders-disable-icon"
             case .TicketList : image = "menu_scanTicket_disable"
             case .Notification : image = "menu_icon_notification"
             //case .Refered : image = "referidos_off"
@@ -239,9 +242,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + (self.showCamfind! ? 9 : 8)
+            currentOption = indexPath.row + (self.showCamfind! ? 10 : 9)
         default:
             print("")
         }
@@ -298,9 +301,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             self.openPromotios()
                 print("Abrir promosiones")
             
+        case .Preferences:
+             print("Abrir preferencias")
+            
         }
         
-        let notificationOptions = (self.showCamfind! ? 8 : 7)
+        let notificationOptions = (self.showCamfind! ? 9 : 8)
         if currentOption == notificationOptions {
             //Se elimina Badge de notificaciones
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
