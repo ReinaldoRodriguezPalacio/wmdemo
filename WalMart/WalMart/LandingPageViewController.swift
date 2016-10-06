@@ -17,12 +17,22 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     
     var titleHeader = String?()
     
+    //var familyController : FamilyViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setup()
         self.buttonClose.hidden = true
         
+        loadDepartments()
+        self.familyController = FamilyViewController()
+        self.familyController.categoriesType = .CategoryForMG
+        
+        self.addChildViewController(self.familyController)
+        self.view.addSubview(self.familyController.view)
+        
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        self.setValuesFamily()
     }
     
     func setup() {
@@ -81,7 +91,9 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         }
         
         self.searchField.frame = CGRectMake(16, 22, self.view.frame.width - (self.searchFieldSpace + 32), 0.0)
-        self.schoolsTable.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.bounds.width, self.view.bounds.height)
+        self.schoolsTable.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.imageBackground.frame.maxY)
+        self.schoolsTable.alpha = 0.0
+        familyController.view.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.imageBackground.frame.maxY)
     }
     
     override func didReceiveMemoryWarning() {
@@ -97,7 +109,30 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func setValuesFamily(){
+        self.schoolsTable.alpha = 0.0
+        
+        var itemSelect = 0
+        for indx in 0...(items!.count - 1){
+            let itmG = items![indx] as! [String:AnyObject]
+            if itmG["idDepto"] as! String == departmentId {
+                print(indx)
+                print(itmG["description"] as! String)
+                itemSelect = indx
+            }
+        }
+        
+        let item = items![itemSelect] as! [String:AnyObject]
+        let famArray : AnyObject = item["family"] as AnyObject!
+        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+        
+        familyController.departmentId = item["idDepto"] as! String
+        familyController.families = itemsFam
+        familyController.selectedFamily = nil
+        familyController.familyTable.reloadData()
+    }
+    
+    /*override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let school = self.filterList![indexPath.row]
         let gradesController = GradesListViewController()
         gradesController.departmentId = self.departmentId
@@ -105,9 +140,9 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         gradesController.schoolName = titleHeader //school["name"] as! String
         gradesController.isSearching = true
         self.navigationController?.pushViewController(gradesController, animated: true)
-    }
+    }*/
     
-    override func showImageHeader(didShow:Bool) {
+    /*override func showImageHeader(didShow:Bool) {
         if didShow {
             self.startView = 46.0
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -125,7 +160,7 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
                 }) { (complete:Bool) -> Void in
             }
         }
-    }
+    }*/
     
     
 }
