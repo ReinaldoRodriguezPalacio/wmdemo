@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "map_icon.png",
+      "filename" : "mis_preferencias_signout.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "map_icon@2x.png",
+      "filename" : "mis_preferencias_signout@2x.png",
       "scale" : "2x"
     },
     {

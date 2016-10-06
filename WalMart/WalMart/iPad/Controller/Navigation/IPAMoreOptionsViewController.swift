@@ -25,10 +25,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         
         self.emailLabel?.textAlignment = .Center
         
-        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Preferences.rawValue,OptionsController.Promotions.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         
         if !self.showCamfind {
-            options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+            options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Preferences.rawValue,OptionsController.Promotions.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         }
        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadMenu), name:"MORE_OPTIONS_RELOAD", object: nil)
@@ -77,12 +77,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
         case 0:
-            return 3
+            return 4
         case 1:
-            let rows = self.showCamfind! ? 5 : 4
+            let rows = self.showCamfind! ? 6 : 5
             return rows
         case 2:
-            return 3
+            return 4
         default:
             return 0
         }
@@ -172,24 +172,24 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + (self.showCamfind! ? 8 : 7)
+            currentOption = indexPath.row + (self.showCamfind! ? 9 : 8)
         default:
             print("")
         }
 
         self.selected = indexPath
         
-        if !self.showCamfind! && currentOption > 3 {//2
+        if !self.showCamfind! && currentOption > 4 {//2
             currentOption += 1
         }
         
-        if currentOption >= 3 && currentOption <= 6{
+        if currentOption >= 4 && currentOption <= 7{
            self.selected = NSIndexPath(forRow: 0, inSection: 2)
         }
     
-        if currentOption == 7 {//6
+        if currentOption == 8 {//6
             //Se elimina Badge de notificaciones
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
@@ -236,7 +236,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
                 //TODO: Poner acciones, cambio boton y nombre
             }
             self.selected = NSIndexPath(forRow: 0, inSection: 2)
-            self.delegate?.selectedDetail(8)//7
+            self.delegate?.selectedDetail(9)//7
         }
         else {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
