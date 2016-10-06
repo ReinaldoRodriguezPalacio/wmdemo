@@ -66,6 +66,12 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        self.imageBackground.frame = CGRectMake(0,startView ,self.view.frame.width , CELL_HEIGHT)
+        self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 84)
+        self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, self.view.frame.width, 1)
+        self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 22, 55, 40)
+        
         if self.titleLabelEdit != nil && self.titleLabelEdit!.frame.width == 0 {
             self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
             self.titleLabelEdit!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
@@ -104,19 +110,20 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     override func showImageHeader(didShow:Bool) {
         if didShow {
             self.startView = 46.0
-            UIView.animateWithDuration(0.3, animations: {() in
-                self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , 98)
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.imageBackground.frame = CGRectMake(0, self.startView,self.view.frame.width , 98)
                 self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-                self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
-            })
+                self.schoolsTable.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
+                }) { (complete:Bool) -> Void in
+            }
         }else{
             self.startView = -52
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.imageBackground.frame = CGRectMake(0,self.startView,self.view.frame.width , 98)
                 self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-                self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
-                }, completion: {(finish) in
-            })
+                self.schoolsTable.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.bounds.width, self.view.bounds.height)
+                }) { (complete:Bool) -> Void in
+            }
         }
     }
     
