@@ -1061,13 +1061,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func setAlertViewValues(resultDic: [String:AnyObject]){
-        if resultDic["alternativeCombination"] as? String != nil && resultDic["alternativeCombination"] as? String != "" {
+        
+        if resultDic.count == 0 {
+            return
+        }
+        
+        if  (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
         }
-        else if resultDic["suggestion"] != nil &&  resultDic["suggestion"] as! String != "" {
+        else if (resultDic["suggestion"] as! String) != "" {
             self.showAlertView = true
             self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
         }else{

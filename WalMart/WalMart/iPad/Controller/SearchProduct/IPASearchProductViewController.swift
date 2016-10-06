@@ -175,8 +175,12 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     
     override func setAlertViewValues(resultDic: [String:AnyObject]){
+        if resultDic.count == 0 {
+            return
+        }
         if (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
+            self.textToSearch = self.textToSearch ?? ""
             let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
