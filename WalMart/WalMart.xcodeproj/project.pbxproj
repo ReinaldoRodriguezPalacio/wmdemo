@@ -81,6 +81,8 @@
 		4AB4838F1D81B01A001856CB /* DisplaySlotsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB4838E1D81B01A001856CB /* DisplaySlotsService.swift */; };
 		4AD4397E1D62328E00C4DA17 /* LegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD4397D1D62328E00C4DA17 /* LegendView.swift */; };
 		4AE2A69A1DA56DE700FBBD1B /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2A6991DA56DE700FBBD1B /* PreferencesController.swift */; };
+		4AE2A69C1DA5777F00FBBD1B /* NotificationPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2A69B1DA5777F00FBBD1B /* NotificationPreferencesViewController.swift */; };
+		4AE2A69F1DA5D48300FBBD1B /* PreferencesNotificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2A69E1DA5D48300FBBD1B /* PreferencesNotificationsCell.swift */; };
 		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
@@ -675,6 +677,8 @@
 		4AB4838E1D81B01A001856CB /* DisplaySlotsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisplaySlotsService.swift; path = Shared/Services/checkout/DisplaySlotsService.swift; sourceTree = "<group>"; };
 		4AD4397D1D62328E00C4DA17 /* LegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LegendView.swift; path = Shared/View/Help/LegendView.swift; sourceTree = "<group>"; };
 		4AE2A6991DA56DE700FBBD1B /* PreferencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesController.swift; path = iPhone/Controller/Preferences/PreferencesController.swift; sourceTree = "<group>"; };
+		4AE2A69B1DA5777F00FBBD1B /* NotificationPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationPreferencesViewController.swift; path = iPhone/Controller/Preferences/NotificationPreferencesViewController.swift; sourceTree = "<group>"; };
+		4AE2A69E1DA5D48300FBBD1B /* PreferencesNotificationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesNotificationsCell.swift; path = iPhone/View/Preferences/PreferencesNotificationsCell.swift; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
@@ -1428,6 +1432,15 @@
 			isa = PBXGroup;
 			children = (
 				4AE2A6991DA56DE700FBBD1B /* PreferencesController.swift */,
+				4AE2A69B1DA5777F00FBBD1B /* NotificationPreferencesViewController.swift */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		4AE2A69D1DA5D43D00FBBD1B /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				4AE2A69E1DA5D48300FBBD1B /* PreferencesNotificationsCell.swift */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -1773,6 +1786,7 @@
 		564578C419AE302E006A7152 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4AE2A69D1DA5D43D00FBBD1B /* Preferences */,
 				AC9035A21D78C68F0075FB34 /* CheckOut */,
 				6CBCCFAD1C8795A4002D7717 /* Reminder */,
 				6C8D5C281BF26FAF0020962E /* Refered */,
@@ -3463,6 +3477,7 @@
 				AC5479F71AB21785009DC7AB /* IPAShoppingCartEmptyView.swift in Sources */,
 				ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */,
 				5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */,
+				4AE2A69F1DA5D48300FBBD1B /* PreferencesNotificationsCell.swift in Sources */,
 				5606BC2919BA3EFE002A70ED /* ProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
 				AC6AAE9C19CCC3AC004081C4 /* OrderViewController.swift in Sources */,
 				6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */,
@@ -3481,6 +3496,7 @@
 				56AE80EB19D9F4B300D5DDA4 /* UIImage+DHImageAdditions.m in Sources */,
 				04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */,
 				56E54E4319EC42B70004161C /* IPAFamilyTableViewCell.swift in Sources */,
+				4AE2A69C1DA5777F00FBBD1B /* NotificationPreferencesViewController.swift in Sources */,
 				4A5A9D4D1C84A99B00A2A7F4 /* ABCalendarPickerDefaultMonthsProvider.m in Sources */,
 				569733E81A71A62600C9A09F /* MoreMenuViewCell.swift in Sources */,
 				6C6001471D5395250027835E /* UpdatePasswordService.swift in Sources */,
