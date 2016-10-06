@@ -93,8 +93,8 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
             noProductController.isPreferencesView = true
             self.navigationController?.pushViewController(noProductController, animated: true)
         case .LegalInformation:
-            print("Legal information")
-            
+            let legalController = ChangeInfoLegalViewController()
+            self.navigationController?.pushViewController(legalController, animated: true)
         }
 
         

@@ -290,6 +290,7 @@
 "preferences.title.LegalInformation" = "Información Legal";
 "preferences.category.all.button" = "Todos";
 "preferences.category.headerTitle" = "Selecciona que información te gustaría recibir constantemente.";
+"preferences.legal.terms" = "He leído y acepto los términos del Aviso de Privacidad.";
 
 //Preious orders
 "previousorder.status" = "Status";
