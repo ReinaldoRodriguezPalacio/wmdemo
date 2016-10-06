@@ -1061,7 +1061,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func setAlertViewValues(resultDic: [String:AnyObject]){
-        if (resultDic["alternativeCombination"] as! String) != "" {
+        if resultDic["alternativeCombination"] as? String != nil && resultDic["alternativeCombination"] as? String != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
             self.showAlertView = true
