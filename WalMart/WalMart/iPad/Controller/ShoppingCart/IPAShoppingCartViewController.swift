@@ -261,8 +261,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
     }
     
-
-    
     func openShoppingCart(){
         if self.viewContent != nil {
             let originalY : CGFloat = self.navigationController!.view.frame.minY

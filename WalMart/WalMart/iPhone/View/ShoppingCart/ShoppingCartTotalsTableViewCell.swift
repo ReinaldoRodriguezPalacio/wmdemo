@@ -110,24 +110,30 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         self.addSubview(valueTotalSaving)
     }
     
+    override func layoutSubviews() {
+        let startX: CGFloat = IS_IPAD ? self.bounds.width - 175 : 146
+
+        articlesTitle.frame = CGRectMake(16, 16, 101, 14)
+        subtotalTitle.frame = CGRectMake(startX, 16, 101, 14)
+        shippingCostTitle.frame = CGRectMake(startX, subtotalTitle.frame.maxY + 6, 101, 14)
+        ivaTitle.frame = CGRectMake(startX, shippingCostTitle.frame.maxY + 6, 101, 14)
+        savingTitle.frame = CGRectMake(startX, ivaTitle.frame.maxY + 3, 101, 14)
+        totalTitle.frame = CGRectMake(startX, ivaTitle.frame.maxY + 20, 101, 14)
+            
+        //values
+        valueSubtotal.frame = CGRectMake(subtotalTitle.frame.maxX + 8, subtotalTitle.frame.minY, 50, 14)
+        valueShippingCost.frame = CGRectMake(shippingCostTitle.frame.maxX + 8, shippingCostTitle.frame.minY, 50, 14)
+        valueIva.frame = CGRectMake(ivaTitle.frame.maxX + 8, ivaTitle.frame.minY, 50, 14)
+        valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 14)
+        valueTotalSaving.frame = CGRectMake(ivaTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 14)
+    }
+    
     func setValuesAll(articles articles:String,subtotal:String,shippingCost:String,iva:String,saving:String,total:String){
         
         articlesTitle.text  = "\(articles) \(NSLocalizedString("artículos",comment:""))"
-        
-        /*if shippingCost == "" {
-            ivaTitle.hidden = true
-            
-            ivaTitle.frame = shippingCostTitle.frame
-            savingTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 4, 101, 12)
-            totalTitle.frame = CGRectMake(146, savingTitle.frame.maxY + 4, 101, 12)
-            
-            valueIva.frame = valueShippingCost.frame
-            valueTotalSaving.frame = CGRectMake(savingTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 14)
-            valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 14)
-        } else {*/
-            let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost)
-            valueShippingCost.updateMount(formatedShippingCost, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
-        //}
+
+        let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost)
+        valueShippingCost.updateMount(formatedShippingCost, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         
         let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
         let formatedIVA = CurrencyCustomLabel.formatString(iva)
@@ -138,6 +144,7 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
         valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
+        valueTotal.frame = CGRectMake(totalTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 12)
     }
     
     func setValuesTotalSaving(Total total:String, saving:String){
