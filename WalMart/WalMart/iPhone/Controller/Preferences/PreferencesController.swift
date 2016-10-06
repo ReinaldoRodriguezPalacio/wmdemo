@@ -89,7 +89,9 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
         case .Notifications:
             print("Notifications")
         case .ProductNotAvailable:
-            print("No product acvailable")
+            let noProductController = GRCheckOutCommentsViewController()
+            noProductController.isPreferencesView = true
+            self.navigationController?.pushViewController(noProductController, animated: true)
         case .LegalInformation:
             print("Legal information")
             

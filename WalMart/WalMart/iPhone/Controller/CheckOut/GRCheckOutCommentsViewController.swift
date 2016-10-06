@@ -37,6 +37,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var defaultPhoneType: Int! = 0
     var errorView: FormFieldErrorView?
     var showPhoneField: Bool = true
+    var isPreferencesView:Bool = false
+    var isPresentView:Bool = false
     
     var messageInCommens = ""
     var commentsString : NSMutableAttributedString?
@@ -76,11 +78,13 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
         
-        self.stepLabel = UILabel()
-        self.stepLabel.textColor = WMColor.reg_gray
-        self.stepLabel.text = "3 de 4"
-        self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.header?.addSubview(self.stepLabel)
+        if !isPreferencesView {
+            self.stepLabel = UILabel()
+            self.stepLabel.textColor = WMColor.reg_gray
+            self.stepLabel.text = "3 de 4"
+            self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+            self.header?.addSubview(self.stepLabel)
+        }
         
         self.sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.confirm", comment: ""), frame: CGRectMake(margin, margin, width, lheight))
         self.content.addSubview(self.sectionTitle!)
@@ -172,7 +176,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         commentsString!.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsString!.length))
         commentsString!.appendAttributedString(commentsDefault)
         
-        
         if UserCurrentSession.sharedInstance().activeCommens {
             self.findproductInCar()
             if self.showMessageInCommens {
@@ -196,12 +199,21 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), forState:.Normal)
+        
+        if isPreferencesView {
+            self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), forState:.Normal)
+            self.saveButton!.backgroundColor = WMColor.green
+            self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.savePreferences), forControlEvents: UIControlEvents.TouchUpInside)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
+        } else {
+            self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), forState:.Normal)
+            self.saveButton!.backgroundColor = WMColor.light_blue
+            self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.saveButton!.backgroundColor = WMColor.light_blue
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(saveButton!)
 
         self.confirmText = "\(NSLocalizedString("gr.confirmacall", comment: ""))\n\(self.phoneField!.text!)"
@@ -236,10 +248,33 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
     }
     
+    override func willShowTabbar() {
+        if isPreferencesView {
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
+                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
+                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
+            })
+        }
+    }
+    
+    override func willHideTabbar() {
+        if isPreferencesView {
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
+                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
+                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
+            })
+
+        }
+    }
+
+    
     /**
      Build view components
      */
     func buildSubViews() {
+        
         let margin: CGFloat = 16.0
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
@@ -247,7 +282,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let checkImageBottom: CGFloat = 28//IS_IPAD && !IS_IPAD_MINI ? 28 : 14
         let checkButtonHeight: CGFloat = 45//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
         
-        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
+        if !isPreferencesView {
+            self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
+        }
+        
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
         self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
         if self.showPhoneField {
@@ -258,13 +296,31 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.notConfirmCallButton!.frame = CGRectMake(margin,confirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         }
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
+        
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
         self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,95)
+        
+        if isPreferencesView {
+            sectionTitleComments?.hidden = true
+            sectionTitleComments?.userInteractionEnabled = false
+            comments?.hidden = true
+            comments?.userInteractionEnabled = false
+        }
+        
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.content!.contentSize = CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
-        self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 66,  self.view.frame.width, 1)
-        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
-        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
+        
+        if !isPresentView && isPreferencesView {
+            self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 66,  self.view.frame.width, 1)
+            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
+            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
+            isPresentView = true
+        } else if !isPreferencesView {
+            self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 66,  self.view.frame.width, 1)
+            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
+            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
+        }
+        
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
     }
@@ -290,22 +346,23 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      Sends to the next checkout page
      */
     func next(){
+        
         self.comments!.resignFirstResponder()
         if self.changePreferences {
                 self.invokeSavepeferences()
         }
         
-
         let nextController = GRCheckOutConfirmViewController()
         nextController.paramsToOrder = self.paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
         
-        
     }
     
+    func savePreferences() {
+        self.addViewLoad()
+        self.invokeSavepeferences()
+    }
     
-    
-
     func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
@@ -485,10 +542,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
             print("Preferencias Guardadas")
             self.invokePreferenceService()
-            
+            self.removeViewLoad()
         }, errorBlock: { (error:NSError) in
             print("Hubo un error al guardar las Preferencias")
-            
+            self.removeViewLoad()
         })
     
     }
@@ -664,4 +721,5 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.resignFirstResponder()
         self.phoneField!.resignFirstResponder()
     }
+    
 }
