@@ -83,6 +83,7 @@ case GAI_APP_KEY = "UA-79544417-1" // QA - AT
     case SCREEN_GRADESLIST = "GradesList"
     case SCREEN_PICK_IN_STORE = "PickInStore"
     case SCREEN_PREFERENCES = "Preferences"
+    case SCREEN_PREFERENCES_CATEGORY = "CategoriesInterest"
     
 //MARK - CATEGORY
     case GR_CATEGORY_BANNER_COLLECTION_VIEW =  "C_GrbannerCollectionView"

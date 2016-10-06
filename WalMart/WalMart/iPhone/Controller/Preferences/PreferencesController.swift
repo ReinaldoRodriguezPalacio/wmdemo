@@ -52,6 +52,11 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
         self.tablePreferences.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+    }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return preferenceOptions.count
@@ -74,6 +79,23 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
        
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        let optionTxt = self.preferenceOptions[indexPath.row]
+        
+        switch (PreferenceOptionsController(rawValue: optionTxt)!) {
+        case .Category:
+            let controller = InterestCategoryController()
+            self.navigationController!.pushViewController(controller, animated: true)
+        case .Notifications:
+            print("Notifications")
+        case .ProductNotAvailable:
+            print("No product acvailable")
+        case .LegalInformation:
+            print("Legal information")
+            
+        }
+
+        
     }
     
 }

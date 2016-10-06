@@ -288,6 +288,8 @@
 "preferences.title.Notifications" = "Alertas y Notificaciones";
 "preferences.title.ProductNotAvailable" = "En caso de producto no disponible";
 "preferences.title.LegalInformation" = "Información Legal";
+"preferences.category.all.button" = "Todos";
+"preferences.category.headerTitle" = "Selecciona que información te gustaría recibir constantemente.";
 
 //Preious orders
 "previousorder.status" = "Status";

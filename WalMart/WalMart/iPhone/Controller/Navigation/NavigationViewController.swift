@@ -9,6 +9,7 @@
 import UIKit
 
 class NavigationViewController: IPOBaseController {
+    
     var header: UIView? = nil
     var backButton : UIButton? = nil
     var titleLabel: UILabel? = nil

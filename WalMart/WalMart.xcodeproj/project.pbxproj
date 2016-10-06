@@ -573,6 +573,8 @@
 		B12FA3511D78DE0700251416 /* TotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12FA3501D78DE0700251416 /* TotalView.swift */; };
 		B138487A1D7DC4C000147212 /* OccupationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13848791D7DC4C000147212 /* OccupationsService.swift */; };
 		B138487C1D7DCDA900147212 /* UserListDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B138487B1D7DCDA900147212 /* UserListDetailService.swift */; };
+		F711E2BB1DA5878400C4DC13 /* InterestCategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F711E2BA1DA5878400C4DC13 /* InterestCategoryController.swift */; };
+		F711E2BE1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F711E2BD1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -1224,6 +1226,8 @@
 		B12FA3501D78DE0700251416 /* TotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TotalView.swift; path = Shared/View/General/TotalView.swift; sourceTree = "<group>"; };
 		B13848791D7DC4C000147212 /* OccupationsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OccupationsService.swift; path = Shared/Services/LoginSignUp/OccupationsService.swift; sourceTree = "<group>"; };
 		B138487B1D7DCDA900147212 /* UserListDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListDetailService.swift; path = Shared/Services/UserList/UserListDetailService.swift; sourceTree = "<group>"; };
+		F711E2BA1DA5878400C4DC13 /* InterestCategoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterestCategoryController.swift; path = iPhone/Controller/Preferences/InterestCategoryController.swift; sourceTree = "<group>"; };
+		F711E2BD1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryInterestTableViewCell.swift; path = Shared/View/Preferences/CategoryInterestTableViewCell.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -1428,6 +1432,7 @@
 			isa = PBXGroup;
 			children = (
 				4AE2A6991DA56DE700FBBD1B /* PreferencesController.swift */,
+				F711E2BA1DA5878400C4DC13 /* InterestCategoryController.swift */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -1720,6 +1725,7 @@
 		564578C119AE2FE8006A7152 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F711E2BC1DA59C2700C4DC13 /* Preferences */,
 				5A9911DD1BAC823000849485 /* Notification */,
 				56C94C3C1B877EC9006E2443 /* Extention */,
 				56E1DFA21B5560BC001F42DF /* Filter */,
@@ -3244,6 +3250,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F711E2BC1DA59C2700C4DC13 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				F711E2BD1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3409,6 +3423,7 @@
 				AC37F6C119B90E9F000BB80D /* UpdateShippingAddressService.swift in Sources */,
 				AC62C9B819B6980A00FFFC74 /* LoadingViewBk.swift in Sources */,
 				5696079519B4EC6B005D20DC /* ProductDetailViewController.swift in Sources */,
+				F711E2BB1DA5878400C4DC13 /* InterestCategoryController.swift in Sources */,
 				5673D13F1A9D500400DCD20B /* RSFocusMarkLayer.swift in Sources */,
 				4A5A9D511C84A99B00A2A7F4 /* ABCalendarPickerDefaultWeekdaysProvider.m in Sources */,
 				04D88CAD1A4B27CD00DB836B /* GRProductBySearchService.swift in Sources */,
@@ -3478,6 +3493,7 @@
 				AC59118319DE0D2400EB095C /* FMDatabaseQueue.m in Sources */,
 				5673D13D1A9D500400DCD20B /* RSEANGenerator.swift in Sources */,
 				5686DA581B59A885004D4211 /* SwiftyJSON.swift in Sources */,
+				F711E2BE1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift in Sources */,
 				56AE80EB19D9F4B300D5DDA4 /* UIImage+DHImageAdditions.m in Sources */,
 				04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */,
 				56E54E4319EC42B70004161C /* IPAFamilyTableViewCell.swift in Sources */,
