@@ -888,7 +888,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if self.landingP != nil && self.landingP!.count > 0 && arrayProduct!.count == 0 {
                     if self.controller == nil {
                         self.controller = LandingPageViewController()
-                        self.controller!.urlTicer = self.landingP!["img"] as! String
+                        self.controller!.urlTicer = self.landingP!["imgiphone"] as! String
                         self.controller!.departmentId = self.landingP!["departmentid"] as! String
                         self.controller!.titleHeader = self.landingP!["text"] as? String
                         self.controller!.startView = 46.0
