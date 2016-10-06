@@ -253,11 +253,20 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     }
     
     func markInterestCategory(sender:UIButton) {
+        
         interestCategories[sender.tag].isSelected = !interestCategories[sender.tag].isSelected
         sender.selected = !sender.selected
+        
+        if self.interestCategories.filter({$0.isSelected}).count == self.interestCategories.count {
+            self.checkAllButton!.selected = true
+        } else {
+            self.checkAllButton!.selected = false
+        }
+        
     }
     
     func markAllInterestCategories(sender:UIButton) {
+        
         self.checkAllButton!.selected = !self.checkAllButton!.selected
         
         var interestTemporalCategories = [InterestCategory]()
