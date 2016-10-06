@@ -327,6 +327,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         
+        } else {
+            self.viewWillLayoutSubviews()
         }
         
         if self.isLoading {
