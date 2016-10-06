@@ -53,8 +53,9 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.view.addSubview(tableCategories)
         
         self.checkAllButton = UIButton()
-    self.checkAllButton?.setTitle(NSLocalizedString("preferences.category.all.button",comment:""), forState: UIControlState.Normal)
-        self.checkAllButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        
+        self.checkAllButton?.setTitle(NSLocalizedString("preferences.category.all.button",comment:""), forState: UIControlState.Normal)
+        self.checkAllButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.checkAllButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.checkAllButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.checkAllButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
@@ -89,8 +90,8 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         headerLabel = UILabel()
         headerLabel!.numberOfLines = 2
         headerLabel!.lineBreakMode = .ByWordWrapping
-        headerLabel!.font = headerLabel!.font.fontWithSize(12)
-        headerLabel!.textColor = WMColor.empty_gray
+        headerLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        headerLabel!.textColor = WMColor.reg_gray
         headerLabel!.text = NSLocalizedString("preferences.category.headerTitle", comment:"")
         tableHeaderView!.addSubview(headerLabel!)
 
@@ -113,7 +114,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.tableHeaderView!.layer.insertSublayer(layerLineHeader, atIndex: 1000)
         
         self.tableHeaderView!.frame = CGRectMake(0, 0,  self.view.frame.width, 46)
-        self.headerLabel!.frame = CGRectMake(15, 0,  self.view.frame.width, 46)
+        self.headerLabel!.frame = CGRectMake(16, 0,  self.view.frame.width - 32, 46)
         self.layerLineHeader.frame = CGRectMake(0, self.tableHeaderView!.frame.height - 1,  self.tableHeaderView!.frame.width, 1)
         self.tableCategories.tableHeaderView = tableHeaderView
         

@@ -34,7 +34,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
     let errorLabelWidth  : CGFloat = CGFloat(150)
     let fieldHeight  : CGFloat = CGFloat(40)
     let separatorField  : CGFloat = CGFloat(8)
-    let checkTermEmpty : UIImage = UIImage(named:"check_empty")!
+    let checkTermEmpty : UIImage = UIImage(named:"filter_check_gray")!
     let checkTermFull : UIImage = UIImage(named:"check_full")!
     
     override init(frame: CGRect) {

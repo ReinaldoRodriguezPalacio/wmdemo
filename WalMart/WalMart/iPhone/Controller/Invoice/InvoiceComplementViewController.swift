@@ -54,7 +54,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         
         let width = self.view.frame.width - (2*margin)
         let widthLessMargin = self.view.frame.width - margin
-        let checkTermEmpty : UIImage = UIImage(named:"check_empty")!
+        let checkTermEmpty : UIImage = UIImage(named:"filter_check_gray")!
         let checkTermFull : UIImage = UIImage(named:"check_full")!
         
         self.content = TPKeyboardAvoidingScrollView()

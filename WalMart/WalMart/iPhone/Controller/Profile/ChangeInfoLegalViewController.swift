@@ -44,7 +44,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         
         self.promoAccept?.setTitle(NSLocalizedString("preferences.legal.terms", comment: ""), forState: UIControlState.Normal)
-        self.promoAccept!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.promoAccept!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.promoAccept!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         //self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(13)
         self.promoAccept!.titleLabel?.numberOfLines = 2
@@ -64,7 +64,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         self.acceptSharePersonal = UIButton(frame: CGRectMake(45, lblPersonalData.frame.maxY + 24.0, 120, 16))
         self.acceptSharePersonal?.setTitle(NSLocalizedString("signup.info.share.yes", comment: ""), forState: UIControlState.Normal)
-        self.acceptSharePersonal!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.acceptSharePersonal!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.acceptSharePersonal!.setImage(UIImage(named:"filter_check_blue_selected"), forState: UIControlState.Selected)
         self.acceptSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.acceptSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
@@ -74,7 +74,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         self.declineSharePersonal = UIButton(frame: CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16))
         self.declineSharePersonal?.setTitle(NSLocalizedString("signup.info.share.no", comment: ""), forState: UIControlState.Normal)
-        self.declineSharePersonal!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.declineSharePersonal!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.declineSharePersonal!.setImage(UIImage(named:"filter_check_blue_selected"), forState: UIControlState.Selected)
         self.declineSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.declineSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left

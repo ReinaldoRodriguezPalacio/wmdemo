@@ -58,7 +58,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 25.0
         let widthLessMargin = self.view.frame.width - margin
-        let checkTermEmpty : UIImage = UIImage(named:"check_empty")!
+        let checkTermEmpty : UIImage = UIImage(named:"filter_check_gray")!
         let checkTermFull : UIImage = UIImage(named:"check_full")!
         
         
