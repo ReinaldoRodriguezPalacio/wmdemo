@@ -185,7 +185,6 @@ class GRLinesForSearchService: GRBaseService {
                         let idLine = rs.stringForColumn("idLine")
                         
                         let depName = rs.stringForColumn("departament")
-                        let famName = rs.stringForColumn("family")
                         let linName = rs.stringForColumn("line")
                         
                         
@@ -194,10 +193,6 @@ class GRLinesForSearchService: GRBaseService {
                             cdepto = [
                                 "name" : depName,
                                 "id" : idDepto,
-                                "responseType" : ResultObjectType.Groceries.rawValue,
-                                "level" : NSNumber(integer: 0),
-                                "parentId" : "",
-                                "path" : idDepto,
                                 "families" : NSMutableDictionary()]
                             dictionary[idDepto] = cdepto
                         }
@@ -207,12 +202,8 @@ class GRLinesForSearchService: GRBaseService {
                         if cfamily == nil {
                             families[idFamily] = [
                                 "id" : idFamily,
-                                "name" : famName,
-                                "responseType" : ResultObjectType.Groceries.rawValue,
-                                "level" : NSNumber(integer: 1),
-                                "parentId" : idDepto,
-                                "path" : "\(idDepto)|\(idFamily)",
-                                "lines" : NSMutableDictionary()]
+                                "lines" : NSMutableDictionary()
+                            ]
                             cfamily = families[idFamily] as? NSDictionary
                         }
                         
@@ -221,13 +212,10 @@ class GRLinesForSearchService: GRBaseService {
                         let cline = [
                             "id" : idLine,
                             "name" : (linName),
-                            "level" : NSNumber(integer: 2),
-                            "parentId" : idFamily,
-                            "path" : "\(idDepto)|\(idFamily)|\(idLine!)",
-                            "responseType" : ResultObjectType.Groceries.rawValue]
+                          
+                        ]
                         lines[idLine] = cline
-                        
-                        //keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
+                      
                     }// while rs.next() {
                     
                     rs.close()
