@@ -113,7 +113,7 @@ class WalMartSqliteDB: NSObject {
     }
     
     func buildSearchCategoriesIdFamilyQuery(idFamily idFamily:String) -> String {
-        return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE idFamily IN('\(idFamily)');"
+        return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE idFamily IN(\(idFamily));"
     }
     
     

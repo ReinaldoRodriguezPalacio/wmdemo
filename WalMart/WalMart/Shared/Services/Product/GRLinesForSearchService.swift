@@ -167,16 +167,20 @@ class GRLinesForSearchService: GRBaseService {
     }
     
     //MARK: 
-    func buildResponseFamily(family:String,successBuildBlock:(([String : AnyObject]) -> Void)?) {
+    func buildResponseFamily(idFamilies:[String],successBuildBlock:(([String : AnyObject]) -> Void)?) {
         
         
         var dictionary: [String:AnyObject] = [:]
+        var idFamilyQuery :String = ""
+        for index in 0 ..< idFamilies.count {
+            idFamilyQuery += index == (idFamilies.count - 1)  ? "'\(idFamilies[index])'" : "'\(idFamilies[index])',"
+        }
         
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 
-                let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdFamilyQuery(idFamily: family)
+                let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdFamilyQuery(idFamily: idFamilyQuery as String)
                 if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
                     //var keywords = Array<AnyObject>()
                     while rs.next() {
