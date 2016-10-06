@@ -175,10 +175,10 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     
     override func setAlertViewValues(resultDic: [String:AnyObject]){
+        
         if resultDic.count == 0 {
-            return
-        }
-        if (resultDic["alternativeCombination"] as! String) != "" {
+            self.showAlertView = false
+        }else if (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             self.textToSearch = self.textToSearch ?? ""
             let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
@@ -192,7 +192,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.showAlertView = false
         }
         
-        self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
+        if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch) {
+            self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
         
         UIView.animateWithDuration(0.3, animations: {
             if self.isTextSearch || self.isOriginalTextSearch {
@@ -211,6 +212,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             let startPoint = self.viewBgSelectorBtn.frame.maxY + 20
             self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
             }, completion: nil)
+        }
     }
 
     

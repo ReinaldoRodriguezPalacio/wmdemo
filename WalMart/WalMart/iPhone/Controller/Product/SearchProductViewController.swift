@@ -1063,10 +1063,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func setAlertViewValues(resultDic: [String:AnyObject]){
         
         if resultDic.count == 0 {
-            return
-        }
-        
-        if  (resultDic["alternativeCombination"] as! String) != "" {
+            self.showAlertView = false
+        }else if  (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
             self.showAlertView = true
@@ -1079,7 +1077,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
            self.showAlertView = false
         }
         
-        
+        if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch) {
+            
         UIView.animateWithDuration(0.3, animations: {
             if self.isTextSearch || self.isOriginalTextSearch {
                 if self.showAlertView {
@@ -1097,6 +1096,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let startPoint = self.viewBgSelectorBtn.frame.maxY + 20
             self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
             }, completion: nil)
+        }
     }
     
     func updateViewAfterInvokeService(resetTable resetTable:Bool) {
@@ -1110,6 +1110,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
                 btnTech.selected = true
                 btnSuper.selected = false
+                self.setAlertViewValues(self.mgResponceDic)
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
