@@ -166,4 +166,84 @@ class GRLinesForSearchService: GRBaseService {
         
     }
     
+    //MARK: 
+    func buildResponseFamily(family:String,successBuildBlock:(([String : AnyObject]) -> Void)?) {
+        
+        
+        var dictionary: [String:AnyObject] = [:]
+        
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+                
+                let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdFamilyQuery(idFamily: family)
+                if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
+                    //var keywords = Array<AnyObject>()
+                    while rs.next() {
+                        let idDepto = rs.stringForColumn("idDepto")
+                        let idFamily = rs.stringForColumn("idFamily")
+                        let idLine = rs.stringForColumn("idLine")
+                        
+                        let depName = rs.stringForColumn("departament")
+                        let famName = rs.stringForColumn("family")
+                        let linName = rs.stringForColumn("line")
+                        
+                        
+                        var cdepto = dictionary[idDepto] as? [String:AnyObject]
+                        if cdepto == nil {
+                            cdepto = [
+                                "name" : depName,
+                                "id" : idDepto,
+                                "responseType" : ResultObjectType.Groceries.rawValue,
+                                "level" : NSNumber(integer: 0),
+                                "parentId" : "",
+                                "path" : idDepto,
+                                "families" : NSMutableDictionary()]
+                            dictionary[idDepto] = cdepto
+                        }
+                        
+                        let families = cdepto!["families"] as! NSMutableDictionary
+                        var cfamily = families[idFamily] as? NSDictionary
+                        if cfamily == nil {
+                            families[idFamily] = [
+                                "id" : idFamily,
+                                "name" : famName,
+                                "responseType" : ResultObjectType.Groceries.rawValue,
+                                "level" : NSNumber(integer: 1),
+                                "parentId" : idDepto,
+                                "path" : "\(idDepto)|\(idFamily)",
+                                "lines" : NSMutableDictionary()]
+                            cfamily = families[idFamily] as? NSDictionary
+                        }
+                        
+                        let lines = cfamily!["lines"] as! NSMutableDictionary
+                        
+                        let cline = [
+                            "id" : idLine,
+                            "name" : (linName),
+                            "level" : NSNumber(integer: 2),
+                            "parentId" : idFamily,
+                            "path" : "\(idDepto)|\(idFamily)|\(idLine!)",
+                            "responseType" : ResultObjectType.Groceries.rawValue]
+                        lines[idLine] = cline
+                        
+                        //keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
+                    }// while rs.next() {
+                    
+                    rs.close()
+                    rs.setParentDB(nil)
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        print("Success")
+                        successBuildBlock?(dictionary)
+                    })
+                    
+                }
+                
+            }
+        })
+        
+    }
+
+    
 }
