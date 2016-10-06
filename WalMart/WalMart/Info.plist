@@ -178,7 +178,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -329,7 +329,7 @@
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductDetailService</key>
@@ -394,7 +394,7 @@
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
@@ -413,7 +413,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
@@ -425,14 +425,14 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/2/getItemsBySearching</string>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
@@ -620,7 +620,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -675,7 +675,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/3/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
@@ -830,7 +830,7 @@
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductDetailService</key>
@@ -895,7 +895,7 @@
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
@@ -914,7 +914,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
@@ -926,14 +926,14 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/2/getItemsBySearching</string>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/5r6v6tbqw0fo7s0/getItemBySearchingWithFacets.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
@@ -1112,7 +1112,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -1167,7 +1167,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/bdnpw3y0qb41qsb/normalSearch.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/3/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>

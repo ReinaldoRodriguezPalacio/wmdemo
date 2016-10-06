@@ -1067,7 +1067,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
         }
-        else if (resultDic["suggestion"] as! String) != "" {
+        else if resultDic["suggestion"] != nil &&  resultDic["suggestion"] as! String != "" {
             self.showAlertView = true
             self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
         }else{
