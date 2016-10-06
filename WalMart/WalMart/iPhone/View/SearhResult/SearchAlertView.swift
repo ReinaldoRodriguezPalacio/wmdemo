@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+
 class SearchAlertView: UIView {
     var imageIcon: UIImageView? = nil
     var labelMessage: UILabel? = nil
@@ -73,15 +75,24 @@ class SearchAlertView: UIView {
         
         resultsOfString.appendAttributedString(orangeString)
         self.resultsOf!.attributedText = resultsOfString
+        
+        self.labelMessage!.sizeToFit()
+        self.resultsOf!.sizeToFit()
+        
+        let resultsOfOriginY: CGFloat = IS_IPAD ? 18 : 26
+        let resultsOfOriginX: CGFloat = IS_IPAD ? self.labelMessage!.frame.maxX + 12 : self.imageIcon!.frame.maxX + 12
+        self.resultsOf!.frame.origin = CGPointMake(resultsOfOriginX, resultsOfOriginY)
     
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let imageOriginX: CGFloat = IS_IPAD ? 352 : 12
-        self.imageIcon!.frame = CGRectMake(imageOriginX, 15, 16, 16)
-        self.labelMessage!.frame = CGRectMake(self.imageIcon!.frame.maxX + 12, 8, 270, 12)
-        self.resultsOf!.frame = CGRectMake(self.imageIcon!.frame.maxX + 12, 26, 270, 12)
+        self.imageIcon!.frame = CGRectMake(12, 15, 16, 16)
+        let labelMessageOriginY: CGFloat = IS_IPAD ? 18 : 8
+        self.labelMessage!.frame = CGRectMake(self.imageIcon!.frame.maxX + 12, labelMessageOriginY, 150, 12)
+        let resultsOfOriginY: CGFloat = IS_IPAD ? 18 : 26
+        let resultsOfOriginX: CGFloat = IS_IPAD ? self.labelMessage!.frame.maxX + 12 : self.imageIcon!.frame.maxX + 12
+        self.resultsOf!.frame = CGRectMake(resultsOfOriginX, resultsOfOriginY, 150, 12)
     }
 }
