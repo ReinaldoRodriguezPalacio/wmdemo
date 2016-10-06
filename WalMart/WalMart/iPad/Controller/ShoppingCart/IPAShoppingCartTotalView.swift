@@ -84,6 +84,19 @@ class IPAShoppingCartTotalView : UIView {
 
     }
     
+    override func layoutSubviews() {
+        let xPoint : CGFloat = 100
+        subtotalTitle.frame = CGRectMake(xPoint, 24, 120, 18)
+        iva.frame = CGRectMake(xPoint, subtotalTitle.frame.maxY + 16, 120, 18)
+        total.frame = CGRectMake(xPoint, iva.frame.maxY + 40, 120, 18)
+        totalSavingTitle.frame = CGRectMake(xPoint, iva.frame.maxY + 13, 120, 18)
+        
+        valueSubtotal.frame = CGRectMake(subtotalTitle.frame.maxX + 16, subtotalTitle.frame.minY, 90, 18)
+        valueIva.frame = CGRectMake(iva.frame.maxX + 16, iva.frame.minY, 90, 18)
+        valueTotal.frame = CGRectMake(total.frame.maxX + 16, total.frame.minY, 90, 18)
+        valueTotalSaving.frame = CGRectMake(totalSavingTitle.frame.maxX + 16, totalSavingTitle.frame.minY, 90, 18)
+    }
+    
     
     
     func setValues(subtotal: String,iva: String,total: String,totalSaving:String){

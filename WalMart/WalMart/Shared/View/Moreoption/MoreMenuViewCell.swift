@@ -10,6 +10,7 @@ import Foundation
 
 class MoreMenuViewCell : UITableViewCell {
     
+    var isSeparatorComplete:Bool = false
     var title: UILabel?
     var tsepInView: UIView?
     var imageProfile: UIImageView?
@@ -50,8 +51,14 @@ class MoreMenuViewCell : UITableViewCell {
         self.imageProfile!.frame = CGRectMake(0.0, 0.0, bounds.height, bounds.height)
         
         let width = bounds.width - bounds.height
-       // self.title!.frame = CGRectMake(self.imageProfile!.frame.maxX, 0.0, width, bounds.height)
-        self.tsepInView!.frame = CGRectMake(self.imageProfile!.frame.maxX, bounds.height - AppDelegate.separatorHeigth(), width, AppDelegate.separatorHeigth())
+        
+        if isSeparatorComplete {
+            self.tsepInView!.frame = CGRectMake(0, bounds.height - AppDelegate.separatorHeigth(), bounds.width, AppDelegate.separatorHeigth())
+        } else {
+            self.tsepInView!.frame = CGRectMake(self.imageProfile!.frame.maxX, bounds.height - AppDelegate.separatorHeigth(), width, AppDelegate.separatorHeigth())
+        }
+       
+        // self.title!.frame = CGRectMake(self.imageProfile!.frame.maxX, 0.0, width, bounds.height)
         
         if self.imageProfile!.image != nil {
             self.title!.frame = CGRectMake(self.imageProfile!.frame.maxX, 0.0, bounds.width, bounds.height)
@@ -87,6 +94,15 @@ class MoreMenuViewCell : UITableViewCell {
            self.badgeNotification.hidden = true
         }
 
+    }
+    
+    func setPreferenceValues(value:String, size:CGFloat, colorText:UIColor, colorSeparate:UIColor) {
+        self.title!.text = NSLocalizedString("preferences.title.\(value)", comment:"")
+        self.title!.font = WMFont.fontMyriadProLightOfSize(size)
+        self.title!.textColor = colorText
+        self.tsepInView!.backgroundColor = colorSeparate
+        self.imageProfile!.image = nil
+        self.title!.frame = CGRectMake(16, 0.0, bounds.width, bounds.height)
     }
     
     required init?(coder aDecoder: NSCoder) {

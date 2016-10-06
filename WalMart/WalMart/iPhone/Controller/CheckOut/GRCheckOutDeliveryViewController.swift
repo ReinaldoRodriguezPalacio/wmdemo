@@ -104,7 +104,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.addressInvoice!.isRequired = true
         self.addressInvoice!.typeField = TypeField.List
         self.addressInvoice!.setImageTypeField()
-        self.addressInvoice!.nameField = NSLocalizedString("Dirección de Facturación", comment:"")
+        self.addressInvoice!.nameField = NSLocalizedString("Dirección de facturación", comment:"")
         self.addressInvoice!.enabled = false
         self.addressInvoice!.hidden = true
         self.content.addSubview(self.addressInvoice!)

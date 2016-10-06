@@ -134,14 +134,14 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if indexPath.section == 0 ||  indexPath.section == 2 {
+        if indexPath.section == 0 {
+            return  60.0
+        }else if  indexPath.section == 2 {
             return  72.0
         }else if indexPath.section == 1 ||  indexPath.section == 3 {
             return  90.0
-        }else{
-            return 122.0
         }
-        
+        return 122.0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

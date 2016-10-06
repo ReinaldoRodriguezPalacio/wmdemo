@@ -11,10 +11,12 @@ import Foundation
 
 class ChangeInfoLegalViewController : NavigationViewController {
     
-    var saveButton: WMRoundButton?
-    
+    var saveButton: UIButton?
+    var cancelButton: UIButton?
+    var layerLine: CALayer!
     var errorView: FormFieldErrorView?
     var alertView: IPOWMAlertViewController?
+    var viewLoad: WMLoadingView!
     
     var promoAccept : UIButton? = nil
     var acceptSharePersonal : UIButton? = nil
@@ -25,8 +27,6 @@ class ChangeInfoLegalViewController : NavigationViewController {
         return WMGAIUtils.SCREEN_LEGALINFORMATION.rawValue
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,14 +34,23 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         self.titleLabel!.text = NSLocalizedString("profile.change.legalinfo", comment: "")
         
+        self.promoAccept = UIButton(frame: CGRectMake(16,self.header!.frame.maxY + 16.0,  self.view.frame.width - 8, 16))
         
-        self.promoAccept = UIButton(frame: CGRectMake(16,self.header!.frame.maxY + 16.0,  self.view.frame.width, 16))
-        self.promoAccept?.setTitle(NSLocalizedString("signup.info.pub", comment: ""), forState: UIControlState.Normal)
+        
+        let attr = NSMutableAttributedString(string: NSLocalizedString("preferences.legal.terms", comment: ""))
+        attr.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProRegularOfSize(13), range: NSMakeRange(0, NSLocalizedString("preferences.legal.terms", comment: "").characters.count))
+        attr.addAttribute(NSForegroundColorAttributeName, value: WMColor.reg_gray, range: NSRange(location: 0, length: 34))
+        self.promoAccept!.setAttributedTitle(attr, forState: UIControlState.Normal)
+        
+        
+        self.promoAccept?.setTitle(NSLocalizedString("preferences.legal.terms", comment: ""), forState: UIControlState.Normal)
         self.promoAccept!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
-        self.promoAccept!.setImage(UIImage(named:"filter_check_blue_selected"), forState: UIControlState.Selected)
-        self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.promoAccept!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        //self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(13)
+        self.promoAccept!.titleLabel?.numberOfLines = 2
+        self.promoAccept!.titleLabel?.lineBreakMode = .ByWordWrapping
         self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.promoAccept!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
+        self.promoAccept!.titleEdgeInsets = UIEdgeInsetsMake(15, 15, 0, 0);
         self.promoAccept!.addTarget(self, action: #selector(ChangeInfoLegalViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.promoAccept!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
 
@@ -76,20 +85,28 @@ class ChangeInfoLegalViewController : NavigationViewController {
         //let iconImage = UIImage(named:"button_bg")
         //let iconSelected = UIImage(named:"button_bg_active")
         
-        self.saveButton = WMRoundButton()
-        //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
-        //self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
-        self.saveButton!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.layerLine = CALayer()
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
+        self.view!.layer.insertSublayer(layerLine, atIndex: 1000)
+        
+        self.cancelButton = UIButton()
+        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
+        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.cancelButton!.backgroundColor = WMColor.empty_gray
+        self.cancelButton!.layer.cornerRadius = 17
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(cancelButton!)
+        
+        self.saveButton = UIButton()
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), forState:.Normal)
+        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.saveButton!.backgroundColor = WMColor.green
+        self.saveButton!.layer.cornerRadius = 17
         self.saveButton!.addTarget(self, action: #selector(ChangeInfoLegalViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton!.tintColor = UIColor.whiteColor()
-        self.saveButton!.layer.cornerRadius = 11
-        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.saveButton?.titleLabel!.textColor = UIColor.whiteColor()
-        self.saveButton!.hidden = true
-        self.saveButton!.tag = 0
-        self.header?.addSubview(self.saveButton!)
-
+        self.view.addSubview(saveButton!)
+       
         let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
         let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
         
@@ -102,11 +119,9 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.view.addSubview(acceptSharePersonal!)
         self.view.addSubview(declineSharePersonal!)
         
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
     }
 
-    
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -114,7 +129,9 @@ class ChangeInfoLegalViewController : NavigationViewController {
         lblPersonalData.frame = CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, self.view.frame.width - 32, 84)
         self.acceptSharePersonal!.frame = CGRectMake(45, lblPersonalData.frame.maxY + 24.0, 120, 16)
         self.declineSharePersonal!.frame = CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16)
-        self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 71, self.header!.frame.height)
+        self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
+        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
+        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
     }
     
@@ -225,5 +242,20 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
     }
 
+    func addViewLoad(){
+        if viewLoad == nil {
+            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            viewLoad = WMLoadingView(frame: bounds)
+            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.startAnnimating(true)
+            self.view.addSubview(viewLoad)
+        }
+    }
     
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
 }
