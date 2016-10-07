@@ -87,7 +87,8 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
             let controller = InterestCategoryController()
             self.navigationController!.pushViewController(controller, animated: true)
         case .Notifications:
-            print("Notifications")
+            let controller = NotificationPreferencesViewController()
+            self.navigationController!.pushViewController(controller, animated: true)
         case .ProductNotAvailable:
             let noProductController = GRCheckOutCommentsViewController()
             noProductController.isPreferencesView = true

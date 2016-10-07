@@ -79,10 +79,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 0:
             return 4
         case 1:
-            let rows = self.showCamfind! ? 6 : 5
+            let rows = self.showCamfind! ? 5 : 4
             return rows
         case 2:
-            return 4
+            return 3
         default:
             return 0
         }

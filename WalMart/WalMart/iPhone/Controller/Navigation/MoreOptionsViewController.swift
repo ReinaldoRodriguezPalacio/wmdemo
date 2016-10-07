@@ -173,12 +173,14 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             currentOption = indexPath.row + 4
         case 2:
             currentOption = indexPath.row + (self.showCamfind! ? 10 : 9)
+            
         default:
             print("")
         }
         
+        print(currentOption)
         let srtOption = self.options[currentOption]
-        
+        print(srtOption)
         var image: String?
         switch (OptionsController(rawValue: srtOption)!) {
         case .Profile : image = "Profile-icon"

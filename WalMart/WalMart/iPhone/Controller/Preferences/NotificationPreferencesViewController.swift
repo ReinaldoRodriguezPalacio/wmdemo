@@ -66,8 +66,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         self.saveButton!.addTarget(self, action: #selector(NotificationPreferencesViewController.save), forControlEvents: UIControlEvents.TouchUpInside)
         self.viewFooter!.addSubview(saveButton!)
         
-        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, 16, 140, 34)
-        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 ,16, 140, 34)
+        
         
         self.invokePreferenceService()
         
@@ -78,13 +77,15 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         super.viewDidLayoutSubviews()
         self.tableview?.frame =  CGRectMake(0,self.header!.frame.maxY,self.view.frame.width ,self.view.frame.height - (self.headerHeight + 64))
        
-        
         self.viewFooter?.frame = CGRect(x:0 , y:self.tableview!.frame.maxY - 46, width:self.view.bounds.width , height: 64 )
         self.layerLine.frame = CGRectMake(0, 0,  self.view.frame.width, 1)
 
         if TabBarHidden.isTabBarHidden {
             self.viewFooter?.frame = CGRect(x:0 , y:self.tableview!.frame.maxY , width:self.view.bounds.width , height: 64 )
         }
+        
+        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, 16, 140, 34)
+        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 ,16, 140, 34)
 
       
     }
