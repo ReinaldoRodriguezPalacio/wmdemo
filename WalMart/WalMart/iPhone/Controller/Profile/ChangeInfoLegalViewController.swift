@@ -22,6 +22,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
     var acceptSharePersonal : UIButton? = nil
     var declineSharePersonal : UIButton? = nil
     var lblPersonalData : UILabel!
+    var isPreferences:Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_LEGALINFORMATION.rawValue
@@ -53,7 +54,6 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.promoAccept!.titleEdgeInsets = IS_IPAD ? UIEdgeInsetsMake(5, 16, 0, 0) : UIEdgeInsetsMake(15, 16, 0, 0)
         self.promoAccept!.addTarget(self, action: #selector(ChangeInfoLegalViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.promoAccept!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-
         
         lblPersonalData = UILabel(frame: CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, self.view.frame.width - 32, 84))
         lblPersonalData.text = NSLocalizedString("signup.info.share", comment: "")
@@ -113,6 +113,12 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.promoAccept?.selected = allowMarketing!.uppercaseString == "TRUE"
         self.acceptSharePersonal?.selected = allowTransfer!.uppercaseString == "TRUE"
         self.declineSharePersonal?.selected = allowTransfer!.uppercaseString != "TRUE"
+        
+        if isPreferences {
+            self.promoAccept?.selected = true
+            self.promoAccept?.alpha = 0.5
+            self.promoAccept?.userInteractionEnabled = false
+        }
         
         self.view.addSubview(promoAccept!)
         self.view.addSubview(lblPersonalData)

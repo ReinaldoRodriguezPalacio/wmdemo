@@ -48,9 +48,7 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-
         self.tablePreferences.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -95,9 +93,9 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
             self.navigationController?.pushViewController(noProductController, animated: true)
         case .LegalInformation:
             let legalController = ChangeInfoLegalViewController()
+            legalController.isPreferences = true
             self.navigationController?.pushViewController(legalController, animated: true)
         }
-
         
     }
     

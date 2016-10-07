@@ -107,7 +107,9 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
             
             }, errorBlock: { (error:NSError) in
                 print("Hubo un error al guardar las Preferencias")
-                
+                let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
+                alertView!.setMessage("Error al guardar tus preferencias, intenta más tarde.")
+                alertView!.showErrorIcon("Ok")
         })
     }
     

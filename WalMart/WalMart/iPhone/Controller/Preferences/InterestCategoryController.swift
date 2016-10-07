@@ -221,8 +221,11 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
             self.removeViewLoad()
             
         }, errorBlock: { (error:NSError) in
+            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
+            alertView!.setMessage("Error al guardar tus preferencias, intenta más tarde.")
+            alertView!.showErrorIcon("Ok")
             self.removeViewLoad()
-                print("Error invokePreferenceService \(error.localizedDescription)")
+            print("Error invokePreferenceService \(error.localizedDescription)")
         })
         
     }
