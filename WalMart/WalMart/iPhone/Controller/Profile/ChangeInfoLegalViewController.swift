@@ -116,7 +116,6 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         if isPreferences {
             self.promoAccept?.selected = true
-            self.promoAccept?.alpha = 0.5
             self.promoAccept?.userInteractionEnabled = false
         }
         

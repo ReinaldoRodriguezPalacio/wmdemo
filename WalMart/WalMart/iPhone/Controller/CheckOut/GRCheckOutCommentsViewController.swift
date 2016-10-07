@@ -85,6 +85,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.stepLabel.text = "3 de 4"
             self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
             self.header?.addSubview(self.stepLabel)
+            self.showPhoneField = false
         }
         
         self.sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.confirm", comment: ""), frame: CGRectMake(margin, margin, width, lheight))
@@ -112,7 +113,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
         let phone = self.getDefaultPhone()
         //self.phoneField!.setCustomPlaceholder("Teléfono: \(phone)")
-        self.phoneField!.isRequired = true
+        self.phoneField!.isRequired = isPreferencesView ? false : true
         self.phoneField!.typeField = TypeField.Phone
         self.phoneField!.nameField = "Teléfono"
         self.phoneField!.maxLength = 10
@@ -315,6 +316,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             sectionTitleComments?.userInteractionEnabled = false
             comments?.hidden = true
             comments?.userInteractionEnabled = false
+            phoneField?.userInteractionEnabled = false
+            phoneField?.hidden = true
         }
         
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
@@ -396,12 +399,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func confirmCallSelected(button:UIButton,changePrefeered:Bool){
         self.changePreferences = !changePrefeered
         
-        
         if self.confirmSelected != button.tag {
-           // 2= only Substitute Available
-            // 3 = onlyOrderedProducts
-            // 1 =  receiveCallConfirmation
             
+            // 2 = only Substitute Available
+            // 3 = onlyOrderedProducts
+            // 1 = receiveCallConfirmation
             
             self.confirmCallButton?.selected = (self.confirmCallButton == button)
             self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
@@ -409,7 +411,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.confirmSelected = button.tag
             self.confirmText = button.titleLabel!.text!
         
-            if confirmSelected == 3{
+            if confirmSelected == 3 {
            
                 self.userPreferences.setObject(OnlyAlertPreferences.receiveCallConfirmation.rawValue, forKey:"onlyTelephonicAlert")
                 
@@ -417,7 +419,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 self.phoneField?.enabled = true
                 self.phoneField?.textColor = UIColor.blackColor()
                 self.showPhoneField = true
-            }else{
+                
+            } else {
+                
                 self.phoneField?.enabled = false
                 self.phoneField?.textColor = WMColor.reg_gray
                 self.showPhoneField = false
@@ -425,10 +429,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 self.userPreferences.setObject(confirmSelected == 1 ? OnlyAlertPreferences.onlyOrderedProducts.rawValue : OnlyAlertPreferences.onlySubstituteAvailable.rawValue , forKey:"onlyTelephonicAlert")
             }
             
+            isPreferencesView ? self.showPhoneField = false : self.showPhoneFieldAnimated()
             
-        
-            self.showPhoneFieldAnimated()
         }
+        
     }
     
     /**
