@@ -1040,6 +1040,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
                 isEditingSearch = false
             }
+            if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? LandingPageViewController != nil){
+                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 3)
+                isEditingSearch = false
+            }
             let controller = SearchProductViewController()
             controller.upcsToShow = upcs
             controller.searchContextType = .WithText
@@ -1066,6 +1071,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let controllersInNavigation = controllernav?.viewControllers.count
         if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
             controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+        }
+        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? LandingPageViewController != nil){
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 3)
         }
         controllernav?.pushViewController(controller, animated: true)
 //        self.btnSearch!.selected = false
