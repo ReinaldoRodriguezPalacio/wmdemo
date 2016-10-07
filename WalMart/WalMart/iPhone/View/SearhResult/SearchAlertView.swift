@@ -35,15 +35,11 @@ class SearchAlertView: UIView {
         self.labelMessage = UILabel()
         self.labelMessage?.textColor = UIColor.whiteColor()
         self.labelMessage?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.labelMessage?.adjustsFontSizeToFitWidth = true
-        self.labelMessage?.minimumScaleFactor = 8
         self.labelMessage?.numberOfLines = 1
         
         self.resultsOf = UILabel()
         self.resultsOf?.textColor = UIColor.whiteColor()
         self.resultsOf?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.resultsOf?.adjustsFontSizeToFitWidth = true
-        self.resultsOf?.minimumScaleFactor = 8
         self.resultsOf?.numberOfLines = 1
         
         self.addSubview(imageIcon!)

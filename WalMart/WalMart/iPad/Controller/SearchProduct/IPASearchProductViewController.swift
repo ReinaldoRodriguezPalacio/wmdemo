@@ -204,7 +204,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.showAlertView = false
         }
         
-        if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch) {
+        if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch || self.showAlertView ) {
             self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
         
         UIView.animateWithDuration(0.3, animations: {

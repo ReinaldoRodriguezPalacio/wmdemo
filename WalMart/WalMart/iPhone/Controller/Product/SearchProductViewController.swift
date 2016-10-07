@@ -152,8 +152,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         collection!.dataSource = self
         collection!.delegate = self
-        
         collection!.backgroundColor = UIColor.whiteColor()
+        
         self.view.addSubview(collection!)
         self.idSort =  FilterType.none.rawValue
         if self.searchContextType! == .WithCategoryForMG {
@@ -989,7 +989,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         service.callService(params,
                             successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
                 
-                self.landingP = resultDic["landingPage"] as! [String:AnyObject]
+                self.landingP = resultDic["landingPage"] as? [String:AnyObject]
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     self.grResponceDic = resultDic
                     if self.landingP?.count > 0{ // > 0 TODO cambiar
@@ -1068,7 +1068,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
            self.showAlertView = false
         }
         
-        if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch) {
+        if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch || self.showAlertView) {
             
         UIView.animateWithDuration(0.3, animations: {
             if self.isTextSearch || self.isOriginalTextSearch {

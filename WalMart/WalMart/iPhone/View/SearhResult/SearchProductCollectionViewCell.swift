@@ -67,13 +67,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
        
         self.contentView.addSubview(productPriceThroughLabel!)
        
-        let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth() - 1, 0,AppDelegate.separatorHeigth(), self.frame.height ))
-        borderView.backgroundColor = WMColor.light_light_gray
-        self.contentView.addSubview(borderView)
-        
-        let borderViewTop = UIView(frame: CGRectMake(0, self.frame.height - AppDelegate.separatorHeigth() , self.frame.width,AppDelegate.separatorHeigth()))
-        borderViewTop.backgroundColor = WMColor.light_light_gray
-        self.contentView.addSubview(borderViewTop)
+        self.layer.borderWidth = 1.0
+        self.layer.borderColor = WMColor.light_light_gray.CGColor
         
         self.contentView.addSubview(addProductToShopingCart!)
         
