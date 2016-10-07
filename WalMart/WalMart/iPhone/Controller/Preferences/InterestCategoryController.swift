@@ -40,7 +40,11 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         // Do any additional setup after loading the view.
         
         self.view.backgroundColor = UIColor.whiteColor()
-        self.titleLabel!.frame.origin.x = 30
+        
+        if !IS_IPAD {
+            self.titleLabel!.frame.origin.x = 30
+        }
+        
         self.titleLabel!.text = NSLocalizedString("preferences.title.Category", comment: "")
         
         tableCategories = UITableView()

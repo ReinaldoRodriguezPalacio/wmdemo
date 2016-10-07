@@ -52,7 +52,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.backButton!.hidden =  IS_IPAD
+        
+        self.backButton!.hidden =  IS_IPAD && !isPreferencesView
         
         self.titleLabel?.text = NSLocalizedString("checkout.title.commentsview", comment: "")
         self.view.backgroundColor = UIColor.whiteColor()
@@ -97,7 +98,13 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.confirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        
+        if IS_IPAD && isPreferencesView {
+            self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 0, right: 0)
+        } else {
+            self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        }
+        
         self.confirmCallButton!.selected = true
         self.confirmCallButton!.tag = 3
         self.content.addSubview(self.confirmCallButton!)
@@ -146,6 +153,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.notConfirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.notConfirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        
         self.notConfirmCallButton!.titleLabel?.numberOfLines = 3
         self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         self.notConfirmCallButton!.tag = 2
@@ -279,7 +287,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
-        let checkImageBottom: CGFloat = 28//IS_IPAD && !IS_IPAD_MINI ? 28 : 14
+        let checkImageBottom: CGFloat = IS_IPAD && !isPreferencesView ? 28 : 6
         let checkButtonHeight: CGFloat = 45//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
         
         if !isPreferencesView {
@@ -288,6 +296,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
         self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
+        
         if self.showPhoneField {
             self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
             self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
@@ -295,6 +304,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }else{
             self.notConfirmCallButton!.frame = CGRectMake(margin,confirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         }
+        
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)

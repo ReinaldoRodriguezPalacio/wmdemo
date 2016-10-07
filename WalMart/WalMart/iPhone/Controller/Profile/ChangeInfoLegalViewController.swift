@@ -50,7 +50,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.promoAccept!.titleLabel?.numberOfLines = 2
         self.promoAccept!.titleLabel?.lineBreakMode = .ByWordWrapping
         self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.promoAccept!.titleEdgeInsets = UIEdgeInsetsMake(15, 15, 0, 0);
+        self.promoAccept!.titleEdgeInsets = IS_IPAD ? UIEdgeInsetsMake(5, 16, 0, 0) : UIEdgeInsetsMake(15, 16, 0, 0)
         self.promoAccept!.addTarget(self, action: #selector(ChangeInfoLegalViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.promoAccept!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
 
@@ -127,7 +127,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         self.promoAccept!.frame = CGRectMake(16,self.header!.frame.maxY + 8.0,  self.view.frame.width, 16)
         lblPersonalData.frame = CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, self.view.frame.width - 32, 84)
-        self.acceptSharePersonal!.frame = CGRectMake(45, lblPersonalData.frame.maxY + 24.0, 120, 16)
+        self.acceptSharePersonal!.frame = CGRectMake(IS_IPAD ? 220 : 45, lblPersonalData.frame.maxY + 24.0, 120, 16)
         self.declineSharePersonal!.frame = CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16)
         self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
