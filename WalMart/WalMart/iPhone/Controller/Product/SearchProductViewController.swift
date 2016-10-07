@@ -887,6 +887,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.landingP = landingMg.count > 0 ? landingMg : self.landingP
                 if self.landingP != nil && self.landingP!.count > 0 && arrayProduct!.count == 0 {
                     self.showLandingPage()
+                    return
                 }
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -904,10 +905,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.mgResponceDic = resultDic
                     
                     if self.landingP?.count > 0{ // > 0 TODO cambiar
-                        let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
-                        //let imageURL = IS_IPAD ? landingP["imgipad"] as! String : landingP["imgiphone"] as! String
-                        self.bannerView.setImageWithURL(NSURL(string: "http://\(imageURL)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-                            self.bannerView.image = image
+                        //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
+                        let imageURL = IS_IPAD ? self.landingP!["imgipad"] as! String : self.landingP!["imgiphone"] as! String
+                        self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                            self.bannerView.image = image//"http://\(imageURL)"
                         }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                             print("Error al presentar imagen")
                         }
@@ -993,10 +994,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     self.grResponceDic = resultDic
                     if self.landingP?.count > 0{ // > 0 TODO cambiar
-                        let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
-                        //let imageURL = IS_IPAD ? landingP["imgipad"] as! String : landingP["imgiphone"] as! String
-                        self.bannerView.setImageWithURL(NSURL(string: "http://\(imageURL)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-                            self.bannerView.image = image
+                        //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
+                        let imageURL = IS_IPAD ? self.landingP!["imgipad"] as! String : self.landingP!["imgiphone"] as! String
+                        self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                            self.bannerView.image = image //"http://\(imageURL)"
                         }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                             print("Error al presentar imagen")
                         }
