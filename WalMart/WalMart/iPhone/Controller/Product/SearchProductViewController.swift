@@ -783,6 +783,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
                     case .WithCategoryForGR :
                         print("Searching products for Category In Groceries")
+                        
                         if self.originalSearchContextType != nil && self.isTextSearch{
                             self.invokeSearchProductsInGroceries(
                                 actionSuccess: { () -> Void in
@@ -860,7 +861,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             return
         }
         
-        if self.mgResults!.totalResults != -1 && self.mgResults!.resultsInResponse >= self.mgResults!.totalResults {
+        if self.mgResults!.totalResults != -1 && self.mgResults!.resultsInResponse >= self.mgResults!.totalResults && self.btnTech.selected {
             print("MG Search IS COMPLETE!!!")
             self.mgResults!.totalResults = self.allProducts!.count
             self.mgResults!.resultsInResponse = self.mgResults!.totalResults

@@ -67,7 +67,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
        
         self.contentView.addSubview(productPriceThroughLabel!)
        
-        self.layer.borderWidth = 1.0
+        self.layer.borderWidth = 0.6
         self.layer.borderColor = WMColor.light_light_gray.CGColor
         
         self.contentView.addSubview(addProductToShopingCart!)
