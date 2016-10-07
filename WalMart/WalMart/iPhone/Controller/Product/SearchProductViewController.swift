@@ -80,7 +80,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var maxYBanner: CGFloat = 46.0
     var isLandingPage = false
     var landingP : [String:AnyObject]?
-    var controller : LandingPageViewController?
+    var controllerLanding : LandingPageViewController?
     
     var viewBgSelectorBtn : UIView!
     var btnSuper : UIButton!
@@ -886,16 +886,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 let landingMg = resultDic["landingPage"] as! [String:AnyObject]
                 self.landingP = landingMg.count > 0 ? landingMg : self.landingP
                 if self.landingP != nil && self.landingP!.count > 0 && arrayProduct!.count == 0 {
-                    if self.controller == nil {
-                        self.controller = LandingPageViewController()
-                        self.controller!.urlTicer = self.landingP!["imgiphone"] as! String
-                        self.controller!.departmentId = self.landingP!["departmentid"] as! String
-                        self.controller!.titleHeader = self.landingP!["text"] as? String
-                        self.controller!.startView = 46.0
-                        self.controller!.searchFieldSpace = 0
-                        self.navigationController!.pushViewController(self.controller!, animated: true)
-                    }
-                    return
+                    self.showLandingPage()
                 }
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -1227,7 +1218,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         
                     })
                    
-                case .none : print("Not sorted")
+                //case .none :
+                //    print("Not sorted")
                 default :
                     //println("priceDesc")
                     self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
@@ -1340,6 +1332,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
          self.view.addSubview(self.emptyMGGR)
        
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+    }
+    
+    func showLandingPage(){
+        if self.controllerLanding == nil {
+            self.controllerLanding =  LandingPageViewController()
+            self.controllerLanding!.urlTicer = self.landingP!["imgiphone"] as! String
+            self.controllerLanding!.departmentId = self.landingP!["departmentid"] as! String
+            self.controllerLanding!.titleHeader = self.landingP!["text"] as? String
+            self.controllerLanding!.startView = 46.0
+            self.controllerLanding!.searchFieldSpace = 0
+            self.navigationController!.pushViewController(self.controllerLanding!, animated: true)
+        }
+        return
     }
     
     //MARK: - Actions

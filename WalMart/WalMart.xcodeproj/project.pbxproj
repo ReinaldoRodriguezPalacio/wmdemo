@@ -435,6 +435,7 @@
 		6C836D831C15FB8C00C4BE16 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
 		6C8913B31D2C6F23005DC27F /* HelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */; };
+		6C8977841DA7F1D900BABE85 /* IPALandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */; };
 		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
 		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
@@ -1050,6 +1051,7 @@
 		6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = Shared/Library/Facebook/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
 		6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpHomeView.swift; path = iPhone/View/Home/HelpHomeView.swift; sourceTree = "<group>"; };
+		6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALandingPageViewController.swift; path = iPad/Controller/SearchProduct/IPALandingPageViewController.swift; sourceTree = "<group>"; };
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
 		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -2620,6 +2622,7 @@
 			children = (
 				56E54E4819EC6B570004161C /* IPASearchProductViewController.swift */,
 				5608AF701A0AA24D00176CB0 /* IPASearchCatProductViewController.swift */,
+				6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */,
 			);
 			name = SearchProduct;
 			sourceTree = "<group>";
@@ -3389,6 +3392,7 @@
 				6C6AC1F21CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift in Sources */,
 				AC59118019DE0D2400EB095C /* FMDatabase.m in Sources */,
 				AC5479F71AB21785009DC7AB /* IPAShoppingCartEmptyView.swift in Sources */,
+				6C8977841DA7F1D900BABE85 /* IPALandingPageViewController.swift in Sources */,
 				ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */,
 				5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */,
 				5606BC2919BA3EFE002A70ED /* ProductDetailCrossSellItemCollectionViewCell.swift in Sources */,

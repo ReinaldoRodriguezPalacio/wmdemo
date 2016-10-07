@@ -18,6 +18,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     var imageBackground : UIImage? = nil
     var viewHeader : IPASectionHeaderSearchReusable!
     var emptyViewHeader: UIView?
+    var landingController: IPALandingPageViewController?
     
     override func viewDidLoad() {
         self.maxResult = 23
@@ -171,6 +172,17 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         self.sharePopover = nil
         //self.filterController = nil
+    }
+    
+   override func showLandingPage(){
+        if self.landingController == nil {
+            self.landingController =  IPALandingPageViewController()
+//            self.landingController!.urlTicer = self.landingP!["imgiphone"] as! String
+//            self.landingController!.departmentId = self.landingP!["departmentid"] as! String
+            self.landingController!.titleHeader = self.landingP!["text"] as? String
+            self.navigationController!.pushViewController(self.landingController!, animated: true)
+        }
+        return
     }
     
     
