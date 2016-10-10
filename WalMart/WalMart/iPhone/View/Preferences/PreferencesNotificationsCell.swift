@@ -22,11 +22,8 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     var switchBlock : CMSwitchView?
     var phoneField: FormFieldView?
     var errorView : FormFieldErrorView? = nil
-    
     var validatePhone : (() -> Void)? = nil
-
     var separator : UIView?
-    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -38,11 +35,8 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         setup()
     }
     
-    
-    
     func setup(){
         print("setup : setup")
-        
         
         titleBlock =  UILabel(frame: CGRect(x:16 , y:0 , width:self.frame.width - 32 , height: 46))
         titleBlock!.font = WMFont.fontMyriadProLightOfSize(14)
@@ -51,15 +45,15 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         descriptionBlock =  UILabel(frame: CGRect(x:16 , y:titleBlock!.frame.maxY + 16 , width:self.frame.width - (28 + 60) , height: 48))
         descriptionBlock!.font = WMFont.fontMyriadProRegularOfSize(14)
         descriptionBlock!.textColor =  WMColor.reg_gray
-        descriptionBlock!.text =  description
-        descriptionBlock!.numberOfLines =  3
+        descriptionBlock!.text = description
+        descriptionBlock!.numberOfLines =  0
+        descriptionBlock!.lineBreakMode = .ByWordWrapping
         
         switchBlock = CMSwitchView(frame: CGRectMake(self.frame.width - (16 + 34), descriptionBlock!.frame.midY - 17  , 54, 34))
-        switchBlock!.borderWidth = 1
-        switchBlock!.borderColor = WMColor.reg_gray
+        switchBlock!.borderWidth = 0
         switchBlock!.dotColor = UIColor.whiteColor()
         switchBlock!.dotBorderColor = WMColor.light_gray
-        switchBlock!.color = WMColor.reg_gray
+        switchBlock!.color = WMColor.empty_gray
         switchBlock!.tintColor = WMColor.green
         switchBlock!.delegate =  self
         switchBlock!.dotWeight = 32.0
@@ -76,20 +70,22 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     override func layoutSubviews() {
         super.layoutSubviews()
         titleBlock!.frame = CGRect(x:16 , y:0 , width:self.frame.width - 32 , height: 46)
-        descriptionBlock!.frame = CGRect(x:16 , y:titleBlock!.frame.maxY + 16 , width:self.frame.width - (28 + 60) , height: 48)
+        descriptionBlock!.frame = CGRect(x:16 , y:titleBlock!.frame.maxY + 8 , width:self.frame.width - (28 + 60) , height: 0)
+        descriptionBlock!.sizeToFit()
+        descriptionBlock!.frame.size = descriptionBlock!.bounds.size
         switchBlock!.frame =  CGRectMake(self.frame.width - (32 + 34), descriptionBlock!.frame.midY - 17  , 54, 34)
-
-        
         self.separator!.frame =  CGRectMake(0.0, self.bounds.height - 1, bounds.width, 1.0)
     }
     
     func setValues(title:String,description:String,isOn:Bool,contenField:Bool,position:Int,phone:String){
+        
         self.titleBlock?.text = title
         self.descriptionBlock?.text = description
         switchBlock!.drawSelected(isOn)
         switchBlock!.borderColor = isOn ? WMColor.green :  WMColor.reg_gray
         self.separator?.hidden = position == 2
         self.switchBlock?.tag = position
+        
         if contenField {
             let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
                 self.delegate.editPhone(inEdition: false)
@@ -109,7 +105,9 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
             self.phoneField!.delegate = self
             self.addSubview(self.phoneField!)
         }
+        
     }
+    
     var phoneSelected = false
     
     //MARK:CMSwitchViewDelegate
@@ -166,7 +164,5 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         return true
     }
     
-    
-    
-    
 }
+

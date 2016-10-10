@@ -10,8 +10,8 @@ import Foundation
 
 class NotificationPreferencesViewController : NavigationViewController,UITableViewDataSource, UITableViewDelegate,PreferencesNotificationsCellDelegate,UIScrollViewDelegate {
     
-    let titles =  ["Promociones por correo electrónico","Carrito abandonado","Promociones por SMS"]
-    let descriptios = ["Deseo recibir información de walmart.com.mx en mi buzón de correo","Deseo recibir notificaciones de mi carrito abandonado de walmart.com.mx en mi correo electrónico","Deseo recibir informacion de vía SMS"]
+    let titles =  ["Promociones por correo electrónico", "Carrito abandonado", "Promociones por SMS"]
+    let descriptios = ["Deseo recibir información de walmart.com.mx en mi buzón de correo.", "Deseo recibir notificaciones de mi carrito abandonado de walmart.com.mx en mi correo electrónico.","Deseo recibir información vía SMS."]
 
     var userPreferences : NSMutableDictionary = [:]
     var tableview :  UITableView?
@@ -28,6 +28,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor =  UIColor.whiteColor()
         self.titleLabel?.text =  "Alertas y Notificaciones"
         
@@ -38,8 +39,6 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         self.tableview!.separatorStyle = .None
         self.view.addSubview(self.tableview!)
         
-        
-        
         self.viewFooter =  UIView()
         self.viewFooter?.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(viewFooter!)
@@ -49,7 +48,6 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         viewFooter!.layer.insertSublayer(layerLine, atIndex: 1000)
         layerLine.frame = CGRectMake(0, 0, self.viewFooter!.frame.width, 2)
 
-        
         self.cancelButton = UIButton()
         self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
@@ -67,8 +65,6 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         self.saveButton!.layer.cornerRadius = 17
         self.saveButton!.addTarget(self, action: #selector(NotificationPreferencesViewController.save), forControlEvents: UIControlEvents.TouchUpInside)
         self.viewFooter!.addSubview(saveButton!)
-        
-        
         
         self.invokePreferenceService()
         
@@ -172,14 +168,14 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var height : CGFloat = 110
-       
-        if  indexPath.row == 1 {
-            height =  126
-        }else if indexPath.row == 2 {
-            height =    170
-        }
         
+        var height: CGFloat = IS_IPAD ? 100 : 110
+       
+        if indexPath.row == 1 {
+            height = IS_IPAD ? 100 : 126
+        }else if indexPath.row == 2 {
+            height = 170
+        }
         
         return height
     }
@@ -198,7 +194,6 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
             }else{ //sms
                 onSwich = self.userPreferences["telephonicSmsAlert"] as! Bool
             }
-            
             
             cell.setValues(self.titles[indexPath.row], description: self.descriptios[indexPath.row], isOn: onSwich,contenField: indexPath.row == self.titles.count - 1,position: indexPath.row,phone: self.userPreferences["mobileNumber"] as! String)
             cell.selectionStyle =  .None
@@ -233,6 +228,5 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         self.view.endEditing(true)
     }
     
-    
-    
 }
+
