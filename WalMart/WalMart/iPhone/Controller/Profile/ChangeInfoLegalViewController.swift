@@ -120,7 +120,6 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.view.addSubview(acceptSharePersonal!)
         self.view.addSubview(declineSharePersonal!)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
         self.invokePreferenceService()
     }
 
@@ -131,9 +130,17 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.lblPersonalData.frame = CGRectMake(16, self.promoAccept!.frame.maxY + (IS_IPAD ? 8 : 24), self.view.frame.width - 32, 84)
         self.acceptSharePersonal!.frame = CGRectMake(16, lblPersonalData.frame.maxY + (IS_IPAD ? 16 : 24), 120, 16)
         self.declineSharePersonal!.frame = CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + (IS_IPAD ? 16 : 24), 120, 16)
-        self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
-        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
-        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
+        
+        if TabBarHidden.isTabBarHidden {
+            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
+            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
+            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
+        } else {
+            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
+            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
+            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
+        }
+        
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
     }
     

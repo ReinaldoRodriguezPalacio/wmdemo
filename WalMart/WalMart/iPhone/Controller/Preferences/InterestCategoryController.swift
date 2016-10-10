@@ -18,7 +18,6 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     
     var interestCategories = [InterestCategory]()
     var selectedInterestCategories = [String]()
-    var isPresentView = false
     var userPreferences: NSMutableDictionary = [:]
     
     var viewLoad: WMLoadingView!
@@ -100,8 +99,6 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         headerLabel!.textColor = WMColor.reg_gray
         headerLabel!.text = NSLocalizedString("preferences.category.headerTitle", comment:"")
         tableHeaderView!.addSubview(headerLabel!)
-
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
         
         loadPreferences()
     }
@@ -124,12 +121,16 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.layerLineHeader.frame = CGRectMake(0, self.tableHeaderView!.frame.height - 1,  self.tableHeaderView!.frame.width, 1)
         self.tableCategories.tableHeaderView = tableHeaderView
         
-        if !isPresentView {
+        if TabBarHidden.isTabBarHidden {
             self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
             self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
             self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
             self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 112)
-            isPresentView = true
+        } else {
+            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
+            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
+            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
+            self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 158)
         }
         
     }

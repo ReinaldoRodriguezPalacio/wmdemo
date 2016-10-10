@@ -39,7 +39,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var errorView: FormFieldErrorView?
     var showPhoneField: Bool = true
     var isPreferencesView:Bool = false
-    var isPresentView:Bool = false
     
     var messageInCommens = ""
     var commentsString : NSMutableAttributedString?
@@ -214,7 +213,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), forState:.Normal)
             self.saveButton!.backgroundColor = WMColor.green
             self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.savePreferences), forControlEvents: UIControlEvents.TouchUpInside)
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
         } else {
             self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), forState:.Normal)
             self.saveButton!.backgroundColor = WMColor.light_blue
@@ -279,7 +277,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
     }
 
-    
     /**
      Build view components
      */
@@ -324,12 +321,19 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.content!.contentSize = CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
         
-        if !isPresentView && isPreferencesView {
-            self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 66,  self.view.frame.width, 1)
-            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
-            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
-            isPresentView = true
-        } else if !isPreferencesView {
+        if isPreferencesView {
+            
+            if TabBarHidden.isTabBarHidden {
+                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
+                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
+                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
+            } else {
+                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
+                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
+                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
+            }
+            
+        } else {
             self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 66,  self.view.frame.width, 1)
             self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
             self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
