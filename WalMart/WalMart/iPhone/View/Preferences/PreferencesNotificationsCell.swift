@@ -10,6 +10,7 @@ import Foundation
 
 protocol PreferencesNotificationsCellDelegate {
     func changeStatus(row:Int,value:Bool)
+    func editPhone(inEdition edition:Bool)
 }
 
 class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextFieldDelegate {
@@ -20,6 +21,10 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     var descriptionBlock : UILabel?
     var switchBlock : CMSwitchView?
     var phoneField: FormFieldView?
+    var errorView : FormFieldErrorView? = nil
+    
+    var validatePhone : (() -> Void)? = nil
+
     var separator : UIView?
     
     
@@ -39,13 +44,13 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         print("setup : setup")
         
         
-        titleBlock =  UILabel(frame: CGRect(x:16 , y:16 , width:self.frame.width - 32 , height: 14))
+        titleBlock =  UILabel(frame: CGRect(x:16 , y:0 , width:self.frame.width - 32 , height: 46))
         titleBlock!.font = WMFont.fontMyriadProLightOfSize(14)
         titleBlock!.textColor =  WMColor.light_blue
         
-        descriptionBlock =  UILabel(frame: CGRect(x:16 , y:titleBlock!.frame.maxY + 16 , width:self.frame.width - (32 + 60) , height: 50))
+        descriptionBlock =  UILabel(frame: CGRect(x:16 , y:titleBlock!.frame.maxY + 16 , width:self.frame.width - (28 + 60) , height: 48))
         descriptionBlock!.font = WMFont.fontMyriadProRegularOfSize(14)
-        descriptionBlock!.textColor =  WMColor.empty_gray
+        descriptionBlock!.textColor =  WMColor.reg_gray
         descriptionBlock!.text =  description
         descriptionBlock!.numberOfLines =  3
         
@@ -62,9 +67,6 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         separator!.backgroundColor = WMColor.light_gray
         
         self.addSubview(self.separator!)
-        
-        
-        
         self.addSubview(titleBlock!)
         self.addSubview(descriptionBlock!)
         self.addSubview(switchBlock!)
@@ -73,8 +75,8 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        titleBlock!.frame = CGRect(x:16 , y:16 , width:self.frame.width - 32 , height: 14)
-        descriptionBlock!.frame = CGRect(x:16 , y:titleBlock!.frame.maxY + 16 , width:self.frame.width - (32 + 60) , height: 50)
+        titleBlock!.frame = CGRect(x:16 , y:0 , width:self.frame.width - 32 , height: 46)
+        descriptionBlock!.frame = CGRect(x:16 , y:titleBlock!.frame.maxY + 16 , width:self.frame.width - (28 + 60) , height: 48)
         switchBlock!.frame =  CGRectMake(self.frame.width - (32 + 34), descriptionBlock!.frame.midY - 17  , 54, 34)
 
         
@@ -90,7 +92,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         self.switchBlock?.tag = position
         if contenField {
             let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
-                print("Guardar")
+                self.delegate.editPhone(inEdition: false)
                 self.phoneField!.resignFirstResponder()
             })
             self.phoneField = FormFieldView(frame: CGRectMake(16, descriptionBlock!.frame.maxY + 8.0, self.frame.width - 32, 44))
@@ -108,27 +110,61 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
             self.addSubview(self.phoneField!)
         }
     }
-    
+    var phoneSelected = false
     
     //MARK:CMSwitchViewDelegate
     func switchValueChanged(sender: AnyObject!, andNewValue value: Bool) {
         switchBlock!.borderColor = value ? WMColor.green :  WMColor.reg_gray
         if sender.tag == 2 {
-            
+            self.phoneField!.isRequired = value
             self.phoneField?.hidden =  !value
             if !value {
                 self.phoneField!.text = ""
+                self.errorView?.removeFromSuperview()
+                self.errorView = nil
+               phoneSelected = false
+            }else{
+                phoneSelected = true
             }
         }
         
         self.delegate.changeStatus(sender.tag, value: value)
     }
     
+    func validate() -> Bool{
+        if self.phoneSelected  {
+            return self.viewError(self.phoneField!,message: NSLocalizedString("Es requerido para recibir información SMS",comment:""))
+        }
+        return true
+    }
     
+    func viewError(field: FormFieldView)-> Bool{
+        let message = field.validate()
+        return self.viewError(field,message: message)
+    }
     
+    func viewError(field: FormFieldView,message:String?)-> Bool{
+        if message != nil {
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
+            return true
+        }
+        return false
+    }
     
+    //MARK: UITextFieldDelegate
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        print("textFieldDidBeginEditing")
+    }
     
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+     print("textFieldShouldBeginEditing")
+        self.delegate.editPhone(inEdition: true)
+        return true
+    }
     
     
     

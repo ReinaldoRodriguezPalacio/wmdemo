@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NotificationPreferencesViewController : NavigationViewController,UITableViewDataSource, UITableViewDelegate,PreferencesNotificationsCellDelegate {
+class NotificationPreferencesViewController : NavigationViewController,UITableViewDataSource, UITableViewDelegate,PreferencesNotificationsCellDelegate,UIScrollViewDelegate {
     
     let titles =  ["Promociones por correo electrónico","Carrito abandonado","Promociones por SMS"]
     let descriptios = ["Deseo recibir información de walmart.com.mx en mi buzón de correo","Deseo recibir notificaciones de mi carrito abandonado de walmart.com.mx en mi correo electrónico","Deseo recibir informacion de vía SMS"]
@@ -19,6 +19,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     var saveButton: UIButton?
     var cancelButton: UIButton?
     var layerLine: CALayer!
+    var cellPreferences : PreferencesNotificationsCell?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREFERENCES_NOTIFICATION.rawValue
@@ -97,20 +98,23 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     
     func save(){
         print("invoke service set preferences")
-        let peferencesService =  SetPreferencesService()
-        
-        let  params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
-        peferencesService.jsonFromObject(params)
-        peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
-            print("Preferencias Guardadas")
-            self.invokePreferenceService()
+        if   ((cellPreferences?.validate()) != nil) {
             
-            }, errorBlock: { (error:NSError) in
-                print("Hubo un error al guardar las Preferencias")
-                let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
-                alertView!.setMessage("Error al guardar tus preferencias, intenta más tarde.")
-                alertView!.showErrorIcon("Ok")
-        })
+            let peferencesService =  SetPreferencesService()
+            
+            let  params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
+            peferencesService.jsonFromObject(params)
+            peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
+                print("Preferencias Guardadas")
+                self.invokePreferenceService()
+                
+                }, errorBlock: { (error:NSError) in
+                    print("Hubo un error al guardar las Preferencias")
+                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
+                    alertView!.setMessage("Error al guardar tus preferencias, intenta más tarde.")
+                    alertView!.showErrorIcon("Ok")
+            })
+        }
     }
     
     
@@ -120,6 +124,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:NSDictionary) in
             self.userPreferences.addEntriesFromDictionary(result as [NSObject : AnyObject])
+            self.tableview?.reloadData()
             print("Termina servicio de preferencias ")
             }, errorBlock: { (error:NSError) in
                 print("Error invokePreferenceService \(error.localizedDescription)")
@@ -137,8 +142,20 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
             
         }else{ //sms
               self.userPreferences.setObject(value, forKey:"telephonicSmsAlert")
+            if !value {
+                self.tableview?.setContentOffset(CGPointZero, animated:false)
+                 cellPreferences?.endEditing(true)
+            }
         }
         
+    }
+    
+    func editPhone(inEdition edition: Bool) {
+        if edition {
+            self.tableview?.setContentOffset(CGPoint(x: 0, y: self.view.frame.midY + (IS_IPHONE_4_OR_LESS ? 60: 20)), animated:false)
+        }else{
+            self.tableview?.setContentOffset(CGPointZero, animated:false)
+        }
     }
     
     
@@ -150,30 +167,43 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        var height : CGFloat = 110
+       
+        if  indexPath.row == 1 {
+            height =  126
+        }else if indexPath.row == 2 {
+            height =    170
+        }
         
-        return indexPath.row == 2 ? 170 : 120
+        
+        return height
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var onSwich =  false
+        let cell = tableView.dequeueReusableCellWithIdentifier("PreferencesNotificationsCell") as! PreferencesNotificationsCell!
         
-        if indexPath.row == 0 {//coore
-        onSwich = userPreferences["receiveInfoEmail"] as! Bool
-        }else if  indexPath.row == 1{//carrito
-            onSwich = self.userPreferences["abandonCartAlert"] as! Bool
-        }else{ //sms
-            onSwich = self.userPreferences["telephonicSmsAlert"] as! Bool
+        var onSwich =  false
+        if userPreferences.count > 0 {
+            
+            if indexPath.row == 0 {//coore
+                onSwich = userPreferences["receiveInfoEmail"] as! Bool
+            }else if  indexPath.row == 1{//carrito
+                onSwich = self.userPreferences["abandonCartAlert"] as! Bool
+            }else{ //sms
+                onSwich = self.userPreferences["telephonicSmsAlert"] as! Bool
+            }
+            
+            
+            cell.setValues(self.titles[indexPath.row], description: self.descriptios[indexPath.row], isOn: onSwich,contenField: indexPath.row == self.titles.count - 1,position: indexPath.row,phone: self.userPreferences["mobileNumber"] as! String)
+            cell.selectionStyle =  .None
+            cell.delegate = self
+            
+            cellPreferences =  cell
         }
         
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("PreferencesNotificationsCell") as! PreferencesNotificationsCell!
-        cell.setValues(self.titles[indexPath.row], description: self.descriptios[indexPath.row], isOn: onSwich,contenField: indexPath.row == self.titles.count - 1,position: indexPath.row,phone: self.userPreferences["mobileNumber"] as! String)
-        cell.selectionStyle =  .None
-        cell.delegate = self
-        
         return cell
-   
+        
     }
     
     
