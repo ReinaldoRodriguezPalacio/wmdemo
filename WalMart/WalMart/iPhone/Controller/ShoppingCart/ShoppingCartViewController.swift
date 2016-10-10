@@ -546,7 +546,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             cell = cellProduct
         }
         else {
-            if productObje.count == indexPath.row  {
+            if productObje.count == indexPath.row && IS_IPHONE {
                 let cellTotals = viewShoppingCart.dequeueReusableCellWithIdentifier("TotalsCell", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
                 
                 let totalsItems = totalItems()
