@@ -323,7 +323,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
         if isPreferencesView {
             
-            if TabBarHidden.isTabBarHidden {
+            if TabBarHidden.isTabBarHidden || IS_IPAD {
                 self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
                 self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
                 self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
