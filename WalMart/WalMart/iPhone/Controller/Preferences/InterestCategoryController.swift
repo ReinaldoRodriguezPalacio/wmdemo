@@ -18,7 +18,6 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     
     var interestCategories = [InterestCategory]()
     var selectedInterestCategories = [String]()
-    var isPresentView = false
     var userPreferences: NSMutableDictionary = [:]
     
     var viewLoad: WMLoadingView!
@@ -66,7 +65,8 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.checkAllButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         self.checkAllButton?.addTarget(self, action: #selector(InterestCategoryController.markAllInterestCategories(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.checkAllButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.checkAllButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 8, 0, 0);
+        self.checkAllButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 8, 0, 0)
+        self.checkAllButton?.contentEdgeInsets = UIEdgeInsetsMake(0, 16, 0, 0)
         self.header?.addSubview(self.checkAllButton!)
         
         self.layerLine = CALayer()
@@ -99,8 +99,6 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         headerLabel!.textColor = WMColor.reg_gray
         headerLabel!.text = NSLocalizedString("preferences.category.headerTitle", comment:"")
         tableHeaderView!.addSubview(headerLabel!)
-
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
         
         loadPreferences()
     }
@@ -109,7 +107,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         super.viewWillLayoutSubviews()
         
         self.titleLabel!.frame = CGRectMake(5, 1, self.header!.frame.width - 92, self.header!.frame.maxY)
-        self.checkAllButton!.frame = CGRectMake(self.header!.frame.width - 86, 1, 70, 46)
+        self.checkAllButton!.frame = CGRectMake(self.header!.frame.width - 80, 1, 80, 46)
         checkAllButton!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
         checkAllButton!.titleLabel!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
         checkAllButton!.imageView!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
@@ -123,12 +121,16 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.layerLineHeader.frame = CGRectMake(0, self.tableHeaderView!.frame.height - 1,  self.tableHeaderView!.frame.width, 1)
         self.tableCategories.tableHeaderView = tableHeaderView
         
-        if !isPresentView {
+        if TabBarHidden.isTabBarHidden {
             self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
             self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
             self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
             self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 112)
-            isPresentView = true
+        } else {
+            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
+            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
+            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
+            self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 158)
         }
         
     }
@@ -311,6 +313,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         let cell = tableCategories.dequeueReusableCellWithIdentifier("CategoryInterestCell") as! CategoryInterestTableViewCell
         let interestCategory = interestCategories[indexPath.row]
         
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.categoryButton!.setTitle(interestCategory.categoryDescription, forState: .Normal)
         cell.categoryButton!.selected = interestCategory.isSelected
         cell.categoryButton!.addTarget(self, action: #selector(InterestCategoryController.markInterestCategory(_:)), forControlEvents: UIControlEvents.TouchUpInside)
