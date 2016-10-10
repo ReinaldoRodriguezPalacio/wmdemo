@@ -88,7 +88,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         self.descriptionBlock?.text = description
         switchBlock!.drawSelected(isOn)
         switchBlock!.borderColor = isOn ? WMColor.green :  WMColor.reg_gray
-        
+        self.separator?.hidden = position == 2
         self.switchBlock?.tag = position
         if contenField {
             let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in

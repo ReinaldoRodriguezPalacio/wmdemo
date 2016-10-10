@@ -145,6 +145,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
             if !value {
                 self.tableview?.setContentOffset(CGPointZero, animated:false)
                  cellPreferences?.endEditing(true)
+                cellPreferences?.phoneField?.hidden = true
             }
         }
         
@@ -225,6 +226,11 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         })
 
     }
+    
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
+    
     
     
 }

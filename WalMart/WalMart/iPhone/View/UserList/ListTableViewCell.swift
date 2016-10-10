@@ -84,7 +84,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.articlesTitle!)
         
         self.copyBtn = UIButton(type: .Custom)
-        self.copyBtn!.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
+        self.copyBtn!.setTitle(NSLocalizedString("list.copy.new", comment:""), forState: .Normal)
         self.copyBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.copyBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.copyBtn!.backgroundColor = WMColor.light_blue

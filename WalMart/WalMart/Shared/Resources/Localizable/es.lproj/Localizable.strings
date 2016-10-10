@@ -132,6 +132,7 @@
 "list.new" = "nueva";
 "list.endnew" = "cancelar";
 "list.copy" = "Duplicar";
+"list.copy.new" = "duplicar";
 "list.copy.inProcess" = "Duplicando Lista";
 "list.copy.done" = "Lista duplicada correctamente";
 "list.new.save" = "Ok";
@@ -282,13 +283,13 @@
 "profile.edit.password.button" = "Deseo modificar mi contraseña";
 
 // Preferences
-"preferences.myPreferences" = "Mis preferencias";
+"preferences.myPreferences" = "Mis Preferencias";
 "preferences.title.Category" = "Categorías de mi interés";
 "preferences.title.Notifications" = "Alertas y Notificaciones";
 "preferences.title.ProductNotAvailable" = "En caso de producto no disponible";
 "preferences.title.LegalInformation" = "Información Legal";
 "preferences.category.all.button" = "Todos";
-"preferences.category.headerTitle" = "Selecciona que información te gustaría recibir constantemente.";
+"preferences.category.headerTitle" = "Selecciona qué información te gustaría recibir constantemente.";
 "preferences.legal.terms" = "He leído y acepto los términos del Aviso de Privacidad.";
 
 //Preious orders
