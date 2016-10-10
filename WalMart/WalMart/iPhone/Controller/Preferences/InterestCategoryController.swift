@@ -121,7 +121,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.layerLineHeader.frame = CGRectMake(0, self.tableHeaderView!.frame.height - 1,  self.tableHeaderView!.frame.width, 1)
         self.tableCategories.tableHeaderView = tableHeaderView
         
-        if TabBarHidden.isTabBarHidden {
+        if TabBarHidden.isTabBarHidden || IS_IPAD {
             self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
             self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
             self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
