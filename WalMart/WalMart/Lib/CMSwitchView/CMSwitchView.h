@@ -14,6 +14,8 @@
 
 @interface CMSwitchView : UIView<UIGestureRecognizerDelegate>
 
+@property (nonatomic, assign) BOOL isSelected;
+
 /// If you want to have rounded dots and switch view or not, YES by default
 @property (nonatomic, assign) BOOL rounded;
 

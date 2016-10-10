@@ -23,7 +23,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     var phoneField: FormFieldView?
     var errorView : FormFieldErrorView? = nil
     
-    var phoneSelected = true
+    var phoneSelected = false
     var validatePhone : (() -> Void)? = nil
     var separator : UIView?
     
@@ -87,6 +87,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         switchBlock!.borderColor = isOn ? WMColor.green :  WMColor.reg_gray
         self.separator?.hidden = position == 2
         self.switchBlock?.tag = position
+       
         
         if contenField {
             let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
@@ -96,7 +97,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
             if self.phoneField == nil {
                 self.phoneField = FormFieldView(frame: CGRectMake(16, descriptionBlock!.frame.maxY + 8.0, self.frame.width - 32, 44))
             }
-            self.phoneField!.isRequired = false
+            self.phoneField!.isRequired = isOn
             self.phoneField!.typeField = TypeField.Phone
             self.phoneField!.nameField = "Teléfono"
             self.phoneField!.maxLength = 10
@@ -108,7 +109,10 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
             self.phoneField!.inputAccessoryView = viewAccess
             self.phoneField!.delegate = self
             self.addSubview(self.phoneField!)
+            self.phoneSelected = isOn
+            
         }
+        
         
     }
     
@@ -124,23 +128,31 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
                 self.errorView?.removeFromSuperview()
                 self.errorView = nil
                phoneSelected = false
+               
             }else{
                 phoneSelected = true
             }
         }
+        switchBlock!.drawSelected(value)
         
         self.delegate.changeStatus(sender.tag, value: value)
     }
     
-    func validate(field:FormFieldView) -> Bool{
+    func validate(cell:PreferencesNotificationsCell) -> Bool{
         
-        if self.phoneSelected && field.text == ""{
-            return self.viewError(field,message: NSLocalizedString("Es requerido para recibir información SMS",comment:""))
+        if self.phoneSelected {
+            return viewError(cell.phoneField!)
+        }
+        if cell.switchBlock!.isSelected {
+             return viewError(cell.phoneField!)
+        }
+        if cell.phoneField!.text != "" {
+            return viewError(cell.phoneField!)
         }
         
         self.errorView?.removeFromSuperview()
         self.errorView = nil
-        return self.viewError(field)
+        return true
     }
     
     func viewError(field: FormFieldView)-> Bool{
@@ -149,21 +161,21 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     }
     
     func viewError(field: FormFieldView,message:String?)-> Bool{
+        
         if message != nil {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }
             SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
-            return true
+            return false
         }
-        return false
+        return true
     }
     
     //MARK: UITextFieldDelegate
     
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-     print("textFieldShouldBeginEditing")
         self.delegate.editPhone(inEdition: true,field: self.phoneField!)
         return true
     }
@@ -175,7 +187,6 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         if fieldString.characters.count == 11{
                 return false
         }
-            
         
          return true
     }
@@ -184,7 +195,6 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
 
     func textFieldDidEndEditing(textField: UITextField) {
          self.delegate.editPhone(inEdition: false,field: self.phoneField!)
-        print("textFieldDidEndEditing")
     }
     
     

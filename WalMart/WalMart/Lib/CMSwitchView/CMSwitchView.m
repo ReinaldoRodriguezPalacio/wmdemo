@@ -38,7 +38,6 @@
 @end
 
 @interface CMSwitchView()
-@property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, strong) UIView* switchView;
 @property (nonatomic, strong) UIView* dotView;
 @end

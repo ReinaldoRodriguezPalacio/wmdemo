@@ -32,7 +32,7 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
     
     override func viewDidLoad() {
         self.navigationController!.setNavigationBarHidden(true, animated: true)
-        self.hiddenBack = true
+        self.hiddenBack =  IS_IPAD 
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()

@@ -95,8 +95,9 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     func save(){
         
         print("invoke service set preferences")
+        
 
-        if !cellPreferences!.validate(self.fieldValidate!) {
+        if cellPreferences!.validate(self.tableview?.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! PreferencesNotificationsCell) {
             
             let peferencesService =  SetPreferencesService()
             let  params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
