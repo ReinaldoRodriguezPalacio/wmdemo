@@ -19,6 +19,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     var saveButton: UIButton?
     var cancelButton: UIButton?
     var layerLine: CALayer!
+    var alertView: IPOWMAlertViewController?
     var cellPreferences : PreferencesNotificationsCell?
     
     override func getScreenGAIName() -> String {
@@ -73,7 +74,6 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         
     }
     
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.tableview?.frame =  CGRectMake(0,self.header!.frame.maxY,self.view.frame.width ,self.view.frame.height - (self.headerHeight + 64))
@@ -91,30 +91,35 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
       
     }
     
-    
     func cancel() {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
     func save(){
+        
         print("invoke service set preferences")
-        if   ((cellPreferences?.validate()) != nil) {
+
+        if ((cellPreferences?.validate()) != nil) {
             
             let peferencesService =  SetPreferencesService()
-            
             let  params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
             peferencesService.jsonFromObject(params)
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
+            self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
+            
             peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
                 print("Preferencias Guardadas")
+                self.alertView!.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
+                self.alertView!.showDoneIcon()
                 self.invokePreferenceService()
-                
                 }, errorBlock: { (error:NSError) in
                     print("Hubo un error al guardar las Preferencias")
-                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
-                    alertView!.setMessage("Error al guardar tus preferencias, intenta más tarde.")
-                    alertView!.showErrorIcon("Ok")
+                    self.alertView!.setMessage(NSLocalizedString("preferences.message.errorSave", comment:""))
+                    self.alertView!.showErrorIcon("Ok")
             })
         }
+
     }
     
     
@@ -133,6 +138,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     }
     
     //MARK: PreferencesNotificationsCellDelegate
+    
     func changeStatus(row: Int, value: Bool) {
         
         if row == 0 {//coore
@@ -157,8 +163,6 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
             self.tableview?.setContentOffset(CGPointZero, animated:false)
         }
     }
-    
-    
     
     //MARK: UITableViewDelegate
     
@@ -205,9 +209,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         return cell
         
     }
-    
-    
-    
+
     
     override func willHideTabbar() {
         

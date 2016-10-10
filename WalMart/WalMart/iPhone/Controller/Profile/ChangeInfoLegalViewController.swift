@@ -34,17 +34,14 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.view.backgroundColor = UIColor.whiteColor()
         
         self.titleLabel!.text = NSLocalizedString("profile.change.legalinfo", comment: "")
-        
         self.promoAccept = UIButton(frame: CGRectMake(16,self.header!.frame.maxY + 16.0,  self.view.frame.width - 8, 16))
         
-        
         let attr = NSMutableAttributedString(string: NSLocalizedString("preferences.legal.terms", comment: ""))
-        attr.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProRegularOfSize(13), range: NSMakeRange(0, NSLocalizedString("preferences.legal.terms", comment: "").characters.count))
+        attr.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProRegularOfSize(IS_IPAD ? 14 : 12), range: NSMakeRange(0, NSLocalizedString("preferences.legal.terms", comment: "").characters.count))
         attr.addAttribute(NSForegroundColorAttributeName, value: WMColor.reg_gray, range: NSRange(location: 0, length: 34))
         self.promoAccept!.setAttributedTitle(attr, forState: UIControlState.Normal)
         
-        
-        self.promoAccept?.setTitle(NSLocalizedString("preferences.legal.terms", comment: ""), forState: UIControlState.Normal)
+        self.promoAccept!.setTitle(NSLocalizedString("preferences.legal.terms", comment: ""), forState: UIControlState.Normal)
         self.promoAccept!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.promoAccept!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         //self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(13)
@@ -58,15 +55,14 @@ class ChangeInfoLegalViewController : NavigationViewController {
         lblPersonalData = UILabel(frame: CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, self.view.frame.width - 32, 84))
         lblPersonalData.text = NSLocalizedString("signup.info.share", comment: "")
         lblPersonalData.textColor = WMColor.reg_gray
-        lblPersonalData.font = WMFont.fontMyriadProRegularOfSize(12)
+        lblPersonalData.font = WMFont.fontMyriadProRegularOfSize(IS_IPAD ? 14 : 12)
         lblPersonalData.numberOfLines = 0
-        
         
         self.acceptSharePersonal = UIButton(frame: CGRectMake(45, lblPersonalData.frame.maxY + 24.0, 120, 16))
         self.acceptSharePersonal?.setTitle(NSLocalizedString("signup.info.share.yes", comment: ""), forState: UIControlState.Normal)
         self.acceptSharePersonal!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.acceptSharePersonal!.setImage(UIImage(named:"filter_check_blue_selected"), forState: UIControlState.Selected)
-        self.acceptSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.acceptSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(IS_IPAD ? 14 : 12)
         self.acceptSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.acceptSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         self.acceptSharePersonal!.addTarget(self, action: #selector(ChangeInfoLegalViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
@@ -76,7 +72,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.declineSharePersonal?.setTitle(NSLocalizedString("signup.info.share.no", comment: ""), forState: UIControlState.Normal)
         self.declineSharePersonal!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.declineSharePersonal!.setImage(UIImage(named:"filter_check_blue_selected"), forState: UIControlState.Selected)
-        self.declineSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.declineSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(IS_IPAD ? 14 : 12)
         self.declineSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.declineSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         self.declineSharePersonal!.addTarget(self, action: #selector(ChangeInfoLegalViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
@@ -130,10 +126,10 @@ class ChangeInfoLegalViewController : NavigationViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.promoAccept!.frame = CGRectMake(16,self.header!.frame.maxY + 8.0,  self.view.frame.width, 16)
-        lblPersonalData.frame = CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, self.view.frame.width - 32, 84)
-        self.acceptSharePersonal!.frame = CGRectMake(IS_IPAD ? 220 : 45, lblPersonalData.frame.maxY + 24.0, 120, 16)
-        self.declineSharePersonal!.frame = CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16)
+        self.promoAccept!.frame = CGRectMake(16, self.header!.frame.maxY + 8.0, self.view.frame.width, 16)
+        self.lblPersonalData.frame = CGRectMake(16, self.promoAccept!.frame.maxY + 8, self.view.frame.width - 32, 84)
+        self.acceptSharePersonal!.frame = CGRectMake(16, lblPersonalData.frame.maxY + 16, 120, 16)
+        self.declineSharePersonal!.frame = CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 16.0, 120, 16)
         self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
@@ -150,20 +146,20 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         let service = UpdateUserProfileService()
        
-        
-        if  UserCurrentSession.hasLoggedUser() { //let user = UserCurrentSession.sharedInstance().userSigned {
-//            let name = user.profile.name
-//            let mail = user.email
-//            let lastMame = user.profile.lastName
-//            let birthDate = user.profile.birthDate
-//            let gender = user.profile.sex
+        if  UserCurrentSession.hasLoggedUser() {
+
+            // let user = UserCurrentSession.sharedInstance().userSigned {
+            // let name = user.profile.name
+            // let mail = user.email
+            // let lastMame = user.profile.lastName
+            // let birthDate = user.profile.birthDate
+            // let gender = user.profile.sex
             
             let allowMarketing = "\( self.promoAccept!.selected)"
             let allowTransfer = "\( self.acceptSharePersonal!.selected)"
             
             UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail = allowMarketing
             UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer = allowTransfer
-            
             
             let params  = [:]//service.buildParamsWithMembership(mail as String, password: "", newPassword: "", name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer,allowMarketingEmail:allowMarketing,associateStore: "",joinDate: "",associateNumber: "")
             
@@ -183,9 +179,9 @@ class ChangeInfoLegalViewController : NavigationViewController {
                     self.alertView!.showDoneIcon()
                 }//if let message = resultCall!["message"] as? String {
                 self.navigationController!.popViewControllerAnimated(true)
-                },errorBlock: {(error: NSError) in
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
+            },errorBlock: {(error: NSError) in
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon("Ok")
             })
             
         }

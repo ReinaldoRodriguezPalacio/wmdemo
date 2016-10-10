@@ -30,6 +30,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     var layerLineHeader: CALayer!
     var tableHeaderView: UIView?
     var headerLabel: UILabel?
+    var alertView: IPOWMAlertViewController?
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREFERENCES_CATEGORY.rawValue
@@ -61,11 +62,11 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.checkAllButton?.setTitle(NSLocalizedString("preferences.category.all.button",comment:""), forState: UIControlState.Normal)
         self.checkAllButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
         self.checkAllButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
-        self.checkAllButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.checkAllButton!.titleLabel?.font = IS_IPAD ?  WMFont.fontMyriadProRegularOfSize(14) : WMFont.fontMyriadProRegularOfSize(12)
         self.checkAllButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         self.checkAllButton?.addTarget(self, action: #selector(InterestCategoryController.markAllInterestCategories(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.checkAllButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.checkAllButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 5, 0, 0);
+        self.checkAllButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 8, 0, 0);
         self.header?.addSubview(self.checkAllButton!)
         
         self.layerLine = CALayer()
@@ -94,7 +95,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         headerLabel = UILabel()
         headerLabel!.numberOfLines = 2
         headerLabel!.lineBreakMode = .ByWordWrapping
-        headerLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        headerLabel!.font = IS_IPAD ?  WMFont.fontMyriadProRegularOfSize(14) : WMFont.fontMyriadProRegularOfSize(12)
         headerLabel!.textColor = WMColor.reg_gray
         headerLabel!.text = NSLocalizedString("preferences.category.headerTitle", comment:"")
         tableHeaderView!.addSubview(headerLabel!)
@@ -108,7 +109,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         super.viewWillLayoutSubviews()
         
         self.titleLabel!.frame = CGRectMake(5, 1, self.header!.frame.width - 92, self.header!.frame.maxY)
-        self.checkAllButton!.frame = CGRectMake(self.header!.frame.width - 70, 1, 60, 46)
+        self.checkAllButton!.frame = CGRectMake(self.header!.frame.width - 86, 1, 70, 46)
         checkAllButton!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
         checkAllButton!.titleLabel!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
         checkAllButton!.imageView!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
@@ -185,7 +186,6 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     }
     
     func savePreferences(sender:UIButton) {
-        self.addViewLoad()
         self.invokeSavepeferences()
     }
     
@@ -193,6 +193,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:NSDictionary) in
+            
             self.userPreferences.addEntriesFromDictionary(result as [NSObject : AnyObject])
             let categories = result["categories"] as! NSArray
             let userPreferencesCategories = result["userPreferences"] as! NSArray
@@ -222,7 +223,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
             
         }, errorBlock: { (error:NSError) in
             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
-            alertView!.setMessage("Error al guardar tus preferencias, intenta más tarde.")
+            alertView!.setMessage(NSLocalizedString("preferences.message.errorLoad", comment:""))
             alertView!.showErrorIcon("Ok")
             self.removeViewLoad()
             print("Error invokePreferenceService \(error.localizedDescription)")
@@ -237,13 +238,19 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         let peferencesService = SetPreferencesService()
         let params = peferencesService.buildParams(self.getSelectedInterestCategories(), onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
         peferencesService.jsonFromObject(params)
+        
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
+        self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
+            
         peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
             print("Preferencias Guardadas")
+            self.alertView!.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
+            self.alertView!.showDoneIcon()
             self.invokePreferenceService()
-            self.removeViewLoad()
         }, errorBlock: { (error:NSError) in
             print("Hubo un error al guardar las Preferencias")
-            self.removeViewLoad()
+            self.alertView!.setMessage(NSLocalizedString("preferences.message.errorSave", comment:""))
+            self.alertView!.showErrorIcon("Ok")
         })
         
     }
