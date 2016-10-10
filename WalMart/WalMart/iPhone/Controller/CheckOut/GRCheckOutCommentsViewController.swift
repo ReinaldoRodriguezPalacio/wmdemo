@@ -17,6 +17,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     //let headerHeight: CGFloat = 46
     var content: TPKeyboardAvoidingScrollView!
     var viewLoad : WMLoadingView!
+    var alertView: IPOWMAlertViewController?
     var saveButton: UIButton?
     var cancelButton: UIButton?
     var layerLine: CALayer!
@@ -285,7 +286,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func buildSubViews() {
         
         let margin: CGFloat = 16.0
-        let width = self.view.frame.width - (2*margin)
+        let width = (IS_IPAD && isPreferencesView) ? self.view.frame.width - ( 10 * margin) : self.view.frame.width - ( 2 * margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
         let checkImageBottom: CGFloat = IS_IPAD && !isPreferencesView ? 28 : 6
@@ -301,12 +302,12 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         if self.showPhoneField {
             self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
             self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
-            self.notConfirmCallButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,checkButtonHeight)
+            self.notConfirmCallButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin, width, checkButtonHeight)
         }else{
-            self.notConfirmCallButton!.frame = CGRectMake(margin,confirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
+            self.notConfirmCallButton!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + margin, width, checkButtonHeight)
         }
         
-        self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
+        self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin, width, checkButtonHeight)
         
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
         self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,95)
@@ -334,8 +335,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
         }
         
-        self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
-        self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
+        self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: IS_IPAD ? 0 : checkImageBottom, right:0 )
+        self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: IS_IPAD ? 0 : checkImageBottom, right:0 )
     }
     
     /**
@@ -372,7 +373,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func savePreferences() {
-        self.addViewLoad()
         self.invokeSavepeferences()
     }
     
@@ -549,20 +549,36 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func invokeSavepeferences(){
-        let peferencesService =  SetPreferencesService()
+        
         //TODO preguntar por valor:: acceptConsent
+        
+        let peferencesService =  SetPreferencesService()
         let  params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
         peferencesService.jsonFromObject(params)
+        
+        if isPreferencesView {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
+            self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
+        }
+        
         peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
             print("Preferencias Guardadas")
+            
+            if self.isPreferencesView {
+                self.alertView!.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
+                self.alertView!.showDoneIcon()
+            }
+            
             self.invokePreferenceService()
-            self.removeViewLoad()
+            
         }, errorBlock: { (error:NSError) in
             print("Hubo un error al guardar las Preferencias")
-            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
-            alertView!.setMessage("Error al guardar tus preferencias, intenta más tarde.")
-            alertView!.showErrorIcon("Ok")
-            self.removeViewLoad()
+            
+            if self.isPreferencesView {
+                self.alertView!.setMessage(NSLocalizedString("preferences.message.errorSave", comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }
+            
         })
     
     }
