@@ -24,6 +24,7 @@ class CategoryInterestTableViewCell: UITableViewCell {
         self.categoryButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
         self.categoryButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.categoryButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 10, 0, 0);
+        self.categoryButton!.contentEdgeInsets = UIEdgeInsetsMake(0, 16, 0, 0);
         self.addSubview(self.categoryButton!)
         
         self.backgroundColor = UIColor.clearColor()
@@ -32,7 +33,7 @@ class CategoryInterestTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         let bounds = self.frame.size
-        self.categoryButton!.frame = CGRectMake(16, 0, self.bounds.width, bounds.height)
+        self.categoryButton!.frame = CGRectMake(0, 0, self.bounds.width, bounds.height)
     }
     
     required init?(coder aDecoder: NSCoder) {

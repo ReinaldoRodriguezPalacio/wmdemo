@@ -66,7 +66,8 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         self.checkAllButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         self.checkAllButton?.addTarget(self, action: #selector(InterestCategoryController.markAllInterestCategories(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.checkAllButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.checkAllButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 8, 0, 0);
+        self.checkAllButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 8, 0, 0)
+        self.checkAllButton?.contentEdgeInsets = UIEdgeInsetsMake(0, 16, 0, 0)
         self.header?.addSubview(self.checkAllButton!)
         
         self.layerLine = CALayer()
@@ -109,7 +110,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         super.viewWillLayoutSubviews()
         
         self.titleLabel!.frame = CGRectMake(5, 1, self.header!.frame.width - 92, self.header!.frame.maxY)
-        self.checkAllButton!.frame = CGRectMake(self.header!.frame.width - 86, 1, 70, 46)
+        self.checkAllButton!.frame = CGRectMake(self.header!.frame.width - 80, 1, 80, 46)
         checkAllButton!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
         checkAllButton!.titleLabel!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
         checkAllButton!.imageView!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
@@ -311,6 +312,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         let cell = tableCategories.dequeueReusableCellWithIdentifier("CategoryInterestCell") as! CategoryInterestTableViewCell
         let interestCategory = interestCategories[indexPath.row]
         
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.categoryButton!.setTitle(interestCategory.categoryDescription, forState: .Normal)
         cell.categoryButton!.selected = interestCategory.isSelected
         cell.categoryButton!.addTarget(self, action: #selector(InterestCategoryController.markInterestCategory(_:)), forControlEvents: UIControlEvents.TouchUpInside)
