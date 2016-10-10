@@ -80,9 +80,6 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         case 3://
             let refered = PreferencesController()
             self.navigation.pushViewController(refered, animated: true)
-            refered.navigationController!.setNavigationBarHidden(true, animated: true)
-            refered.hiddenBack = true
-            
         case 4:
             //Promotios
             print("Open promotions")

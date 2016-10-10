@@ -28,8 +28,11 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREFERENCES.rawValue
     }
+
     
     override func viewDidLoad() {
+        self.navigationController!.setNavigationBarHidden(true, animated: true)
+        self.hiddenBack = true
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()

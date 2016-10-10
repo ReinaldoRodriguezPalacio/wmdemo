@@ -21,6 +21,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     var layerLine: CALayer!
     var alertView: IPOWMAlertViewController?
     var cellPreferences : PreferencesNotificationsCell?
+    var fieldValidate : FormFieldView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREFERENCES_NOTIFICATION.rawValue
@@ -76,7 +77,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableview?.frame =  CGRectMake(0,self.header!.frame.maxY,self.view.frame.width ,self.view.frame.height - (self.headerHeight + 64))
+        self.tableview?.frame =  CGRectMake(0,self.header!.frame.maxY,self.view.frame.width ,IS_IPAD ? self.view.frame.height - 64 :self.view.frame.height - (self.headerHeight + 64))
        
         self.viewFooter?.frame = CGRect(x:0 , y:self.tableview!.frame.maxY - 46, width:self.view.bounds.width , height: 64 )
         self.layerLine.frame = CGRectMake(0, 0,  self.view.frame.width, 1)
@@ -99,7 +100,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         
         print("invoke service set preferences")
 
-        if ((cellPreferences?.validate()) != nil) {
+        if !cellPreferences!.validate(self.fieldValidate!) {
             
             let peferencesService =  SetPreferencesService()
             let  params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
@@ -157,12 +158,14 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         
     }
     
-    func editPhone(inEdition edition: Bool) {
+    func editPhone(inEdition edition: Bool, field: FormFieldView) {
+    
         if edition {
-            self.tableview?.setContentOffset(CGPoint(x: 0, y: self.view.frame.midY + (IS_IPHONE_4_OR_LESS ? 60: 20)), animated:false)
+            self.tableview?.setContentOffset(CGPoint(x: 0, y:IS_IPAD ? self.view.frame.midY - 64  :self.view.frame.midY + (IS_IPHONE_4_OR_LESS ? 60: 20)), animated:false)
         }else{
             self.tableview?.setContentOffset(CGPointZero, animated:false)
         }
+        self.fieldValidate = field
     }
     
     //MARK: UITableViewDelegate
@@ -232,6 +235,8 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
+    
+    
     
     
     

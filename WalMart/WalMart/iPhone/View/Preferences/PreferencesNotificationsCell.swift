@@ -10,7 +10,7 @@ import Foundation
 
 protocol PreferencesNotificationsCellDelegate {
     func changeStatus(row:Int,value:Bool)
-    func editPhone(inEdition edition:Bool)
+    func editPhone(inEdition edition:Bool,field:FormFieldView)
 }
 
 class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextFieldDelegate {
@@ -23,6 +23,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     var phoneField: FormFieldView?
     var errorView : FormFieldErrorView? = nil
     
+    var phoneSelected = true
     var validatePhone : (() -> Void)? = nil
 
     var separator : UIView?
@@ -92,10 +93,12 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         self.switchBlock?.tag = position
         if contenField {
             let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
-                self.delegate.editPhone(inEdition: false)
-                self.phoneField!.resignFirstResponder()
+                self.delegate.editPhone(inEdition: false,field: self.phoneField!)
+                self.endEditing(true)
             })
-            self.phoneField = FormFieldView(frame: CGRectMake(16, descriptionBlock!.frame.maxY + 8.0, self.frame.width - 32, 44))
+            if self.phoneField == nil {
+                self.phoneField = FormFieldView(frame: CGRectMake(16, descriptionBlock!.frame.maxY + 8.0, self.frame.width - 32, 44))
+            }
             self.phoneField!.isRequired = false
             self.phoneField!.typeField = TypeField.Phone
             self.phoneField!.nameField = "Teléfono"
@@ -110,7 +113,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
             self.addSubview(self.phoneField!)
         }
     }
-    var phoneSelected = false
+    
     
     //MARK:CMSwitchViewDelegate
     func switchValueChanged(sender: AnyObject!, andNewValue value: Bool) {
@@ -131,11 +134,15 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         self.delegate.changeStatus(sender.tag, value: value)
     }
     
-    func validate() -> Bool{
-        if self.phoneSelected  {
-            return self.viewError(self.phoneField!,message: NSLocalizedString("Es requerido para recibir información SMS",comment:""))
+    func validate(field:FormFieldView) -> Bool{
+        
+        if self.phoneSelected && field.text == ""{
+            return self.viewError(field,message: NSLocalizedString("Es requerido para recibir información SMS",comment:""))
         }
-        return true
+        
+        self.errorView?.removeFromSuperview()
+        self.errorView = nil
+        return self.viewError(field)
     }
     
     func viewError(field: FormFieldView)-> Bool{
@@ -162,10 +169,31 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
      print("textFieldShouldBeginEditing")
-        self.delegate.editPhone(inEdition: true)
+        self.delegate.editPhone(inEdition: true,field: self.phoneField!)
         return true
     }
     
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text!
+        let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        
+        if fieldString.characters.count == 11{
+                return false
+        }
+            
+        
+         return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        print("")
+        return true
+    }
+
+    func textFieldDidEndEditing(textField: UITextField) {
+         self.delegate.editPhone(inEdition: false,field: self.phoneField!)
+        print("textFieldDidEndEditing")
+    }
     
     
     
