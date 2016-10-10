@@ -255,7 +255,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         productObje = listObj["products"] as! NSArray
         
         if section == (self.itemsInCartOrderSection.count) {
-            return productObje!.count + (self.itemsUPC.count > 0 ? 2 : 1)
+            return productObje!.count + (self.itemsUPC.count > 0 ? 1 : 0)
         } else {
             return productObje!.count
         }
