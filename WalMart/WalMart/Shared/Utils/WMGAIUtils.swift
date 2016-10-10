@@ -81,6 +81,7 @@ case GAI_APP_KEY = "UA-52615607-1" // productivo
     case SCREEN_REMINDER = "Reminder"
     case SCREEN_GRCHECKOUT = "GRCheckout"
     case SCREEN_GRADESLIST = "GradesList"
+    case SCREEN_LANDINGPAGE = "LandingPage"
     
 //MARK - CATEGORY
     case GR_CATEGORY_BANNER_COLLECTION_VIEW =  "C_GrbannerCollectionView"

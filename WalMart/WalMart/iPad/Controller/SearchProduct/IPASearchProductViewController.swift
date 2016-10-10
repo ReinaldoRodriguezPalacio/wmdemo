@@ -177,8 +177,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
    override func showLandingPage(){
         if self.landingController == nil {
             self.landingController =  IPALandingPageViewController()
-//            self.landingController!.urlTicer = self.landingP!["imgiphone"] as! String
-//            self.landingController!.departmentId = self.landingP!["departmentid"] as! String
+            self.landingController!.urlImage = self.landingP!["imgipad"] as? String
+            self.landingController!.departmentId = self.landingP!["departmentid"] as? String
             self.landingController!.titleHeader = self.landingP!["text"] as? String
             self.navigationController!.pushViewController(self.landingController!, animated: true)
         }
