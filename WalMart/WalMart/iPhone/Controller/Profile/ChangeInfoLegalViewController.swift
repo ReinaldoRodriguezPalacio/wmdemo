@@ -34,8 +34,8 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         self.view.backgroundColor = UIColor.whiteColor()
         
-        self.titleLabel!.text = NSLocalizedString("profile.change.legalinfo", comment: "")
-        self.promoAccept = UIButton(frame: CGRectMake(16, self.header!.frame.maxY + 16.0,  self.view.frame.width - 8, 16))
+        self.titleLabel!.text = NSLocalizedString("signup.info", comment: "")
+        self.promoAccept = UIButton(frame: CGRectMake(16, self.header!.frame.maxY + 16.0,  self.view.frame.width - 16, 18))
         
         let attr = NSMutableAttributedString(string: NSLocalizedString("preferences.legal.terms", comment: ""))
         attr.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProRegularOfSize(IS_IPAD ? 14 : 12), range: NSMakeRange(0, NSLocalizedString("preferences.legal.terms", comment: "").characters.count))
@@ -49,7 +49,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.promoAccept!.titleLabel?.numberOfLines = 2
         self.promoAccept!.titleLabel?.lineBreakMode = .ByWordWrapping
         self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.promoAccept!.titleEdgeInsets = IS_IPAD ? UIEdgeInsetsMake(5, 16, 0, 0) : UIEdgeInsetsMake(5, 8, 0, 0)
+        self.promoAccept!.titleEdgeInsets = IS_IPAD ? UIEdgeInsetsMake(5, 16, 0, 0) : UIEdgeInsetsMake(12, 16, 0, 0)
         self.promoAccept!.addTarget(self, action: #selector(ChangeInfoLegalViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.promoAccept!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
         
@@ -126,9 +126,9 @@ class ChangeInfoLegalViewController : NavigationViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.promoAccept!.frame = CGRectMake(16, self.header!.frame.maxY + 8.0, self.view.frame.width - 16, 16)
+        self.promoAccept!.frame = CGRectMake(16, self.header!.frame.maxY + 8.0, self.view.frame.width - 24, 16)
         self.lblPersonalData.frame = CGRectMake(16, self.promoAccept!.frame.maxY + (IS_IPAD ? 8 : 24), self.view.frame.width - 32, 84)
-        self.acceptSharePersonal!.frame = CGRectMake(16, lblPersonalData.frame.maxY + (IS_IPAD ? 16 : 24), 120, 16)
+        self.acceptSharePersonal!.frame = CGRectMake((IS_IPAD ? 16 : 50), lblPersonalData.frame.maxY + (IS_IPAD ? 16 : 24), 120, 16)
         self.declineSharePersonal!.frame = CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + (IS_IPAD ? 16 : 24), 120, 16)
         
         if TabBarHidden.isTabBarHidden || IS_IPAD {
