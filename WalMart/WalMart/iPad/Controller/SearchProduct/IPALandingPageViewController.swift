@@ -21,7 +21,8 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     var itemsCategory: [[String:AnyObject]]?
     var familyController : IPAFamilyViewController!
     var popover : UIPopoverController?
-    
+    var idSort: String = ""
+    let maxResult = 20
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_LANDINGPAGE.rawValue
@@ -29,6 +30,8 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.idSort =  FilterType.rankingASC.rawValue
         
         var titleText = titleHeader!
         if titleText.length() > 47
@@ -387,12 +390,37 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         
     }
     
+    func invokeSearchService(department:String,family:String,line:String, name:String) {
+        print("Invoking MG Search")
+        let startOffSet = self.allProducts!.count
+        self.showLoadingIfNeeded(false)
+        //TODO: Signals
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let service = ProductbySearchService(dictionary:signalsDictionary)
+        let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
+        service.callService(params,
+                            successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
+                                
+            self.allProducts = arrayProduct as? [AnyObject]
+            self.collection?.reloadData()
+            NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
+            self.showLoadingIfNeeded(true)
+                                
+            }, errorBlock: {(error: NSError) in
+                print("MG Search ERROR!!!")
+                print(error)
+                self.showLoadingIfNeeded(true)
+            }
+        )
+    }
+    
     //MARK: IPAFamilyViewControllerDelegate
     func didSelectLine(department:String,family:String,line:String, name:String) {
+        self.popover?.dismissPopoverAnimated(true)
+        self.invokeSearchService(department,family: family, line: line, name:name)
         if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
             view.dismissPopover()
         }
-        self.popover?.dismissPopoverAnimated(true)
     }
     
     //MARK: UIPopoverController
