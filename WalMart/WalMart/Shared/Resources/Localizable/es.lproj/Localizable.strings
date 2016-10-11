@@ -290,7 +290,7 @@
 "preferences.title.LegalInformation" = "Información Legal";
 "preferences.category.all.button" = "Todos";
 "preferences.category.headerTitle" = "Selecciona qué información te gustaría recibir constantemente.";
-"preferences.legal.terms" = "He leído y acepto los términos del Aviso de Privacidad.";
+"preferences.legal.terms" = "He leído y acepto los términos del ";
 "preferences.message.saving" = "Guardando tus preferencias";
 "preferences.message.saved" = "Preferencias guardadas";
 "preferences.message.errorLoad" = "Error al cargar tus preferencias, intenta más tarde.";

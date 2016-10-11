@@ -47,14 +47,20 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.promoEmail!.addTarget(self, action: #selector(ChangeInfoLegalViewController.checkPromoEmail(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.promoEmail!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
         
-        self.promoAccept = UIButton(frame: CGRectMake(16, self.promoEmail!.frame.maxY + 16.0,  self.view.frame.width - 16, 18))
+        self.promoAccept = UIButton(frame: CGRectMake(16, self.promoEmail!.frame.maxY + 30.0,  self.view.frame.width - 16, 18))
         
         let attr = NSMutableAttributedString(string: NSLocalizedString("preferences.legal.terms", comment: ""))
         attr.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProRegularOfSize(IS_IPAD ? 14 : 12), range: NSMakeRange(0, NSLocalizedString("preferences.legal.terms", comment: "").characters.count))
-        attr.addAttribute(NSForegroundColorAttributeName, value: WMColor.reg_gray, range: NSRange(location: 0, length: 34))
+        attr.addAttribute(NSForegroundColorAttributeName, value: WMColor.reg_gray, range: NSMakeRange( 0, attr.length))
+        
+        let attrPrivacy = NSMutableAttributedString(string: NSLocalizedString("profile.terms.privacy", comment: ""))
+        attrPrivacy.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProSemiboldSize(IS_IPAD ? 14 : 12), range: NSMakeRange(0, attrPrivacy.length))
+        attrPrivacy.addAttribute(NSForegroundColorAttributeName, value: WMColor.reg_gray, range: NSMakeRange( 0, attrPrivacy.length))
+
+        attr.appendAttributedString(attrPrivacy)
+        
         self.promoAccept!.setAttributedTitle(attr, forState: UIControlState.Normal)
         
-        self.promoAccept!.setTitle(NSLocalizedString("preferences.legal.terms", comment: ""), forState: UIControlState.Normal)
         self.promoAccept!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Normal)
         self.promoAccept!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         //self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(13)
@@ -139,8 +145,8 @@ class ChangeInfoLegalViewController : NavigationViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.promoEmail!.frame = CGRectMake(16, self.header!.frame.maxY + 8.0, self.view.frame.width - 24, 16)
-        self.promoAccept!.frame = CGRectMake(16, self.promoEmail!.frame.maxY + 8.0, self.view.frame.width - 24, 16)
+        self.promoEmail!.frame = CGRectMake(16, self.header!.frame.maxY + 16.0, self.view.frame.width - 24, 16)
+        self.promoAccept!.frame = CGRectMake(16, self.promoEmail!.frame.maxY + 30.0, self.view.frame.width - 24, 16)
         self.lblPersonalData.frame = CGRectMake(16, self.promoAccept!.frame.maxY + (IS_IPAD ? 8 : 24), self.view.frame.width - 32, 84)
         self.acceptSharePersonal!.frame = CGRectMake((IS_IPAD ? 16 : 50), lblPersonalData.frame.maxY + (IS_IPAD ? 16 : 24), 120, 16)
         self.declineSharePersonal!.frame = CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + (IS_IPAD ? 16 : 24), 120, 16)
