@@ -79,7 +79,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var bannerView : UIImageView!
     var maxYBanner: CGFloat = 46.0
     var isLandingPage = false
-    var landingP : [String:AnyObject]?
+    var landingPageMG : [String:AnyObject]?
+    var landingPageGR : [String:AnyObject]?
     var controllerLanding : LandingPageViewController?
     
     var viewBgSelectorBtn : UIView!
@@ -886,8 +887,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
                 
                 let landingMg = resultDic["landingPage"] as! [String:AnyObject]
-                self.landingP = landingMg.count > 0 ? landingMg : self.landingP
-                if self.landingP != nil && self.landingP!.count > 0 && arrayProduct!.count == 0  && self.btnTech.selected {
+                self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
+                if self.landingPageMG != nil && self.landingPageMG!.count > 0 && arrayProduct!.count == 0  && self.btnTech.selected {
                     self.showLandingPage()
                     return
                 }
@@ -906,9 +907,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                     self.mgResponceDic = resultDic
                     
-                    if self.landingP?.count > 0{ // > 0 TODO cambiar
+                    if self.landingPageMG?.count > 0{ // > 0 TODO cambiar
                         //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
-                        let imageURL = IS_IPAD ? self.landingP!["imgipad"] as! String : self.landingP!["imgiphone"] as! String
+                        let imageURL = IS_IPAD ? self.landingPageMG!["imgipad"] as! String : self.landingPageMG!["imgiphone"] as! String
                         self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                             self.bannerView.image = image//"http://\(imageURL)"
                         }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
@@ -992,12 +993,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         service.callService(params,
                             successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
                 
-                self.landingP = resultDic["landingPage"] as? [String:AnyObject]
+                self.landingPageGR = resultDic["landingPage"] as? [String:AnyObject]
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     self.grResponceDic = resultDic
-                    if self.landingP?.count > 0 && self.btnSuper.selected{ // > 0 TODO cambiar
+                    if self.landingPageGR?.count > 0 && self.btnSuper.selected{ // > 0 TODO cambiar
                         //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
-                        let imageURL = IS_IPAD ? self.landingP!["imgipad"] as! String : self.landingP!["imgiphone"] as! String
+                        let imageURL = IS_IPAD ? self.landingPageGR!["imgipad"] as! String : self.landingPageGR!["imgiphone"] as! String
                         self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                             self.bannerView.image = image //"http://\(imageURL)"
                         }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
@@ -1339,9 +1340,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func showLandingPage(){
         if self.controllerLanding == nil {
             self.controllerLanding =  LandingPageViewController()
-            self.controllerLanding!.urlTicer = self.landingP!["imgiphone"] as! String
-            self.controllerLanding!.departmentId = self.landingP!["departmentid"] as! String
-            self.controllerLanding!.titleHeader = self.landingP!["text"] as? String
+            self.controllerLanding!.urlTicer = self.landingPageMG!["imgiphone"] as! String
+            self.controllerLanding!.departmentId = self.landingPageMG!["departmentid"] as! String
+            self.controllerLanding!.titleHeader = self.landingPageMG!["text"] as? String
             self.controllerLanding!.startView = 46.0
             self.controllerLanding!.searchFieldSpace = 0
             self.navigationController!.pushViewController(self.controllerLanding!, animated: true)
