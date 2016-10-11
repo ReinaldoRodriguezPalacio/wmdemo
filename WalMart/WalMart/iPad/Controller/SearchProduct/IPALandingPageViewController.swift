@@ -27,8 +27,27 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = self.titleHeader
-        self.titleLabel?.text = self.titleHeader
+        var titleText = titleHeader!
+        if titleText.length() > 47
+        {
+            titleText = titleText.substring(0, length: 44) + "..."
+        }
+        
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(named: "search_edit")
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let myString = NSMutableAttributedString(string: "\(titleText) ")
+        myString.appendAttributedString(attachmentString)
+        titleLabel!.numberOfLines = 2
+        titleLabel!.attributedText = myString
+        titleLabel!.userInteractionEnabled = true
+        titleLabel!.textColor =  WMColor.light_blue
+        titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabel!.numberOfLines = 2
+        titleLabel!.textAlignment = .Center
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(LandingPageViewController.editSearch))
+        titleLabel!.addGestureRecognizer(tapGesture)
         
         self.headerView = UIView(frame: CGRectMake(0, 0, 1024, 46))
         self.headerView!.backgroundColor = WMColor.light_light_gray
@@ -57,6 +76,7 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         self.collection?.registerClass(IPASectionHeaderSearchReusable.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         self.collection?.registerClass(IPACatHeaderSearchReusable.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
         
+        self.view.addSubview(self.header!)
         self.view.addSubview(self.headerView!)
         self.view.addSubview(self.collection!)
     }
@@ -68,6 +88,9 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     
     override func viewWillLayoutSubviews() {
         self.headerView!.frame = CGRectMake(0, 0, 1024, 46)
+        self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
+        self.backButton!.frame = CGRectMake(0, 0  ,46,46)
+        self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
         self.collection!.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
     }
     
@@ -224,7 +247,7 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         customlayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(1024, 216)
         customlayout.disableStickyHeaders = false
         //customlayout.parallaxHeaderAlwaysOnTop = true
-        let collectionView = UICollectionView(frame: CGRectMake(0, self.headerView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.headerView!.frame.maxY), collectionViewLayout: customlayout)
+        let collectionView = UICollectionView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY), collectionViewLayout: customlayout)
         return collectionView
     }
     
@@ -293,10 +316,6 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         return 0
     }
     
-    //    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-    //        return CGSizeMake(self.view.bounds.width / 3, 254);
-    //    }
-    
     func showLoadingIfNeeded(hidden: Bool ) {
         if hidden {
             self.loading!.stopAnnimating()
@@ -307,6 +326,14 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(false)
         }
+    }
+    
+    func editSearch(){
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
+    }
+    
+    override func back() {
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
 }
