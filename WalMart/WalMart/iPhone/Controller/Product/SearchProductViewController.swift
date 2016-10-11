@@ -195,7 +195,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnSuper.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
         btnSuper.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        btnSuper.selected = true
+        btnSuper.selected = false
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
         btnSuper.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -208,6 +208,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnTech.setTitle(titleTech, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        btnTech.selected = true
         btnTech.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width , 0, 0.0);
         btnTech.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -1003,7 +1004,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             print("Error al presentar imagen")
                         }
                         self.isLandingPage = true
-                        
+                        self.showAlertView = false
                         //Se muestra listado de MG
                         self.btnTech.selected = false
                         self.btnSuper.selected = true
@@ -1055,15 +1056,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func setAlertViewValues(resultDic: [String:AnyObject]){
         
-        if resultDic.count == 0 {
+        if resultDic.count == 0 || self.isLandingPage {
             self.showAlertView = false
-        }else if  (resultDic["alternativeCombination"] as! String) != "" {
+        }else if !self.isLandingPage && (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
         }
-        else if (resultDic["suggestion"] as! String) != "" {
+        else if !self.isLandingPage && (resultDic["suggestion"] as! String) != "" {
             self.showAlertView = true
             self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
         }else{
