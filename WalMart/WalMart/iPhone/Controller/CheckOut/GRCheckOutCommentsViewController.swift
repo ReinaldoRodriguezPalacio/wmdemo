@@ -290,7 +290,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let checkButtonHeight: CGFloat = 45//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
         
         if !isPreferencesView {
-            self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
+            self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,0.0, 46, self.titleLabel!.bounds.height)
         }
         
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
@@ -301,7 +301,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
             self.notConfirmCallButton!.frame = CGRectMake(margin, phoneField!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width, checkButtonHeight)
         }else{
+            self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
             self.notConfirmCallButton!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width, checkButtonHeight)
+            self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
         }
         
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin, width, checkButtonHeight)

@@ -145,7 +145,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 28.0
         
-        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
+        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,0.0, 46, self.titleLabel!.bounds.height)
         self.sectionTitle.frame = CGRectMake(margin, 0, width, lheight)
         self.address!.frame = CGRectMake(margin, sectionTitle.frame.maxY + 8, width, fheight)
         self.sectionTitleInvoice.frame = CGRectMake(margin, self.address!.frame.maxY + 32, width, lheight)

@@ -332,7 +332,7 @@
 "profile.address.shiping.lastname" = "Apellidos";
 "profile.address.person.name"= "Nombre";
 "profile.address.person.name.moral"= "Nombre de la Empresa";
-"profile.address.person.lastName" = "Apellidos";
+"profile.address.person.lastName" = "Apellido Paterno";
 "profile.address.person.lastName2" = "Apellido Materno";
 "profile.address.rfc" = "RFC";
 "profile.address.ieps" = "número IEPS";

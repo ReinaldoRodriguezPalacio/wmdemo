@@ -25,8 +25,8 @@ class FiscalAddressPersonM: AddressView {
         super.setup()
         
         self.corporateName = FormFieldView()
-        self.corporateName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name.moral",comment:""))
         self.corporateName!.isRequired = true
+        self.corporateName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name.moral",comment:""))
         self.corporateName!.typeField = TypeField.Name
         self.corporateName!.minLength = 2
         self.corporateName!.maxLength = 20

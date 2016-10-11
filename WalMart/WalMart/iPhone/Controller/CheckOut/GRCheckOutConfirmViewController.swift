@@ -109,7 +109,7 @@ class GRCheckOutConfirmViewController : NavigationViewController, OrderConfirmDe
     
 
     override func viewDidLayoutSubviews() {
-        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
+        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,0.0, 46, self.titleLabel!.bounds.height)
         self.contentTableView.frame =  CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.frame.height - (headerHeight + 64))
         self.viewFooter!.frame = CGRect(x:0 , y:self.contentTableView!.frame.maxY, width:self.view.bounds.width , height: 64 )
 

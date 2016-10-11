@@ -272,7 +272,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let bounds = self.view.frame.size
         let footerHeight : CGFloat = 60.0
         
-        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
+        self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,0.0, 46, self.titleLabel!.bounds.height)
         
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
         if self.showOnilePayments {
