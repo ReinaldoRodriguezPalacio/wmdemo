@@ -887,7 +887,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 let landingMg = resultDic["landingPage"] as! [String:AnyObject]
                 self.landingP = landingMg.count > 0 ? landingMg : self.landingP
-                if self.landingP != nil && self.landingP!.count > 0 && arrayProduct!.count == 0 {
+                if self.landingP != nil && self.landingP!.count > 0 && arrayProduct!.count == 0  && self.btnTech.selected {
                     self.showLandingPage()
                     return
                 }
@@ -995,7 +995,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.landingP = resultDic["landingPage"] as? [String:AnyObject]
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     self.grResponceDic = resultDic
-                    if self.landingP?.count > 0{ // > 0 TODO cambiar
+                    if self.landingP?.count > 0 && self.btnSuper.selected{ // > 0 TODO cambiar
                         //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                         let imageURL = IS_IPAD ? self.landingP!["imgipad"] as! String : self.landingP!["imgiphone"] as! String
                         self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
@@ -1008,7 +1008,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         //Se muestra listado de MG
                         self.btnTech.selected = false
                         self.btnSuper.selected = true
-                        self.showAlertView = false
                     }
                     
                     if let item = arrayProduct?[0] as? NSDictionary {
