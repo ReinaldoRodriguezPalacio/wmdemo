@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPALandingPageViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class IPALandingPageViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate,IPAFamilyViewControllerDelegate,UIPopoverControllerDelegate,IPASectionHeaderSearchReusableDelegate {
     var urlImage: String?
     var imageBackground:UIImageView?
     var loading: WMLoadingView?
@@ -18,6 +18,9 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     var allProducts: [AnyObject]! = []
     var departmentId: String?
     var headerView: UIView?
+    var itemsCategory: [[String:AnyObject]]?
+    var familyController : IPAFamilyViewController!
+    var popover : UIPopoverController?
     
     
     override func getScreenGAIName() -> String {
@@ -52,6 +55,9 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         self.headerView = UIView(frame: CGRectMake(0, 0, 1024, 46))
         self.headerView!.backgroundColor = WMColor.light_light_gray
         
+        self.familyController = IPAFamilyViewController()
+        self.familyController!.delegate = self
+        
         self.imageBackground = UIImageView()
         self.imageBackground!.setImageWithURL(NSURL(string: "\(self.urlImage!)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground!.image = image
@@ -79,6 +85,9 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         self.view.addSubview(self.header!)
         self.view.addSubview(self.headerView!)
         self.view.addSubview(self.collection!)
+        
+        self.loadDepartments()
+        self.setValuesFamily()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -104,12 +113,8 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         
         if kind == CSStickyHeaderParallaxHeader {
             let view = collection?.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! IPACatHeaderSearchReusable
-            
             view.setValues(imageBackground!.image,imgIcon: nil,titleStr: "")
             view.btnClose.hidden = true
-            //view.delegate = delegateImgHeader
-            
-            
             return view
         }
         if kind == UICollectionElementKindSectionHeader {
@@ -122,6 +127,7 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
             let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
             let wTitleSize = rectSize.width + 48
             view.title!.frame = CGRectMake((1024 / 2) -  (wTitleSize / 2), (self.headerView!.frame.height / 2) - 12, wTitleSize, 24)
+            view.delegate = self
             viewHeader = view
             return view
         }
@@ -334,6 +340,69 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     
     override func back() {
         self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func loadDepartments() ->  [AnyObject]? {
+        let serviceCategory = CategoryService()
+        self.itemsCategory = serviceCategory.getCategoriesContent()
+        return self.itemsCategory
+    }
+    
+    func setValuesFamily(){
+        
+        for item in self.itemsCategory! {
+            if item["idDepto"] as? String == departmentId {
+                let famArray : AnyObject = item["family"] as AnyObject!
+                let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+                
+                self.familyController.departmentId = item["idDepto"] as! String
+                self.familyController.families = itemsFam
+                self.familyController.selectedFamily = nil
+                self.addPopover()
+                break
+            }
+        }
+    }
+    
+    func addPopover(){
+        //familyController.delegate = self
+        if #available(iOS 8.0, *) {
+            familyController.modalPresentationStyle = .Popover
+        } else {
+            familyController.modalPresentationStyle = .FormSheet
+        }
+        familyController.preferredContentSize = CGSizeMake(320, 322)
+        
+        if popover ==  nil {
+            popover = UIPopoverController(contentViewController: familyController)
+            popover!.delegate = self
+        }
+        //popover!.delegate = self
+        popover!.presentPopoverFromRect(CGRectMake(self.headerView!.frame.width / 2, self.headerView!.frame.height - 10, 0, 0), inView: self.headerView!, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        
+        if familyController.familyTable != nil {
+            familyController.familyTable.reloadData()
+        }
+        
+    }
+    
+    //MARK: IPAFamilyViewControllerDelegate
+    func didSelectLine(department:String,family:String,line:String, name:String) {
+        if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
+            view.dismissPopover()
+        }
+    }
+    
+    //MARK: UIPopoverController
+    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+        if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
+            view.dismissPopover()
+        }
+    }
+
+    //MARK: IPASectionHeaderSearchReusableDelegate
+    func showFamilyController() {
+        self.addPopover()
     }
     
 }
