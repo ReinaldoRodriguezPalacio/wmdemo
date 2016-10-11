@@ -128,6 +128,7 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
             let wTitleSize = rectSize.width + 48
             view.title!.frame = CGRectMake((1024 / 2) -  (wTitleSize / 2), (self.headerView!.frame.height / 2) - 12, wTitleSize, 24)
             view.delegate = self
+            view.setSelected()
             viewHeader = view
             return view
         }
@@ -391,6 +392,7 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
             view.dismissPopover()
         }
+        self.popover?.dismissPopoverAnimated(true)
     }
     
     //MARK: UIPopoverController
