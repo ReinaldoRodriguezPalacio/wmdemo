@@ -40,6 +40,8 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.maximumPrimaryColumnWidth = 342
             self.minimumPrimaryColumnWidth = 342
         }
+        
+        self.view.backgroundColor = WMColor.light_gray
     }
     
     
