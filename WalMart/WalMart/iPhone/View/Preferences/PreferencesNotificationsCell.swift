@@ -95,7 +95,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
                 self.endEditing(true)
             })
             if self.phoneField == nil {
-                self.phoneField = FormFieldView(frame: CGRectMake(16, descriptionBlock!.frame.maxY + 8.0, self.frame.width - 32, 44))
+                self.phoneField = FormFieldView(frame: CGRectMake(16, descriptionBlock!.frame.maxY - 16.0, self.frame.width - 32, 44))
             }
             self.phoneField!.isRequired = isOn
             self.phoneField!.typeField = TypeField.Phone
