@@ -609,7 +609,7 @@
 "signup.info.pub" = "Deseo recibir publicidad y/o promociones.";
 "signup.info.provacity" = "He leído y acepto los términos del \n";
 
-"signup.info.share" = "¿Consiente usted que sus Datos Personales puedan ser transferidos a terceros con los que tengamos un contrato, como Instituciones Financieras, los cuales podrán llevar a cabo el análisis para ofrecerte y, en su caso, otorgarte productos y/o servicios financieros de conformidad con la regulación aplicable y para realizar cualquier actividad necesaria para tales fines?";
+"signup.info.share" = "¿Consientes que tus Datos Personales puedan ser transferidos a terceros con los que tengamos un contrato, como Instituciones Financieras, los cuales podrán llevar a cabo el análisis para ofrecerte y, en su caso, otorgarte productos y/o servicios financieros de conformidad con la regulación aplicable y para realizar cualquier actividad necesaria para tales fines?";
 "signup.info.share.yes" = "Sí lo consiento";
 "signup.info.share.no" = "No lo consiento";
 
