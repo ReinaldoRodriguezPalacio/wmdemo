@@ -142,14 +142,16 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
         if row == 0 {//coore
             self.userPreferences.setObject(value, forKey:"receiveInfoEmail")
         }else if row == 1{//carrito
-             self.userPreferences.setObject(value, forKey:"abandonCartAlert")
+            self.userPreferences.setObject(value, forKey:"abandonCartAlert")
             
         }else{ //sms
-              self.userPreferences.setObject(value, forKey:"telephonicSmsAlert")
+            self.userPreferences.setObject(value, forKey:"telephonicSmsAlert")
             if !value {
                 self.tableview?.setContentOffset(CGPointZero, animated:false)
-                 cellPreferences?.endEditing(true)
+                cellPreferences?.endEditing(true)
                 cellPreferences?.phoneField?.hidden = true
+                self.userPreferences.setObject("", forKey:"mobileNumber")
+                cellPreferences?.errorView?.removeFromSuperview()
             }
         }
         
@@ -159,8 +161,11 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     
         if edition {
             self.tableview?.setContentOffset(CGPoint(x: 0, y:IS_IPAD ? self.view.frame.midY - 64  :self.view.frame.midY + (IS_IPHONE_4_OR_LESS ? 60: 20)), animated:false)
+            self.userPreferences.setObject("", forKey:"mobileNumber")
         }else{
             self.tableview?.setContentOffset(CGPointZero, animated:false)
+             self.userPreferences.setObject(field.text!, forKey:"mobileNumber")
+            
         }
         self.fieldValidate = field
     }
