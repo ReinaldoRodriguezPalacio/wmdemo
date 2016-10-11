@@ -169,6 +169,11 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
             SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
             return false
         }
+        
+        if errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
+        
         return true
     }
     
