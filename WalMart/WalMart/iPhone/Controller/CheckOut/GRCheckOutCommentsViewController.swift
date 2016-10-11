@@ -96,7 +96,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:) ), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), forState: .Normal)
-        self.confirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
+        self.confirmCallButton!.setTitleColor(WMColor.reg_gray, forState: .Normal)
         self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.confirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
@@ -138,11 +138,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), forState: .Normal)
-        self.confirmCallOptionButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
+        self.confirmCallOptionButton!.setTitleColor(WMColor.reg_gray, forState: .Normal)
         self.confirmCallOptionButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.confirmCallOptionButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.confirmCallOptionButton!.titleLabel?.numberOfLines = 3
-        self.confirmCallOptionButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        self.confirmCallOptionButton!.titleEdgeInsets = UIEdgeInsets(top: (IS_IPAD && isPreferencesView) ? 14 : (IS_IPAD) ? 28 : 22, left: 8, bottom: 0, right: 0)
         self.confirmCallOptionButton!.tag = 1
         self.content.addSubview(self.confirmCallOptionButton!)
         
@@ -151,12 +151,12 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
         self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), forState: .Normal)
-        self.notConfirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
+        self.notConfirmCallButton!.setTitleColor(WMColor.reg_gray, forState: .Normal)
         self.notConfirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.notConfirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         
         self.notConfirmCallButton!.titleLabel?.numberOfLines = 3
-        self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: (IS_IPAD && isPreferencesView) ? 14 : (IS_IPAD) ? 28 : 22, left: 8, bottom: 0, right: 0)
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
@@ -299,9 +299,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         if self.showPhoneField {
             self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
             self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
-            self.notConfirmCallButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin, width, checkButtonHeight)
+            self.notConfirmCallButton!.frame = CGRectMake(margin, phoneField!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width, checkButtonHeight)
         }else{
-            self.notConfirmCallButton!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + margin, width, checkButtonHeight)
+            self.notConfirmCallButton!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width, checkButtonHeight)
         }
         
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin, width, checkButtonHeight)
