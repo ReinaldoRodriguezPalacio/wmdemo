@@ -150,7 +150,6 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
                 self.tableview?.setContentOffset(CGPointZero, animated:false)
                  cellPreferences?.endEditing(true)
                 cellPreferences?.phoneField?.hidden = true
-                cellPreferences?.errorView?.removeFromSuperview()
             }
         }
         
