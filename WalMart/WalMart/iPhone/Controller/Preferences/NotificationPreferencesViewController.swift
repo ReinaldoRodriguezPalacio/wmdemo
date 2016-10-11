@@ -151,6 +151,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
                 cellPreferences?.endEditing(true)
                 cellPreferences?.phoneField?.hidden = true
                 self.userPreferences.setObject("", forKey:"mobileNumber")
+                cellPreferences?.errorView?.removeFromSuperview()
             }
         }
         
