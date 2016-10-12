@@ -123,6 +123,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField!.keyboardType = UIKeyboardType.NumberPad
         self.phoneField!.inputAccessoryView = viewAccess
         self.phoneField!.delegate = self
+        self.phoneField?.alpha = self.showPhoneField ? 1.0 : 0.0
         self.content.addSubview(self.phoneField!)
         
         self.savePhoneButton = UIButton(type: .Custom)

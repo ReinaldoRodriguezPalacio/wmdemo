@@ -22,7 +22,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var stepLabel: UILabel!
     var viewHeader :  UIView?
     var orderDictionary : NSDictionary?
-    
+    var alertView: IPOWMAlertViewController?
     var viewLoad : WMLoadingView!
 
     
@@ -252,7 +252,18 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         
     }
     
+    func validate() -> Bool {
+        return self.shipping.count == self.shippingAll.count
+    }
+    
     func next(){
+        
+        if !self.validate() {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage("Selecciona un tipo de envío")
+            self.alertView!.showErrorIcon("Aceptar")
+            return
+        }
         
         let priceInfo  =  self.orderDictionary?.objectForKey("priceInfo") as! NSDictionary
         

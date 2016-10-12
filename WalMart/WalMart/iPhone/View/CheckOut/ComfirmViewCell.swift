@@ -55,7 +55,7 @@ class ComfirmViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         self.titleLabel?.frame = CGRect(x: 16, y:16 , width:self.contentView.frame.width - 32 , height:12)
-        self.descriptionLabel?.frame = CGRect(x: 16, y:titleLabel!.frame.maxY + 4 , width:self.contentView.frame.width - 32 , height:42)
+        self.descriptionLabel?.frame = CGRect(x: 16, y:titleLabel!.frame.maxY + 4, width:self.contentView.frame.width - 32 , height:28)
         self.nameLabel?.frame = CGRect(x: 16, y:titleLabel!.frame.maxY + 4 , width:self.contentView.frame.width - 32 , height:14)
         
         let y = self.descriptionLabel?.text == "" ? nameLabel!.frame.maxY + 4 : descriptionLabel!.frame.maxY + 4
