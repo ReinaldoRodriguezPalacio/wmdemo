@@ -1040,6 +1040,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
                 isEditingSearch = false
             }
+            self.closeSearch(false, sender: nil)
             let controller = SearchProductViewController()
             controller.upcsToShow = upcs
             controller.searchContextType = .WithText
@@ -1067,6 +1068,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
             controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
         }
+        
         controllernav?.pushViewController(controller, animated: true)
 //        self.btnSearch!.selected = false
 //        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
