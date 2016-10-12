@@ -57,7 +57,6 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         productPriceLabel!.label2?.hidden = false
         if  saving != "" && saving != "null"  {
             productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.green, interLine: false)
-            productPriceLabel!.label2?.hidden = false
             productPriceLabel?.label1?.lineBreakMode = .ByTruncatingTail
         }
         
