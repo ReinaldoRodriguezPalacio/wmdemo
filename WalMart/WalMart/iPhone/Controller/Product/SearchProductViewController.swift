@@ -234,7 +234,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.searchAlertView = SearchAlertView()
-        self.searchAlertView?.setValues("Peñafiel", correction: "Agua peñafiel", underline: "rojo")
+
         self.view.addSubview(self.searchAlertView!)
         
          //self.header!.bringSubviewToFront(self.bannerView)
@@ -1151,30 +1151,56 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
         } else {
-            btnTech.selected = true
-            btnSuper.selected = false
-            self.setAlertViewValues(self.mgResponceDic)
-            self.allProducts = []
-            if self.mgResults?.products != nil {
-                if self.itemsUPCMG?.count > 0 {
-                    self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
-                    var filtredProducts : [AnyObject] = []
-                    for product in self.mgResults!.products! {
-                        let productDict = product as! [String:AnyObject]
-                        if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPCMG!.containsObject(productUPC) {
-                                filtredProducts.append(productDict)
+            if firstOpen && (self.mgResults!.products == nil || self.mgResults!.products!.count == 0 ) {
+                btnTech.selected = false
+                btnSuper.selected = true
+                self.setAlertViewValues(self.grResponceDic)
+                self.allProducts = []
+                if self.grResults?.products != nil {
+                    if self.itemsUPCGR?.count > 0 {
+                        self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
+                        var filtredProducts : [AnyObject] = []
+                        for product in self.grResults!.products! {
+                            let productDict = product as! [String:AnyObject]
+                            if let productUPC =  productDict["upc"] as? String {
+                                if !self.itemsUPCGR!.containsObject(productUPC) {
+                                    filtredProducts.append(productDict)
+                                }
                             }
                         }
+                        self.allProducts?.addObjectsFromArray(filtredProducts)
+                    } else {
+                        if self.grResults!.products != nil{
+                            self.allProducts?.addObjectsFromArray(self.grResults!.products as! [AnyObject])
+                        }
                     }
-                    self.allProducts?.addObjectsFromArray(filtredProducts)
-                } else {
-                    
-                    self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
                 }
-            }else{//new validate
-                if self.itemsUPCMG?.count > 0 {
-                    self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
+                firstOpen = false
+            }else{
+                btnTech.selected = true
+                btnSuper.selected = false
+                self.setAlertViewValues(self.mgResponceDic)
+                self.allProducts = []
+                if self.mgResults?.products != nil {
+                    if self.itemsUPCMG?.count > 0 {
+                        self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
+                        var filtredProducts : [AnyObject] = []
+                        for product in self.mgResults!.products! {
+                            let productDict = product as! [String:AnyObject]
+                            if let productUPC =  productDict["upc"] as? String {
+                                if !self.itemsUPCMG!.containsObject(productUPC) {
+                                    filtredProducts.append(productDict)
+                                }
+                            }
+                        }
+                        self.allProducts?.addObjectsFromArray(filtredProducts)
+                    } else {
+                        self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                    }
+                }else{//new validate
+                    if self.itemsUPCMG?.count > 0 {
+                        self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
+                    }
                 }
             }
         }
