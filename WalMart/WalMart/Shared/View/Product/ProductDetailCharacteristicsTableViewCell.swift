@@ -97,7 +97,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
 
             }
         }
-        return heigth
+        return heigth + heightCharacteristic()
     }
     
     class func buildAttributtedString(key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat ) -> NSAttributedString {

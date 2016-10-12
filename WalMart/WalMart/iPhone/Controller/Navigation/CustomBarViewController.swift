@@ -1045,6 +1045,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 3)
                 isEditingSearch = false
             }
+            self.closeSearch(false, sender: nil)
             let controller = SearchProductViewController()
             controller.upcsToShow = upcs
             controller.searchContextType = .WithText
