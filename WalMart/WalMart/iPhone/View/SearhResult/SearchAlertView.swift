@@ -52,7 +52,14 @@ class SearchAlertView: UIView {
         let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
         let attrsBold = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12)]
         let attrsOrange = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12), NSForegroundColorAttributeName: WMColor.yellow]
-        let attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12), NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue]
+        
+        var attrsUnderline: [String:AnyObject] = [:]
+        
+        if #available(iOS 8.4, *) {
+            attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12),NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue]
+        } else {
+            attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12),NSForegroundColorAttributeName: WMColor.gray]
+        }
         
         let messageString = NSMutableAttributedString(string: "No se encontró: ", attributes: attrs)
         let boldString = NSMutableAttributedString(string:"\(key) ", attributes:attrsBold)
@@ -64,8 +71,15 @@ class SearchAlertView: UIView {
           messageString.appendAttributedString(underlineString)
         }
         
-        self.labelMessage!.attributedText = messageString
-        
+        if messageString.length > 48 && IS_IPHONE {
+            let string = NSMutableAttributedString(attributedString: messageString.attributedSubstringFromRange(NSRange(location: 0, length: 46)))
+            let boldString = NSMutableAttributedString(string:"...", attributes:attrsBold)
+            string.appendAttributedString(boldString)
+            self.labelMessage!.attributedText = string
+        }else{
+          self.labelMessage!.attributedText = messageString
+        }
+
         let resultsOfString = NSMutableAttributedString(string: "Mostrando resultados de ", attributes: attrs)
         let orangeString = NSMutableAttributedString(string: correction, attributes: attrsOrange)
         
