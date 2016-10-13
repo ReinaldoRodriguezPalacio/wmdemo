@@ -223,6 +223,9 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
             self.tableCategories.reloadData()
             self.removeViewLoad()
             
+            self.alertView?.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
+            self.alertView?.showDoneIcon()
+            
         }, errorBlock: { (error:NSError) in
             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
             alertView!.setMessage(NSLocalizedString("preferences.message.errorLoad", comment:""))
@@ -238,7 +241,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         // TODO preguntar por valor:: acceptConsent
         
         let peferencesService = SetPreferencesService()
-        let params = peferencesService.buildParams(self.getSelectedInterestCategories(), onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
+        let params = peferencesService.buildParams(self.getSelectedInterestCategories(), onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as? String ?? "", abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
         peferencesService.jsonFromObject(params)
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
@@ -246,8 +249,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
             
         peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
             print("Preferencias Guardadas")
-            self.alertView!.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
-            self.alertView!.showDoneIcon()
+            
             self.invokePreferenceService()
         }, errorBlock: { (error:NSError) in
             print("Hubo un error al guardar las Preferencias")

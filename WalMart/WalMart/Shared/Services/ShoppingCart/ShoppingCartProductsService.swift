@@ -147,7 +147,7 @@ class ShoppingCartProductsService : BaseService {
         
          var resultServiceCall : [String:AnyObject] = [:]
         
-        let orderId = itemsInShoppingCart["orderId"] as! NSString
+        let orderId = itemsInShoppingCart["orderId"] as? NSString
         
         let commerceItems = itemsInShoppingCart["commerceItems"] as! NSArray
         
@@ -235,7 +235,7 @@ class ShoppingCartProductsService : BaseService {
             
                 carProductItem = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
             
-                carProduct.orderId = orderId as String
+                carProduct.orderId = orderId as? String
                 
                 carProductItem.upc = upc
                 carProductItem.commerceItemId = commerceItemId

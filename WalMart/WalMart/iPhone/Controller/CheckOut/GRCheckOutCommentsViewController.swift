@@ -233,25 +233,27 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         super.viewWillLayoutSubviews()
         self.buildSubViews()
         if userPreferences.count > 0 {
-            switch userPreferences["onlyTelephonicAlert"] as!  String {
-                
-            case OnlyAlertPreferences.receiveCallConfirmation.rawValue:
-                self.confirmCallSelected(self.confirmCallOptionButton!,changePrefeered: true)
-                print("receiveCallConfirmation")
-                break
-                
-            case OnlyAlertPreferences.onlySubstituteAvailable.rawValue:
-                print("onlySubstituteAvailable")
-                self.confirmCallSelected(self.notConfirmCallButton!,changePrefeered: true)
-                break
-                
-            case OnlyAlertPreferences.onlyOrderedProducts.rawValue:
-                print("onlyOrderedProducts")
-                self.confirmCallSelected(self.confirmCallButton!,changePrefeered: true)
-                
-                break
-            default:
-                break
+            if  userPreferences["onlyTelephonicAlert"] != nil {
+                switch userPreferences["onlyTelephonicAlert"] as!  String {
+                    
+                case OnlyAlertPreferences.receiveCallConfirmation.rawValue:
+                    self.confirmCallSelected(self.confirmCallOptionButton!,changePrefeered: true)
+                    print("receiveCallConfirmation")
+                    break
+                    
+                case OnlyAlertPreferences.onlySubstituteAvailable.rawValue:
+                    print("onlySubstituteAvailable")
+                    self.confirmCallSelected(self.notConfirmCallButton!,changePrefeered: true)
+                    break
+                    
+                case OnlyAlertPreferences.onlyOrderedProducts.rawValue:
+                    print("onlyOrderedProducts")
+                    self.confirmCallSelected(self.confirmCallButton!,changePrefeered: true)
+                    
+                    break
+                default:
+                    break
+                }
             }
         }
         
