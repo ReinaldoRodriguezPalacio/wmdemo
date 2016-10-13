@@ -112,19 +112,19 @@ class FilterOrderViewCell: UITableViewCell {
             let index = (self.buttons!).indexOf(sender)
             
             var order: String? = nil
-            var action = ""
+            //var action = ""
             switch (index!) {
-            case 0 : order = FilterType.descriptionAsc.rawValue; action = WMGAIUtils.ACTION_SORT_BY_A_Z.rawValue
-            case 1 : order = FilterType.descriptionDesc.rawValue; action = WMGAIUtils.ACTION_SORT_BY_Z_A.rawValue
-            case 2 : order = FilterType.priceAsc.rawValue; action = WMGAIUtils.ACTION_SORT_BY_$_$$$.rawValue
-            case 3 : order = FilterType.priceDesc.rawValue; action = WMGAIUtils.ACTION_SORT_BY_$$$_$.rawValue
-            case 4 : order =  FilterType.popularity.rawValue ; action = WMGAIUtils.ACTION_BY_POPULARITY.rawValue
-            default: order = FilterType.none.rawValue ; action = ""
+            case 0 : order = FilterType.descriptionAsc.rawValue; //action = WMGAIUtils.ACTION_SORT_BY_A_Z.rawValue
+            case 1 : order = FilterType.descriptionDesc.rawValue; //action = WMGAIUtils.ACTION_SORT_BY_Z_A.rawValue
+            case 2 : order = FilterType.priceAsc.rawValue; //action = WMGAIUtils.ACTION_SORT_BY_$_$$$.rawValue
+            case 3 : order = FilterType.priceDesc.rawValue; //action = WMGAIUtils.ACTION_SORT_BY_$$$_$.rawValue
+            case 4 : order =  FilterType.popularity.rawValue ; //action = WMGAIUtils.ACTION_BY_POPULARITY.rawValue
+            default: order = FilterType.none.rawValue ; //action = ""
             }
             
-            if action != "" {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: action, label: "")
-            }
+//            if action != "" {
+//                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: action, label: "")
+//            }
             
             self.delegate?.didChangeOrder(order!)
         }

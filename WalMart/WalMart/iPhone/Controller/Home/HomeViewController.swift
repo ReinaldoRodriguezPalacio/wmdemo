@@ -40,9 +40,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var typeAction =  ""
     var bussinesTerms = ""
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_HOME.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_HOME.rawValue
+//    }
     
     
     override func viewDidLoad() {
@@ -351,7 +351,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             
             //EVENT
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_VIEW_SPECIAL_DETAILS.rawValue, label: "\(desc) - \(upc)")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_VIEW_SPECIAL_DETAILS.rawValue, label: "\(desc) - \(upc)")
 
 
             self.navigationController!.pushViewController(controller, animated: true)
@@ -396,17 +396,17 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         case "l":
             let val = bannerStr.substringFromIndex(2)
             if type == ResultObjectType.Mg.rawValue  {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_LINE.rawValue , label: "\(val)")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_LINE.rawValue , label: "\(val)")
             } else {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_LINE.rawValue , label: "\(val)")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_LINE.rawValue , label: "\(val)")
             }
             showProducts(forDepartmentId: nil, andFamilyId: nil, andLineId: val,type:type)
         case "UPC":
             let val = bannerStr.substringFromIndex(4)
             if type == ResultObjectType.Mg.rawValue  {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue , label: "\(val)")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue , label: "\(val)")
             } else {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue , label: "\(val)")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue , label: "\(val)")
             }
             if val.rangeOfString(",") != nil {
                 let upcss :NSString = val

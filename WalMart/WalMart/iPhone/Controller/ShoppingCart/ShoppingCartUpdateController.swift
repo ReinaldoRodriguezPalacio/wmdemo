@@ -529,13 +529,13 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func closeAlert(){
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_CLOSED.rawValue, label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_CLOSED.rawValue, label:"")
         self.close()
     }
     
     func keepShopping(){
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_CONTINUE_BUYING.rawValue, label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_CONTINUE_BUYING.rawValue, label:"")
         self.close()
     }
     
@@ -543,7 +543,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.close()
         if goToShoppingCart != nil {
             //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label:"")
             
             goToShoppingCart()
         }
@@ -557,7 +557,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         //if self.commentTextView?
 
                 //Event
-        BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
         
         self.view.endEditing(true)
         self.titleLabel.frame = CGRectMake(self.titleLabel.frame.minX,  viewBgImage.frame.maxY + 23, self.titleLabel.frame.width, 60)
@@ -742,7 +742,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                 }
 
                                 //Event
-                                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE.rawValue, label:"")
+                                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE.rawValue, label:"")
 
                                 
                                 self.titleLabel.hidden = true

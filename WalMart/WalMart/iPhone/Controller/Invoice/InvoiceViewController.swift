@@ -36,9 +36,9 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     var modalView: AlertModalView?
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_INVOICE.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_INVOICE.rawValue
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

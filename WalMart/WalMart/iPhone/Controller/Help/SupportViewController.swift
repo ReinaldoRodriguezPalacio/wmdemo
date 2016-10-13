@@ -36,9 +36,9 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     
     var pikerBtn : AlertButtomView!
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_SUPPORT.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_SUPPORT.rawValue
+//    }
     
     
     override func viewDidLoad() {
@@ -213,7 +213,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
             self.pikerBtn!.showPicker()
         }
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: sender == self.buttomCall ? WMGAIUtils.ACTION_CALL_SUPPORT.rawValue :WMGAIUtils.ACTION_EMAIL_SUPPORT.rawValue, label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: sender == self.buttomCall ? WMGAIUtils.ACTION_CALL_SUPPORT.rawValue :WMGAIUtils.ACTION_EMAIL_SUPPORT.rawValue, label:"")
         
     }
     
@@ -315,7 +315,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     }
     
     override func back() {
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
+         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
         super.back()
     }
   

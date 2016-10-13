@@ -189,7 +189,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
 
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
         //Event close sesion
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue,action: WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue,action: WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label: "")
 
 
         

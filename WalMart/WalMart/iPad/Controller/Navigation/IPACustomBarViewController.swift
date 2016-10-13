@@ -165,7 +165,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         
 
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         
         if (self.btnShopping!.selected){
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {

@@ -35,9 +35,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     var alertView : IPOWMAlertViewController?
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_PACTILISTASDETAILS.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_PACTILISTASDETAILS.rawValue
+//    }
     
     let CELL_ID = "listDefaultCell"
     
@@ -173,7 +173,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let upc = product["upc"] as! NSString
         let description = product["description"] as! NSString
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
         
         self.navigationController!.pushViewController(controller, animated: true)
         
@@ -278,7 +278,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
 
         if let image = self.tableView!.screenshot() {
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.defaultListName!)
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.defaultListName!)
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
             let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
@@ -418,7 +418,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             self.noProductsAvailableAlert()
             return
         }
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.defaultListName!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.defaultListName!)
     }
 
     func noProductsAvailableAlert(){
@@ -497,7 +497,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
 
     func duplicate() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label: self.defaultListName!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label: self.defaultListName!)
         self.invokeSaveListToDuplicateService(defaultListName!, successDuplicateList: { () -> Void in
             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
             self.alertView!.showDoneIcon()

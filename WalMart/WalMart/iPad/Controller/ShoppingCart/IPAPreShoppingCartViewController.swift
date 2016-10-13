@@ -36,13 +36,6 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
     
     override func viewDidLoad() {
         
-        //SCREEN
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
-        
         self.view.backgroundColor = UIColor.clearColor()
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
         

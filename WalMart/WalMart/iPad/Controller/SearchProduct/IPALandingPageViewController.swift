@@ -24,9 +24,9 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     var idSort: String = ""
     let maxResult = 20
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_LANDINGPAGE.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_LANDINGPAGE.rawValue
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

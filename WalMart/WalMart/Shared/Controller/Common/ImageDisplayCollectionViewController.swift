@@ -25,10 +25,10 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     var name: String? = nil
     var type: String! = ""
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_ZOOMPRODUCTDETAIL.rawValue
-        
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_ZOOMPRODUCTDETAIL.rawValue
+//        
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -167,7 +167,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     // MARK: - Actionw
     func closeModal() {
         self.dismissViewControllerAnimated(true, completion: nil)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_PRODUCTDETAIL.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_PRODUCTDETAIL.rawValue, label: "")
         
     }
     

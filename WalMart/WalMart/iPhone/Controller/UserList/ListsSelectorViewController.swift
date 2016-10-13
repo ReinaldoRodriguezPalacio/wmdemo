@@ -41,9 +41,9 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
+//    }
     
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -384,7 +384,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             svcList.callService(svcList.buildParams(value),
                 successBlock: { (result:NSDictionary) -> Void in
                 
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
                 
                     self.loadLocalList()
                     self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))

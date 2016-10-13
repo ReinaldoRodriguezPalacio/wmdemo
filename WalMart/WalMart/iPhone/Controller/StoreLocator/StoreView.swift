@@ -219,7 +219,7 @@ class StoreView: UIView {
         
         //Event
        
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_ROUTE_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_ROUTE_STORE.rawValue, label: self.store!.name!)
         
         
         
@@ -230,7 +230,7 @@ class StoreView: UIView {
     func makePhoneCall() {
         //Event
 
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_CALL_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_CALL_STORE.rawValue, label: self.store!.name!)
         
         
 
@@ -241,7 +241,7 @@ class StoreView: UIView {
         
         //Event
 
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_SHARE_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_SHARE_STORE.rawValue, label: self.store!.name!)
         
         
         

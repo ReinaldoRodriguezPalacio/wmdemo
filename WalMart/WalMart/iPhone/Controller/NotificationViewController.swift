@@ -22,9 +22,9 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     var headerNotification : UIView?
     
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_NOTIFICATION.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_NOTIFICATION.rawValue
+//    }
     
     override func viewDidLoad() {
         if UIDevice.currentDevice().userInterfaceIdiom != .Phone  {
@@ -158,7 +158,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             let value = notiicationInfo["value"] as! String
             let business = (notiicationInfo["business"] as! String).lowercaseString
             selectable = type == "URL"
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_DETAIL_NOTIFICATION.rawValue , label:"\(type) \(value) \(business)")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_DETAIL_NOTIFICATION.rawValue , label:"\(type) \(value) \(business)")
             let window = UIApplication.sharedApplication().keyWindow
             
             if let customBar = window!.rootViewController  as? CustomBarViewController {
@@ -208,7 +208,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
      */
     override func back() {
         super.back()
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
+         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
     }
     
     //MARK: CMSwitchViewDelegate

@@ -24,9 +24,9 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     
     
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

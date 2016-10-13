@@ -15,15 +15,14 @@ class BaseController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            let valueScreenName = self.getScreenGAIName()
-            if !valueScreenName.isEmpty {
-                tracker.set(kGAIScreenName, value: self.getScreenGAIName())
-                let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
-                tracker.send(eventTracker as! [NSObject : AnyObject])
-            }
-            
-        }
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            let valueScreenName = self.getScreenGAIName()
+//            if !valueScreenName.isEmpty {
+//                tracker.set(kGAIScreenName, value: self.getScreenGAIName())
+//                let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
+//                tracker.send(eventTracker as! [NSObject : AnyObject])
+//            }
+//        }
     }
 
     
@@ -48,20 +47,21 @@ class BaseController : UIViewController {
         return true
     }
     
-    class func sendAnalytics(category:String, action: String, label:String){
-           ////////
-//        print("Category: \(category) Action: \(action) Label: \(label)")
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
-                        action: action,
-                        label: label, value: nil).build() as [NSObject : AnyObject])
-                }
-    }
+   //TODO :  360 commnets
+//    class func sendAnalytics(category:String, action: String, label:String){
+//           ////////
+////        print("Category: \(category) Action: \(action) Label: \(label)")
+//                if let tracker = GAI.sharedInstance().defaultTracker {
+//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
+//                        action: action,
+//                        label: label, value: nil).build() as [NSObject : AnyObject])
+//                }
+//    }
     
-    class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
-        let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
-        BaseController.sendAnalytics(category, action: action, label: label)
-    }
+//    class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
+//        let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
+//        //BaseController.sendAnalytics(category, action: action, label: label)
+//    }
 
 //    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
 //        

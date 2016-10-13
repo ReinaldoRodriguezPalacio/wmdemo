@@ -15,12 +15,12 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
     var type: NSString!
     var imgFile : NSString? = nil
     var showTitle : Bool? = true
-    var actionLabel : String! = ""
-    var categoryLabel : String! = ""
+    //var actionLabel : String! = ""
+    //var categoryLabel : String! = ""
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_FREQUENTQUESTIONS.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_FREQUENTQUESTIONS.rawValue
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,9 +99,9 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
     
     
     override func back() {
-        if !actionLabel.isEmpty {
-            BaseController.sendAnalytics(categoryLabel, action:actionLabel , label:"Tutorial")
-        }
+//        if !actionLabel.isEmpty {
+//            //BaseController.sendAnalytics(categoryLabel, action:actionLabel , label:"Tutorial")
+//        }
         super.back()
     }
     

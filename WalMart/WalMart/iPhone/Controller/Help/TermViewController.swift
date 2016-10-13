@@ -21,9 +21,9 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     var familyTable: UITableView!
     var families : [[String:AnyObject]] = []
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_TERMSANDCONDITIONS.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_TERMSANDCONDITIONS.rawValue
+//    }
     
     
     override func viewDidLoad() {
@@ -177,7 +177,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             
             var action : String = item["title"] as! String
             action =  action.stringByReplacingOccurrencesOfString(" ", withString:"")
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:"A_\(action)" , label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:"A_\(action)" , label:"")
             
         }
         
@@ -233,7 +233,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     
     
     override func back() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
         super.back()
     }
     

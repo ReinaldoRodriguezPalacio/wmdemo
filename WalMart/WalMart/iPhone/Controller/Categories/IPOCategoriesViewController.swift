@@ -16,9 +16,9 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     var selectedView : IPODepartmentCollectionViewCell!
     var landingItem : [String:String]? = nil
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_MGDEPARTMENT.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_MGDEPARTMENT.rawValue
+//    }
     
     override func viewDidLoad() {
         let serviceBanner = BannerService()
@@ -97,7 +97,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         
         let label = item["description"] as! String
         let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-        BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
+        //BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
       
         familyController.departmentId = item["idDepto"] as! String
         familyController.families = itemsFam

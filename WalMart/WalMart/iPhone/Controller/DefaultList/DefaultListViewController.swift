@@ -17,9 +17,9 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     var viewLoad: WMLoadingView?
     
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_PRACTILISTA.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_PRACTILISTA.rawValue
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,7 +111,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         destDetailList.detailItems = itemList["items"] as? [[String:AnyObject]]
         
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA.rawValue, action: WMGAIUtils.ACTION_OPEN_PRACTILISTA.rawValue, label: itemList["name"] as! String)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA.rawValue, action: WMGAIUtils.ACTION_OPEN_PRACTILISTA.rawValue, label: itemList["name"] as! String)
         
         self.navigationController?.pushViewController(destDetailList, animated: true)
     }

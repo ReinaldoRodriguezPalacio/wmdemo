@@ -41,9 +41,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     var dateSelected : NSDate!
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +53,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.setValues), name: ProfileNotification.updateProfile.rawValue, object: nil)
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_EDITPROFILE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
         
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
@@ -261,7 +256,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     func changePassword() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_OPEN_FORM_CHANGE_PASSWORD.rawValue , label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_OPEN_FORM_CHANGE_PASSWORD.rawValue , label:"")
         let changePassword = ChangePasswordViewController()
         self.navigationController!.pushViewController(changePassword, animated: true)
     }
@@ -310,7 +305,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 
     func save(sender:UIButton) {
         if validateUser() {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
             let service = UpdateUserProfileService()
             let passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text)
             let passNew = (self.password==nil ? "" : self.password!.text)
@@ -335,7 +330,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             
             if self.passworCurrent != nil{
                 // Evente change password
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action: WMGAIUtils.ACTION_CHANGE_PASSWORD.rawValue, label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action: WMGAIUtils.ACTION_CHANGE_PASSWORD.rawValue, label: "")
                 
             }
             
@@ -450,7 +445,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
 
     func infolegal() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_OPEN_LEGAL_INFORMATION.rawValue , label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_OPEN_LEGAL_INFORMATION.rawValue , label:"")
         let changeInfoLegal = ChangeInfoLegalViewController()
         self.navigationController!.pushViewController(changeInfoLegal, animated: true)
 
@@ -458,7 +453,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     
     override func back() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         super.back()
     }
     

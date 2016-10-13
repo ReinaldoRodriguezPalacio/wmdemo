@@ -61,7 +61,7 @@ class IPAOrderViewController: OrderViewController {
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
             
             detailController.trackingNumber = trackingStr
 
@@ -74,7 +74,7 @@ class IPAOrderViewController: OrderViewController {
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
                         
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             

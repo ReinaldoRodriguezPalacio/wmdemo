@@ -110,9 +110,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var deliveryAmount : Double!
     var discountsAssociated : Double!
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -352,7 +352,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         self.confirmation!.onBecomeFirstResponder = {() in
 
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_PAYMENTOPTIONS.rawValue , label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_PAYMENTOPTIONS.rawValue , label: "")
             
             self.comments?.resignFirstResponder()
             if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
@@ -652,7 +652,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.selectedDate = date
         buildSlotsPicker(date)
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_DATE.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_DATE.rawValue , label: "")
         
     }
     
@@ -1034,7 +1034,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if self.selectedAddress != nil {
             self.invokeDeliveryTypesService({ () -> Void in
                 self.shipmentType!.onBecomeFirstResponder = {() in
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                     var itemsShipment : [String] = []
                     if self.shipmentItems?.count > 1{
                         for option in self.shipmentItems! {
@@ -1254,7 +1254,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             if formFieldObj ==  self.address! {
                 self.addViewLoad()//--ok
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
@@ -1290,14 +1290,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
             }
             if formFieldObj ==  self.shipmentType! {
-                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
+                  //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
                 let shipment: AnyObject = self.shipmentItems![indexPath.row]
                 self.shipmentAmount = shipment["cost"] as! Double
             }
             if formFieldObj ==  self.deliverySchedule! {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_TIME_DELIVERY.rawValue , label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_TIME_DELIVERY.rawValue , label: "")
                 self.deliverySchedule!.text = selectedStr
                 self.selectedTimeSlotTypeIx = indexPath
             }
@@ -1308,7 +1308,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             if formFieldObj == self.discountAssociate!{
                 self.addViewLoad()//--ok
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate {
                     self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                     //self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
@@ -1546,7 +1546,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
                 // deliveryAmount
 //                let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
 //                let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
@@ -1911,7 +1911,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     override func back() {
         super.back()
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
     }
     
     

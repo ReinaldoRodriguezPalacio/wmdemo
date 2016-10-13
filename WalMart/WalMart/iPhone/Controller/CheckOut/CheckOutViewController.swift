@@ -59,9 +59,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     //let DOMAIN_CHECKOUT = "www.walmart.com.mx/m_Mi-Cuenta.aspx"//OK
 
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_CHECKOUT.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_CHECKOUT.rawValue
+//    }
     
 
     override func viewDidLoad() {
@@ -244,7 +244,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         let rangeEnd = string.rangeOfString(ConfigUrls.ConfirmacionPedido)//ok
         if rangeEnd.location != NSNotFound && !didLoginWithEmail {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_MG.rawValue , label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_MG.rawValue , label: "")
             didLoginWithEmail = true
             
             //sendTuneAnalytics
@@ -303,10 +303,10 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 print("Save in data base")
                 
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
                 }, rightText: "Sí", rightAction: {
                     alert?.close()
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
                     self.rankingApp()
                 }, isNewFrame: false)
             
@@ -334,7 +334,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             // --- 
             CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
             alert?.close()
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
             //regresar a carrito
             self.backFinish()
             
@@ -343,7 +343,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 CustomBarViewController.addRateParam(self.KEY_RATING, value: "true")
                 alert?.close()
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
                 //regresar a carrito
                 self.backFinish()
              
@@ -351,7 +351,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             }, centerText: NSLocalizedString("review.yes.rate", comment: ""),centerAction: {
                 CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
                 alert?.close()
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 //regresar a carrito
                 self.backFinish()
                 let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
@@ -403,7 +403,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
      close Checkout when finish shopp or cancel
      */
     func backFinish(){
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
         
         ShoppingCartService.shouldupdate = true
         

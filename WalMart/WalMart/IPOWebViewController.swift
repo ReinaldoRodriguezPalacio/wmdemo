@@ -16,8 +16,8 @@ class  IPOWebViewController : UIViewController {
     var webViewMain : UIWebView!
     var btnClose : UIButton!
     
-    var category : String!
-    var categoryNo : String!
+    //var category : String!
+    //var categoryNo : String!
     var action : String!
     
     override func viewDidLoad() {
@@ -50,8 +50,8 @@ class  IPOWebViewController : UIViewController {
         webViewMain.loadRequest(request)
         
         
-        category = WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue
-        categoryNo = WMGAIUtils.CATEGORY_GENERATE_BILLING_NO_AUTH.rawValue
+        //category = WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue
+        //categoryNo = WMGAIUtils.CATEGORY_GENERATE_BILLING_NO_AUTH.rawValue
         
     }
     
@@ -73,7 +73,7 @@ class  IPOWebViewController : UIViewController {
     
     func close() {
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_GERATE_BILLIG.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_GERATE_BILLIG.rawValue, label: "")
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
         })

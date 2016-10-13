@@ -21,9 +21,9 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     
     var saveButton: WMRoundButton?
     
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_CHANGEPASSWORD.rawValue
-    }
+//    override func getScreenGAIName() -> String {
+//        return WMGAIUtils.SCREEN_CHANGEPASSWORD.rawValue
+//    }
     
     
     override func viewDidLoad() {
@@ -220,7 +220,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"SUCCES")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"SUCCES")
                 if let message = resultCall!["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
@@ -228,7 +228,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
                 self.navigationController!.popViewControllerAnimated(true)
                 }
                 , errorBlock: {(error: NSError) in
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"FAILED")
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"FAILED")
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
             })
@@ -237,7 +237,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     }
     
     override func back() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_BACK_TO_EDIT_PROFILE.rawValue , label:"SUCCES")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_BACK_TO_EDIT_PROFILE.rawValue , label:"SUCCES")
         super.back()
     }
     

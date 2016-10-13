@@ -121,19 +121,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var mgResponceDic: [String:AnyObject] = [:]
     var grResponceDic: [String:AnyObject] = [:]
     
-    override func getScreenGAIName() -> String {
-        if self.searchContextType != nil {
-            switch self.searchContextType! {
-            case .WithCategoryForMG :
-                return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
-            case .WithCategoryForGR :
-                return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
-            default :
-                break
-            }
-        }
-        return ""
-    }
+//    override func getScreenGAIName() -> String {
+//        if self.searchContextType != nil {
+//            switch self.searchContextType! {
+//            case .WithCategoryForMG :
+//                return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
+//            case .WithCategoryForGR :
+//                return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
+//            default :
+//                break
+//            }
+//        }
+//        return ""
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1488,7 +1488,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.upcsToShowApply = []
         }
 
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
         
         self.allProducts = []
         self.mgResults!.resetResult()
@@ -1692,8 +1692,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         //EVENT
-        let action = cell.pesable! ? WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue : WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue
-        BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action:action, label: "\(cell.desc) - \(cell.upc)")
+//        let action = cell.pesable! ? WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue : WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue
+        //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action:action, label: "\(cell.desc) - \(cell.upc)")
         
         selectQuantityGR?.closeAction = { () in
             self.selectQuantityGR.removeFromSuperview()
@@ -1748,7 +1748,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //selectQuantity!.generateBlurImage(self.view,frame:selectQuantity.bounds)
         
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(cell.desc) - \(cell.upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(cell.desc) - \(cell.upc)")
         
         selectQuantity!.addToCartAction =
             { (quantity:String) in
@@ -1757,7 +1757,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if maxProducts >= Int(quantity) {
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position: cell.positionSelected)//
                     
-                    BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
+                    //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                     
                     UIView.animateWithDuration(0.2,
                         animations: { () -> Void in
