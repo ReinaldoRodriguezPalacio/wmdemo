@@ -19,12 +19,11 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     var layerLine: CALayer!
     var viewLoad: WMLoadingView?
 
-    var headerNotification : UIView?
+    var headerNotification : UIView?    
     
-    
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_NOTIFICATION.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_NOTIFICATION.rawValue
+    }
     
     override func viewDidLoad() {
         if UIDevice.currentDevice().userInterfaceIdiom != .Phone  {

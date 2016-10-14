@@ -42,9 +42,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     var okCancelCallBack : (() -> Void)? = nil
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_LOGIN.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_LOGIN.rawValue
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

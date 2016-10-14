@@ -37,9 +37,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
+    }
     
     override func viewDidLoad() {
         

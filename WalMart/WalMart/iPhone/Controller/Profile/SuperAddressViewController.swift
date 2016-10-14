@@ -22,11 +22,9 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var isPreferred: Bool = false
     var saveButtonBottom: WMRoundButton?
     
-    
-    
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

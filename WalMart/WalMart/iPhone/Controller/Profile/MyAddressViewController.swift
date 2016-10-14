@@ -29,9 +29,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     var btnTech : UIButton!
     var showGRAddressForm: Bool = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MYADDRESSES.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MYADDRESSES.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

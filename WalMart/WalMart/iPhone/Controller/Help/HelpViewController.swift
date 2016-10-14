@@ -20,9 +20,9 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     var array : NSArray!
     var selected : Int! = -1
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_HOWTOUSETHEAPP.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_HOWTOUSETHEAPP.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

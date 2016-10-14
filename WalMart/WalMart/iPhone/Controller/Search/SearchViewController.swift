@@ -43,9 +43,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     var cancelSearch: Bool = true
     var dataBase : FMDatabaseQueue! = WalMartSqliteDB.instance.dataBase
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_OPTIONSEARCHPRODUCT.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_OPTIONSEARCHPRODUCT.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

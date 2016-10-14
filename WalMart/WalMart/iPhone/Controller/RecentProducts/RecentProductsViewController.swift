@@ -20,9 +20,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -54,9 +54,9 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     var allowsLibrary:Bool = false
     var searchId: String! = ""
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_TAKEPHOTO.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_TAKEPHOTO.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

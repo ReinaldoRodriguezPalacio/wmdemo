@@ -56,10 +56,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var isTextSearch: Bool = false
     var needsToValidateData = true
     var facet: NSArray? = nil
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_FILTER.rawValue
-//    }
-    
+
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_FILTER.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

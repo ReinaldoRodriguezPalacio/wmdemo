@@ -40,11 +40,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var typeAction =  ""
     var bussinesTerms = ""
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_HOME.rawValue
-//    }
-    
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_HOME.rawValue
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         

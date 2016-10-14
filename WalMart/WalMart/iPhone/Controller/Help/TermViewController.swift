@@ -21,11 +21,10 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     var familyTable: UITableView!
     var families : [[String:AnyObject]] = []
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_TERMSANDCONDITIONS.rawValue
-//    }
-    
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_TERMSANDCONDITIONS.rawValue
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         

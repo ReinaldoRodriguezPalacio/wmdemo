@@ -20,9 +20,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     var addressView: GRAddressView?
     var landingItem : [String:String]? = nil
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_SUPER.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SUPER.rawValue
+    }
     
     var pontInViewNuew = CGRectZero
     

@@ -32,9 +32,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     var buttonShop : UIButton!
     var customlabel : CurrencyCustomLabel!
    
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_WISHLISTEMPTY.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_WISHLISTEMPTY.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

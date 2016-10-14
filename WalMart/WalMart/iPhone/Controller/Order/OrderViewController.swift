@@ -19,9 +19,9 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     var isShowingTabBar : Bool = true
     var isShowingButtonFactura : Bool = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

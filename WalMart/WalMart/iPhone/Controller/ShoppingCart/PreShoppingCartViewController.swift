@@ -29,14 +29,11 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     var animator: UIDynamicAnimator!
     var collision: UICollisionBehavior!
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
-//    }
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
+    }
     
     override func viewDidLoad() {
-       
-        
         super.viewDidLoad()
         
         viewSuper = PreShoppingCartView(frame: CGRectZero)

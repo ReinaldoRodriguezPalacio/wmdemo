@@ -121,19 +121,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var mgResponceDic: [String:AnyObject] = [:]
     var grResponceDic: [String:AnyObject] = [:]
     
-//    override func getScreenGAIName() -> String {
-//        if self.searchContextType != nil {
-//            switch self.searchContextType! {
-//            case .WithCategoryForMG :
-//                return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
-//            case .WithCategoryForGR :
-//                return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
-//            default :
-//                break
-//            }
-//        }
-//        return ""
-//    }
+    override func getScreenGAIName() -> String {
+        if self.searchContextType != nil {
+            switch self.searchContextType! {
+            case .WithCategoryForMG :
+                return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
+            case .WithCategoryForGR :
+                return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
+            default :
+                break
+            }
+        }
+        return ""
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

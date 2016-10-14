@@ -22,9 +22,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var newModalView: AlertModalView? = nil
     var addressView: GRAddressView?
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if UserCurrentSession.hasLoggedUser() {

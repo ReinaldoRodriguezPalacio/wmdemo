@@ -24,9 +24,9 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     var emptyView: IPOGenericEmptyView!
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_SCHOOLLIST.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SCHOOLLIST.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

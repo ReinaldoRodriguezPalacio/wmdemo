@@ -23,9 +23,9 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     var itemSelectedSolar : String = ""
     var completeDeleteItem : (() -> Void)? = nil
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

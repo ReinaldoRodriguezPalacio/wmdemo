@@ -48,9 +48,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     var alertView: IPOWMAlertViewController?
     var showPromos: Bool = true
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MOREOPTIONS.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MOREOPTIONS.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

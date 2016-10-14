@@ -44,9 +44,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var commentsString : NSMutableAttributedString?
     var showMessageInCommens =  false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

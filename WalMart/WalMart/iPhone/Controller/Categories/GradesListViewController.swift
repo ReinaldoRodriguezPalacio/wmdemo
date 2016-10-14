@@ -19,11 +19,10 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     var emptyView: IPOGenericEmptyView!
     var isSearching = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_GRADESLIST.rawValue
-//    }
-    
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRADESLIST.rawValue
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.titleLabel!.text = schoolName

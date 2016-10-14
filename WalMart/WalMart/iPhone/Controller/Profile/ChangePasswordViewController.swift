@@ -21,18 +21,14 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     
     var saveButton: WMRoundButton?
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_CHANGEPASSWORD.rawValue
-//    }
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_CHANGEPASSWORD.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         self.titleLabel!.text = NSLocalizedString("profile.change.password", comment: "")
-        
         
         self.content = TPKeyboardAvoidingScrollView()
         //self.content.delegate = self

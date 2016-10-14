@@ -52,9 +52,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var errorView: FormFieldErrorView?
     var separator: CALayer!
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

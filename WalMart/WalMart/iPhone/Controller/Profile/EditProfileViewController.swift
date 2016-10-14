@@ -41,9 +41,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     var dateSelected : NSDate!
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

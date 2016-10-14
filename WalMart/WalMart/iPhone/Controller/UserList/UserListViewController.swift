@@ -55,9 +55,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var cellEditing: SWTableViewCell? = nil
     var selectedIndex: NSIndexPath? = nil
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MYLIST.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MYLIST.rawValue
+    }
     
     var numberOfDefaultLists = 0
     

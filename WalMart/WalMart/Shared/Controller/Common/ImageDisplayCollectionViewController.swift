@@ -25,17 +25,13 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     var name: String? = nil
     var type: String! = ""
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_ZOOMPRODUCTDETAIL.rawValue
-//        
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_ZOOMPRODUCTDETAIL.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
-        
-      
+ 
         self.collectionFlowLayout =  UICollectionViewFlowLayout()
         self.collectionFlowLayout!.minimumInteritemSpacing = 0.0
         self.collectionFlowLayout!.minimumLineSpacing = 0.0

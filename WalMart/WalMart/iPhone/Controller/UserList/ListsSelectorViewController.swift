@@ -41,9 +41,9 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
+    }
     
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

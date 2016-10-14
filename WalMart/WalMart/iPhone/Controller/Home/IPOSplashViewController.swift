@@ -53,9 +53,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     var didHideSplash : (() -> Void)? = nil
     var validateVersion : ((force:Bool) -> Void)? = nil
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_SPLASH.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SPLASH.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

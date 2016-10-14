@@ -35,9 +35,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     var alertView : IPOWMAlertViewController?
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PACTILISTASDETAILS.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PACTILISTASDETAILS.rawValue
+    }
     
     let CELL_ID = "listDefaultCell"
     

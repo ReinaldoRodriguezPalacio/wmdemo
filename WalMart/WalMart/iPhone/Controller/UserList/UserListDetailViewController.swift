@@ -60,11 +60,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var retunrFromSearch =  false
     var isDeleting = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MYLIST.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MYLIST.rawValue
+    }
     
-
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

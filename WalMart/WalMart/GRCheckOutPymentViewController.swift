@@ -89,9 +89,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     var viewLoad : WMLoadingView!
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_CHECKOUT.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_CHECKOUT.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

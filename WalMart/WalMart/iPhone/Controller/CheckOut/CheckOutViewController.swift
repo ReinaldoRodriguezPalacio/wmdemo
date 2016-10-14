@@ -59,11 +59,10 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     //let DOMAIN_CHECKOUT = "www.walmart.com.mx/m_Mi-Cuenta.aspx"//OK
 
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_CHECKOUT.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_CHECKOUT.rawValue
+    }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         useLancaster = NSBundle.mainBundle().objectForInfoDictionaryKey("UseLancasterUrls") as! Bool

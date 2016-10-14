@@ -48,9 +48,9 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     var picker : AlertPickerView!
     var alertController: IPOWMAlertViewController?
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_REMINDER.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_REMINDER.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

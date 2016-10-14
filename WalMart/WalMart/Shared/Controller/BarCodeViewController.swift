@@ -36,9 +36,9 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     var isAnyActionFromCode =  false
     var onlyCreateList = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_SCANBARCODE.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SCANBARCODE.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

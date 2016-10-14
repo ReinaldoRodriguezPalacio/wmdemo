@@ -9,17 +9,14 @@
 import Foundation
 
 class DefaultListViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    
-    
+     
     var tableView: UITableView?
     var itemsLists : [AnyObject] =  []
     var viewLoad: WMLoadingView?
     
-    
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PRACTILISTA.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRACTILISTA.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

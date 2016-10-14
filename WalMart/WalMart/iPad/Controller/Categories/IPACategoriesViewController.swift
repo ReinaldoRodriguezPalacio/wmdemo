@@ -22,11 +22,9 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     var selName:String!
     var landingItem : [String:String]? = nil
     
-    
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MGDEPARTMENT.rawValue
-//    }
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGDEPARTMENT.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

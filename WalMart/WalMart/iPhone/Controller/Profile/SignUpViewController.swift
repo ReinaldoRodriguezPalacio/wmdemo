@@ -44,24 +44,17 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     
     var maleButton: UIButton?
     var femaleButton: UIButton?
-    
     var dateFmt: NSDateFormatter?
-    
     var dateVal : NSDate? = nil
-    
     var closeModal : (() -> Void)? = nil
     
-    
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_SIGNUP.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SIGNUP.rawValue
+    }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-       
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         

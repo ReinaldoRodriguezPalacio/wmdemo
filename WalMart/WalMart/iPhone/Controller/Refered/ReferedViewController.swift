@@ -26,9 +26,9 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     var pendingRefered: [AnyObject]! = []
     var numFreeShipping: Int = 0
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_REFERED.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_REFERED.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

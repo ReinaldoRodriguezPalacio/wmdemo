@@ -36,11 +36,10 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     
     var pikerBtn : AlertButtomView!
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_SUPPORT.rawValue
-//    }
-    
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SUPPORT.rawValue
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         

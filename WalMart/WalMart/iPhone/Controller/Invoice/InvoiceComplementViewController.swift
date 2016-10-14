@@ -43,9 +43,9 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     var addressFormMoral: FiscalAddressPersonM?
     var scrollForm : TPKeyboardAvoidingScrollView!
 
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_INVOICE.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_INVOICE.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

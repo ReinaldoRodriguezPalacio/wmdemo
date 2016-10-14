@@ -11,9 +11,9 @@ import Foundation
 
 class LineViewController : FamilyViewController {
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
+    }
     
     override func viewDidLoad() {
       

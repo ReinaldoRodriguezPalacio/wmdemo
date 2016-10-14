@@ -18,13 +18,12 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
     //var actionLabel : String! = ""
     //var categoryLabel : String! = ""
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_FREQUENTQUESTIONS.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_FREQUENTQUESTIONS.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         if self.titleLabel == nil {
             self.header!.removeFromSuperview()

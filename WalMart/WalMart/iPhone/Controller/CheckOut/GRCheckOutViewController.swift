@@ -110,9 +110,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var deliveryAmount : Double!
     var discountsAssociated : Double!
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

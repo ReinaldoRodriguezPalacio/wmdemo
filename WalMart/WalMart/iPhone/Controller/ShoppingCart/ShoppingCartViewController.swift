@@ -65,11 +65,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     var selectQuantity: ShoppingCartQuantitySelectorView?
-
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MGSHOPPINGCART.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGSHOPPINGCART.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

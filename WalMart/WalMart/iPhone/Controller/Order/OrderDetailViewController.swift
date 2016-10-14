@@ -36,9 +36,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     var timmer : NSTimer!
 
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_PREVIOUSORDERDETAIL.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PREVIOUSORDERDETAIL.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

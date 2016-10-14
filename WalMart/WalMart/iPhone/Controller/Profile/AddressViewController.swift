@@ -49,9 +49,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     
     var addFRomMg : Bool = false
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_MGNEWADDRESSDELIVERY.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGNEWADDRESSDELIVERY.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

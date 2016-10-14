@@ -96,19 +96,15 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var contextSearch : SearchServiceContextType!
     var showHelpHome: Bool = false
     
-    
-    
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
         }()
     
-    
     override func getScreenGAIName() -> String {
         return "SCREEN_SPLASHLOADAPP"
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -56,9 +56,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var paramsToOrder : NSMutableDictionary?
     var paramsToConfirm : NSMutableDictionary?
     
-//    override func getScreenGAIName() -> String {
-//        return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
-//    }
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
