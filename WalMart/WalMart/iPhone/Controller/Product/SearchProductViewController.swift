@@ -399,6 +399,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
                 viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
             }else{
+                searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 0)
                 viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
             }
             searchAlertView!.alpha = self.showAlertView ? 1 : 0
@@ -1089,7 +1090,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                self.viewBgSelectorBtn.alpha = 0
             }
             
-            let startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+            var startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+            
+            if self.idListFromSearch != "" {
+                if  self.showAlertView {
+                    startPoint = self.header!.frame.maxY + 46
+                }else{
+                    startPoint = self.header!.frame.maxY
+                }
+            }
+            
             self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
             }, completion: nil)
         }
