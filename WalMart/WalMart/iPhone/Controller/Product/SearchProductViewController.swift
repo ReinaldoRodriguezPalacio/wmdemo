@@ -399,7 +399,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
                 viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
             }else{
-                searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 0)
                 viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
             }
             searchAlertView!.alpha = self.showAlertView ? 1 : 0
@@ -1220,7 +1219,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.showLoadingIfNeeded(true)
-        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch && self.searchFromContextType != .FromSearchTextList{
+        if (self.allProducts == nil || self.allProducts!.count == 0) && (self.isTextSearch || self.isOriginalTextSearch) && self.searchFromContextType != .FromSearchTextList{
+            if self.btnTech.selected {
+                self.setAlertViewValues(self.mgResponceDic)
+            }else{
+                self.setAlertViewValues(self.grResponceDic)
+            }
            self.showEmptyMGGRView()
         } else if (self.allProducts == nil || self.allProducts!.count == 0) &&  self.searchFromContextType == .FromSearchTextList{
            self.showEmptyView()
