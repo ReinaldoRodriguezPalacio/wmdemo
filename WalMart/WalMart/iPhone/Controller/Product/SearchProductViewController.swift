@@ -408,7 +408,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             viewBgSelectorBtn.alpha = 0
         }
         
-        if self.idListFromSearch != "" {
+        if self.idListFromSearch != "" &&  self.showAlertView {
+            startPoint = self.header!.frame.maxY + 46
+        }else{
             startPoint = self.header!.frame.maxY
         }
         
@@ -1066,7 +1068,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         else if !self.isLandingPage && (resultDic["suggestion"] as! String) != "" {
             self.showAlertView = true
-            self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
+                self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
         }else{
            self.showAlertView = false
         }
@@ -1074,7 +1076,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch || self.showAlertView) {
             
         UIView.animateWithDuration(0.3, animations: {
-            if self.isTextSearch || self.isOriginalTextSearch {
+            if self.isTextSearch || self.isOriginalTextSearch{
                 if self.showAlertView {
                     self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
                     self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
@@ -1091,6 +1093,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
             }, completion: nil)
         }
+        
     }
     
     func updateViewAfterInvokeService(resetTable resetTable:Bool) {
