@@ -559,6 +559,7 @@
 		ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA91C063A64009709B5 /* libc++.tbd */; };
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
+		E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -1069,6 +1070,8 @@
 		6CF6CAE71BF2C9900026689F /* ReferedForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedForm.swift; path = iPhone/View/Refered/ReferedForm.swift; sourceTree = "<group>"; };
 		6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceConfirmView.swift; path = iPhone/View/Invoice/InvoiceConfirmView.swift; sourceTree = "<group>"; };
 		6CFDD8A71BC8275000124667 /* PushNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotificationService.swift; path = Shared/Services/Notification/PushNotificationService.swift; sourceTree = "<group>"; };
+		7ACAE930821CC056AD2ECA89 /* Pods-WalMart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.debug.xcconfig"; sourceTree = "<group>"; };
+		7F266958F1908AB29ACC0D47 /* Pods-WalMart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.release.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.release.xcconfig"; sourceTree = "<group>"; };
 		851EF5EF1CF7AD2F00C37BD5 /* WMTCopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WMTCopyLabel.swift; sourceTree = "<group>"; };
 		8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpViewController.swift; path = iPad/Controller/Help/IPAHelpViewController.swift; sourceTree = "<group>"; };
 		8B19FD551AB0F367005A6D9E /* IPATermViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPATermViewController.swift; path = iPad/Controller/Help/IPATermViewController.swift; sourceTree = "<group>"; };
@@ -1195,6 +1198,7 @@
 		ACF20CA91C063A64009709B5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WalMart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -1227,6 +1231,7 @@
 				AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
 				AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */,
+				E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1540,6 +1545,7 @@
 				5645789819AE2E00006A7152 /* WalMart */,
 				564578AE19AE2E00006A7152 /* WalMartTests */,
 				5645789719AE2E00006A7152 /* Products */,
+				AE67F8B9FBB9AF4C28F2F0F8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3183,8 +3189,18 @@
 				569BB3151B0635E000E8A657 /* MobileCoreServices.framework */,
 				569BB3131B0635CE00E8A657 /* AssetsLibrary.framework */,
 				04D2A3971A2FD4FF008DAE37 /* MapKit.framework */,
+				F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AE67F8B9FBB9AF4C28F2F0F8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7ACAE930821CC056AD2ECA89 /* Pods-WalMart.debug.xcconfig */,
+				7F266958F1908AB29ACC0D47 /* Pods-WalMart.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3194,9 +3210,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 564578B519AE2E00006A7152 /* Build configuration list for PBXNativeTarget "WalMart" */;
 			buildPhases = (
+				596C9D1F1B4EB2DC4D05A2B6 /* [CP] Check Pods Manifest.lock */,
 				5645789219AE2E00006A7152 /* Sources */,
 				5645789319AE2E00006A7152 /* Frameworks */,
 				5645789419AE2E00006A7152 /* Resources */,
+				7C66112085360B2D590BA7A9 /* [CP] Embed Pods Frameworks */,
+				B19A8EA9D242361D3167CE05 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3306,6 +3325,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		596C9D1F1B4EB2DC4D05A2B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7C66112085360B2D590BA7A9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WalMart/Pods-WalMart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B19A8EA9D242361D3167CE05 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WalMart/Pods-WalMart-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5645789219AE2E00006A7152 /* Sources */ = {
@@ -3899,6 +3966,7 @@
 		};
 		564578B619AE2E00006A7152 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7ACAE930821CC056AD2ECA89 /* Pods-WalMart.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3954,6 +4022,7 @@
 		};
 		564578B719AE2E00006A7152 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F266958F1908AB29ACC0D47 /* Pods-WalMart.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
