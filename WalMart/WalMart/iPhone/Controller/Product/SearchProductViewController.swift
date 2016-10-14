@@ -196,7 +196,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnSuper.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
         btnSuper.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        btnSuper.selected = false
+        btnSuper.selected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
         btnSuper.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -209,7 +209,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnTech.setTitle(titleTech, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        btnTech.selected = true
+        btnTech.selected = false
         btnTech.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width , 0, 0.0);
         btnTech.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -919,8 +919,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.isLandingPage = true
                         
                         //Se muestra listado de MG
-                        self.btnTech.selected = true
-                        self.btnSuper.selected = false
+                        self.btnTech.selected = false
+                        self.btnSuper.selected = true
                         self.showAlertView = false
                     }
                     
