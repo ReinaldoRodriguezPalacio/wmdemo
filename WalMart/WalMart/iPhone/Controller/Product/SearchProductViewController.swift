@@ -408,10 +408,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             viewBgSelectorBtn.alpha = 0
         }
         
-        if self.idListFromSearch != "" &&  self.showAlertView {
-            startPoint = self.header!.frame.maxY + 46
-        }else{
-            startPoint = self.header!.frame.maxY
+        if self.idListFromSearch != "" {
+            if  self.showAlertView {
+                startPoint = self.header!.frame.maxY + 46
+            }else{
+                startPoint = self.header!.frame.maxY
+            }
         }
         
         //TODO MAke Search only one resultset
