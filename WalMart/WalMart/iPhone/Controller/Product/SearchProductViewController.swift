@@ -436,6 +436,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
         //println("View bounds: \(self.view.bounds)")
+        self.collection!.collectionViewLayout.invalidateLayout()
     }
     
     override func viewDidLayoutSubviews() {
@@ -446,12 +447,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - UICollectionViewDataSource
     
 //    Camfind Results
-//    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-//        if upcsToShow?.count > 0 {
-//            return 2
-//        }
-//        return 1
-//    }
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
     
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -1104,7 +1102,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
                 btnTech.selected = true
                 btnSuper.selected = false
-                self.setAlertViewValues(self.mgResponceDic)
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
@@ -1129,7 +1126,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             } else {
                 btnTech.selected = false
                 btnSuper.selected = true
-                self.setAlertViewValues(self.grResponceDic)
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
@@ -1154,7 +1150,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if firstOpen && (self.mgResults!.products == nil || self.mgResults!.products!.count == 0 ) {
                 btnTech.selected = false
                 btnSuper.selected = true
-                self.setAlertViewValues(self.grResponceDic)
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
@@ -1179,7 +1174,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else{
                 btnTech.selected = true
                 btnSuper.selected = false
-                self.setAlertViewValues(self.mgResponceDic)
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
@@ -1279,6 +1273,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             dispatch_async(dispatch_get_main_queue()) {
                 self.showLoadingIfNeeded(true)
                 self.collection?.reloadData()
+                if self.btnTech.selected {
+                    self.setAlertViewValues(self.mgResponceDic)
+                }else{
+                   self.setAlertViewValues(self.grResponceDic)
+                }
                 self.collection?.alpha = 1
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
                 if self.allProducts?.count > 0 {
