@@ -248,7 +248,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabelEdit.numberOfLines = 2
         titleLabelEdit.textAlignment = .Center
-    
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductViewController.editSearch))
         titleLabelEdit.addGestureRecognizer(tapGesture)
@@ -276,22 +275,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.isTextSearch || isOriginalTextSearch
         {
-            if self.titleLabel != nil {
-                self.titleLabel?.removeFromSuperview()
-            }
             if self.idListFromSearch == ""{
+                self.titleLabel?.removeFromSuperview()
                 self.titleLabel = self.setTitleWithEdit()
+                self.titleLabel?.numberOfLines = 2
+                self.header?.addSubview(self.titleLabel!)
             }else{
                  self.titleLabel?.text = titleHeader
             }
-            //self.titleLabel?.frame =  CGRectMake(self.titleLabel!.frame.origin.x,self.titleLabel!.frame.origin.y,102 ,self.titleLabel!.frame.size.height)
-            self.titleLabel?.numberOfLines = 2
-                self.header?.addSubview(self.titleLabel!)
-            
             if self.originalSearchContextType == nil{
              self.originalSearchContextType = self.searchContextType
             }
-            //self.searchContextType = SearchServiceContextType.WithCategoryForGR
         }
         else
         {
@@ -348,6 +342,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         if self.mgResults!.totalResults == 0 && self.searchContextType == .WithCategoryForMG {
             self.showEmptyView()
+        }
+        
+        if self.titleLabel!.frame.height == 0.0 && self.titleLabel!.frame.width == 0.0{
+           self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width - 5, 0, self.view.bounds.width - (self.filterButton!.frame.width * 2) - 10, self.header!.frame.maxY)
         }
 
     }
