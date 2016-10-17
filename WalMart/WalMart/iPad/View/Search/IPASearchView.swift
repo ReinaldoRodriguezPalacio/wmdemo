@@ -181,7 +181,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             if textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) >= 12 && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 16 {
                 
                 let strFieldValue = textField.text! as NSString
-                if strFieldValue.integerValue > 0 {
+                if strFieldValue.integerValue > 0 && textField.text!.isNumeric() {
                     let code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                     var character = code
                     if self.isBarCodeUPC(code) {

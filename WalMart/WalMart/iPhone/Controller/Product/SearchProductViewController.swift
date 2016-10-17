@@ -948,7 +948,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if error.code == 1 {
                     self.grResults!.resultsInResponse = 0
                     self.grResults!.totalResults = 0
-                    self.finsihService =  true
+                    self.finsihService =   self.btnSuper.selected
                     self.removeEmpty =  false
                     if self.btnSuper.selected {
                         self.showEmptyView()//Iphone
@@ -959,7 +959,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     print("GR Search ERROR!!!")
                     self.grResults!.totalResults = self.allProducts!.count
                     self.grResults!.resultsInResponse = self.mgResults!.totalResults
-                     self.finsihService =  true
+                    self.finsihService =   self.btnSuper.selected
                     self.removeEmpty =  false
                     self.collection?.reloadData()
                     actionSuccess?()
