@@ -13,7 +13,7 @@ import CoreData
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier {//TuneDelegate
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
@@ -149,6 +149,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         //Tune.setDebugMode(true)
         //Tune.setAllowDuplicateRequests(false)
         //CompuwareUEM.startupWithApplicationName("WalMart", serverURL:"https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
+        
+        //TAGManager
+        let GTM = TAGManager.instance()
+        GTM.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
+        
+        TAGContainerOpener.openContainerWithId("GTM-TCGRR6",  // change the container ID "GTM-PT3L9Z" to yours
+            tagManager: GTM, openType: kTAGOpenTypePreferFresh,
+            timeout: nil,
+            notifier: self)
         
         return true
     }
@@ -577,11 +586,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
 
     }
     
-    
     func tuneDidFailWithError(error: NSError!) {
         NSLog("Tune.failure: %@", error);
     }
     
+    //MARK: TAGContainerOpenerNotifier
+    
+    func containerAvailable(container: TAGContainer!) {
+        container.refresh()
+    }
     
 
 }  

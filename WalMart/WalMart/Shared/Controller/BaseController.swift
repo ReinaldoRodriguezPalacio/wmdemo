@@ -23,6 +23,8 @@ class BaseController : UIViewController {
                 tracker.send(eventTracker as! [NSObject : AnyObject])
             }
         }
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["event": "openScreen", "screenName": self.getScreenGAIName()])
         
     }
 
@@ -145,9 +147,7 @@ class BaseController : UIViewController {
 //        }
 //        
 //    }
-
     
-   
     func getScreenGAIName() -> String {
         fatalError("SCreeen name not implemented")
     }
