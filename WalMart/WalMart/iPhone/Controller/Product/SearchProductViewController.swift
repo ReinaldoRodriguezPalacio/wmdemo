@@ -952,7 +952,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.grResults!.totalResults = 0
                     self.finsihService =  true
                     self.removeEmpty =  false
-                    self.showEmptyView()//Iphone
+                    if self.btnSuper.selected {
+                        self.showEmptyView()//Iphone
+                    }
                     self.collection?.reloadData()//Ipad
                     actionError?()
                 }else{
