@@ -142,7 +142,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         selected = indexPath.row
 
         if  indexPath.row  == 2 {
-             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_RATE_APP.rawValue , label:"")
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_RATE_APP.rawValue , label:"")
             
             let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
             if UIApplication.sharedApplication().canOpenURL(url!) == true  {
@@ -150,7 +150,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             }
         }
         else  if  indexPath.row  == 0 {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHelp.rawValue, object: nil)
         } else {
             let item = self.array![0] as! NSDictionary
@@ -170,7 +170,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                     controller.imgFile = imgFile
                 }
                 
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_QUESTIONS.rawValue , label:name)
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_QUESTIONS.rawValue , label:name)
 
         
                 self.navigationController!.pushViewController(controller, animated: true)
@@ -183,7 +183,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     }
     
     override func back() {
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
         super.back()
     }
     

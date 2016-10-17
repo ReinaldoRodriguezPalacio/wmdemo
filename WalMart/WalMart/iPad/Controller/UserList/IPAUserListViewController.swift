@@ -397,7 +397,7 @@ class IPAUserListViewController: UserListViewController {
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParams(value),
                             successBlock: { (result:NSDictionary) -> Void in
-                                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
+                                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
                                 
                                 self.checkEditBtn()
                                 self.newListEnabled = false

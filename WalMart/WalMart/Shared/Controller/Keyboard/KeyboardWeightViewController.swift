@@ -136,7 +136,7 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
     //More and less button actions
     func btnMoreAction() {
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_ADD_GRAMS.rawValue , label:"")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_ADD_GRAMS.rawValue , label:"")
         if (currentValGr + 50.0) < CONS_MAXVAL {
             currentValGr = currentValGr + 50
             self.updateShoppButton()
@@ -145,7 +145,7 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
     }
     
     func btnLessAction() {
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_DECREASE_GRAMS.rawValue , label:"")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_DECREASE_GRAMS.rawValue , label:"")
         if (currentValGr) > CONS_MINVAL {
             currentValGr = currentValGr - 50
             self.updateShoppButton()

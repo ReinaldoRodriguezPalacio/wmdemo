@@ -394,7 +394,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
             // deliveryAmount
 //            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
 //            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
@@ -1162,7 +1162,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         if let formFieldObj = picker.sender as? FormFieldView {
             
             if formFieldObj == self.discountAssociate!{
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate {
                     //self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                     

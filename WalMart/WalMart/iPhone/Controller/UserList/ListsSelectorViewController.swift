@@ -384,7 +384,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             svcList.callService(svcList.buildParams(value),
                 successBlock: { (result:NSDictionary) -> Void in
                 
-                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
                 
                     self.loadLocalList()
                     self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))

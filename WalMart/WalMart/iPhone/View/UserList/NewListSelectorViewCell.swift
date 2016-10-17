@@ -49,7 +49,7 @@ class NewListSelectorViewCell: NewListTableViewCell {
     
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "")
         return true
     }
     

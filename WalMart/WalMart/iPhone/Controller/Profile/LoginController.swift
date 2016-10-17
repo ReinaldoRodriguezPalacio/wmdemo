@@ -272,7 +272,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         
         if self.signUp == nil{
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
 
             self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
             
@@ -355,7 +355,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 }
             }
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
         
             self.alertView?.okCancelCallBack = self.okCancelCallBack
             self.alertView!.afterRemove = {() -> Void in
@@ -531,7 +531,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         let error = viewError(self.email!)
         if !error {
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_FORGOT_PASSWORD.rawValue, action: WMGAIUtils.ACTION_RECOVER_PASSWORD.rawValue, label:"")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_FORGOT_PASSWORD.rawValue, action: WMGAIUtils.ACTION_RECOVER_PASSWORD.rawValue, label:"")
             
             self.view.endEditing(true)
             if sender.tag == 100 {
@@ -588,7 +588,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
         }
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
         
         self.alertView?.okCancelCallBack = self.okCancelCallBack
         self.alertView!.afterRemove = {() -> Void in

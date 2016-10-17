@@ -139,7 +139,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func updateOrAddNote() {
         
         if (addUpdateNote != nil) {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTE_IN_KEY_BOARD.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_NOTE_IN_KEY_BOARD.rawValue, action:WMGAIUtils.ACTION_OPEN_NOTE.rawValue, label: self.upcProduct)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTE_IN_KEY_BOARD.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_NOTE_IN_KEY_BOARD.rawValue, action:WMGAIUtils.ACTION_OPEN_NOTE.rawValue, label: self.upcProduct)
             addUpdateNote()
         }
     }
@@ -208,7 +208,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func closeSelectQuantity() {
         if closeAction != nil {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_QUANTITY_KEYBOARD_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_QUANTITY_KEYBOARD_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_CLOSE_KEYBOARD.rawValue , label:"")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_QUANTITY_KEYBOARD_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_QUANTITY_KEYBOARD_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_CLOSE_KEYBOARD.rawValue , label:"")
             closeAction()
         }
     }

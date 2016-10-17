@@ -288,9 +288,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubMap!.setRegion(pointRect, animated: true)
         if let annotation = view.annotation as? StoreAnnotation {
             
-  
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_STOREDETAIL.rawValue, label: annotation.storeEntity!.name!)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_STOREDETAIL.rawValue, label: annotation.storeEntity!.name!)
             
         
             self.viewBgDetailView = UIView(frame:CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
@@ -415,8 +414,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     @IBAction func showUserPosition() {
         self.usrPositionBtn!.selected = true
         
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_USER_CURRENT_LOCATION.rawValue , label:"")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_USER_CURRENT_LOCATION.rawValue , label:"")
         
         if self.viewBgDetailView != nil {
             self.mapViewUserDidTap(true)
@@ -437,7 +435,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             //self.applyMapViewMemoryHotFix()
             
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_LIST_STORE_LOCATOR.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_LIST_STORE_LOCATOR.rawValue, label: "")
             
             
         }
@@ -451,7 +449,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.searchField.resignFirstResponder()
             self.isShowingMap = true
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_MAP_STORE_LOCATOR.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_MAP_STORE_LOCATOR.rawValue, label: "")
         }
     }
 
@@ -473,13 +471,13 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.btnSatView.selected = !self.btnSatView.selected
 
 
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_MAP_TYPE.rawValue , label:"Satelite")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_MAP_TYPE.rawValue , label:"Satelite")
 
         } else {
             self.btnMapView.selected = !self.btnMapView.selected
             self.btnSatView.selected = !self.btnSatView.selected
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_MAP_TYPE.rawValue , label:"Map")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_MAP_TYPE.rawValue , label:"Map")
 
             
         }
@@ -680,12 +678,10 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         super.back()
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         if self.clubMap!.hidden {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
         } else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         }
-        
-        
     }
     
     //MARK: - UITextFieldDelegate

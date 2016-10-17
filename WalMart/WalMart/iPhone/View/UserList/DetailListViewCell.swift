@@ -304,9 +304,9 @@ class DetailListViewCell: ProductTableViewCell {
     func changeQuantity() {
         self.detailDelegate?.didChangeQuantity(self)
         if defaultList {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: "GR_\(WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue)", label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: "GR_\(WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue)", label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
         } else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: "GR_\(WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue)", label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: "GR_\(WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue)", label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
         }
         
     }
@@ -318,15 +318,15 @@ class DetailListViewCell: ProductTableViewCell {
     func checked(sender:UIButton) {
         if defaultList {
         if sender.selected {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
         } else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
         }
         } else {
             if sender.selected {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
             } else {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
             }
         }
         

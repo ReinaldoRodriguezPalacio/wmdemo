@@ -150,7 +150,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         self.alertView?.setMessage("Cambiando tienda ...")
         //addViewLoad()
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
         let service = GRAddressAddService()
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = addressID

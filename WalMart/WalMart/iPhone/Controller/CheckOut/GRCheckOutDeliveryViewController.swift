@@ -457,7 +457,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.address! {
                 self.addViewLoad()
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
@@ -470,7 +470,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
  
             }
             if formFieldObj ==  self.shipmentType! {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
                 let shipment: AnyObject = self.shipmentItems![indexPath.row]
@@ -676,7 +676,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         if self.selectedAddress != nil {
             self.invokeDeliveryTypesService({ () -> Void in
                 self.shipmentType!.onBecomeFirstResponder = {() in
-                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                     var itemsShipment : [String] = []
                     if self.shipmentItems?.count > 1{
                         for option in self.shipmentItems! {

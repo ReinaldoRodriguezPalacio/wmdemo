@@ -201,7 +201,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue, label:"")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue, label:"")
             
             self.arrayAddressShippingGR = []
             
@@ -398,7 +398,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if btnSuper.selected {
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SHOW_ADDREES_DETAIL.rawValue, label:"")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SHOW_ADDREES_DETAIL.rawValue, label:"")
             
             self.superAddressController = SuperAddressViewController()
             self.superAddressController.showGRAddressForm = self.showGRAddressForm
@@ -452,7 +452,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
 
     func newAddress(){
         if btnSuper.selected {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_OPEN_GR_NEW_ADDRES.rawValue, label:"" )
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_OPEN_GR_NEW_ADDRES.rawValue, label:"" )
             self.superAddressController = SuperAddressViewController()
                self.superAddressController!.allAddress =  self.arrayAddressShippingGR
             
@@ -487,7 +487,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
          viewLoad.startAnnimating(self.isVisibleTab)
         
         if btnSuper.selected {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
             let service = GRAddressAddService()
             let serviceAddress = GRAddressesByIDService()
             serviceAddress.addressId = addressID
@@ -543,7 +543,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = idAddress
         serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label: "")
             
             let name = result["name"] as! String!
             let outerNumber = result["outerNumber"] as! String!
@@ -654,7 +654,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     }
     
     override func back() {
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
         super.back()
     }
 }

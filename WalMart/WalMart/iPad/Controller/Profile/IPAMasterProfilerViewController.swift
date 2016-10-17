@@ -66,7 +66,7 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
             let recent = IPARecentProductsViewController()
             self.navigation.pushViewController(recent, animated: true)
         case 1:
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
             self.profile.editProfileButton!.selected = false
             let myAddres = IPAMyAddressViewController()
             self.navigation.pushViewController(myAddres, animated: true)

@@ -166,7 +166,7 @@ class NumericKeyboardView : UIView {
     
     func deletequantity(sender:UIButton) {
         if delegate != nil {
-            //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ERASE_QUANTITY.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ERASE_QUANTITY.rawValue, label: "")
             self.delegate.userSelectDelete()
         }
     }
