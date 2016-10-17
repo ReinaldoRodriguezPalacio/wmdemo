@@ -196,7 +196,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnSuper.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
         btnSuper.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        btnSuper.selected = false
+        btnSuper.selected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
         btnSuper.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -209,7 +209,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnTech.setTitle(titleTech, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        btnTech.selected = true
+        btnTech.selected = false
         btnTech.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width , 0, 0.0);
         btnTech.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -409,7 +409,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if self.idListFromSearch != "" {
-            startPoint = self.header!.frame.maxY
+            if  self.showAlertView {
+                startPoint = self.header!.frame.maxY + 46
+            }else{
+                startPoint = self.header!.frame.maxY
+            }
         }
         
         //TODO MAke Search only one resultset
@@ -436,6 +440,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
         //println("View bounds: \(self.view.bounds)")
+        self.collection!.collectionViewLayout.invalidateLayout()
     }
     
     override func viewDidLayoutSubviews() {
@@ -446,12 +451,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - UICollectionViewDataSource
     
 //    Camfind Results
-//    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-//        if upcsToShow?.count > 0 {
-//            return 2
-//        }
-//        return 1
-//    }
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
     
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -919,8 +921,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.isLandingPage = true
                         
                         //Se muestra listado de MG
-                        self.btnTech.selected = true
-                        self.btnSuper.selected = false
+                        self.btnTech.selected = false
+                        self.btnSuper.selected = true
                         self.showAlertView = false
                     }
                     
@@ -1066,7 +1068,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         else if !self.isLandingPage && (resultDic["suggestion"] as! String) != "" {
             self.showAlertView = true
-            self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
+                self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
         }else{
            self.showAlertView = false
         }
@@ -1074,7 +1076,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch || self.showAlertView) {
             
         UIView.animateWithDuration(0.3, animations: {
-            if self.isTextSearch || self.isOriginalTextSearch {
+            if self.isTextSearch || self.isOriginalTextSearch{
                 if self.showAlertView {
                     self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
                     self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
@@ -1087,10 +1089,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                self.viewBgSelectorBtn.alpha = 0
             }
             
-            let startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+            var startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+            
+            if self.idListFromSearch != "" {
+                if  self.showAlertView {
+                    startPoint = self.header!.frame.maxY + 46
+                }else{
+                    startPoint = self.header!.frame.maxY
+                }
+            }
+            
             self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
             }, completion: nil)
         }
+        
     }
     
     func updateViewAfterInvokeService(resetTable resetTable:Bool) {
@@ -1104,7 +1116,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
                 btnTech.selected = true
                 btnSuper.selected = false
-                self.setAlertViewValues(self.mgResponceDic)
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
@@ -1129,7 +1140,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             } else {
                 btnTech.selected = false
                 btnSuper.selected = true
-                self.setAlertViewValues(self.grResponceDic)
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
@@ -1154,7 +1164,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if firstOpen && (self.mgResults!.products == nil || self.mgResults!.products!.count == 0 ) {
                 btnTech.selected = false
                 btnSuper.selected = true
-                self.setAlertViewValues(self.grResponceDic)
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
@@ -1179,7 +1188,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else{
                 btnTech.selected = true
                 btnSuper.selected = false
-                self.setAlertViewValues(self.mgResponceDic)
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
@@ -1211,7 +1219,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.showLoadingIfNeeded(true)
-        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch && self.searchFromContextType != .FromSearchTextList{
+        if (self.allProducts == nil || self.allProducts!.count == 0) && (self.isTextSearch || self.isOriginalTextSearch) && self.searchFromContextType != .FromSearchTextList{
+            if self.btnTech.selected {
+                self.setAlertViewValues(self.mgResponceDic)
+            }else{
+                self.setAlertViewValues(self.grResponceDic)
+            }
            self.showEmptyMGGRView()
         } else if (self.allProducts == nil || self.allProducts!.count == 0) &&  self.searchFromContextType == .FromSearchTextList{
            self.showEmptyView()
@@ -1279,6 +1292,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             dispatch_async(dispatch_get_main_queue()) {
                 self.showLoadingIfNeeded(true)
                 self.collection?.reloadData()
+                if self.btnTech.selected {
+                    self.setAlertViewValues(self.mgResponceDic)
+                }else{
+                   self.setAlertViewValues(self.grResponceDic)
+                }
                 self.collection?.alpha = 1
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
                 if self.allProducts?.count > 0 {

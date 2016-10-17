@@ -652,6 +652,7 @@
 		4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 3.xcdatamodel"; sourceTree = "<group>"; };
 		4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
 		4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		4ADF7B761DB518910095B961 /* GTM-TCGRR6 */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GTM-TCGRR6"; path = "../GTM-TCGRR6"; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
@@ -1662,6 +1663,7 @@
 		564578C019AE2FAA006A7152 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4ADF7B761DB518910095B961 /* GTM-TCGRR6 */,
 				04312C951A6EDBC50009A940 /* Extension */,
 				56DE027119DE2BDA00FA2042 /* Certs */,
 				565E5A7519C0BE7600444DF7 /* Session */,
