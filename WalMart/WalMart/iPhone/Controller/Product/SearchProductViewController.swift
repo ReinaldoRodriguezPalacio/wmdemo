@@ -372,7 +372,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.mgResults!.totalResults == 0 && self.searchContextType == .WithCategoryForMG {
             self.showEmptyView()
         }
-
     }
     
     
@@ -751,6 +750,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
+            
+            BaseController.sendAnalyticsPush(["event": "interaccionFoto"])
+            
             self.navigationController!.pushViewController(controller, animated: true)
         }
        

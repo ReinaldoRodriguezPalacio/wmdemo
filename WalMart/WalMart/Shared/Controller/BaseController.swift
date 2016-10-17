@@ -68,13 +68,16 @@ class BaseController : UIViewController {
     }
     
     class func sendTagProductToWishList(upc: String, desc:String, price: String) {
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": price])
+        self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": price])
     }
     
     class func sendTagWhishlistProductsToCart(totalPriceOfList: Double) {
+        self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
+    }
+    
+    class func sendAnalyticsPush(pushData:[String:AnyObject]) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["event": "addListCart", "valorLista": totalPriceOfList])
+        dataLayer.push(pushData)
     }
 
 //    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
