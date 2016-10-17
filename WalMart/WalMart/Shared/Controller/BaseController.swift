@@ -23,6 +23,7 @@ class BaseController : UIViewController {
                 tracker.send(eventTracker as! [NSObject : AnyObject])
             }
         }
+        
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["event": "openScreen", "screenName": self.getScreenGAIName()])
         
@@ -64,6 +65,16 @@ class BaseController : UIViewController {
     class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
         let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
         BaseController.sendAnalytics(category, action: action, label: label)
+    }
+    
+    class func sendTagProductToWishList(upc: String, desc:String, price: String) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": price])
+    }
+    
+    class func sendTagWhishlistProductsToCart(totalPriceOfList: Double) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["event": "addListCart", "valorLista": totalPriceOfList])
     }
 
 //    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){

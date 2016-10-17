@@ -262,7 +262,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             return self.items.count
     }
     
-
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let productCell = collectionView.dequeueReusableCellWithReuseIdentifier("productwishlist", forIndexPath: indexPath) as! IPAWishListProductCollectionViewCell
@@ -275,7 +274,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         return CGSizeMake(256, self.wishlist.frame.height);
     }
     
-   
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
@@ -328,12 +326,12 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         })
     }
     
-
     func senditemsToShoppingCart() {
+        
         var params : [AnyObject] =  []
         var paramsPreorderable : [AnyObject] =  []
         var hasItemsNotAviable = false
-
+        var wishlistTotalPrice = 0.0
 
         for itemWishList in self.items {
             
@@ -347,6 +345,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             if isActive == true {
                 isActive = price.doubleValue > 0
+                if isActive {
+                    wishlistTotalPrice += price.doubleValue
+                }
             }
             
             
@@ -518,7 +519,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 }
             }//close else
         }
-
+        
+        // Event
+        BaseController.sendTagWhishlistProductsToCart(wishlistTotalPrice)
         
     }
     
@@ -530,7 +533,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 //       BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
     }
     
-    
     func reloadSelectedCell() {
         if currentCellSelected != nil {
             if let currentCell = wishlist.cellForItemAtIndexPath(currentCellSelected) as? IPAWishListProductCollectionViewCell {
@@ -538,8 +540,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
         }
     }
-    
-    
     
     @IBAction func shareWishList(sender: AnyObject) {
         
@@ -562,8 +562,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         popup!.presentPopoverFromRect(CGRectMake(self.shareWishlist.frame.origin.x + 13, self.shareWishlist.frame.maxY - 120, 10, 120), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         
     }
-    
-    
     
     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
         return "Walmart"

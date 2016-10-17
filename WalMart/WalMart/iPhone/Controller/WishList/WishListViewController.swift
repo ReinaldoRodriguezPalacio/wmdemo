@@ -616,12 +616,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         return ""
     }
 
-    
-    
     func senditemsToShoppingCart() {
+        
         var params : [AnyObject] =  []
         var paramsPreorderable : [AnyObject] =  []
         var hasItemsNotAviable = false
+        var wishlistTotalPrice = 0.0
+        
         for itemWishList in self.items {
             
             let upc = itemWishList["upc"] as! NSString
@@ -634,6 +635,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             if isActive == true {
                 isActive = price.doubleValue > 0
+                if isActive {
+                    wishlistTotalPrice += price.doubleValue
+                }
             }
             
             var isPreorderable = "false"
@@ -674,7 +678,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             } else {
                 hasItemsNotAviable = true
             }
-        }//For alert
+        } //For alert
         
         if paramsPreorderable.count == 0 && params.count == 0 {
 
@@ -705,6 +709,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
             }
         }
+        
         if self.items.count == 1 && hasItemsNotAviable {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
             let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
@@ -803,6 +808,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }//close else
         }
         
+        
+        // Event
+        BaseController.sendTagWhishlistProductsToCart(wishlistTotalPrice)
         
     }
 

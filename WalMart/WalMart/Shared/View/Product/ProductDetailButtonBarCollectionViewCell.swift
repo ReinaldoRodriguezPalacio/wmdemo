@@ -180,6 +180,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
             if addedTWL == true {
                 self.listButton.selected = !self.listButton.selected
+                if self.listButton.selected {
+                    BaseController.sendTagProductToWishList(self.upc, desc: self.desc, price: self.price)
+                }
             }
             animation.layer.removeAllAnimations()
             animation.removeFromSuperview()
