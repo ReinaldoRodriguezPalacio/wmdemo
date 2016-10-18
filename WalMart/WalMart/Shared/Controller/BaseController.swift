@@ -80,9 +80,9 @@ class BaseController : UIViewController {
         dataLayer.push(["event": "registroExitoso"])
     }
     
-    class func sendAnalyticsUnsuccesfulRegistrationWithError(error: String) {
+    class func sendAnalyticsUnsuccesfulRegistrationWithError(error: String, stepError: String) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["event": "errorRegistro", "errorDetail": error, "stepError": ""])
+        dataLayer.push(["event": "errorRegistro", "errorDetail": error, "stepError": stepError])
     }
     
     class func sendAnalyticsIntentRegistration() {
