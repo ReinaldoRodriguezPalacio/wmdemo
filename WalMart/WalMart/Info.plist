@@ -895,7 +895,7 @@
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
