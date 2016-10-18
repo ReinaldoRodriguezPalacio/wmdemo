@@ -205,6 +205,9 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                             alertView?.showicon(UIImage(named: "searchScan"))
                             alertView?.setMessage("Este código de barras pertenece a un Ticket, ¿Deseas crear una lista con estos artículos?.")
+                            //Tag Manager
+                            BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: "Este código de barras pertenece a un Ticket, ¿Deseas crear una lista con estos artículos?.")
+                            
                             alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
                                 alertView?.close()
                                 }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
@@ -215,6 +218,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                             alertView?.showicon(UIImage(named: "searchScan"))
                             alertView?.setMessage("Este código de barras pertenece a un Ticket, inicia sesión para crear una lista con estos artículos.")
+                            //Tag Manager
+                            BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError:"Este código de barras pertenece a un Ticket, inicia sesión para crear una lista con estos artículos.")
                             alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
                                 alertView?.close()
                                 }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
@@ -236,6 +241,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     }else{
                         let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                         alertView!.setMessage("El número de ticket es incorrecto o no pertenece a Walmart")
+                        //Tag Manager
+                        BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError:"El número de ticket es incorrecto o no pertenece a Walmart")
                         alertView!.showErrorIcon("Ok")
                     }
                 }
@@ -256,6 +263,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     } else {
                           let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                         alertView!.setMessage("El número de ticket es incorrecto o no pertenece a Walmart")
+                        //Tag Manager
+                        BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError:"El número de ticket es incorrecto o no pertenece a Walmart")
                         alertView!.showErrorIcon("Ok")
                     }
                     

@@ -231,6 +231,9 @@ class BaseService : NSObject {
         manager.GET(serviceURL, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
+                //Tag Manager
+                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
+                
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
@@ -245,8 +248,6 @@ class BaseService : NSObject {
                         return
                     }
                 }
-                //Tag Manager
-                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
                 
                 errorBlock!(errorResult)
                 return
@@ -471,6 +472,9 @@ class BaseService : NSObject {
             success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
                 let resultJSON = json as! NSDictionary
                 if let errorResult = self.validateCodeMessage(resultJSON) {
+                    //TAG manager
+                    BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
+                    
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
                             let loginService = LoginWithEmailService()
@@ -485,8 +489,7 @@ class BaseService : NSObject {
                         }
                         return
                     }
-                    //TAG manager
-                    BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
+                  
                     errorBlock!(errorResult)
                     return
                 }

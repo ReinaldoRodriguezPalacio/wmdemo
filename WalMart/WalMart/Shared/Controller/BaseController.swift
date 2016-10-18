@@ -92,9 +92,6 @@ class BaseController : UIViewController {
         case "ErrorEventBusiness":
              dataLayer.push(["event":event,"detailErrorBusiness":detailError])
             break
-        case "ErrorEventCrash":
-             dataLayer.push(["event":event,"detailErrorCrash":detailError])
-            break
         default:
             break
         }
