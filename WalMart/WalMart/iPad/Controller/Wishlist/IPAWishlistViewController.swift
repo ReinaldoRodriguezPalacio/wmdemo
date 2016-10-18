@@ -561,6 +561,20 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         popup!.presentPopoverFromRect(CGRectMake(self.shareWishlist.frame.origin.x + 13, self.shareWishlist.frame.maxY - 120, 10, 120), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         
+        if #available(iOS 8.0, *) {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        } else {
+            controller.completionHandler = {(activityType, completed:Bool) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        }
+        
     }
     
     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{

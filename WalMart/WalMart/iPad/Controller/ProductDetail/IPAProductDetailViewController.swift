@@ -1205,6 +1205,20 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
             popup = UIPopoverController(contentViewController: controller)
             popup!.presentPopoverFromRect(CGRectMake(700, 100, 300, 100), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+            
+            if #available(iOS 8.0, *) {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            } else {
+                controller.completionHandler = {(activityType, completed:Bool) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            }
         }
         
     }
