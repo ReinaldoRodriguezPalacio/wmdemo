@@ -947,7 +947,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //                    }
                     
                     //Gogle 360 falta departamento
-                    BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults])
+                    if self.textToSearch != nil {
+                        BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter_IOS", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults])
+                    }
                 }
                 else {
                     self.mgResults!.resultsInResponse = 0
@@ -1507,7 +1509,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.upcsToShowApply = []
         }
 
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
+        if flag {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
+        }else{
+            BaseController.sendAnalyticsPush(["event":"searchSortResult","searchCategory" : "enter-IOS","searchTerm" : self.textToSearch!, "searchNumberResults" : self.mgResults!.totalResults, "sortUsado":order])
+        }
         
         self.allProducts = []
         self.mgResults!.resetResult()
