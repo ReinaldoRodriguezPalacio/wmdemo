@@ -275,7 +275,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabelEdit.numberOfLines = 2
         titleLabelEdit.textAlignment = .Center
-    
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductViewController.editSearch))
         titleLabelEdit.addGestureRecognizer(tapGesture)
@@ -301,22 +300,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.isTextSearch || isOriginalTextSearch
         {
-            if self.titleLabel != nil {
-                self.titleLabel?.removeFromSuperview()
-            }
             if self.idListFromSearch == ""{
+                self.titleLabel?.removeFromSuperview()
                 self.titleLabel = self.setTitleWithEdit()
+                self.titleLabel?.numberOfLines = 2
+                self.header?.addSubview(self.titleLabel!)
             }else{
                  self.titleLabel?.text = titleHeader
             }
-            //self.titleLabel?.frame =  CGRectMake(self.titleLabel!.frame.origin.x,self.titleLabel!.frame.origin.y,102 ,self.titleLabel!.frame.size.height)
-            self.titleLabel?.numberOfLines = 2
-                self.header?.addSubview(self.titleLabel!)
-            
             if self.originalSearchContextType == nil{
              self.originalSearchContextType = self.searchContextType
             }
-            //self.searchContextType = SearchServiceContextType.WithCategoryForGR
         }
         else
         {
@@ -1041,16 +1035,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if error.code == 1 {
                     self.grResults!.resultsInResponse = 0
                     self.grResults!.totalResults = 0
-                    self.finsihService =  true
+                    self.finsihService =   self.btnSuper.selected
                     self.removeEmpty =  false
-                    self.showEmptyView()//Iphone
+                    if self.btnSuper.selected {
+                        self.showEmptyView()//Iphone
+                    }
                     self.collection?.reloadData()//Ipad
                     actionError?()
                 }else{
                     print("GR Search ERROR!!!")
                     self.grResults!.totalResults = self.allProducts!.count
                     self.grResults!.resultsInResponse = self.mgResults!.totalResults
-                     self.finsihService =  true
+                    self.finsihService =   self.btnSuper.selected
                     self.removeEmpty =  false
                     self.collection?.reloadData()
                     actionSuccess?()

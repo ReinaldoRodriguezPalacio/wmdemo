@@ -984,7 +984,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
         if upc != nil {
-                
+            
+            
             
             let controller = ProductDetailPageViewController()
             controller.idListSeleted  = self.idListSelected
