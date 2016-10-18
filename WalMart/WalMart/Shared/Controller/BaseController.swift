@@ -104,9 +104,6 @@ class BaseController : UIViewController {
         case "ErrorEventBusiness":
              self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
             break
-        case "ErrorEventCrash":
-             self.sendAnalyticsPush(["event":event,"detailErrorCrash":detailError])
-            break
         default:
             break
         }
