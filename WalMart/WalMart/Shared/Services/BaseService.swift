@@ -192,12 +192,15 @@ class BaseService : NSObject {
                     errorBlock!(errorResult)
                     return
                 }
+                //TAG Manager
+                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
                 errorBlock!(errorResult)
                 return
             }
              successBlock!(resultJSON)
             }, failure: {(request:NSURLSessionDataTask!, error:NSError!) in
-                
+                //TAG Manager
+                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if error.code == -1005 {
                     print("Response Error : \(error) \n Response \(request.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
@@ -242,17 +245,23 @@ class BaseService : NSObject {
                         return
                     }
                 }
+                //Tag Manager
+                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
+                
                 errorBlock!(errorResult)
                 return
             }
             successBlock!(resultJSON)
             }, failure: {(request:NSURLSessionDataTask!, error:NSError!) in
+                
                 if error.code == -1005 {
                     print("Response Error : \(error) \n Response \(request.response)")
                     self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 print("Response Error : \(error)")
+                //Tag Manager
+                BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
                 errorBlock!(error)
         })
         
@@ -476,12 +485,17 @@ class BaseService : NSObject {
                         }
                         return
                     }
+                    //TAG manager
+                    BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
                     errorBlock!(errorResult)
                     return
                 }
+               
                 successBlock!(resultJSON)
             },
             failure: {(request:NSURLSessionDataTask!, error:NSError!) in
+                //TAG manager
+                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if error.code == -1005 {
                     print("Response Error : \(error) \n Response \(request.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)

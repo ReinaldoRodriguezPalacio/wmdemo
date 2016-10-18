@@ -75,9 +75,30 @@ class BaseController : UIViewController {
         self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
     }
     
+    
     class func sendAnalyticsPush(pushData:[String:AnyObject]) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(pushData)
+    }
+    
+    //MARK: Tag de Errores
+    class func sendTagManagerErrors(event:String,detailError:String){
+        
+        let dataLayer = TAGManager.instance().dataLayer
+        switch event {
+        case "ErrorEvent":
+             dataLayer.push(["event":event,"detailError":detailError])
+            break
+        case "ErrorEventBusiness":
+             dataLayer.push(["event":event,"detailErrorBusiness":detailError])
+            break
+        case "ErrorEventCrash":
+             dataLayer.push(["event":event,"detailErrorCrash":detailError])
+            break
+        default:
+            break
+        }
+       
     }
 
 //    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){

@@ -132,7 +132,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 break
             }
         }
-        return ""
+        return WMGAIUtils.SCREEN_SEARCHTEXTRESULT.rawValue
     }
     
     override func viewDidLoad() {
