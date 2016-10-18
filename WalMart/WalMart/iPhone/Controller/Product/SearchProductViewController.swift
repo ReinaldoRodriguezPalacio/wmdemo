@@ -951,6 +951,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //                    else {
                     //                        self.allProducts = arrayProduct
                     //                    }
+                    
+                    //Gogle 360 falta departamento
+                    BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults])
                 }
                 else {
                     self.mgResults!.resultsInResponse = 0
