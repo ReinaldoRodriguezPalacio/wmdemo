@@ -83,14 +83,12 @@ class BaseController : UIViewController {
     
     //MARK: Tag de Errores
     class func sendTagManagerErrors(event:String,detailError:String){
-        
-        let dataLayer = TAGManager.instance().dataLayer
         switch event {
         case "ErrorEvent":
-             dataLayer.push(["event":event,"detailError":detailError])
+             self.sendAnalyticsPush(["event":event,"detailError":detailError])
             break
         case "ErrorEventBusiness":
-             dataLayer.push(["event":event,"detailErrorBusiness":detailError])
+             self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
             break
         default:
             break
