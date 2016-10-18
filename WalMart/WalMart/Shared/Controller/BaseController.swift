@@ -75,6 +75,20 @@ class BaseController : UIViewController {
         self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
     }
     
+    class func sendAnalyticsSuccesfulRegistration() {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["event": "registroExitoso"])
+    }
+    
+    class func sendAnalyticsUnsuccesfulRegistrationWithError(error: String, stepError: String) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["event": "errorRegistro", "errorDetail": error, "stepError": stepError])
+    }
+    
+    class func sendAnalyticsIntentRegistration() {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["event": "intentoRegistro"])
+    }
     
     class func sendAnalyticsPush(pushData:[String:AnyObject]) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
@@ -89,9 +103,6 @@ class BaseController : UIViewController {
             break
         case "ErrorEventBusiness":
              self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
-            break
-        case "ErrorEventCrash":
-             self.sendAnalyticsPush(["event":event,"detailErrorCrash":detailError])
             break
         default:
             break

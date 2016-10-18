@@ -149,6 +149,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         //Tune.setDebugMode(true)
         //Tune.setAllowDuplicateRequests(false)
         //CompuwareUEM.startupWithApplicationName("WalMart", serverURL:"https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
+        NSSetUncaughtExceptionHandler { exception in
+            
+            let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+            dataLayer.push(["event": "ErrorEventCrash", "detailErrorCrash": exception.description ])
+
+            
+            NSLog("CRASH: \(exception)")
+            NSLog("Stack Trace: \(exception.callStackSymbols)")
+        }
+        
+        
         
         //TAGManager
         let GTM = TAGManager.instance()
@@ -158,6 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
+        
         
         return true
     }
