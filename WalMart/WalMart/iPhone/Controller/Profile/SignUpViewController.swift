@@ -405,27 +405,30 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                    
+                    // Event -- Succesful Registration
+                    BaseController.sendAnalyticsSuccesfulRegistration()
+                    
                     let login = LoginService()
                     login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                         
-                       
-
-                          self.alertAddress?.registryAddress(dictSend)
+                        self.alertAddress?.registryAddress(dictSend)
                         
-                        }, errorBlock: { (error:NSError) -> Void in
-                            self.alertView!.close()
-                             //BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName: self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
-                          self.alertAddress?.registryAddress(dictSend)
+                    }, errorBlock: { (error:NSError) -> Void in
+                        self.alertView!.close()
+                        self.alertAddress?.registryAddress(dictSend)
+                        //BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName: self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
+                        
                     })
                     
-                    }
-                    , errorBlock: {(error: NSError) in
-                        
-                        self.backRegistry(self.backButton!)
-                        self.alertAddress?.removeFromSuperview()
-                        
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
+                }, errorBlock: {(error: NSError) in
+                    self.backRegistry(self.backButton!)
+                    self.alertAddress?.removeFromSuperview()
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    
+                    // Event -- Error Registration
+                    BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription)
+                    
                 })
             }
                 

@@ -273,7 +273,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         if self.signUp == nil{
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
-
+            
+            // Event -- Intent Registration
+            BaseController.sendAnalyticsIntentRegistration()
+            
             self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
             
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
