@@ -243,18 +243,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.content.clipsToBounds = false
     }
     
-    
-    func changeMF(sender:UIButton) {
-        if sender == self.maleButton {
-            self.maleButton?.selected = true
-            self.femaleButton?.selected = false
-        } else if sender == self.femaleButton  {
-            self.maleButton?.selected = false
-            self.femaleButton?.selected = true
-        }
-        
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
@@ -270,7 +258,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.birthDate?.frame = CGRectMake(leftRightPadding,  confirmPassword!.frame.maxY + 8, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
         
         
-
+        
         
         self.femaleButton!.frame = CGRectMake(84,  birthDate!.frame.maxY + 15,  76 , fieldHeight)
         self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 15, 76 , fieldHeight)
@@ -278,6 +266,17 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.cancelButton!.frame = CGRectMake(leftRightPadding,  maleButton!.frame.maxY + 15,  (self.email!.frame.width / 2) - 5 , fieldHeight)
         self.continueButton!.frame = CGRectMake(self.cancelButton!.frame.maxX + 10 , self.cancelButton!.frame.minY ,  self.cancelButton!.frame.width, fieldHeight)
         self.content.contentSize = CGSize(width: bounds.width, height:  self.continueButton!.frame.maxY + 40)
+    }
+    
+    func changeMF(sender:UIButton) {
+        if sender == self.maleButton {
+            self.maleButton?.selected = true
+            self.femaleButton?.selected = false
+        } else if sender == self.femaleButton  {
+            self.maleButton?.selected = false
+            self.femaleButton?.selected = true
+        }
+        
     }
     
     func checkSelected(sender:UIButton) {
@@ -293,7 +292,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //        acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
     }
     
-    func  contentSizeForScrollView(sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
           return CGSizeMake(self.view.frame.width, content.contentSize.height)
     }
     
@@ -362,7 +361,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.cancelSignUp!()
     }
     
-    
     func continueToInfo() {
         self.view.endEditing(true)
         birthDate!.resignFirstResponder()
@@ -396,8 +394,10 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             if alertAddress == nil {
                 alertAddress = GRFormAddressAlertView.initAddressAlert()!
             }
+            
             alertAddress?.showAddressAlert()
             alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+                
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
@@ -417,7 +417,8 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                         self.alertView!.close()
                         self.alertAddress?.registryAddress(dictSend)
                         //BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName: self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
-                        
+                        // Event -- Error Registration
+                        BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Datos personales")
                     })
                     
                 }, errorBlock: {(error: NSError) in
@@ -427,7 +428,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                     self.alertView!.showErrorIcon("Ok")
                     
                     // Event -- Error Registration
-                    BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription)
+                    BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Datos personales")
                     
                 })
             }
@@ -471,7 +472,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //           
         }
     }
-    
     
     func createAddress() {
         
@@ -529,14 +529,21 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             let msgInventory = "Para poder continuar, es necesario nos indique si está, o no, de acuerdo en transferir sus datos personales a terceros"
             alert!.setMessage(msgInventory)
             alert!.showErrorIcon(NSLocalizedString("Ok",comment:""))
+            
+            // Event -- Error Registration
+            BaseController.sendAnalyticsUnsuccesfulRegistrationWithError("Datos personales a terceros, no indicado", stepError: "Información legal")
+            
             return false
         }
         if !acceptTerms!.selected {
             if self.errorView == nil {
                 self.errorView = FormFieldErrorView()
             }
-
             self.presentMessageTerms(self.acceptTerms!, message: NSLocalizedString("signup.validate.terms.conditions", comment: ""), errorView: self.errorView!)
+            
+            // Event -- Error Registration
+            BaseController.sendAnalyticsUnsuccesfulRegistrationWithError("Términos y condiciones no aceptados", stepError: "Información legal")
+            
             return false
 
         }
@@ -604,7 +611,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         })
     }
     
-    
     class func isValidEmail(email: String ) -> Bool{
 
         let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890._%+-@").invertedSet
@@ -652,16 +658,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //        return false
 //    }
 
-
-
-
     func dateChanged() {
         let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
         self.dateVal = date
     }
-    
-   
     
     //MARK: Info view
     func generateInfoView(frame:CGRect) -> UIView {
@@ -792,8 +793,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         infoView.alpha = 0
         
     }
-    
-    
     
     func changeCons(sender:UIButton) {
         if sender == self.acceptSharePersonal {

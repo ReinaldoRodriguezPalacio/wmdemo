@@ -54,6 +54,9 @@ class SignUpMGViewController: SignUpViewController {
                         var firstEnter = true
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
+                            // Event -- Succesful Registration
+                            BaseController.sendAnalyticsSuccesfulRegistration()
+                            
                             //self.alertView!.setMessage("Registro exitoso")
                             //self.alertView!.showDoneIcon()
                             self.successCallBack?()
@@ -76,6 +79,7 @@ class SignUpMGViewController: SignUpViewController {
                                         self.backRegistry(self.backButton!)
                                         self.alertView!.setMessage("Error")
                                         self.alertView!.showErrorIcon("Ok")
+                                         BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Direcciones")
                                     }
                                 })
                         })
@@ -88,6 +92,7 @@ class SignUpMGViewController: SignUpViewController {
                             self.backRegistry(self.backButton!)
                             self.alertView!.setMessage(error.localizedDescription)
                             self.alertView!.showErrorIcon("Ok")
+                            BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Datos personales")
                     })// Close callService
                 }else{//close validateService
                     self.alertView!.close()
