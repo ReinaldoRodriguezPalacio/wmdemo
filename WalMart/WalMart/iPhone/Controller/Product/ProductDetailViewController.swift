@@ -128,6 +128,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.containerinfo.clipsToBounds = true
         
         self.view.addSubview(containerinfo)
+        BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
     }
     
     override func viewDidAppear(animated: Bool) {

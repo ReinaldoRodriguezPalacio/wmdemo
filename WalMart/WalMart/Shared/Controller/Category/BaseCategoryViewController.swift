@@ -35,7 +35,8 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
 
         categories!.delegate = self
         categories!.dataSource = self
-        
+        BaseController.setOpenScreenTagManager(titleScreen: "Categories", screenName: self.getScreenGAIName())
+    
     }
    
      //MARK: CollectionViewDelegate

@@ -98,6 +98,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
         
         showLoadingView()
+        if self.type ==  ResultObjectType.Mg {
+            BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
+        }
     }
     
     

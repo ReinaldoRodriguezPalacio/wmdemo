@@ -85,7 +85,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
         self.view.addSubview(emptyView)
         
-        
+        BaseController.setOpenScreenTagManager(titleScreen: "WishList", screenName: self.getScreenGAIName())
     }
     
     override func viewWillAppear(animated: Bool) {
