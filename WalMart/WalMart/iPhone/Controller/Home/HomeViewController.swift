@@ -70,6 +70,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         let servicecarousel = CarouselService()
         self.recommendItems = servicecarousel.getCarouselContent()
+        BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())
     }
     
     func removePleca(){

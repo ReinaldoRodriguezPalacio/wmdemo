@@ -141,7 +141,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         if addFRomMg {
             self.titleLabel!.text = NSLocalizedString("Es necesario capturar \n una dirección", comment: "")
         }
-        
+        BaseController.setOpenScreenTagManager(titleScreen: "Direcciones", screenName: self.getScreenGAIName())
     }
     
     func setupTypeAddress (){
