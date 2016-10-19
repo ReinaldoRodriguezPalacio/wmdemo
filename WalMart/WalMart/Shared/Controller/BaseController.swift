@@ -29,12 +29,11 @@ class BaseController : UIViewController {
                 tracker.send(eventTracker as! [NSObject : AnyObject])
             }
         }
-        
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["event": "openScreen", "screenName": self.getScreenGAIName()])
         
     }
-
+    
     
     func loadStoryboardDefinition() -> UIStoryboard? {
         let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
@@ -101,6 +100,7 @@ class BaseController : UIViewController {
         dataLayer.push(pushData)
     }
     
+
     class func sendEcommerceAnalyticsBanners(banners:[Banner]) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
@@ -128,6 +128,39 @@ class BaseController : UIViewController {
         print(impression)
         
         dataLayer.push(impression)
+        
+    }
+    
+    class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
+       
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        print("setOpenScreenTagManager")
+        print("event:openScreen")
+        print("screenName:\(screenName)")
+        print("userID:\(UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "")")
+        print("guestID: \(UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "100")" )
+        print("typePage:\(screenName)")
+        print("pageTitle:\(titleScreen)")
+        print("category:")
+        print("subCategory:")
+        print("subsubCategory:")
+        print("visitorLoginStatus:\(UserCurrentSession.hasLoggedUser())")
+        print("estatusArticulo:")
+        
+        
+//        dataLayer.push([
+//            "event":"openScreen",
+//            "screenName":screenName,
+//            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "",
+//            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "100" ,//TODO validar lo que se va a enviar
+//            "typePage":screenName,
+//            "pageTitle":titleScreen,
+//            "category":"",
+//            "subCategory":"",
+//            "subsubCategory":"",
+//            "visitorLoginStatus":UserCurrentSession.hasLoggedUser(),
+//            "estatusArticulo":""
+//            ])
         
     }
     
@@ -231,5 +264,7 @@ class BaseController : UIViewController {
     func getScreenGAIName() -> String {
         fatalError("SCreeen name not implemented")
     }
+    
+
     
 }

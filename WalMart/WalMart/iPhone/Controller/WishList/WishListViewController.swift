@@ -85,7 +85,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
         self.view.addSubview(emptyView)
         
-        
+        BaseController.setOpenScreenTagManager(titleScreen: "WishList", screenName: self.getScreenGAIName())
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -588,6 +588,20 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        
+        if #available(iOS 8.0, *) {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        } else {
+            controller.completionHandler = {(activityType, completed:Bool) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        }
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
         

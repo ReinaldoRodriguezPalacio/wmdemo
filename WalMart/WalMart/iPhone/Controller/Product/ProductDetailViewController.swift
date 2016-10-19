@@ -128,6 +128,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.containerinfo.clipsToBounds = true
         
         self.view.addSubview(containerinfo)
+        BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -1240,6 +1241,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if urlWmart != nil {
             let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
             self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+            if #available(iOS 8.0, *) {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            } else {
+                controller.completionHandler = {(activityType, completed:Bool) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            }
         }
     }
     //MARK: activityViewControllerDelegate

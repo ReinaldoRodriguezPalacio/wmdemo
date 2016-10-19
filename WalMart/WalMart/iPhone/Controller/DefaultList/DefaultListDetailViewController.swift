@@ -283,7 +283,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
             
             let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-            
         }
     }
     

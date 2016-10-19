@@ -43,6 +43,12 @@ class UserCurrentSession : NSObject {
     var activeCommens : Bool = false
     var upcSearch : NSArray! = []
     var messageInCommens : String! = ""
+    
+    var screenCategory: String! = ""
+    var screenSubCategory: String! = ""
+    var screenSubSubCategory: String! = ""
+    
+
 
     
     //Singleton init

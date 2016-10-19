@@ -238,7 +238,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(self.searchAlertView!)
         
          //self.header!.bringSubviewToFront(self.bannerView)
-        
+        BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
     }
     
     

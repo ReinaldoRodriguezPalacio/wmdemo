@@ -71,6 +71,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         let servicecarousel = CarouselService()
         self.recommendItems = servicecarousel.getCarouselContent()
         
+        BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())
+        
         var banners = [Banner]()
         
         if let bannersDictionary = bannerItems {
@@ -86,8 +88,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
             BaseController.sendEcommerceAnalyticsBanners(banners)
         }
-        
-        
+
     }
     
     func removePleca(){

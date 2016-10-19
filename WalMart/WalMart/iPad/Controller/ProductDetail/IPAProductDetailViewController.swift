@@ -987,6 +987,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             self.reloadViewWithData(result)
+            
+            let list = self.fromSearch ? "Search Results" : "Recomendados"
+            BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": list],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "","category":self.productDeparment,"variant":"pieza"]]]]])
+            
             if let facets = result["facets"] as? [[String:AnyObject]] {
                 self.facets = facets
                 self.facetsDetails = self.getFacetsDetails()
@@ -1205,6 +1209,20 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
             popup = UIPopoverController(contentViewController: controller)
             popup!.presentPopoverFromRect(CGRectMake(700, 100, 300, 100), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+            
+            if #available(iOS 8.0, *) {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            } else {
+                controller.completionHandler = {(activityType, completed:Bool) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            }
         }
         
     }
