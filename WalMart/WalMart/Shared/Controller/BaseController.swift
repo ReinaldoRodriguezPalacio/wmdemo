@@ -9,6 +9,12 @@
 import Foundation
 //import Tune
 
+struct Banner {
+    var id:String = ""
+    var name:String = ""
+    var creative:String = ""
+    var position:String = ""
+}
 
 class BaseController : UIViewController {
     
@@ -93,6 +99,36 @@ class BaseController : UIViewController {
     class func sendAnalyticsPush(pushData:[String:AnyObject]) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(pushData)
+    }
+    
+    class func sendEcommerceAnalyticsBanners(banners:[Banner]) {
+        
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        var promotions: [[String : String]] = []
+        
+        for banner in banners {
+            let banner = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
+            promotions.append(banner)
+        }
+        
+        let impression = ["ecommerce": ["promoView": ["promotions": promotions]]]
+        /*
+        [dataLayer push:@{@"ecommerce": 
+                            @{ @"promoView": 
+                                @{ @"promotions": @[
+            @{@"id": @"JUNE_PROMO13", @"name": @"June Sale", @"creative": @"banner1", @"position": @"slot1"},
+            @{@"id": @"FREE_SHIP13", @"name": @"Free Shipp", @"creative": @"skyscraper1", @"position": @"slot2"}]
+                                }
+                            }
+                        }
+         ];
+         
+         */
+        
+        print(impression)
+        
+        dataLayer.push(impression)
+        
     }
     
     //MARK: Tag de Errores

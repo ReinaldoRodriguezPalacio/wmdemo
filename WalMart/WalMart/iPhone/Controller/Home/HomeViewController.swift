@@ -70,6 +70,24 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         let servicecarousel = CarouselService()
         self.recommendItems = servicecarousel.getCarouselContent()
+        
+        var banners = [Banner]()
+        
+        if let bannersDictionary = bannerItems {
+            var banner = Banner()
+            var position = 1
+            for bannerDictionary in bannersDictionary {
+                banner.id = bannerDictionary["eventUrl"]! as String
+                banner.name = bannerDictionary["eventUrl"]! as String
+                banner.creative = bannerDictionary["type"]! as String
+                banner.position = "\(position)"
+                banners.append(banner)
+                position += 1
+            }
+            BaseController.sendEcommerceAnalyticsBanners(banners)
+        }
+        
+        
     }
     
     func removePleca(){
