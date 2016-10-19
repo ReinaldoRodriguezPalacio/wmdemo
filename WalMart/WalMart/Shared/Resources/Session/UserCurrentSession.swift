@@ -47,7 +47,7 @@ class UserCurrentSession : NSObject {
     var screenCategory: String! = ""
     var screenSubCategory: String! = ""
     var screenSubSubCategory: String! = ""
-    
+    var screenViewArray : NSDictionary! = [:]
 
 
     
