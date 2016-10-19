@@ -786,10 +786,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
                 self.reloadViewWithData(result)
                 
-                let list = self.fromSearch ? "Search Results" : "Recomendados"
-                BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": list],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "","category":self.productDeparment,"variant":"pieza"]]]]])
-                
-                
                 if let facets = result["facets"] as? [[String:AnyObject]] {
                     self.facets = facets
                     self.facetsDetails = self.getFacetsDetails()
@@ -930,6 +926,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
         
+        let list = self.fromSearch ? "Search Results" : "Recomendados"
+        BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": list],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "","category":self.productDeparment,"variant":"pieza"]]]]])
     }
     
     //MARK: - Collection view Data Source
