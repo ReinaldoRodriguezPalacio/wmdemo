@@ -39,6 +39,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var valueTerms = ""
     var typeAction =  ""
     var bussinesTerms = ""
+    var banners = [Banner]()
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
@@ -73,7 +74,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())
         
-        var banners = [Banner]()
+        
         
         if let bannersDictionary = bannerItems {
             var banner = Banner()
@@ -254,6 +255,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         switch (indexPath.section,indexPath.row) {
             case (0,0):
                 bannerCell = collectionView.dequeueReusableCellWithReuseIdentifier(bannerCellIdentifier() , forIndexPath: indexPath) as? BannerCollectionViewCell
+                bannerCell!.banners = banners
                 bannerCell!.delegate = self
                 bannerCell!.dataSource = self.bannerItems
                 bannerCell!.setup()

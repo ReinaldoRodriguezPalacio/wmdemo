@@ -111,7 +111,8 @@ class BaseController : UIViewController {
             promotions.append(banner)
         }
         
-        let impression = ["ecommerce": ["promoView": ["promotions": promotions]]]
+        let impression = ["ecommerce": ["promoView": ["promotions": promotions]], "event": "ecommerce"]
+        
         /*
         [dataLayer push:@{@"ecommerce": 
                             @{ @"promoView": 
@@ -129,6 +130,13 @@ class BaseController : UIViewController {
         
         dataLayer.push(impression)
         
+    }
+    
+    class func sendEcommerceClickBanner(banner:Banner) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        let promotion = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
+        let impression = ["event": "promotionClick", "ecommerce": ["promoClick": ["promotions": [promotion]]]]
+        dataLayer.push(impression)
     }
     
     class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){

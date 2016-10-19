@@ -14,6 +14,7 @@ protocol BannerCollectionViewCellDelegate {
 }
 
 class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataSource,UIPageViewControllerDelegate {
+    
     var currentInterval: NSTimeInterval = 4.0
     var delegate: BannerCollectionViewCellDelegate!
     var pointSection: UIView? = nil
@@ -24,6 +25,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var timmerBanner : NSTimer!
     var buttonTerms : UIButton!
     var viewTerms : BannerTermsView!
+    var banners: [Banner]?
     //ale
     var plecaEnd : (() -> Void)? = nil
 
@@ -253,6 +255,8 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
         let selectedItem = sender.view!.tag
         let values = self.dataSource![selectedItem]
+        
+        BaseController.sendEcommerceClickBanner(self.banners![selectedItem])
         
         let type = values["type"]
         let queryBanner = values["eventUrl"]
