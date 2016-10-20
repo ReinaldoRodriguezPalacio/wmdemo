@@ -139,6 +139,34 @@ class BaseController : UIViewController {
         dataLayer.push(impression)
     }
     
+    class func sendAnalyticsTagImpressions(mgProducts:NSArray) {
+        
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        var impressions: [[String : String]] = []
+        
+        for mgProduct in mgProducts {
+            
+            guard let name = mgProduct["description"] as? String,
+                  let id = mgProduct["upc"] as? String,
+                  let brand = mgProduct["nameLine"] as? String,
+                  let price = mgProduct["price"] as? String,
+                  let category = mgProduct["category"] as? String else {
+                return
+            }
+            
+            let variant = "pieza"
+            let list = "Recomendados"
+            let position = "1"
+            
+            let impression = ["name": name, "id": id, "price": price, "brand": brand, "category": category, "variant": variant, "list": list, "position": position]
+            impressions.append(impression)
+        }
+        
+        let data = [ "ecommerce": ["currencyCode": "MXN", "impressions": impressions], "event": "ecommerce"]
+        dataLayer.push(data)
+        
+    }
+    
     class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
        
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer

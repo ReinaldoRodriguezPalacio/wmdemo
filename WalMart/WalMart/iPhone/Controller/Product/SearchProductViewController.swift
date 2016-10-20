@@ -961,6 +961,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 actionSuccess?()
                 NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
                 
+                // Event -- Product Impressions
+                if self.searchContextType == .WithCategoryForMG {
+                    if let mgArrayProducts = arrayProduct {
+                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts)
+                    }
+                }
+                
+                
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")
                 self.mgResults!.totalResults = self.allProducts!.count
