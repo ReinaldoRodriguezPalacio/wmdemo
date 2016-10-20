@@ -290,6 +290,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         else
         {
             self.titleLabel?.text = titleHeader
+            if  self.searchContextType == SearchServiceContextType.WithCategoryForMG && titleHeader != "Recomendados" {
+                self.titleLabel?.text = ""
+            }
+           
         }
         //aqui la quite
         if loading == nil {
