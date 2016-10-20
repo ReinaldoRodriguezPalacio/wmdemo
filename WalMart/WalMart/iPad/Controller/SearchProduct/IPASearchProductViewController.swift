@@ -28,7 +28,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }
 
     override func viewWillLayoutSubviews() {
-        self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.loading?.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         if !viewAnimated {
 //            if  self.filterView != nil {
 //               self.removeFilter()

@@ -193,7 +193,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     
-    
+    var openPromotions  =  false
     func openPromotios(){
         if self.showPromos {
             self.showPromos = false
@@ -202,11 +202,23 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             NSLog("termina llamado de Servicios:::")
             let window = UIApplication.sharedApplication().keyWindow
                 if let customBar = window!.rootViewController as? CustomBarViewController {
-                    customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
-                    self.showPromos = true
+                     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMasterHelpViewController.validatePromotions), name: "CENTER_PROMOS", object: nil)
+                    if self.openPromotions == false {
+                        customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
+                        self.openPromotions =  true
+                    }else{
+                         self.openPromotions =  false
+                    }
+                     self.showPromos = true
                 }
             }
+        }else{
+            self.showPromos = !self.showPromos
+            self.openPromotions =  false
         }
+    }
+    func validatePromotions(){
+    self.openPromotions =  false
     }
     /**
      validate number items line contains
