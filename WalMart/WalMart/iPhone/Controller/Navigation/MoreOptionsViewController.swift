@@ -112,6 +112,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         super.viewWillAppear(animated)
         self.reloadButtonSession()
         self.tableView?.reloadData()
+        //TGM 360
+        BaseController.setOpenScreenTagManager(titleScreen: "Más opciones", screenName: self.getScreenGAIName())
     }
     
     override func viewWillLayoutSubviews() {

@@ -92,6 +92,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())
+    }
+    
     func removePleca(){
         
         UIView.animateWithDuration(0.2 , animations: {

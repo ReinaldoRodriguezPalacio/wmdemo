@@ -125,6 +125,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         self.tableuserlist?.allowsMultipleSelection = false
         self.tableuserlist?.separatorStyle = .None
+        BaseController.setOpenScreenTagManager(titleScreen: "Listas", screenName: self.getScreenGAIName())
     }
     
     override func viewWillAppear(animated: Bool) {
