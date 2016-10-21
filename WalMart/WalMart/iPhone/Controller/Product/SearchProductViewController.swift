@@ -751,8 +751,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
             
-            BaseController.sendAnalyticsPush(["event": "interaccionFoto"])
-            
             self.navigationController!.pushViewController(controller, animated: true)
         }
        

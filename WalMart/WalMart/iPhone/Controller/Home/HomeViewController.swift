@@ -381,10 +381,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             if type == "groceries" {
                 //EVENT
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_VIEW_SPECIAL_DETAILS.rawValue, label: "\(desc) - \(upc)")
-            }else{
-                BaseController.sendAnalyticsPush(["event": "interaccionFoto"])
             }
-
             self.navigationController!.pushViewController(controller, animated: true)
         }
     }
