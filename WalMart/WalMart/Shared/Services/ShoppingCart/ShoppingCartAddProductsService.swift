@@ -87,14 +87,16 @@ class ShoppingCartAddProductsService : BaseService {
                 if  let _ = itemSvc["wishlist"] as? Bool {
                     itemsWishList.append(upc)
                 }
-                
+             
             }
+            
+           
             
             if itemsSvc.count > 1 {
                 
                 
                 self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
-                    
+                     BaseController.sendAnalyticsAddtoCart(itemsSvc)
                     
                     if self.updateShoppingCart() {
                         
@@ -118,7 +120,8 @@ class ShoppingCartAddProductsService : BaseService {
                         errorBlock!(error)
                 }
             } else {
-            
+                
+                
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
                 if !hasUPC {
                     var send  : AnyObject?
@@ -129,7 +132,7 @@ class ShoppingCartAddProductsService : BaseService {
                     }
                         self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
                         
-                        
+                        BaseController.sendAnalyticsAddtoCart(params as! NSArray)
                         if self.updateShoppingCart() {
                             UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                                 UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
@@ -193,7 +196,7 @@ class ShoppingCartAddProductsService : BaseService {
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
+         BaseController.sendAnalyticsAddtoCart(params as! NSArray)
         for product in params as! NSArray {
             
             var cartProduct : Cart
@@ -228,6 +231,7 @@ class ShoppingCartAddProductsService : BaseService {
                 cartProduct.product.department = category
             }
 
+           
             if UserCurrentSession.hasLoggedUser() {
                 cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }

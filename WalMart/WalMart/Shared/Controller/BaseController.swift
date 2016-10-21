@@ -160,6 +160,36 @@ class BaseController : UIViewController {
         
     }
     
+    class func sendAnalyticsAddtoCart(items:NSArray) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+       
+        var productsAdd: [[String : String]] = []
+        
+        for item in items {
+            
+            let name = item["desc"] as? String ?? ""
+            let upc = item["upc"] as? String ?? ""
+            let quantity = item["quantity"] as? String ?? "1"
+            let category = item["category"] as? String ?? ""
+            
+           
+            let product = ["name":name,"id":upc,"brand":"","category":category,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"","dimension25":""]
+            
+            productsAdd.append(product)
+        
+        }
+        let ecommerce =  ["currencyCode": "MXN", "add" :["products": productsAdd]]
+        let push =  ["event":"addToCart","ecommerce" :ecommerce]
+        
+        print("event:addToCart")
+        print(push)
+        dataLayer.push(push as [NSObject : AnyObject])
+
+        
+    }
+    
+    
+    
     class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
        
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
