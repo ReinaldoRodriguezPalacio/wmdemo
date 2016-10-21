@@ -100,7 +100,6 @@ class BaseController : UIViewController {
         dataLayer.push(pushData)
     }
     
-
     class func sendEcommerceAnalyticsBanners(banners:[Banner]) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer

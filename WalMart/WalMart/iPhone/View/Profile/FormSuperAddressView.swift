@@ -14,6 +14,7 @@ protocol FormSuperAddressViewDelegate {
 }
 
 class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate {
+    
     var titleLabelAddress : UILabel!
     var titleLabelBetween : UILabel!
     var errorLabelStore: UILabel!
@@ -52,6 +53,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var picker : AlertPickerView!
     
     var idAddress : String!
+    var isSignUp = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -644,10 +646,17 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     func viewError(field: FormFieldView,message:String?)-> Bool{
         if message != nil {
+            
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }
+            
             SignUpViewController.presentMessage(field, nameField: field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
+            
+            if isSignUp {
+                BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(errorView!.errorLabel.text!, stepError: "Direcciones")
+            }
+            
             return true
         } else {
             self.errorView?.removeFromSuperview()
