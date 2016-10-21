@@ -988,9 +988,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             self.reloadViewWithData(result)
             
-            let list = self.fromSearch ? "Search Results" : "Recomendados"
-            BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": list],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "","category":self.productDeparment,"variant":"pieza"]]]]])
-            
             if let facets = result["facets"] as? [[String:AnyObject]] {
                 self.facets = facets
                 self.facetsDetails = self.getFacetsDetails()
@@ -1136,7 +1133,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
+        // department,family,line
+        let linea = result["linea"] as? String ?? ""
+        BaseController.sendAnalyticsPush(["event":"interaccionFoto", "category" : self.productDeparment, "subCategory" :"", "subsubCategory" :linea])
+        
+        let list = self.fromSearch ? "Search Results" : "Recomendados"
+        BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": list],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "","category":self.productDeparment,"variant":"pieza"]]]]])
         
     }
     

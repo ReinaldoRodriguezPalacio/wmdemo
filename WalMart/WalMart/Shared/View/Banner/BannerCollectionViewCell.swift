@@ -29,24 +29,19 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     //ale
     var plecaEnd : (() -> Void)? = nil
 
-    
     var pageViewController : UIPageViewController!
     var nextController : HomeBannerImageViewController! = HomeBannerImageViewController()
     var backController : HomeBannerImageViewController!  = HomeBannerImageViewController()
-    
-    
     var dataSource : [[String:String]]?
-    
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     
     func setup() {
         
@@ -88,7 +83,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
     }
     
-    
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         self.currentItem =  viewController.view.tag
         if self.currentItem > 0 {
@@ -99,7 +93,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         }
         return getCurrentController()
     }
-    
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) ->
         UIViewController? {
@@ -180,8 +173,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         self.pointButtons = buttons
     }
     
-       
-    
     func startTimmer() {
         if dataSource!.count >= 2 {
             if timmerBanner != nil {
@@ -191,6 +182,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         }
         
     }
+
     func stopTimmer() {
         if timmerBanner != nil {
             timmerBanner.invalidate()
@@ -210,7 +202,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         self.reloadTermsAndPages()
     }
 
-    
     func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]){
         stopTimmer()
         if plecaEnd != nil {
@@ -250,7 +241,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         }
     }
     
-    
     func tapOnItembanner(sender:UITapGestureRecognizer) {
         
         let selectedItem = sender.view!.tag
@@ -265,7 +255,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
         delegate.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone)
     }
-    
     
     func isUrl(temrs:String)-> Bool{
         var isUrl =  false
@@ -318,9 +307,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         }
         buttonTerms.selected  = !buttonTerms.selected
     }
-    
-    
-
     
     func pointSelected(sender:UIButton) {
         currentItem = sender.tag == dataSource?.count ? dataSource?.count : (sender.tag - 1)

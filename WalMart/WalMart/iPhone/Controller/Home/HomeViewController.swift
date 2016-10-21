@@ -74,14 +74,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())
         
-        
-        
         if let bannersDictionary = bannerItems {
             var banner = Banner()
             var position = 1
             for bannerDictionary in bannersDictionary {
-                banner.id = bannerDictionary["eventUrl"]! as String
-                banner.name = bannerDictionary["eventUrl"]! as String
+                
+                if let eventCode = bannerDictionary["eventCode"] {
+                    banner.id = eventCode
+                    banner.name = eventCode
+                } else {
+                    banner.id = bannerDictionary["eventUrl"]! as String
+                    banner.name = bannerDictionary["eventUrl"]! as String
+                }
+                
                 banner.creative = bannerDictionary["type"]! as String
                 banner.position = "\(position)"
                 banners.append(banner)
@@ -234,6 +239,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
         
     }
+   
     // MARK: - UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -337,7 +343,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         return cell
     }
     
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         switch  (indexPath.section,indexPath.row) {
         case (0,0):
@@ -348,7 +353,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             return CGSizeMake(106.66, 146)
         }
     }
-       
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
@@ -378,7 +382,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 //EVENT
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_VIEW_SPECIAL_DETAILS.rawValue, label: "\(desc) - \(upc)")
             }
-
             self.navigationController!.pushViewController(controller, animated: true)
         }
     }
@@ -390,7 +393,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
-    
     
     func bannerDidSelect(queryBanner:String,type:String,urlTteaser:String?) {
         
@@ -469,12 +471,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
      - parameter idFamily: family search
      */
     func openLandinCampaign(urlTicer:String,idFamily:String){
-        
         let controller = IPOLinesViewController()
         controller.urlTicer = urlTicer
         controller.familyName = idFamily
         self.navigationController!.pushViewController(controller, animated: true)
-
     }
     
     /**
@@ -491,9 +491,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         print("::::::::")
         
     }
-    
-    
-    
     
     func showFindUpc(upcs:NSArray,type:String){
         let controller = SearchProductViewController()
@@ -523,7 +520,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.navigationController!.pushViewController(controller, animated: true)
     }
 
-    
     func showProductDetail(upcProduct:String,type:String){
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = [["upc":upcProduct,"description":"","type":type]]
@@ -596,9 +592,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.categories = getCategories()
         collection.reloadData()
     }
-    
-    
-    
     
     func bannerCellIdentifier() -> String {
         return "bannerHome"
@@ -678,7 +671,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
     }
     
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         if section == 1 {
             if let layoutFlow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -693,7 +685,5 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         ctrlWeb.openURL(url)
         self.presentViewController(ctrlWeb, animated: true, completion: nil)
     }
-    
-    
     
 }
