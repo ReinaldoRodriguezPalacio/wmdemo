@@ -112,18 +112,7 @@ class BaseController : UIViewController {
         
         let impression = ["ecommerce": ["promoView": ["promotions": promotions]], "event": "ecommerce"]
         
-        /*
-        [dataLayer push:@{@"ecommerce": 
-                            @{ @"promoView": 
-                                @{ @"promotions": @[
-            @{@"id": @"JUNE_PROMO13", @"name": @"June Sale", @"creative": @"banner1", @"position": @"slot1"},
-            @{@"id": @"FREE_SHIP13", @"name": @"Free Shipp", @"creative": @"skyscraper1", @"position": @"slot2"}]
-                                }
-                            }
-                        }
-         ];
-         
-         */
+
         
         print(impression)
         
