@@ -926,6 +926,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
         
+        // department,family,line
+        let linea = result["linea"] as? String ?? ""
+        BaseController.sendAnalyticsPush(["event":"interaccionFoto", "category" : self.productDeparment, "subCategory" :"", "subsubCategory" :linea])
+        
+        
         let list = self.fromSearch ? "Search Results" : "Recomendados"
         BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": list],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "","category":self.productDeparment,"variant":"pieza"]]]]])
     }
