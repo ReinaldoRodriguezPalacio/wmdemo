@@ -69,11 +69,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         webViewSplash = UIWebView(frame:self.view.bounds)
         webViewSplash.delegate = self
-        
+        webViewSplash.contentMode = UIViewContentMode.Center
+        webViewSplash.scalesPageToFit = false
+        self.view.addSubview(webViewSplash)
       
         configSplashAndGoToHome()
         
-        self.view.addSubview(webViewSplash)
+        
         self.view.addSubview(splashDefault)
         
         
@@ -122,8 +124,8 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         splashDefault.frame = self.view.bounds
         webViewSplash.frame = self.view.bounds
     }
@@ -146,7 +148,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        
         
     }
     
@@ -345,7 +346,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             self.invokeServiceToken()
             
             if error == nil{
-                self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
+                print("WalmartMG.Splash")
+                print(NSURL(string:self.serviceUrl("WalmartMG.Splash"))!)
+                print( UIApplication.sharedApplication().canOpenURL(NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
+                
+                
+                
+                
                 if let privateNot = result["privaceNotice"] as? NSArray {
                     let dateFormatter = NSDateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy"
@@ -411,7 +418,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         })
                         downloadTask.resume()
                     }
+                    
+                    
                 }
+                self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
                 UserCurrentSession.sharedInstance().searchForCurrentUser()
             }
             }) { (error:NSError) -> Void in

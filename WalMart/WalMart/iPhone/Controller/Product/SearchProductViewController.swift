@@ -315,6 +315,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         else
         {
             self.titleLabel?.text = titleHeader
+            if  self.searchContextType == SearchServiceContextType.WithCategoryForMG && titleHeader != "Recomendados" &&  titleHeader != "Centro de promociones" && IS_IPAD {
+                self.titleLabel?.text = ""
+            }
+           
         }
         //aqui la quite
         if loading == nil {
@@ -1398,6 +1402,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func returnBack() {
         self.navigationController?.popViewControllerAnimated(true)
+         NSNotificationCenter.defaultCenter().postNotificationName("CENTER_PROMOS", object: nil)
     }
     
     func showLoadingIfNeeded(hidden: Bool ) {

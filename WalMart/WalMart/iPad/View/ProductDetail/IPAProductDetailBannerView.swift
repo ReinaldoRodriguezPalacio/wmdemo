@@ -177,7 +177,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         var imgLarge = NSString(string: imageURL)
         imgLarge = imgLarge.stringByReplacingOccurrencesOfString("img_small", withString: "img_large")
         let pathExtention = imgLarge.pathExtension
-        imageURL = imgLarge.stringByReplacingOccurrencesOfString("s.\(pathExtention)", withString: "l.\(pathExtention)")
+        imageURL = imgLarge.stringByReplacingOccurrencesOfString("s.\(pathExtention)", withString: "L.\(pathExtention)")
         
         cell.imageView!.contentMode = UIViewContentMode.Center
         cell.imageView!.setImageWithURL(NSURL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
