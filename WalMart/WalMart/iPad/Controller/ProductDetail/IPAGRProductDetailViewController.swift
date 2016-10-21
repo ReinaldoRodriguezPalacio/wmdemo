@@ -927,7 +927,7 @@ override func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObj
             var imgLarge = NSString(string: image as! String)
             imgLarge = imgLarge.stringByReplacingOccurrencesOfString("img_small", withString: "img_large")
             let pathExtention = imgLarge.pathExtension
-            let imageurl = imgLarge.stringByReplacingOccurrencesOfString("s.\(pathExtention)", withString: "l.\(pathExtention)")
+            let imageurl = imgLarge.stringByReplacingOccurrencesOfString("s.\(pathExtention)", withString: "L.\(pathExtention)")
             imagesLarge.append(imageurl)
         }
         

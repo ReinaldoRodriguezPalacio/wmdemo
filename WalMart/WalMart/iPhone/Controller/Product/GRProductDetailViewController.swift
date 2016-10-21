@@ -85,7 +85,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 var imgLarge = NSString(string: images)
                 imgLarge = imgLarge.stringByReplacingOccurrencesOfString("img_small", withString: "img_large")
                 let pathExtention = imgLarge.pathExtension
-                imgLarge = imgLarge.stringByReplacingOccurrencesOfString("s.\(pathExtention)", withString: "l.\(pathExtention)")
+                imgLarge = imgLarge.stringByReplacingOccurrencesOfString("s.\(pathExtention)", withString: "L.\(pathExtention)")
                 self.imageUrl = [imgLarge]
             }
             //let freeShippingStr  = result["freeShippingItem"] as NSString
