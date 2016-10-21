@@ -23,7 +23,7 @@ class SignUpMGViewController: SignUpViewController {
     override func registryUser() {
         
         if validateTerms() {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
             
             let service = SignUpService()
             let dateFmtBD = NSDateFormatter()
@@ -95,6 +95,9 @@ class SignUpMGViewController: SignUpViewController {
                             BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Datos personales")
                     })// Close callService
                 }else{//close validateService
+                    if let errorView = self.addressMgView.viewAddress!.errorView {
+                        BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(errorView.errorLabel.text!, stepError: "Direcciones")
+                    }
                     self.alertView!.close()
                 }
             }//Close successCallBack

@@ -100,7 +100,6 @@ class BaseController : UIViewController {
         dataLayer.push(pushData)
     }
     
-
     class func sendEcommerceAnalyticsBanners(banners:[Banner]) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
@@ -174,12 +173,13 @@ class BaseController : UIViewController {
         
         for item in items {
             
-            let name = item["name"] as? String ?? ""
+            let name = item["desc"] as? String ?? ""
             let upc = item["upc"] as? String ?? ""
             let quantity = item["quantity"] as? String ?? "1"
+            let category = item["category"] as? String ?? ""
             
            
-            let product = ["name":name,"id":upc,"brand":"","category":"","variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"","dimension21":""]
+            let product = ["name":name,"id":upc,"brand":"","category":category,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"","dimension25":""]
             
             productsAdd.append(product)
         

@@ -369,6 +369,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             let infoView = self.generateInfoView(self.content.frame)
             self.content.alpha = 0
             infoView.alpha = 1
+        } else {
+            // Event -- Error Registration
+            if let errorView = self.errorView {
+                BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(errorView.errorLabel.text!, stepError: "Datos personales")
+            }
         }
      
     }
@@ -396,6 +401,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             }
             
             alertAddress?.showAddressAlert()
+            alertAddress?.sAddredssForm.isSignUp = true
             alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
                 
                 self.view.endEditing(true)

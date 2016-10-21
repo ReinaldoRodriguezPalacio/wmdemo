@@ -29,6 +29,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
             let gender = femaleButton!.selected ? "Female" : "Male"
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
+            
             self.addressMGView = IPAAddressViewController()
             self.addressMGView.view?.frame.size = CGSizeMake(self.view.frame.width, self.view.frame.height - 60)
             self.addressMGView.typeAddress = TypeAddress.Shiping
@@ -45,12 +46,15 @@ class IPASignMGUpViewController: IPASignUpViewController {
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-                if self.addressMGView.viewAddress!.validateAddress(){
+                if self.addressMGView.viewAddress!.validateAddress() {
                     service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                         self.addressMGView.closeAlert()
                         let login = LoginService()
                         var firstEnter = true
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                            
+                            // Event -- Succesful Registration
+                            BaseController.sendAnalyticsSuccesfulRegistration()
                             
                             //self.alertView!.setMessage("Registro exitoso")
                             //self.alertView!.showDoneIcon()
@@ -73,6 +77,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
                                         self.backRegistry(self.backButton!)
                                         self.alertView!.setMessage("Error")
                                         self.alertView!.showErrorIcon("Ok")
+                                        BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Direcciones")
                                     }
                                 })
                         })// close loginCallService
@@ -85,10 +90,15 @@ class IPASignMGUpViewController: IPASignUpViewController {
                             self.backRegistry(self.backButton!)
                             self.alertView!.setMessage(error.localizedDescription)
                             self.alertView!.showErrorIcon("Ok")
+                            BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Datos personales")
                     })// Close callService
                 }else{//close validateService
+                    if let errorView = self.addressMGView.viewAddress!.errorView {
+                        BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(errorView.errorLabel.text!, stepError: "Direcciones")
+                    }
                     self.alertView!.close()
                 }
+                
             }//Close successCallBack
             
             self.view.addSubview(self.addressMGView.view)
