@@ -127,12 +127,15 @@ class BaseController : UIViewController {
         dataLayer.push(impression)
     }
     
-    class func sendAnalyticsTagImpressions(mgProducts:NSArray, listName: String, subCategory: String, subSubCategory: String) {
+    class func sendAnalyticsTagImpressions(mgProducts:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         var impressions: [[String : String]] = []
+        var index = 0
         
         for mgProduct in mgProducts {
+            
+            index += 1
             
             guard let name = mgProduct["description"] as? String,
                   let id = mgProduct["upc"] as? String,
@@ -144,7 +147,7 @@ class BaseController : UIViewController {
             let brand = ""
             let variant = "pieza"
             let list = listName
-            let position = "1"
+            let position = "\(positionArray[index - 1])"
             let dimensions21 = "" // sku bundle
             let dimensions22 = subCategory // sub categoría del producto
             let dimensions23 = subSubCategory // sub sub categoría del producto

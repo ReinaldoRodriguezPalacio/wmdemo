@@ -120,6 +120,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var showAlertView = false
     var mgResponceDic: [String:AnyObject] = [:]
     var grResponceDic: [String:AnyObject] = [:]
+    var position = 0
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -968,10 +969,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 // Event -- Product Impressions
                 if let mgArrayProducts = arrayProduct {
                     if mgArrayProducts.count > 0 {
+                        
+                        var positionArray: [Int] = []
+                        
+                        for _ in mgArrayProducts {
+                            self.position += 1
+                            positionArray.append(self.position)
+                        }
+                        
                         let listName = self.textToSearch != nil ? "Search Results" : self.titleHeader
                         let subCategory = self.idFamily != nil ? self.idFamily! : ""
                         let subSubCategory = self.idLine != nil ? self.idLine! : ""
-                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
+                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
                     }
                 }
                 
