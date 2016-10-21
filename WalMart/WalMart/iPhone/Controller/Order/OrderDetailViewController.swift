@@ -154,6 +154,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if !showFedexGuide {
             controller.ixSelected = indexPath.row - 2
         }
+        controller.detailOf = "Order"
         self.navigationController!.delegate = nil
         self.navigationController!.pushViewController(controller, animated: true)
     

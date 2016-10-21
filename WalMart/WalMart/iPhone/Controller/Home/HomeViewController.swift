@@ -377,6 +377,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
             
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
+            controller.detailOf = catNameFilter
             
             if type == "groceries" {
                 //EVENT

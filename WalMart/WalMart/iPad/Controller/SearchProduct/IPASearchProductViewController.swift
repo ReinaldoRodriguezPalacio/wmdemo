@@ -111,6 +111,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
                 paginatedProductDetail.animationController.originPoint =  pontInView
                 paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
+                paginatedProductDetail.detailOf = "Search Result"
                 currentCell.hideImageView()
             
                 self.navigationController?.delegate = paginatedProductDetail

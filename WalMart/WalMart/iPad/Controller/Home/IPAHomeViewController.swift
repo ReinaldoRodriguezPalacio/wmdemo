@@ -104,6 +104,7 @@ class IPAHomeViewController : HomeViewController {
             let paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = indexPath.row
             paginatedProductDetail.itemsToShow = []
+            paginatedProductDetail.detailOf =  catNameFilter
             for productRecomm  in arrayItemsResult {
                 let upc = productRecomm["upc"] as! String
                 var desc = ""

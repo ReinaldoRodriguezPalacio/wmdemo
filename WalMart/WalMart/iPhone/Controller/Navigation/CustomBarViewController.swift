@@ -1024,7 +1024,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
                         self.isEditingSearch = false
                     }
-
+                    controller.detailOf = "Search result"
                     controllernav?.pushViewController(controller, animated: true)
             })
         }

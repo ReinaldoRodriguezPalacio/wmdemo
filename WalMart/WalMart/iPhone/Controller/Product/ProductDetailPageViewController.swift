@@ -22,6 +22,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     var stringSearching = ""
     var itemSelectedSolar : String = ""
     var completeDeleteItem : (() -> Void)? = nil
+    var detailOf: String = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -82,6 +83,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
                 vc.stringSearching = self.stringSearching
                 vc.name = descr
                 vc.fromSearch =  self.isForSeach
+                vc.detailOf = self.detailOf
                 vc.view.tag = ixSelected
                 
                 

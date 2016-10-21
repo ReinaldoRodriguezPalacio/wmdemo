@@ -286,6 +286,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type": ResultObjectType.Mg.rawValue])
         }
         
+        paginatedProductDetail.detailOf = "Wish List"
         let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
         currentCellSelected = indexPath
         let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
