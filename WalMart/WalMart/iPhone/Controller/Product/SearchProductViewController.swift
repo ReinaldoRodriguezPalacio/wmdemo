@@ -966,12 +966,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
                 
                 // Event -- Product Impressions
-                if self.searchContextType == .WithCategoryForMG {
-                    if let mgArrayProducts = arrayProduct {
-                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts)
+                if let mgArrayProducts = arrayProduct {
+                    if mgArrayProducts.count > 0 {
+                        let listName = self.textToSearch != nil ? "Search Results" : self.titleHeader
+                        let subCategory = self.idFamily != nil ? self.idFamily! : ""
+                        let subSubCategory = self.idLine != nil ? self.idLine! : ""
+                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
                     }
                 }
-                
                 
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")
