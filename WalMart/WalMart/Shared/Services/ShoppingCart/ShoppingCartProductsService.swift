@@ -216,9 +216,13 @@ class ShoppingCartProductsService : BaseService {
             //var currentItem = 0
             let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+            var productsDelete: [[String : String]] = []
             for itemDeleted in deteted {
                 
                 itemDeleted.status = CartStatus.Synchronized.rawValue
+                print("\(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"","quantity":"\(itemDeleted.product.quantity)"])")
+                productsDelete.append(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"","quantity":"\(itemDeleted.product.quantity)"])
+
                 do {
                     try context.save()
                 } catch let error as NSError {
@@ -228,7 +232,9 @@ class ShoppingCartProductsService : BaseService {
                 arratUpcsDelete.append(itemDeleted.product.upc)
                 
             }
+             BaseController.sendAnalyticsAddtoCart(productsDelete, isAdd: false)
             serviceDelete.callService(["parameter":arratUpcsDelete], successBlock: { (result:NSDictionary) -> Void in
+               
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)

@@ -155,7 +155,7 @@ class BaseController : UIViewController {
         
     }
     
-    class func sendAnalyticsAddtoCart(items:NSArray) {
+    class func sendAnalyticsAddtoCart(items:NSArray,isAdd:Bool) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
        
         var productsAdd: [[String : String]] = []
@@ -173,15 +173,18 @@ class BaseController : UIViewController {
             productsAdd.append(product)
         
         }
-        let ecommerce =  ["currencyCode": "MXN", "add" :["products": productsAdd]]
-        let push =  ["event":"addToCart","ecommerce" :ecommerce]
+        let ecommerce =  ["currencyCode": "MXN", (isAdd ? "add" : "remove")  :["products": productsAdd]]
+        
+        let push =  ["event": (isAdd ? "addToCart" : "removeFromCart") ,"ecommerce" :ecommerce]
         
         print("event:addToCart")
-        print(push)
-        dataLayer.push(push as [NSObject : AnyObject])
+        //print(push)
+        dataLayer.push(["event": (isAdd ? "addToCart" : "removeFromCart") ,"ecommerce" :ecommerce])
 
         
     }
+    
+ 
     
     
     
