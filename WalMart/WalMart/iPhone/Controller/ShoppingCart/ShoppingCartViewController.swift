@@ -529,12 +529,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
             controller.ixSelected = indexPath.row
+            controller.detailOf = "Shopping Cart"
             
-            let item = self.itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
-            let  name = item["description"] as! String
-            let upc = item["upc"] as! String
-            //EVENT
-            //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
+            
             if self.navigationController != nil {
                 self.navigationController!.pushViewController(controller, animated: true)
                 
@@ -957,6 +954,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items
         controller.ixSelected = index
+        controller.detailOf = "Shopping Cart"
         self.navigationController!.pushViewController(controller, animated: true)
     }
     

@@ -129,6 +129,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = getUPCItems()
         controller.ixSelected = indexPath.row
+        controller.detailOf = "Recent Products"
         self.navigationController!.pushViewController(controller, animated: true)
         
         

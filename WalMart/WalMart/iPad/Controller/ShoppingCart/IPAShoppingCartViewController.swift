@@ -341,6 +341,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             let controller = IPAProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
             controller.ixSelected = indexPath.row
+            controller.detailOf = "Shopping Cart"
             //self.navigationController!.delegate = nil
             self.navigationController!.pushViewController(controller, animated: true)
         }

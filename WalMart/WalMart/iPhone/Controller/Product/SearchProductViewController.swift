@@ -120,6 +120,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var showAlertView = false
     var mgResponceDic: [String:AnyObject] = [:]
     var grResponceDic: [String:AnyObject] = [:]
+    var position = 0
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -750,6 +751,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
+            controller.detailOf = "Search Result"
             
             self.navigationController!.pushViewController(controller, animated: true)
         }
@@ -966,12 +968,22 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
                 
                 // Event -- Product Impressions
-                if self.searchContextType == .WithCategoryForMG {
-                    if let mgArrayProducts = arrayProduct {
-                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts)
+                if let mgArrayProducts = arrayProduct {
+                    if mgArrayProducts.count > 0 {
+                        
+                        var positionArray: [Int] = []
+                        
+                        for _ in mgArrayProducts {
+                            self.position += 1
+                            positionArray.append(self.position)
+                        }
+                        
+                        let listName = self.textToSearch != nil ? "Search Results" : self.titleHeader
+                        let subCategory = self.idFamily != nil ? self.idFamily! : ""
+                        let subSubCategory = self.idLine != nil ? self.idLine! : ""
+                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
                     }
                 }
-                
                 
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")

@@ -127,26 +127,34 @@ class BaseController : UIViewController {
         dataLayer.push(impression)
     }
     
-    class func sendAnalyticsTagImpressions(mgProducts:NSArray) {
+    class func sendAnalyticsTagImpressions(mgProducts:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         var impressions: [[String : String]] = []
+        var index = 0
         
         for mgProduct in mgProducts {
             
+            index += 1
+            
             guard let name = mgProduct["description"] as? String,
                   let id = mgProduct["upc"] as? String,
-                  let brand = mgProduct["nameLine"] as? String,
                   let price = mgProduct["price"] as? String,
                   let category = mgProduct["category"] as? String else {
                 return
             }
             
+            let brand = ""
             let variant = "pieza"
-            let list = "Recomendados"
-            let position = "1"
+            let list = listName
+            let position = "\(positionArray[index - 1])"
+            let dimensions21 = "" // sku bundle
+            let dimensions22 = subCategory // sub categoría del producto
+            let dimensions23 = subSubCategory // sub sub categoría del producto
+            let dimensions24 = "" // big item o no big item
+            let dimensions25 = "" // super, exclusivo o compartido
             
-            let impression = ["name": name, "id": id, "price": price, "brand": brand, "category": category, "variant": variant, "list": list, "position": position]
+            let impression = ["name": name, "id": id, "price": price, "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
             impressions.append(impression)
         }
         

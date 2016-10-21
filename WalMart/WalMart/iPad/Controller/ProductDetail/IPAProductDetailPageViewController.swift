@@ -26,6 +26,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
                 vc.stringSearch = self.stringSearching
                 vc.view.tag = ixSelected
                 vc.pagerController = self
+                vc.detailOf = self.detailOf
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :

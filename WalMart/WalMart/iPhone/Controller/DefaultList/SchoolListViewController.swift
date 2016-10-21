@@ -176,12 +176,9 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         controller.itemsToShow = productsToShow
         controller.ixSelected = indexPath.row
+        controller.detailOf = self.schoolName!
         
         let product = self.detailItems![indexPath.row]
-        let upc = product["upc"] as! NSString
-        let description = product["description"] as! NSString
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
         
         self.navigationController!.pushViewController(controller, animated: true)
     }

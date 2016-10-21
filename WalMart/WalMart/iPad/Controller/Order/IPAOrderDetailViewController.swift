@@ -99,6 +99,7 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             let controller = IPAProductDetailPageViewController()
             controller.itemsToShow = getUPCItems(indexPath.section)
             controller.ixSelected = indexPath.row
+            controller.detailOf = "Order"
             if !showFedexGuide {
                 controller.ixSelected = indexPath.row - 2
             }

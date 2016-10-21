@@ -283,6 +283,7 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
                 //paginatedProductDetail.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
                 paginatedProductDetail.itemsToShow = []
                 paginatedProductDetail.stringSearching = self.titleHeader!
+                paginatedProductDetail.detailOf = "Recomendados"
                 
                 for product in self.allProducts! {
                     let upc = product["upc"] as! NSString
