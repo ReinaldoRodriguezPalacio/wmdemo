@@ -103,6 +103,7 @@ class BaseController : UIViewController {
     class func sendEcommerceAnalyticsBanners(banners:[Banner]) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
         var promotions: [[String : String]] = []
         
         for banner in banners {
@@ -122,6 +123,7 @@ class BaseController : UIViewController {
     
     class func sendEcommerceClickBanner(banner:Banner) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
         let promotion = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
         let impression = ["event": "promotionClick", "ecommerce": ["promoClick": ["promotions": [promotion]]]]
         dataLayer.push(impression)
@@ -130,6 +132,7 @@ class BaseController : UIViewController {
     class func sendAnalyticsTagImpressions(mgProducts:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
         var impressions: [[String : String]] = []
         var index = 0
         
@@ -163,9 +166,9 @@ class BaseController : UIViewController {
         
     }
     
-    class func sendAnalyticsAddtoCart(items:NSArray,isAdd:Bool) {
+    class func sendAnalyticsAddOrRemovetoCart(items:NSArray,isAdd:Bool) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-       
+       dataLayer.push(["ecommerce": NSNull()])
         var productsAdd: [[String : String]] = []
         
         for item in items {
@@ -181,9 +184,8 @@ class BaseController : UIViewController {
             productsAdd.append(product)
         
         }
-        let ecommerce =  ["currencyCode": "MXN", (isAdd ? "add" : "remove")  :["products": productsAdd]]
+        let ecommerce =  isAdd ? ["currencyCode": "MXN","add" :["products": productsAdd]] : ["remove" :["products": productsAdd]]
         
-        let push =  ["event": (isAdd ? "addToCart" : "removeFromCart") ,"ecommerce" :ecommerce]
         
         print("event:addToCart")
         //print(push)
@@ -206,7 +208,7 @@ class BaseController : UIViewController {
         print("guestID: \(UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "100")" )
         print("typePage:\(screenName)")
         print("pageTitle:\(titleScreen)")
-        print("category:")
+        print("category:\(screenName)")
         print("subCategory:")
         print("subsubCategory:")
         print("visitorLoginStatus:\(UserCurrentSession.hasLoggedUser())")

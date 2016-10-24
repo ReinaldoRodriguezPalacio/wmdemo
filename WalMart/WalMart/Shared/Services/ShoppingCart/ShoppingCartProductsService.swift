@@ -220,8 +220,8 @@ class ShoppingCartProductsService : BaseService {
             for itemDeleted in deteted {
                 
                 itemDeleted.status = CartStatus.Synchronized.rawValue
-                print("\(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"","quantity":"\(itemDeleted.product.quantity)"])")
-                productsDelete.append(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"","quantity":"\(itemDeleted.product.quantity)"])
+                print("\(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"Shopping Cart","quantity":"\(itemDeleted.product.quantity)"])")
+                productsDelete.append(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"Shopping Cart","quantity":"\(itemDeleted.product.quantity)"])
 
                 do {
                     try context.save()
@@ -232,7 +232,7 @@ class ShoppingCartProductsService : BaseService {
                 arratUpcsDelete.append(itemDeleted.product.upc)
                 
             }
-             BaseController.sendAnalyticsAddtoCart(productsDelete, isAdd: false)
+             BaseController.sendAnalyticsAddOrRemovetoCart(productsDelete, isAdd: false)
             serviceDelete.callService(["parameter":arratUpcsDelete], successBlock: { (result:NSDictionary) -> Void in
                
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
