@@ -178,7 +178,8 @@ class BaseController : UIViewController {
             let quantity = item["quantity"] as? String ?? "1"
             
            print(UserCurrentSession.sharedInstance().nameListToTag)
-            let product = ["name":name,"id":upc,"brand":"","category":UserCurrentSession.sharedInstance().nameListToTag,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"","dimension25":""]
+            let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
+            let product = ["name":name,"id":upc,"brand":"","category":sendCategory,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"","dimension25":""]
             
             productsAdd.append(product)
         
