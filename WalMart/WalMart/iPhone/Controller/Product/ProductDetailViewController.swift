@@ -291,6 +291,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items
         controller.ixSelected = index
+        controller.detailOf = "CrossSell"
         self.navigationController!.pushViewController(controller, animated: true)
     }
     /**
