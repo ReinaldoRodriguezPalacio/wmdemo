@@ -977,6 +977,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.position += 1
                             positionArray.append(self.position)
                         }
+                        UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : self.titleHeader!
                         
                         let listName = self.textToSearch != nil ? "Search Results" : self.titleHeader
                         let subCategory = self.idFamily != nil ? self.idFamily! : ""

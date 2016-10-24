@@ -48,6 +48,7 @@ class UserCurrentSession : NSObject {
     var screenSubCategory: String! = ""
     var screenSubSubCategory: String! = ""
     var screenViewArray : NSDictionary! = [:]
+    var nameListToTag =  ""
 
 
     
