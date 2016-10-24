@@ -54,6 +54,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
         let upc = itemUPC["upc"] as! String
         
+        UserCurrentSession.sharedInstance().nameListToTag = NSLocalizedString("shoppingcart.beforeleave", comment: "")
         let shoppingCartItems  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
         for itemInCart in shoppingCartItems! {
             if let dictItem = itemInCart as? [String:AnyObject] {

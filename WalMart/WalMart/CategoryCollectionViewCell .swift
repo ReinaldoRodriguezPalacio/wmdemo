@@ -135,6 +135,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     
     
     func changeSizeOfIndicator(index:Int) {
+        UserCurrentSession.sharedInstance().nameListToTag = "Especiales " + categories[index]
         
         if selectedCat != nil && self.selectedCat !=  categoriesLabel[index] {
             
