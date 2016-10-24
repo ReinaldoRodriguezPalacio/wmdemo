@@ -238,20 +238,23 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 //--
                 self.invokePaymentService { () -> Void in
                     print("End")
-                    self.paymentOptionsView =  PaymentOptionsView(frame: CGRectMake(0, 0,self.view!.frame.width,self.view!.frame.height) , items:self.paymentOptionsItems!)
-                    self.paymentOptionsView.selectedOption  = {(selected :String, stringselected:String) -> Void in
-                        self.paymentString = stringselected
-                        self.paymentId = selected
-                        self.payPalPaymentField!.selected = false
-                        self.payPalFuturePaymentField!.selected = false
-                        self.payPalFuturePayment = false
-                        self.changeButonTitleColor(self.payPalPaymentField!)
-                        self.changeButonTitleColor(self.payPalFuturePaymentField!)
-                    }
-                    
-                    self.contenPayments?.addSubview(self.paymentOptionsView)
+                    if self.paymentOptionsItems != nil {
+                        self.paymentOptionsView =  PaymentOptionsView(frame: CGRectMake(0, 0,self.view!.frame.width,self.view!.frame.height) , items:self.paymentOptionsItems!)
+                        self.paymentOptionsView.selectedOption  = {(selected :String, stringselected:String) -> Void in
+                            self.paymentString = stringselected
+                            self.paymentId = selected
+                            self.payPalPaymentField!.selected = false
+                            self.payPalFuturePaymentField!.selected = false
+                            self.payPalFuturePayment = false
+                            self.changeButonTitleColor(self.payPalPaymentField!)
+                            self.changeButonTitleColor(self.payPalFuturePaymentField!)
+                        }
+                        
+                        self.contenPayments?.addSubview(self.paymentOptionsView)
+                        
+                        self.buildSubViews()
+                    }//Presentar Empty
                     self.removeViewLoad()
-                    self.buildSubViews()
                     
                 }
             }
@@ -791,6 +794,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
+                print(result)
                 self.paymentOptionsItems = result as [AnyObject]
                 //TODO: Borrar despues de validar paypal
                 //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])

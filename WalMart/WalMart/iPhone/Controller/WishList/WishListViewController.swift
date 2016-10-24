@@ -90,7 +90,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        UserCurrentSession.sharedInstance().nameListToTag = "WishList"
         self.idexesPath = []
         reloadWishlist()
         
