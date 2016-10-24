@@ -11,7 +11,6 @@ import Foundation
 
 class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewCell {
     
-    
     var labelTitle : UILabel!
     var buttonClose : UIButton!
     
@@ -49,6 +48,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         return cell
     }
+    
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
