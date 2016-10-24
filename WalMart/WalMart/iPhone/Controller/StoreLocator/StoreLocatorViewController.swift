@@ -178,6 +178,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+        BaseController.setOpenScreenTagManager(titleScreen: NSLocalizedString("moreoptions.title.StoreLocator", comment: ""), screenName: WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue)
     }
     
     override func viewWillLayoutSubviews() {

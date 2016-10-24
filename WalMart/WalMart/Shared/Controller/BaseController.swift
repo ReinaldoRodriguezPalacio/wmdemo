@@ -113,10 +113,6 @@ class BaseController : UIViewController {
         
         let impression = ["ecommerce": ["promoView": ["promotions": promotions]], "event": "ecommerce"]
         
-
-        
-        print(impression)
-        
         dataLayer.push(impression)
         
     }
@@ -142,9 +138,13 @@ class BaseController : UIViewController {
             
             guard let name = mgProduct["description"] as? String,
                   let id = mgProduct["upc"] as? String,
-                  let price = mgProduct["price"] as? String,
-                  let category = mgProduct["category"] as? String else {
+                  let price = mgProduct["price"] as? String else {
                 return
+            }
+            
+            var category = ""
+            if let parsedCategory = mgProduct["category"] as? String {
+                category = parsedCategory
             }
             
             let brand = ""
@@ -206,7 +206,7 @@ class BaseController : UIViewController {
         UserCurrentSession.sharedInstance().screenSubCategory = UserCurrentSession.sharedInstance().screenCategory
         UserCurrentSession.sharedInstance().screenCategory = screenName
         print("setOpenScreenTagManager")
-        print("\(subCategory: UserCurrentSession.sharedInstance().screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance().screenSubSubCategory)")
+        print(" screenName \(screenName) - \(subCategory: UserCurrentSession.sharedInstance().screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance().screenSubSubCategory)")
         
         dataLayer.push([
             "event":"openScreen",

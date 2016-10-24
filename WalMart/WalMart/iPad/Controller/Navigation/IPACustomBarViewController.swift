@@ -354,6 +354,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     vcWishlist.closewl = {() in
                         self.closeWishList()
                     }
+                    BaseController.setOpenScreenTagManager(titleScreen: "wishlist", screenName: "WishList")
                     self.currentController?.addChildViewController(vcWishlist)
                     vcWishlist.view.frame = CGRectMake(0, -270, 1024,334)
                     self.currentController?.view.addSubview(vcWishlist.view)

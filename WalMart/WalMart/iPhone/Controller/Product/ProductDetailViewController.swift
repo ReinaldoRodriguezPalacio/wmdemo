@@ -50,7 +50,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var stringSearching  = ""
     
     var titlelbl : UILabel!
-    
     var isContainerHide : Bool = true
     var containerinfo : UIView!
     let heightDetail : CGFloat = 360
@@ -141,7 +140,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
     
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -171,8 +169,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
-    
-
     //MARK: TableViewDelegate
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1
@@ -211,7 +207,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
-
     func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
         let headerView = UIView()
         switch section {
@@ -248,7 +243,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return headerView
     }
     
-   
     /**
      Return to the last viewController
      */
@@ -256,7 +250,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.navigationController!.popViewControllerAnimated(true)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
     }
-    
     
     func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
@@ -294,6 +287,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         controller.detailOf = "CrossSell"
         self.navigationController!.pushViewController(controller, animated: true)
     }
+    
     /**
      Shows crossSell and reload collectionView
      */
@@ -306,22 +300,38 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
     }
     
-    
-    
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
         crossService.callService(requestParams:self.upc, successBlock: { (result:NSArray?) -> Void in
-                if result != nil {
+            
+            if result != nil {
+                
                 self.itemsCrossSellUPC = result!
+                
                 if self.itemsCrossSellUPC.count > 0  {
                     self.showCrossSell()
                 }
+                
+                var position = 0
+                var positionArray: [Int] = []
+                
+                for _ in self.itemsCrossSellUPC {
+                    position += 1
+                    positionArray.append(position)
+                }
+                
+                let listName = "CrossSell"
+                let subCategory = ""
+                let subSubCategory = ""
+                BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
             }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Termina sevicio app")
+            
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Termina sevicio app")
         })
         
     }
+    
     /**
      Shows product detail information in popup view
      */
@@ -495,6 +505,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             addOrRemoveToWishListBlock!()
         }
     }
+    
     /**
      Adds product to shopping cart
      
@@ -624,7 +635,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
     }
     
-    
     func closeContainerDetail(){
         if selectQuantity != nil {
             
@@ -690,6 +700,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         }
     }
+    
     /**
      Animates product detail view
      */
@@ -713,6 +724,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.productDetailButton?.deltailButton.selected = true
         })
     }
+    
     /**
      Close product detail view
      */
@@ -751,6 +763,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         controller.type = self.type.rawValue
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
     }
+    
     /**
      Shows not aviable product message
      */
@@ -820,6 +833,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         
     }
+    
     /**
      Reloads product detail view with a NSDIctionary
      
@@ -961,7 +975,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return inCountRows
     }
     
-
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath)
@@ -991,14 +1004,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         default :
             cell = nil
         }
-      
         
         if cell != nil {
             return cell!
         }
     return cellEmpty
     }
-    
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
@@ -1060,7 +1071,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return reusableView!
     }
-    
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         var hForCell : CGFloat = 0.0
@@ -1264,7 +1274,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         }
     }
+    
     //MARK: activityViewControllerDelegate
+    
     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
         return "Walmart"
     }
@@ -1307,6 +1319,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return ""
     }
+   
     /**
      Reloads shopping cart button
      
@@ -1317,6 +1330,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     //MARK: Color Size Functions
+    
     /**
      Gets details objects from facets
      
@@ -1402,6 +1416,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
         return selectedDetails
     }
+    
     /**
      Returns Dictionary keys in order
      
@@ -1454,6 +1469,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return upc
     }
+   
     /**
      Gets facet item from upc
      
@@ -1471,6 +1487,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return facet!
     }
+    
     /**
      Gets detail from detail key
      
@@ -1493,6 +1510,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     //MARK: ProductDetailColorSizeDelegate
+    
     /**
      Gets next detail items or gets the product detail data
      
@@ -1537,4 +1555,5 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.reloadViewWithData(facet)
         }
     }
+    
 }

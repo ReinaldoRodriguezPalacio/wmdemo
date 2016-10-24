@@ -510,20 +510,22 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else {
             let index = self.buttonList.indexOf(sender)
             //TODO: 360 Analytics
-//            switch index! {
-//            case 0:
+            switch index! {
+            case 0:
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_HOME.rawValue, label: "")
-//            case 1:
-//                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MG.rawValue, label: "")
-//            case 2:
+            case 1:
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MG.rawValue, label: "")
+                BaseController.setOpenScreenTagManager(titleScreen: "Categorias", screenName: "MGDepartment")
+            case 2:
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_GR.rawValue, label: "")
-//            case 3:
+                 BaseController.setOpenScreenTagManager(titleScreen: "Categorias", screenName: "GRDepartment")
+            case 3:
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_LIST.rawValue, label: "")
-//            case 4:
+            case 4:
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_OPTION.rawValue, label: "")
-//            default:
-//                break
-//            }
+            default:
+                break
+            }
             
             
             let controller = self.viewControllers[index!]

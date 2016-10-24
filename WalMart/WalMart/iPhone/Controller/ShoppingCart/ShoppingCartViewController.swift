@@ -30,6 +30,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var titleView : UILabel!
     var buttonWishlist : UIButton!
     var buttonAsociate : UIButton!
+    var beforeShopTag: Bool = false
+    
     //var addProductToShopingCart : UIButton? = nil
 
     var isEmployeeDiscount: Bool = false
@@ -1307,6 +1309,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         }
                         self.itemsUPC = NSArray(array:resultArray)
                         
+                        
+                        
                     }
                     if self.itemsInShoppingCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
@@ -1316,6 +1320,23 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         }
                     }
                     //self.collection.reloadData()
+                    
+                    if !self.beforeShopTag {
+                        var position = 0
+                        var positionArray: [Int] = []
+                        
+                        for _ in self.itemsUPC {
+                            position += 1
+                            positionArray.append(position)
+                        }
+                        
+                        let listName = "Antes de irte"
+                        let subCategory = ""
+                        let subSubCategory = ""
+                        BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                        self.beforeShopTag = true
+                    }
+                    
                 }else {
                     
                 }
