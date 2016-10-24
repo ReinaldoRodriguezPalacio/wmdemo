@@ -179,6 +179,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         loadShoppingCartService()
         
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
+        UserCurrentSession.sharedInstance().nameListToTag = "Shopping Cart"
         
     }
     

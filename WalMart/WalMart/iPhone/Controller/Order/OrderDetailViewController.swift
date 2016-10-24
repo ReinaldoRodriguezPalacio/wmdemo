@@ -99,6 +99,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         showLoadingView()
         if self.type ==  ResultObjectType.Mg {
+            UserCurrentSession.sharedInstance().nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
         }
     }

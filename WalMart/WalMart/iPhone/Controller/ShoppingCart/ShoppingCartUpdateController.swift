@@ -448,8 +448,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func showDoneIcon(){
         if finishCall ==  false {
+            if self.timmer != nil {
             timmer.invalidate()
-            timmer = nil
+                timmer = nil
+            }
             return
         }
         
