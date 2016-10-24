@@ -953,7 +953,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - parameter point:        point of start animation if use
      - parameter idList:       id list if requiered in detail
      */
-    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items
         controller.ixSelected = index

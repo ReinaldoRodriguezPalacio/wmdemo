@@ -612,7 +612,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
   
     // MARK: Product crosssell delegate
 
-    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         
         let paginatedProductDetail = IPAProductDetailPageViewController()
         paginatedProductDetail.ixSelected = index
@@ -625,7 +625,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if let newtype = product["type"] as String! {
                 type = newtype
             }
-
+            paginatedProductDetail.detailOf =   isBundle ? "Bundle" : "CrossSell"
             paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])
         }
         
@@ -637,9 +637,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         self.navigationController?.delegate = paginatedProductDetail
         self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
-        
-        
-        
     }
     
     func reloadSelectedCell() {

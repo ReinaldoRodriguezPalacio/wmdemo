@@ -277,14 +277,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter point:        point
      - parameter idList:       list identifier
      */
-    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         //Event
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items
         controller.ixSelected = index
-        controller.detailOf = "CrossSell"
+        controller.detailOf = isBundle ? "Bundle" : "CrossSell"
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
