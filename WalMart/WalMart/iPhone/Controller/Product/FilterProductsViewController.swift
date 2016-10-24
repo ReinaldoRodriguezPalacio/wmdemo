@@ -112,6 +112,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //Solo en el caso de que la busqueda sea con texto o camfind
+        BaseController.setOpenScreenTagManager(titleScreen: "Filtros", screenName: self.getScreenGAIName())
         self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
         
         if self.originalSearchContext != nil && self.isTextSearch {

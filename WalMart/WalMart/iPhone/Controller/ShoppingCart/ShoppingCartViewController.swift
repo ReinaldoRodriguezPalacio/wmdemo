@@ -789,7 +789,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         let descriptions =  itemWishlist["description"] as! String
         //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(descriptions) - \(upc)")
-        
+        BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
             self.itemsInShoppingCart.removeAtIndex(indexPath.row)
             
@@ -1357,13 +1357,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func deleteAll() {
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs : [String] = []
+        
         for itemSClist in self.itemsInShoppingCart {
             let upc = itemSClist["upc"] as! String
             upcs.append(upc)
         }
         self.showLoadingView()
    
-        
+        BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsInShoppingCart , isAdd: false)
         serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
            /* println("Error not done")
             

@@ -168,7 +168,7 @@ class BaseController : UIViewController {
     
     class func sendAnalyticsAddOrRemovetoCart(items:NSArray,isAdd:Bool) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-       dataLayer.push(["ecommerce": NSNull()])
+       //dataLayer.push(["ecommerce": NSNull()])
         var productsAdd: [[String : String]] = []
         
         for item in items {
@@ -179,11 +179,12 @@ class BaseController : UIViewController {
             
            print(UserCurrentSession.sharedInstance().nameListToTag)
             let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
-            let product = ["name":name,"id":upc,"brand":"","category":sendCategory,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"","dimension25":""]
+            let product = ["name":name,"id":upc,"brand":"","category":sendCategory,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
             
             productsAdd.append(product)
         
         }
+        
         let ecommerce =  isAdd ? ["currencyCode": "MXN","add" :["products": productsAdd]] : ["remove" :["products": productsAdd]]
         
         
@@ -201,33 +202,25 @@ class BaseController : UIViewController {
     class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
        
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        UserCurrentSession.sharedInstance().screenSubSubCategory = UserCurrentSession.sharedInstance().screenSubCategory
+        UserCurrentSession.sharedInstance().screenSubCategory = UserCurrentSession.sharedInstance().screenCategory
+        UserCurrentSession.sharedInstance().screenCategory = screenName
         print("setOpenScreenTagManager")
-        print("event:openScreen")
-        print("screenName:\(screenName)")
-        print("userID:\(UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "")")
-        print("guestID: \(UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "100")" )
-        print("typePage:\(screenName)")
-        print("pageTitle:\(titleScreen)")
-        print("category:\(screenName)")
-        print("subCategory:")
-        print("subsubCategory:")
-        print("visitorLoginStatus:\(UserCurrentSession.hasLoggedUser())")
-        print("estatusArticulo:")
+        print("\(subCategory: UserCurrentSession.sharedInstance().screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance().screenSubSubCategory)")
         
-        
-//        dataLayer.push([
-//            "event":"openScreen",
-//            "screenName":screenName,
-//            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "",
-//            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "100" ,//TODO validar lo que se va a enviar
-//            "typePage":screenName,
-//            "pageTitle":titleScreen,
-//            "category":"",
-//            "subCategory":"",
-//            "subsubCategory":"",
-//            "visitorLoginStatus":UserCurrentSession.hasLoggedUser(),
-//            "estatusArticulo":""
-//            ])
+        dataLayer.push([
+            "event":"openScreen",
+            "screenName":screenName,
+            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "",
+            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : UIDevice.currentDevice().identifierForVendor!.UUIDString,
+            "typePage":screenName,
+            "pageTitle":titleScreen,
+            "category":screenName,
+            "subCategory": UserCurrentSession.sharedInstance().screenSubCategory,
+            "subsubCategory": UserCurrentSession.sharedInstance().screenSubSubCategory,
+            "visitorLoginStatus":UserCurrentSession.hasLoggedUser(),
+            "estatusArticulo":""
+            ])
         
     }
     
