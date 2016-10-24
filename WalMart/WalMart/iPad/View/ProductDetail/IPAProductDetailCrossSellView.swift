@@ -31,7 +31,7 @@ class IPAProductDetailCrossSellView : ProductDetailCrossSellView {
         
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_RELATED_PRODUCT.rawValue, label: "\(cell.upcProduct)")
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:pontInView,idList: self.idListSeletSearch)
+        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:pontInView,idList: self.idListSeletSearch, isBundle: false)
     }
     
 }

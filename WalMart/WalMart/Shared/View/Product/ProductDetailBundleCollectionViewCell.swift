@@ -49,4 +49,27 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
         return cell
     }
     
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        var upcItems : [[String:String]] = []
+        for upcStr in itemsUPC {
+            let upc = upcStr["upc"] as! String
+            let desc = upcStr["description"] as! String
+            let type = ResultObjectType.Mg.rawValue
+            upcItems.append(["upc":upc,"description":desc,"type":type])
+        }
+        
+        let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
+        
+        //currentCell.hideImageView()
+        var pontInView = CGRectZero
+        if self.superview?.superview?.superview != nil {
+            pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview?.superview)
+        }else{
+            pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview)
+        }
+        
+        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: self.idListSelectdFromSearch, isBundle: true)
+        
+    }
+    
 }

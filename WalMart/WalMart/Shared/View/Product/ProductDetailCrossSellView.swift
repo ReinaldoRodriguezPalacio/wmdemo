@@ -10,7 +10,7 @@ import Foundation
 
 protocol ProductDetailCrossSellViewDelegate {
     
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect,idList:String)
+    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect,idList:String,isBundle:Bool)
     
 }
 
@@ -25,7 +25,6 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     
     var cellReuseid: String = ""
     var idListSeletSearch = ""
-    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -142,7 +141,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_RELATED_PRODUCT.rawValue, label: "\(cell.upcProduct)")
         
         
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:CGRectZero,idList: self.idListSeletSearch)
+        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:CGRectZero,idList: self.idListSeletSearch, isBundle: false)
     }
     
     
