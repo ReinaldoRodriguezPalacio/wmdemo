@@ -425,6 +425,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
         if let notiicationInfo = userInfo["notification"] as? NSDictionary {
             
+            print(userInfo)
             //let notiicationInfo = userInfo["notification"] as! NSDictionary
             let notiicationAPS = userInfo["aps"] as! NSDictionary
             let type = notiicationInfo["type"] as! String
@@ -438,18 +439,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             
             if let customBar = self.window?.rootViewController as? CustomBarViewController {
                
+                var banner =  Banner()
+                
+                if bussines == "MG" {
+                    banner.id = value
+                    banner.name = value
+                    banner.creative = bussines
+                    banner.position = "1"
+                }
+                
                 if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
                 {
                     customBar.helpView?.removeFromSuperview()
                     customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                    
+                    if bussines == "MG" {
+                        BaseController.sendEcommerceClickBanner(banner)
+                    }
+                    
                 }else{
                     NSNotificationCenter.defaultCenter().postNotificationName("OPEN_TUTORIAL", object: nil)
+                    
+                    if bussines == "MG" {
+                        let banners = [banner]
+                        BaseController.sendEcommerceAnalyticsBanners(banners)
+                    }
+                    
                     let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                     alertNot?.showDoneIconWithoutClose()
                     alertNot?.setMessage(message)
                     alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
                         alertNot?.close()
                         }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
+                            
+                            if bussines == "MG" {
+                                BaseController.sendEcommerceClickBanner(banner)
+                            }
                             
                             //Obtiene vista de login
                             if let viewLogin =  customBar.view.viewWithTag(5000) {

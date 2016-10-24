@@ -10,30 +10,25 @@ import Foundation
 class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,IPAWishListProductCollectionViewCellDelegate,UIActivityItemSource {
     
     var items : [AnyObject]! = []
-    
-     var currentCellSelected : NSIndexPath!
-    
+    var currentCellSelected : NSIndexPath!
     var titleLabel : UILabel!
+    var customlabel : CurrencyCustomLabel!
+    var loading: WMLoadingView? = nil
+    var popup : UIPopoverController?
+    var position = 0
     
     @IBOutlet var wishlist: UICollectionView!
-    
     @IBOutlet var shareWishlist: UIButton!
     @IBOutlet var header: UIView!
-
     @IBOutlet var articlesWishlist: UILabel!
     @IBOutlet var titleWishlist: UILabel!
     @IBOutlet var editWishlist : UIButton!
     @IBOutlet var deleteAllWishlist : UIButton!
     @IBOutlet var buyWishlist: UIButton!
-    var customlabel : CurrencyCustomLabel!
-    var loading: WMLoadingView? = nil
-    var popup : UIPopoverController?
     
     var emptyView : IPAEmptyWishlistView!
-    
     var isEditingWishList = false
     var closewl : (() -> Void)!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,9 +107,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
     }
     
-    
-    
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         wishlist.frame = CGRectMake(0, 46, self.view.frame.width, 224)
@@ -129,17 +121,17 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    
-    
     func registerNotification() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAWishlistViewController.reloadWishlist), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
 
         
     }
+    
     func removeNotification(){
          NSNotificationCenter.defaultCenter().removeObserver(self)
         
     }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -154,7 +146,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
 
-    
     func editWishlist(sender:AnyObject) {
    
         isEditingWishList = sender.tag == 1 ? true : !isEditingWishList
@@ -186,7 +177,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    
     func updateShopButton(total:String) {
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buyWishlist.bounds)
@@ -210,18 +200,23 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         self.view.addSubview(self.loading!)
         self.loading!.startAnnimating(false)
         
+            
         let serviceWish = UserWishlistService()
         
         serviceWish.callService({ (wishlist:NSDictionary) -> Void in
             self.items = wishlist["items"] as! [AnyObject]
             
+            var positionArray: [Int] = []
             var total : Double = 0
+            
             for itemWishList in self.items {
                 let price = itemWishList["price"] as! NSString
                 let active  = itemWishList["isActive"] as! NSString
                 if  active == "true"{
                     total = total + price.doubleValue
                 }
+                self.position += 1
+                positionArray.append(self.position)
             }
             
             let totalStr = String(format: "%.2f",total)
@@ -239,6 +234,12 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             self.wishlist.reloadData()
             
             self.loading!.stopAnnimating()
+            
+            let listName = "Wishlist"
+            let subCategory = ""
+            let subSubCategory = ""
+            BaseController.sendAnalyticsTagImpressions(self.items, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+            
             
             }, errorBlock: { (error:NSError) -> Void in
         })
@@ -629,7 +630,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    
     func loadViewCellCollection(productCell:IPAWishListProductCollectionViewCell,indexPath:NSIndexPath) {
 
         productCell.delegate = self
@@ -671,7 +671,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    
     func getImageWislistShareSize(header:UIImage) -> CGSize {
         let modItems = (self.items.count / 2) + (self.items.count % 2)
         let widthItem : CGFloat = (header.size.width / 2)
@@ -680,7 +679,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
 
-    
     @IBAction func deleteAllItems(sender: AnyObject) {
         
         let serviceWishDelete = DeleteItemWishlistService()

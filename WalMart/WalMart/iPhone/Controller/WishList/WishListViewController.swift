@@ -22,9 +22,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     var edit: UIButton!
     var deleteall: UIButton!
     let leftBtnWidth:CGFloat = 48.0
+    var position = 0
     
-    
-   
     var viewLoad : WMLoadingView!
     var isEdditing  = false
     var emptyView : IPOWishlistEmptyView!
@@ -146,7 +145,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
-    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
        let cell = wishlist.dequeueReusableCellWithIdentifier("product", forIndexPath: indexPath) as! WishlistProductTableViewCell
@@ -892,6 +890,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 self.edit.hidden = self.items.count == 0
             
                 var total : Double = 0
+                var positionArray: [Int] = []
+                
                 for itemWishList in self.items {
                     var price = NSString(string:"0")
                     if let priceVal = itemWishList["price"] as? String {
@@ -915,8 +915,16 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                     if isActive && onHandInventory.integerValue > 0 && !isPreorderable {
                         total = total + price.doubleValue
                     }
+                    
+                    self.position += 1
+                    positionArray.append(self.position)
                 }
-            
+                
+                let listName = "Wishlist"
+                let subCategory = ""
+                let subSubCategory = ""
+                BaseController.sendAnalyticsTagImpressions(self.items, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                
                 self.updateShopButton()
                 self.updateEditButton()
                 self.wishlist.reloadData()
@@ -929,6 +937,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         )
     }
+    
     func updateEditButton (){
         deleteall.hidden = self.items.count == 0 && self.isEdditing
         edit.hidden = self.items.count == 0
