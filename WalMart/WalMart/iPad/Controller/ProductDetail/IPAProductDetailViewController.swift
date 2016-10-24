@@ -76,6 +76,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var defaultLoadingImg: UIImageView?
     
     var indexRowSelected : String = ""
+    var detailOf : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1137,8 +1138,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let linea = result["linea"] as? String ?? ""
         BaseController.sendAnalyticsPush(["event":"interaccionFoto", "category" : self.productDeparment, "subCategory" :"", "subsubCategory" :linea])
         
-        let list = self.fromSearch ? "Search Results" : "Recomendados"
-        BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": list],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "","category":self.productDeparment,"variant":"pieza"]]]]])
+        let isBundle = result["isBundle"] as? Bool ?? false
+        if self.detailOf == "" {
+            fatalError("detailOf not seted")
+        }
+        
+        BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
         
     }
     

@@ -33,6 +33,7 @@ class IPARecentProductsViewController: RecentProductsViewController {
         let controller = IPAProductDetailPageViewController()
         controller.itemsToShow = getUPCItems()
         controller.ixSelected = indexPath.row
+        controller.detailOf = "Recent Products"
        
         if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
             navCtrl.navigationController!.pushViewController(controller, animated: true)

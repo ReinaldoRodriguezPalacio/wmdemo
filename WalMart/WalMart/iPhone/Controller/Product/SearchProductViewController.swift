@@ -751,6 +751,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
+            controller.detailOf = "Search Result"
             
             self.navigationController!.pushViewController(controller, animated: true)
         }

@@ -271,7 +271,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = itemsToSend
         controller.ixSelected = indexPath.row
-        
+        controller.detailOf = "Wish List"
         
         let itemWishlistSel = items[indexPath.row] as! [String:AnyObject]
         let upc = itemWishlistSel["upc"] as! String

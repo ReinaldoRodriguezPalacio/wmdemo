@@ -55,6 +55,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         }
         controller.itemsToShow = productsToShow
         controller.ixSelected = indexPath.row
+        controller.detailOf = self.schoolName
         
         let product = self.detailItems![indexPath.row]
         let upc = product["upc"] as! NSString
