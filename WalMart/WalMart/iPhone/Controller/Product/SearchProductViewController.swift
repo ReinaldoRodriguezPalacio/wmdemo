@@ -1101,7 +1101,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
            self.showAlertView = false
         }
         
-        if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch || self.showAlertView) {
+        if (self.isTextSearch || self.isOriginalTextSearch) && (!self.firstOpen || self.showAlertView) {
             
         UIView.animateWithDuration(0.3, animations: {
             if self.isTextSearch || self.isOriginalTextSearch{
