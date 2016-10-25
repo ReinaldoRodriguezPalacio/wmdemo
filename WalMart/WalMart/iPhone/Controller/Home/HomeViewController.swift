@@ -94,30 +94,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
             BaseController.sendEcommerceAnalyticsBanners(banners)
         }
-        
-        if recommendItems != nil {
-            for recommendItem in recommendItems! {
-                if let type = recommendItem["type"] as? String {
-                    if type == "mg" {
-                        if let upcs = recommendItem["upcs"] as? NSArray {
-                            
-                            var position = 0
-                            var positionArray: [Int] = []
-                            let listName = "Especiales \(recommendItem["name"] as! String)"
-                            let subCategory = ""
-                            let subSubCategory = ""
-                            
-                            for _ in upcs {
-                                position += 1
-                                positionArray.append(position)
-                            }
-                            BaseController.sendAnalyticsTagImpressions(upcs, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
-                        }
-                    }
-                }
-            }
-        }
-        
+                
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -692,7 +669,46 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 })
             }
             //collection.reloadData()
+            
         }
+        
+        if recommendItems != nil {
+            
+            let catNameFilter = self.categories[index]
+            var recommendItem:[String:AnyObject]?
+            
+            for item in recommendItems! {
+                let name = item["name"] as! String
+                
+                if name == catNameFilter {
+                    recommendItem = item
+                    break
+                }
+                
+            }
+            
+            if let type = recommendItem!["type"] as? String {
+                if type == "mg" {
+                    if let upcs = recommendItem!["upcs"] as? NSArray {
+                        
+                        var position = 0
+                        var positionArray: [Int] = []
+                        let listName = "Especiales \(recommendItem!["name"] as! String)"
+                        let subCategory = ""
+                        let subSubCategory = ""
+                        
+                        for _ in upcs {
+                            position += 1
+                            positionArray.append(position)
+                        }
+                        
+                        BaseController.sendAnalyticsTagImpressions(upcs, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                    }
+                }
+            }
+            
+        }
+
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
