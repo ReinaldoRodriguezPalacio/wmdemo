@@ -97,6 +97,7 @@ class BaseController : UIViewController {
     
     class func sendAnalyticsPush(pushData:[String:AnyObject]) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
         dataLayer.push(pushData)
     }
     
@@ -168,7 +169,7 @@ class BaseController : UIViewController {
     
     class func sendAnalyticsAddOrRemovetoCart(items:NSArray,isAdd:Bool) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-       //dataLayer.push(["ecommerce": NSNull()])
+       dataLayer.push(["ecommerce": NSNull()])
         var productsAdd: [[String : String]] = []
         
         for item in items {
