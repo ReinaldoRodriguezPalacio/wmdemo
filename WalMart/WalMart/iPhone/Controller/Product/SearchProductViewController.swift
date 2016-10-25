@@ -892,7 +892,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 let landingMg = resultDic["landingPage"] as! [String:AnyObject]
                 self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
-                if self.landingPageMG != nil && self.landingPageMG!.count > 0 && arrayProduct!.count == 0  && self.btnTech.selected {
+                if self.landingPageMG != nil && self.landingPageMG!.count > 0 && arrayProduct!.count == 0 {// && self.btnTech.selected {
                     self.showLandingPage()
                     return
                 }
@@ -954,7 +954,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                     //Gogle 360 falta departamento
                     if self.textToSearch != nil {
-                        BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter_IOS", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults])
+                        BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter_IOS", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults]) //TODO quitar:_IOS
                     }
                 }
                 else {
