@@ -892,6 +892,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     print("completeDelete")
                     self.fromDelete =  true
             }
+            controller.detailOf = self.listName!
             self.navigationController!.pushViewController(controller, animated: true)
         }
       }

@@ -1554,9 +1554,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
 
         if flag {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
+            BaseController.sendAnalyticsPush(["event":"searchSortResult","searchCategory" : "enter-IOS","searchTerm" : self.textToSearch ?? "", "searchNumberResults" : self.grResults!.totalResults, "sortUsado":order])
         }else{
-            BaseController.sendAnalyticsPush(["event":"searchSortResult","searchCategory" : "enter-IOS","searchTerm" : self.textToSearch!, "searchNumberResults" : self.mgResults!.totalResults, "sortUsado":order])
+            BaseController.sendAnalyticsPush(["event":"searchSortResult","searchCategory" : "enter-IOS","searchTerm" : self.textToSearch ?? "", "searchNumberResults" : self.mgResults!.totalResults, "sortUsado":order])
         }
         
         self.allProducts = []

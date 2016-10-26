@@ -99,6 +99,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
                     vc.saving = saving == nil ? "" : saving!
                     vc.view.tag = ixSelected
                     vc.idListFromlistFind = self.idListSeleted! // new
+                    vc.detailOf = self.detailOf
                     vc.completeDelete = {() in
                         print("completeDelete")
                         self.completeDeleteItem?()
