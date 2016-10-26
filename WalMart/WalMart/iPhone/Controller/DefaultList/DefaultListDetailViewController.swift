@@ -61,6 +61,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
             BaseController.sendAnalyticsTagImpressions(self.detailItems!, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
         }
         
+        BaseController.setOpenScreenTagManager(titleScreen: self.defaultListName!, screenName: self.getScreenGAIName())
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {

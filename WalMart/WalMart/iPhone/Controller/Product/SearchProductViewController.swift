@@ -239,9 +239,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(self.searchAlertView!)
         
          //self.header!.bringSubviewToFront(self.bannerView)
-        if self.searchContextType!  == SearchServiceContextType.WithCategoryForMG {
-            BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
-        }
+        BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
+    
     }
     
     

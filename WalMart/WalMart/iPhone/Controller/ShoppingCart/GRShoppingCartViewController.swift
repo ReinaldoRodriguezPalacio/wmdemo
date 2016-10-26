@@ -132,6 +132,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         initEmptyView()
         //loadGRShoppingCart()
+        BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
 
         
     }
