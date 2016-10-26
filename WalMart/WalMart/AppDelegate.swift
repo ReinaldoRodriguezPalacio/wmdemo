@@ -441,29 +441,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                
                 var banner =  Banner()
                 
-                if bussines == "MG" {
-                    banner.id = value
-                    banner.name = value
-                    banner.creative = bussines
-                    banner.position = "1"
-                }
+                banner.id = value
+                banner.name = value
+                banner.creative = bussines
+                banner.position = "1"
                 
                 if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
                 {
                     customBar.helpView?.removeFromSuperview()
                     customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                     
-                    if bussines == "MG" {
-                        BaseController.sendEcommerceClickBanner(banner)
-                    }
+                    BaseController.sendEcommerceClickBanner(banner)
                     
                 }else{
                     NSNotificationCenter.defaultCenter().postNotificationName("OPEN_TUTORIAL", object: nil)
                     
-                    if bussines == "MG" {
-                        let banners = [banner]
-                        BaseController.sendEcommerceAnalyticsBanners(banners)
-                    }
+                    let banners = [banner]
+                    BaseController.sendEcommerceAnalyticsBanners(banners)
                     
                     let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                     alertNot?.showDoneIconWithoutClose()
@@ -472,9 +466,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                         alertNot?.close()
                         }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
                             
-                            if bussines == "MG" {
-                                BaseController.sendEcommerceClickBanner(banner)
-                            }
+                            BaseController.sendEcommerceClickBanner(banner)
                             
                             //Obtiene vista de login
                             if let viewLogin =  customBar.view.viewWithTag(5000) {
