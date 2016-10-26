@@ -92,7 +92,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 banners.append(banner)
                 position += 1
             }
-            BaseController.sendEcommerceAnalyticsBanners(banners)
+            BaseController.sendAnalyticsBanners(banners)
         }
                 
     }

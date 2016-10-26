@@ -451,13 +451,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                     customBar.helpView?.removeFromSuperview()
                     customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                     
-                    BaseController.sendEcommerceClickBanner(banner)
+                    BaseController.sendAnalyticsClickBanner(banner)
                     
                 }else{
                     NSNotificationCenter.defaultCenter().postNotificationName("OPEN_TUTORIAL", object: nil)
                     
                     let banners = [banner]
-                    BaseController.sendEcommerceAnalyticsBanners(banners)
+                    BaseController.sendAnalyticsBanners(banners)
                     
                     let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                     alertNot?.showDoneIconWithoutClose()
@@ -466,7 +466,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                         alertNot?.close()
                         }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
                             
-                            BaseController.sendEcommerceClickBanner(banner)
+                            BaseController.sendAnalyticsClickBanner(banner)
                             
                             //Obtiene vista de login
                             if let viewLogin =  customBar.view.viewWithTag(5000) {

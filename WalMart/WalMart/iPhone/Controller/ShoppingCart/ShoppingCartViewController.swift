@@ -385,7 +385,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 ixCount += 1
                 
                 // Event
-                BaseController.sendTagProductToWishList(upc, desc: desc, price: price)
+                BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
                 
             }
         }

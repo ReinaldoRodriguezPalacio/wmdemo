@@ -822,7 +822,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         
         // Event
-        BaseController.sendTagWhishlistProductsToCart(wishlistTotalPrice)
+        BaseController.sendAnalyticsProductsToCart(wishlistTotalPrice)
         
     }
 

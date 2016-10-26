@@ -26,7 +26,6 @@ class BaseController : UIViewController {
         
     }
     
-    
     func loadStoryboardDefinition() -> UIStoryboard? {
         let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
         let storyboard : UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil);
@@ -42,13 +41,15 @@ class BaseController : UIViewController {
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
-
     
     override func shouldAutorotate() -> Bool {
         return true
     }
     
-   //TODO :  360 commnets
+    //TODO :  360 commnets
+    
+    // MARK: - Analytics 360
+    
     class func sendAnalytics(category:String, action: String, label:String){
            ////////
 //        print("Category: \(category) Action: \(action) Label: \(label)")
@@ -64,11 +65,11 @@ class BaseController : UIViewController {
         BaseController.sendAnalytics(category, action: action, label: label)
     }
     
-    class func sendTagProductToWishList(upc: String, desc:String, price: String) {
+    class func sendAnalyticsProductToList(upc: String, desc:String, price: String) {
         self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": price])
     }
     
-    class func sendTagWhishlistProductsToCart(totalPriceOfList: Double) {
+    class func sendAnalyticsProductsToCart(totalPriceOfList: Double) {
         self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
     }
     
@@ -93,7 +94,7 @@ class BaseController : UIViewController {
         dataLayer.push(pushData)
     }
     
-    class func sendEcommerceAnalyticsBanners(banners:[Banner]) {
+    class func sendAnalyticsBanners(banners:[Banner]) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
@@ -110,7 +111,7 @@ class BaseController : UIViewController {
         
     }
     
-    class func sendEcommerceClickBanner(banner:Banner) {
+    class func sendAnalyticsClickBanner(banner:Banner) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         let promotion = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
@@ -199,10 +200,6 @@ class BaseController : UIViewController {
         
     }
     
- 
-    
-    
-    
     class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
        
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
@@ -229,6 +226,7 @@ class BaseController : UIViewController {
     }
     
     //MARK: Tag de Errores
+    
     class func sendTagManagerErrors(event:String,detailError:String){
         switch event {
         case "ErrorEvent":

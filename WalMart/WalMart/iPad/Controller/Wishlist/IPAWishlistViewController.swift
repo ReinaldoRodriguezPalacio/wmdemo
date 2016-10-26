@@ -523,7 +523,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }
         
         // Event
-        BaseController.sendTagWhishlistProductsToCart(wishlistTotalPrice)
+        BaseController.sendAnalyticsProductsToCart(wishlistTotalPrice)
         
     }
     
