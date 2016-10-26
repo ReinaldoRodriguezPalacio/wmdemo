@@ -1018,70 +1018,88 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
-        service.callService(params,
-                            successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
+        service.callService(params, successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
+            
+            self.landingPageGR = resultDic["landingPage"] as? [String:AnyObject]
+            if arrayProduct != nil && arrayProduct!.count > 0 {
+                self.grResponceDic = resultDic
+                if self.landingPageGR?.count > 0 && self.btnSuper.selected{ // > 0 TODO cambiar
+                    //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
+                    let imageURL = IS_IPAD ? self.landingPageGR!["imgipad"] as! String : self.landingPageGR!["imgiphone"] as! String
+                    self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                        self.bannerView.image = image //"http://\(imageURL)"
+                    }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                        print("Error al presentar imagen")
+                    }
+                    self.isLandingPage = true
+                    self.showAlertView = false
+                    //Se muestra listado de MG
+                    self.btnTech.selected = false
+                    self.btnSuper.selected = true
+                }
                 
-                self.landingPageGR = resultDic["landingPage"] as? [String:AnyObject]
-                if arrayProduct != nil && arrayProduct!.count > 0 {
-                    self.grResponceDic = resultDic
-                    if self.landingPageGR?.count > 0 && self.btnSuper.selected{ // > 0 TODO cambiar
-                        //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
-                        let imageURL = IS_IPAD ? self.landingPageGR!["imgipad"] as! String : self.landingPageGR!["imgiphone"] as! String
-                        self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-                            self.bannerView.image = image //"http://\(imageURL)"
-                        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                            print("Error al presentar imagen")
-                        }
-                        self.isLandingPage = true
-                        self.showAlertView = false
-                        //Se muestra listado de MG
-                        self.btnTech.selected = false
-                        self.btnSuper.selected = true
+                if let item = arrayProduct?[0] as? NSDictionary {
+                    //println(item)
+                    if let results = item["resultsInResponse"] as? NSString {
+                        self.grResults!.resultsInResponse += results.integerValue
                     }
-                    
-                    if let item = arrayProduct?[0] as? NSDictionary {
-                        //println(item)
-                        if let results = item["resultsInResponse"] as? NSString {
-                            self.grResults!.resultsInResponse += results.integerValue
-                        }
-                        if let total = item["totalResults"] as? NSString {
-                            self.grResults!.totalResults = total.integerValue
-                        }
+                    if let total = item["totalResults"] as? NSString {
+                        self.grResults!.totalResults = total.integerValue
                     }
-                    
-                    self.grResults!.addResults(arrayProduct!)
                 }
-                else {
-                    self.grResults!.resultsInResponse = 0
-                    self.grResults!.totalResults = 0
-                }
-                actionSuccess?()
-            }, errorBlock: {(error: NSError) in
-                print(error)
-                //No se encontraron resultados para la búsqueda
-                if error.code == 1 {
-                    self.grResults!.resultsInResponse = 0
-                    self.grResults!.totalResults = 0
-                    self.finsihService =   self.btnSuper.selected
-                    self.removeEmpty =  false
-                    if self.btnSuper.selected {
-                        self.showEmptyView()//Iphone
+                
+                self.grResults!.addResults(arrayProduct!)
+            }
+            else {
+                self.grResults!.resultsInResponse = 0
+                self.grResults!.totalResults = 0
+            }
+            actionSuccess?()
+            
+            // Event -- Product Impressions
+            if let grArrayProducts = arrayProduct {
+                if grArrayProducts.count > 0 {
+                    
+                    var positionArray: [Int] = []
+                    
+                    for _ in grArrayProducts {
+                        self.position += 1
+                        positionArray.append(self.position)
                     }
-                    self.collection?.reloadData()//Ipad
-                    actionError?()
-                }else{
-                    print("GR Search ERROR!!!")
-                    self.grResults!.totalResults = self.allProducts!.count
-                    self.grResults!.resultsInResponse = self.mgResults!.totalResults
-                    self.finsihService =   self.btnSuper.selected
-                    self.removeEmpty =  false
-                    self.collection?.reloadData()
-                    actionSuccess?()
-                    print(error)
-                    actionError?()
+                    UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : self.titleHeader!
+                    
+                    let listName = self.textToSearch != nil ? "Search Results" : self.titleHeader
+                    let subCategory = self.idFamily != nil ? self.idFamily! : ""
+                    let subSubCategory = self.idLine != nil ? self.idLine! : ""
+                    BaseController.sendAnalyticsTagImpressions(grArrayProducts, positionArray: positionArray, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
                 }
             }
-        )
+            
+        }, errorBlock: {(error: NSError) in
+            print(error)
+            //No se encontraron resultados para la búsqueda
+            if error.code == 1 {
+                self.grResults!.resultsInResponse = 0
+                self.grResults!.totalResults = 0
+                self.finsihService =   self.btnSuper.selected
+                self.removeEmpty =  false
+                if self.btnSuper.selected {
+                    self.showEmptyView()//Iphone
+                }
+                self.collection?.reloadData()//Ipad
+                actionError?()
+            }else{
+                print("GR Search ERROR!!!")
+                self.grResults!.totalResults = self.allProducts!.count
+                self.grResults!.resultsInResponse = self.mgResults!.totalResults
+                self.finsihService =   self.btnSuper.selected
+                self.removeEmpty =  false
+                self.collection?.reloadData()
+                actionSuccess?()
+                print(error)
+                actionError?()
+            }
+        })
     }
     
     func setAlertViewValues(resultDic: [String:AnyObject]){

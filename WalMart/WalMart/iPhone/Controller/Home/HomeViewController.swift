@@ -687,24 +687,20 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
             }
             
-            if let type = recommendItem!["type"] as? String {
-                if type == "mg" {
-                    if let upcs = recommendItem!["upcs"] as? NSArray {
-                        
-                        var position = 0
-                        var positionArray: [Int] = []
-                        let listName = "Especiales \(recommendItem!["name"] as! String)"
-                        let subCategory = ""
-                        let subSubCategory = ""
-                        
-                        for _ in upcs {
-                            position += 1
-                            positionArray.append(position)
-                        }
-                        
-                        BaseController.sendAnalyticsTagImpressions(upcs, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
-                    }
+            if let upcs = recommendItem!["upcs"] as? NSArray {
+                
+                var position = 0
+                var positionArray: [Int] = []
+                let listName = "Especiales \(recommendItem!["name"] as! String)"
+                let subCategory = ""
+                let subSubCategory = ""
+                
+                for _ in upcs {
+                    position += 1
+                    positionArray.append(position)
                 }
+                
+                BaseController.sendAnalyticsTagImpressions(upcs, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
             }
             
         }

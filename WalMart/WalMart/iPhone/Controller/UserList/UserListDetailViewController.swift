@@ -59,6 +59,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     var retunrFromSearch =  false
     var isDeleting = false
+    var analyticsSent = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -200,6 +201,41 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     override func viewDidAppear(animated: Bool) {
         self.tabBarActions()
+        
+        if products != nil && products != nil && !analyticsSent {
+            
+            var position = 0
+            var positionArray: [Int] = []
+            var productsArray: [[String: AnyObject]] = []
+            var params: [String:AnyObject] = [:]
+            
+            for product in self.products! {
+                
+                if let item = product as? Product {
+                    params["upc"] = item.upc
+                    params["description"] = item.desc
+                    params["imgUrl"] = item.img
+                    params["price"] = item.price
+                    params["quantity"] = "\(item.quantity)"
+                    params["wishlist"] = false
+                    params["type"] = ResultObjectType.Groceries.rawValue
+                    params["comments"] = ""
+                    let isPesable = item.type.boolValue
+                    params["pesable"] = isPesable ? "1" : "0"
+                    position += 1
+                    positionArray.append(position)
+                    productsArray.append(params)
+                }
+                
+            }
+            
+            let listName = self.listName!
+            let subCategory = ""
+            let subSubCategory = ""
+            BaseController.sendAnalyticsTagImpressions(productsArray, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+            analyticsSent = true
+        }
+        
     }
     
     override func viewWillLayoutSubviews() {

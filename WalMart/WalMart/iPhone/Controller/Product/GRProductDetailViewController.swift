@@ -917,6 +917,19 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     if self.itemsCrossSellUPC.count > 0{
                          self.showCrossSell()
                     }
+                    
+                    var position = 0
+                    var positionArray: [Int] = []
+                    
+                    for _ in self.itemsCrossSellUPC {
+                        position += 1
+                        positionArray.append(position)
+                    }
+                    
+                    let listName = "CrossSell"
+                    let subCategory = ""
+                    let subSubCategory = ""
+                    BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
                 }
                 
             }, errorBlock: {(error: NSError) in

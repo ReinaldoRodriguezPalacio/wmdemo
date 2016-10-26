@@ -126,30 +126,41 @@ class BaseController : UIViewController {
         dataLayer.push(impression)
     }
     
-    class func sendAnalyticsTagImpressions(mgProducts:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
+    class func sendAnalyticsTagImpressions(products:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         var impressions: [[String : String]] = []
         var index = 0
         
-        for mgProduct in mgProducts {
+        for product in products {
             
             index += 1
             
-            guard let name = mgProduct["description"] as? String,
-                  let id = mgProduct["upc"] as? String,
-                  let price = mgProduct["price"] as? String else {
+            guard let name = product["description"] as? String,
+                  let id = product["upc"] as? String,
+                  let price = product["price"] else {
                 return
             }
             
             var category = ""
-            if let parsedCategory = mgProduct["category"] as? String {
+            if let parsedCategory = product["category"] as? String {
                 category = parsedCategory
             }
             
             let brand = ""
-            let variant = "pieza"
+            var variant = "pieza"
+            
+            if let type = product["type"] as? String {
+                if type == "groceries" {
+                    if let parsedVariant = product["pesable"] as? String {
+                        if parsedVariant == "1" {
+                            variant = "gramos"
+                        }
+                    }
+                }
+            }
+            
             let list = listName
             let position = "\(positionArray[index - 1])"
             let dimensions21 = "" // sku bundle
@@ -158,7 +169,7 @@ class BaseController : UIViewController {
             let dimensions24 = "" // big item o no big item
             let dimensions25 = "" // super, exclusivo o compartido
             
-            let impression = ["name": name, "id": id, "price": price, "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
+            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
             impressions.append(impression)
         }
         

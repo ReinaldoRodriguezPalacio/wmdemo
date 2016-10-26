@@ -44,7 +44,23 @@ DetailListViewCellDelegate,UIActivityItemSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.titleLabel?.text = defaultListName
-    
+        
+        if detailItems != nil && defaultListName != nil {
+            
+            var position = 0
+            var positionArray: [Int] = []
+            
+            for _ in self.detailItems! {
+                position += 1
+                positionArray.append(position)
+            }
+            
+            let listName = self.defaultListName!
+            let subCategory = ""
+            let subSubCategory = ""
+            BaseController.sendAnalyticsTagImpressions(self.detailItems!, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+        }
+        
     }
     
     override func viewDidAppear(animated: Bool) {
