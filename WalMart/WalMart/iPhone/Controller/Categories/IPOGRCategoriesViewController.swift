@@ -214,7 +214,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         sender.selected = !sender.selected
         self.collapsed = !self.collapsed
         if self.collapsed{
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_HIDE_HIGHLIGHTS.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_HIDE_HIGHLIGHTS.rawValue, label: "")
         }
         
         if landingItem != nil  {
@@ -307,7 +307,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                                     
                             })
                         }
-                        BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_ACCESSORY_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_ACCESSORY_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
+                        //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_ACCESSORY_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_ACCESSORY_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
                     }
                     
                     newView.startFrame = newView.bounds
@@ -353,7 +353,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     //EVENT
                     let label = item["description"] as! String
                     let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-                    BaseController.sendAnalytics("GR_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "GR_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
+//                    BaseController.sendAnalytics("GR_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "GR_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
                     print("End")
                     self.view.addSubview(newView)
                 }
@@ -402,7 +402,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         
         self.navigationController!.pushViewController(controller, animated: true)
         //EVENT
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_VIEW_RECOMMENDED.rawValue, label: name)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_VIEW_RECOMMENDED.rawValue, label: name)
     }
 
     

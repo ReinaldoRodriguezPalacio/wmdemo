@@ -109,13 +109,13 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             self.viewSuper.tapAction =  { () -> Void in
                 if totArticlesGR > 0 {
                     //Event
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_GR_OPEN_SHOPPING_CART.rawValue, label: "")
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_GR_OPEN_SHOPPING_CART.rawValue, label: "")
                     
                     self.yPointOpen = self.viewSuper.imgBackground.convertRect(self.viewSuper.imgBackground.frame, toView: self.view).maxY
                     self.performSegueWithIdentifier("shoppingCartGR", sender: self)
                 } else {
                     //Event
-                    BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label: "")
+                    //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label: "")
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
                 }
             }
@@ -124,13 +124,13 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             self.viewMG.tapAction =  { () -> Void in
                 if totArticlesMG > 0 {
                     //Event
-                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_MG_OPEN_SHOPPING_CART.rawValue, label: "")
+                    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_MG_OPEN_SHOPPING_CART.rawValue, label: "")
                     
                     self.yPointOpen = self.viewMG.imgBackground.convertRect(self.viewMG.imgBackground.frame, toView: self.view).maxY
                     self.performSegueWithIdentifier("shoppingCartMG", sender: self)
                 } else {
                     //Event
-                    //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_MG.rawValue, label: "")
+                    ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_MG.rawValue, label: "")
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
                 }
             }

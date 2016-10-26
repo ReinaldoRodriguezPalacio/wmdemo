@@ -241,7 +241,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
             self.delegate?.apply(self.selectedOrder!, upcs: upcs)
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
             if successCallBack != nil {
                 self.successCallBack!()
             }else {
@@ -285,7 +285,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         print("Departamento::\(self.filterDepto) -- Familia::\(self.filterFamily) -- Linea::\(self.filterLine)")
         
         self.delegate?.apply(self.selectedOrder!, filters: filters.count > 0 ? filters : nil, isForGroceries: groceriesType)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
         if successCallBack != nil {
             self.successCallBack!()
         }else {
@@ -528,7 +528,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if indexPath.row == 0 {
                 self.selectedFacetGr = [:]
                 self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
-                //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 return
             }
             
@@ -557,7 +557,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if indexPath.row == 0 {
                 self.selectedElementsFacet = [:]
                 self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
-                //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 return
             }
             
@@ -586,7 +586,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
                 }
             }
-            //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])
+            ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])
             
             self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Fade)
             //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
@@ -668,18 +668,18 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             if let family = item["families"] as? [String:AnyObject] {
                 self.insertItems(family, atIndexPath: updatedIndex!)
-                 //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_DEPARMENT.rawValue, label: "")
+                 ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_DEPARMENT.rawValue, label: "")
             }
                 
             else if let line = item["lines"] as? [String:AnyObject] {
                 self.insertItems(line, atIndexPath: updatedIndex!)
-                //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_FAMILY.rawValue, label: "")
+                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_FAMILY.rawValue, label: "")
             }
         }
         else {
             self.selectedElements![indexPath.row] = true
         
-             //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
+             ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
             
         }
 
@@ -939,7 +939,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int) {
         self.filterProductsByPrice(forLowPrice: low, andHighPrice: high)
-        //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_SLIDER_PRICE_RANGE_SELECT.rawValue, label: "\(self.prices![low]) - \(self.prices![high])")
+        ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_SLIDER_PRICE_RANGE_SELECT.rawValue, label: "\(self.prices![low]) - \(self.prices![high])")
     }
     
     func filterProductsByPrice(forLowPrice low:Int, andHighPrice high:Int) {
@@ -973,7 +973,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     override func back() {
         super.back()
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_SEARCH_PRODUCT.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_SEARCH_PRODUCT.rawValue , label: "")
         self.backFilter?()
     }
     

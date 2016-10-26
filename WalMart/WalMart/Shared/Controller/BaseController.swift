@@ -21,14 +21,6 @@ class BaseController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            let valueScreenName = self.getScreenGAIName()
-            if !valueScreenName.isEmpty {
-                tracker.set(kGAIScreenName, value: self.getScreenGAIName())
-                let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
-                tracker.send(eventTracker as! [NSObject : AnyObject])
-            }
-        }
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["event": "openScreen", "screenName": self.getScreenGAIName()])
         
@@ -60,11 +52,11 @@ class BaseController : UIViewController {
     class func sendAnalytics(category:String, action: String, label:String){
            ////////
 //        print("Category: \(category) Action: \(action) Label: \(label)")
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
-                        action: action,
-                        label: label, value: nil).build() as [NSObject : AnyObject])
-                }
+//                if let tracker = GAI.sharedInstance().defaultTracker {
+//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
+//                        action: action,
+//                        label: label, value: nil).build() as [NSObject : AnyObject])
+//                }
     }
     
     class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){

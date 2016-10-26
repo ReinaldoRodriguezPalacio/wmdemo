@@ -275,7 +275,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let upc = itemWishlistSel["upc"] as! String
         let desc = itemWishlistSel["description"] as! String
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_OPEN_DETAIL_WISHLIST.rawValue, label: "\(desc) - \(upc)")
+        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_OPEN_DETAIL_WISHLIST.rawValue, label: "\(desc) - \(upc)")
                
         self.navigationController!.pushViewController(controller, animated: true)
         
@@ -430,7 +430,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             isEdditing = !isEdditing
             
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_EDIT_WISHLIST.rawValue, label: "")
+            ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_EDIT_WISHLIST.rawValue, label: "")
             
             let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
             for cell in currentCells {
@@ -526,7 +526,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                self.updateEditButton()
             }
             
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: upc)
+            ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: upc)
             
             
             //self.updateEditButton()
@@ -601,7 +601,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
         }
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
         
         
     }
@@ -851,13 +851,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
         }
   
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
+        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
         
     }
     
     @IBAction func deletealltap(sender: AnyObject) {
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_WISHLIST.rawValue, label: "")
+        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_WISHLIST.rawValue, label: "")
         
         let serviceWishDelete = DeleteItemWishlistService()
         var upcsWL : [String]  = []
@@ -949,7 +949,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     override func back() {
         super.back()
-         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_BACK_WISHLIST.rawValue, label: "")
+         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_BACK_WISHLIST.rawValue, label: "")
     }
     
     

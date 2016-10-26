@@ -217,19 +217,19 @@ class StoreView: UIView {
 
     func showCarRoute() {
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_ROUTE_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_ROUTE_STORE.rawValue, label: self.store!.name!)
         self.delegate?.showInstructions(self.store!, forCar: true)
     }
     
     func makePhoneCall() {
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_CALL_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_CALL_STORE.rawValue, label: self.store!.name!)
         self.delegate?.makeCallForStore(self.store!)
     }
     
     func shareStore() {
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_SHARE_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_MAP_SHARE_STORE.rawValue, label: self.store!.name!)
         self.delegate?.shareStore(self.store!)
     }
     

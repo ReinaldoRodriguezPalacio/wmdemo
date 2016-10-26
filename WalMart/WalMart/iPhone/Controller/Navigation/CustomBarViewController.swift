@@ -511,18 +511,18 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let index = self.buttonList.indexOf(sender)
             //TODO: 360 Analytics
             switch index! {
-            case 0:
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_HOME.rawValue, label: "")
+            //case 0:
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_HOME.rawValue, label: "")
             case 1:
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MG.rawValue, label: "")
+                ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MG.rawValue, label: "")
                 BaseController.setOpenScreenTagManager(titleScreen: "Categorias", screenName: "MGDepartment")
             case 2:
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_GR.rawValue, label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_GR.rawValue, label: "")
                  BaseController.setOpenScreenTagManager(titleScreen: "Categorias", screenName: "GRDepartment")
-            case 3:
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_LIST.rawValue, label: "")
-            case 4:
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_OPTION.rawValue, label: "")
+            //case 3:
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_LIST.rawValue, label: "")
+            //case 4:
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_OPTION.rawValue, label: "")
             default:
                 break
             }
@@ -793,7 +793,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
         }
         else{
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
             self.closeSearch(false, sender: nil)
         }
     }
@@ -840,7 +840,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             if self.searchController == nil  {
                 
 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
                 
                 if self.imageBlurView != nil {
                     self.imageBlurView?.removeFromSuperview()
@@ -1032,7 +1032,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         else{
             
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
             let controllernav = self.currentController as? UINavigationController
             let controllersInNavigation = controllernav?.viewControllers.count
             if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
@@ -1167,7 +1167,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.showBadge()
         self.btnShopping?.alpha = 1
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
         
         if let vcRoot = shoppingCartVC.viewControllers.first as? PreShoppingCartViewController {
             vcRoot.delegate = self
@@ -1204,7 +1204,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.endUpdatingShoppingCart(self)
                 self.hidebadge()
                 self.btnShopping?.alpha = 0
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue , label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue , label: "")
                 
                 if self.btnCloseShopping == nil {
                     self.btnCloseShopping = UIButton()
@@ -1251,7 +1251,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             vcRoot.openShoppingCart()
         }
         self.view.endEditing(true)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
     }
     
     
@@ -1407,7 +1407,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func logoTap(){
         self.buttonSelected(self.buttonList[0])
         self.closeShoppingCart()
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NAVIGATION_BAR.rawValue, action: WMGAIUtils.ACTION_GO_TO_HOME.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NAVIGATION_BAR.rawValue, action: WMGAIUtils.ACTION_GO_TO_HOME.rawValue, label: "")
     }
     
     func hidebadge() {
@@ -1426,7 +1426,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         //Se elimina el badge de notificaciones
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION.rawValue, action: WMGAIUtils.ACTION_PUSH_NOTIFICATION_OPEN.rawValue, label: value)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION.rawValue, action: WMGAIUtils.ACTION_PUSH_NOTIFICATION_OPEN.rawValue, label: value)
        return self.handleListNotification(type, name: name, value: value, bussines: bussines, schoolName: "", grade: "")
     }
     
