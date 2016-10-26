@@ -187,6 +187,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         }
         controller.itemsToShow = productsToShow
         controller.ixSelected = indexPath.row
+        controller.detailOf = self.defaultListName!
         
         let product = self.detailItems![indexPath.row]
         let upc = product["upc"] as! NSString

@@ -340,6 +340,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
             controller.ixSelected = indexPath.row
+            controller.detailOf = "Shopping Cart"
             if self.navigationController  != nil {
                 self.navigationController!.pushViewController(controller, animated: true)
             }

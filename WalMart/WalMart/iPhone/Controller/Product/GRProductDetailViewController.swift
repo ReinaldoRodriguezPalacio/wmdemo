@@ -181,6 +181,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             //FACEBOOKLOG
             FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.upc])
             
+            //Analitics
+            let linea = result["linea"] as? String ?? ""
+            BaseController.sendAnalyticsPush(["event":"interaccionFoto", "category" : self.productDeparment, "subCategory" :"", "subsubCategory" :linea])
+            
+            let isBundle = result["isBundle"] as? Bool ?? false
+            if self.detailOf == "" {
+                fatalError("detailOf not seted")
+            }
+            
+            BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
+            
+            
             },errorBlock: { (error:NSError) -> Void in
                 let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
@@ -778,8 +790,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     }
             })
         }
-
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(name) - \(upc)")
         
         self.detailCollectionView.scrollsToTop = true
         self.detailCollectionView.scrollEnabled = false
@@ -945,6 +955,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         controller.ixSelected = index
         controller.idListSeleted = idList
         controller.itemsToShow = []
+        controller.detailOf =   isBundle ? "Bundle" : "CrossSell"
         for product  in items {
             let upc : NSString = product["upc"]!
             let desc : NSString = product["description"]!

@@ -255,7 +255,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         var department = ""
         var family = ""
         var line = ""
-        var groceriesType = false
+        var groceriesType = self.searchContext == SearchServiceContextType.WithCategoryForGR
         if lastSelected != nil {
             var element = self.tableElements![lastSelected!] as! [String:AnyObject]
             if let path = element["path"] as? String {
@@ -285,7 +285,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         print("Departamento::\(self.filterDepto) -- Familia::\(self.filterFamily) -- Linea::\(self.filterLine)")
         
         self.delegate?.apply(self.selectedOrder!, filters: filters.count > 0 ? filters : nil, isForGroceries: groceriesType)
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
         if successCallBack != nil {
             self.successCallBack!()
         }else {
