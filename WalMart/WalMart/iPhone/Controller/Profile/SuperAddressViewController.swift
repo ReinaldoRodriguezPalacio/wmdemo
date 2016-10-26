@@ -71,6 +71,8 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         sAddredssForm.allAddress = self.allAddress
         scrollForm.addSubview(sAddredssForm)
         self.view.addSubview(scrollForm)
+        
+        BaseController.setOpenScreenTagManager(titleScreen: self.titleLabel!.text! , screenName: self.getScreenGAIName())
     }
     
     override func viewWillLayoutSubviews() {

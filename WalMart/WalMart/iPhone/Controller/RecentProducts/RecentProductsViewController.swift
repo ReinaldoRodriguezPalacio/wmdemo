@@ -44,6 +44,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         }
         self.view.addSubview(emptyView)
         invokeRecentProducts()
+        BaseController.setOpenScreenTagManager(titleScreen:  NSLocalizedString("profile.misarticulos",comment: ""), screenName: self.getScreenGAIName())
     }
     
     override func viewWillLayoutSubviews() {

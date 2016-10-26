@@ -184,6 +184,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.view.addSubview(self.addProductsView!)
 
         }
+        BaseController.setOpenScreenTagManager(titleScreen: self.listName!, screenName: self.getScreenGAIName())
         
         // self.showLoadingView()
        

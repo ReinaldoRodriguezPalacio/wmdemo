@@ -48,6 +48,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         self.view.addSubview(emptyView)
         tabFooterView()
         self.reloadPreviousOrders()
+        BaseController.setOpenScreenTagManager(titleScreen:  NSLocalizedString("profile.myOrders", comment: ""), screenName: self.getScreenGAIName())
     }
     
     override func viewWillAppear(animated: Bool) {

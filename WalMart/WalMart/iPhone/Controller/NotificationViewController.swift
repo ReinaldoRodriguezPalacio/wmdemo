@@ -77,6 +77,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.headerNotification!.layer.insertSublayer(layerLine!, atIndex: 1000)
         self.showLoadingView()
         self.invokeNotificationService()
+        BaseController.setOpenScreenTagManager(titleScreen: NSLocalizedString("more.notification.title", comment: ""), screenName: self.getScreenGAIName())
         
     }
     

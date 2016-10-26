@@ -30,6 +30,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         self.view.addSubview(self.tableView!)
         
         loadDefaultLists()
+        BaseController.setOpenScreenTagManager(titleScreen: "Superlistas", screenName: self.getScreenGAIName())
     }
     
     
