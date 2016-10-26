@@ -105,7 +105,7 @@ class GRMyAddressViewController: MyAddressViewController {
         self.superAddressController!.showGRAddressForm = self.hasCloseButton
         self.superAddressController!.allAddress =  self.arrayAddressShippingGR
          
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
         
         self.navigationController!.pushViewController(self.superAddressController, animated: true)
     }
@@ -144,7 +144,7 @@ class GRMyAddressViewController: MyAddressViewController {
             
             service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
                                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label:"")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label:"")
                 
                 if let message = result["message"] as? String {
                     if self.alertView != nil {

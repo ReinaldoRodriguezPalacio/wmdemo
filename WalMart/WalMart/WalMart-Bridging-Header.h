@@ -28,12 +28,12 @@
 #import "FMDB.h"
 
 //Google Analitics
-#import "GAI.h"
-#import "GAIFields.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAIEcommerceProduct.h"
-#import "GAIEcommerceProductAction.h"
-#import "GAIEcommerceFields.h"
+//#import "GAI.h"
+//#import "GAIFields.h"
+//#import "GAIDictionaryBuilder.h"
+//#import "GAIEcommerceProduct.h"
+//#import "GAIEcommerceProductAction.h"
+//#import "GAIEcommerceFields.h"
 
 //Loading
 #import "LoadingIconView.h"

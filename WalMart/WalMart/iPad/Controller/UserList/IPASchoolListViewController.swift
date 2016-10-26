@@ -61,7 +61,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         let upc = product["upc"] as! NSString
         let description = product["description"] as! NSString
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
         
         if self.navigationController != nil && !self.showInPopover {
             if let navCtrl = self.navigationController!.parentViewController as UIViewController! {

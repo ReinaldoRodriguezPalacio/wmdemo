@@ -382,7 +382,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.view.endEditing(true)
         if validateTerms() {
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
             
             let service = SignUpService()
             

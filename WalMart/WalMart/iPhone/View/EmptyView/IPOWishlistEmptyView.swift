@@ -50,7 +50,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
     
     override func returnActionSel() {
         super.returnActionSel()
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST_EMPTY.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST_EMPTY.rawValue, action: WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
+        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST_EMPTY.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST_EMPTY.rawValue, action: WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
     
 }

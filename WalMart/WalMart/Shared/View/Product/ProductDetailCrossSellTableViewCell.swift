@@ -102,7 +102,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
         
         let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
         
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(currentCell.upcProduct)")
+         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(currentCell.upcProduct)")
         //currentCell.hideImageView()
         var pontInView = CGRectZero
         if self.superview?.superview?.superview != nil {

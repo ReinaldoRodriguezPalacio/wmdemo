@@ -44,14 +44,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
         //UserCurrentSession.sharedInstance().searchForCurrentUser()
-        // Optional: automatically send uncaught exceptions to Google Analytics.
-        GAI.sharedInstance().trackUncaughtExceptions = true
-        // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-        GAI.sharedInstance().dispatchInterval = 20
-        // Optional: set Logger to VERBOSE for debug information.
-        GAI.sharedInstance().logger.logLevel = .None
-        // Initialize tracker. Replace with your tracking ID.
-        GAI.sharedInstance().trackerWithTrackingId(WMGAIUtils.GAI_APP_KEY.rawValue)
+//        // Optional: automatically send uncaught exceptions to Google Analytics.
+//        GAI.sharedInstance().trackUncaughtExceptions = true
+//        // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+//        GAI.sharedInstance().dispatchInterval = 20
+//        // Optional: set Logger to VERBOSE for debug information.
+//        GAI.sharedInstance().logger.logLevel = .None
+//        // Initialize tracker. Replace with your tracking ID.
+//        //GAI.sharedInstance().trackerWithTrackingId(WMGAIUtils.GAI_APP_KEY.rawValue)
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: NSURL?, error: NSError?) in
             if (error != nil) {
