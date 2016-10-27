@@ -181,7 +181,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             if addedTWL == true {
                 self.listButton.selected = !self.listButton.selected
                 if self.listButton.selected {
-                    BaseController.sendAnalyticsProductToList(self.upc, desc: self.desc, price: self.price)
+                    BaseController.sendAnalyticsProductToList(self.upc, desc: self.desc, price: self.price as String)
                 }
             }
             animation.layer.removeAllAnimations()

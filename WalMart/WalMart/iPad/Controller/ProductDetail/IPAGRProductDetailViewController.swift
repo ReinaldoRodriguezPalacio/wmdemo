@@ -511,6 +511,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.removeListSelector(action: nil, closeRow:true)
         }
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+            
             /*if quantity.toInt() == 0 {
                 self.listSelectorDidDeleteProduct(inList: listId)
             }
@@ -526,9 +527,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                         self.alertView!.showDoneIcon()
+                        
+                        // 360 Event
+                        BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: "\(self.price)")
+                        
                         self.alertView!.afterRemove = {
                             self.removeListSelector(action: nil, closeRow:true)
-                    }
+                        }
+                        
                     }, errorBlock: { (error:NSError) -> Void in
                         print("Error at add product to list: \(error.localizedDescription)")
                         self.alertView!.setMessage(error.localizedDescription)
@@ -536,8 +542,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                         self.alertView!.afterRemove = {
                             self.removeListSelector(action: nil, closeRow:true)
                     }
-                    }
-                )
+                })
             //}
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
@@ -628,6 +633,9 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
             self.removeListSelector(action: nil, closeRow:true)
             self.productDetailButtonGR!.listButton.selected = true
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: "\(self.price)")
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         UIView.animateWithDuration(0.5,

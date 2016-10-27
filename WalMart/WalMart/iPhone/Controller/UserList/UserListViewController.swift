@@ -762,6 +762,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             detail!.price = item.price
                             detail!.quantity = item.quantity
                             detail!.list = clist!
+                            
+                            // 360 Event
+                            BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
                         }
                     }
                     
@@ -1547,6 +1550,15 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         let quantity = item["quantity"] as! NSNumber
                         let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
                         products.append(param)
+                        
+                        guard let name = item["description"] as? String,
+                            let id = item["upc"] as? String,
+                            let price = item["price"] else {
+                                return
+                        }
+                        
+                        // 360 Event
+                        BaseController.sendAnalyticsProductToList(id, desc: name, price: "\(price as! Int)")
                     }
                     
                     let fmt = NSDateFormatter()

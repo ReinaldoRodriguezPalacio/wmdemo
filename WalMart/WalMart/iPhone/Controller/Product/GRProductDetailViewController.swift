@@ -486,6 +486,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         self.alertView!.afterRemove = {
                             self.removeListSelector(action: nil)
                         }
+                        
+                        // 360 Event
+                        BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+                        
                     }, errorBlock: { (error:NSError) -> Void in
                         print("Error at add product to list: \(error.localizedDescription)")
                         self.alertView!.setMessage(error.localizedDescription)
@@ -620,6 +624,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
             
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
             
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)

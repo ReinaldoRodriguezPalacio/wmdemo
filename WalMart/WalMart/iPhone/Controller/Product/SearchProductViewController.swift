@@ -1928,7 +1928,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 alertView!.showDoneIcon()
                 print("Error at add product to list)")
                 self.collection?.reloadData()
-
+                
+                // 360 Event
+                BaseController.sendAnalyticsProductToList(cell.upc, desc: cell.desc, price: "\(cell.price)")
+                
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error at add product to list: \(error.localizedDescription)")
                 alertView!.setMessage(error.localizedDescription)

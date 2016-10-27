@@ -733,9 +733,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         let service = GRAddItemListService()
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemDetailProducts.count {
+            
             let item = self.itemDetailProducts[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String
+            let desc = item["description"] as! String
+            let price = item["price"] as! String
+            
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
@@ -743,7 +747,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
             }
-            
             var pesable = "0"
             if  let pesableP = item["type"] as? String {
                 pesable = pesableP
@@ -752,8 +755,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if let stock = item["stock"] as? Bool {
                 active = stock
             }
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active))
             
-            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products),

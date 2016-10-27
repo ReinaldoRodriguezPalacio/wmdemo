@@ -1020,6 +1020,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
                 self.products = result["items"] as? [AnyObject]
+                
                 self.titleLabel?.text = result["name"] as? String
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
@@ -1553,6 +1554,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             print("Correcto el producto es::::")
             self.invokeAddproductTolist(result,products: nil, succesBlock: { () -> Void in
                 print("Se agrega correctamnete")
+                
+                guard let name = result["description"] as? String,
+                    let id = result["upc"] as? String,
+                    let price = result["price"] else {
+                        return
+                }
+                
+                // 360 Event
+                BaseController.sendAnalyticsProductToList(id, desc: name, price: "\(price as! Int)")
+                
             })
             
             }, errorBlock: { (error:NSError) -> Void in
