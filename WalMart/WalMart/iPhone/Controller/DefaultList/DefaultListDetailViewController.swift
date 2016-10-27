@@ -297,12 +297,24 @@ DetailListViewCellDelegate,UIActivityItemSource {
     func shareList() {
 
         if let image = self.tableView!.screenshot() {
-            
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.defaultListName!)
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
             let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            
+            if #available(iOS 8.0, *) {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            } else {
+                controller.completionHandler = {(activityType, completed:Bool) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            }
         }
     }
     
