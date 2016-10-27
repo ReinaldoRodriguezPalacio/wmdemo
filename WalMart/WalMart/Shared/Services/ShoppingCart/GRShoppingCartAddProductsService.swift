@@ -112,7 +112,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 }
                 //self.jsonFromObject(send!)
                 self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
-                    
+                     //BaseController.sendAnalyticsAddOrRemovetoCart(send as! NSArray,isAdd: true)
                     if self.updateShoppingCart() {
 //                        let shoppingService = GRShoppingCartProductsService()
 //                        shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
@@ -129,6 +129,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             } else {
                 
                 let svcUpdateShoppingCart = GRShoppingCartUpdateProductsService()
+                BaseController.sendAnalyticsAddOrRemovetoCart(params as! NSArray,isAdd: true)
                 svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
 
 //                UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
@@ -149,6 +150,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        //BaseController.sendAnalyticsAddOrRemovetoCart(params as! NSArray, isAdd: true)
         
         for product in params as! NSArray {
             

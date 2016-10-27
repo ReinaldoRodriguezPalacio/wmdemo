@@ -232,6 +232,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             if type == ResultObjectType.Groceries.rawValue {
                 self.showBtnAddNote = false
             serviceAddProduct.callService(requestParams : paramsitems, successBlock: { (result:NSDictionary) -> Void in
+                BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true)//360 multiple add
+                
                 self.finishCall = true
                 
                     if self.timmer == nil {
@@ -257,7 +259,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                  let serviceAddProductMG = ShoppingCartAddProductsService()
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in
                     self.finishCall = true
-                    
+                    BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true)
                     if self.timmer == nil {
                         self.showDoneIcon()
                         
@@ -323,9 +325,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     if let commentsParams = params["comments"] as? NSString{
                         self.comments = commentsParams as String
                     }
-                    
+                    //TODO : 360
+                  
                     serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString,parameter:signalParametrer, successBlock: { (result:NSDictionary) -> Void in
-                        
+                          BaseController.sendAnalyticsAddOrRemovetoCart([self.params], isAdd: true)
                         self.finishCall = true
                         if self.timmer == nil {
                             self.showDoneIcon()
@@ -364,7 +367,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             typeProduct = ResultObjectType.Mg
             serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
-                
+                //360 mg add
+                BaseController.sendAnalyticsAddOrRemovetoCart([self.params], isAdd: true)
                 self.finishCall = true
                 if self.timmer == nil {
                     self.showDoneIcon()

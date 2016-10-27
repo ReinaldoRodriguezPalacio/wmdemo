@@ -703,7 +703,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     func deleteRowAtIndexPath(indexPath : NSIndexPath){
         let itemGRSC = itemsInCart[indexPath.row] as! [String:AnyObject]
         let upc = itemGRSC["upc"] as! String
-        
+        //360 delete
+        BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
          allUPCS.append(upc)
@@ -721,6 +722,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 }
             })
             }, errorBlock: { (error:NSError) -> Void in
+                 self.removeViewLoad()
                 print("error")
             })
         
@@ -761,12 +763,18 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
         }
         var arrayUPCQuantity : [[String:String]] = []
+        var arrayDeleteItems: [[String:AnyObject]] = []
         let array  =  self.retrieveParam("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         let service = GRProductsByUPCService()
         for item in array {
             arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
+            arrayDeleteItems.append(["desc":item.product.desc,"upc":item.product.upc,"quantity":"\(item.product.quantity)","pesable":false])
         }
         
+        
+        
+        //360 delete
+        BaseController.sendAnalyticsAddOrRemovetoCart(arrayDeleteItems, isAdd: false)
         
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []

@@ -62,7 +62,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         }
         
         BaseController.setOpenScreenTagManager(titleScreen: self.defaultListName!, screenName: self.getScreenGAIName())
-        
+        UserCurrentSession.sharedInstance().nameListToTag = self.defaultListName!
         
     }
     

@@ -96,7 +96,6 @@ class ShoppingCartAddProductsService : BaseService {
                 
                 
                 self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
-                     BaseController.sendAnalyticsAddOrRemovetoCart(itemsSvc,isAdd: true)
                     
                     if self.updateShoppingCart() {
                         
@@ -131,8 +130,7 @@ class ShoppingCartAddProductsService : BaseService {
                         send = itemsSvc
                     }
                         self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
-                        
-                        BaseController.sendAnalyticsAddOrRemovetoCart(params as! NSArray,isAdd: true)
+
                         if self.updateShoppingCart() {
                             UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                                 UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
@@ -196,7 +194,6 @@ class ShoppingCartAddProductsService : BaseService {
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-         BaseController.sendAnalyticsAddOrRemovetoCart(params as! NSArray,isAdd: true)
         for product in params as! NSArray {
             
             var cartProduct : Cart

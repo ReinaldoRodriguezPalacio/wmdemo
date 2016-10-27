@@ -263,13 +263,34 @@ extension BaseController {
         
         for item in items {
             
-            let name = item["desc"] as? String ?? ""
+            var name = ""
+            if let desc =  item["desc"] as? String {
+                name = desc
+            }else if let  desc = item["description"] as? String {
+                name = desc
+            }else if let  desc = item["name"] as? String {
+                name = desc
+            }
+           
+            
             let upc = item["upc"] as? String ?? ""
-            let quantity = item["quantity"] as? String ?? "1"
+            var  quantity = "1"
+            if let quantityItem =  item["quantity"] as? String {
+                quantity = quantityItem != "0" ? quantityItem : "1"
+            }
+            
+            var variant = false
+            if let isPesable = item["pesable"] as? Bool {
+                variant = isPesable
+            }else if let isPesable = item["pesable"] as? NSNumber {
+                variant = (isPesable == 1)
+            }else if let isPesable = item["pesable"] as? String {
+                 variant = (isPesable == "1")
+            }
             
             print(UserCurrentSession.sharedInstance().nameListToTag)
             let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
-            let product = ["name":name,"id":upc,"brand":"","category":sendCategory,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+            let product = ["name":name ,"id":upc,"brand":"","category":sendCategory,"variant":variant ? "gramos" : "pieza","list": sendCategory,"quantity":quantity,"dimension21":upc.contains("B") ? upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
             
             productsAdd.append(product)
             
