@@ -927,6 +927,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String
+            let desc = item["description"] as! String
+            let price = item["price"] as! Int
+            
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
@@ -943,6 +946,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 active = stock
             }
             products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
         }
 
         service.callService(service.buildParams(idList: listId, upcs: products),
@@ -1000,6 +1006,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             detail!.type = NSNumber(integer: typeProdVal)
             detail!.list = list
             detail!.img = item["imageUrl"] as! String
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
         }
         
         do {

@@ -30,9 +30,15 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                     for idx in 0 ..< products.count {
                         var product = products[idx] as! [String:AnyObject]
                         let quantity = product["quantity"] as! NSNumber
+                        let price = product["price"] as! NSNumber
+                        let dsc = product["description"] as! String
                         if let upc = product["upc"] as? String {
                             let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
                             items.append(item)
+                            
+                            // 360 Event
+                            BaseController.sendAnalyticsProductToList(upc, desc: dsc, price: "\(price as Int)")
+                            
                         }
                     }
                 }

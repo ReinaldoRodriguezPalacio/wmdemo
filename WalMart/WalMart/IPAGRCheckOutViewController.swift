@@ -183,9 +183,13 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         var products: [AnyObject] = []
         let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
         for idx in 0 ..< itemsCart.count {
+            
             let item = itemsCart[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String
+            let desc = item["description"] as! String
+            let price = item["price"] as! Int
+            
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
@@ -193,18 +197,19 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
             }
-            
             var pesable = "0"
-            if  let qIntProd = item["type"] as? NSString {
-                pesable = qIntProd as String
+            if  let pesableP = item["type"] as? String {
+                pesable = pesableP
+            }
+            var active = true
+            if let stock = item["stock"] as? Bool {
+                active = stock
             }
             
-            var isActive = true
-            if let stockSvc = item["stock"] as?  Bool {
-                isActive  = stockSvc
-            }
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active))
             
-            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:isActive))
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products),
@@ -267,6 +272,10 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             detail!.type = NSNumber(integer: typeProdVal)
             detail!.list = list
             detail!.img = item["imageUrl"] as! String
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
+
         }
         
         var error: NSError? = nil

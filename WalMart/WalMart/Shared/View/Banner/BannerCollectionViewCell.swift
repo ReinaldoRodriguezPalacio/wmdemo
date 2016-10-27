@@ -246,7 +246,9 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         let selectedItem = sender.view!.tag
         let values = self.dataSource![selectedItem]
         
-        BaseController.sendAnalyticsClickBanner(self.banners![selectedItem])
+        if self.banners != nil && self.banners?.count > 0 {
+            BaseController.sendAnalyticsClickBanner(self.banners![selectedItem])
+        }
         
         let type = values["type"]
         let queryBanner = values["eventUrl"]

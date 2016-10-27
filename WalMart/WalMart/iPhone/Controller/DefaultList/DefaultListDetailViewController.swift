@@ -586,6 +586,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 if let upc = product["upc"] as? String {
                     let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: imageUrl, description: dsc, price: price.stringValue, type:type)
                     items.append(item)
+                    
+                    // 360 Event
+                    BaseController.sendAnalyticsProductToList(upc, desc: dsc, price: "\(price as Int)")
                 }
             }
         }

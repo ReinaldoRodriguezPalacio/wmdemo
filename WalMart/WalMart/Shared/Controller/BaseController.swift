@@ -154,7 +154,14 @@ extension BaseController {
     }
     
     class func sendAnalyticsProductToList(upc: String, desc:String, price: String) {
-        self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": price])
+        
+        var checkedPrice = price
+        
+        if let dotRange = checkedPrice.rangeOfString(".") {
+            checkedPrice.removeRange(dotRange.startIndex..<checkedPrice.endIndex)
+        }
+        
+        self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": checkedPrice])
     }
     
     class func sendAnalyticsProductsToCart(totalPriceOfList: Double) {
