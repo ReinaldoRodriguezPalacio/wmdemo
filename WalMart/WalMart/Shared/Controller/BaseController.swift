@@ -45,208 +45,6 @@ class BaseController : UIViewController {
     override func shouldAutorotate() -> Bool {
         return true
     }
-    
-    //TODO :  360 commnets
-    
-    // MARK: - Analytics 360
-    
-    class func sendAnalytics(category:String, action: String, label:String){
-           ////////
-//        print("Category: \(category) Action: \(action) Label: \(label)")
-//                if let tracker = GAI.sharedInstance().defaultTracker {
-//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
-//                        action: action,
-//                        label: label, value: nil).build() as [NSObject : AnyObject])
-//                }
-    }
-    
-    class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
-        let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
-        BaseController.sendAnalytics(category, action: action, label: label)
-    }
-    
-    class func sendAnalyticsProductToList(upc: String, desc:String, price: String) {
-        
-        var checkedPrice = price
-        
-        if let dotRange = checkedPrice.rangeOfString(".") {
-            checkedPrice.removeRange(dotRange.startIndex..<checkedPrice.endIndex)
-        }
-        
-        self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": checkedPrice])
-    }
-    
-    class func sendAnalyticsProductsToCart(totalPriceOfList: Double) {
-        self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
-    }
-    
-    class func sendAnalyticsSuccesfulRegistration() {
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["event": "registroExitoso"])
-    }
-    
-    class func sendAnalyticsUnsuccesfulRegistrationWithError(error: String, stepError: String) {
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["event": "errorRegistro", "errorDetail": error, "stepError": stepError])
-    }
-    
-    class func sendAnalyticsIntentRegistration() {
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["event": "intentoRegistro"])
-    }
-    
-    class func sendAnalyticsPush(pushData:[String:AnyObject]) {
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["ecommerce": NSNull()])
-        dataLayer.push(pushData)
-    }
-    
-    class func sendAnalyticsBanners(banners:[Banner]) {
-        
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["ecommerce": NSNull()])
-        var promotions: [[String : String]] = []
-        
-        for banner in banners {
-            let banner = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
-            promotions.append(banner)
-        }
-        
-        let impression = ["ecommerce": ["promoView": ["promotions": promotions]], "event": "ecommerce"]
-        
-        dataLayer.push(impression)
-        
-    }
-    
-    class func sendAnalyticsClickBanner(banner:Banner) {
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["ecommerce": NSNull()])
-        let promotion = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
-        let impression = ["event": "promotionClick", "ecommerce": ["promoClick": ["promotions": [promotion]]]]
-        dataLayer.push(impression)
-    }
-    
-    class func sendAnalyticsTagImpressions(products:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
-        
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        dataLayer.push(["ecommerce": NSNull()])
-        var impressions: [[String : String]] = []
-        var index = 0
-        
-        for product in products {
-            
-            index += 1
-            
-            guard let name = product["description"] as? String,
-                  let id = product["upc"] as? String,
-                  let price = product["price"] else {
-                return
-            }
-            
-            var category = ""
-            if let parsedCategory = product["category"] as? String {
-                category = parsedCategory
-            }
-            
-            let brand = ""
-            var variant = "pieza"
-            
-            if let type = product["type"] as? String {
-                if type == "groceries" {
-                    if let parsedVariant = product["pesable"] as? String {
-                        if parsedVariant == "1" {
-                            variant = "gramos"
-                        }
-                    }
-                }
-            }
-            
-            let list = listName
-            let position = "\(positionArray[index - 1])"
-            let dimensions21 = "" // sku bundle
-            let dimensions22 = subCategory // sub categoría del producto
-            let dimensions23 = subSubCategory // sub sub categoría del producto
-            let dimensions24 = "" // big item o no big item
-            let dimensions25 = "" // super, exclusivo o compartido
-            
-            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
-            impressions.append(impression)
-        }
-        
-        let data = [ "ecommerce": ["currencyCode": "MXN", "impressions": impressions], "event": "ecommerce"]
-        dataLayer.push(data)
-        
-    }
-    
-    class func sendAnalyticsAddOrRemovetoCart(items:NSArray,isAdd:Bool) {
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-       dataLayer.push(["ecommerce": NSNull()])
-        var productsAdd: [[String : String]] = []
-        
-        for item in items {
-            
-            let name = item["desc"] as? String ?? ""
-            let upc = item["upc"] as? String ?? ""
-            let quantity = item["quantity"] as? String ?? "1"
-            
-           print(UserCurrentSession.sharedInstance().nameListToTag)
-            let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
-            let product = ["name":name,"id":upc,"brand":"","category":sendCategory,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
-            
-            productsAdd.append(product)
-        
-        }
-        
-        let ecommerce =  isAdd ? ["currencyCode": "MXN","add" :["products": productsAdd]] : ["remove" :["products": productsAdd]]
-        
-        
-        print("event:addToCart")
-        //print(push)
-        dataLayer.push(["event": (isAdd ? "addToCart" : "removeFromCart") ,"ecommerce" :ecommerce])
-
-        
-    }
-    
-    class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
-       
-        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        UserCurrentSession.sharedInstance().screenSubSubCategory = UserCurrentSession.sharedInstance().screenSubCategory
-        UserCurrentSession.sharedInstance().screenSubCategory = UserCurrentSession.sharedInstance().screenCategory
-        UserCurrentSession.sharedInstance().screenCategory = screenName
-        print("setOpenScreenTagManager")
-        print(" screenName \(screenName) - \(subCategory: UserCurrentSession.sharedInstance().screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance().screenSubSubCategory)")
-        
-        dataLayer.push([
-            "event":"openScreen",
-            "screenName":screenName,
-            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "",
-            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : UIDevice.currentDevice().identifierForVendor!.UUIDString,
-            "typePage":screenName,
-            "pageTitle":titleScreen,
-            "category":screenName,
-            "subCategory": UserCurrentSession.sharedInstance().screenSubCategory,
-            "subsubCategory": UserCurrentSession.sharedInstance().screenSubSubCategory,
-            "visitorLoginStatus":UserCurrentSession.hasLoggedUser(),
-            "estatusArticulo":""
-            ])
-        
-    }
-    
-    //MARK: Tag de Errores
-    
-    class func sendTagManagerErrors(event:String,detailError:String){
-        switch event {
-        case "ErrorEvent":
-             self.sendAnalyticsPush(["event":event,"detailError":detailError])
-            break
-        case "ErrorEventBusiness":
-             self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
-            break
-        default:
-            break
-        }
-       
-    }
 
 //    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
 //        
@@ -333,7 +131,207 @@ class BaseController : UIViewController {
     func getScreenGAIName() -> String {
         fatalError("SCreeen name not implemented")
     }
-    
-
-    
 }
+
+
+// MARK: - Analytics 360
+extension BaseController {
+    
+    
+    class func sendAnalytics(category:String, action: String, label:String){
+        ////////
+        //        print("Category: \(category) Action: \(action) Label: \(label)")
+        //                if let tracker = GAI.sharedInstance().defaultTracker {
+        //                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
+        //                        action: action,
+        //                        label: label, value: nil).build() as [NSObject : AnyObject])
+        //                }
+    }
+    
+    class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
+        let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
+        BaseController.sendAnalytics(category, action: action, label: label)
+    }
+    
+    class func sendAnalyticsProductToList(upc: String, desc:String, price: String) {
+        
+        var checkedPrice = price
+        
+        if let dotRange = checkedPrice.rangeOfString(".") {
+            checkedPrice.removeRange(dotRange.startIndex..<checkedPrice.endIndex)
+        }
+        
+        self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": checkedPrice])
+    }
+    
+    class func sendAnalyticsProductsToCart(totalPriceOfList: Double) {
+        self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
+    }
+    
+    class func sendAnalyticsSuccesfulRegistration() {
+         self.sendAnalyticsPush(["event": "registroExitoso"])
+    }
+    
+    class func sendAnalyticsUnsuccesfulRegistrationWithError(error: String, stepError: String) {
+         self.sendAnalyticsPush(["event": "errorRegistro", "errorDetail": error, "stepError": stepError])
+    }
+    
+    class func sendAnalyticsIntentRegistration() {
+         self.sendAnalyticsPush(["event": "intentoRegistro"])
+    }
+    
+    class func sendAnalyticsPush(pushData:[String:AnyObject]) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        dataLayer.push(pushData)
+    }
+    
+    class func sendAnalyticsBanners(banners:[Banner]) {
+        
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        var promotions: [[String : String]] = []
+        
+        for banner in banners {
+            let banner = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
+            promotions.append(banner)
+        }
+        
+        let impression = ["ecommerce": ["promoView": ["promotions": promotions]], "event": "ecommerce"]
+        
+        dataLayer.push(impression)
+        
+    }
+    
+    class func sendAnalyticsClickBanner(banner:Banner) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        let promotion = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
+        let impression = ["event": "promotionClick", "ecommerce": ["promoClick": ["promotions": [promotion]]]]
+        dataLayer.push(impression)
+    }
+    
+    class func sendAnalyticsTagImpressions(products:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
+        
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        var impressions: [[String : String]] = []
+        var index = 0
+        
+        for product in products {
+            
+            index += 1
+            
+            guard let name = product["description"] as? String,
+                let id = product["upc"] as? String,
+                let price = product["price"] else {
+                    return
+            }
+            
+            var category = ""
+            if let parsedCategory = product["category"] as? String {
+                category = parsedCategory
+            }
+            
+            let brand = ""
+            var variant = "pieza"
+            
+            if let type = product["type"] as? String {
+                if type == "groceries" {
+                    if let parsedVariant = product["pesable"] as? String {
+                        if parsedVariant == "1" {
+                            variant = "gramos"
+                        }
+                    }
+                }
+            }
+            
+            let list = listName
+            let position = "\(positionArray[index - 1])"
+            let dimensions21 = "" // sku bundle
+            let dimensions22 = subCategory // sub categoría del producto
+            let dimensions23 = subSubCategory // sub sub categoría del producto
+            let dimensions24 = "" // big item o no big item
+            let dimensions25 = "" // super, exclusivo o compartido
+            
+            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
+            impressions.append(impression)
+        }
+        
+        let data = [ "ecommerce": ["currencyCode": "MXN", "impressions": impressions], "event": "ecommerce"]
+        dataLayer.push(data)
+        
+    }
+    
+    class func sendAnalyticsAddOrRemovetoCart(items:NSArray,isAdd:Bool) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        var productsAdd: [[String : String]] = []
+        
+        for item in items {
+            
+            let name = item["desc"] as? String ?? ""
+            let upc = item["upc"] as? String ?? ""
+            let quantity = item["quantity"] as? String ?? "1"
+            
+            print(UserCurrentSession.sharedInstance().nameListToTag)
+            let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
+            let product = ["name":name,"id":upc,"brand":"","category":sendCategory,"variant":"pieza","quantity":quantity,"dimension21":"","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+            
+            productsAdd.append(product)
+            
+        }
+        
+        let ecommerce =  isAdd ? ["currencyCode": "MXN","add" :["products": productsAdd]] : ["remove" :["products": productsAdd]]
+        
+        
+        print("event:addToCart")
+        //print(push)
+        dataLayer.push(["event": (isAdd ? "addToCart" : "removeFromCart") ,"ecommerce" :ecommerce])
+        
+        
+    }
+    
+    class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
+        
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        UserCurrentSession.sharedInstance().screenSubSubCategory = UserCurrentSession.sharedInstance().screenSubCategory
+        UserCurrentSession.sharedInstance().screenSubCategory = UserCurrentSession.sharedInstance().screenCategory
+        UserCurrentSession.sharedInstance().screenCategory = screenName
+        print("setOpenScreenTagManager")
+        print(" screenName \(screenName) - \(subCategory: UserCurrentSession.sharedInstance().screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance().screenSubSubCategory)")
+        
+        dataLayer.push([
+            "event":"openScreen",
+            "screenName":screenName,
+            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "",
+            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : UIDevice.currentDevice().identifierForVendor!.UUIDString,
+            "typePage":screenName,
+            "pageTitle":titleScreen,
+            "category":screenName,
+            "subCategory": UserCurrentSession.sharedInstance().screenSubCategory,
+            "subsubCategory": UserCurrentSession.sharedInstance().screenSubSubCategory,
+            "visitorLoginStatus":UserCurrentSession.hasLoggedUser(),
+            "estatusArticulo":""
+            ])
+        
+    }
+    
+    //MARK: Tag de Errores
+    
+    class func sendTagManagerErrors(event:String,detailError:String){
+        switch event {
+        case "ErrorEvent":
+            self.sendAnalyticsPush(["event":event,"detailError":detailError])
+            break
+        case "ErrorEventBusiness":
+            self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
+            break
+        default:
+            break
+        }
+        
+    }
+
+}
+    

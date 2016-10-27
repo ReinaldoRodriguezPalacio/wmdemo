@@ -211,6 +211,20 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 //self.sharePopover!.backgroundColor = UIColor.greenColor()
             let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
             self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            
+            if #available(iOS 8.0, *) {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            } else {
+                controller.completionHandler = {(activityType, completed:Bool) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            }
         }
     }
 

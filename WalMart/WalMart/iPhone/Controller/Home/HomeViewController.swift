@@ -378,11 +378,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
             controller.detailOf = catNameFilter
-            
-            if type == "groceries" {
-                //EVENT
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_VIEW_SPECIAL_DETAILS.rawValue, label: "\(desc) - \(upc)")
-            }
             self.navigationController!.pushViewController(controller, animated: true)
         }
     }

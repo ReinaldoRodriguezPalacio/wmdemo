@@ -629,6 +629,20 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
         let controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        
+        if #available(iOS 8.0, *) {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        } else {
+            controller.completionHandler = {(activityType, completed:Bool) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        }
     }
 
     func showInMap(store:Store) {

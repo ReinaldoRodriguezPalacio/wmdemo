@@ -228,22 +228,26 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let telephoneText = String(format: NSLocalizedString("store.telephone", comment:""), store.telephone!)
         let opensText = String(format: NSLocalizedString("store.opens", comment:""), store.opens!)
         let textSend = "\(store.name!)\n\n\(store.address!) CP: \(store.zipCode!)\n\n\(telephoneText)\n\(opensText)"
-        
-        
-        //Event
-//        //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-//                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHARESTOREDETAIL.rawValue,
-//                label: store.name!,
-//                value: nil).build() as [NSObject : AnyObject])
-//        }
-        
+
         let controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
         self.sharePopover = UIPopoverController(contentViewController: controller)
         self.sharePopover!.delegate = self
         let rect = self.clubMap!.convertRect(self.currentSelected!.frame, toView: self.view.superview)
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+        
+        if #available(iOS 8.0, *) {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        } else {
+            controller.completionHandler = {(activityType, completed:Bool) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        }
     }
 
     //MARK: - UIPopoverControllerDelegate

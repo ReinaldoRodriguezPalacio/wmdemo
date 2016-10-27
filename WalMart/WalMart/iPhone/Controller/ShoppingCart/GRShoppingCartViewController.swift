@@ -132,6 +132,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         initEmptyView()
         //loadGRShoppingCart()
+        BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
 
         
     }
@@ -339,6 +340,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
             controller.ixSelected = indexPath.row
+            controller.detailOf = "Shopping Cart"
             if self.navigationController  != nil {
                 self.navigationController!.pushViewController(controller, animated: true)
             }
@@ -811,8 +813,19 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
         
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        if #available(iOS 8.0, *) {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        } else {
+            controller.completionHandler = {(activityType, completed:Bool) in
+                if completed && !activityType!.containsString("com.apple")   {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                }
+            }
+        }
         
     }
     

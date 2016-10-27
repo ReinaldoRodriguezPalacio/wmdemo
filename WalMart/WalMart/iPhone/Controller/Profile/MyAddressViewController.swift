@@ -107,6 +107,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         self.view.addSubview(viewBgSelectorBtn)
         
         self.view.backgroundColor = UIColor.whiteColor()
+        
+        BaseController.setOpenScreenTagManager(titleScreen: NSLocalizedString("profile.myAddress", comment: "") , screenName: self.getScreenGAIName())
 
     }
     

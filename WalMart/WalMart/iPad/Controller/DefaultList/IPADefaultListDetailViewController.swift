@@ -34,19 +34,11 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString
-            //Event
-            //TODOGAI:
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-//                    label: upc as String,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
-            
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
         }
         controller.itemsToShow = productsToShow
         controller.ixSelected = indexPath.row
+        controller.detailOf = self.defaultListName!
         
         if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
             navCtrl.navigationController!.pushViewController(controller, animated: true)
@@ -86,6 +78,20 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             //self.sharePopover!.backgroundColor = UIColor.greenColor()
             let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
             self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            
+            if #available(iOS 8.0, *) {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            } else {
+                controller.completionHandler = {(activityType, completed:Bool) in
+                    if completed && !activityType!.containsString("com.apple")   {
+                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
+                    }
+                }
+            }
         }
     }
     

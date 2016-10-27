@@ -239,9 +239,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(self.searchAlertView!)
         
          //self.header!.bringSubviewToFront(self.bannerView)
-        if self.searchContextType!  == SearchServiceContextType.WithCategoryForMG {
-            BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
-        }
+        BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
+    
     }
     
     
@@ -1049,6 +1048,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
                 
                 self.grResults!.addResults(arrayProduct!)
+                
+                //Gogle 360 falta departamento
+                if self.textToSearch != nil {
+                    BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter_IOS", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.grResults!.totalResults]) //TODO quitar:_IOS
+                }
             }
             else {
                 self.grResults!.resultsInResponse = 0
@@ -1554,9 +1558,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
 
         if flag {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
+            BaseController.sendAnalyticsPush(["event":"searchSortResult","searchCategory" : "enter-IOS","searchTerm" : self.textToSearch ?? "", "searchNumberResults" : self.grResults!.totalResults, "sortUsado":order])
         }else{
-            BaseController.sendAnalyticsPush(["event":"searchSortResult","searchCategory" : "enter-IOS","searchTerm" : self.textToSearch!, "searchNumberResults" : self.mgResults!.totalResults, "sortUsado":order])
+            BaseController.sendAnalyticsPush(["event":"searchSortResult","searchCategory" : "enter-IOS","searchTerm" : self.textToSearch ?? "", "searchNumberResults" : self.mgResults!.totalResults, "sortUsado":order])
         }
         
         self.allProducts = []
