@@ -203,7 +203,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     override func viewDidAppear(animated: Bool) {
         self.tabBarActions()
         
-        if products != nil && products != nil && !analyticsSent {
+        if products != nil && !analyticsSent {
             
             var position = 0
             var positionArray: [Int] = []
@@ -499,7 +499,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         if self.products != nil && self.products!.count > 0 {
+            
             var upcs: [AnyObject] = []
+            var totalPrice: Int = 0
+            
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
                 var params: [String:AnyObject] = [:]
@@ -508,6 +511,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     params["desc"] = item["description"] as! String
                     params["imgUrl"] = item["imageUrl"] as! String
                     if let price = item["price"] as? NSNumber {
+                        totalPrice += price as Int
                         params["price"] = "\(price)"
                     }
                     if let quantity = item["quantity"] as? NSNumber {
@@ -544,11 +548,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     else { //Gramos
                         params["onHandInventory"] = "20000"
                     }
+                    totalPrice += Int(item.price as String)!
                 }
                 upcs.append(params)
             }
             if upcs.count > 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                BaseController.sendAnalyticsProductsToCart(totalPrice)
             }
             else{
                 self.noProductsAvailableAlert()
@@ -1036,6 +1042,23 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
                 self.products = result["items"] as? [AnyObject]
+                
+                if !self.analyticsSent {
+                    
+                    var position = 0
+                    var positionArray: [Int] = []
+                    
+                    for _ in self.products! {
+                        position += 1
+                        positionArray.append(position)
+                    }
+                    
+                    let listName = self.listName!
+                    let subCategory = ""
+                    let subSubCategory = ""
+                    BaseController.sendAnalyticsTagImpressions(self.products!, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                    self.analyticsSent = true
+                }
                 
                 self.titleLabel?.text = result["name"] as? String
                 if self.products == nil || self.products!.count == 0  {

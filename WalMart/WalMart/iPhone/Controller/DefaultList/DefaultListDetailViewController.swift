@@ -410,7 +410,10 @@ DetailListViewCellDelegate,UIActivityItemSource {
         }
         
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
+            
             var upcs: [AnyObject] = []
+            var totalPrice: Int = 0
+            
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
                 var params: [String:AnyObject] = [:]
@@ -419,6 +422,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 params["desc"] = item["description"] as! String
                 params["imgUrl"] = item["imageUrl"] as! String
                 if let price = item["price"] as? NSNumber {
+                    totalPrice += price as Int
                     params["price"] = "\(price)"
                 }
                 if let quantity = item["quantity"] as? NSNumber {
@@ -441,6 +445,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             }
             if upcs.count > 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                BaseController.sendAnalyticsProductsToCart(totalPrice)
             }else{
                 self.noProductsAvailableAlert()
                 return

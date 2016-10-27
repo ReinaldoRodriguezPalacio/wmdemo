@@ -164,7 +164,7 @@ extension BaseController {
         self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": checkedPrice])
     }
     
-    class func sendAnalyticsProductsToCart(totalPriceOfList: Double) {
+    class func sendAnalyticsProductsToCart(totalPriceOfList: Int) {
         self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
     }
     
