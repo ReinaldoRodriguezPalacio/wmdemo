@@ -549,7 +549,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     else { //Gramos
                         params["onHandInventory"] = "20000"
                     }
-                    totalPrice += Int(item.price as String)!
+                    
+                    let checkedPrice:Int? = (item.price as String).toIntNoDecimals()
+                    
+                    if let productPrice = checkedPrice {
+                        totalPrice += Int(productPrice)
+                    }
+                    
                 }
                 upcs.append(params)
             }
