@@ -134,7 +134,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func deleteRowAtIndexPath(indexPath : NSIndexPath){
         let itemGRSC = itemsInCart[indexPath.row] as! [String:AnyObject]
         let upc = itemGRSC["upc"] as! String
-        
+        //360 delete
+        BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
         allUPCS.append(upc)

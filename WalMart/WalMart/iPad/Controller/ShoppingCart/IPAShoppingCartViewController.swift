@@ -196,6 +196,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     
     override func deleteRowAtIndexPath(indexPath : NSIndexPath){
         let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
+        }
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
@@ -432,7 +435,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.view.addSubview(viewLoad)
         }
 
-        
+        BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsInShoppingCart , isAdd: false)
         serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
             print("Error not done")
             

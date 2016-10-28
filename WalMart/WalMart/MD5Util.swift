@@ -43,4 +43,13 @@ extension String {
     func toDouble() -> Double? {
         return NSNumberFormatter().numberFromString(self)?.doubleValue
     }
+    
+    func toIntNoDecimals() -> Int? {
+        var checkedString = self
+        if let dotRange = checkedString.rangeOfString(".") {
+            checkedString.removeRange(dotRange.startIndex..<checkedString.endIndex)
+        }
+        return Int(checkedString)
+    }
+    
 }
