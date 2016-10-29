@@ -16,6 +16,13 @@ struct Banner {
     var position:String = ""
 }
 
+struct ItemTag {
+    var name : String = ""
+    var quantity : String = "1"
+    var upc : String = ""
+    var variant : Bool =  false
+}
+
 class BaseController : UIViewController {
     
     override func viewDidLoad() {
@@ -292,7 +299,7 @@ extension BaseController {
             
             print(UserCurrentSession.sharedInstance().nameListToTag)
             let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
-            let product = ["name":name ,"id":upc,"brand":"","category":sendCategory,"variant":variant ? "gramos" : "pieza","list": sendCategory,"quantity":quantity,"dimension21":upc.contains("B") ? upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+            let product = ["name":name ,"id":upc,"brand":"","category":sendCategory,"variant":variant ? "gramos" : "pieza","quantity":quantity,"dimension21":upc.contains("B") ? upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
             
             productsAdd.append(product)
             
@@ -332,6 +339,122 @@ extension BaseController {
             ])
         
     }
+    
+    
+    
+    //MARK: Checkout - Revisar pedido 
+    
+    class func sendAnalyticsPreviewCart(paymentType:String) {
+        let products =  UserCurrentSession.sharedInstance().itemsGR
+        let items = products!["items"] as? NSArray
+        
+        
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        var productsAdd: [[String : String]] = []
+        if items?.count > 0 {
+            for item in items! {
+                
+                var name = ""
+                if let desc =  item["desc"] as? String {
+                    name = desc
+                }else if let  desc = item["description"] as? String {
+                    name = desc
+                }else if let  desc = item["name"] as? String {
+                    name = desc
+                }
+                
+                let upc = item["upc"] as? String ?? ""
+                var  quantity = "1"
+                if let quantityItem =  item["quantity"] as? String {
+                    quantity = quantityItem != "0" ? quantityItem : "1"
+                }
+                
+                var variant = false
+                if let isPesable = item["pesable"] as? Bool {
+                    variant = isPesable
+                }else if let isPesable = item["pesable"] as? NSNumber {
+                    variant = (isPesable == 1)
+                }else if let isPesable = item["pesable"] as? String {
+                    variant = (isPesable == "1")
+                }
+                
+                
+                let products = ["name":name ,"id":upc,"brand":"","category":"","variant":variant ? "gramos" : "pieza","quantity":quantity,"dimension21":upc.contains("B") ? upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+                
+                productsAdd.append(products)
+                
+                
+            }
+            
+            let ecommerce = ["checkout":["step":"3","option":paymentType,"products":productsAdd]]
+            dataLayer.push(["event":"checkout","ecommerce":ecommerce])
+        }
+        
+        print("sendAnalyticsPurchaseCart")
+        
+    }
+
+    
+    class func sendAnalyticsPreviewCart (){
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        
+        
+        let products =  UserCurrentSession.sharedInstance().itemsGR
+        let items = products!["items"] as? NSArray
+        var productsAdd: [[String : String]] = []
+        
+        
+        for item in items! {
+            let newItem = self.itemsToTag(item as! NSDictionary)
+            let products = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":"","variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.quantity,"coupon":""]
+            
+            productsAdd.append(products)
+        
+        }
+        
+        
+        let ecomerce =  ["ecommerce":["purchase":["sucursal":"","formaPago":"","tipoEntrega":"","fechaEntrega":"","horaEntrega":"","numeroCompraClientes":"",
+            "tipoTarjeta":"","banco":"","MSI":"","carrier":"","codigoPostalEntrega":"","ciudadEntrega":"","estadoEntrega":"","actionField":["id":"","affiliation":"","revenue":"","tax":"","shipping":"","coupon":"","products":productsAdd]]]]
+        
+        
+        dataLayer.push(ecomerce)
+        print("sendAnalyticsPreviewCart")
+    }
+    
+
+    class func itemsToTag(item:NSDictionary) -> ItemTag {
+        
+        var itemsTag = ItemTag()
+       
+        if let desc =  item["desc"] as? String {
+            itemsTag.name = desc
+        }else if let  desc = item["description"] as? String {
+            itemsTag.name = desc
+        }else if let  desc = item["name"] as? String {
+            itemsTag.name = desc
+        }
+        
+        itemsTag.upc = item["upc"] as? String ?? ""
+        
+        if let quantityItem =  item["quantity"] as? String {
+            itemsTag.quantity = quantityItem != "0" ? quantityItem : "1"
+        }
+        
+        if let isPesable = item["pesable"] as? Bool {
+             itemsTag.variant = isPesable
+        }else if let isPesable = item["pesable"] as? NSNumber {
+             itemsTag.variant = (isPesable == 1)
+        }else if let isPesable = item["pesable"] as? String {
+             itemsTag.variant = (isPesable == "1")
+        }
+        
+        return itemsTag 
+    }
+    
+    
+
     
     //MARK: Tag de Errores
     

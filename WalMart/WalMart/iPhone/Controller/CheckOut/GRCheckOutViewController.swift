@@ -1474,12 +1474,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if self.payPalFuturePayment{
             self.showPayPalFuturePaymentController()
         }else{
-            sendOrder()
-        }
-    }
-    
-    func sendOrder() {
             sendOrderWalmart()
+        }
     }
 
 
@@ -1880,7 +1876,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         buttonShop?.enabled = true
         //let message = "Hubo un error al momento de generar la orden, intenta más tarde"
         //self.invokePayPalCancelService(message)
-        self.sendOrder()
+        self.sendOrderWalmart()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1893,12 +1889,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
             //self.invokePaypalUpdateOrderService("",paymentType:"-3")
              //self.showPayPalPaymentController()
-                self.sendOrder()
+                self.sendOrderWalmart()
             }, errorBlock: { (error:NSError) -> Void in
                 //Mandar alerta
                 //let message = "Hubo un error al momento de generar la orden, intenta más tarde"
                 //self.invokePayPalCancelService(message)
-                self.sendOrder()
+                self.sendOrderWalmart()
         })
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)

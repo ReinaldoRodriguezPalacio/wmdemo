@@ -358,6 +358,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.paramsToConfirm!["Discounts"] = generateOrderDiscounts
         self.paramsToConfirm!["PaymentType"] = generateOrderPaymentType
         self.confirmOrderView?.showGenerateOrder(self.paramsToConfirm!)
+        BaseController.sendAnalyticsPreviewCart(generateOrderPaymentType)
+        
     }
     
     /**
