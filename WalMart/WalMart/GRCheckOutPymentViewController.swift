@@ -406,8 +406,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 //            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
 //            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
             
-            
-            
             let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
             let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
             
@@ -447,7 +445,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal, "deliveryAmount" : "\(formattedDeliveryAmount)","discountsAssociated" : "\(discountsAssociated)"]
             
             
+            let storeId = slot["storeId"]! as AnyObject
+            let purchaseId = slot["orderId"]! as AnyObject
+            let shipmentAmount = self.paramsToConfirm!["shipmentAmount"] as! String
             
+            
+           BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "", revenue: String(total), tax: "", shipping: shipmentAmount, coupon: "")
             
             //PayPal
             if self.paymentId == "-1"{

@@ -19,6 +19,7 @@ struct Banner {
 struct ItemTag {
     var name : String = ""
     var quantity : String = "1"
+    var price: String = ""
     var upc : String = ""
     var variant : Bool =  false
 }
@@ -396,34 +397,27 @@ extension BaseController {
     }
 
     
-    class func sendAnalyticsPreviewCart (){
+    class func sendAnalyticsPurchase(sucursal: AnyObject, paymentType:String, deliveryType: String, deliveryDate: String, deliveryHour: String, purchaseId: AnyObject, affiliation: String, revenue: String, tax: String, shipping:String, coupon: String ) {
+        
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
-        
         
         let products =  UserCurrentSession.sharedInstance().itemsGR
         let items = products!["items"] as? NSArray
         var productsAdd: [[String : String]] = []
         
-        
         for item in items! {
             let newItem = self.itemsToTag(item as! NSDictionary)
-            let products = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":"","variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.quantity,"coupon":""]
-            
+            let products = ["name": newItem.name , "id": newItem.upc, "price": newItem.price, "brand": "", "category": "", "variant": newItem.variant ? "gramos" : "pieza", "quantity": newItem.quantity, "coupon": ""]
             productsAdd.append(products)
-        
         }
         
-        
-        let ecomerce =  ["ecommerce":["purchase":["sucursal":"","formaPago":"","tipoEntrega":"","fechaEntrega":"","horaEntrega":"","numeroCompraClientes":"",
-            "tipoTarjeta":"","banco":"","MSI":"","carrier":"","codigoPostalEntrega":"","ciudadEntrega":"","estadoEntrega":"","actionField":["id":"","affiliation":"","revenue":"","tax":"","shipping":"","coupon":"","products":productsAdd]]]]
-        
+        let ecomerce =  ["ecommerce":["purchase":["sucursal": sucursal, "formaPago": paymentType, "tipoEntrega": deliveryType, "fechaEntrega": deliveryDate, "horaEntrega": deliveryHour, "numeroCompraClientes": "1", "tipoTarjeta": "", "banco": "", "MSI": "", "carrier": "", "codigoPostalEntrega": "", "ciudadEntrega": "", "estadoEntrega": "", "actionField": ["id": purchaseId, "affiliation": affiliation, "revenue": revenue, "tax": tax, "shipping": shipping,"coupon": coupon, "products": productsAdd]]]]
         
         dataLayer.push(ecomerce)
         print("sendAnalyticsPreviewCart")
     }
     
-
     class func itemsToTag(item:NSDictionary) -> ItemTag {
         
         var itemsTag = ItemTag()
@@ -442,6 +436,12 @@ extension BaseController {
             itemsTag.quantity = quantityItem != "0" ? quantityItem : "1"
         }
         
+        if let price = item["price"] as? String {
+            itemsTag.price = price
+        } else if let price = item["price"] as? NSNumber {
+            itemsTag.price = "\(price)"
+        }
+        
         if let isPesable = item["pesable"] as? Bool {
              itemsTag.variant = isPesable
         }else if let isPesable = item["pesable"] as? NSNumber {
@@ -453,8 +453,6 @@ extension BaseController {
         return itemsTag 
     }
     
-    
-
     
     //MARK: Tag de Errores
     
