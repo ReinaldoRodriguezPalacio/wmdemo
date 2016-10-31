@@ -20,9 +20,9 @@ class IPADefaultListViewController : DefaultListViewController {
     }
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let itemList = itemsLists[indexPath.row] as! [String:AnyObject]
+        let itemList = itemsLists[(indexPath as NSIndexPath).row] as! [String:AnyObject]
         
         let destDetailList =  IPADefaultListDetailViewController()
         destDetailList.delegate = delegate
@@ -36,7 +36,7 @@ class IPADefaultListViewController : DefaultListViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.viewLoad?.center =  CGPointMake(self.view.center.x, self.view.center.y + self.header!.frame.maxY)
+        self.viewLoad?.center =  CGPoint(x: self.view.center.x, y: self.view.center.y + self.header!.frame.maxY)
         
     }
     

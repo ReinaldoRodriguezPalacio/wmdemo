@@ -11,22 +11,22 @@ import CoreData
 
 class UpdateUserProfileService : BaseService {
     
-    func buildParamsWithMembership(profileId:String,name:String,lastName:String,email:String,gender:String,ocupation:String,phoneNumber:String,phoneExtension:String,mobileNumber:String,updateAssociate:Bool,associateStore:String,joinDate:String,associateNumber:String,updatePassword:Bool,oldPassword:String,newPassword:String) -> NSDictionary {
+    func buildParamsWithMembership(_ profileId:String,name:String,lastName:String,email:String,gender:String,ocupation:String,phoneNumber:String,phoneExtension:String,mobileNumber:String,updateAssociate:Bool,associateStore:String,joinDate:String,associateNumber:String,updatePassword:Bool,oldPassword:String,newPassword:String) -> NSDictionary {
         
         return ["profileId":profileId,"firstName":name,"lastName":lastName,"email":email,"gender":gender,"occupation":ocupation,"phoneNumber":phoneNumber,"phoneExtension":phoneExtension,"mobileNumber":mobileNumber,"associateCheckBox":updateAssociate ? "true" : "false","associateNumber":associateNumber,"associateStore":associateStore,"joinDate":joinDate,"passwordCheckBox":updatePassword ? "true" : "false","oldPassword":oldPassword,"newPassword":newPassword]
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
-                if codeMessage.integerValue == 0 {
+                if codeMessage.intValue == 0 {
                   
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                     var usr : User
                     
-                    let email = params.objectForKey("email") as! String;
+                    let email = params.object(forKey: "email") as! String;
                     let predicate = NSPredicate(format: "email == %@ ", email)
                     let array =  self.retrieve("User" ,sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
         

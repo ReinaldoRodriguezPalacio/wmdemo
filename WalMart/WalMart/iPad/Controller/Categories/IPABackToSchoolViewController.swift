@@ -9,7 +9,7 @@
 import Foundation
 
 protocol IPABackToSchoolViewControllerDelegate {
-    func schoolSelected(familyId:String,schoolName:String)
+    func schoolSelected(_ familyId:String,schoolName:String)
 }
 
 class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
@@ -20,12 +20,12 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
     var btsDelegate: IPABackToSchoolViewControllerDelegate?
     var showGrades: Bool = true
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if self.showGrades {
-            self.schoolsTable!.selectRowAtIndexPath(NSIndexPath(forRow: 0,inSection:0), animated: false, scrollPosition: .Top)
-            self.tableView(self.schoolsTable!, didSelectRowAtIndexPath: NSIndexPath(forRow: 0,inSection:0))
+            self.schoolsTable!.selectRow(at: IndexPath(row: 0,section:0), animated: false, scrollPosition: .top)
+            self.tableView(self.schoolsTable!, didSelectRowAt: IndexPath(row: 0,section:0))
             self.showGrades = false
         }
     }
@@ -43,22 +43,22 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
         self.header?.addSubview(self.titleLabel!)
         self.view.addSubview(self.header!)
         self.backButton = UIButton()
-        self.backButton!.setImage(UIImage(named:"detail_close"), forState: UIControlState.Normal)
-        self.backButton!.addTarget(self, action: #selector(BaseCategoryViewController.closeDepartment), forControlEvents: UIControlEvents.TouchUpInside)
+        self.backButton!.setImage(UIImage(named:"detail_close"), for: UIControlState())
+        self.backButton!.addTarget(self, action: #selector(BaseCategoryViewController.closeDepartment), for: UIControlEvents.touchUpInside)
         self.header?.addSubview(self.backButton!)
-        self.titleLabel?.textAlignment = NSTextAlignment.Center
+        self.titleLabel?.textAlignment = NSTextAlignment.center
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-        self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
-        self.backButton!.frame = CGRectMake(8, 8,30,30)
-        self.searchView.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 84)
-        self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, self.view.frame.width, 1)
-        self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 22, 55, 40)
-        self.searchField.frame = CGRectMake(16, 22, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
-        self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
+        self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46)
+        self.titleLabel!.frame = CGRect(x: 46, y: 0, width: self.header!.frame.width - 92, height: self.header!.frame.maxY)
+        self.backButton!.frame = CGRect(x: 8, y: 8,width: 30,height: 30)
+        self.searchView.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: 84)
+        self.separator.frame = CGRect(x: 0, y: self.searchView!.bounds.maxY - 1, width: self.view.frame.width, height: 1)
+        self.clearButton!.frame = CGRect(x: self.searchView.frame.width - self.searchFieldSpace, y: 22, width: 55, height: 40)
+        self.searchField.frame = CGRect(x: 16, y: 22, width: self.view.frame.width - (self.searchFieldSpace + 32), height: 40.0)
+        self.schoolsTable.frame = CGRect(x: 0, y: self.searchView!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.searchView!.frame.maxY)
     }
     
     /**
@@ -76,12 +76,12 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
      
      - parameter didShow: Bool
      */
-    override func showImageHeader(didShow:Bool) {}
+    override func showImageHeader(_ didShow:Bool) {}
     
     
     //MARK: TableViewDelegate
-    override  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let school = self.filterList![indexPath.row]
+    override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let school = self.filterList![(indexPath as NSIndexPath).row]
         if school.count == 0 {
             return
         }
@@ -94,7 +94,7 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
      */
     override func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
-        service.callService(requestParams: ["id":self.departmentId], successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: ["id":self.departmentId as AnyObject], successBlock: { (response:NSDictionary) -> Void in
             let schools  =  response["responseArray"] as! NSArray
             self.schoolsList = schools as? [[String : AnyObject]]
             self.filterList = self.schoolsList
@@ -102,7 +102,7 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
             self.loading?.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.navigationController?.popToRootViewController(animated: true)
         })
     }
 }

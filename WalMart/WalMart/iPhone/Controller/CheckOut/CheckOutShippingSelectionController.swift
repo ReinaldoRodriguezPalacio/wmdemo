@@ -7,9 +7,29 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 protocol CheckOutShippingSelectionDelegate {
-    func selectDataTypeShipping(envio: String, util: String, date: String, rowSelected: Int)
+    func selectDataTypeShipping(_ envio: String, util: String, date: String, rowSelected: Int)
 }
 
 
@@ -31,30 +51,30 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
-        self.backButton?.hidden = IS_IPAD
+        self.view.backgroundColor = UIColor.white
+        self.backButton?.isHidden = IS_IPAD
         
         self.titleLabel?.text = titleString
         
-        tableShippingSelection = UITableView(frame:CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 46))
+        tableShippingSelection = UITableView(frame:CGRect(x: 0, y: 46 , width: self.view.frame.width, height: self.view.frame.height - 46))
         tableShippingSelection.clipsToBounds = true
         tableShippingSelection.backgroundColor =  WMColor.light_light_gray
-        tableShippingSelection.backgroundColor =  UIColor.whiteColor()
-        tableShippingSelection.layoutMargins = UIEdgeInsetsZero
-        tableShippingSelection.separatorInset = UIEdgeInsetsZero
+        tableShippingSelection.backgroundColor =  UIColor.white
+        tableShippingSelection.layoutMargins = UIEdgeInsets.zero
+        tableShippingSelection.separatorInset = UIEdgeInsets.zero
         tableShippingSelection.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         tableShippingSelection.delegate = self
         tableShippingSelection.dataSource = self
-        tableShippingSelection.separatorStyle = .None
-        tableShippingSelection.registerClass(CheckOutShippingSelectionCell.self, forCellReuseIdentifier: "CheckOutShippingSelection")
+        tableShippingSelection.separatorStyle = .none
+        tableShippingSelection.register(CheckOutShippingSelectionCell.self, forCellReuseIdentifier: "CheckOutShippingSelection")
         tableShippingSelection.reloadData()
         
         self.view.addSubview(tableShippingSelection)
      
         self.saveButton = UIButton(frame: CGRect(x:16 , y:16 , width: (self.view.frame.width - 40) / 2  , height:34))
-        self.saveButton!.setTitle("Guardar", forState: .Normal)
-        self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.saveButton!.addTarget(self, action: #selector(CheckOutShippingSelectionController.save), forControlEvents: .TouchUpInside)
+        self.saveButton!.setTitle("Guardar", for: UIControlState())
+        self.saveButton!.setTitleColor(UIColor.white, for: UIControlState())
+        self.saveButton!.addTarget(self, action: #selector(CheckOutShippingSelectionController.save), for: .touchUpInside)
         self.saveButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor =  WMColor.green
         self.saveButton!.layer.cornerRadius =  17
@@ -66,39 +86,39 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
 
         arrayTypeSelect = NSMutableArray()
         
-        arrayTypeSelect?.addObject(shippingNormal)
-        arrayTypeSelect?.addObject(shippingEstandar)
-        arrayTypeSelect?.addObject(shippingExpress)
+        arrayTypeSelect?.add(shippingNormal)
+        arrayTypeSelect?.add(shippingEstandar)
+        arrayTypeSelect?.add(shippingExpress)
      
         if rowSelected >= 0 {
-            var indexPath = NSIndexPath(forItem: rowSelected!, inSection: 0)
-            tableShippingSelection.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .Top)
+            var indexPath = IndexPath(item: rowSelected!, section: 0)
+            tableShippingSelection.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         }
         
-        self.tableShippingSelection.bringSubviewToFront(self.view)
+        self.tableShippingSelection.bringSubview(toFront: self.view)
         
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.tableShippingSelection.frame = CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 46 - 62)
-        self.saveButton!.frame =  CGRectMake(12 , self.view.frame.height - 52 , self.view.frame.width - 24 , 34)
+        self.tableShippingSelection.frame = CGRect(x: 0, y: 46 , width: self.view.frame.width, height: self.view.frame.height - 46 - 62)
+        self.saveButton!.frame =  CGRect(x: 12 , y: self.view.frame.height - 52 , width: self.view.frame.width - 24 , height: 34)
        
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 32
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let content : UIView = UIView(frame: CGRectMake(0.0, 0.0 , self.view.frame.width, 32))
-        content.backgroundColor = UIColor.whiteColor()
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let content : UIView = UIView(frame: CGRect(x: 0.0, y: 0.0 , width: self.view.frame.width, height: 32))
+        content.backgroundColor = UIColor.white
         
-        let titleLabel = UILabel(frame: CGRectMake(15.0, 15.0, self.view.frame.width, 16))
+        let titleLabel = UILabel(frame: CGRect(x: 15.0, y: 15.0, width: self.view.frame.width, height: 16))
         titleLabel.text = "Selecciona un tipo de envío"
         titleLabel.textColor = WMColor.light_blue
         titleLabel.font = WMFont.fontMyriadProLightOfSize(14)
@@ -109,15 +129,15 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         return content
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellText = tableShippingSelection.dequeueReusableCellWithIdentifier("CheckOutShippingSelection", forIndexPath: indexPath) as! CheckOutShippingSelectionCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellText = tableShippingSelection.dequeueReusableCell(withIdentifier: "CheckOutShippingSelection", for: indexPath) as! CheckOutShippingSelectionCell
         
-        let dic = self.arrayTypeSelect![indexPath.row] as? NSDictionary
+        let dic = self.arrayTypeSelect![(indexPath as NSIndexPath).row] as? NSDictionary
         
         let type = dic!["type"] as! String
         let util = dic!["util"] as! String
@@ -126,14 +146,14 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         cellText.setValues(type, util: util, date: date)
         cellText.type!.textColor = WMColor.dark_gray
         cellText.setCostDelivery("120.22")
-        cellText.selectionStyle = UITableViewCellSelectionStyle.None
+        cellText.selectionStyle = UITableViewCellSelectionStyle.none
         
-        if indexPath.row == rowSelected {
+        if (indexPath as NSIndexPath).row == rowSelected {
             cellText.setSelected(true, animated: true)
-            cellText.selectedButton!.selected = true
+            cellText.selectedButton!.isSelected = true
         }else {
             cellText.setSelected(false, animated: true)
-             cellText.selectedButton!.selected = false
+             cellText.selectedButton!.isSelected = false
             
         }
         
@@ -141,13 +161,13 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         return cellText
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        rowSelected = indexPath.row
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        rowSelected = (indexPath as NSIndexPath).row
     }
     
     
@@ -161,7 +181,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
             let date = dic!["date"] as! String
             self.delegate?.selectDataTypeShipping(type, util: util, date: date, rowSelected:self.rowSelected!)
         }
-        self.navigationController!.popViewControllerAnimated(true)
+        self.navigationController!.popViewController(animated: true)
 
         
     }

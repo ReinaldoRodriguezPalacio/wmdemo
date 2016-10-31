@@ -7,6 +7,17 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 class CarouselService : BaseService {
     
     
@@ -16,11 +27,11 @@ class CarouselService : BaseService {
     
     
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //print(params)
         self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
-            NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)
@@ -42,7 +53,7 @@ class CarouselService : BaseService {
         
         if var moreCarousel = values![JSON_BANNER_RESPONSEARRAY] as? [[String:String]] {
             
-            moreCarousel.sortInPlace({ (one:[String : String], second:[String : String]) -> Bool in
+            moreCarousel.sort(by: { (one:[String : String], second:[String : String]) -> Bool in
                 let firstString = one["order"] as String?
                 let secondString = second["order"] as String?
                 return Int(firstString!) < Int(secondString!)

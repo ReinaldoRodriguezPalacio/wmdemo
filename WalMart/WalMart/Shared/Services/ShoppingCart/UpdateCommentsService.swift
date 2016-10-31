@@ -10,12 +10,12 @@ import Foundation
 
 class UpdateCommentsService:GRBaseService {
     
-    func buildParameterOrder(orderComent:String) -> [String:AnyObject] {
-        return ["updateOrderComment":"true","orderComment":orderComent]
+    func buildParameterOrder(_ orderComent:String) -> [String:AnyObject] {
+        return ["updateOrderComment":"true" as AnyObject,"orderComment":orderComent as AnyObject]
     }
     
-    func buildParameterItem(itemComent:String,itemId:String) -> [String:AnyObject] {
-        return ["commerceIds":itemId,"itemComment":itemComent,"updateOrderComment":"false"]
+    func buildParameterItem(_ itemComent:String,itemId:String) -> [String:AnyObject] {
+        return ["commerceIds":itemId as AnyObject,"itemComment":itemComent as AnyObject,"updateOrderComment":"false" as AnyObject]
     }
     
     func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){

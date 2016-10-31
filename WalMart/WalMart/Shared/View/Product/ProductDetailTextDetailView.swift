@@ -30,21 +30,21 @@ class ProductDetailTextDetailView : UIView {
         
         self.clipsToBounds = true
         
-        viewBg = UIView(frame:CGRectMake(0, 0,self.frame.width,0))
-        viewBg.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
+        viewBg = UIView(frame:CGRect(x: 0, y: 0,width: self.frame.width,height: 0))
+        viewBg.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
         self.addSubview(viewBg)
         
-        textView = UITextView(frame: CGRectMake(15, 40, self.frame.width - 30, viewBg.frame.height - 50))
+        textView = UITextView(frame: CGRect(x: 15, y: 40, width: self.frame.width - 30, height: viewBg.frame.height - 50))
         textView.font = WMFont.fontMyriadProRegularOfSize(14)
-        textView.textColor = UIColor.whiteColor()
+        textView.textColor = UIColor.white
         
-        textView.backgroundColor = UIColor.clearColor()
-        textView.editable = false
+        textView.backgroundColor = UIColor.clear
+        textView.isEditable = false
         self.addSubview(textView)
         
-        let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
-        closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: #selector(ProductDetailTextDetailView.closeProductDetail), forControlEvents: UIControlEvents.TouchUpInside)
+        let closeButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        closeButton.setImage(UIImage(named:"close"), for: UIControlState())
+        closeButton.addTarget(self, action: #selector(ProductDetailTextDetailView.closeProductDetail), for: UIControlEvents.touchUpInside)
         self.addSubview(closeButton)
         
     }
@@ -55,10 +55,10 @@ class ProductDetailTextDetailView : UIView {
         if self.bounds.height > 0 {
             viewBg.frame = self.bounds
         }
-        textView.frame = CGRectMake(15, 40,  self.frame.width - 30, viewBg.frame.height - 50)
+        textView.frame = CGRect(x: 15, y: 40,  width: self.frame.width - 30, height: viewBg.frame.height - 50)
     }
     
-    func setTextDetail(detail:String) {
+    func setTextDetail(_ detail:String) {
         self.textView.text = detail
     }
     func closeProductDetail() {
@@ -68,11 +68,11 @@ class ProductDetailTextDetailView : UIView {
     }
     
     
-    func generateBlurImage(viewBg:UIView,frame:CGRect) {
+    func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
         var cloneImage : UIImage? = nil
         //var blurredImage : UIImage? = nil
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
         cloneImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         viewBg.layer.contents = nil
@@ -83,7 +83,7 @@ class ProductDetailTextDetailView : UIView {
         cloneImage = nil
         
         self.addSubview(imageBlurView)
-        self.sendSubviewToBack(imageBlurView)
+        self.sendSubview(toBack: imageBlurView)
     }
     
     deinit{

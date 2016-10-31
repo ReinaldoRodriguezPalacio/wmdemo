@@ -17,7 +17,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     override func setup() {
         super.setup()
         
-        numProducts = UILabel(frame: CGRectMake(16, 25, 75, 14))
+        numProducts = UILabel(frame: CGRect(x: 16, y: 25, width: 75, height: 14))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
         numProducts.textColor = WMColor.reg_gray
         numProducts.numberOfLines = 2
@@ -31,24 +31,24 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     }
     
     override func layoutSubviews() {
-        subtotalTitle!.frame = CGRectMake(146, self.subtotalY,subtotalTitle!.frame.size.width , 12)
-        valueSubtotal!.frame = CGRectMake(subtotalTitle!.frame.maxX + 8, subtotalTitle!.frame.minY, 50, 12)
+        subtotalTitle!.frame = CGRect(x: 146, y: self.subtotalY,width: subtotalTitle!.frame.size.width , height: 12)
+        valueSubtotal!.frame = CGRect(x: subtotalTitle!.frame.maxX + 8, y: subtotalTitle!.frame.minY, width: 50, height: 12)
         if self.firstTotal {
-            valueTotal!.frame = CGRectMake(self.frame.width - (valueTotal!.frame.size.width + 16), subtotalTitle!.frame.maxY + 4.0 , valueTotal!.frame.size.width, valueTotal!.frame.size.height)
-            totalTitle!.frame = CGRectMake(valueTotal!.frame.minX - (totalTitle!.frame.size.width + 8) ,subtotalTitle!.frame.maxY + 4.0, totalTitle!.frame.size.width, totalTitle!.frame.size.height)
-            valueTotalSaving!.frame = CGRectMake(self.frame.width - 66,  totalTitle!.frame.maxY + 4.0 , 50, 12)
-            savingTitle!.frame = CGRectMake(valueTotalSaving!.frame.minX - 109 , totalTitle!.frame.maxY + 4.0 , 101, 12)
+            valueTotal!.frame = CGRect(x: self.frame.width - (valueTotal!.frame.size.width + 16), y: subtotalTitle!.frame.maxY + 4.0 , width: valueTotal!.frame.size.width, height: valueTotal!.frame.size.height)
+            totalTitle!.frame = CGRect(x: valueTotal!.frame.minX - (totalTitle!.frame.size.width + 8) ,y: subtotalTitle!.frame.maxY + 4.0, width: totalTitle!.frame.size.width, height: totalTitle!.frame.size.height)
+            valueTotalSaving!.frame = CGRect(x: self.frame.width - 66,  y: totalTitle!.frame.maxY + 4.0 , width: 50, height: 12)
+            savingTitle!.frame = CGRect(x: valueTotalSaving!.frame.minX - 109 , y: totalTitle!.frame.maxY + 4.0 , width: 101, height: 12)
         }else{
-            self.valueTotalSaving!.frame = CGRectMake(self.frame.width - 66,  self.subtotalTitle!.frame.maxY + 4.0 , 50, 12)
-            self.savingTitle!.frame = CGRectMake(self.valueTotalSaving!.frame.minX - 109 , self.subtotalTitle!.frame.maxY + 4.0 , 101, 12)
-            self.valueTotal!.frame = CGRectMake(self.frame.width - (self.valueTotal!.frame.size.width + 16), self.savingTitle!.frame.maxY + 4.0 , self.valueTotal!.frame.size.width, self.valueTotal!.frame.size.height)
-            self.totalTitle!.frame = CGRectMake(valueTotal!.frame.minX - (self.totalTitle!.frame.size.width + 8) ,self.savingTitle!.frame.maxY + 4.0, self.totalTitle!.frame.size.width, self.totalTitle!.frame.size.height)
+            self.valueTotalSaving!.frame = CGRect(x: self.frame.width - 66,  y: self.subtotalTitle!.frame.maxY + 4.0 , width: 50, height: 12)
+            self.savingTitle!.frame = CGRect(x: self.valueTotalSaving!.frame.minX - 109 , y: self.subtotalTitle!.frame.maxY + 4.0 , width: 101, height: 12)
+            self.valueTotal!.frame = CGRect(x: self.frame.width - (self.valueTotal!.frame.size.width + 16), y: self.savingTitle!.frame.maxY + 4.0 , width: self.valueTotal!.frame.size.width, height: self.valueTotal!.frame.size.height)
+            self.totalTitle!.frame = CGRect(x: valueTotal!.frame.minX - (self.totalTitle!.frame.size.width + 8) ,y: self.savingTitle!.frame.maxY + 4.0, width: self.totalTitle!.frame.size.width, height: self.totalTitle!.frame.size.height)
         }
         
     }
     
     
-    func setValues(subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
+    func setValues(_ subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
         //super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
         super.setValuesAll(articles: numProds, subtotal: subtotal, shippingCost: "", iva: iva, saving: totalSaving, total: total)
@@ -60,16 +60,16 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         }
     }
     
-    func setValuesWithSubtotal(subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
+    func setValuesWithSubtotal(_ subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
         //super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
         super.setValuesAll(articles: numProds, subtotal: subtotal, shippingCost: "", iva: iva, saving: totalSaving, total: total)
         let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
         self.valueSubtotal!.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.reg_gray, interLine: false)
         self.firstTotal = false
-        self.subtotalY = savingTitle!.hidden ? 0.0 : 18.0
-        self.subtotalTitle!.hidden = savingTitle!.hidden
-        self.valueSubtotal!.hidden = savingTitle!.hidden
+        self.subtotalY = savingTitle!.isHidden ? 0.0 : 18.0
+        self.subtotalTitle!.isHidden = savingTitle!.isHidden
+        self.valueSubtotal!.isHidden = savingTitle!.isHidden
         self.valueTotal!.label1?.textColor = WMColor.orange
         self.valueTotal!.label2?.textColor = WMColor.orange
         self.totalTitle!.textColor = WMColor.orange
@@ -78,18 +78,18 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         }
     }
     
-    func setValuesBTS(subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
+    func setValuesBTS(_ subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
-        self.valueTotal!.frame = CGRectMake(self.frame.width - (self.valueTotal!.frame.size.width + 16), 16 , self.valueTotal!.frame.size.width, self.valueTotal!.frame.size.height)
-        self.totalTitle!.frame = CGRectMake(valueTotal!.frame.minX - (self.totalTitle!.frame.size.width + 8) , 16, self.totalTitle!.frame.size.width, self.totalTitle!.frame.size.height)
+        self.valueTotal!.frame = CGRect(x: self.frame.width - (self.valueTotal!.frame.size.width + 16), y: 16 , width: self.valueTotal!.frame.size.width, height: self.valueTotal!.frame.size.height)
+        self.totalTitle!.frame = CGRect(x: valueTotal!.frame.minX - (self.totalTitle!.frame.size.width + 8) , y: 16, width: self.totalTitle!.frame.size.width, height: self.totalTitle!.frame.size.height)
         //super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
         super.setValuesAll(articles: numProds, subtotal: subtotal, shippingCost: "", iva: iva, saving: totalSaving, total: total)
         self.valueTotal!.label1?.textColor = WMColor.orange
         self.valueTotal!.label2?.textColor = WMColor.orange
         self.totalTitle!.textColor = WMColor.orange
         if numProds != "" {
-            numProducts.frame =  CGRectMake(16, 25, 100, 28)
-            numProducts.textAlignment = .Left
+            numProducts.frame =  CGRect(x: 16, y: 25, width: 100, height: 28)
+            numProducts.textAlignment = .left
             numProducts.text = "\(numProds) \(articles) \nseleccionados"
         }
     }

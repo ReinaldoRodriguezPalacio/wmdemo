@@ -18,14 +18,14 @@ class IPASearchProductCollectionViewCell : SearchProductCollectionViewCell {
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
-        self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
-        self.addProductToShopingCart!.addTarget(self, action: Selector("addProductToShoping"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), for: UIControlState())
+        self.addProductToShopingCart!.addTarget(self, action: Selector("addProductToShoping"), for: UIControlEvents.touchUpInside)
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(8, 0, self.frame.width - 16 , 46)
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (140 / 2), self.productShortDescriptionLabel!.frame.maxY , 140, 140)
-        self.productPriceThroughLabel!.frame = CGRectMake(0, self.productImage!.frame.maxY + 6 , self.bounds.width , 15)
-        self.productPriceLabel!.frame = CGRectMake(0, self.productPriceThroughLabel!.frame.maxY , self.bounds.width , 30)
-        self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 82,self.productImage!.frame.maxY + 16 , 66 , 34)
+        self.productShortDescriptionLabel!.frame = CGRect(x: 8, y: 0, width: self.frame.width - 16 , height: 46)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (140 / 2), y: self.productShortDescriptionLabel!.frame.maxY , width: 140, height: 140)
+        self.productPriceThroughLabel!.frame = CGRect(x: 0, y: self.productImage!.frame.maxY + 6 , width: self.bounds.width , height: 15)
+        self.productPriceLabel!.frame = CGRect(x: 0, y: self.productPriceThroughLabel!.frame.maxY , width: self.bounds.width , height: 30)
+        self.addProductToShopingCart!.frame = CGRect(x: self.bounds.maxX - 82,y: self.productImage!.frame.maxY + 16 , width: 66 , height: 34)
         //self.presale.frame =  CGRectMake((self.frame.width / 2) - (widthPresale / 2),self.productImage!.frame.maxY + 3, widthPresale, 14)
     }
     

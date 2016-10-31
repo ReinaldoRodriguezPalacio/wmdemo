@@ -13,7 +13,7 @@ class GetPreferencesService : BaseService  {
     
     let fileName =  "preferences.json"
     
-    func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
             successBlock!(resultCall)
@@ -23,7 +23,7 @@ class GetPreferencesService : BaseService  {
     }
     
     
-    func getLocalPreferences(successBlock:((NSDictionary) -> Void)?,errorBlock:((NSError) -> Void)?){
+    func getLocalPreferences(_ successBlock:((NSDictionary) -> Void)?,errorBlock:((NSError) -> Void)?){
         
         let values = self.getDataFromFile(fileName)
         if values != nil {

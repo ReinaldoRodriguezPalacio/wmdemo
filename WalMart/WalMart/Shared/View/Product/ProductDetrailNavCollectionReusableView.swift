@@ -21,6 +21,6 @@ class ProductDetrailNavCollectionReusableView : UICollectionReusableView {
     }
     
     func setup() {
-        self.backgroundColor = UIColor.grayColor()
+        self.backgroundColor = UIColor.gray
     }
 }

@@ -30,11 +30,11 @@ class GRAddressViewCell: UITableViewCell {
         
         
         imageDisclousure = UIImageView(image: UIImage(named: "disclosure"))
-        imageDisclousure.contentMode = UIViewContentMode.Center
+        imageDisclousure.contentMode = UIViewContentMode.center
         
         imageErrorField = UIImageView(image: UIImage(named: "profile_field_error"))
-        imageErrorField.contentMode = UIViewContentMode.Center
-        imageErrorField.hidden = true
+        imageErrorField.contentMode = UIViewContentMode.center
+        imageErrorField.isHidden = true
         
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(imageDisclousure)
@@ -43,9 +43,9 @@ class GRAddressViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        titleLabel.frame = CGRectMake(0 , 1, self.bounds.width - 41  , self.bounds.height - 1)
-        imageDisclousure.frame = CGRectMake(self.frame.width - 48 , 1, 48, self.frame.height)
-        imageErrorField.frame = CGRectMake(self.frame.width - 72 , 1, 48, self.frame.height)
+        titleLabel.frame = CGRect(x: 0 , y: 1, width: self.bounds.width - 41  , height: self.bounds.height - 1)
+        imageDisclousure.frame = CGRect(x: self.frame.width - 48 , y: 1, width: 48, height: self.frame.height)
+        imageErrorField.frame = CGRect(x: self.frame.width - 72 , y: 1, width: 48, height: self.frame.height)
         
     }
     
@@ -59,7 +59,7 @@ class GRAddressViewCell: UITableViewCell {
      - parameter align:         align of text
      - parameter addressID:     address identifier
      */
-    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,align:NSTextAlignment,addressID: String){
+    func setValues(_ title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,align:NSTextAlignment,addressID: String){
         titleLabel.text  = title
         titleLabel.font = font
         titleLabel.numberOfLines = numberOfLines
@@ -73,8 +73,8 @@ class GRAddressViewCell: UITableViewCell {
      
      - parameter show: indicates if shows or hides the indicator
      */
-    func showErrorFieldImage(show:Bool){
-        self.imageErrorField.hidden = !show
+    func showErrorFieldImage(_ show:Bool){
+        self.imageErrorField.isHidden = !show
     }
     
 }

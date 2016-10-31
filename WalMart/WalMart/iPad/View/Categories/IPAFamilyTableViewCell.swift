@@ -15,14 +15,14 @@ class IPAFamilyTableViewCell : IPOFamilyTableViewCell {
     override func setup() {
         super.setup()
         
-        self.titleLabel.textColor = UIColor.whiteColor()
+        self.titleLabel.textColor = UIColor.white
         
         separatorView = UIView()
-        separatorView.backgroundColor = UIColor.whiteColor()
+        separatorView.backgroundColor = UIColor.white
         self.addSubview(separatorView)
         
         let bgColorView = UIView()
-        bgColorView.backgroundColor =  UIColor.whiteColor().colorWithAlphaComponent(0.12)
+        bgColorView.backgroundColor =  UIColor.white.withAlphaComponent(0.12)
         self.selectedBackgroundView = bgColorView
         
         
@@ -30,12 +30,12 @@ class IPAFamilyTableViewCell : IPOFamilyTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.separatorView.frame = CGRectMake(0, self.frame.height - 1, self.frame.width, 1)
+        self.separatorView.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: 1)
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.separatorView.hidden = selected
+        self.separatorView.isHidden = selected
     }
     
 

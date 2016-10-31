@@ -53,25 +53,25 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.backButton!.hidden =  IS_IPAD && !isPreferencesView
+        self.backButton!.isHidden =  IS_IPAD && !isPreferencesView
         
         self.titleLabel?.text = NSLocalizedString("checkout.title.commentsview", comment: "")
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+        let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44), inputViewStyle: .keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             self.savePhone()
         })
         
-        let viewAccessComments = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", saveText: { (field:UITextView?) -> Void in
+        let viewAccessComments = FieldInputView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44), inputViewStyle: .keyboard , titleSave:"Ok", saveText: { (field:UITextView?) -> Void in
             self.saveComments()
         })
         
         self.content = TPKeyboardAvoidingScrollView()
-        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
+        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
         self.content.scrollDelegate = self
-        self.content.backgroundColor = UIColor.whiteColor()
+        self.content.backgroundColor = UIColor.white
         self.view.addSubview(self.content)
         
         let margin: CGFloat = 16.0
@@ -88,16 +88,16 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.showPhoneField = false
         }
         
-        self.sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.confirm", comment: ""), frame: CGRectMake(margin, margin, width, lheight))
+        self.sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.confirm", comment: ""), frame: CGRect(x: margin, y: margin, width: width, height: lheight))
         self.content.addSubview(self.sectionTitle!)
         
         self.confirmCallButton = UIButton()
-        self.confirmCallButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
-        self.confirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:) ), forControlEvents: UIControlEvents.TouchUpInside)
-        self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), forState: .Normal)
-        self.confirmCallButton!.setTitleColor(WMColor.reg_gray, forState: .Normal)
-        self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.confirmCallButton!.setImage(UIImage(named:"filter_check_gray"), for: UIControlState())
+        self.confirmCallButton!.setImage(UIImage(named:"check_full"), for: UIControlState.selected)
+        self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:) ), for: UIControlEvents.touchUpInside)
+        self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), for: UIControlState())
+        self.confirmCallButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+        self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.confirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
         if IS_IPAD && isPreferencesView {
@@ -106,73 +106,73 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         }
         
-        self.confirmCallButton!.selected = true
+        self.confirmCallButton!.isSelected = true
         self.confirmCallButton!.tag = 3
         self.content.addSubview(self.confirmCallButton!)
         
-        self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
+        self.phoneField = FormFieldView(frame: CGRect(x: margin, y: confirmCallButton!.frame.maxY + 8.0, width: width, height: fheight))
         let phone = self.getDefaultPhone()
         //self.phoneField!.setCustomPlaceholder("Teléfono: \(phone)")
         self.phoneField!.isRequired = isPreferencesView ? false : true
-        self.phoneField!.typeField = TypeField.Phone
+        self.phoneField!.typeField = TypeField.phone
         self.phoneField!.nameField = "Teléfono"
         self.phoneField!.maxLength = 10
         self.phoneField!.minLength = 10
         self.phoneField!.disablePaste = true
         self.phoneField!.text = phone
-        self.phoneField!.keyboardType = UIKeyboardType.NumberPad
+        self.phoneField!.keyboardType = UIKeyboardType.numberPad
         self.phoneField!.inputAccessoryView = viewAccess
         self.phoneField!.delegate = self
         self.phoneField?.alpha = self.showPhoneField ? 1.0 : 0.0
         self.content.addSubview(self.phoneField!)
         
-        self.savePhoneButton = UIButton(type: .Custom)
-        self.savePhoneButton!.setTitle("Guardar", forState: .Normal)
-        self.savePhoneButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
+        self.savePhoneButton = UIButton(type: .custom)
+        self.savePhoneButton!.setTitle("Guardar", for: UIControlState())
+        self.savePhoneButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
         self.savePhoneButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.savePhoneButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.savePhone), forControlEvents: UIControlEvents.TouchUpInside)
+        self.savePhoneButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.savePhone), for: UIControlEvents.touchUpInside)
         self.savePhoneButton!.alpha = 0.0
         self.content!.addSubview(self.savePhoneButton!)
         
         self.confirmCallOptionButton = UIButton()
-        self.confirmCallOptionButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
-        self.confirmCallOptionButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), forState: .Normal)
-        self.confirmCallOptionButton!.setTitleColor(WMColor.reg_gray, forState: .Normal)
+        self.confirmCallOptionButton!.setImage(UIImage(named:"filter_check_gray"), for: UIControlState())
+        self.confirmCallOptionButton!.setImage(UIImage(named:"check_full"), for: UIControlState.selected)
+        self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), for: UIControlEvents.touchUpInside)
+        self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), for: UIControlState())
+        self.confirmCallOptionButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
         self.confirmCallOptionButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.confirmCallOptionButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.confirmCallOptionButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.confirmCallOptionButton!.titleLabel?.numberOfLines = 3
         self.confirmCallOptionButton!.titleEdgeInsets = UIEdgeInsets(top: (IS_IPAD && isPreferencesView) ? 14 : (IS_IPAD) ? 28 : 22, left: 8, bottom: 0, right: 0)
         self.confirmCallOptionButton!.tag = 1
         self.content.addSubview(self.confirmCallOptionButton!)
         
         self.notConfirmCallButton = UIButton()
-        self.notConfirmCallButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
-        self.notConfirmCallButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), forState: .Normal)
-        self.notConfirmCallButton!.setTitleColor(WMColor.reg_gray, forState: .Normal)
+        self.notConfirmCallButton!.setImage(UIImage(named:"filter_check_gray"), for: UIControlState())
+        self.notConfirmCallButton!.setImage(UIImage(named:"check_full"), for: UIControlState.selected)
+        self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:changePrefeered:)), for: UIControlEvents.touchUpInside)
+        self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), for: UIControlState())
+        self.notConfirmCallButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
         self.notConfirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.notConfirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.notConfirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         
         self.notConfirmCallButton!.titleLabel?.numberOfLines = 3
         self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: (IS_IPAD && isPreferencesView) ? 14 : (IS_IPAD) ? 28 : 22, left: 8, bottom: 0, right: 0)
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
-        self.sectionTitleComments = self.buildSectionTitle(NSLocalizedString("checkout.title.comments", comment: ""), frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
+        self.sectionTitleComments = self.buildSectionTitle(NSLocalizedString("checkout.title.comments", comment: ""), frame: CGRect(x: margin, y: notConfirmCallButton!.frame.maxY + 28.0, width: width, height: lheight))
         self.content.addSubview(self.sectionTitleComments!)
         
         self.comments = UITextView()
         self.comments!.layer.cornerRadius = 5.0
-        self.comments!.returnKeyType = .Default
-        self.comments!.autocapitalizationType = .None
-        self.comments!.autocorrectionType = .No
+        self.comments!.returnKeyType = .default
+        self.comments!.autocapitalizationType = .none
+        self.comments!.autocorrectionType = .no
         self.comments!.enablesReturnKeyAutomatically = true
         self.comments!.font = WMFont.fontMyriadProItOfSize(12)
         self.comments!.text = NSLocalizedString("checkout.field.comments", comment:"")
-        self.comments!.textColor = UIColor.grayColor()
+        self.comments!.textColor = UIColor.gray
         self.comments!.backgroundColor = WMColor.light_light_gray
         self.comments!.delegate = self
         self.comments!.inputAccessoryView = viewAccessComments
@@ -182,9 +182,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         commentsDefault.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsDefault.length))
         
         commentsString = NSMutableAttributedString(string: NSLocalizedString("checkout.field.comments", comment:""))
-        commentsString!.addAttribute(NSForegroundColorAttributeName, value: UIColor.grayColor(), range:NSMakeRange(0,commentsString!.length))
+        commentsString!.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range:NSMakeRange(0,commentsString!.length))
         commentsString!.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsString!.length))
-        commentsString!.appendAttributedString(commentsDefault)
+        commentsString!.append(commentsDefault)
         
         if UserCurrentSession.sharedInstance().activeCommens {
             self.findproductInCar()
@@ -196,37 +196,37 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.invokePreferenceService()
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view.layer.insertSublayer(layerLine, atIndex: 1000)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view.layer.insertSublayer(layerLine, at: 1000)
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), for: UIControlEvents.touchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
         
         if isPreferencesView {
-            self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), forState:.Normal)
+            self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), for:UIControlState())
             self.saveButton!.backgroundColor = WMColor.green
-            self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.savePreferences), forControlEvents: UIControlEvents.TouchUpInside)
+            self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.savePreferences), for: UIControlEvents.touchUpInside)
         } else {
-            self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), forState:.Normal)
+            self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), for:UIControlState())
             self.saveButton!.backgroundColor = WMColor.light_blue
-            self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
+            self.saveButton!.addTarget(self, action: #selector(getter: GRCheckOutCommentsViewController.next), for: UIControlEvents.touchUpInside)
         }
         
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.layer.cornerRadius = 17
         self.view.addSubview(saveButton!)
 
         self.confirmText = "\(NSLocalizedString("gr.confirmacall", comment: ""))\n\(self.phoneField!.text!)"
-        self.content?.contentOffset = CGPointZero
+        self.content?.contentOffset = CGPoint.zero
     }
     
     override func viewWillLayoutSubviews() {
@@ -261,20 +261,20 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     override func willShowTabbar() {
         if isPreferencesView {
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
-                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
-                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 112,  width: self.view.frame.width, height: 1)
+                self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 96, width: 140, height: 34)
+                self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 96, width: 140, height: 34)
             })
         }
     }
     
     override func willHideTabbar() {
         if isPreferencesView {
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
-                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
-                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 66,  width: self.view.frame.width, height: 1)
+                self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 50, width: 140, height: 34)
+                self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 50, width: 140, height: 34)
             })
 
         }
@@ -293,55 +293,55 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let checkButtonHeight: CGFloat = 45//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
         
         if !isPreferencesView {
-            self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,0.0, 46, self.titleLabel!.bounds.height)
+            self.stepLabel!.frame = CGRect(x: self.view.bounds.width - 51.0,y: 0.0, width: 46, height: self.titleLabel!.bounds.height)
         }
         
-        self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
-        self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
+        self.sectionTitle!.frame = CGRect(x: margin, y: margin, width: width, height: lheight)
+        self.confirmCallButton!.frame = CGRect(x: margin,y: self.sectionTitle!.frame.maxY + margin,width: width,height: 20)
         
         if self.showPhoneField {
-            self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
-            self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
-            self.notConfirmCallButton!.frame = CGRectMake(margin, phoneField!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width, checkButtonHeight)
+            self.phoneField!.frame = CGRect(x: margin, y: confirmCallButton!.frame.maxY + 8.0, width: width, height: fheight)
+            self.savePhoneButton!.frame = CGRect(x: self.view.frame.width - self.phoneFieldSpace, y: confirmCallButton!.frame.maxY + 8.0, width: 55, height: 40)
+            self.notConfirmCallButton!.frame = CGRect(x: margin, y: phoneField!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width: width, height: checkButtonHeight)
         }else{
-            self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
-            self.notConfirmCallButton!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width, checkButtonHeight)
-            self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
+            self.phoneField!.frame = CGRect(x: margin, y: confirmCallButton!.frame.maxY + 8.0, width: width, height: fheight)
+            self.notConfirmCallButton!.frame = CGRect(x: margin, y: confirmCallButton!.frame.maxY + (IS_IPAD && isPreferencesView ? margin : 8), width: width, height: checkButtonHeight)
+            self.savePhoneButton!.frame = CGRect(x: self.view.frame.width - self.phoneFieldSpace, y: confirmCallButton!.frame.maxY + 8.0, width: 55, height: 40)
         }
         
-        self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin, width, checkButtonHeight)
+        self.confirmCallOptionButton!.frame = CGRect(x: margin,y: notConfirmCallButton!.frame.maxY + margin, width: width, height: checkButtonHeight)
         
-        self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
-        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,95)
+        self.sectionTitleComments!.frame = CGRect(x: margin, y: confirmCallOptionButton!.frame.maxY + 28.0, width: width, height: lheight)
+        self.comments!.frame = CGRect(x: margin,y: self.sectionTitleComments!.frame.maxY + margin,width: width,height: 95)
         
         if isPreferencesView {
-            sectionTitleComments?.hidden = true
-            sectionTitleComments?.userInteractionEnabled = false
-            comments?.hidden = true
-            comments?.userInteractionEnabled = false
-            phoneField?.userInteractionEnabled = false
-            phoneField?.hidden = true
+            sectionTitleComments?.isHidden = true
+            sectionTitleComments?.isUserInteractionEnabled = false
+            comments?.isHidden = true
+            comments?.isUserInteractionEnabled = false
+            phoneField?.isUserInteractionEnabled = false
+            phoneField?.isHidden = true
         }
         
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
-        self.content!.contentSize = CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 111)
+        self.content!.contentSize = CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 10)
         
         if isPreferencesView {
             
             if TabBarHidden.isTabBarHidden || IS_IPAD {
-                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
-                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
-                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
+                self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 66,  width: self.view.frame.width, height: 1)
+                self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 50, width: 140, height: 34)
+                self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 50, width: 140, height: 34)
             } else {
-                self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
-                self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
-                self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
+                self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 112,  width: self.view.frame.width, height: 1)
+                self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 96, width: 140, height: 34)
+                self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 96, width: 140, height: 34)
             }
             
         } else {
-            self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 66,  self.view.frame.width, 1)
-            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
-            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
+            self.layerLine.frame = CGRect(x: 0, y: self.view.bounds.height - 66,  width: self.view.frame.width, height: 1)
+            self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
+            self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
         }
         
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: IS_IPAD ? 0 : checkImageBottom, right:0 )
@@ -356,12 +356,12 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      
      - returns: UILabel
      */
-    func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
+    func buildSectionTitle(_ title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
-        sectionTitle.backgroundColor = UIColor.whiteColor()
+        sectionTitle.backgroundColor = UIColor.white
         return sectionTitle
     }
     
@@ -388,7 +388,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.backgroundColor = UIColor.white
             viewLoad.startAnnimating(true)
             self.view.addSubview(viewLoad)
         }
@@ -405,7 +405,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      
      - parameter button: selected button
      */
-    func confirmCallSelected(button:UIButton,changePrefeered:Bool){
+    func confirmCallSelected(_ button:UIButton,changePrefeered:Bool){
         self.changePreferences = !changePrefeered
         
         if self.confirmSelected != button.tag {
@@ -414,28 +414,28 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             // 3 = onlyOrderedProducts
             // 1 = receiveCallConfirmation
             
-            self.confirmCallButton?.selected = (self.confirmCallButton == button)
-            self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
-            self.confirmCallOptionButton?.selected = (self.confirmCallOptionButton == button)
+            self.confirmCallButton?.isSelected = (self.confirmCallButton == button)
+            self.notConfirmCallButton?.isSelected = (self.notConfirmCallButton == button)
+            self.confirmCallOptionButton?.isSelected = (self.confirmCallOptionButton == button)
             self.confirmSelected = button.tag
             self.confirmText = button.titleLabel!.text!
         
             if confirmSelected == 3 {
            
-                self.userPreferences.setObject(OnlyAlertPreferences.receiveCallConfirmation.rawValue, forKey:"onlyTelephonicAlert")
+                self.userPreferences.setObject(OnlyAlertPreferences.receiveCallConfirmation.rawValue, forKey:"onlyTelephonicAlert" as NSCopying)
                 
                 self.confirmText = "\(self.confirmText)\n\(self.phoneField!.text!)"
-                self.phoneField?.enabled = true
-                self.phoneField?.textColor = UIColor.blackColor()
+                self.phoneField?.isEnabled = true
+                self.phoneField?.textColor = UIColor.black
                 self.showPhoneField = true
                 
             } else {
                 
-                self.phoneField?.enabled = false
+                self.phoneField?.isEnabled = false
                 self.phoneField?.textColor = WMColor.reg_gray
                 self.showPhoneField = false
                 
-                self.userPreferences.setObject(confirmSelected == 1 ? OnlyAlertPreferences.onlyOrderedProducts.rawValue : OnlyAlertPreferences.onlySubstituteAvailable.rawValue , forKey:"onlyTelephonicAlert")
+                self.userPreferences.setObject(confirmSelected == 1 ? OnlyAlertPreferences.onlyOrderedProducts.rawValue : OnlyAlertPreferences.onlySubstituteAvailable.rawValue , forKey:"onlyTelephonicAlert" as NSCopying)
             }
             
             isPreferencesView ? self.showPhoneField = false : self.showPhoneFieldAnimated()
@@ -449,20 +449,20 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      
      - parameter didShow: Bool
      */
-    func showSavePhoneButton(didShow:Bool){
+    func showSavePhoneButton(_ didShow:Bool){
         if didShow{
             self.phoneFieldSpace = 71
-            UIView.animateWithDuration(0.3, animations: {() in
+            UIView.animate(withDuration: 0.3, animations: {() in
                 self.savePhoneButton!.alpha = 1.0
-                self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, self.confirmCallButton!.frame.maxY + 8.0, 55, 40)
-                self.phoneField!.frame = CGRectMake(16, self.confirmCallButton!.frame.maxY + 8.0, self.view.frame.width - (self.phoneFieldSpace + 32), 40.0)
+                self.savePhoneButton!.frame = CGRect(x: self.view.frame.width - self.phoneFieldSpace, y: self.confirmCallButton!.frame.maxY + 8.0, width: 55, height: 40)
+                self.phoneField!.frame = CGRect(x: 16, y: self.confirmCallButton!.frame.maxY + 8.0, width: self.view.frame.width - (self.phoneFieldSpace + 32), height: 40.0)
             })
         }else{
             self.phoneFieldSpace = 0
-            UIView.animateWithDuration(0.3, animations: {() in
+            UIView.animate(withDuration: 0.3, animations: {() in
                 self.savePhoneButton!.alpha = 0.0
-                self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, self.confirmCallButton!.frame.maxY + 8.0, 55, 40)
-                self.phoneField!.frame = CGRectMake(16, self.confirmCallButton!.frame.maxY + 8.0, self.view.frame.width - (self.phoneFieldSpace + 32), 40.0)
+                self.savePhoneButton!.frame = CGRect(x: self.view.frame.width - self.phoneFieldSpace, y: self.confirmCallButton!.frame.maxY + 8.0, width: 55, height: 40)
+                self.phoneField!.frame = CGRect(x: 16, y: self.confirmCallButton!.frame.maxY + 8.0, width: self.view.frame.width - (self.phoneFieldSpace + 32), height: 40.0)
             })
         }
         
@@ -474,13 +474,13 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     func showPhoneFieldAnimated(){
         if self.showPhoneField{
-            UIView.animateWithDuration(0.3, animations: {() in
+            UIView.animate(withDuration: 0.3, animations: {() in
                 self.phoneField!.alpha = 1.0
                 self.savePhoneButton!.alpha = 1.0
                 self.buildSubViews()
             })
         }else{
-            UIView.animateWithDuration(0.3, animations: {() in
+            UIView.animate(withDuration: 0.3, animations: {() in
                 self.phoneField!.alpha = 0.0
                 self.savePhoneButton!.alpha = 0.0
                 self.buildSubViews()
@@ -549,7 +549,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func invokePreferenceService(){
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:NSDictionary) in
-                self.userPreferences.addEntriesFromDictionary(result as [NSObject : AnyObject])
+                self.userPreferences.addEntries(from: result as [AnyHashable: Any])
             
         }, errorBlock: { (error:NSError) in
                 print("Error invokePreferenceService \(error.localizedDescription)")
@@ -610,7 +610,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let updateCommentParams = updateCommentService.buildParameterOrder(self.comments!.text)
         updateCommentService.callService(requestParams: updateCommentParams, succesBlock: {(result) -> Void in
             let codeMessage = result["codeMessage"] as! NSNumber
-            if codeMessage.intValue == 0 {
+            if codeMessage.int32Value == 0 {
                 alert?.setMessage("Guardado")
                 alert?.showDoneIcon()
             }else{
@@ -665,10 +665,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let upcsIncart : NSMutableArray =  []
         let itemsInShoppingCart = products!["items"] as? NSArray
         for items in itemsInShoppingCart! {
-            upcsIncart.addObject(items["upc"] as! String)
+            upcsIncart.add(items["upc"] as! String)
         }
         for upc in UserCurrentSession.sharedInstance().upcSearch {
-            if upcsIncart.containsObject(upc) {
+            if upcsIncart.contains(upc) {
                 showMessageInCommens =  true
                 break
             }
@@ -678,17 +678,17 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 10)
     }
     
     //MARK: -TextViewDelegate
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     {
         if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
             textView.text = NSLocalizedString("checkout.field.comments", comment:"")
             textView.resignFirstResponder()
-            textView.textColor = UIColor.grayColor()
+            textView.textColor = UIColor.gray
             
             if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
                 textView.attributedText =  commentsString
@@ -699,7 +699,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
     }
     
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         
         if textView.text ==  NSLocalizedString("checkout.field.comments", comment:"") || textView.text == self.commentsString?.string {
             textView.text = ""
@@ -708,57 +708,57 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         return true
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         //let offset = self.content!.contentOffset.y + 150
         var offset = abs((self.content.contentSize.height - self.content.frame.height) + 150)
         if IS_IPAD {
             offset = 120
         }
-        self.content!.contentOffset = CGPointMake(0, offset)
+        self.content!.contentOffset = CGPoint(x: 0, y: offset)
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text == "" {
             textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
-            textView.textColor = UIColor.grayColor()
+            textView.textColor = UIColor.gray
             if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
                 textView.attributedText =  commentsString
             }
         }
-        self.content!.contentOffset = CGPointZero
+        self.content!.contentOffset = CGPoint.zero
     }
     
     //MARK: - UITextFieldDelegate
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        var txtAfterUpdate : NSString = textField.text! as String
-        txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var txtAfterUpdate : NSString = textField.text! as String as NSString
+        txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
         if txtAfterUpdate.length >= 11 {
             return false
         }
         
-        self.showSavePhoneButton((txtAfterUpdate != self.defaultPhone))
+        self.showSavePhoneButton((txtAfterUpdate as String != self.defaultPhone))
         return true
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
-        self.phoneField!.layer.borderColor = WMColor.light_blue.CGColor
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.phoneField!.layer.borderColor = WMColor.light_blue.cgColor
         self.phoneField!.layer.borderWidth = 0.5
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
-        self.phoneField!.layer.borderColor = WMColor.light_light_gray.CGColor
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.phoneField!.layer.borderColor = WMColor.light_light_gray.cgColor
         self.phoneField!.layer.borderWidth = 0.0
         self.resetPhoneField()
     }
     
     //MARK: -Scroll
 
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         super.scrollViewWillBeginDragging(scrollView)
         self.comments!.resignFirstResponder()
         self.phoneField!.resignFirstResponder()

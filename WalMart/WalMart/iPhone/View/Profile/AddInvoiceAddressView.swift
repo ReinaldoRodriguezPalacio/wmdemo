@@ -14,7 +14,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
     var viewAddressFisical: AddressView? = nil
     var viewAddressMoral: AddressView? = nil
     var allAddress: NSArray! = []
-    var typeAddress: TypeAddress = TypeAddress.FiscalPerson
+    var typeAddress: TypeAddress = TypeAddress.fiscalPerson
     var addressFiscalPersonButton: UIButton? = nil
     var addressFiscalMoralButton: UIButton? = nil
     var viewTypeAdressFiscal: UIView? = nil
@@ -39,13 +39,13 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
         
         self.scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm!.scrollDelegate = self
-        self.heightView = (typeAddress == TypeAddress.FiscalMoral ? 500 : 550)
-        self.scrollForm!.contentSize = CGSizeMake(self.frame.width,heightView)
+        self.heightView = (typeAddress == TypeAddress.fiscalMoral ? 500 : 550)
+        self.scrollForm!.contentSize = CGSize(width: self.frame.width,height: heightView)
         self.addSubview(scrollForm!)
         
         switch (typeAddress ) {
-        case .FiscalPerson:
-            self.viewAddressFisical = FiscalAddressPersonF(frame:CGRectMake(0, 78, self.bounds.width , 480), isLogin: false , isIpad: false, typeAddress: typeAddress)
+        case .fiscalPerson:
+            self.viewAddressFisical = FiscalAddressPersonF(frame:CGRect(x: 0, y: 78, width: self.bounds.width , height: 480), isLogin: false , isIpad: false, typeAddress: typeAddress)
             self.viewAddressFisical!.usePopupPicker = false
             self.viewAddressFisical!.allAddress = self.allAddress
             self.scrollForm!.addSubview(self.viewAddressFisical!)
@@ -53,8 +53,8 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             self.viewAddressFisical!.typeAddress = typeAddress
             self.viewAddressFisical!.delegate = self
             
-        case .FiscalMoral:
-            self.viewAddressMoral = FiscalAddressPersonM(frame:CGRectMake(0, 78, self.bounds.width , 432),  isLogin: false, isIpad:false, typeAddress: typeAddress)
+        case .fiscalMoral:
+            self.viewAddressMoral = FiscalAddressPersonM(frame:CGRect(x: 0, y: 78, width: self.bounds.width , height: 432),  isLogin: false, isIpad:false, typeAddress: typeAddress)
             self.viewAddressMoral!.usePopupPicker = false
             self.viewAddressMoral!.allAddress = self.allAddress
             self.viewAddressMoral?.defaultPrefered = false
@@ -62,7 +62,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             self.viewAddressMoral!.typeAddress = typeAddress
             self.viewAddressMoral!.delegate = self
         default:
-            self.viewAddressFisical = FiscalAddressPersonF(frame:CGRectMake(0, 78, self.bounds.width , 480), isLogin: false , isIpad: false, typeAddress: typeAddress)
+            self.viewAddressFisical = FiscalAddressPersonF(frame:CGRect(x: 0, y: 78, width: self.bounds.width , height: 480), isLogin: false , isIpad: false, typeAddress: typeAddress)
             self.viewAddressFisical!.usePopupPicker = false
             self.viewAddressFisical!.allAddress = self.allAddress
             self.scrollForm!.addSubview(self.viewAddressFisical!)
@@ -77,7 +77,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
     
     func setupViewFiscal(){
         if viewTypeAdressFiscal==nil{
-            viewTypeAdressFiscal = UIView(frame:CGRectMake(0, 0 , self.bounds.width , 78))
+            viewTypeAdressFiscal = UIView(frame:CGRect(x: 0, y: 0 , width: self.bounds.width , height: 78))
             
             let checkTermOff : UIImage = UIImage(named:"checkTermOff")!
             let checkTermOn : UIImage = UIImage(named:"check_full")!
@@ -86,40 +86,40 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             var viewButton : UIView? = nil
             
             addressFiscalPersonButton = UIButton()
-            addressFiscalPersonButton!.setImage(checkTermOff, forState: UIControlState.Normal)
-            addressFiscalPersonButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressFiscalPersonButton!.addTarget(self, action: #selector(AddInvoiceAddressView.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-            addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), forState: UIControlState.Normal)
+            addressFiscalPersonButton!.setImage(checkTermOff, for: UIControlState())
+            addressFiscalPersonButton!.setImage(checkTermOn, for: UIControlState.selected)
+            addressFiscalPersonButton!.addTarget(self, action: #selector(AddInvoiceAddressView.checkSelectedFisical(_:)), for: UIControlEvents.touchUpInside)
+            addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), for: UIControlState())
             addressFiscalPersonButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalPersonButton!.titleLabel?.textColor = WMColor.reg_gray
-            addressFiscalPersonButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-            addressFiscalPersonButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
+            addressFiscalPersonButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+            addressFiscalPersonButton!.setTitleColor(WMColor.light_gray, for: UIControlState.disabled)
             addressFiscalPersonButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
             addressFiscalMoralButton = UIButton()
-            addressFiscalMoralButton!.setImage(checkTermOff, forState: UIControlState.Normal)
-            addressFiscalMoralButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressFiscalMoralButton!.addTarget(self, action: #selector(AddInvoiceAddressView.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-            addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), forState: UIControlState.Normal)
+            addressFiscalMoralButton!.setImage(checkTermOff, for: UIControlState())
+            addressFiscalMoralButton!.setImage(checkTermOn, for: UIControlState.selected)
+            addressFiscalMoralButton!.addTarget(self, action: #selector(AddInvoiceAddressView.checkSelectedFisical(_:)), for: UIControlEvents.touchUpInside)
+            addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), for: UIControlState())
             addressFiscalMoralButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalMoralButton!.titleLabel?.textColor = WMColor.reg_gray
-            addressFiscalMoralButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-            addressFiscalMoralButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
+            addressFiscalMoralButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+            addressFiscalMoralButton!.setTitleColor(WMColor.light_gray, for: UIControlState.disabled)
             addressFiscalMoralButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
-            if typeAddress == TypeAddress.FiscalMoral{
-                self.addressFiscalMoralButton!.selected = true
+            if typeAddress == TypeAddress.fiscalMoral{
+                self.addressFiscalMoralButton!.isSelected = true
             }else{
-                addressFiscalPersonButton!.selected = true
+                addressFiscalPersonButton!.isSelected = true
             }
             
             titleLabel = UILabel()
             titleLabel!.textColor = WMColor.light_blue
             titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
             titleLabel!.text =  NSLocalizedString("profile.address.fiscal.section", comment: "")
-            titleLabel!.backgroundColor = UIColor.whiteColor()
+            titleLabel!.backgroundColor = UIColor.white
             
-            viewButton = UIView(frame: CGRectMake(30,  32 , self.bounds.width - 60, 45))
+            viewButton = UIView(frame: CGRect(x: 30,  y: 32 , width: self.bounds.width - 60, height: 45))
             
             viewButton!.addSubview(addressFiscalPersonButton!)
             viewButton!.addSubview(addressFiscalMoralButton!)
@@ -127,31 +127,31 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             self.viewTypeAdressFiscal!.addSubview(titleLabel!)
             self.viewTypeAdressFiscal!.addSubview(viewButton!)
             
-            titleLabel!.frame = CGRectMake(16, 0, self.bounds.width - 20, 35 )
-            self.viewTypeAdressFiscal!.backgroundColor = UIColor.whiteColor()
+            titleLabel!.frame = CGRect(x: 16, y: 0, width: self.bounds.width - 20, height: 35 )
+            self.viewTypeAdressFiscal!.backgroundColor = UIColor.white
             
-            addressFiscalPersonButton!.frame = CGRectMake(0, 0, 107 , 45)
-            addressFiscalMoralButton!.frame = CGRectMake((viewButton!.frame.width / 2), 0, 107 , 45)
+            addressFiscalPersonButton!.frame = CGRect(x: 0, y: 0, width: 107 , height: 45)
+            addressFiscalMoralButton!.frame = CGRect(x: (viewButton!.frame.width / 2), y: 0, width: 107 , height: 45)
             self.scrollForm!.addSubview(self.viewTypeAdressFiscal!)
         } else {
             self.scrollForm!.addSubview(self.viewTypeAdressFiscal!)
-            self.viewTypeAdressFiscal!.frame = CGRectMake(0, 0, self.bounds.width, 78)
+            self.viewTypeAdressFiscal!.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: 78)
         }
     }
 
     
     override func layoutSubviews() {
-        self.scrollForm?.frame = CGRectMake(0,0,self.frame.width,self.frame.height - 66)
-        self.layerLine.frame = CGRectMake(0,self.frame.height - 66,self.frame.width, 1)
+        self.scrollForm?.frame = CGRect(x: 0,y: 0,width: self.frame.width,height: self.frame.height - 66)
+        self.layerLine.frame = CGRect(x: 0,y: self.frame.height - 66,width: self.frame.width, height: 1)
         
         if self.showCancelButton {
-            self.saveButton?.frame = CGRectMake((self.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 125, 34)
-            self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 133 , self.layerLine.frame.maxY + 16, 125, 34)
-            self.cancelButton!.hidden = false
+            self.saveButton?.frame = CGRect(x: (self.frame.width/2) + 8 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
+            self.cancelButton?.frame = CGRect(x: (self.frame.width/2) - 133 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
+            self.cancelButton!.isHidden = false
         }else{
-            self.saveButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
-            self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
-            self.cancelButton!.hidden = true
+            self.saveButton?.frame = CGRect(x: (self.frame.width/2) - 63 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
+            self.cancelButton?.frame = CGRect(x: (self.frame.width/2) - 63 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
+            self.cancelButton!.isHidden = true
         }
     }
     
@@ -159,17 +159,17 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
         self.saveBock(self.saveButton!, successBlock: nil)
     }
     
-    func saveBock(sender:UIButton?,successBlock:((Bool) -> Void)?) {
+    func saveBock(_ sender:UIButton?,successBlock:((Bool) -> Void)?) {
         var params : NSDictionary? = nil
         var service :  BaseService!
         
         switch (typeAddress) {
-        case .FiscalPerson:
+        case .fiscalPerson:
             if self.viewAddressFisical!.validateAddress(){
                 params = self.viewAddressFisical?.getParams()
                 service = AddFiscalAddressService()
             }
-        case .FiscalMoral:
+        case .fiscalMoral:
             if self.viewAddressMoral!.validateAddress(){
                 params = self.viewAddressMoral?.getParams()
                 service = AddFiscalAddressService()
@@ -181,14 +181,14 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             self.endEditing(true)
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             
-            if addressShippingCont >= 12 && typeAddress == .Shiping {
+            if addressShippingCont >= 12 && typeAddress == .shiping {
                 self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
                 self.alertView!.showErrorIcon("OK")
                 self.cancel()
                 return
             }
             
-            if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral) {
+            if addressFiscalCount >= 12 && (typeAddress == .fiscalPerson || typeAddress == .fiscalMoral) {
                 self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
                 self.alertView!.showErrorIcon("OK")
                 self.cancel()
@@ -217,22 +217,22 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
 
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    override func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.scrollForm!.frame.width, heightView)
+    override func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        return CGSize(width: self.scrollForm!.frame.width, height: heightView)
     }
     
-    func checkSelectedFisical(sender:UIButton) {
-        if sender.selected{
+    func checkSelectedFisical(_ sender:UIButton) {
+        if sender.isSelected{
             return
         }
         if sender == self.addressFiscalPersonButton{
-            typeAddress = TypeAddress.FiscalPerson
-            self.addressFiscalMoralButton!.selected = false
+            typeAddress = TypeAddress.fiscalPerson
+            self.addressFiscalMoralButton!.isSelected = false
         }else{
-            typeAddress = TypeAddress.FiscalMoral
-            self.addressFiscalPersonButton!.selected = false
+            typeAddress = TypeAddress.fiscalMoral
+            self.addressFiscalPersonButton!.isSelected = false
         }
-        sender.selected = !(sender.selected)
+        sender.isSelected = !(sender.isSelected)
         self.scrollForm!.removeFromSuperview()
         setup()
     }
@@ -242,22 +242,22 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
     func setContentSize(){
         let bounds = self.bounds
         switch (typeAddress ) {
-        case .FiscalPerson:
+        case .fiscalPerson:
             self.setupViewFiscal()
             let height: CGFloat =  698
             self.heightView =  height + 40
-            self.viewAddressFisical?.frame = CGRectMake(0.0, self.viewTypeAdressFiscal!.frame.maxY, bounds.width , self.heightView)
+            self.viewAddressFisical?.frame = CGRect(x: 0.0, y: self.viewTypeAdressFiscal!.frame.maxY, width: bounds.width , height: self.heightView)
             self.scrollForm!.contentSize = CGSize(width: bounds.width, height:self.heightView )
-            self.scrollForm!.bringSubviewToFront(self.viewTypeAdressFiscal!)
-            self.scrollForm!.bringSubviewToFront(self.viewAddressFisical!)
-        case .FiscalMoral:
+            self.scrollForm!.bringSubview(toFront: self.viewTypeAdressFiscal!)
+            self.scrollForm!.bringSubview(toFront: self.viewAddressFisical!)
+        case .fiscalMoral:
             self.setupViewFiscal()
             let height: CGFloat = 650
             self.heightView =  height + 40
-            self.viewAddressMoral?.frame = CGRectMake(0.0,  self.viewTypeAdressFiscal!.frame.maxY, bounds.width , self.heightView)
+            self.viewAddressMoral?.frame = CGRect(x: 0.0,  y: self.viewTypeAdressFiscal!.frame.maxY, width: bounds.width , height: self.heightView)
             self.scrollForm!.contentSize = CGSize(width: bounds.width, height: self.heightView)
-            self.scrollForm!.bringSubviewToFront(self.viewTypeAdressFiscal!)
-            self.scrollForm!.bringSubviewToFront(self.viewAddressMoral!)
+            self.scrollForm!.bringSubview(toFront: self.viewTypeAdressFiscal!)
+            self.scrollForm!.bringSubview(toFront: self.viewAddressMoral!)
             
         default:
             break

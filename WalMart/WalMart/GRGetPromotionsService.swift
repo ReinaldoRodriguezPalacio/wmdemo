@@ -17,7 +17,7 @@ class GRGetPromotionsService: GRBaseService{
     var total:String?
     var addressId:String?
     
-    func buildParams(isAssociated: String,associateNumber:String, startDate:String, determinant: String, total: String,storeID:String) -> NSDictionary{
+    func buildParams(_ isAssociated: String,associateNumber:String, startDate:String, determinant: String, total: String,storeID:String) -> NSDictionary{
         
         var isAssociatedSend = (isAssociated == "1" ? true : false)
         
@@ -28,7 +28,7 @@ class GRGetPromotionsService: GRBaseService{
         return ["isAssociated": isAssociatedSend ,"idAssociated":associateNumber,"dateAdmission":startDate, "determinant":determinant, "total":total,"addressId":storeID]
     }
     
-    func setParams(params:[String:String])
+    func setParams(_ params:[String:String])
     {
         self.isAssociated = params["isAssociated"]
         self.idAssociated = params[NSLocalizedString("checkout.discount.associateNumber", comment:"")]

@@ -10,9 +10,9 @@ import Foundation
 
 
 enum TypeAddress {
-    case Shiping
-    case FiscalPerson
-    case FiscalMoral
+    case shiping
+    case fiscalPerson
+    case fiscalMoral
 }
 
 class AddressViewController: NavigationViewController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate , AddressViewDelegate{
@@ -31,7 +31,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var viewTypeAdressFiscal: UIView? = nil
     var saveButton: WMRoundButton?
     var deleteButton: UIButton?
-    var typeAddress: TypeAddress = TypeAddress.Shiping
+    var typeAddress: TypeAddress = TypeAddress.shiping
     var idAddress: NSString? = nil
     var defaultPrefered = false
     var viewLoad : WMLoadingView!
@@ -56,7 +56,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
 
         self.content = TPKeyboardAvoidingScrollView()
         self.content.delegate = self
@@ -66,10 +66,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        self.saveButton!.addTarget(self, action: #selector(AddressViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ).lowercaseString , forState: UIControlState.Normal)
-        self.saveButton!.hidden = true
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSize(width: 71, height: 22), forUIControlState: UIControlState())
+        self.saveButton!.addTarget(self, action: #selector(AddressViewController.save(_:)), for: UIControlEvents.touchUpInside)
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ).lowercased() , for: UIControlState())
+        self.saveButton!.isHidden = true
         self.saveButton!.alpha = 0
         self.saveButton!.tag = 1
         
@@ -83,14 +83,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.bounds = self.view.bounds
         switch (typeAddress ) {
-        case .Shiping:
+        case .shiping:
             self.viewAddress = ShippingAddress(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, typeAddress: typeAddress)
             self.viewAddress!.allAddress = self.allAddress
             self.viewAddress?.defaultPrefered = self.defaultPrefered
             self.viewAddress!.delegate = self
             self.viewAddress!.typeAddress = typeAddress
             self.content!.addSubview(self.viewAddress!)
-        case .FiscalPerson:
+        case .fiscalPerson:
             self.viewAddressFisical = FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin , isIpad: isIpad, typeAddress: typeAddress)
             self.viewAddressFisical!.allAddress = self.allAddress
             self.content!.addSubview(self.viewAddressFisical!)
@@ -98,7 +98,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.viewAddressFisical!.typeAddress = typeAddress
             self.viewAddressFisical!.delegate = self
            
-        case .FiscalMoral:
+        case .fiscalMoral:
             self.viewAddressMoral = FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:isIpad, typeAddress: typeAddress)
             self.viewAddressMoral!.allAddress = self.allAddress
             self.viewAddressMoral?.defaultPrefered = self.defaultPrefered
@@ -114,22 +114,22 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }else{
             //TODO:Checar por que las direcciones no traen Id
             if let id = self.item!["addressId"] as! String?{
-                self.idAddress = id
+                self.idAddress = id as NSString?
                 self.titleLabel!.text = self.item!["name"] as! String?
                 deleteButton = UIButton()
-                deleteButton?.addTarget(self, action: #selector(AddressViewController.deleteAddress(_:)), forControlEvents: .TouchUpInside)
-                deleteButton!.setImage(UIImage(named: "deleteAddress"), forState: UIControlState.Normal)
+                deleteButton?.addTarget(self, action: #selector(AddressViewController.deleteAddress(_:)), for: .touchUpInside)
+                deleteButton!.setImage(UIImage(named: "deleteAddress"), for: UIControlState())
                 self.header!.addSubview(self.deleteButton!)
             }
             else{
                 self.titleLabel!.text = NSLocalizedString("profile.address.new.title", comment: "")
             }
             switch (typeAddress ) {
-            case .Shiping:
+            case .shiping:
                 self.viewAddress!.setItemWithDictionary(self.item!)
-            case .FiscalPerson:
+            case .fiscalPerson:
                 self.viewAddressFisical!.setItemWithDictionary(self.item!)
-            case .FiscalMoral:
+            case .fiscalMoral:
                 self.viewAddressMoral!.setItemWithDictionary(self.item!)
             }
         }
@@ -149,12 +149,12 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             var named = ""
             if isLogin {
                  named = "checkTermOn"
-                 addressShipingButton!.setTitleColor(UIColor.whiteColor() , forState: UIControlState.Normal)
-                 addressFiscalButton!.setTitleColor(UIColor.whiteColor() , forState: UIControlState.Normal)
+                 addressShipingButton!.setTitleColor(UIColor.white , for: UIControlState())
+                 addressFiscalButton!.setTitleColor(UIColor.white , for: UIControlState())
             }else {
                 named = "check_full"
-                addressShipingButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-                addressFiscalButton!.setTitleColor(WMColor.reg_gray , forState: UIControlState.Normal)
+                addressShipingButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+                addressFiscalButton!.setTitleColor(WMColor.reg_gray , for: UIControlState())
             }
             
             let checkTermOn : UIImage = UIImage(named:named)!
@@ -162,46 +162,46 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             //var addressShipinglabel : UILabel? = nil
             //var addressFiscallabel: UILabel? = nil
         
-            addressShipingButton!.setImage(checkTermOff, forState: UIControlState.Normal)
-            addressShipingButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressShipingButton!.addTarget(self, action: #selector(AddressViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-            addressShipingButton!.setTitle(NSLocalizedString("profile.address.shiping",  comment: ""), forState: UIControlState.Normal)
+            addressShipingButton!.setImage(checkTermOff, for: UIControlState())
+            addressShipingButton!.setImage(checkTermOn, for: UIControlState.selected)
+            addressShipingButton!.addTarget(self, action: #selector(AddressViewController.checkSelected(_:)), for: UIControlEvents.touchUpInside)
+            addressShipingButton!.setTitle(NSLocalizedString("profile.address.shiping",  comment: ""), for: UIControlState())
             addressShipingButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressShipingButton!.titleLabel?.textColor = WMColor.reg_gray
             addressShipingButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
            
-            addressFiscalButton!.setImage(checkTermOff, forState: UIControlState.Normal)
-            addressFiscalButton!.setImage(checkTermOn, forState: UIControlState.Selected)
+            addressFiscalButton!.setImage(checkTermOff, for: UIControlState())
+            addressFiscalButton!.setImage(checkTermOn, for: UIControlState.selected)
             
             addressFiscalButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalButton!.titleLabel?.textColor = WMColor.reg_gray
-            addressFiscalButton!.addTarget(self, action: #selector(AddressViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            addressFiscalButton!.addTarget(self, action: #selector(AddressViewController.checkSelected(_:)), for: UIControlEvents.touchUpInside)
           
-            addressFiscalButton!.setTitle(NSLocalizedString("profile.address.fiscal",  comment: ""), forState: UIControlState.Normal)
+            addressFiscalButton!.setTitle(NSLocalizedString("profile.address.fiscal",  comment: ""), for: UIControlState())
             addressFiscalButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
           
-            addressFiscalButton!.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.7), forState: UIControlState.Disabled)
+            addressFiscalButton!.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: UIControlState.disabled)
             
-            if typeAddress == TypeAddress.Shiping{
-                addressShipingButton!.selected = true
+            if typeAddress == TypeAddress.shiping{
+                addressShipingButton!.isSelected = true
             }
             else{
-                addressFiscalButton!.selected = true
+                addressFiscalButton!.isSelected = true
             }
             
             self.viewTypeAdress!.addSubview(addressShipingButton!)
             self.viewTypeAdress!.addSubview(addressFiscalButton!)
             
-            addressShipingButton!.frame = CGRectMake(0, 0, 92, 45 )
-            addressFiscalButton!.frame = CGRectMake(86, 0, 92, 45 )
+            addressShipingButton!.frame = CGRect(x: 0, y: 0, width: 92, height: 45 )
+            addressFiscalButton!.frame = CGRect(x: 86, y: 0, width: 92, height: 45 )
           
             
             self.content!.addSubview(self.viewTypeAdress!)
             
             if isLogin {
-                self.viewTypeAdress!.backgroundColor = UIColor.clearColor()
+                self.viewTypeAdress!.backgroundColor = UIColor.clear
             }else {
-                self.viewTypeAdress!.backgroundColor = UIColor.whiteColor()
+                self.viewTypeAdress!.backgroundColor = UIColor.white
             }
         }
     }
@@ -209,7 +209,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     
     func setupViewFiscal(){
         if viewTypeAdressFiscal==nil{
-            viewTypeAdressFiscal = UIView(frame:CGRectMake(0,  self.viewTypeAdress != nil ? 45 : 0 , self.view.bounds.width , 78))
+            viewTypeAdressFiscal = UIView(frame:CGRect(x: 0,  y: self.viewTypeAdress != nil ? 45 : 0 , width: self.view.bounds.width , height: 78))
 
             let checkTermOff : UIImage = UIImage(named:"checkTermOff")!
             let checkTermOn : UIImage = UIImage(named:"check_full")!
@@ -218,37 +218,37 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             var viewButton : UIView? = nil
             
             addressFiscalPersonButton = UIButton()
-            addressFiscalPersonButton!.setImage(checkTermOff, forState: UIControlState.Normal)
-            addressFiscalPersonButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressFiscalPersonButton!.addTarget(self, action: #selector(AddressViewController.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-            addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), forState: UIControlState.Normal)
+            addressFiscalPersonButton!.setImage(checkTermOff, for: UIControlState())
+            addressFiscalPersonButton!.setImage(checkTermOn, for: UIControlState.selected)
+            addressFiscalPersonButton!.addTarget(self, action: #selector(AddressViewController.checkSelectedFisical(_:)), for: UIControlEvents.touchUpInside)
+            addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), for: UIControlState())
             addressFiscalPersonButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalPersonButton!.titleLabel?.textColor = WMColor.reg_gray
-            addressFiscalPersonButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-            addressFiscalPersonButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
+            addressFiscalPersonButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+            addressFiscalPersonButton!.setTitleColor(WMColor.light_gray, for: UIControlState.disabled)
             addressFiscalPersonButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
             addressFiscalMoralButton = UIButton()
-            addressFiscalMoralButton!.setImage(checkTermOff, forState: UIControlState.Normal)
-            addressFiscalMoralButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressFiscalMoralButton!.addTarget(self, action: #selector(AddressViewController.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-            addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), forState: UIControlState.Normal)
+            addressFiscalMoralButton!.setImage(checkTermOff, for: UIControlState())
+            addressFiscalMoralButton!.setImage(checkTermOn, for: UIControlState.selected)
+            addressFiscalMoralButton!.addTarget(self, action: #selector(AddressViewController.checkSelectedFisical(_:)), for: UIControlEvents.touchUpInside)
+            addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), for: UIControlState())
             addressFiscalMoralButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalMoralButton!.titleLabel?.textColor = WMColor.reg_gray
-            addressFiscalMoralButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-            addressFiscalMoralButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
+            addressFiscalMoralButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+            addressFiscalMoralButton!.setTitleColor(WMColor.light_gray, for: UIControlState.disabled)
             addressFiscalMoralButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
-            if typeAddress == TypeAddress.FiscalMoral{
-                self.addressFiscalMoralButton!.selected = true
+            if typeAddress == TypeAddress.fiscalMoral{
+                self.addressFiscalMoralButton!.isSelected = true
                 if self.idAddress != nil {
-                    self.addressFiscalPersonButton!.enabled = false
+                    self.addressFiscalPersonButton!.isEnabled = false
                 }
                 
             }else{
-                addressFiscalPersonButton!.selected = true
+                addressFiscalPersonButton!.isSelected = true
                 if self.idAddress != nil {
-                    self.addressFiscalMoralButton!.enabled = false
+                    self.addressFiscalMoralButton!.isEnabled = false
                 }
             }
             
@@ -258,10 +258,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             titleLabel!.text =  NSLocalizedString("profile.address.fiscal.section", comment: "")
             
             
-            titleLabel!.backgroundColor = UIColor.whiteColor()
+            titleLabel!.backgroundColor = UIColor.white
             
             
-            viewButton = UIView(frame: CGRectMake((self.view.bounds.width - 230) / 2,  32 , 230 , 45))
+            viewButton = UIView(frame: CGRect(x: (self.view.bounds.width - 230) / 2,  y: 32 , width: 230 , height: 45))
             
             viewButton!.addSubview(addressFiscalPersonButton!)
             viewButton!.addSubview(addressFiscalMoralButton!)
@@ -269,12 +269,12 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.viewTypeAdressFiscal!.addSubview(titleLabel!)
             self.viewTypeAdressFiscal!.addSubview(viewButton!)
             
-            titleLabel!.frame = CGRectMake(16, 0, self.view.bounds.width - 20, 35 )
+            titleLabel!.frame = CGRect(x: 16, y: 0, width: self.view.bounds.width - 20, height: 35 )
             
-            addressFiscalPersonButton!.frame = CGRectMake(0, 0, 107 , 45)
-            addressFiscalMoralButton!.frame = CGRectMake(121, 0, 107 , 45)
+            addressFiscalPersonButton!.frame = CGRect(x: 0, y: 0, width: 107 , height: 45)
+            addressFiscalMoralButton!.frame = CGRect(x: 121, y: 0, width: 107 , height: 45)
             self.content!.addSubview(self.viewTypeAdressFiscal!)
-            self.viewTypeAdressFiscal!.backgroundColor = UIColor.whiteColor()
+            self.viewTypeAdressFiscal!.backgroundColor = UIColor.white
         }
     }
     
@@ -291,20 +291,20 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
     }*/
     
-    func textModify(textField: UITextField!) {
-        if self.saveButton!.hidden {
-            self.saveButton!.hidden = false
+    func textModify(_ textField: UITextField!) {
+        if self.saveButton!.isHidden {
+            self.saveButton!.isHidden = false
             self.changeTitleLabel()
         }
     }
     
     func changeTitleLabel(){
         
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.saveButton!.alpha = 1.0
             if self.deleteButton != nil {
-                self.titleLabel!.frame = CGRectMake(37 , 0,self.titleLabel!.frame.width - 13, self.header!.frame.maxY)
-                self.titleLabel!.textAlignment = .Left
+                self.titleLabel!.frame = CGRect(x: 37 , y: 0,width: self.titleLabel!.frame.width - 13, height: self.header!.frame.maxY)
+                self.titleLabel!.textAlignment = .left
             }
             }, completion: {(bool : Bool) in
                 if bool {
@@ -322,62 +322,62 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         var left : CGFloat = 87
         
         if self.idAddress != nil{
-            self.deleteButton!.frame = CGRectMake( bounds.maxX - 54, 0 , 54, self.header!.frame.height)
+            self.deleteButton!.frame = CGRect( x: bounds.maxX - 54, y: 0 , width: 54, height: self.header!.frame.height)
             left = left + 30
         }
         
         
-        self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
-        self.titleLabel!.frame = CGRectMake(16, 0, (bounds.width - 32), self.header!.frame.maxY)
+        self.saveButton!.frame = CGRect(x: self.view.bounds.maxX - left , y: 0 , width: 71, height: self.header!.frame.height)
+        self.titleLabel!.frame = CGRect(x: 16, y: 0, width: (bounds.width - 32), height: self.header!.frame.maxY)
         
-        self.content.frame = CGRectMake(0, self.header!.frame.maxY , bounds.width , bounds.height - self.header!.frame.height )
+        self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.width , height: bounds.height - self.header!.frame.height )
         
         if self.viewTypeAdress != nil{
-            self.viewTypeAdress?.frame = CGRectMake( (bounds.width - 180) / 2 , 0 , 180 , 45)
+            self.viewTypeAdress?.frame = CGRect( x: (bounds.width - 180) / 2 , y: 0 , width: 180 , height: 45)
         }
         self.setContentSize()
         
         if self.addFRomMg{
-            self.backButton?.hidden =  true
+            self.backButton?.isHidden =  true
         }
         
     }
     
-    func checkSelected(sender:UIButton) {
-        if sender.selected{
+    func checkSelected(_ sender:UIButton) {
+        if sender.isSelected{
             return
         }
         if sender == self.addressShipingButton{
-            self.addressFiscalButton!.selected = false
-            self.presentedView(TypeAddress.Shiping)
+            self.addressFiscalButton!.isSelected = false
+            self.presentedView(TypeAddress.shiping)
         }else{
-            self.addressShipingButton!.selected = false
-            self.presentedView(TypeAddress.FiscalPerson)
+            self.addressShipingButton!.isSelected = false
+            self.presentedView(TypeAddress.fiscalPerson)
         }
-        sender.selected = !(sender.selected)
+        sender.isSelected = !(sender.isSelected)
     }
     
-    func checkSelectedFisical(sender:UIButton) {
-        if sender.selected{
+    func checkSelectedFisical(_ sender:UIButton) {
+        if sender.isSelected{
             return
         }
         if sender == self.addressFiscalPersonButton{
-            self.addressFiscalMoralButton!.selected = false
-             self.presentedView(TypeAddress.FiscalPerson)
+            self.addressFiscalMoralButton!.isSelected = false
+             self.presentedView(TypeAddress.fiscalPerson)
         }else{
-            self.addressFiscalPersonButton!.selected = false
-             self.presentedView(TypeAddress.FiscalMoral)
+            self.addressFiscalPersonButton!.isSelected = false
+             self.presentedView(TypeAddress.fiscalMoral)
         }
-        sender.selected = !(sender.selected)
+        sender.isSelected = !(sender.isSelected)
     }
     
-    func presentedView(typeDest:TypeAddress){
+    func presentedView(_ typeDest:TypeAddress){
         if typeDest == self.typeAddress{
             return
         }
         
         switch (typeDest ) {
-        case .Shiping:
+        case .shiping:
             if  self.viewAddress == nil{
                 self.viewAddress = ShippingAddress(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, typeAddress: typeDest)
                 //self.viewAddress!.isLogin = self.isLogin
@@ -385,31 +385,31 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 self.viewAddress!.typeAddress = typeDest
             }
             self.viewAddress!.allAddress = self.allAddress
-            self.viewAddress!.frame = CGRectMake(0,  self.viewTypeAdress!.frame.maxY  , self.view.bounds.width , 600)
+            self.viewAddress!.frame = CGRect(x: 0,  y: self.viewTypeAdress!.frame.maxY  , width: self.view.bounds.width , height: 600)
             self.content!.addSubview(self.viewAddress!)
             
-            if typeAddress == TypeAddress.FiscalPerson {
-                self.content!.bringSubviewToFront(self.viewAddressFisical!)
+            if typeAddress == TypeAddress.fiscalPerson {
+                self.content!.bringSubview(toFront: self.viewAddressFisical!)
             }else{
-                self.content!.bringSubviewToFront(self.viewAddressMoral!)
+                self.content!.bringSubview(toFront: self.viewAddressMoral!)
             }
-            self.content!.bringSubviewToFront(self.viewTypeAdressFiscal!)
+            self.content!.bringSubview(toFront: self.viewTypeAdressFiscal!)
             
-            UIView.animateWithDuration(0.4, animations: {
+            UIView.animate(withDuration: 0.4, animations: {
                 
-                self.viewTypeAdressFiscal!.frame = CGRectMake(self.view.bounds.width, self.viewTypeAdress!.frame.maxY, self.viewTypeAdressFiscal!.frame.width , self.viewTypeAdressFiscal!.frame.height)
+                self.viewTypeAdressFiscal!.frame = CGRect(x: self.view.bounds.width, y: self.viewTypeAdress!.frame.maxY, width: self.viewTypeAdressFiscal!.frame.width , height: self.viewTypeAdressFiscal!.frame.height)
                 
-                if self.typeAddress == TypeAddress.FiscalPerson {
-                    self.viewAddressFisical!.frame =  CGRectMake(self.view.bounds.width, self.viewTypeAdressFiscal!.frame.maxY, self.viewAddress!.frame.width , self.viewAddress!.frame.height)
+                if self.typeAddress == TypeAddress.fiscalPerson {
+                    self.viewAddressFisical!.frame =  CGRect(x: self.view.bounds.width, y: self.viewTypeAdressFiscal!.frame.maxY, width: self.viewAddress!.frame.width , height: self.viewAddress!.frame.height)
                 }else{
                     
-                    self.viewAddressMoral!.frame =  CGRectMake(self.view.bounds.width, self.viewTypeAdressFiscal!.frame.maxY, self.viewAddress!.frame.width , self.viewAddress!.frame.height)
+                    self.viewAddressMoral!.frame =  CGRect(x: self.view.bounds.width, y: self.viewTypeAdressFiscal!.frame.maxY, width: self.viewAddress!.frame.width , height: self.viewAddress!.frame.height)
                 }
                 
                 }, completion: {(bool : Bool) in
                     if bool {
                         
-                        if self.typeAddress == TypeAddress.FiscalPerson {
+                        if self.typeAddress == TypeAddress.fiscalPerson {
                             self.viewAddressFisical!.removeFromSuperview()
                         }else{
                             self.viewAddressMoral!.removeFromSuperview()
@@ -423,7 +423,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                         self.setContentSize()
                     }
             })
-        case .FiscalPerson:
+        case .fiscalPerson:
             if self.viewAddressFisical == nil{
                 self.viewAddressFisical =   FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, typeAddress: typeDest)
                 self.viewAddressFisical!.delegate = self
@@ -431,14 +431,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }
              self.viewAddressFisical!.allAddress = self.allAddress
             self.setupViewFiscal()
-            if (self.typeAddress == TypeAddress.Shiping){
-                self.viewTypeAdressFiscal!.frame = CGRectMake(self.view.bounds.width, self.viewTypeAdress!.frame.maxY, self.view.bounds.width , 78)
-                self.viewAddressFisical!.frame =   CGRectMake(self.view.bounds.width,  self.viewTypeAdressFiscal!.frame.maxY  , self.view.bounds.width , 658 )
+            if (self.typeAddress == TypeAddress.shiping){
+                self.viewTypeAdressFiscal!.frame = CGRect(x: self.view.bounds.width, y: self.viewTypeAdress!.frame.maxY, width: self.view.bounds.width , height: 78)
+                self.viewAddressFisical!.frame =   CGRect(x: self.view.bounds.width,  y: self.viewTypeAdressFiscal!.frame.maxY  , width: self.view.bounds.width , height: 658 )
                 self.content!.addSubview(self.viewAddressFisical!)
-                self.content.bringSubviewToFront(self.viewAddressFisical!)
-                UIView.animateWithDuration(0.4, animations: {
-                    self.viewAddressFisical!.frame =   CGRectMake(0,  self.viewTypeAdressFiscal!.frame.maxY  , self.view.bounds.width , 658 )
-                    self.viewTypeAdressFiscal!.frame = CGRectMake(0, self.viewTypeAdress!.frame.maxY, self.viewTypeAdressFiscal!.frame.width , self.viewTypeAdressFiscal!.frame.height)
+                self.content.bringSubview(toFront: self.viewAddressFisical!)
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.viewAddressFisical!.frame =   CGRect(x: 0,  y: self.viewTypeAdressFiscal!.frame.maxY  , width: self.view.bounds.width , height: 658 )
+                    self.viewTypeAdressFiscal!.frame = CGRect(x: 0, y: self.viewTypeAdress!.frame.maxY, width: self.viewTypeAdressFiscal!.frame.width , height: self.viewTypeAdressFiscal!.frame.height)
                     }, completion: {(bool : Bool) in
                         if bool {
                             self.viewAddress!.removeFromSuperview()
@@ -448,11 +448,11 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 })
             }else{
                 self.viewAddressFisical!.allAddress = self.allAddress
-                self.viewAddressFisical!.frame = CGRectMake(0, self.viewTypeAdressFiscal!.frame.maxY, self.view.bounds.width , 610)
+                self.viewAddressFisical!.frame = CGRect(x: 0, y: self.viewTypeAdressFiscal!.frame.maxY, width: self.view.bounds.width , height: 610)
                 self.content!.addSubview(self.viewAddressFisical!)
-                self.content.bringSubviewToFront(self.viewAddressMoral!)
-                UIView.animateWithDuration(0.4, animations: {
-                    self.viewAddressMoral!.frame =  CGRectMake(self.view.bounds.width, self.viewTypeAdressFiscal!.frame.maxY, self.view.bounds.width , 610 )
+                self.content.bringSubview(toFront: self.viewAddressMoral!)
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.viewAddressMoral!.frame =  CGRect(x: self.view.bounds.width, y: self.viewTypeAdressFiscal!.frame.maxY, width: self.view.bounds.width , height: 610 )
                     }, completion: {(bool : Bool) in
                         if bool {
                             self.viewAddressMoral!.removeFromSuperview()
@@ -461,19 +461,19 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                         }
                 })
             }
-        case .FiscalMoral:
+        case .fiscalMoral:
             if self.viewAddressMoral == nil{
                 self.viewAddressMoral =   FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:self.isIpad, typeAddress: typeDest)
                 self.viewAddressMoral!.delegate = self
                 self.viewAddressMoral!.typeAddress = typeDest
             }
             self.viewAddressMoral!.allAddress = self.allAddress
-            self.viewAddressMoral!.frame = CGRectMake(self.view.bounds.width,  self.viewTypeAdressFiscal!.frame.maxY  , self.view.bounds.width , 610)
+            self.viewAddressMoral!.frame = CGRect(x: self.view.bounds.width,  y: self.viewTypeAdressFiscal!.frame.maxY  , width: self.view.bounds.width , height: 610)
             self.content!.addSubview(self.viewAddressMoral!)
-            self.content!.bringSubviewToFront(self.viewAddressMoral!)
+            self.content!.bringSubview(toFront: self.viewAddressMoral!)
             
-            UIView.animateWithDuration(0.4, animations: {
-                self.viewAddressMoral!.frame = CGRectMake(0,  self.viewTypeAdressFiscal!.frame.maxY  , self.view.bounds.width , 610)
+            UIView.animate(withDuration: 0.4, animations: {
+                self.viewAddressMoral!.frame = CGRect(x: 0,  y: self.viewTypeAdressFiscal!.frame.maxY  , width: self.view.bounds.width , height: 610)
                 }, completion: {(bool : Bool) in
                     if bool {
                         self.viewAddressFisical?.removeFromSuperview()
@@ -489,53 +489,53 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     func setContentSize(){
         let bounds = self.view.bounds
         switch (typeAddress ) {
-        case .Shiping:
+        case .shiping:
             let height : CGFloat = self.viewAddress!.showSuburb == true ? 640 : 600-190
-            self.viewAddress?.frame = CGRectMake(0.0, self.viewTypeAdress != nil ? 45 : 0 , bounds.width , height)
+            self.viewAddress?.frame = CGRect(x: 0.0, y: self.viewTypeAdress != nil ? 45 : 0 , width: bounds.width , height: height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 40 )
-            self.content.bringSubviewToFront(self.viewAddress!)
-        case .FiscalPerson:
+            self.content.bringSubview(toFront: self.viewAddress!)
+        case .fiscalPerson:
             self.setupViewFiscal()
             let height  : CGFloat = self.viewAddressFisical!.showSuburb == true ? 658 : 658-190
-            self.viewAddressFisical?.frame = CGRectMake(0.0, self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
+            self.viewAddressFisical?.frame = CGRect(x: 0.0, y: self.viewTypeAdressFiscal!.frame.maxY, width: bounds.width , height: height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 40 )
-            self.content!.bringSubviewToFront(self.viewTypeAdressFiscal!)
-            self.content.bringSubviewToFront(self.viewAddressFisical!)
-        case .FiscalMoral:
+            self.content!.bringSubview(toFront: self.viewTypeAdressFiscal!)
+            self.content.bringSubview(toFront: self.viewAddressFisical!)
+        case .fiscalMoral:
             self.setupViewFiscal()
              let height  : CGFloat = self.viewAddressMoral!.showSuburb == true ? 610 : 610-190
-            self.viewAddressMoral?.frame = CGRectMake(0.0,  self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
+            self.viewAddressMoral?.frame = CGRect(x: 0.0,  y: self.viewTypeAdressFiscal!.frame.maxY, width: bounds.width , height: height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressMoral!.frame.maxY + 40 )
-            self.content!.bringSubviewToFront(self.viewTypeAdressFiscal!)
-            self.content.bringSubviewToFront(self.viewAddressMoral!)
+            self.content!.bringSubview(toFront: self.viewTypeAdressFiscal!)
+            self.content.bringSubview(toFront: self.viewAddressMoral!)
         //default:
         //    break
         }
         
         if  isLogin {           
-             self.saveButton!.frame = CGRectMake((bounds.width - 290) / 2 , self.viewAddress!.frame.maxY + 20, 290, 40)
-             self.saveButton!.titleLabel?.textAlignment = .Center
+             self.saveButton!.frame = CGRect(x: (bounds.width - 290) / 2 , y: self.viewAddress!.frame.maxY + 20, width: 290, height: 40)
+             self.saveButton!.titleLabel?.textAlignment = .center
              self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 100 )
         }
     }
     
-    func validateZip(isvalidate: Bool) {
+    func validateZip(_ isvalidate: Bool) {
         self.validateZip = isvalidate
     }
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        let val = CGSizeMake(self.view.frame.width, content.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        let val = CGSize(width: self.view.frame.width, height: content.contentSize.height)
         return val
     }
     
-    func saveGrAddres(params:NSDictionary,successBlock:((Bool) -> Void)?) {
+    func saveGrAddres(_ params:NSDictionary,successBlock:((Bool) -> Void)?) {
         
         
         
         
     }
     
-    func registryAddress(userName:String,password:String,successBlock:((Bool) -> Void)?){
+    func registryAddress(_ userName:String,password:String,successBlock:((Bool) -> Void)?){
         
         let service = GRAddressAddService()
         var params = self.viewAddress!.getParams()
@@ -570,7 +570,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
     
     
-    func save(sender:UIButton) {
+    func save(_ sender:UIButton) {
         if successCallBackRegistry != nil {
             successCallBackRegistry?()
             return
@@ -578,12 +578,12 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.saveBock(sender, successBlock: nil)
     }
  
-    func saveBock(sender:UIButton?,successBlock:((Bool) -> Void)?) {
+    func saveBock(_ sender:UIButton?,successBlock:((Bool) -> Void)?) {
         var params : NSDictionary? = nil
         var service :  BaseService!
         
             switch (typeAddress) {
-            case .Shiping:
+            case .shiping:
                 if self.viewAddress!.validateAddress(){
                     params = self.viewAddress!.getParams()
                     
@@ -594,7 +594,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     }
                     
                 }
-            case .FiscalPerson:
+            case .fiscalPerson:
                 if self.viewAddressFisical!.validateAddress(){
                     params = self.viewAddressFisical?.getParams()
                     if self.idAddress == nil{
@@ -603,7 +603,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                         service = UpdateFiscalAddressService()
                     }
                 }
-            case .FiscalMoral:
+            case .fiscalMoral:
                 if self.viewAddressMoral!.validateAddress(){
                     params = self.viewAddressMoral?.getParams()
                     if self.idAddress == nil{
@@ -622,14 +622,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     
                 }
                 
-                if addressShippingCont >= 12 && typeAddress == .Shiping {
+                if addressShippingCont >= 12 && typeAddress == .shiping {
                     self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
                     self.alertView!.showErrorIcon("OK")
                     self.back()
                     return
                 }
                 
-                if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral) {
+                if addressFiscalCount >= 12 && (typeAddress == .fiscalPerson || typeAddress == .fiscalMoral) {
                     self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
                     self.alertView!.showErrorIcon("OK")
                     self.back()
@@ -652,7 +652,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     if self.successCallBack == nil {
                         successBlock?(true)
                         self.closeAlert()
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popViewController(animated: true)
                     }else {
                         
                         self.successCallBack!()
@@ -675,10 +675,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
     }
     
-    func deleteAddress(sender:UIButton){
+    func deleteAddress(_ sender:UIButton){
        var service : DeleteAddressesByUserService? = nil
         
-        if self.typeAddress == TypeAddress.Shiping  {
+        if self.typeAddress == TypeAddress.shiping  {
             service = DeleteAddressesByUserService()
             
         }else {
@@ -700,7 +700,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()
             }//if let message = resultCall!["message"] as? String {
-            self.navigationController!.popViewControllerAnimated(true)
+            self.navigationController!.popViewController(animated: true)
             }
             , errorBlock: {(error: NSError) in
                 self.alertView!.setMessage(error.localizedDescription)

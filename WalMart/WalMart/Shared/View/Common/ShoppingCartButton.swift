@@ -35,7 +35,7 @@ class ShoppingCartButton : UIButton {
         self.layer.cornerRadius = frame.height / 2
     }
     
-    func setValues(upc:String?,quantity:Int ,hasNote: Bool, aviable:Bool, pesable:Bool){
+    func setValues(_ upc:String?,quantity:Int ,hasNote: Bool, aviable:Bool, pesable:Bool){
         self.quantity = quantity
         self.hasNote = hasNote
         self.aviable = aviable
@@ -44,30 +44,30 @@ class ShoppingCartButton : UIButton {
 
         if aviable {
             self.backgroundColor = WMColor.yellow
-            self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            self.setTitleColor(UIColor.white, for: UIControlState())
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         } else {
             self.backgroundColor = WMColor.yellow
-            self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            self.setTitleColor(UIColor.white, for: UIControlState())
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         }
         
         if hasNote && aviable {
-            self.setImage(UIImage(named: "notes_cart"), forState: UIControlState.Normal)
+            self.setImage(UIImage(named: "notes_cart"), for: UIControlState())
             self.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 8.0)
         }else {
-            self.setImage(UIImage(named: "notes_cart_off"), forState: UIControlState.Normal)
+            self.setImage(UIImage(named: "notes_cart_off"), for: UIControlState())
             self.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 8.0)
         }
         
 //        let rectSize = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.hasNote)
 //        self.frame = CGRectMake(self.frame.minX, self.frame.minY, rectSize.width , 30)
-        self.setTitle(ShoppingCartButton.quantityString(quantity,pesable:pesable), forState: UIControlState.Normal)
+        self.setTitle(ShoppingCartButton.quantityString(quantity,pesable:pesable), for: UIControlState())
         
         
     }
     
-    func setValuesMg(upc:String,quantity:Int, aviable:Bool){
+    func setValuesMg(_ upc:String,quantity:Int, aviable:Bool){
         self.quantity = quantity
         self.hasNote = false
         self.aviable = aviable
@@ -76,56 +76,56 @@ class ShoppingCartButton : UIButton {
         
         if aviable {
             self.backgroundColor = WMColor.yellow
-            self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            self.setTitleColor(UIColor.white, for: UIControlState())
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         } else {
             self.backgroundColor = WMColor.yellow
-            self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            self.setTitleColor(UIColor.white, for: UIControlState())
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         }
         
-        self.setTitle(ShoppingCartButton.quantityStringMg(quantity), forState: UIControlState.Normal)
+        self.setTitle(ShoppingCartButton.quantityStringMg(quantity), for: UIControlState())
     }
     
-    class func sizeForQuantity(quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
+    class func sizeForQuantity(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
-        let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         
         
         var space : CGFloat = 25
         // Note icon
         space += 20
         
-        let fullSize = CGSizeMake(rectSize.size.width + space,rectSize.size.height)
+        let fullSize = CGSize(width: rectSize.size.width + space,height: rectSize.size.height)
         return fullSize
     }
     
-    class func sizeForQuantityWithoutIcon(quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
+    class func sizeForQuantityWithoutIcon(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
-        let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         var space : CGFloat = 25
         // Note icon
         space += 20
         
-        let fullSize = CGSizeMake(rectSize.size.width + space,rectSize.size.height)
+        let fullSize = CGSize(width: rectSize.size.width + space,height: rectSize.size.height)
         return fullSize
     }
     
     
-    class func quantityString(quantity:Int,pesable:Bool) -> String! {
+    class func quantityString(_ quantity:Int,pesable:Bool) -> String! {
         var quantityStr = ""
         if !pesable {
             if quantity == 1 {
-                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.piece", comment:""), NSNumber(integer: quantity))
+                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.piece", comment:""), NSNumber(value: quantity as Int))
             }
             else {
-                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.pieces", comment:""), NSNumber(integer: quantity))
+                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.pieces", comment:""), NSNumber(value: quantity as Int))
             }
         } else {
             if quantity < 1000 {
-                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.gr", comment:""), NSNumber(integer: quantity))
+                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.gr", comment:""), NSNumber(value: quantity as Int))
             }
             else {
                 
@@ -139,19 +139,19 @@ class ShoppingCartButton : UIButton {
         return quantityStr
     }
     
-    class func quantityStringMg(quantity:Int) -> String! {
+    class func quantityStringMg(_ quantity:Int) -> String! {
         var quantityStr = ""
         if quantity == 1 {
-            quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.article", comment:""), NSNumber(integer: quantity))
+            quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.article", comment:""), NSNumber(value: quantity as Int))
         }
         else {
-            quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), NSNumber(integer: quantity))
+            quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), NSNumber(value: quantity as Int))
         }
         return quantityStr
     }
     
     
-    func setNoteState(noteState:Bool) {
+    func setNoteState(_ noteState:Bool) {
         noteStateButton = noteState
         if noteState {
             
@@ -160,9 +160,9 @@ class ShoppingCartButton : UIButton {
                 lastColor = self.backgroundColor
                 titleString = self.titleLabel?.text
                 
-                self.setImage(UIImage(named: "notes_alert"), forState: UIControlState.Normal)
+                self.setImage(UIImage(named: "notes_alert"), for: UIControlState())
                 self.backgroundColor = WMColor.light_blue
-                self.setTitle(NSLocalizedString("shoppingcart.note", comment:""), forState: UIControlState.Normal)
+                self.setTitle(NSLocalizedString("shoppingcart.note", comment:""), for: UIControlState())
 //                self.frame = CGRectMake(frameButton!.minX - 36, frameButton!.minY, 87, frameButton!.height)
 //                
                self.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 12.0)
@@ -176,14 +176,14 @@ class ShoppingCartButton : UIButton {
             if lastColor != nil && frameButton != nil {
                 self.frame = frameButton!
                 self.backgroundColor = lastColor!
-                self.setTitle(titleString!, forState: UIControlState.Normal)
+                self.setTitle(titleString!, for: UIControlState())
                 
                 if hasNote && aviable {
-                    self.setImage(UIImage(named: "notes_cart"), forState: UIControlState.Normal)
+                    self.setImage(UIImage(named: "notes_cart"), for: UIControlState())
                     self.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 12.0)
                 }else {
-                    self.setImage(nil, forState: UIControlState.Normal)
-                    self.imageEdgeInsets = UIEdgeInsetsZero
+                    self.setImage(nil, for: UIControlState())
+                    self.imageEdgeInsets = UIEdgeInsets.zero
                 }
                 
                 frameButton = nil

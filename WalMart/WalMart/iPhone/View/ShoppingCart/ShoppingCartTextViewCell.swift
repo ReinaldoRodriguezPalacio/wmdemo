@@ -23,18 +23,18 @@ class ShoppingCartTextViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         self.descriptionTitle = UILabel()
         self.descriptionTitle!.numberOfLines = 2
-        self.descriptionTitle!.textAlignment = .Left
-        self.descriptionTitle!.backgroundColor = UIColor.clearColor()
+        self.descriptionTitle!.textAlignment = .left
+        self.descriptionTitle!.backgroundColor = UIColor.clear
         
         self.descriptionTitle!.font = WMFont.fontMyriadProRegularOfSize(12)
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
-        paragraphStyle.alignment = .Left
+        paragraphStyle.alignment = .left
         let attrString = NSMutableAttributedString(string: NSLocalizedString("shoppingCart.message.cost", comment:""))
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         
@@ -43,8 +43,8 @@ class ShoppingCartTextViewCell: UITableViewCell {
         self.contentView.addSubview(self.descriptionTitle!)
         
         self.delimiter = CALayer()
-        self.delimiter!.backgroundColor  =  WMColor.light_gray.CGColor
-        self.contentView.layer.insertSublayer(self.delimiter!, atIndex: 1000)
+        self.delimiter!.backgroundColor  =  WMColor.light_gray.cgColor
+        self.contentView.layer.insertSublayer(self.delimiter!, at: 1000)
         
     }
     
@@ -52,17 +52,17 @@ class ShoppingCartTextViewCell: UITableViewCell {
         let bounds = self.frame
         let margin:CGFloat = 16.0
         let width:CGFloat = bounds.width - (2*margin)
-        self.descriptionTitle!.frame = CGRectMake(margin, 0.0, width, bounds.size.height)
-        self.delimiter!.frame = CGRectMake(0.0, bounds.height - 1.0, bounds.width, 1.0)
+        self.descriptionTitle!.frame = CGRect(x: margin, y: 0.0, width: width, height: bounds.size.height)
+        self.delimiter!.frame = CGRect(x: 0.0, y: bounds.height - 1.0, width: bounds.width, height: 1.0)
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func setValues(value: String , hiddenDelimiter: Bool) {
+    func setValues(_ value: String , hiddenDelimiter: Bool) {
          self.descriptionTitle!.text = value
-        self.delimiter!.hidden = hiddenDelimiter
+        self.delimiter!.isHidden = hiddenDelimiter
     }
 }
 

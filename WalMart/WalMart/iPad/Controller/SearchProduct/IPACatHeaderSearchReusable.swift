@@ -39,21 +39,21 @@ class IPACatHeaderSearchReusable : UICollectionReusableView {
         self.addSubview(imageBg)
         
         btnClose = UIButton()
-        btnClose.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        btnClose.addTarget(self, action: #selector(IPACatHeaderSearchReusable.closeCategory), forControlEvents: UIControlEvents.TouchUpInside)
+        btnClose.setImage(UIImage(named:"close"), for: UIControlState())
+        btnClose.addTarget(self, action: #selector(IPACatHeaderSearchReusable.closeCategory), for: UIControlEvents.touchUpInside)
         
-        btnClose.frame = CGRectMake(16 ,3 ,100,100)
+        btnClose.frame = CGRect(x: 16 ,y: 3 ,width: 100,height: 100)
         self.addSubview(btnClose)
         
         imageIcon = UIImageView()
-        imageIcon.frame = CGRectMake((self.bounds.width / 2) - 24, 48, 48, 48)
+        imageIcon.frame = CGRect(x: (self.bounds.width / 2) - 24, y: 48, width: 48, height: 48)
         self.addSubview(imageIcon)
         
         titleLabel = UILabel()
         titleLabel.font  = WMFont.fontMyriadProLightOfSize(25)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
-        titleLabel.frame = CGRectMake(16, 112, self.bounds.width - 32, 50)
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
+        titleLabel.frame = CGRect(x: 16, y: 112, width: self.bounds.width - 32, height: 50)
         self.addSubview(titleLabel)
         
         let gestrure = UITapGestureRecognizer(target: self, action: #selector(IPACatHeaderSearchReusable.closeCategory))
@@ -65,15 +65,15 @@ class IPACatHeaderSearchReusable : UICollectionReusableView {
     override func layoutSubviews() {
         if self.frame.origin.y >= 0{
             super.layoutSubviews()
-            btnClose.frame = CGRectMake(16 ,3 ,100,100)
-            imageIcon.frame = CGRectMake((self.bounds.width / 2) - 24, 48, 48, 48)
-            titleLabel.frame = CGRectMake(16, 112, self.bounds.width - 32, 50)
+            btnClose.frame = CGRect(x: 16 ,y: 3 ,width: 100,height: 100)
+            imageIcon.frame = CGRect(x: (self.bounds.width / 2) - 24, y: 48, width: 48, height: 48)
+            titleLabel.frame = CGRect(x: 16, y: 112, width: self.bounds.width - 32, height: 50)
         }
         
     }
     
     
-    func setValues(imgBg:UIImage?,imgIcon:UIImage?,titleStr:String) {
+    func setValues(_ imgBg:UIImage?,imgIcon:UIImage?,titleStr:String) {
         imageBg.image = imgBg
         imageIcon.image = imgIcon
         titleLabel.text = titleStr

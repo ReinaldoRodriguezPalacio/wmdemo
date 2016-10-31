@@ -13,8 +13,8 @@ import CoreData
 protocol ProductDetailButtonBarCollectionViewCellDelegate {
     func shareProduct()
     func showProductDetail()
-    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void)
-    func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String)
+    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void)
+    func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String)
     func showMessageProductNotAviable()
     //func showProductDetailOptions()
 }
@@ -46,10 +46,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             if isAviableToShoppingCart  {
                 reloadButton()
             }else {
-                self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Normal)
-                self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-                self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Selected)
-                self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
+                self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), for: UIControlState())
+                self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
+                self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), for: UIControlState.selected)
+                self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
                 self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
                 
             }
@@ -57,7 +57,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
         }()
@@ -66,13 +66,13 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         var detail: Cart? = nil
         if self.upc != nil {
             let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("Cart", inManagedObjectContext: self.managedContext!)
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Cart", in: self.managedContext!)
             
-            let predicate = NSPredicate(format: "product.upc == %@ && status != %@", self.upc as NSString,NSNumber(integer: CartStatus.Deleted.rawValue))
+            let predicate = NSPredicate(format: "product.upc == %@ && status != %@", self.upc as NSString,NSNumber(value: CartStatus.deleted.rawValue as Int))
             fetchRequest.predicate = predicate
             
             //var error: NSError? = nil
-            var result: [Cart] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Cart]
+            var result: [Cart] = (try! self.managedContext!.fetch(fetchRequest)) as! [Cart]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -108,51 +108,51 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     func setup() {
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
         
         deltailButton = UIButton()
-        deltailButton.frame = CGRectMake(spaceBetweenButtons, 0, widthButtons, self.frame.height)
-        deltailButton.setImage(UIImage(named:"detail_infoOff"), forState: UIControlState.Normal)
-        deltailButton.setImage(UIImage(named:"detail_info"), forState: UIControlState.Selected)
-        deltailButton.setImage(UIImage(named:"detail_info"), forState: UIControlState.Highlighted)
-        deltailButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.detailProduct), forControlEvents: UIControlEvents.TouchUpInside)
+        deltailButton.frame = CGRect(x: spaceBetweenButtons, y: 0, width: widthButtons, height: self.frame.height)
+        deltailButton.setImage(UIImage(named:"detail_infoOff"), for: UIControlState())
+        deltailButton.setImage(UIImage(named:"detail_info"), for: UIControlState.selected)
+        deltailButton.setImage(UIImage(named:"detail_info"), for: UIControlState.highlighted)
+        deltailButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.detailProduct), for: UIControlEvents.touchUpInside)
         
         listButton = UIButton()
-        listButton.frame = CGRectMake(deltailButton.frame.maxX, 0, widthButtons, self.frame.height)
-        listButton.setImage(UIImage(named:"detail_list"), forState: UIControlState.Normal)
-        listButton.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Selected)
-        listButton.setImage(UIImage(named:"detail_list_selected"), forState: UIControlState.Highlighted)
+        listButton.frame = CGRect(x: deltailButton.frame.maxX, y: 0, width: widthButtons, height: self.frame.height)
+        listButton.setImage(UIImage(named:"detail_list"), for: UIControlState())
+        listButton.setImage(UIImage(named:"detail_list_selected"), for: UIControlState.selected)
+        listButton.setImage(UIImage(named:"detail_list_selected"), for: UIControlState.highlighted)
         //listButton.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled) //se uara un icono para no agregar a listas cuando es regalo
         
-        listButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToWishlist), forControlEvents: UIControlEvents.TouchUpInside)
+        listButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToWishlist), for: UIControlEvents.touchUpInside)
         
         facebookButton = UIButton()
-        facebookButton.frame = CGRectMake(listButton.frame.maxX , 0, widthButtons, self.frame.height)
-        facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
-        facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
-        facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)
-        facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), forControlEvents: UIControlEvents.TouchUpInside)
+        facebookButton.frame = CGRect(x: listButton.frame.maxX , y: 0, width: widthButtons, height: self.frame.height)
+        facebookButton.setImage(UIImage(named:"detail_shareOff"), for: UIControlState())
+        facebookButton.setImage(UIImage(named:"detail_share"), for: UIControlState.highlighted)
+        facebookButton.setImage(UIImage(named:"detail_share"), for: UIControlState.selected)
+        facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), for: UIControlEvents.touchUpInside)
       
         self.addToShoppingCartButton = UIButton()
-        self.addToShoppingCartButton.frame = CGRectMake(facebookButton.frame.maxX + 10, (self.frame.height / 2) - 17, 102, 34)
+        self.addToShoppingCartButton.frame = CGRect(x: facebookButton.frame.maxX + 10, y: (self.frame.height / 2) - 17, width: 102, height: 34)
         self.addToShoppingCartButton!.layer.cornerRadius = 17
         self.addToShoppingCartButton!.backgroundColor = WMColor.yellow
         self.addToShoppingCartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
-        self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Selected)
+        self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState())
+         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: UIControlState())
+        self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
+        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: UIControlState.selected)
         
         self.addToShoppingCartButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         //addToShoppingCartButton.setImage(UIImage(named:"detail_cart"), forState: UIControlState.Normal)
        
-        self.addToShoppingCartButton!.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        self.addToShoppingCartButton!.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToShoppingCart), for: UIControlEvents.touchUpInside)
         
-        let upBorder = UIView(frame: CGRectMake(0, 0, self.frame.width, AppDelegate.separatorHeigth()))
+        let upBorder = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: AppDelegate.separatorHeigth()))
         upBorder.backgroundColor = WMColor.light_light_gray
         
-        let downBorder = UIView(frame: CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth()))
+        let downBorder = UIView(frame: CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth()))
         downBorder.backgroundColor = WMColor.light_light_gray
         
         self.addSubview(upBorder)
@@ -166,7 +166,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
    
     func addProductToWishlist() {
         
-        self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
+        self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
         //event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
@@ -175,15 +175,15 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             self.addDirectToListId()
         }else{
             
-            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
-                self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+                self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
             })
         }
         
     }
     
-    func validateIsInList(upc:String) {
-        self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
+    func validateIsInList(_ upc:String) {
+        self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
     }
     
     func addDirectToListId(){
@@ -198,7 +198,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
                             successBlock: { (result:NSDictionary) -> Void in
-                                self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+                                self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
                                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                 alertView!.showDoneIcon()
                                 
@@ -229,22 +229,22 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         delegate.showProductDetail()
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
+    func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
-        rotationAnimation.cumulative = true
+        rotationAnimation.isCumulative = true
         rotationAnimation.repeatCount = Float(repeats)
-        view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+        view.layer.add(rotationAnimation, forKey: "rotationAnimation")
     }
     
     func setOpenQuantitySelector() {
-        self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Selected)
-        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), forState: UIControlState.Selected)
-        self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
+        self.addToShoppingCartButton!.setImage(nil, for: UIControlState())
+        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), for: UIControlState())
+        self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
+        self.addToShoppingCartButton!.setImage(nil, for: UIControlState.selected)
+        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), for: UIControlState.selected)
+        self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
         self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
         
     }
@@ -253,11 +253,11 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         if isAviableToShoppingCart  {
             reloadButton()
         }else {
-            self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Normal)
-            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
+            self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), for: UIControlState())
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
             
-            self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Selected)
-            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
+            self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), for: UIControlState.selected)
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
             
             self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
             
@@ -268,10 +268,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         let buttonTitle = isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
         let buttonColor = isAviableToShoppingCart ? WMColor.yellow : WMColor.light_gray
         
-        self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Selected)
-        self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
+        self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState())
+        self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState())
+        self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState.selected)
+        self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
 
        
         
@@ -279,8 +279,8 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         detailProductCart  = self.retrieveProductInCar()
         
-        self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Selected)
+        self.addToShoppingCartButton!.setImage(nil, for: UIControlState())
+        self.addToShoppingCartButton!.setImage(nil, for: UIControlState.selected)
         
         self.comments = ""
         
@@ -291,7 +291,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 //var total: Double = 0.0
                 //Piezas
                 if self.isPesable == false {
-                    if quantity.integerValue == 1 {
+                    if quantity.intValue == 1 {
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                     }
                     else {
@@ -307,31 +307,31 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                     }
                     else {
                         let kg = q/1000.0
-                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(double: kg))
+                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg as Double))
                     }
                     //let kgrams = quantity.doubleValue / 1000.0
                     //total = (kgrams * price.doubleValue)
                 }
             
-            self.addToShoppingCartButton!.setTitle(text, forState: UIControlState.Normal)
-              self.addToShoppingCartButton!.setTitle(text, forState: UIControlState.Selected)
+            self.addToShoppingCartButton!.setTitle(text, for: UIControlState())
+              self.addToShoppingCartButton!.setTitle(text, for: UIControlState.selected)
             
             if detailProductCart!.type == ResultObjectType.Groceries.rawValue {
                 if detailProductCart!.note != nil && detailProductCart!.note != "" {
                     self.comments = detailProductCart!.note
                     self.addToShoppingCartButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
-                    self.addToShoppingCartButton!.setImage(UIImage(named:"notes_cart"), forState: UIControlState.Normal)
+                    self.addToShoppingCartButton!.setImage(UIImage(named:"notes_cart"), for: UIControlState())
                 }
             }
         } else {
-            self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
-            self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-            self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Selected)
+            self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState())
+            self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState())
+            self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
+            self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState.selected)
         }
         if !isAviableToShoppingCart{
-            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
         }
     }
     

@@ -9,13 +9,13 @@
 import UIKit
 
 protocol IPAMoreOptionsViewControllerDelegate {
-    func selectedDetail(row: Int)
+    func selectedDetail(_ row: Int)
 }
 
 class IPAMoreOptionsViewController: MoreOptionsViewController{
 
     var delegate:IPAMoreOptionsViewControllerDelegate!
-    var selected: NSIndexPath?
+    var selected: IndexPath?
     
     @IBOutlet var imgProfile: UIImageView?
     
@@ -23,7 +23,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.emailLabel?.textAlignment = .Center
+        self.emailLabel?.textAlignment = .center
         
         options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Preferences.rawValue,OptionsController.Promotions.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         
@@ -31,50 +31,50 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
             options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Preferences.rawValue,OptionsController.Promotions.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         }
        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadMenu), name:"MORE_OPTIONS_RELOAD", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadMenu), name:NSNotification.Name(rawValue: "MORE_OPTIONS_RELOAD"), object: nil)
         print("Create MORE_OPTIONS_RELOAD")
         // Como usar el app
-        self.selected = NSIndexPath(forRow: 0, inSection: 2)
+        self.selected = IndexPath(row: 0, section: 2)
     }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
 
-        self.profileView?.frame = CGRectMake(0, 0, self.view.frame.width, 160)
-        self.userName?.frame = CGRectMake(16 , 32, self.view.frame.width - 32, 25)
-        self.emailLabel?.frame = CGRectMake(16 , 60, self.view.frame.width - 32, 25)
-        passwordLabel?.textAlignment =  .Center
-        self.passwordLabel?.frame = CGRectMake(16 , self.emailLabel!.frame.maxY + 5, self.view.frame.width - 32, 25)
-        self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , self.passwordLabel!.frame.maxY + 5, 95, 24)
-        self.tableView?.frame = CGRectMake(0, self.profileView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.profileView!.frame.maxY)
+        self.profileView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 160)
+        self.userName?.frame = CGRect(x: 16 , y: 32, width: self.view.frame.width - 32, height: 25)
+        self.emailLabel?.frame = CGRect(x: 16 , y: 60, width: self.view.frame.width - 32, height: 25)
+        passwordLabel?.textAlignment =  .center
+        self.passwordLabel?.frame = CGRect(x: 16 , y: self.emailLabel!.frame.maxY + 5, width: self.view.frame.width - 32, height: 25)
+        self.signInOrClose?.frame = CGRect(x: (self.view.frame.width / 2) - 45 , y: self.passwordLabel!.frame.maxY + 5, width: 95, height: 24)
+        self.tableView?.frame = CGRect(x: 0, y: self.profileView!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.profileView!.frame.maxY)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .None)
+        self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .none)
         
         
     }
-    override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "RELOAD_PROFILE", object: nil)
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "RELOAD_PROFILE"), object: nil)
     }
   
     func reloadMenu(){
         self.reloadButtonSession()
-        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
-        cell?.selected = true
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "", object: nil)
+        let cell = self.tableView?.cellForRow(at: self.selected!)
+        cell?.isSelected = true
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: ""), object: nil)
     }
 
     // MARK: - TableView
     
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
         case 0:
             return 4
@@ -139,42 +139,42 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //
 //
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    override  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             return 0.0
         }
         return 36.0
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
-        cell?.selected = false
-        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = self.tableView?.cellForRow(at: self.selected!)
+        cell?.isSelected = false
+        if UserCurrentSession.sharedInstance().userSigned == nil && ((indexPath as NSIndexPath).section == 0 || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && self.showCamfind)) {
             self.openLoginOrProfile()
-            self.selected = NSIndexPath(forRow: 0, inSection: 2)
-            self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .Bottom)
+            self.selected = IndexPath(row: 0, section: 2)
+            self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .bottom)
             return
-        } else if UserCurrentSession.sharedInstance().userSigned == nil && ((indexPath.section == 1 && indexPath.row == 1 && !self.showCamfind)) {
+        } else if UserCurrentSession.sharedInstance().userSigned == nil && (((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && !self.showCamfind)) {
             self.openLoginOrProfile()
-            self.selected = NSIndexPath(forRow: 0, inSection: 2)
-            self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .Bottom)
+            self.selected = IndexPath(row: 0, section: 2)
+            self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .bottom)
             return
         }
         
         
         var currentOption : Int = 0
         
-        switch(indexPath.section) {
+        switch((indexPath as NSIndexPath).section) {
         case 0:
-            currentOption = indexPath.row
+            currentOption = (indexPath as NSIndexPath).row
         case 1:
-            currentOption = indexPath.row + 4
+            currentOption = (indexPath as NSIndexPath).row + 4
         case 2:
-            currentOption = indexPath.row + (self.showCamfind! ? 9 : 8)
+            currentOption = (indexPath as NSIndexPath).row + (self.showCamfind! ? 9 : 8)
         default:
             print("")
         }
@@ -186,13 +186,13 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         }
         
         if currentOption >= 4 && currentOption <= 7{
-           self.selected = NSIndexPath(forRow: 0, inSection: 2)
+           self.selected = IndexPath(row: 0, section: 2)
         }
     
         if currentOption == 8 {//6
             //Se elimina Badge de notificaciones
-            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+            UIApplication.shared.applicationIconBadgeNumber = 0
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         }
         
         self.delegate.selectedDetail(currentOption)
@@ -200,15 +200,15 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     
    
 
-    override func signOut(sender: UIButton?) {
+    override func signOut(_ sender: UIButton?) {
         self.delegate.selectedDetail(8)
-        self.selected = NSIndexPath(forRow: 0, inSection: 2)
+        self.selected = IndexPath(row: 0, section: 2)
         super.signOut(nil)
     }
 
-    override func editProfile(sender:UIButton) {
+    override func editProfile(_ sender:UIButton) {
        self.delegate.selectedDetail(11)
-       NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadProfile), name: "RELOAD_PROFILE", object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadProfile), name: NSNotification.Name(rawValue: "RELOAD_PROFILE"), object: nil)
 
     }
     
@@ -221,21 +221,21 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
             let cont = LoginController.showLogin()
             cont!.successCallBack = {() in
-                if cont.alertView != nil {
+                if cont?.alertView != nil {
                     cont!.closeAlert(true, messageSucesss: true)
                 }else {
                     cont!.closeModal()
                 }
                 self.reloadButtonSession()
-                self.selected = NSIndexPath(forRow: 0, inSection: 2)
+                self.selected = IndexPath(row: 0, section: 2)
                 self.tableView?.reloadData()
-                let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
-                cell?.selected = true
+                let cell = self.tableView?.cellForRow(at: self.selected!)
+                cell?.isSelected = true
                 self.delegate?.selectedDetail(8)// 7
                 //self.performSegueWithIdentifier("showProfile", sender: self)
                 //TODO: Poner acciones, cambio boton y nombre
             }
-            self.selected = NSIndexPath(forRow: 0, inSection: 2)
+            self.selected = IndexPath(row: 0, section: 2)
             self.delegate?.selectedDetail(9)//7
         }
         else {
@@ -244,11 +244,11 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if indexPath == self.selected! {
-           cell.selected = true
+           cell.isSelected = true
         }
         
         return cell
@@ -256,16 +256,16 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     
     override func reloadTable(){
         self.tableView?.reloadData()
-        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
-        cell?.selected = true
+        let cell = self.tableView?.cellForRow(at: self.selected!)
+        cell?.isSelected = true
     }
     
     override func reloadProfileData(){
         self.reloadButtonSession()
-        self.selected = NSIndexPath(forRow: 0, inSection: 2)
+        self.selected = IndexPath(row: 0, section: 2)
         self.tableView?.reloadData()
-        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
-        cell?.selected = true
+        let cell = self.tableView?.cellForRow(at: self.selected!)
+        cell?.isSelected = true
         self.delegate?.selectedDetail(8)//7
     }
     

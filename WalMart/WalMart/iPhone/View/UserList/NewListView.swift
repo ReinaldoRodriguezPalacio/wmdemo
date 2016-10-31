@@ -24,9 +24,9 @@ class NewListView: UIControl, UITextFieldDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         
-        self.inputNameList = ListFieldSearch(frame: CGRectMake(16.0, 8.0, frame.width - 36.0, 40.0))
+        self.inputNameList = ListFieldSearch(frame: CGRect(x: 16.0, y: 8.0, width: frame.width - 36.0, height: 40.0))
         self.inputNameList!.backgroundColor = WMColor.light_gray
         self.inputNameList!.layer.cornerRadius = 10.0
         self.inputNameList!.font = WMFont.fontMyriadProLightOfSize(16)
@@ -54,21 +54,21 @@ class NewListView: UIControl, UITextFieldDelegate {
 //        self.saveBarButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
 //        inputView.addSubview(self.saveBarButton!)
 
-        self.saveButton = UIButton(type: .Custom)
-        self.saveButton!.frame = CGRectMake(0.0, 0.0, 46.0, 40.0)
+        self.saveButton = UIButton(type: .custom)
+        self.saveButton!.frame = CGRect(x: 0.0, y: 0.0, width: 46.0, height: 40.0)
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(12)
-        self.saveButton!.setTitle(NSLocalizedString("list.new.save", comment:""), forState: .Normal)
-        self.saveButton!.setTitleColor(WMColor.reg_gray, forState: .Normal)
+        self.saveButton!.setTitle(NSLocalizedString("list.new.save", comment:""), for: UIControlState())
+        self.saveButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
         self.saveButton!.backgroundColor = WMColor.light_light_gray
-        self.saveButton!.addTarget(self, action: #selector(NewListView.save(_:)), forControlEvents: .TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(NewListView.save(_:)), for: .touchUpInside)
         self.inputNameList!.rightView = self.saveButton
-        self.inputNameList!.rightViewMode = .Always
+        self.inputNameList!.rightViewMode = .always
         
     }
 
     //MARK: - UITextFieldDelegate
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.delegate?.cancelNewList()
         return true
@@ -76,7 +76,7 @@ class NewListView: UIControl, UITextFieldDelegate {
     
     //MARK: - Actions
     
-    func save(button:UIButton) {
+    func save(_ button:UIButton) {
         if NewListTableViewCell.isValidName(self.inputNameList,showAlert: false) {
             self.delegate?.createNewList(self.inputNameList!.text!)
         }
@@ -84,7 +84,7 @@ class NewListView: UIControl, UITextFieldDelegate {
         self.inputNameList!.resignFirstResponder()
     }
     
-    func cancel(button:UIButton) {
+    func cancel(_ button:UIButton) {
         self.inputNameList!.text = ""
         self.inputNameList!.resignFirstResponder()
         self.delegate?.cancelNewList()
@@ -104,21 +104,21 @@ class ListFieldSearch: UITextField {
     
     func setup(){
         self.layer.cornerRadius = 5
-        self.backgroundColor =  UIColor.whiteColor()
+        self.backgroundColor =  UIColor.white
         self.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textColor = WMColor.dark_gray
     }
     
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(CGRectMake(bounds.minX - 15 , bounds.minY, bounds.size.width, bounds.size.height), 30, 00);
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.minX - 15 , y: bounds.minY, width: bounds.size.width, height: bounds.size.height).insetBy(dx: 30, dy: 00);
     }
     
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(CGRectMake(bounds.minX - 15 , bounds.minY, bounds.size.width, bounds.size.height), 30, 00);
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.minX - 15 , y: bounds.minY, width: bounds.size.width, height: bounds.size.height).insetBy(dx: 30, dy: 00);
     }
     
-    override func rightViewRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectMake(bounds.size.width - 46.0, 0.0, 46.0, 40.0)
+    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.size.width - 46.0, y: 0.0, width: 46.0, height: 40.0)
     }
     
 }

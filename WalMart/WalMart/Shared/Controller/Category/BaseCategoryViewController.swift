@@ -16,7 +16,7 @@ protocol BaseCategoryViewControllerDelegate {
     func getServiceURLIcon() -> String
     func getServiceURLHeader() -> String
     
-    func didSelectDeparmentAtIndex(indexPath: NSIndexPath)
+    func didSelectDeparmentAtIndex(_ indexPath: IndexPath)
 }
 
 class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UICollectionViewDataSource {
@@ -24,7 +24,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     @IBOutlet var categories: UICollectionView?
     var delegate : BaseCategoryViewControllerDelegate?
     var datasource : BaseCategoryViewControllerDataSource?
-    var currentIndexSelected : NSIndexPath?
+    var currentIndexSelected : IndexPath?
     var items : [AnyObject]? = []
     
     
@@ -39,14 +39,14 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     }
    
      //MARK: CollectionViewDelegate
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items!.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories!.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let categoryCell = categories!.dequeueReusableCell(withReuseIdentifier: "DepartmentCell", for: indexPath) as! DepartmentCollectionViewCell
         
-        let item = items![indexPath.row] as! [String:AnyObject]
+        let item = items![(indexPath as NSIndexPath).row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
         //let departmentId = item["idDepto"] as! String
@@ -56,7 +56,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         
         var hideView = false
         if self.currentIndexSelected != nil {
-            hideView = self.currentIndexSelected?.row != indexPath.row
+            hideView = (self.currentIndexSelected as NSIndexPath?)?.row != (indexPath as NSIndexPath).row
         }
         
         categoryCell.setValues(descDepartment,imageBackgroundURL: bgDepartment + ".png",keyBgUrl:svcUrlCar!,imageIconURL:"i_" + bgDepartment + ".png",keyIconUrl:svcUrl!,hideImage:hideView)
@@ -64,24 +64,24 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         return categoryCell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).row == 0 {
             self.delegate?.didSelectDeparmentAtIndex(indexPath)
             return
         }
         
         self.currentIndexSelected = indexPath
-        self.categories!.scrollEnabled = false
-        self.categories!.userInteractionEnabled = false
+        self.categories!.isScrollEnabled = false
+        self.categories!.isUserInteractionEnabled = false
         self.categories!.contentInset = UIEdgeInsetsMake(0, 0, self.categories!.frame.height, 0)
         self.categories!.reloadData()
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.categories!.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
-        }) { (Bool) -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.categories!.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+        }, completion: { (Bool) -> Void in
             print("")
            self.delegate?.didSelectDeparmentAtIndex(indexPath)
-        }
+        }) 
     }
     
     
@@ -95,12 +95,12 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     func closeDepartment() {
         self.currentIndexSelected = nil
         self.categories!.reloadData()
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.categories!.contentInset = UIEdgeInsetsZero
-            }) { (end:Bool) -> Void in
-                self.categories!.scrollEnabled = true
-                self.categories!.userInteractionEnabled = true
-        }
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.categories!.contentInset = UIEdgeInsets.zero
+            }, completion: { (end:Bool) -> Void in
+                self.categories!.isScrollEnabled = true
+                self.categories!.isUserInteractionEnabled = true
+        }) 
     }
     
     

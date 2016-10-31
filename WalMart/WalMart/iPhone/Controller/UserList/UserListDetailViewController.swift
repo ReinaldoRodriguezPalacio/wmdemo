@@ -44,7 +44,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     var deleteProductServiceInvoked = false
     
-    var equivalenceByPiece : NSNumber! = NSNumber(int:0)
+    var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
     var selectedItems : NSMutableArray? = nil
     
     var containerEditName: UIView?
@@ -69,90 +69,90 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
 
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
-        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22)
-        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(110, 44), radius: 22)
+        let iconImage = UIImage(color: WMColor.light_blue, size: CGSize(width: 110, height: 44), radius: 22)
+        let iconSelected = UIImage(color: WMColor.green, size: CGSize(width: 110, height: 44), radius: 22)
         
-        self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
+        self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46.0)
 
-        self.editBtn = UIButton(type: .Custom)
-        self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
-        self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
-        self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
-        self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
-        self.editBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.editBtn = UIButton(type: .custom)
+        self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), for: UIControlState())
+        self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), for: .selected)
+        self.editBtn!.setBackgroundImage(iconImage, for: UIControlState())
+        self.editBtn!.setBackgroundImage(iconSelected, for: .selected)
+        self.editBtn!.setTitleColor(UIColor.white, for: UIControlState())
         self.editBtn!.layer.cornerRadius = 11
-        self.editBtn!.addTarget(self, action: #selector(UserListDetailViewController.showEditionMode), forControlEvents: .TouchUpInside)
+        self.editBtn!.addTarget(self, action: #selector(UserListDetailViewController.showEditionMode), for: .touchUpInside)
         self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.editBtn!.hidden = true
+        self.editBtn!.isHidden = true
         self.header!.addSubview(self.editBtn!)
         
 
-        self.deleteAllBtn = UIButton(type: .Custom)
-        self.deleteAllBtn!.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: .Normal)
+        self.deleteAllBtn = UIButton(type: .custom)
+        self.deleteAllBtn!.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), for: UIControlState())
         self.deleteAllBtn!.backgroundColor = WMColor.red
-        self.deleteAllBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.deleteAllBtn!.setTitleColor(UIColor.white, for: UIControlState())
         self.deleteAllBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.deleteAllBtn!.layer.cornerRadius = 11
         self.deleteAllBtn!.alpha = 0
-        self.deleteAllBtn!.hidden = true
-        self.deleteAllBtn!.addTarget(self, action: #selector(UserListDetailViewController.deleteAll), forControlEvents: .TouchUpInside)
+        self.deleteAllBtn!.isHidden = true
+        self.deleteAllBtn!.addTarget(self, action: #selector(UserListDetailViewController.deleteAll), for: .touchUpInside)
         self.header!.addSubview(self.deleteAllBtn!)
 
         self.titleLabel?.text = self.listName
-        self.tableView!.registerClass(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
-        self.tableView!.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTAL_CELL_ID)
+        self.tableView!.register(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
+        self.tableView!.register(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTAL_CELL_ID)
 
-        self.footerSection!.backgroundColor = UIColor.whiteColor()
+        self.footerSection!.backgroundColor = UIColor.white
         
         
         let y = (self.footerSection!.frame.height - 34.0)/2
-        self.duplicateButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
-        self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), forState: .Normal)
-        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Selected)
-        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Highlighted)
-        self.duplicateButton!.addTarget(self, action: #selector(UserListDetailViewController.duplicate), forControlEvents: .TouchUpInside)
+        self.duplicateButton = UIButton(frame: CGRect(x: 16.0, y: y, width: 34.0, height: 34.0))
+        self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), for: UIControlState())
+        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), for: .selected)
+        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), for: .highlighted)
+        self.duplicateButton!.addTarget(self, action: #selector(UserListDetailViewController.duplicate), for: .touchUpInside)
         self.footerSection!.addSubview(self.duplicateButton!)
         
         var x = self.duplicateButton!.frame.maxX + 16.0
-        self.shareButton = UIButton(frame: CGRectMake(x, y, 34.0, 34.0))
-        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareButton!.addTarget(self, action: #selector(UserListDetailViewController.shareList), forControlEvents: .TouchUpInside)
+        self.shareButton = UIButton(frame: CGRect(x: x, y: y, width: 34.0, height: 34.0))
+        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
+        self.shareButton!.setImage(UIImage(named: "detail_share"), for: .selected)
+        self.shareButton!.setImage(UIImage(named: "detail_share"), for: .highlighted)
+        self.shareButton!.addTarget(self, action: #selector(UserListDetailViewController.shareList), for: .touchUpInside)
         self.footerSection!.addSubview(self.shareButton!)
         
         x = self.shareButton!.frame.maxX + 16.0
-        self.reminderButton = UIButton(frame: CGRectMake(x, y, 34.0, 34.0))
-        self.reminderButton!.setImage(UIImage(named: "reminder"), forState: .Normal)
-        self.reminderButton!.addTarget(self, action: #selector(UserListDetailViewController.addReminder), forControlEvents: UIControlEvents.TouchUpInside)
-        self.reminderButton!.hidden = true
+        self.reminderButton = UIButton(frame: CGRect(x: x, y: y, width: 34.0, height: 34.0))
+        self.reminderButton!.setImage(UIImage(named: "reminder"), for: UIControlState())
+        self.reminderButton!.addTarget(self, action: #selector(UserListDetailViewController.addReminder), for: UIControlEvents.touchUpInside)
+        self.reminderButton!.isHidden = true
         self.reminderButton!.layer.cornerRadius = 11
         self.footerSection!.addSubview(self.reminderButton!)
         
         if UserCurrentSession.hasLoggedUser() {
             x = self.reminderButton!.frame.maxX + 16.0
         }
-        self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
+        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + 16.0), height: 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
-        self.addToCartButton!.addTarget(self, action: #selector(UserListDetailViewController.addListToCart), forControlEvents: .TouchUpInside)
+        self.addToCartButton!.addTarget(self, action: #selector(UserListDetailViewController.addListToCart), for: .touchUpInside)
         self.footerSection!.addSubview(self.addToCartButton!)
 
         self.customLabel = CurrencyCustomLabel(frame: self.addToCartButton!.bounds)
-        self.customLabel!.backgroundColor = UIColor.clearColor()
+        self.customLabel!.backgroundColor = UIColor.clear
         self.customLabel!.setCurrencyUserInteractionEnabled(true)
         self.addToCartButton!.addSubview(self.customLabel!)
-        self.addToCartButton!.sendSubviewToBack(self.customLabel!)
+        self.addToCartButton!.sendSubview(toBack: self.customLabel!)
 
         self.footerConstraint?.constant = 0.0
         self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
@@ -175,11 +175,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp() && self.listId != nil && self.listName != nil
         self.tableConstraint?.constant = (self.showReminderButton ? 110.0 : self.header!.frame.height)
         self.addProductsView = AddProductTolistView()
-        self.addProductsView!.backgroundColor =  UIColor.whiteColor()
+        self.addProductsView!.backgroundColor =  UIColor.white
         self.addProductsView!.delegate =  self
         if showReminderButton{
             x = self.reminderButton!.frame.maxX + 16.0
-            self.addToCartButton!.frame =  CGRectMake(x,y, self.addToCartButton!.frame.width, self.addToCartButton!.frame.height)
+            self.addToCartButton!.frame =  CGRect(x: x,y: y, width: self.addToCartButton!.frame.width, height: self.addToCartButton!.frame.height)
             
             self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
             self.reminderService?.findNotificationForCurrentList()
@@ -192,38 +192,38 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
        
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
         //Solo para presentar los resultados al presentar el controlador sin delay
         if !openDetailOrReminder {
-            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            if UIDevice.current.userInterfaceIdiom == .phone {
                 loadServiceItems(nil)
             }
         }
         
         
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.tabBarActions()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
+        self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46.0)
         
         
         if !self.isSharing {
             if showReminderButton {
-                self.reminderButton?.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, self.shareButton!.frame.minY, 34, 34)
+                self.reminderButton?.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: self.shareButton!.frame.minY, width: 34, height: 34)
                 
-                self.addProductsView!.frame = CGRectMake(0,self.header!.frame.maxY, self.view.frame.width, 64.0)
+                self.addProductsView!.frame = CGRect(x: 0,y: self.header!.frame.maxY, width: self.view.frame.width, height: 64.0)
                 
-                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
+                self.tableView?.frame = CGRect(x: 0, y: self.addProductsView!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.addProductsView!.frame.maxY)
 
             }else{
-                self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+                self.tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
             }
         }
         
@@ -231,13 +231,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {titleLabel
 //            self.layoutTitleLabel()
 //        }
-        self.backButton?.frame = CGRectMake(0, (self.header!.frame.height - 46.0)/2, 46.0, 46.0)
-        if CGRectEqualToRect(self.editBtn!.frame, CGRectZero) {
+        self.backButton?.frame = CGRect(x: 0, y: (self.header!.frame.height - 46.0)/2, width: 46.0, height: 46.0)
+        if self.editBtn!.frame.equalTo(CGRect.zero) {
             let headerBounds = self.header!.frame.size
             let buttonWidth: CGFloat = 55.0
             let buttonHeight: CGFloat = 22.0
-            self.editBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
-            self.deleteAllBtn!.frame = CGRectMake(self.editBtn!.frame.minX - (90.0 + 8.0), (headerBounds.height - buttonHeight)/2, 90.0, buttonHeight)
+            self.editBtn!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+            self.deleteAllBtn!.frame = CGRect(x: self.editBtn!.frame.minX - (90.0 + 8.0), y: (headerBounds.height - buttonHeight)/2, width: 90.0, height: buttonHeight)
         }
         
         
@@ -253,14 +253,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let  showTurial = (requiredHelp && self.listDetailHelView == nil)
         
         if showTurial {
-            listDetailHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InReminderList )
+            listDetailHelView =  ListHelpView(frame: CGRect(x: 0,y: 0,width: self.view.bounds.width,height: self.view.bounds.height),context:ListHelpContextType.inReminderList )
             listDetailHelView?.onClose  = {() in
                 self.removeHelpView()
             }
             
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
             if let customBar = window!.rootViewController as? CustomBarViewController {
-                listDetailHelView?.frame = CGRectMake(0,0 , self.view.bounds.width, customBar.view.frame.height)
+                listDetailHelView?.frame = CGRect(x: 0,y: 0 , width: self.view.bounds.width, height: customBar.view.frame.height)
                 customBar.view.addSubview(listDetailHelView!)
                 CustomBarViewController.addOrUpdateParam("reminderListHelp", value: "false")
             }
@@ -272,7 +272,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func removeHelpView() {
         if self.listDetailHelView != nil {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                                        animations: { () -> Void in
                                         self.listDetailHelView!.alpha = 0.0
                 },
@@ -291,7 +291,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      
      - parameter complete: complete block
      */
-    func loadServiceItems(complete:(()->Void)?) {
+    func loadServiceItems(_ complete:(()->Void)?) {
         if let _ = UserCurrentSession.sharedInstance().userSigned {
             self.showLoadingView()
             self.invokeDetailListService({ () -> Void in
@@ -299,7 +299,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.loading!.stopAnnimating()
                 }
                 self.loading = nil
-                self.reminderButton!.hidden = false
+                self.reminderButton!.isHidden = false
                 	
                 self.selectedItems = []
                 self.selectedItems = NSMutableArray()
@@ -307,9 +307,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     for i in 0...self.products!.count - 1 {
                         let item =  self.products![i] //as? [String:AnyObject]
                         if let sku = item["sku"] as? NSDictionary {
-                            if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                                if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                                    self.selectedItems?.addObject(item["repositoryId"] as! String)
+                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                                if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                                    self.selectedItems?.add(item["repositoryId"] as! String)
                                 }
                             }
                         }
@@ -330,7 +330,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.selectedItems = NSMutableArray()
                 for i in 0...self.products!.count - 1 {
                     let item =  self.products![i] as? Product
-                    self.selectedItems?.addObject(item!.upc )
+                    self.selectedItems?.add(item!.upc )
                 }
                 self.updateTotalLabel()
 
@@ -362,15 +362,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func showEditionMode() {
         if !self.isEdditing {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 self.tableConstraint?.constant = 110
                 self.containerEditName!.alpha = 1
                 self.footerSection!.alpha = 0
                 self.reminderButton?.alpha = 0.0
                 self.addProductsView?.alpha = 0
             }, completion: { (complete:Bool) -> Void in
-                self.deleteAllBtn!.hidden = false
-                UIView.animateWithDuration(0.5,
+                self.deleteAllBtn!.isHidden = false
+                UIView.animate(withDuration: 0.5,
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 0.0
                         self.deleteAllBtn!.alpha = 1.0
@@ -382,21 +382,21 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 for idx in 0 ..< cells.count {
                     if let cell = cells[idx] as? DetailListViewCell {
                         cell.setEditing(true, animated: false)
-                        cell.showLeftUtilityButtonsAnimated(true)
+                        cell.showLeftUtilityButtons(animated: true)
                     }
                 }
             })
         }
         else {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.updateListName()
-                UIView.animateWithDuration(0.5,
+                UIView.animate(withDuration: 0.5,
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 1.0
                         self.deleteAllBtn!.alpha = 0.0
                     }, completion: { (finished:Bool) -> Void in
                         if finished {
-                            self.deleteAllBtn!.hidden = true
+                            self.deleteAllBtn!.isHidden = true
                         }
                     }
        
@@ -404,7 +404,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 var cells = self.tableView!.visibleCells
                 for idx in 0 ..< cells.count {
                     if let cell = cells[idx] as? DetailListViewCell {
-                        cell.hideUtilityButtonsAnimated(false)
+                        cell.hideUtilityButtons(animated: false)
                         cell.setEditing(false, animated: false)
                     }
                 }
@@ -422,7 +422,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         self.isEdditing = !self.isEdditing
-        self.editBtn!.selected = self.isEdditing
+        self.editBtn!.isSelected = self.isEdditing
         
     }
 
@@ -439,9 +439,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
-            let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+            let imgResult = UIImage.verticalImage(from: [imageHead!,image])
             let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
-            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            self.navigationController?.present(controller, animated: true, completion: nil)
         }
         
     }
@@ -459,8 +459,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.tableView!.frame = frame
         
         UIGraphicsBeginImageContextWithOptions(self.tableView!.bounds.size, false, 2.0)
-        self.tableView!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        self.tableView!.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         self.isSharing = false
@@ -523,34 +523,34 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         
                         if let sku = lines["sku"] as? NSDictionary {
                             
-                            if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                                if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                                if let item =  parentProducts.object(at: 0) as? NSDictionary {
                                     productItem = item
                                 }
                             }
                         }
                         
                         if productItem!["repositoryId"] as! String == idxVal as! String {
-                            params["upc"] = productItem!["repositoryId"] as! String
-                            params["skuId"] = "skuidList"
-                            params["desc"] = productItem!["description"] as! String
-                            params["imgUrl"] = productItem!["smallImageUrl"] as! String
+                            params["upc"] = productItem!["repositoryId"] as! String as AnyObject?
+                            params["skuId"] = "skuidList" as AnyObject?
+                            params["desc"] = productItem!["description"] as! String as AnyObject?
+                            params["imgUrl"] = productItem!["smallImageUrl"] as! String as AnyObject?
                             
-                            params["price"] = priceItem
+                            params["price"] = priceItem as AnyObject?
                             
-                            params["quantity"] = quantityItem
+                            params["quantity"] = quantityItem as AnyObject?
                          
                             
                             params["pesable"] = lines["type"] as? NSString
-                            params["wishlist"] = false
-                            params["type"] = ResultObjectType.Groceries.rawValue
-                            params["comments"] = ""
+                            params["wishlist"] = false as AnyObject?
+                            params["type"] = ResultObjectType.Groceries.rawValue as AnyObject?
+                            params["comments"] = "" as AnyObject?
                             if let type = lines["type"] as? String {
                                 if Int(type)! == 0 { //Piezas
-                                    params["onHandInventory"] = "99"
+                                    params["onHandInventory"] = "99" as AnyObject?
                                 }
                                 else { //Gramos
-                                    params["onHandInventory"] = "20000"
+                                    params["onHandInventory"] = "20000" as AnyObject?
                                 }
                             }
                         }
@@ -564,24 +564,24 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         //let arrayItems =  lines[linesArray[index] as! String] as! NSArray
                         //for item  in  arrayItems {
                             let productItem = lines as? Product
-                            if selectedItems!.containsObject(productItem!.upc){
+                            if selectedItems!.contains(productItem!.upc){
                                 //let productItem = item as? Product
-                                params["skuId"] = "skuidList"
-                                params["upc"] = productItem!.upc
-                                params["desc"] = productItem!.desc
-                                params["imgUrl"] = productItem!.img
+                                params["skuId"] = "skuidList" as AnyObject?
+                                params["upc"] = productItem!.upc as AnyObject?
+                                params["desc"] = productItem!.desc as AnyObject?
+                                params["imgUrl"] = productItem!.img as AnyObject?
                                 params["price"] = productItem!.price
-                                params["quantity"] = "\(productItem!.quantity)"
-                                params["wishlist"] = false
-                                params["comments"] = ""
+                                params["quantity"] = "\(productItem!.quantity)" as AnyObject?
+                                params["wishlist"] = false as AnyObject?
+                                params["comments"] = "" as AnyObject?
                                 let isPesable = productItem!.type.boolValue
-                                params["pesable"] = isPesable ? "1" : "0"
-                                params["type"] = ResultObjectType.Groceries.rawValue //validar Type
-                                if productItem!.type.integerValue == 0 { //Piezas
-                                    params["onHandInventory"] = "99"
+                                params["pesable"] = isPesable ? "1" : "0" as AnyObject?
+                                params["type"] = ResultObjectType.Groceries.rawValue as AnyObject? //validar Type
+                                if productItem!.type.intValue == 0 { //Piezas
+                                    params["onHandInventory"] = "99" as AnyObject?
                                 }
                                 else { //Gramos
-                                    params["onHandInventory"] = "20000"
+                                    params["onHandInventory"] = "20000" as AnyObject?
                                 }
                                 
                             }
@@ -594,10 +594,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     
                 }
                 
-                upcs.append(params)
+                upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
             }
             else{
                 self.noProductsAvailableAlert()
@@ -642,11 +642,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             if entities.count > 0 {
                 for product in entities {
-                    self.managedContext!.deleteObject(product)
+                    self.managedContext!.delete(product)
                 }
-                self.listEntity!.countItem = NSNumber(integer: 0)
+                self.listEntity!.countItem = NSNumber(value: 0 as Int)
                 self.saveContext()
-                self.editBtn!.hidden = true
+                self.editBtn!.isHidden = true
                 self.showEmptyView()
                 self.reloadTableListUser()
             }
@@ -665,26 +665,26 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
-            self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY + 64, bounds.width, height))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
         }else{
-            self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
         }
-        self.emptyView!.backgroundColor = UIColor.whiteColor()
+        self.emptyView!.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView!)
         
         let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-        bg.frame = CGRectMake(0.0, 0.0,  bounds.width,  bg.image!.size.height)
+        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height: bg.image!.size.height)
         self.emptyView!.addSubview(bg)
         
-        let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, bounds.width, 16.0))
-        labelOne.textAlignment = .Center
+        let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
+        labelOne.textAlignment = .center
         labelOne.textColor = WMColor.light_blue
         labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
-        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, bounds.width, 48))
-        labelTwo.textAlignment = .Center
+        let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: bounds.width, height: 48))
+        labelTwo.textAlignment = .center
         labelTwo.textColor = WMColor.light_blue
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
         
@@ -693,25 +693,25 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRectMake(63.0, labelTwo.frame.maxY - 18 , 16.0, 16.0)
+        icon.frame = CGRect(x: 63.0, y: labelTwo.frame.maxY - 18 , width: 16.0, height: 16.0)
         self.emptyView!.addSubview(icon)
         
-        let button = UIButton(type: .Custom)
+        let button = UIButton(type: .custom)
         if UserCurrentSession.hasLoggedUser() {
-            button.frame = CGRectMake((bounds.width - 160.0)/2,self.emptyView!.frame.height - 100, 160 , 40)
+            button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
         }else{
-            button.frame = CGRectMake((bounds.width - 160.0)/2,self.emptyView!.frame.height - 160, 160 , 40)
+            button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 160, width: 160 , height: 40)
         }
         /*if IS_IPHONE_4_OR_LESS{
          button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
         }*/
         button.backgroundColor = WMColor.light_blue
-        button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), forState: .Normal)
-        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        button.addTarget(self, action: #selector(UserListDetailViewController.backEmpty), forControlEvents: .TouchUpInside)
+        button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), for: UIControlState())
+        button.setTitleColor(UIColor.white, for: UIControlState())
+        button.addTarget(self, action: #selector(UserListDetailViewController.backEmpty), for: .touchUpInside)
         button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         button.layer.cornerRadius = 20.0
-        button.hidden = UserCurrentSession.hasLoggedUser()
+        button.isHidden = UserCurrentSession.hasLoggedUser()
         self.emptyView!.addSubview(button)
     }
     
@@ -720,12 +720,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func removeEmpyView() {
         if self.emptyView != nil {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
                     self.emptyView!.alpha = 0.0
                 }, completion: { (finished:Bool) -> Void in
                     if finished {
-                        self.emptyView?.hidden = true
+                        self.emptyView?.isHidden = true
                         self.emptyView?.removeFromSuperview()
                         self.emptyView = nil
                     }
@@ -738,7 +738,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      Shows Loading View
      */
     func showLoadingView() {
-        self.loading = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        self.loading = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         self.loading!.startAnnimating(self.isVisibleTab)
         self.view.addSubview(self.loading!)
     }
@@ -756,7 +756,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         let fmtTotal = CurrencyCustomLabel.formatString("\(total)")
         let amount = String(format: NSLocalizedString("list.detail.buy",comment:""), fmtTotal)
-        self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+        self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
     
     /**
@@ -774,8 +774,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     for lines in self.products! {
                         let upc = upcSelected as! String
                         if let sku = lines["sku"] as? NSDictionary {
-                            if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                                if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                                if let item =  parentProducts.object(at: 0) as? NSDictionary {
                                     if  item["repositoryId"] as! String  == upc {
                                         
                                         if let typeProd = sku["weighable"] as? NSString {
@@ -807,7 +807,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                    // let arrayItems =  lines[linesArray[index] as! String] as! NSArray
                     //for item  in  arrayItems {
                         let productItem = lines as? Product
-                        if selectedItems!.containsObject(productItem!.upc){
+                        if selectedItems!.contains(productItem!.upc){
                             print("suma: \(productItem!.price.doubleValue)")
                             let quantity = productItem!.quantity
                             let price:Double = productItem!.price.doubleValue
@@ -847,7 +847,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let typeProd = item["type"] as? NSString {
                     if typeProd.integerValue == 0 {
                         let quantity = item["quantity"] as! NSNumber
-                        count += quantity.integerValue
+                        count += quantity.intValue
                     }
                     else {
                         count += 1
@@ -857,7 +857,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             else if let item = self.products![idx] as? Product {
                 let quantity = item.quantity
                 if item.type == "false" {
-                    count += quantity.integerValue
+                    count += quantity.intValue
                 }
                 else {
                     count += 1
@@ -882,9 +882,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             for items in self.products! {
                 let line = items["fineContent"] as? NSDictionary
                 let lineId = line!["fineLineName"] as? String
-                if  !linesArray.containsObject(lineId!) {
+                if  !linesArray.contains(lineId!) {
                     print("se agrega")
-                    linesArray.addObject(lineId!)
+                    linesArray.add(lineId!)
                 }
             }
             for lineArray in linesArray {
@@ -909,9 +909,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             for items in self.products! {
                 let productItem =  items as! Product
                 
-                if  !linesArray.containsObject(productItem.nameLine) {
+                if  !linesArray.contains(productItem.nameLine) {
                     print("se agrega sin session ")
-                    linesArray.addObject(productItem.nameLine)
+                    linesArray.add(productItem.nameLine)
                 }
             }
     
@@ -931,20 +931,20 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return  2//products!.count == 0 ? 1 : products!.count + 1
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       
         if section == 1 {
            return nil
         }
         
-        let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 21.0))
-        header.backgroundColor = UIColor.whiteColor()
+        let header = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 21.0))
+        header.backgroundColor = UIColor.white
         if linesArray.count > 0 {
-            let title = UILabel(frame: CGRectMake(16.0, (header.frame.height - 12) / 2 , self.view.frame.width - 32.0, 12.0))
+            let title = UILabel(frame: CGRect(x: 16.0, y: (header.frame.height - 12) / 2 , width: self.view.frame.width - 32.0, height: 12.0))
             title.textColor = WMColor.light_blue
             title.font = WMFont.fontMyriadProRegularOfSize(11)
             title.text = linesArray[section] as? String
@@ -956,7 +956,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var size = 0
 
         print(section)
@@ -971,17 +971,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return size
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if indexPath.section == 1 { //self.products!.count
-            let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
+        if (indexPath as NSIndexPath).section == 1 { //self.products!.count
+            let totalCell = tableView.dequeueReusableCell(withIdentifier: self.TOTAL_CELL_ID, for: indexPath) as! ShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
             //totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"")
             totalCell.setValuesTotalSaving(Total: "\(total)", saving: "")
             return totalCell
         }
 
-        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
+        let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
         let controller = self.view.window!.rootViewController
         listCell.viewIpad = controller!.view
         listCell.productImage!.image = nil
@@ -992,12 +992,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         var plpArray : NSDictionary = [:]
             if self.products!.count > 0{
-                let items = self.products![indexPath.row]
+                let items = self.products![(indexPath as NSIndexPath).row]
            
                 var upc = ""
                 if let sku = items["sku"] as? NSDictionary {
-                    if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                        if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                    if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                        if let item =  parentProducts.object(at: 0) as? NSDictionary {
                             upc = item["repositoryId"] as! String
                         }
                     }
@@ -1005,18 +1005,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
                 
                 if UserCurrentSession.hasLoggedUser() {
-                listCell.setValuesDictionary(items as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(upc), productPriceThrough: "", isMoreArts: true)
+                listCell.setValuesDictionary(items as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
                 }else{
                     //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
                     let product =  items as! Product
                     print(product.upc)
-                    listCell.setValues(product,disabled:!self.selectedItems!.containsObject(product.upc))
+                    listCell.setValues(product,disabled:!self.selectedItems!.contains(product.upc))
                 }
             }
         
         
         if self.isEdditing {
-            listCell.showLeftUtilityButtonsAnimated(false)
+            listCell.showLeftUtilityButtons(animated: false)
         }
         //TODO Promotios
         listCell.setValueArray([])
@@ -1024,17 +1024,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return listCell
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
       
-        if indexPath.section == self.products?.count {
+        if (indexPath as NSIndexPath).section == self.products?.count {
             return 56.0
         }
         return  114.0
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        if cell!.isKindOfClass(DetailListViewCell) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell!.isKind(of: DetailListViewCell.self) {
             self.openDetailOrReminder =  true
             let controller = ProductDetailPageViewController()
             var productsToShow:[AnyObject] = []
@@ -1042,12 +1042,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let product = self.products![idx] as? [String:AnyObject] {
                     
                     if let sku = product["sku"] as? NSDictionary {
-                        if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                            if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                        if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                            if let item =  parentProducts.object(at: 0) as? NSDictionary {
                                 let upc = item["repositoryId"] as! String
                                 let description = item["description"] as! String
                                 
-                                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":"","sku":sku.objectForKey("id") as! String])
+                                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":"","sku":sku.object(forKey: "id") as! String])
                             }
                         }
                     }
@@ -1061,9 +1061,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
         
-        if indexPath.row < productsToShow.count {
+        if (indexPath as NSIndexPath).row < productsToShow.count {
             controller.itemsToShow = productsToShow
-            controller.ixSelected = indexPath.row
+            controller.ixSelected = (indexPath as NSIndexPath).row
             self.navigationController!.pushViewController(controller, animated: true)
         }
       }
@@ -1071,16 +1071,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     //MARK: - SWTableViewCellDelegate
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
         switch index {
         case 0:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
-            if let indexPath = self.tableView!.indexPathForCell(cell) {
-                if let item = self.products![indexPath.row] as? NSDictionary {
+            if let indexPath = self.tableView!.indexPath(for: cell) {
+                if let item = self.products![(indexPath as NSIndexPath).row] as? NSDictionary {
                     
                     //Event
-                    if self.selectedItems!.containsObject(indexPath.row) {
-                        self.selectedItems?.removeObject(indexPath.row)
+                    if self.selectedItems!.contains((indexPath as NSIndexPath).row) {
+                        self.selectedItems?.remove((indexPath as NSIndexPath).row)
                     }
                     self.fromDelete =  true
                     self.invokeDeleteProductFromListService(repositoryId: item["repositoryId"] as! String, succesDelete: { () -> Void in
@@ -1089,16 +1089,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     
                     
                 }
-                else if let item = self.products![indexPath.row] as? Product {
-                    self.managedContext!.deleteObject(item)
+                else if let item = self.products![(indexPath as NSIndexPath).row] as? Product {
+                    self.managedContext!.delete(item)
                     self.saveContext()
                     let count:Int = self.listEntity!.products.count
-                    self.listEntity!.countItem = NSNumber(integer: count)
+                    self.listEntity!.countItem = NSNumber(value: count as Int)
                     self.saveContext()
                     self.fromDelete =  true
                     self.retrieveProductsLocally(true)
-                    self.editBtn!.hidden = count == 0
-                    self.deleteAllBtn!.hidden = count == 0
+                    self.editBtn!.isHidden = count == 0
+                    self.deleteAllBtn!.isHidden = count == 0
                     
                     //self.editBtn!.hidden = true
                 }
@@ -1108,28 +1108,28 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerLeftUtilityButtonWithIndex index: Int) {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
         switch index {
         case 0:
             //let indexPath : NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
             //deleteRowAtIndexPath(indexPath)
-            cell.showRightUtilityButtonsAnimated(true)
+            cell.showRightUtilityButtons(animated: true)
         default :
             print("other pressed")
         }
     }
     
-    func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
+    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
         return !isEdditing
     }
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, canSwipeToState state: SWCellState) -> Bool {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
         switch state {
-        case SWCellState.CellStateLeft:
+        case SWCellState.cellStateLeft:
             return isEdditing
-        case SWCellState.CellStateRight:
+        case SWCellState.cellStateRight:
             return true
-        case SWCellState.CellStateCenter:
+        case SWCellState.cellStateCenter:
             return !isEdditing
         //default:
            // return !isEdditing && !self.isSelectingProducts
@@ -1138,29 +1138,29 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: - DetailListViewCellDelegate
-    func didChangeQuantity(cell:DetailListViewCell) {
+    func didChangeQuantity(_ cell:DetailListViewCell) {
         if self.isEdditing {
             return
         }
         if self.quantitySelector == nil {
             
-            let indexPath = self.tableView!.indexPathForCell(cell)
+            let indexPath = self.tableView!.indexPath(for: cell)
             if indexPath == nil {
                 return
             }
             var isPesable = false
             var price: NSNumber? = nil
-            if let item = self.products![indexPath!.row] as? [String:AnyObject] {
+            if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:AnyObject] {
                 if let pesable = item["type"] as? NSString {
                     isPesable = pesable.intValue == 1
                 }
-                let numberPrice =  NSNumberFormatter()
-                numberPrice.numberStyle = .DecimalStyle
-                price = numberPrice.numberFromString(item["specialPrice"] as! String)
+                let numberPrice =  NumberFormatter()
+                numberPrice.numberStyle = .decimal
+                price = numberPrice.number(from: item["specialPrice"] as! String)
             }
-            else if let item = self.products![indexPath!.row] as? Product {
+            else if let item = self.products![(indexPath! as NSIndexPath).row] as? Product {
                 isPesable = item.type == "false" ?  false : true //mustang
-                price = NSNumber(double: item.price.doubleValue)
+                price = NSNumber(value: item.price.doubleValue as Double)
             }
             
 
@@ -1169,7 +1169,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if TabBarHidden.isTabBarHidden {
                 height += 45.0
             }
-            let selectorFrame = CGRectMake(0, self.view.frame.height, width, height)
+            let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
             if isPesable {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
@@ -1183,28 +1183,28 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
-                if let item = self.products![indexPath!.row] as? [String:AnyObject] {
+                if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:AnyObject] {
                     
                     if let sku = item["sku"] as? NSDictionary {
-                        if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                            if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                                self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku.objectForKey("id") as! String, quantity: Int(quantity)!)
+                        if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                            if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                                self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku.object(forKey: "id") as! String, quantity: Int(quantity)!)
                             }
                         }
                     }
                     
                     
                 }
-                else if let item = self.products![indexPath!.row] as? Product {
-                    item.quantity = NSNumber(integer: Int(quantity)!)
+                else if let item = self.products![(indexPath! as NSIndexPath).row] as? Product {
+                    item.quantity = NSNumber(value: Int(quantity)! as Int)
                     self.saveContext()
                     self.retrieveProductsLocally(true)
                     self.removeSelector()
                 }
             }
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.quantitySelector!.frame = CGRectMake(0.0, 0.0, width, height)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.quantitySelector!.frame = CGRect(x: 0.0, y: 0.0, width: width, height: height)
             })
             
         }
@@ -1215,11 +1215,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func removeSelector() {
         if   self.quantitySelector != nil {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
                     let width:CGFloat = self.view.frame.width
                     let height:CGFloat = self.view.frame.height - self.header!.frame.height
-                    self.quantitySelector!.frame = CGRectMake(0.0, self.view.frame.height, width, height)
+                    self.quantitySelector!.frame = CGRect(x: 0.0, y: self.view.frame.height, width: width, height: height)
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
@@ -1232,7 +1232,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     let serviceBase = GRZipCodeService()
     //MARK: - Services
-    func invokeDetailListService(action:(()->Void)? , reloadList : Bool) {
+    func invokeDetailListService(_ action:(()->Void)? , reloadList : Bool) {
         let detailService = UserListDetailService()
         
         detailService.callService(detailService.buildParams(self.listId!),
@@ -1250,9 +1250,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             for i in 0...self.products!.count - 1 {
                                                 let item =  self.products![i] //as? [String:AnyObject]
                                                 if let sku = item["sku"] as? NSDictionary {
-                                                    if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                                                        if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
-                                                            self.selectedItems?.addObject(item["repositoryId"] as! String )
+                                                    if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                                                        if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                                                            self.selectedItems?.add(item["repositoryId"] as! String )
                                                         }
                                                     }
                                                 }
@@ -1271,15 +1271,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                     }
                                     self.updateTotalLabel()
                                     if self.products == nil || self.products!.count == 0 {
-                                        self.editBtn!.hidden = true
-                                        self.deleteAllBtn!.hidden = true
+                                        self.editBtn!.isHidden = true
+                                        self.deleteAllBtn!.isHidden = true
                                         self.isEdditing = true
                                         self.showEditionMode()
                                         self.showEmptyView()
                                     }
                                     else {
-                                        self.editBtn!.hidden = false
-                                        self.deleteAllBtn!.hidden = false
+                                        self.editBtn!.isHidden = false
+                                        self.deleteAllBtn!.isHidden = false
                                         self.removeEmpyView()
                                     }
                                     
@@ -1293,14 +1293,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
     
-    func invokeDeleteProductFromListService(repositoryId repositoryId:String,succesDelete:(()->Void)) {
+    func invokeDeleteProductFromListService(repositoryId:String,succesDelete:@escaping (()->Void)) {
         if !self.deleteProductServiceInvoked {
             
             self.deleteProductServiceInvoked = true
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
             let service = GRDeleteItemListService()
-            let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(repositoryId: repositoryId))
+            let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(repositoryId: repositoryId) as NSDictionary)
             service.jsonFromObject(params)
             service.callService(params,
                                 successBlock:{ (result:NSDictionary) -> Void in
@@ -1317,13 +1317,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                         }
                                         
                                         if self.products == nil || self.products!.count == 0 {
-                                            self.editBtn!.hidden = true
-                                            self.deleteAllBtn!.hidden = true
+                                            self.editBtn!.isHidden = true
+                                            self.deleteAllBtn!.isHidden = true
                                             self.isEdditing = true
                                             self.showEditionMode()
                                             self.showEmptyView()
                                         } else {
-                                            self.editBtn!.hidden = false
+                                            self.editBtn!.isHidden = false
                                         }
                                         }, reloadList: true)
                                     succesDelete()
@@ -1340,7 +1340,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-    func invokeDeleteAllProductsFromListService(upcs:[String]) {
+    func invokeDeleteAllProductsFromListService(_ upcs:[String]) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInList", comment:""))
         let service = GRDeleteItemListService()
@@ -1351,8 +1351,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                
                 self.showEditionMode()
                 self.products = nil
-                self.editBtn!.hidden = true
-                self.deleteAllBtn!.hidden = true
+                self.editBtn!.isHidden = true
+                self.deleteAllBtn!.isHidden = true
                 self.tableView!.reloadData()
                 self.reloadTableListUser()
                 self.showEmptyView()
@@ -1407,7 +1407,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: - DB
-    func retrieveProductsLocally(reloadList : Bool) {
+    func retrieveProductsLocally(_ reloadList : Bool) {
         var products: [Product]? = nil
         let dateList =  self.listEntity?.registryDate
         
@@ -1418,10 +1418,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             print("name listEntity:: \(self.listEntity?.name)")
             let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "list == %@", self.listEntity!)
             do{
-               products = try self.managedContext!.executeFetchRequest(fetchRequest) as? [Product]
+               products = try self.managedContext!.fetch(fetchRequest) as? [Product]
             }
             catch{
                 print("Error retrieveProductsLocally")
@@ -1447,7 +1447,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     //for i in 0...self.products!.count - 1 {
                     for product in self.products!{
                         let item =  product as! Product
-                        self.selectedItems?.addObject(item.upc)
+                        self.selectedItems?.add(item.upc)
                     }
                     self.updateTotalLabel()
                 }
@@ -1459,23 +1459,23 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         {
          self.products =  nil
          self.titleLabel?.text = ""
-            self.editBtn!.hidden = true
-            self.deleteAllBtn!.hidden = true
+            self.editBtn!.isHidden = true
+            self.deleteAllBtn!.isHidden = true
             self.tableView!.reloadData()
             self.reloadTableListUser()
         }
 
 
         if self.products == nil || self.products!.count == 0 {
-            self.editBtn!.hidden = true
-            self.deleteAllBtn!.hidden = true
+            self.editBtn!.isHidden = true
+            self.deleteAllBtn!.isHidden = true
             self.isEdditing = true
             self.showEditionMode()
             self.showEmptyView()
             
         } else {
-            self.editBtn!.hidden = false
-            self.deleteAllBtn!.hidden = false
+            self.editBtn!.isHidden = false
+            self.deleteAllBtn!.isHidden = false
             self.removeEmpyView()
         }
         
@@ -1495,7 +1495,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: - IPOBaseController scrollViewDelegate
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.addProductsView?.textFindProduct?.resignFirstResponder()
         
         if !self.enableScrollUpdateByTabBar {
@@ -1510,24 +1510,24 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
             TabBarHidden.isTabBarHidden = true
             self.isVisibleTab = false
-            if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
+            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
                 self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
                 self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
 
                 self.willHideTabbar()
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
             }
         }
         if differenceFromStart > 0 && TabBarHidden.isTabBarHidden {
             TabBarHidden.isTabBarHidden = false
             self.isVisibleTab = true
-            if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
+            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
                 let bottom : CGFloat = self.footerSection!.frame.height + 45.0
                 self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
                 self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
                 
                 self.willShowTabbar()
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
             }
         }
     }
@@ -1535,14 +1535,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     override func willShowTabbar() {
         self.footerConstraint!.constant = 45.0
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.view.layoutIfNeeded()
         })
     }
     
     override func willHideTabbar() {
         self.footerConstraint!.constant = 0.0
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.view.layoutIfNeeded()
         })
     }
@@ -1551,16 +1551,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
     
-    func didDisable(disaable:Bool,cell:DetailListViewCell) {
-        let indexPath = self.tableView?.indexPathForCell(cell)
+    func didDisable(_ disaable:Bool,cell:DetailListViewCell) {
+        let indexPath = self.tableView?.indexPath(for: cell)
         if disaable {
-            self.selectedItems?.removeObject(cell.upcVal!)//(indexPath!.row)
+            self.selectedItems?.remove(cell.upcVal!)//(indexPath!.row)
         } else {
-            self.selectedItems?.addObject(cell.upcVal!)//(indexPath!.row)
+            self.selectedItems?.add(cell.upcVal!)//(indexPath!.row)
         }
         self.updateTotalLabel()
         if self.selectedItems != nil {
-            self.tableView?.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: indexPath!.section)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView?.reloadRows(at: [IndexPath(row: (indexPath! as NSIndexPath).row, section: (indexPath! as NSIndexPath).section)], with: UITableViewRowAnimation.fade)
         }
     }
     
@@ -1568,17 +1568,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func buildEditNameSection() {
         
         containerEditName = UIView()
-        containerEditName?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 64)
+        containerEditName?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: 64)
         
-        let separator = UIView(frame:CGRectMake(0, containerEditName!.frame.height - AppDelegate.separatorHeigth(), self.view.frame.width, AppDelegate.separatorHeigth()))
+        let separator = UIView(frame:CGRect(x: 0, y: containerEditName!.frame.height - AppDelegate.separatorHeigth(), width: self.view.frame.width, height: AppDelegate.separatorHeigth()))
         separator.backgroundColor = WMColor.light_light_gray
         
         self.nameField = FormFieldView()
         self.nameField!.maxLength = 100
         self.nameField!.delegate = self
-        self.nameField!.typeField = .String
+        self.nameField!.typeField = .string
         self.nameField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
-        self.nameField!.frame = CGRectMake(16.0, 12.0, self.view.bounds.width - 32.0, 40.0)
+        self.nameField!.frame = CGRect(x: 16.0, y: 12.0, width: self.view.bounds.width - 32.0, height: 40.0)
         self.nameField!.text = listName
         
         containerEditName?.addSubview(separator)
@@ -1607,7 +1607,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
 
         }else{
-         NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
+         NotificationCenter.default.post(name: Notification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
         }
     }
     
@@ -1655,18 +1655,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     //MARK: - Reminder
     
-    func setReminderSelected(selected:Bool){
-        self.reminderButton?.selected = selected
+    func setReminderSelected(_ selected:Bool){
+        self.reminderButton?.isSelected = selected
         
         if selected{
-            self.reminderButton?.setImage(UIImage(named: "reminder_full"), forState: .Selected)
+            self.reminderButton?.setImage(UIImage(named: "reminder_full"), for: .selected)
         }else{
-            self.reminderButton?.setImage(UIImage(named: "reminder"), forState: .Normal)
+            self.reminderButton?.setImage(UIImage(named: "reminder"), for: UIControlState())
         }
     }
     
     func addReminder(){
-        let selected = self.reminderButton!.selected
+        let selected = self.reminderButton!.isSelected
         let reminderViewController = ReminderViewController()
         reminderViewController.listId = self.listId!
         reminderViewController.listName = self.listName!
@@ -1674,7 +1674,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if  selected {
             reminderViewController.reminderService?.findNotificationForCurrentList()
             reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
-            reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
+            reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? Date
         }
         self.openDetailOrReminder =  true
         self.navigationController?.pushViewController(reminderViewController, animated: true)
@@ -1698,16 +1698,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         barCodeController.searchProduct = true
         barCodeController.useDelegate = true
         barCodeController.isAnyActionFromCode =  true
-        self.presentViewController(barCodeController, animated: true, completion: nil)
+        self.present(barCodeController, animated: true, completion: nil)
     }
     
     func showCamera() {
         let cameraController = CameraViewController()
         cameraController.delegate = self
-        self.presentViewController(cameraController, animated: true, completion: nil)
+        self.present(cameraController, animated: true, completion: nil)
     }
     
-    func searchByText(text: String) {
+    func searchByText(_ text: String) {
         if text.isNumeric() {
             let cero = text.length() < 13 ? "0":""
             self.findProdutFromUpc("\(cero)\(text)")
@@ -1722,18 +1722,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.addProductsView?.changeFrame = false
                 return
             }
-            self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .WithText,searchServiceFromContext:.FromSearchText )
+            self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .withText,searchServiceFromContext:.fromSearchText )
         }
         
     }
     
     
     //MARK: BarCodeViewControllerDelegate
-    func barcodeCaptured(value: String?) {
+    func barcodeCaptured(_ value: String?) {
         print(value)
     }
     
-    func barcodeCapturedWithType(value: String?, isUpcSearch: Bool) {
+    func barcodeCapturedWithType(_ value: String?, isUpcSearch: Bool) {
         
         if isUpcSearch {
             self.findProdutFromUpc(value!)
@@ -1743,16 +1743,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: CameraViewControllerDelegate
-    func photoCaptured(value: String?, upcs: [String]?, done: (() -> Void)) {
+    func photoCaptured(_ value: String?, upcs: [String]?, done: (() -> Void)) {
         if value !=  nil {
             if value != "" {
-                self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .WithTextForCamFind,searchServiceFromContext: .FromSearchCamFind)
+                self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .withTextForCamFind,searchServiceFromContext: .fromSearchCamFind)
             }
         }
     }
     
     //MARK:  Actions
-    func findProdutFromUpc(upc:String){
+    func findProdutFromUpc(_ upc:String){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.add.product.list", comment:""))
         
@@ -1762,8 +1762,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let upcDesc : NSString = upc as NSString
         var paddedUPC = upcDesc
         if upcDesc.length < 13 {
-            let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
-            paddedUPC = "\(toFill)\(paddedUPC)"
+            let toFill = "".padding(toLength: 13 - upcDesc.length, withPad: "0", startingAt: 0)
+            paddedUPC = "\(toFill)\(paddedUPC)" as NSString
         }
         //let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//position
         let params = svcValidate.buildMustangParams(paddedUPC as String, skuId:paddedUPC as String )//TODO Enviar sku
@@ -1782,21 +1782,21 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
     
-    func searchByTextAndCamfind(text: String,upcs:[String]?,searchContextType:SearchServiceContextType,searchServiceFromContext:SearchServiceFromContext) {
+    func searchByTextAndCamfind(_ text: String,upcs:[String]?,searchContextType:SearchServiceContextType,searchServiceFromContext:SearchServiceFromContext) {
         
         let controller = SearchProductViewController()
         controller.upcsToShow = upcs
         controller.searchContextType = searchContextType
         controller.titleHeader = text
         controller.textToSearch = text
-        controller.searchFromContextType = .FromSearchTextList
+        controller.searchFromContextType = .fromSearchTextList
         controller.idListFromSearch =  self.listId
         self.navigationController?.pushViewController(controller, animated: true)
         
     }
     
     
-    func invokeAddproductTolist(response:NSDictionary?,products:[AnyObject]?,succesBlock:(() -> Void)){
+    func invokeAddproductTolist(_ response:NSDictionary?,products:[AnyObject]?,succesBlock:@escaping (() -> Void)){
         
         let service = GRAddItemListService()
         var isPesable  = ""
@@ -1832,7 +1832,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         )
     }
  
-    func invokeServicefromTicket(ticket:String){
+    func invokeServicefromTicket(_ ticket:String){
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.add.products.to.list", comment:""))
@@ -1889,26 +1889,26 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK validate search
-    func validateText(search:String) -> String {
+    func validateText(_ search:String) -> String {
         var message  =  ""
-        let toValidate : NSString = search
-        let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if toValidate.isEqualToString(""){
+        let toValidate : NSString = search as NSString
+        let trimValidate = toValidate.trimmingCharacters(in: CharacterSet.whitespaces)
+        if toValidate.isEqual(to: ""){
             message = NSLocalizedString("list.message.write.word.search", comment: "")
         }
-        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 2 {
+        if trimValidate.lengthOfBytes(using: String.Encoding.utf8) < 2 {
             message = NSLocalizedString("product.search.minimum",comment:"")
         }
         if !validateSearch(search)  {
            message = NSLocalizedString("field.validate.text", comment: "")
         }
-        if search.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
+        if search.lengthOfBytes(using: String.Encoding.utf8) > 50  {
             message = NSLocalizedString("list.message.validation.characters", comment: "")
         }
         return message
     }
     
-    func validateSearch(toValidate:String) -> Bool{
+    func validateSearch(_ toValidate:String) -> Bool{
         let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú ]{0,100}$";
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }

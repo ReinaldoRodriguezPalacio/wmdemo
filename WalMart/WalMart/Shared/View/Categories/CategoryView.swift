@@ -46,24 +46,24 @@ class CategoryView : UITableViewCell {
     }
     
     
-    func setValues(title:String,imageBackgroundURL:String,imageIconURL:String) {
+    func setValues(_ title:String,imageBackgroundURL:String,imageIconURL:String) {
         let svcUrl = serviceUrl("WalmartMG.CategoryIcon")
         let imgURLName = "\(svcUrl)\(imageIconURL)"
-        self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
+        self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
         
         let svcUrlCar = serviceUrl("WalmartMG.HeaderCategory")
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
-        self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage: UIImage(named: imageBackgroundURL))
+        self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage: UIImage(named: imageBackgroundURL))
         
         self.titleLabel.text = title
         
     }
     
-    func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMMustangURLServices") as! NSDictionary
-        let environmentServices = services.objectForKey(environment) as! NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
+    func serviceUrl(_ serviceName:String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! NSDictionary
+        let environmentServices = services.object(forKey: environment) as! NSDictionary
+        let serviceURL =  environmentServices.object(forKey: serviceName) as! String
         return serviceURL
     }
     

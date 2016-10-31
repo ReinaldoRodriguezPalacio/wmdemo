@@ -7,6 +7,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ImageDisplayCollectionViewController: BaseController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -40,38 +60,38 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         self.collectionFlowLayout!.minimumInteritemSpacing = 0.0
         self.collectionFlowLayout!.minimumLineSpacing = 0.0
         self.collectionFlowLayout!.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-        self.collectionFlowLayout!.scrollDirection = .Horizontal
+        self.collectionFlowLayout!.scrollDirection = .horizontal
         
-        self.collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.collectionFlowLayout!)
-        self.collectionView!.backgroundColor = UIColor.whiteColor()
+        self.collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.collectionFlowLayout!)
+        self.collectionView!.backgroundColor = UIColor.white
         self.collectionView!.showsHorizontalScrollIndicator = false
         self.collectionView!.showsVerticalScrollIndicator = false
-        self.collectionView!.pagingEnabled = true
-        self.collectionView!.registerClass(ImageDisplayCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.isPagingEnabled = true
+        self.collectionView!.register(ImageDisplayCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.delegate = self
         self.collectionView!.dataSource = self
         
         self.view.addSubview(self.collectionView!)
         
         self.pointSection = UIView()
-        self.pointSection!.backgroundColor = UIColor.whiteColor()
+        self.pointSection!.backgroundColor = UIColor.white
         self.view.addSubview(self.pointSection!)
         
         self.header = UIView()
-        self.header?.backgroundColor = UIColor.whiteColor()
+        self.header?.backgroundColor = UIColor.white
         self.view.addSubview(self.header!)
         
-        self.close = UIButton(type: .Custom)
-        self.close!.setImage(UIImage(named: "detail_close"), forState: .Normal)
-        self.close!.addTarget(self, action: #selector(ImageDisplayCollectionViewController.closeModal), forControlEvents: .TouchUpInside)
-        self.close!.backgroundColor = UIColor.whiteColor()
+        self.close = UIButton(type: .custom)
+        self.close!.setImage(UIImage(named: "detail_close"), for: UIControlState())
+        self.close!.addTarget(self, action: #selector(ImageDisplayCollectionViewController.closeModal), for: .touchUpInside)
+        self.close!.backgroundColor = UIColor.white
         
         self.titleLabel = UILabel()
         self.titleLabel?.textColor =  WMColor.light_blue
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.numberOfLines = 2
         self.titleLabel?.text = name
-        self.titleLabel?.textAlignment = NSTextAlignment.Center
+        self.titleLabel?.textAlignment = NSTextAlignment.center
         self.header?.addSubview(self.titleLabel!)
         self.header?.addSubview(self.close!)
     }
@@ -83,14 +103,14 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     
     override func viewWillLayoutSubviews() {
         let bounds = self.view.frame.size
-        self.header!.frame = CGRectMake(0, 0, self.view.bounds.maxX, 66)
-        self.collectionView!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - self.header!.frame.maxY - self.pointSection!.frame.height)
-        self.pointSection?.frame = CGRectMake(0, bounds.height - 46 , bounds.width, 46)
-        self.close!.frame = CGRectMake(0.0, 20, 40.0, 40.0)
-        self.titleLabel!.frame =  CGRectMake(40.0 , 20, bounds.width - 40 , 46)
+        self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.maxX, height: 66)
+        self.collectionView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.maxY - self.pointSection!.frame.height)
+        self.pointSection?.frame = CGRect(x: 0, y: bounds.height - 46 , width: bounds.width, height: 46)
+        self.close!.frame = CGRect(x: 0.0, y: 20, width: 40.0, height: 40.0)
+        self.titleLabel!.frame =  CGRect(x: 40.0 , y: 20, width: bounds.width - 40 , height: 46)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
       
         self.buildButtonSection()
@@ -111,14 +131,14 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
             var x: CGFloat = 0.0
             let sep: CGFloat = 5.0
             for idx in 0 ..< size! {
-                let point = UIButton(type: .Custom)
-                point.frame = CGRectMake(x, 0, bsize, bsize)
-                point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Highlighted)
-                point.addTarget(self, action: #selector(ImageDisplayCollectionViewController.pointSelected(_:)), forControlEvents: .TouchUpInside)
-                point.selected = idx == self.currentItem!
-                x = CGRectGetMaxX(point.frame)
+                let point = UIButton(type: .custom)
+                point.frame = CGRect(x: x, y: 0, width: bsize, height: bsize)
+                point.setImage(UIImage(named: "bannerContentOff"), for: UIControlState())
+                point.setImage(UIImage(named: "bannerContentOn"), for: .selected)
+                point.setImage(UIImage(named: "bannerContentOn"), for: .highlighted)
+                point.addTarget(self, action: #selector(ImageDisplayCollectionViewController.pointSelected(_:)), for: .touchUpInside)
+                point.isSelected = idx == self.currentItem!
+                x = point.frame.maxX
                 if idx < size {
                     x += sep
                 }
@@ -130,7 +150,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
                 buttons.append(point)
             }
             let pbounds = self.pointSection!.frame
-            self.pointContainer!.frame = CGRectMake((pbounds.size.width - x)/2,  (20.0 - bsize)/2, x, 20.0)
+            self.pointContainer!.frame = CGRect(x: (pbounds.size.width - x)/2,  y: (20.0 - bsize)/2, width: x, height: 20.0)
         }
       
         self.pointButtons = buttons
@@ -143,30 +163,30 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         pointSelected(selectedButton!)
     }
     
-    func pointSelected(sender:UIButton) {
+    func pointSelected(_ sender:UIButton) {
         for button: UIButton in self.pointButtons! {
-            button.selected = button === sender
+            button.isSelected = button === sender
         }
-        if let idx = (self.pointButtons!).indexOf(sender) {
-            self.collectionView!.scrollToItemAtIndexPath(NSIndexPath(forItem: idx, inSection: 0),
-                atScrollPosition: .CenteredHorizontally, animated: false)
+        if let idx = (self.pointButtons!).index(of: sender) {
+            self.collectionView!.scrollToItem(at: IndexPath(item: idx, section: 0),
+                at: .centeredHorizontally, animated: false)
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.collectionView!.contentOffset.x / self.collectionView!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
-        if let button = nsarray.objectAtIndex(self.currentItem!) as? UIButton {
+        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
             for inner: UIButton in self.pointButtons! {
-                inner.selected = button === inner
+                inner.isSelected = button === inner
             }
         }
     }
     
     // MARK: - Actionw
     func closeModal() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_PRODUCTDETAIL.rawValue, label: "")
         
     }
@@ -175,11 +195,11 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
 
     // MARK: UICollectionViewDataSource
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var size = 0
         if let count = self.imagesToDisplay?.count {
             size = count
@@ -187,10 +207,10 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         return size
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! ImageDisplayCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ImageDisplayCollectionViewCell
         
-        var indexView = indexPath.row
+        var indexView = (indexPath as NSIndexPath).row
         
         if self.pointContainer == nil{
             indexView = self.currentItem!
@@ -207,13 +227,13 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
 
     // MARK: UICollectionViewDelegate
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
     }
 
     // MARK: - UICollectionViewDelegateFlowLayout
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return self.collectionView!.frame.size
     }
     

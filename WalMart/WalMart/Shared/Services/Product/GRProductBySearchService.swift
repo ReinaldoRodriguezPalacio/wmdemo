@@ -24,7 +24,7 @@ class GRProductBySearchService: GRBaseService {
     }
     
     
-    func buildParamsForSearch(text text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:AnyObject]! {
+    func buildParamsForSearch(text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:AnyObject]! {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
@@ -44,7 +44,7 @@ class GRProductBySearchService: GRBaseService {
                 ,"parameter":parameter] as [String:AnyObject]
         }
         return [
-            JSON_KEY_TEXT:(text != nil ? text! : ""), //"pText"
+            JSON_KEY_TEXT:(text ?? ""), //"pText"
             JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""), //"idDepartment"
             JSON_KEY_IDFAMILY:(idFamily != nil ? idFamily! : ""), //"idFamily"
             JSON_KEY_IDLINE:(idLine != nil ? idLine! : ""), //"idLine"
@@ -55,7 +55,7 @@ class GRProductBySearchService: GRBaseService {
         ] as [String:AnyObject]
     }
 
-    func callService(params:NSDictionary, successBlock:((NSArray,facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:NSDictionary, successBlock:((NSArray,_ facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
         self.jsonFromObject(params)
         self.callPOSTService(params,
@@ -80,14 +80,14 @@ class GRProductBySearchService: GRBaseService {
                         var item = items[idx] as! [String:AnyObject]
                         if let promodesc = item["promoDescription"] as? String{
                             if promodesc != "null" {
-                                item["saving"] = promodesc
+                                item["saving"] = promodesc as AnyObject?
                             }
                         }
                         item["pesable"] =  item["type"] as! NSString
-                        item["type"] = ResultObjectType.Groceries.rawValue
-                        newItemsArray.append(item)
+                        item["type"] = ResultObjectType.Groceries.rawValue as AnyObject?
+                        newItemsArray.append(item as AnyObject)
                     }
-                    successBlock?(newItemsArray, facet: facets)
+                    successBlock?(newItemsArray, facets)
                 }
                 
                 //Search service Text
@@ -102,14 +102,14 @@ class GRProductBySearchService: GRBaseService {
                             var item = items[idx] as! [String:AnyObject]
                             if let promodesc = item["promoDescription"] as? String{
                                 if promodesc != "null" {
-                                    item["saving"] = promodesc
+                                    item["saving"] = promodesc as AnyObject?
                                 }
                             }
-                            newItemsArray.append(item)
+                            newItemsArray.append(item as AnyObject)
                         }
                     }
                     
-                    successBlock?(newItemsArray, facet: facets)
+                    successBlock?(newItemsArray, facets)
                 }
             },
             errorBlock: { (error:NSError) -> Void in

@@ -36,13 +36,13 @@ class ProductDetailService : BaseService {
 //        return upc
 //    }
     
-    func buildMustangParams(upc:String,skuId:String) -> NSDictionary{
+    func buildMustangParams(_ upc:String,skuId:String) -> NSDictionary{
     
         return ["upc":upc,"skuId":skuId]
     }
     
-    func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callService(requestParams:UPC as AnyObject,successBlock: successBlock, errorBlock: errorBlock)
     }
     
     

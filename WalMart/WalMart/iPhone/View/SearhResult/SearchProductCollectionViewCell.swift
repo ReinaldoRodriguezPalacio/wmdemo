@@ -9,8 +9,8 @@
 import Foundation
 
 protocol SearchProductCollectionViewCellDelegate{
-    func selectGRQuantityForItem(cell: SearchProductCollectionViewCell)
-    func selectMGQuantityForItem(cell: SearchProductCollectionViewCell)
+    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell)
+    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell)
 }
 
 class SearchProductCollectionViewCell: ProductCollectionViewCell  {
@@ -45,40 +45,40 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         //presale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
-        imagePresale.hidden =  true
+        imagePresale.isHidden =  true
         self.addSubview(imagePresale)
         
-        self.productPriceThroughLabel = UILabel(frame:CGRectZero)
-        self.productPriceThroughLabel!.textAlignment = .Center
+        self.productPriceThroughLabel = UILabel(frame:CGRect.zero)
+        self.productPriceThroughLabel!.textAlignment = .center
         //self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
         //self.productPriceThroughLabel!.textColor = WMColor.green
         
         self.productShortDescriptionLabel!.textColor = WMColor.reg_gray
-        self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
+        self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.center
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
-        productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
+        productShortDescriptionLabel?.lineBreakMode =  .byTruncatingTail
         
-        self.picturesView = UIView(frame: CGRectZero)
+        self.picturesView = UIView(frame: CGRect.zero)
         self.contentView.addSubview(picturesView!)
         
         self.addProductToShopingCart = UIButton()
-        self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
-        self.addProductToShopingCart!.addTarget(self, action: #selector(SearchProductCollectionViewCell.addProductToShoping), forControlEvents: UIControlEvents.TouchUpInside)
+        self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), for: UIControlState())
+        self.addProductToShopingCart!.addTarget(self, action: #selector(SearchProductCollectionViewCell.addProductToShoping), for: UIControlEvents.touchUpInside)
        
         self.contentView.addSubview(productPriceThroughLabel!)
        
-        let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth() - 1, 0,AppDelegate.separatorHeigth(), self.frame.height ))
+        let borderView = UIView(frame: CGRect(x: self.frame.width - AppDelegate.separatorHeigth() - 1, y: 0,width: AppDelegate.separatorHeigth(), height: self.frame.height ))
         borderView.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderView)
         
-        let borderViewTop = UIView(frame: CGRectMake(0, self.frame.height - AppDelegate.separatorHeigth() , self.frame.width,AppDelegate.separatorHeigth()))
+        let borderViewTop = UIView(frame: CGRect(x: 0, y: self.frame.height - AppDelegate.separatorHeigth() , width: self.frame.width,height: AppDelegate.separatorHeigth()))
         borderViewTop.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderViewTop)
         
         self.contentView.addSubview(addProductToShopingCart!)
         
-        self.addProductToShopingCart!.bringSubviewToFront(self.contentView)
+        self.addProductToShopingCart!.bringSubview(toFront: self.contentView)
         
         self.promotiosView = UIView()
         self.contentView.addSubview(promotiosView!)
@@ -88,24 +88,24 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2),14 , 95, 95)
-        self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 44, 0, 44 , 44)
-        self.productPriceLabel!.frame = CGRectMake(8, self.productImage!.frame.maxY + 6, self.bounds.width - 16 , 18)
-        self.productPriceThroughLabel!.frame = CGRectMake(8, self.productPriceLabel!.frame.maxY, self.bounds.width - 16 , 12)
-        self.productShortDescriptionLabel!.frame = CGRectMake(8,  self.productPriceThroughLabel!.frame.maxY, self.frame.width - 16 , 46)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (100 / 2),y: 14 , width: 95, height: 95)
+        self.addProductToShopingCart!.frame = CGRect(x: self.bounds.maxX - 44, y: 0, width: 44 , height: 44)
+        self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 6, width: self.bounds.width - 16 , height: 18)
+        self.productPriceThroughLabel!.frame = CGRect(x: 8, y: self.productPriceLabel!.frame.maxY, width: self.bounds.width - 16 , height: 12)
+        self.productShortDescriptionLabel!.frame = CGRect(x: 8,  y: self.productPriceThroughLabel!.frame.maxY, width: self.frame.width - 16 , height: 46)
         
         if IS_IPAD {
-            self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2),22, 95, 95)
-            self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 52, 8, 44 , 44)
-            self.productPriceLabel!.frame = CGRectMake(8, self.productImage!.frame.maxY + 16, self.bounds.width - 16 , 18)
-            self.productPriceThroughLabel!.frame = CGRectMake(8, self.productPriceLabel!.frame.maxY + 8, self.bounds.width - 16 , 12)
-            self.productShortDescriptionLabel!.frame = CGRectMake(40,  self.productPriceThroughLabel!.frame.maxY + 16, self.frame.width - 80 , 46)
+            self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (100 / 2),y: 22, width: 95, height: 95)
+            self.addProductToShopingCart!.frame = CGRect(x: self.bounds.maxX - 52, y: 8, width: 44 , height: 44)
+            self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 16, width: self.bounds.width - 16 , height: 18)
+            self.productPriceThroughLabel!.frame = CGRect(x: 8, y: self.productPriceLabel!.frame.maxY + 8, width: self.bounds.width - 16 , height: 12)
+            self.productShortDescriptionLabel!.frame = CGRect(x: 40,  y: self.productPriceThroughLabel!.frame.maxY + 16, width: self.frame.width - 80 , height: 46)
         }
         
-        self.promotiosView?.frame = CGRectMake(0.0, 8.0, 30, 140)
+        self.promotiosView?.frame = CGRect(x: 0.0, y: 8.0, width: 30, height: 140)
     }
     
-    func setValueArray(plpArray:NSArray){
+    func setValueArray(_ plpArray:NSArray){
         if plpArray.count > 0 {
             if self.promotiosView != nil {
                 for subview in self.promotiosView!.subviews {
@@ -119,12 +119,12 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
     }
     
-    func setValues(upc:String,skuId:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String, isMoreArts:Bool, isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
+    func setValues(_ upc:String,skuId:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String, isMoreArts:Bool, isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         self.positionSelected = position
-        imagePresale.hidden = !isPreorderable
-        imagePresale.frame = CGRectMake(-1, 0, imagePresale.frame.width, imagePresale.frame.height)
+        imagePresale.isHidden = !isPreorderable
+        imagePresale.frame = CGRect(x: -1, y: 0, width: imagePresale.frame.width, height: imagePresale.frame.height)
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
@@ -145,11 +145,11 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
         
         if savingPrice != ""{
-            self.productPriceThroughLabel!.hidden = false
+            self.productPriceThroughLabel!.isHidden = false
             self.productPriceThroughLabel.text = savingPrice
             self.productPriceThroughLabel.font = WMFont.fontMyriadProSemiboldOfSize(12)
         } else{
-            self.productPriceThroughLabel!.hidden = true
+            self.productPriceThroughLabel!.isHidden = true
         }
         
         self.upc = upc
@@ -157,7 +157,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.desc = productShortDescription
         self.imageURL = productImageURL
         self.price = productPrice
-        self.onHandInventory = String(onHandInventory)
+        self.onHandInventory = String(onHandInventory) as NSString
         self.type = "MG"
         self.pesable = pesable
         self.isPreorderable = "\(isPreorderable)"
@@ -168,22 +168,22 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         isDisabled = false
         if isActive == false || onHandInventory == 0  {
-            self.addProductToShopingCart!.setImage(UIImage(named: "products_cart_disabled"), forState: UIControlState.Normal)
+            self.addProductToShopingCart!.setImage(UIImage(named: "products_cart_disabled"), for: UIControlState())
             isDisabled = true
         }else{
             if isInShoppingCart {
-                self.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState:UIControlState.Normal)
+                self.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
-                self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
+                self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), for: UIControlState())
             }
         }
         serachFromList = isFormList
         if isFormList {
             if productInlist {
-                self.addProductToShopingCart!.setImage(UIImage(named: "addedtolist_icon"), forState: UIControlState.Normal)
+                self.addProductToShopingCart!.setImage(UIImage(named: "addedtolist_icon"), for: UIControlState())
 
             }else{
-                self.addProductToShopingCart!.setImage(UIImage(named: "addtolist_icon"), forState: UIControlState.Normal)
+                self.addProductToShopingCart!.setImage(UIImage(named: "addtolist_icon"), for: UIControlState())
             }
         }
     }

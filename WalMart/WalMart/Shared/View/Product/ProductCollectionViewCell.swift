@@ -20,14 +20,14 @@ class ProductCollectionViewCell : UICollectionViewCell {
     var hideImage : UIView!
     var completeimageaction : (() -> Void)?
     
-    let contentModeOrig = UIViewContentMode.ScaleAspectFit
+    let contentModeOrig = UIViewContentMode.scaleAspectFit
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
-    init(frame: CGRect,loadImage:(() -> Void)) {
+    init(frame: CGRect,loadImage:@escaping (() -> Void)) {
         super.init(frame: frame)
         completeimageaction = loadImage
         setup()
@@ -52,7 +52,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         productShortDescriptionLabel!.textColor =  WMColor.reg_gray
         productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
         productShortDescriptionLabel!.minimumScaleFactor = 9 / 12
-        productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)
+        productPriceLabel = CurrencyCustomLabel(frame: CGRect.zero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
         //productPriceLabel!.textColor = WMColor.orange
     
@@ -62,26 +62,26 @@ class ProductCollectionViewCell : UICollectionViewCell {
     
     }
     
-    func setImage (image : UIImage){
+    func setImage (_ image : UIImage){
            placeHolderImage = image
         self.productImage!.image = image
     }
     
-    func setValues(productImageURL:String,productShortDescription:String,productPrice:String) {
+    func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String) {
         
         
         //upcProduct = productShortDescription
         
         let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)")
 
-        self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURL(NSURL(string: productImageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.productImage!.contentMode = UIViewContentMode.center
+        self.productImage!.setImageWith(URL(string: productImageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
                 self.productImage!.contentMode = self.contentModeOrig
                 self.productImage!.image = image
                 if self.completeimageaction != nil {
                     self.completeimageaction!()
                 }
-            }, failure: { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+            }, failure: { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
                 if self.completeimageaction != nil {
                     self.completeimageaction!()
                 }
@@ -93,7 +93,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
         
         if hideImage != nil {
-            hideImage.hidden = true
+            hideImage.isHidden = true
         }
         
     }
@@ -101,15 +101,15 @@ class ProductCollectionViewCell : UICollectionViewCell {
     func hideImageView() {
         if hideImage == nil {
             hideImage = UIView(frame:self.productImage!.bounds)
-            hideImage.backgroundColor = UIColor.whiteColor()
+            hideImage.backgroundColor = UIColor.white
             self.productImage!.addSubview(hideImage)
         }
-        hideImage.hidden = false
+        hideImage.isHidden = false
     }
     
     func showImageView() {
         if hideImage != nil {
-            hideImage.hidden = true
+            hideImage.isHidden = true
         }
     }
     

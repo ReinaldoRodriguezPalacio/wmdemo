@@ -8,25 +8,45 @@
 
 import Foundation
 import CoreData
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class LoginWithEmailService : BaseService {
     
     var loginIdGR = ""
     
     
-    func buildParams(email:String,password: String) -> NSDictionary {
-        let lowCaseUser = email.lowercaseString
+    func buildParams(_ email:String,password: String) -> NSDictionary {
+        let lowCaseUser = email.lowercased()
         return ["email":lowCaseUser]
     }
   
    
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !UserCurrentSession.sharedInstance().userSignedOnService {
             UserCurrentSession.sharedInstance().userSignedOnService = true
             self.callPOSTService(params, successBlock: { (loginResult:NSDictionary) -> Void in
                 self.jsonFromObject(loginResult)
                 if let codeMessage = loginResult["codeMessage"] as? NSNumber {
-                    if codeMessage.integerValue == 0 &&  UserCurrentSession.hasLoggedUser(){
+                    if codeMessage.intValue == 0 &&  UserCurrentSession.hasLoggedUser(){
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUser
                         if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
                             let idUser = loginResult["idUser"] as! String
@@ -62,10 +82,10 @@ class LoginWithEmailService : BaseService {
     }
 
     
-    func callServiceForSocialApps(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callServiceForSocialApps(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
-                if codeMessage.integerValue == 0 {
+                if codeMessage.intValue == 0 {
                     let resultLogin = resultCall
                      let idUser = resultLogin["idUser"] as! String
                     let profileService = UserProfileService()

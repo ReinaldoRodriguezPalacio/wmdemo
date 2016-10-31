@@ -18,19 +18,19 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     override func setup() {
         super.setup()
         
-        collection.registerClass(ShoppingCartCrossSellItemCollectionViewCell.self, forCellWithReuseIdentifier: "shoppingCartCrossSellCell")
+        collection.register(ShoppingCartCrossSellItemCollectionViewCell.self, forCellWithReuseIdentifier: "shoppingCartCrossSellCell")
         
-        labelTitle = UILabel(frame: CGRectMake(16, 13, self.frame.width - 32, 14))
+        labelTitle = UILabel(frame: CGRect(x: 16, y: 13, width: self.frame.width - 32, height: 14))
         labelTitle.font = WMFont.fontMyriadProLightOfSize(14)
         labelTitle.textColor = WMColor.orange
         labelTitle.text = NSLocalizedString("shoppingcart.beforeleave",comment:"")
         self.addSubview(labelTitle)
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("shoppingCartCrossSellCell", forIndexPath: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: "shoppingCartCrossSellCell", for: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
         let upc = itemUPC["upc"] as? String ?? ""
 
         let desc = itemUPC["description"] as! String
@@ -43,9 +43,9 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
         let upc = itemUPC["upc"] as! String
         
         let shoppingCartItems  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
@@ -97,7 +97,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_BEFORE_TO_GO.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "\(desc) - \(upc)")
             
             let params = CustomBarViewController.buildParamsUpdateShoppingCart(skuId, upc:upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1",onHandInventory:numOnHandInventory,pesable:"0",isPreorderable:isPreorderable)
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
         }else {
             
             let alert = IPAWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))

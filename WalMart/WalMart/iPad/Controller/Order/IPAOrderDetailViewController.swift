@@ -15,14 +15,14 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     override func viewWillLayoutSubviews() {
         
         if self.titleLabel != nil && self.titleLabel!.frame.width == 0 {
-            self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-            self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
+            self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46)
+            self.titleLabel!.frame = CGRect(x: 46, y: 0, width: self.header!.frame.width - 92, height: self.header!.frame.maxY)
         }
         if backButton != nil{
-            self.backButton!.frame = CGRectMake(0, 0  ,46,46)
+            self.backButton!.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)
         }
         
-        self.tableDetailOrder.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
     /*override func shareList() {
@@ -53,8 +53,8 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             self.viewLoad!.removeFromSuperview()
             self.viewLoad = nil
         }
-            self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, 681.5, self.view.frame.height - 46))
-            self.viewLoad!.backgroundColor = UIColor.whiteColor()
+            self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: 681.5, height: self.view.frame.height - 46))
+            self.viewLoad!.backgroundColor = UIColor.white
             self.view.addSubview(self.viewLoad!)
             self.viewLoad!.startAnnimating(self.isVisibleTab)
     }
@@ -67,18 +67,18 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     override func willHideTabbar() {
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let _ = tableView.cellForRowAtIndexPath(indexPath) as? OrderProductTableViewCell {
+        if let _ = tableView.cellForRow(at: indexPath) as? OrderProductTableViewCell {
             
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems(indexPath.section)
-            controller.ixSelected = indexPath.row
+            controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section)
+            controller.ixSelected = (indexPath as NSIndexPath).row
             if !showFedexGuide {
-                controller.ixSelected = indexPath.row - 2
+                controller.ixSelected = (indexPath as NSIndexPath).row - 2
             }
             
-            if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
+            if let navCtrl = self.navigationController!.parent as UIViewController! {
                 navCtrl.navigationController!.pushViewController(controller, animated: true)
             }
         }

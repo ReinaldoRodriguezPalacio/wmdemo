@@ -15,7 +15,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
     var itemsUserList: [AnyObject]? = []
     var alertView: IPOWMAlertViewController?
     
-    func invokeSaveListToDuplicateService(forListId products:[AnyObject], andName listName:String,successDuplicateList:(() -> Void)) {
+    func invokeSaveListToDuplicateService(forListId products:[AnyObject], andName listName:String,successDuplicateList:@escaping (() -> Void)) {
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         
@@ -33,11 +33,11 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                         }
                         
                         if let sku = product["sku"] as? NSDictionary {
-                            if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                                if let itemParent =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                                if let itemParent =  parentProducts.object(at: 0) as? NSDictionary {
                                     
                                     //let itemAdd = service.buildProductObject(upc: itemParent["repositoryId"] as! String, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
-                                    let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku.objectForKey("id") as! String , quantity: Int(quantity)!)
+                                    let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku.object(forKey: "id") as! String , quantity: Int(quantity)!)
                                     items.append(itemAdd)
                                 }
                             }
@@ -82,14 +82,14 @@ class UserListNavigationBaseViewController :  NavigationViewController {
     
     
     
-    func buildDuplicateNameList(theName:String) -> String {
+    func buildDuplicateNameList(_ theName:String) -> String {
         var listName = "\(theName)" //Se crea una nueva instancia
-        let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        let whitespaceset = CharacterSet.whitespaces
         var arrayOfIndex: [Int] = []
-        if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
-            listName = listName.substringToIndex(range.startIndex)
+        if let range = listName.range(of: "copia", options: .literal, range: nil, locale: nil) {
+            listName = listName.substring(to: range.lowerBound)
         }
-        listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
+        listName = listName.trimmingCharacters(in: whitespaceset)
         
         if itemsUserList!.count > 0 {
             for idx in 0 ..< itemsUserList!.count {
@@ -107,13 +107,13 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 }
                 
                 if name != nil {
-                    if let range = name!.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
-                        stringIndex = name!.substringFromIndex(range.endIndex)
-                        name = name!.substringToIndex(range.startIndex)
+                    if let range = name!.range(of: "copia", options: .literal, range: nil, locale: nil) {
+                        stringIndex = name!.substring(from: range.upperBound)
+                        name = name!.substring(to: range.lowerBound)
                     }
-                    name = name!.stringByTrimmingCharactersInSet(whitespaceset)
+                    name = name!.trimmingCharacters(in: whitespaceset)
                     if stringIndex != nil {
-                        stringIndex = stringIndex!.stringByTrimmingCharactersInSet(whitespaceset)
+                        stringIndex = stringIndex!.trimmingCharacters(in: whitespaceset)
                         if name!.hasPrefix(listName) {
                             stringIndex = stringIndex! == "" ? "1" : stringIndex
                             arrayOfIndex.append(Int(stringIndex!)!)
@@ -123,7 +123,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             }
         }
         let listIndexes = Set([1,2,3,4,5,6,7,8,9,10,11,12])
-        let dispinibleIndex = listIndexes.subtract(arrayOfIndex).minElement()
+        let dispinibleIndex = listIndexes.subtracting(arrayOfIndex).min()
         let idxTxt = dispinibleIndex! == 1 ? NSLocalizedString("list.copy.name", comment: "") : "\(NSLocalizedString("list.copy.name", comment: "")) \(dispinibleIndex!)"
         
         /*if self.existnameList("\(listName) \(idxTxt)"){
@@ -132,7 +132,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         
         var returnName =  "\(listName) \(idxTxt)"
         if returnName.length() > 25 {
-            returnName = (returnName as NSString).substringToIndex(24)
+            returnName = (returnName as NSString).substring(to: 24)
             returnName = "\(returnName)\(dispinibleIndex!)"
         }
         

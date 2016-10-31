@@ -10,12 +10,12 @@ import Foundation
 
 class GRProductByTicket: GRBaseService {
 
-    func buildParams(ticket:String) -> [String:AnyObject] {
+    func buildParams(_ ticket:String) -> [String:AnyObject] {
         //{"number":"GQ9$JAQ+9B+-ORE5"}
-        return ["number":ticket] as [String:AnyObject]
+        return ["number":ticket as AnyObject] as [String:AnyObject]
     }
 
-    func callService(params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print(params)
         self.callPOSTService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
@@ -30,16 +30,16 @@ class GRProductByTicket: GRBaseService {
         )
     }
 
-    override func validateCodeMessage(response:NSDictionary) -> NSError? {
+    override func validateCodeMessage(_ response:NSDictionary) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
             let message = response["message"] as! NSString
-            if codeMessage.integerValue == -12 {
+            if codeMessage.intValue == -12 {
                 print("WARNING : Response with warning \(message)")
                 return nil
             }
-            if codeMessage.integerValue != 0 {
+            if codeMessage.intValue != 0 {
                 print("ERROR : Response with error \(message)")
-                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:message])
+                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }
         return nil

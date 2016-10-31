@@ -23,11 +23,11 @@ class DisplaySlotsService: GRBaseService{
 //    }
     
     
-    func buildParamsHomeDelivery(deliveryType:String) -> NSDictionary{
+    func buildParamsHomeDelivery(_ deliveryType:String) -> NSDictionary{
         return ["deliveryType":deliveryType]
     }
     
-    func buildParamsStorePickUp(storePickUp:String) -> NSDictionary{
+    func buildParamsStorePickUp(_ storePickUp:String) -> NSDictionary{
         return ["deliveryType":storePickUp]
     }
     

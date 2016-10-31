@@ -16,7 +16,7 @@ class SliderTableViewCell: UITableViewCell {
 
     var maxLabel: CurrencyCustomLabel?
     var minLabel: CurrencyCustomLabel?
-    var currencyFmt: NSNumberFormatter?
+    var currencyFmt: NumberFormatter?
     var slider: NMRangeSlider?
     var delegate: SliderTableViewCellDelegate?
 
@@ -39,31 +39,31 @@ class SliderTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = .None
+        self.selectionStyle = .none
 
-        self.minLabel = CurrencyCustomLabel(frame: CGRectZero)
-        self.minLabel!.backgroundColor = UIColor.clearColor()
+        self.minLabel = CurrencyCustomLabel(frame: CGRect.zero)
+        self.minLabel!.backgroundColor = UIColor.clear
         self.contentView.addSubview(self.minLabel!)
 
-        self.maxLabel = CurrencyCustomLabel(frame: CGRectZero)
-        self.maxLabel!.backgroundColor = UIColor.clearColor()
+        self.maxLabel = CurrencyCustomLabel(frame: CGRect.zero)
+        self.maxLabel!.backgroundColor = UIColor.clear
         self.contentView.addSubview(self.maxLabel!)
         
-        self.slider = NMRangeSlider(frame: CGRectMake(15.0, 0.0, 290.0, 35.0))
+        self.slider = NMRangeSlider(frame: CGRect(x: 15.0, y: 0.0, width: 290.0, height: 35.0))
         self.slider!.stepValue = 0.2
         self.slider!.stepValueContinuously = true
         self.slider!.continuous = false
-        self.slider!.addTarget(self, action: #selector(SliderTableViewCell.report(_:)), forControlEvents: .ValueChanged)
+        self.slider!.addTarget(self, action: #selector(SliderTableViewCell.report(_:)), for: .valueChanged)
         self.contentView.addSubview(self.slider!)
         
-        self.currencyFmt = NSNumberFormatter()
-        self.currencyFmt!.numberStyle = .CurrencyStyle
+        self.currencyFmt = NumberFormatter()
+        self.currencyFmt!.numberStyle = .currency
         self.currencyFmt!.minimumFractionDigits = 2
         self.currencyFmt!.maximumFractionDigits = 2
 
     }
     
-    func setValuesSlider(priceValues:NSArray) {
+    func setValuesSlider(_ priceValues:NSArray) {
         if  self.minValue == 0 && self.maxValue == 0 {
             self.minValue = priceValues.firstObject as! Double
             self.maxValue = priceValues.lastObject as! Double
@@ -78,7 +78,7 @@ class SliderTableViewCell: UITableViewCell {
         self.slider!.stepValueContinuously = true
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -86,15 +86,15 @@ class SliderTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         let bounds = self.frame.size
-        self.contentView.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
-        self.slider!.frame = CGRectMake(15.0, bounds.height - 45.0, bounds.width - 30.0, 35.0)
+        self.contentView.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height)
+        self.slider!.frame = CGRect(x: 15.0, y: bounds.height - 45.0, width: bounds.width - 30.0, height: 35.0)
         if self.slider!.lowerValue == 0 && self.slider!.upperValue == 1.0 {
             var size = self.minLabel!.sizeOfLabel()
-            self.minLabel!.frame = CGRectMake(15.0, 20.0, size.width, size.height)
-            self.minLabel!.center = CGPointMake(11.0 + (self.slider!.frame.height/2), self.minLabel!.center.y)
+            self.minLabel!.frame = CGRect(x: 15.0, y: 20.0, width: size.width, height: size.height)
+            self.minLabel!.center = CGPoint(x: 11.0 + (self.slider!.frame.height/2), y: self.minLabel!.center.y)
             size = self.maxLabel!.sizeOfLabel()
-            self.maxLabel!.frame = CGRectMake(bounds.width - (15.0 + size.width), 20.0, size.width, size.height)
-            self.maxLabel!.center = CGPointMake(CGRectGetMaxX(self.slider!.frame) - (self.slider!.frame.height/2) - 4, self.maxLabel!.center.y)
+            self.maxLabel!.frame = CGRect(x: bounds.width - (15.0 + size.width), y: 20.0, width: size.width, height: size.height)
+            self.maxLabel!.center = CGPoint(x: self.slider!.frame.maxX - (self.slider!.frame.height/2) - 4, y: self.maxLabel!.center.y)
         }
         else {
             self.layoutMounts()
@@ -104,46 +104,46 @@ class SliderTableViewCell: UITableViewCell {
     func layoutMounts() {
         let oldMin = self.minLabel!.center
         let sizeMin = self.minLabel!.sizeOfLabel()
-        self.minLabel!.frame = CGRectMake(15.0, 10.0, sizeMin.width, sizeMin.height)
-        self.minLabel!.center = CGPointMake((self.slider!.lowerCenter.x + self.slider!.frame.origin.x) , oldMin.y)
+        self.minLabel!.frame = CGRect(x: 15.0, y: 10.0, width: sizeMin.width, height: sizeMin.height)
+        self.minLabel!.center = CGPoint(x: (self.slider!.lowerCenter.x + self.slider!.frame.origin.x) , y: oldMin.y)
         
         let oldMax = self.minLabel!.center
         let sizeMax = self.maxLabel!.sizeOfLabel()
-        self.maxLabel!.frame = CGRectMake(0.0, 0.0, sizeMax.width, sizeMax.height)
-        self.maxLabel!.center = CGPointMake((self.slider!.upperCenter.x + self.slider!.frame.origin.x) - 6, oldMax.y)
+        self.maxLabel!.frame = CGRect(x: 0.0, y: 0.0, width: sizeMax.width, height: sizeMax.height)
+        self.maxLabel!.center = CGPoint(x: (self.slider!.upperCenter.x + self.slider!.frame.origin.x) - 6, y: oldMax.y)
         
-        let differenceLabels = CGRectGetMaxX(self.minLabel!.frame) - CGRectGetMinX(self.maxLabel!.frame)
+        let differenceLabels = self.minLabel!.frame.maxX - self.maxLabel!.frame.minX
         if differenceLabels < 0 && differenceLabels > -3.0{
-           self.minLabel!.center = CGPointMake(self.minLabel!.center.x - 11.0, self.minLabel!.center.y)
+           self.minLabel!.center = CGPoint(x: self.minLabel!.center.x - 11.0, y: self.minLabel!.center.y)
         }
         
-        if CGRectIntersectsRect(self.minLabel!.frame, self.maxLabel!.frame) {
-            var diff = CGRectGetMaxX(self.minLabel!.frame) - CGRectGetMinX(self.maxLabel!.frame)
-            let minf: CGFloat = CGRectGetMinX(self.slider!.frame)
-            let maxf: CGFloat = CGRectGetMaxX(self.slider!.frame)
-            if minf >= CGRectGetMinX(self.minLabel!.frame) {
-                self.maxLabel!.center = CGPointMake(self.maxLabel!.center.x + (diff + 6.0), self.maxLabel!.center.y)
+        if self.minLabel!.frame.intersects(self.maxLabel!.frame) {
+            var diff = self.minLabel!.frame.maxX - self.maxLabel!.frame.minX
+            let minf: CGFloat = self.slider!.frame.minX
+            let maxf: CGFloat = self.slider!.frame.maxX
+            if minf >= self.minLabel!.frame.minX {
+                self.maxLabel!.center = CGPoint(x: self.maxLabel!.center.x + (diff + 6.0), y: self.maxLabel!.center.y)
             }
-            else if maxf <= CGRectGetMaxX(self.maxLabel!.frame) {
-                self.minLabel!.center = CGPointMake(self.minLabel!.center.x - (diff + 6.0), self.minLabel!.center.y)
+            else if maxf <= self.maxLabel!.frame.maxX {
+                self.minLabel!.center = CGPoint(x: self.minLabel!.center.x - (diff + 6.0), y: self.minLabel!.center.y)
             }
             else {
                 diff = round(diff/2)
-                self.maxLabel!.center = CGPointMake(self.maxLabel!.center.x + (diff + 3.0), self.maxLabel!.center.y)
-                self.minLabel!.center = CGPointMake(self.minLabel!.center.x - (diff - 3.0), self.minLabel!.center.y)
+                self.maxLabel!.center = CGPoint(x: self.maxLabel!.center.x + (diff + 3.0), y: self.maxLabel!.center.y)
+                self.minLabel!.center = CGPoint(x: self.minLabel!.center.x - (diff - 3.0), y: self.minLabel!.center.y)
             }
         }
     }
     
     func setAmountLabels(forMinAmount min:Double, andMaxAmount max:Double) {
-        self.minLabel!.updateMount(self.currencyFmt!.stringFromNumber(NSNumber(double: min))!,
+        self.minLabel!.updateMount(self.currencyFmt!.string(from: NSNumber(value: min as Double))!,
             fontInt:self.numFont, colorInt:self.labelColor, fontDecimal:self.centFont, colorDecimal:self.labelColor)
         
-        self.maxLabel!.updateMount(self.currencyFmt!.stringFromNumber(NSNumber(double: max))!,
+        self.maxLabel!.updateMount(self.currencyFmt!.string(from: NSNumber(value: max as Double))!,
             fontInt:self.numFont, colorInt:self.labelColor, fontDecimal:self.centFont, colorDecimal:self.labelColor)
     }
     
-    func report(slide: NMRangeSlider){
+    func report(_ slide: NMRangeSlider){
         let lower = Int(roundf(self.slider!.lowerValue/self.slider!.stepValue))
         let upper = Int(roundf(self.slider!.upperValue/self.slider!.stepValue))
         

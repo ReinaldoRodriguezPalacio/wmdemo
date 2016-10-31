@@ -27,7 +27,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
     }
 
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = IPAProductDetailPageViewController()
         var productsToShow:[AnyObject] = []
         for idx in 0 ..< self.detailItems!.count {
@@ -46,9 +46,9 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
         }
         controller.itemsToShow = productsToShow
-        controller.ixSelected = indexPath.row
+        controller.ixSelected = (indexPath as NSIndexPath).row
         
-        if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
+        if let navCtrl = self.navigationController!.parent as UIViewController! {
             navCtrl.navigationController!.pushViewController(controller, animated: true)
         }
     }
@@ -61,15 +61,15 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         let y = (self.footerSection!.frame.height - shareWidth)/2
         
         if !isShared {
-          tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+          tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
         }
-            self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72 , self.view.frame.width, 72)
-            self.duplicateButton?.frame = CGRectMake(145, y, 34.0, 34.0)
+            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 72 , width: self.view.frame.width, height: 72)
+            self.duplicateButton?.frame = CGRect(x: 145, y: y, width: 34.0, height: 34.0)
             
             x = self.duplicateButton!.frame.maxX + 16.0
-            self.shareButton!.frame = CGRectMake(x, y, shareWidth, shareWidth)
+            self.shareButton!.frame = CGRect(x: x, y: y, width: shareWidth, height: shareWidth)
             x = self.shareButton!.frame.maxX + separation
-            addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
+            addToCartButton?.frame = CGRect(x: x, y: y, width: 256, height: 34.0)//CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
             self.customLabel?.frame  = self.addToCartButton!.bounds
       
     }
@@ -84,23 +84,23 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
             //self.sharePopover!.backgroundColor = UIColor.greenColor()
-            let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
-            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            let rect = self.footerSection!.convert(self.shareButton!.frame, to: self.view.superview!)
+            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
         }
     }
     
      //MARK: Delegate item cell
-    override func didChangeQuantity(cell:DetailListViewCell){
+    override func didChangeQuantity(_ cell:DetailListViewCell){
         
                    
-            let indexPath = self.tableView!.indexPathForCell(cell)
+            let indexPath = self.tableView!.indexPath(for: cell)
             if indexPath == nil {
                 return
             }
             var isPesable = false
             var price: NSNumber? = nil
             
-            let item = self.detailItems![indexPath!.row]
+            let item = self.detailItems![(indexPath! as NSIndexPath).row]
             if let pesable = item["type"] as? NSString {
                 isPesable = pesable.intValue == 1
             }
@@ -112,45 +112,45 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             if TabBarHidden.isTabBarHidden {
                 height += 45.0
             }
-            _ = CGRectMake(0, self.view.frame.height, width, height)
+            _ = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
             if isPesable {
-                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
+                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
             }
             else {
-                self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,upcProduct:cell.upcVal!)
+                self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,upcProduct:cell.upcVal!)
             }
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
-                self.sharePopover!.dismissPopoverAnimated(true)
+                self.sharePopover!.dismiss(animated: true)
                 //self.removeSelector()
             }
             //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
-                var item = self.detailItems![indexPath!.row]
+                var item = self.detailItems![(indexPath! as NSIndexPath).row]
                 //var upc = item["upc"] as? String
-                item["quantity"] = NSNumber(integer:Int(quantity)!)
-                self.detailItems![indexPath!.row] = item
+                item["quantity"] = NSNumber(value: Int(quantity)! as Int)
+                self.detailItems![(indexPath! as NSIndexPath).row] = item
                 self.tableView?.reloadData()
                 //self.removeSelector()
                 self.updateTotalLabel()
-                self.sharePopover!.dismissPopoverAnimated(true)
+                self.sharePopover!.dismiss(animated: true)
                 //TODO: Update quantity
         }
         
-            self.quantitySelector!.backgroundColor = UIColor.clearColor()
-            self.quantitySelector!.backgroundView!.backgroundColor = UIColor.clearColor()
+            self.quantitySelector!.backgroundColor = UIColor.clear
+            self.quantitySelector!.backgroundView!.backgroundColor = UIColor.clear
             let controller = UIViewController()
-            controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 388.0)
+            controller.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0)
             controller.view.addSubview(self.quantitySelector!)
-            controller.view.backgroundColor = UIColor.clearColor()
+            controller.view.backgroundColor = UIColor.clear
             
             self.sharePopover = UIPopoverController(contentViewController: controller)
-            self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
+            self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 388.0)
             self.sharePopover!.delegate = self
             self.sharePopover!.backgroundColor = WMColor.light_blue
-            let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
-            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            let rect = cell.convert(cell.quantityIndicator!.frame, to: self.view.superview!)
+            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
             
 //            UIView.animateWithDuration(0.5, animations: { () -> Void in
 //                self.quantitySelector!.frame = CGRectMake(0.0, 0.0, width, height)
@@ -160,7 +160,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
     }
     
     //MARK: - UIPopoverControllerDelegate
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+    func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         self.sharePopover = nil
     }
 

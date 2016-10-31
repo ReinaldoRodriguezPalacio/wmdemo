@@ -23,7 +23,7 @@ class PLPLegendView: UIView, UIGestureRecognizerDelegate {
     }
     
     init(isvertical : Bool, PLPArray: NSArray, viewPresentLegend:UIView) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         self.arrayPlp = PLPArray
         self.isVertical = isvertical
@@ -59,15 +59,15 @@ class PLPLegendView: UIView, UIGestureRecognizerDelegate {
         if self.arrayPlp!.count > 0 {
             for lineToShow in self.arrayPlp! {
                 //Se muestran etiquetas para promociones, etc.
-                let promotion = UIView(frame: CGRectMake(xView, yView, widthView, heighView))
+                let promotion = UIView(frame: CGRect(x: xView, y: yView, width: widthView, height: heighView))
                 promotion.backgroundColor = lineToShow["color"] as? UIColor
                 promotion.layer.cornerRadius = 2.0
                 
-                let textLabel = UILabel(frame: CGRectMake(0, 0, widthView, heighView))
+                let textLabel = UILabel(frame: CGRect(x: 0, y: 0, width: widthView, height: heighView))
                 textLabel.text =  lineToShow["text"] as? String
-                textLabel.textColor = UIColor.whiteColor()
+                textLabel.textColor = UIColor.white
                 textLabel.font = WMFont.fontMyriadProRegularOfSize(9)
-                textLabel.textAlignment = .Center
+                textLabel.textAlignment = .center
                 promotion.addSubview(textLabel)
                 
                 self.addSubview(promotion)

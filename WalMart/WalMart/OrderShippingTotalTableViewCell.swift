@@ -28,27 +28,27 @@ class OrderShippingTotalTableViewCell  : UITableViewCell {
     }
     
     func setup() {
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         backgroundColor = WMColor.light_light_gray
         
         total = UILabel()
         total.text = NSLocalizedString("previousorder.total",comment:"")
         total.textColor = WMColor.orange
         total.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        total.textAlignment = .Right
-        total.frame = CGRectMake(146, 20, 101, 12)
+        total.textAlignment = .right
+        total.frame = CGRect(x: 146, y: 20, width: 101, height: 12)
         
         totalSavingTitle = UILabel()
         totalSavingTitle.text = NSLocalizedString("previousorder.saving",comment:"")
         totalSavingTitle.textColor =  WMColor.green
         totalSavingTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        totalSavingTitle.textAlignment = .Right
-        totalSavingTitle.frame = CGRectMake(146, 35, 101, 12)
+        totalSavingTitle.textAlignment = .right
+        totalSavingTitle.frame = CGRect(x: 146, y: 35, width: 101, height: 12)
         
-        valueTotal = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 8, total.frame.minY, 50, 12))
-        valueTotal.textAlignment = .Right
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 8, totalSavingTitle.frame.minY, 50, 12))
-        valueTotalSaving.textAlignment = .Right
+        valueTotal = CurrencyCustomLabel(frame: CGRect(x: total.frame.maxX + 8, y: total.frame.minY, width: 50, height: 12))
+        valueTotal.textAlignment = .right
+        valueTotalSaving = CurrencyCustomLabel(frame: CGRect(x: total.frame.maxX + 8, y: totalSavingTitle.frame.minY, width: 50, height: 12))
+        valueTotalSaving.textAlignment = .right
         
         self.addSubview(total)
         self.addSubview(totalSavingTitle)
@@ -59,15 +59,15 @@ class OrderShippingTotalTableViewCell  : UITableViewCell {
     
     override func layoutSubviews() {
         if IS_IPAD {
-            total.frame = CGRectMake(self.bounds.width - 175, 20, 101, 12)
-            totalSavingTitle.frame = CGRectMake(self.bounds.width - 175, 35, 101, 12)
+            total.frame = CGRect(x: self.bounds.width - 175, y: 20, width: 101, height: 12)
+            totalSavingTitle.frame = CGRect(x: self.bounds.width - 175, y: 35, width: 101, height: 12)
             
-            valueTotal.frame = CGRectMake(total.frame.maxX + 8, total.frame.minY, 50, 12)
-            valueTotalSaving.frame = CGRectMake(total.frame.maxX + 8, totalSavingTitle.frame.minY, 50, 12)
+            valueTotal.frame = CGRect(x: total.frame.maxX + 8, y: total.frame.minY, width: 50, height: 12)
+            valueTotalSaving.frame = CGRect(x: total.frame.maxX + 8, y: totalSavingTitle.frame.minY, width: 50, height: 12)
         }
     }
     
-    func setValues(total: String,totalSaving:String){
+    func setValues(_ total: String,totalSaving:String){
         
         let formatedTotal = CurrencyCustomLabel.formatString(total)
         valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)

@@ -7,6 +7,26 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollectionViewDelegate, UICollectionViewDataSource, ProductDetailColorSizeDelegate {
     
@@ -26,7 +46,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var currentItem: Int? = nil
     var freeShippingImage: UIImageView!
     var imageZoom: UIImageView!
-    let contentModeOrig = UIViewContentMode.ScaleAspectFit
+    let contentModeOrig = UIViewContentMode.scaleAspectFit
     
     var showPromotions: Bool = true
     var priceBefore : CurrencyCustomLabel!
@@ -55,47 +75,47 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     func setup() {
         let collectionLayout = UICollectionViewFlowLayout()
-        collectionLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
-        collection = UICollectionView(frame: CGRectMake(self.bounds.minX, self.bounds.minY, self.bounds.width, self.bounds.height - 54), collectionViewLayout: collectionLayout)
-        collection.registerClass(ProductDetailBannerMediaCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
+        collectionLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        collection = UICollectionView(frame: CGRect(x: self.bounds.minX, y: self.bounds.minY, width: self.bounds.width, height: self.bounds.height - 54), collectionViewLayout: collectionLayout)
+        collection.register(ProductDetailBannerMediaCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         collection.dataSource = self
         collection.delegate = self
-        collection.pagingEnabled = true
-        collection.backgroundColor = UIColor.whiteColor()
+        collection.isPagingEnabled = true
+        collection.backgroundColor = UIColor.white
         collection.showsHorizontalScrollIndicator = false
         
         self.imageZoom = UIImageView(frame: collection.frame)
         self.imageZoom.alpha = 0
-        self.imageZoom.contentMode = UIViewContentMode.ScaleAspectFit
+        self.imageZoom.contentMode = UIViewContentMode.scaleAspectFit
         
         self.pointSection = UIView()
-        self.pointSection?.backgroundColor = UIColor.clearColor()
+        self.pointSection?.backgroundColor = UIColor.clear
         self.currentItem = 0
         self.addSubview(collection)
         self.addSubview(self.imageZoom)
         self.addSubview(pointSection!)
         
         self.buildButtonSection()
-        self.colorsView = ProductDetailColorSizeView(frame: CGRectMake(0, self.pointSection!.frame.maxY,  self.frame.width, 60))
+        self.colorsView = ProductDetailColorSizeView(frame: CGRect(x: 0, y: self.pointSection!.frame.maxY,  width: self.frame.width, height: 60))
         self.colorsView.delegate = self
         self.colorsView.alpha = 0
         self.addSubview(colorsView)
         
-        self.sizesView = ProductDetailColorSizeView(frame: CGRectMake(0, self.pointSection!.frame.maxY,  self.frame.width, 60))
+        self.sizesView = ProductDetailColorSizeView(frame: CGRect(x: 0, y: self.pointSection!.frame.maxY,  width: self.frame.width, height: 60))
         self.sizesView.delegate = self
         self.sizesView.alpha = 0
         self.addSubview(sizesView)
     
-        priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
+        priceBefore = CurrencyCustomLabel(frame: CGRect(x: 0, y: self.pointSection!.frame.maxY  , width: self.frame.width, height: 15.0))
         self.addSubview(priceBefore)
-        price = CurrencyCustomLabel(frame: CGRectMake(0, self.priceBefore.frame.maxY  , self.frame.width, 24.0))
+        price = CurrencyCustomLabel(frame: CGRect(x: 0, y: self.priceBefore.frame.maxY  , width: self.frame.width, height: 24.0))
         self.addSubview(price)
-        saving = CurrencyCustomLabel(frame: CGRectMake(0, self.price.frame.maxY  , self.frame.width, 15.0))
+        saving = CurrencyCustomLabel(frame: CGRect(x: 0, y: self.price.frame.maxY  , width: self.frame.width, height: 15.0))
         self.addSubview(saving)
         
         imageIconView = UIImageView()
         imageIconView.image = UIImage(named:"promocion_detail")
-        imageIconView.frame =  CGRectMake(100, 100, 70, 70)
+        imageIconView.frame =  CGRect(x: 100, y: 100, width: 70, height: 70)
         
         
 //        self.pickBar = ProductDetailPickBar()
@@ -106,34 +126,34 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         
     }
     
-    func activePromotions(isActive:Bool){
-        self.imageIconView.hidden = !isActive
+    func activePromotions(_ isActive:Bool){
+        self.imageIconView.isHidden = !isActive
     }
     
-    func setAdditionalValues(listPrice:String,price:String,saving:String){
+    func setAdditionalValues(_ listPrice:String,price:String,saving:String){
         
        
         
         if price == "" || (price as NSString).doubleValue == 0 {
-            self.price.hidden = true
+            self.price.isHidden = true
         } else {
-            self.price.hidden = false
+            self.price.isHidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(price))"
             self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         }
         
         if listPrice == "" || (listPrice as NSString).doubleValue == 0 || (price as NSString).doubleValue >= (listPrice as NSString).doubleValue  {
-            priceBefore.hidden = true
+            priceBefore.isHidden = true
         } else {
-            priceBefore.hidden = false
+            priceBefore.isHidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice))"
             self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
         }
         
         if saving == "" {
-            self.saving.hidden = true
+            self.saving.isHidden = true
         } else {
-            self.saving.hidden = false
+            self.saving.isHidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(saving))"
             self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.green, interLine: false)
         }
@@ -141,16 +161,16 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     }
     
     
-    func setFreeShiping(freeShipping:Bool) {
+    func setFreeShiping(_ freeShipping:Bool) {
         if (freeShipping) {
             if freeShippingImage == nil {
-                freeShippingImage = UIImageView(frame: CGRectMake(16, 177, 50, 50))
+                freeShippingImage = UIImageView(frame: CGRect(x: 16, y: 177, width: 50, height: 50))
                 freeShippingImage.image = UIImage(named:"detail_freeShipping")
                 self.addSubview(freeShippingImage)
             }
         }else{
             if freeShippingImage != nil {
-                freeShippingImage.hidden = true
+                freeShippingImage.isHidden = true
             }
         }
     }
@@ -169,14 +189,14 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             var x: CGFloat = 0.0
             let sep: CGFloat = 2.0
             for idx in 0 ..< size! {
-                let point = UIButton(type: .Custom)
-                point.frame = CGRectMake(x, 5, bsize, bsize)
-                point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Highlighted)
-                point.addTarget(self, action: #selector(ProductDetailBannerCollectionViewCell.pointSelected(_:)), forControlEvents: .TouchUpInside)
-                point.selected = idx == self.currentItem!
-                x = CGRectGetMaxX(point.frame)
+                let point = UIButton(type: .custom)
+                point.frame = CGRect(x: x, y: 5, width: bsize, height: bsize)
+                point.setImage(UIImage(named: "bannerContentOff"), for: UIControlState())
+                point.setImage(UIImage(named: "bannerContentOn"), for: .selected)
+                point.setImage(UIImage(named: "bannerContentOn"), for: .highlighted)
+                point.addTarget(self, action: #selector(ProductDetailBannerCollectionViewCell.pointSelected(_:)), for: .touchUpInside)
+                point.isSelected = idx == self.currentItem!
+                x = point.frame.maxX
                 if idx < size {
                     x += sep
                 }
@@ -184,28 +204,28 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 buttons.append(point)
             }
             let pbounds = self.pointSection!.frame
-            self.pointContainer!.frame = CGRectMake((pbounds.size.width - x)/2,  (20.0 - bsize)/2, x, 20.0)
+            self.pointContainer!.frame = CGRect(x: (pbounds.size.width - x)/2,  y: (20.0 - bsize)/2, width: x, height: 20.0)
         }
         self.pointButtons = buttons
     }
     
-    func pointSelected(sender:UIButton) {
+    func pointSelected(_ sender:UIButton) {
         for button: UIButton in self.pointButtons! {
-            button.selected = button === sender
+            button.isSelected = button === sender
         }
-        if let idx = (self.pointButtons!).indexOf(sender) {
-            self.collection!.scrollToItemAtIndexPath(NSIndexPath(forItem: idx, inSection: 0),
-                atScrollPosition: .CenteredHorizontally, animated: false)
+        if let idx = (self.pointButtons!).index(of: sender) {
+            self.collection!.scrollToItem(at: IndexPath(item: idx, section: 0),
+                at: .centeredHorizontally, animated: false)
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
-        if let button = nsarray.objectAtIndex(self.currentItem!) as? UIButton {
+        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
             for inner: UIButton in self.pointButtons! {
-                inner.selected = button === inner
+                inner.isSelected = button === inner
             }
         }
     }
@@ -223,13 +243,13 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 let heightNew = widthNew  - 320
                 self.collection.alpha = 0
                 
-                let cellImg = self.collection.cellForItemAtIndexPath(NSIndexPath(forItem: self.currentItem!, inSection: 0)) as? ProductDetailBannerMediaCollectionViewCell
+                let cellImg = self.collection.cellForItem(at: IndexPath(item: self.currentItem!, section: 0)) as? ProductDetailBannerMediaCollectionViewCell
             if cellImg != nil {
                 let originRect = cellImg!.imageView!.frame
-                let rectTransform = CGRectMake(originRect.minX - (heightNew / 2), originRect.minY, originRect.width + heightNew, originRect.height + heightNew)
+                let rectTransform = CGRect(x: originRect.minX - (heightNew / 2), y: originRect.minY, width: originRect.width + heightNew, height: originRect.height + heightNew)
                 
                 self.imageZoom.image = cellImg!.imageView.image
-                UIView.animateWithDuration(0, animations: { () -> Void in
+                UIView.animate(withDuration: 0, animations: { () -> Void in
                     self.imageZoom.frame = rectTransform
                     self.imageZoom.alpha = 1
                 })
@@ -244,45 +264,45 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.buildColorsAndSizesView()
         self.buildPromotions()
         
-        self.priceBefore.frame = CGRectMake(0,  self.bounds.height - 54   , self.frame.width, 15.0)
-        self.price.frame = CGRectMake(0, self.bounds.height - 39  , self.frame.width, 24.0)
-        self.saving.frame = CGRectMake(0, self.bounds.height - 15  , self.frame.width, 15.0)
-        self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 144 ,70 ,70)
+        self.priceBefore.frame = CGRect(x: 0,  y: self.bounds.height - 54   , width: self.frame.width, height: 15.0)
+        self.price.frame = CGRect(x: 0, y: self.bounds.height - 39  , width: self.frame.width, height: 24.0)
+        self.saving.frame = CGRect(x: 0, y: self.bounds.height - 15  , width: self.frame.width, height: 15.0)
+        self.imageIconView.frame =  CGRect(x: self.bounds.width - 86, y: self.bounds.height - 144 ,width: 70 ,height: 70)
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.buildButtonSection()
         self.buildColorsAndSizesView()
         return items.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as! ProductDetailBannerMediaCollectionViewCell
-        let imageURL = items[indexPath.row] as! String
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ProductDetailBannerMediaCollectionViewCell
+        let imageURL = items[(indexPath as NSIndexPath).row] as! String
         
-        cell.imageView!.contentMode = UIViewContentMode.Center
-        cell.imageView!.setImageWithURL(NSURL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        cell.imageView!.contentMode = UIViewContentMode.center
+        cell.imageView!.setImageWith(URL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
             cell.imageView!.contentMode = self.contentModeOrig
             cell.imageView!.image = image
-            self.imagesRef.insert(image, atIndex: indexPath.row)
+            self.imagesRef.insert(image, at: (indexPath as NSIndexPath).row)
             }, failure: nil)
     
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate.sleectedImage(indexPath)
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
         return self.collection.frame.size
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
@@ -295,21 +315,21 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 
                 let promoTag = UILabel()
                 promoTag.text = promotion["tagText"] as? String
-                promoTag.textColor = UIColor.whiteColor()
-                promoTag.textAlignment = .Center
+                promoTag.textColor = UIColor.white
+                promoTag.textAlignment = .center
                 promoTag.font = WMFont.fontMyriadProRegularOfSize(9)
                 promoTag.backgroundColor = promotion["tagColor"] as? UIColor
                 promoTag.clipsToBounds = true
                 promoTag.layer.cornerRadius = 2.0
-                promoTag.frame = CGRectMake(startX, startY, 18, 14)
+                promoTag.frame = CGRect(x: startX, y: startY, width: 18, height: 14)
                 self.addSubview(promoTag)
                 
                 let promoLabel = UILabel()
                 promoLabel.text = promotion["text"] as? String
                 promoLabel.textColor = WMColor.reg_gray
-                promoLabel.textAlignment = .Left
+                promoLabel.textAlignment = .left
                 promoLabel.font = WMFont.fontMyriadProRegularOfSize(9)
-                promoLabel.frame = CGRectMake(promoTag.frame.maxX + 4, promoTag.frame.minY + 3, 60, 9)
+                promoLabel.frame = CGRect(x: promoTag.frame.maxX + 4, y: promoTag.frame.minY + 3, width: 60, height: 9)
                 self.addSubview(promoLabel)
                 
                 startY = (promoTag.frame.maxY + 6)
@@ -324,13 +344,13 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.items = self.colors as! [[String:AnyObject]]
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
-                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 160)
-                self.pointSection.frame = CGRectMake(0, self.bounds.height - 174, self.bounds.width, 20)
-                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 154, self.frame.width, 40.0)
+                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 160)
+                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 174, width: self.bounds.width, height: 20)
+                self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - 154, width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
                 self.sizesView.items = self.sizes as! [[String:AnyObject]]
                 self.sizesView.alpha = 1.0
-                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
+                self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
                 self.sizesView.buildItemsView()
                 self.sizesView.deleteTopBorder()
             }else if colors?.count != 0 && sizes?.count == 0{
@@ -338,30 +358,30 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.items = self.colors as! [[String:AnyObject]]
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
-                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
-                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134, self.bounds.width, 20)
-                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
+                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)
+                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 134, width: self.bounds.width, height: 20)
+                self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
             }else if colors?.count == 0 && sizes?.count != 0{
                 self.colorsView.alpha = 0
                 self.sizesView.items = self.sizes as! [[String:AnyObject]]
                 self.sizesView.alpha = 1.0
                 let frame = collection.frame
-                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
-                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134, self.bounds.width, 20)
-                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
+                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)
+                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 134, width: self.bounds.width, height: 20)
+                self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
                 self.sizesView.buildItemsView()
             }
         }else{
             self.colorsView.alpha = 0
             self.sizesView.alpha = 0
-            self.pointSection.frame = CGRectMake(0, self.bounds.height - 74   , self.bounds.width, 20)
+            self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 74   , width: self.bounds.width, height: 20)
         }
     }
     
     //MARK: ProductDetailColorSizeDelegate
     
-    func selectDetailItem(selected: String, itemType: String) {
+    func selectDetailItem(_ selected: String, itemType: String) {
       colorsViewDelegate?.selectDetailItem(selected, itemType: itemType)
     }
 }

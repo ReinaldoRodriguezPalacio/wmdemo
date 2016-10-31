@@ -49,7 +49,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel?.text = NSLocalizedString("moreoptions.title.Invoice",comment:"")
         
         let width = self.view.frame.width - (2*margin)
@@ -58,119 +58,119 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         let checkTermFull : UIImage = UIImage(named:"check_full")!
         
         self.content = TPKeyboardAvoidingScrollView()
-        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
+        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
         self.content.scrollDelegate = self
-        self.content.backgroundColor = UIColor.whiteColor()
+        self.content.backgroundColor = UIColor.white
         self.view.addSubview(self.content)
         
         //Inician secciones
-        self.sectionIEPS = self.buildSectionTitle("Declaro IEPS (Aplica solo para vinos y licores)", frame: CGRectMake(margin, 0, width, lheight))
+        self.sectionIEPS = self.buildSectionTitle("Declaro IEPS (Aplica solo para vinos y licores)", frame: CGRect(x: margin, y: 0, width: width, height: lheight))
         self.content.addSubview(sectionIEPS)
         
-        iepsYesSelect = UIButton(frame: CGRectMake(margin,sectionIEPS.frame.maxY,45,fheight))
-        iepsYesSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        iepsYesSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        iepsYesSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkIEPS(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        iepsYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
+        iepsYesSelect = UIButton(frame: CGRect(x: margin,y: sectionIEPS.frame.maxY,width: 45,height: fheight))
+        iepsYesSelect!.setImage(checkTermEmpty, for: UIControlState())
+        iepsYesSelect!.setImage(checkTermFull, for: UIControlState.selected)
+        iepsYesSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkIEPS(_:)), for: UIControlEvents.touchUpInside)
+        iepsYesSelect!.setTitle("Sí", for: UIControlState())
         iepsYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        iepsYesSelect!.titleLabel?.textAlignment = .Left
-        iepsYesSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
+        iepsYesSelect!.titleLabel?.textAlignment = .left
+        iepsYesSelect!.setTitleColor(WMColor.reg_gray, for: UIControlState())
         iepsYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         self.content.addSubview(self.iepsYesSelect!)
         
-        self.iepsNoSelect = UIButton(frame: CGRectMake(iepsYesSelect!.frame.maxX + 31,sectionIEPS.frame.maxY,50,fheight))
-        iepsNoSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        iepsNoSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
+        self.iepsNoSelect = UIButton(frame: CGRect(x: iepsYesSelect!.frame.maxX + 31,y: sectionIEPS.frame.maxY,width: 50,height: fheight))
+        iepsNoSelect!.setImage(checkTermEmpty, for: UIControlState())
+        iepsNoSelect!.setImage(checkTermFull, for: UIControlState.selected)
         iepsNoSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        iepsNoSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkIEPS(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        iepsNoSelect!.setTitle("No", forState: UIControlState.Normal)
-        iepsNoSelect!.titleLabel?.textAlignment = .Left
+        iepsNoSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkIEPS(_:)), for: UIControlEvents.touchUpInside)
+        iepsNoSelect!.setTitle("No", for: UIControlState())
+        iepsNoSelect!.titleLabel?.textAlignment = .left
         iepsNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        iepsNoSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-        iepsNoSelect!.selected = true
+        iepsNoSelect!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+        iepsNoSelect!.isSelected = true
         self.content.addSubview(self.iepsNoSelect!)
         
-        self.sectionTouristInfo = self.buildSectionTitle("¿Eres turista, pasajero en tránsito o extranjero?", frame: CGRectMake(margin, self.iepsYesSelect!.frame.maxY + 5.0, width, lheight))
+        self.sectionTouristInfo = self.buildSectionTitle("¿Eres turista, pasajero en tránsito o extranjero?", frame: CGRect(x: margin, y: self.iepsYesSelect!.frame.maxY + 5.0, width: width, height: lheight))
         self.content.addSubview(sectionTouristInfo)
         
-        touristYesSelect = UIButton(frame: CGRectMake(margin,sectionTouristInfo.frame.maxY,45,fheight))
-        touristYesSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        touristYesSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        touristYesSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        touristYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
+        touristYesSelect = UIButton(frame: CGRect(x: margin,y: sectionTouristInfo.frame.maxY,width: 45,height: fheight))
+        touristYesSelect!.setImage(checkTermEmpty, for: UIControlState())
+        touristYesSelect!.setImage(checkTermFull, for: UIControlState.selected)
+        touristYesSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), for: UIControlEvents.touchUpInside)
+        touristYesSelect!.setTitle("Sí", for: UIControlState())
         touristYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        touristYesSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
+        touristYesSelect!.setTitleColor(WMColor.reg_gray, for: UIControlState())
         touristYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        touristYesSelect!.titleLabel?.textAlignment = .Left
+        touristYesSelect!.titleLabel?.textAlignment = .left
         self.content.addSubview(self.touristYesSelect!)
         
-        self.touristNoSelect = UIButton(frame: CGRectMake(touristYesSelect!.frame.maxX + 31,sectionTouristInfo.frame.maxY,50,fheight))
-        touristNoSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        touristNoSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
+        self.touristNoSelect = UIButton(frame: CGRect(x: touristYesSelect!.frame.maxX + 31,y: sectionTouristInfo.frame.maxY,width: 50,height: fheight))
+        touristNoSelect!.setImage(checkTermEmpty, for: UIControlState())
+        touristNoSelect!.setImage(checkTermFull, for: UIControlState.selected)
         touristNoSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        touristNoSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        touristNoSelect!.setTitle("No", forState: UIControlState.Normal)
+        touristNoSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), for: UIControlEvents.touchUpInside)
+        touristNoSelect!.setTitle("No", for: UIControlState())
         touristNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        touristNoSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-        touristNoSelect!.selected = true
-        touristNoSelect!.titleLabel?.textAlignment = .Left
+        touristNoSelect!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+        touristNoSelect!.isSelected = true
+        touristNoSelect!.titleLabel?.textAlignment = .left
         self.content.addSubview(self.touristNoSelect!)
         
-        self.sectionSocialReason = self.buildSectionTitle("Razón Social", frame: CGRectMake(margin, self.touristYesSelect!.frame.maxY + 5.0, width, lheight))
+        self.sectionSocialReason = self.buildSectionTitle("Razón Social", frame: CGRect(x: margin, y: self.touristYesSelect!.frame.maxY + 5.0, width: width, height: lheight))
         self.content.addSubview(sectionSocialReason)
         
-        addressFiscalPersonSelect = UIButton(frame: CGRectMake(margin,sectionSocialReason.frame.maxY,113,fheight))
-        addressFiscalPersonSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        addressFiscalPersonSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        addressFiscalPersonSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        addressFiscalPersonSelect!.setTitle("Persona Física", forState: UIControlState.Normal)
+        addressFiscalPersonSelect = UIButton(frame: CGRect(x: margin,y: sectionSocialReason.frame.maxY,width: 113,height: fheight))
+        addressFiscalPersonSelect!.setImage(checkTermEmpty, for: UIControlState())
+        addressFiscalPersonSelect!.setImage(checkTermFull, for: UIControlState.selected)
+        addressFiscalPersonSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), for: UIControlEvents.touchUpInside)
+        addressFiscalPersonSelect!.setTitle("Persona Física", for: UIControlState())
         addressFiscalPersonSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        addressFiscalPersonSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
+        addressFiscalPersonSelect!.setTitleColor(WMColor.reg_gray, for: UIControlState())
         addressFiscalPersonSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        addressFiscalPersonSelect!.selected = true
-        addressFiscalPersonSelect!.titleLabel?.textAlignment = .Left
+        addressFiscalPersonSelect!.isSelected = true
+        addressFiscalPersonSelect!.titleLabel?.textAlignment = .left
         self.content.addSubview(self.addressFiscalPersonSelect!)
         
-        self.addressFiscalMoralSelect = UIButton(frame: CGRectMake(addressFiscalPersonSelect!.frame.maxX + 31,sectionSocialReason.frame.maxY,123,fheight))
-        addressFiscalMoralSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        addressFiscalMoralSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
+        self.addressFiscalMoralSelect = UIButton(frame: CGRect(x: addressFiscalPersonSelect!.frame.maxX + 31,y: sectionSocialReason.frame.maxY,width: 123,height: fheight))
+        addressFiscalMoralSelect!.setImage(checkTermEmpty, for: UIControlState())
+        addressFiscalMoralSelect!.setImage(checkTermFull, for: UIControlState.selected)
         addressFiscalMoralSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        addressFiscalMoralSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        addressFiscalMoralSelect!.setTitle("Persona Moral", forState: UIControlState.Normal)
+        addressFiscalMoralSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), for: UIControlEvents.touchUpInside)
+        addressFiscalMoralSelect!.setTitle("Persona Moral", for: UIControlState())
         addressFiscalMoralSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        addressFiscalMoralSelect!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-        addressFiscalMoralSelect!.titleLabel?.textAlignment = .Left
+        addressFiscalMoralSelect!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+        addressFiscalMoralSelect!.titleLabel?.textAlignment = .left
         self.content.addSubview(self.addressFiscalMoralSelect!)
         
-        self.sectionAddress = self.buildSectionTitle("Dirección de Facturación", frame: CGRectMake(margin, self.addressFiscalPersonSelect!.frame.maxY + 5.0, width, lheight))
+        self.sectionAddress = self.buildSectionTitle("Dirección de Facturación", frame: CGRect(x: margin, y: self.addressFiscalPersonSelect!.frame.maxY + 5.0, width: width, height: lheight))
         self.content.addSubview(sectionAddress)
         
-        self.address = FormFieldView(frame: CGRectMake(margin, self.sectionAddress!.frame.maxY + 5.0, width, fheight))
+        self.address = FormFieldView(frame: CGRect(x: margin, y: self.sectionAddress!.frame.maxY + 5.0, width: width, height: fheight))
         self.address!.isRequired = true
         self.address!.setCustomPlaceholder("Dirección")
-        self.address!.typeField = TypeField.List
+        self.address!.typeField = TypeField.list
         self.address!.nameField = "Dirección"
         self.address!.maxLength = 6
         self.address!.setImageTypeField()
         self.content.addSubview(self.address!)
         
-        self.returnButton = UIButton(frame: CGRectMake(margin, self.address!.frame.maxY + 25.0, 140.0, fheight))
-        self.returnButton!.setTitle("Regresar", forState:.Normal)
-        self.returnButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.returnButton = UIButton(frame: CGRect(x: margin, y: self.address!.frame.maxY + 25.0, width: 140.0, height: fheight))
+        self.returnButton!.setTitle("Regresar", for:UIControlState())
+        self.returnButton!.titleLabel!.textColor = UIColor.white
         self.returnButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.returnButton!.backgroundColor = WMColor.light_blue
         self.returnButton!.layer.cornerRadius = 20
-        self.returnButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.returnButton!.addTarget(self, action: Selector("back"), for: UIControlEvents.touchUpInside)
         self.view.addSubview(returnButton!)
         
-        self.finishButton = UIButton(frame: CGRectMake(widthLessMargin - 140 , self.address!.frame.maxY + 25.0, 140.0, fheight))
-        self.finishButton!.setTitle("Finalizar", forState:.Normal)
-        self.finishButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.finishButton = UIButton(frame: CGRect(x: widthLessMargin - 140 , y: self.address!.frame.maxY + 25.0, width: 140.0, height: fheight))
+        self.finishButton!.setTitle("Finalizar", for:UIControlState())
+        self.finishButton!.titleLabel!.textColor = UIColor.white
         self.finishButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.finishButton!.backgroundColor = WMColor.green
         self.finishButton!.layer.cornerRadius = 20
-        self.finishButton!.addTarget(self, action: #selector(InvoiceComplementViewController.confirm), forControlEvents: UIControlEvents.TouchUpInside)
+        self.finishButton!.addTarget(self, action: #selector(InvoiceComplementViewController.confirm), for: UIControlEvents.touchUpInside)
         self.view.addSubview(finishButton!)
         
         self.picker = AlertPickerView.initPickerWithDefault()
@@ -186,7 +186,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
             self.picker!.delegate = self
             //self.picker!.selected = self.selectedConfirmation
             self.picker!.setValues(self.address!.nameField, values: self.arrayAddressFiscalNames!)
-            self.picker!.cellType = TypeField.Check
+            self.picker!.cellType = TypeField.check
             self.picker!.showPicker()
         }
     }
@@ -202,43 +202,43 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         let widthLessMargin = self.view.frame.width - margin
         
         //Inician secciones
-        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
-        self.sectionIEPS.frame = CGRectMake(margin, 16, width, lheight)
-        self.iepsYesSelect!.frame = CGRectMake(margin,sectionIEPS.frame.maxY,45,fheight)
-        self.iepsNoSelect!.frame = CGRectMake(iepsYesSelect!.frame.maxX + 31,sectionIEPS.frame.maxY,50,fheight)
+        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
+        self.sectionIEPS.frame = CGRect(x: margin, y: 16, width: width, height: lheight)
+        self.iepsYesSelect!.frame = CGRect(x: margin,y: sectionIEPS.frame.maxY,width: 45,height: fheight)
+        self.iepsNoSelect!.frame = CGRect(x: iepsYesSelect!.frame.maxX + 31,y: sectionIEPS.frame.maxY,width: 50,height: fheight)
         let posYsection = buildSectionTourist()
-        self.sectionSocialReason.frame = CGRectMake(margin, posYsection + 5.0, width, lheight)
-        self.addressFiscalPersonSelect!.frame = CGRectMake(margin,sectionSocialReason.frame.maxY,113,fheight)
-        self.addressFiscalMoralSelect!.frame = CGRectMake(addressFiscalPersonSelect!.frame.maxX + 31,sectionSocialReason.frame.maxY,123,fheight)
-        self.sectionAddress.frame = CGRectMake(margin, self.addressFiscalPersonSelect!.frame.maxY + 5.0, width, lheight)
-        self.address!.frame = CGRectMake(margin, self.sectionAddress!.frame.maxY + 5.0, width, fheight)
-        self.content.contentSize = CGSizeMake(self.view.frame.width, address!.frame.maxY + 5.0)
-        self.returnButton!.frame = CGRectMake(margin, self.content!.frame.maxY - 15, 140.0, fheight)
-        self.finishButton!.frame = CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY - 15, 140.0, fheight)
+        self.sectionSocialReason.frame = CGRect(x: margin, y: posYsection + 5.0, width: width, height: lheight)
+        self.addressFiscalPersonSelect!.frame = CGRect(x: margin,y: sectionSocialReason.frame.maxY,width: 113,height: fheight)
+        self.addressFiscalMoralSelect!.frame = CGRect(x: addressFiscalPersonSelect!.frame.maxX + 31,y: sectionSocialReason.frame.maxY,width: 123,height: fheight)
+        self.sectionAddress.frame = CGRect(x: margin, y: self.addressFiscalPersonSelect!.frame.maxY + 5.0, width: width, height: lheight)
+        self.address!.frame = CGRect(x: margin, y: self.sectionAddress!.frame.maxY + 5.0, width: width, height: fheight)
+        self.content.contentSize = CGSize(width: self.view.frame.width, height: address!.frame.maxY + 5.0)
+        self.returnButton!.frame = CGRect(x: margin, y: self.content!.frame.maxY - 15, width: 140.0, height: fheight)
+        self.finishButton!.frame = CGRect(x: widthLessMargin - 140 , y: self.content!.frame.maxY - 15, width: 140.0, height: fheight)
     }
     
     func buildSectionTourist() -> CGFloat{
         var posY = self.iepsYesSelect!.frame.maxY
         let width = self.view.frame.width - (2*margin)
-        self.sectionTouristInfo.hidden = self.iepsYesSelect!.selected
-        self.touristYesSelect!.hidden = self.iepsYesSelect!.selected
-        self.touristNoSelect!.hidden = self.iepsYesSelect!.selected
-        if(self.iepsNoSelect!.selected){
-            self.sectionTouristInfo.frame = CGRectMake(margin, self.iepsYesSelect!.frame.maxY + 5.0, width, lheight)
-            self.touristYesSelect!.frame = CGRectMake(margin,sectionTouristInfo.frame.maxY,45,fheight)
-            self.touristNoSelect!.frame = CGRectMake(touristYesSelect!.frame.maxX + 31,sectionTouristInfo.frame.maxY,50,fheight)
+        self.sectionTouristInfo.isHidden = self.iepsYesSelect!.isSelected
+        self.touristYesSelect!.isHidden = self.iepsYesSelect!.isSelected
+        self.touristNoSelect!.isHidden = self.iepsYesSelect!.isSelected
+        if(self.iepsNoSelect!.isSelected){
+            self.sectionTouristInfo.frame = CGRect(x: margin, y: self.iepsYesSelect!.frame.maxY + 5.0, width: width, height: lheight)
+            self.touristYesSelect!.frame = CGRect(x: margin,y: sectionTouristInfo.frame.maxY,width: 45,height: fheight)
+            self.touristNoSelect!.frame = CGRect(x: touristYesSelect!.frame.maxX + 31,y: sectionTouristInfo.frame.maxY,width: 50,height: fheight)
             posY = self.touristYesSelect!.frame.maxY
         }
         
         return  posY
     }
     
-    func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
+    func buildSectionTitle(_ title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
-        sectionTitle.backgroundColor = UIColor.whiteColor()
+        sectionTitle.backgroundColor = UIColor.white
         return sectionTitle
     }
     
@@ -246,42 +246,42 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.showConfirmView()
     }
     
-    func checkIEPS(sender:UIButton) {
+    func checkIEPS(_ sender:UIButton) {
         self.checkSelected(sender, yesButton: self.iepsYesSelect!, noButton: self.iepsNoSelect!)
         self.buildView()
     }
     
-    func checkTourist(sender:UIButton) {
+    func checkTourist(_ sender:UIButton) {
         self.checkSelected(sender, yesButton: self.touristYesSelect!, noButton: self.touristNoSelect!)
         if sender == self.touristYesSelect!{
             showTouristForm()
         }
     }
     
-    func checkAddress(sender:UIButton) {
+    func checkAddress(_ sender:UIButton) {
         self.checkSelected(sender, yesButton: self.addressFiscalPersonSelect!, noButton: self.addressFiscalMoralSelect!)
     }
     
-    func checkSelected(sender:UIButton, yesButton: UIButton, noButton:UIButton) {
-        if sender.selected{
+    func checkSelected(_ sender:UIButton, yesButton: UIButton, noButton:UIButton) {
+        if sender.isSelected{
             return
         }
         if sender == yesButton{
-            noButton.selected = false
+            noButton.isSelected = false
         }else{
-            yesButton.selected = false
+            yesButton.isSelected = false
         }
-        sender.selected = !(sender.selected)
+        sender.isSelected = !(sender.isSelected)
     }
     
     func showTouristForm(){
-        let touristView = TouristInformationForm(frame: CGRectMake(0, 0,  288, 465))
+        let touristView = TouristInformationForm(frame: CGRect(x: 0, y: 0,  width: 288, height: 465))
         let modalView = AlertModalView.initModalWithView("Tipo de Tránsito",innerView: touristView)
         modalView.showPicker()
     }
     
     func showConfirmView(){
-        let confirmView = InvoiceConfirmView(frame: CGRectMake(0, 0,  288, 465))
+        let confirmView = InvoiceConfirmView(frame: CGRect(x: 0, y: 0,  width: 288, height: 465))
         let modalView = AlertModalView.initModalWithView("Confirmar Datos",innerView: confirmView)
         modalView.showPicker()
     }
@@ -302,7 +302,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         })
     }
     
-    func getAddressFiscalNames(fiscalAddresses:NSArray){
+    func getAddressFiscalNames(_ fiscalAddresses:NSArray){
         for address in fiscalAddresses{
             self.arrayAddressFiscalNames?.append(address["name"] as! String)
         }
@@ -310,24 +310,24 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        let val = CGSizeMake(self.view.frame.width, self.content.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        let val = CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
         return val
     }
     
     //MARK: AlertPickerViewDelegate
     
-    func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
+    func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj == self.address!{
-                self.selectedAddress = self.arrayAddressFiscal![indexPath.row] as? NSDictionary
+                self.selectedAddress = self.arrayAddressFiscal![(indexPath as NSIndexPath).row] as? NSDictionary
                 self.address?.text = selectedStr
             }
             
         }
     }
     
-    func didDeSelectOption(picker:AlertPickerView) {
+    func didDeSelectOption(_ picker:AlertPickerView) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj == self.address!{
                 //TODO: Que hacer con la direccion
@@ -338,20 +338,20 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     
     
-    func buttomViewSelected(sender: UIButton) {
+    func buttomViewSelected(_ sender: UIButton) {
     }
     
     
     
-    func viewReplaceContent(frame:CGRect) -> UIView! {
+    func viewReplaceContent(_ frame:CGRect) -> UIView! {
         scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
         self.scrollForm.scrollDelegate = self
-        if self.addressFiscalPersonSelect!.selected {
-            scrollForm.contentSize = CGSizeMake(frame.width, 490)
-            scrollForm.addSubview(self.getFisicalPersonForm(CGRectMake(0, 16, 288, 465)))
+        if self.addressFiscalPersonSelect!.isSelected {
+            scrollForm.contentSize = CGSize(width: frame.width, height: 490)
+            scrollForm.addSubview(self.getFisicalPersonForm(CGRect(x: 0, y: 16, width: 288, height: 465)))
         }else{
-            scrollForm.contentSize = CGSizeMake(frame.width, 470)
-            scrollForm.addSubview(self.getMoralPersonForm(CGRectMake(0, 16, 288, 465)))
+            scrollForm.contentSize = CGSize(width: frame.width, height: 470)
+            scrollForm.addSubview(self.getMoralPersonForm(CGRect(x: 0, y: 16, width: 288, height: 465)))
         }
         
         /*if !self.selectedAddressHasStore{
@@ -418,22 +418,22 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     }
     
     //MARK: AlertPickerSelectOptionDelegate
-    func didSelectOptionAtIndex(indexPath: NSIndexPath) {
+    func didSelectOptionAtIndex(_ indexPath: IndexPath) {
        //let address = self.arrayAddressFiscal![indexPath.row] as? NSDictionary
     }
     
-    func getFisicalPersonForm(frame:CGRect) -> FiscalAddressPersonF{
-        return FiscalAddressPersonF(frame: frame, isLogin: false, isIpad: false, typeAddress: TypeAddress.FiscalPerson )
+    func getFisicalPersonForm(_ frame:CGRect) -> FiscalAddressPersonF{
+        return FiscalAddressPersonF(frame: frame, isLogin: false, isIpad: false, typeAddress: TypeAddress.fiscalPerson )
     }
     
-    func getMoralPersonForm(frame:CGRect) -> FiscalAddressPersonM{
-        return FiscalAddressPersonM(frame: frame, isLogin: false, isIpad: false, typeAddress: TypeAddress.FiscalMoral)
+    func getMoralPersonForm(_ frame:CGRect) -> FiscalAddressPersonM{
+        return FiscalAddressPersonM(frame: frame, isLogin: false, isIpad: false, typeAddress: TypeAddress.fiscalMoral)
     }
     
     func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
-            viewLoad!.backgroundColor = UIColor.whiteColor()
+            viewLoad!.backgroundColor = UIColor.white
             viewLoad!.startAnnimating(true)
             self.view.addSubview(viewLoad!)
         }

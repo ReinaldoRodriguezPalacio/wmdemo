@@ -8,6 +8,26 @@
 
 import Foundation
 import CoreData
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 class DefaultListDetailViewController : NavigationViewController, UITableViewDelegate, UITableViewDataSource,
 DetailListViewCellDelegate,UIActivityItemSource {
@@ -47,22 +67,22 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(DefaultListDetailViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(DefaultListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
          self.tabBarActions()
     }
     
     override func setup() {
         super.setup()
         
-        tableView  = UITableView(frame: CGRectZero)
-        tableView?.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cellDetailList")
-        tableView?.registerClass(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
+        tableView  = UITableView(frame: CGRect.zero)
+        tableView?.register(UITableViewCell.self, forCellReuseIdentifier: "cellDetailList")
+        tableView?.register(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         tableView?.delegate = self
         tableView?.dataSource = self
-        tableView?.separatorStyle = .None
+        tableView?.separatorStyle = .none
         self.view.addSubview(tableView!)
         
         if self.detailItems?.count == 0 || self.detailItems == nil {
@@ -71,47 +91,47 @@ DetailListViewCellDelegate,UIActivityItemSource {
         else{
             selectedItems = NSMutableArray()
             for i in 0...self.detailItems!.count - 1 {
-                selectedItems?.addObject(i)
+                selectedItems?.add(i)
             }
         }
         
         if TabBarHidden.isTabBarHidden {
-            self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 132 , self.view.frame.width, 72))
+            self.footerSection = UIView(frame:CGRect(x: 0,  y: self.view.frame.maxY - 132 , width: self.view.frame.width, height: 72))
         }
         else{
-            self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 180 , self.view.frame.width, 72))
+            self.footerSection = UIView(frame:CGRect(x: 0,  y: self.view.frame.maxY - 180 , width: self.view.frame.width, height: 72))
         }
-        self.footerSection!.backgroundColor = UIColor.whiteColor()
+        self.footerSection!.backgroundColor = UIColor.white
         self.view.addSubview(footerSection!)
         
         let y = (self.footerSection!.frame.height - 34.0)/2
-        self.duplicateButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
-        self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), forState: .Normal)
-        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Selected)
-        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Highlighted)
-        self.duplicateButton!.addTarget(self, action: #selector(DefaultListDetailViewController.duplicate), forControlEvents: .TouchUpInside)
+        self.duplicateButton = UIButton(frame: CGRect(x: 16.0, y: y, width: 34.0, height: 34.0))
+        self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), for: UIControlState())
+        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), for: .selected)
+        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), for: .highlighted)
+        self.duplicateButton!.addTarget(self, action: #selector(DefaultListDetailViewController.duplicate), for: .touchUpInside)
         self.footerSection!.addSubview(self.duplicateButton!)
         
         var x = self.duplicateButton!.frame.maxX + 16.0
-        self.shareButton = UIButton(frame: CGRectMake(x, y, 34.0, 34.0))
-        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareButton!.addTarget(self, action: #selector(DefaultListDetailViewController.shareList), forControlEvents: .TouchUpInside)
+        self.shareButton = UIButton(frame: CGRect(x: x, y: y, width: 34.0, height: 34.0))
+        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
+        self.shareButton!.setImage(UIImage(named: "detail_share"), for: .selected)
+        self.shareButton!.setImage(UIImage(named: "detail_share"), for: .highlighted)
+        self.shareButton!.addTarget(self, action: #selector(DefaultListDetailViewController.shareList), for: .touchUpInside)
         self.footerSection!.addSubview(self.shareButton!)
         
         x = self.shareButton!.frame.maxX + 16.0
-        self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
+        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + 16.0), height: 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
-        self.addToCartButton!.addTarget(self, action: #selector(DefaultListDetailViewController.addListToCart), forControlEvents: .TouchUpInside)
+        self.addToCartButton!.addTarget(self, action: #selector(DefaultListDetailViewController.addListToCart), for: .touchUpInside)
         self.footerSection!.addSubview(self.addToCartButton!)
         
         self.customLabel = CurrencyCustomLabel(frame: self.addToCartButton!.bounds)
-        self.customLabel!.backgroundColor = UIColor.clearColor()
+        self.customLabel!.backgroundColor = UIColor.clear
         self.customLabel!.setCurrencyUserInteractionEnabled(true)
         self.addToCartButton!.addSubview(self.customLabel!)
-        self.addToCartButton!.sendSubviewToBack(self.customLabel!)
+        self.addToCartButton!.sendSubview(toBack: self.customLabel!)
         
         self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
@@ -130,37 +150,37 @@ DetailListViewCellDelegate,UIActivityItemSource {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if !self.isSharing {
-            tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+            tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
         }
         let x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2
-        addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
+        addToCartButton?.frame = CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + 16.0), height: 34.0)
     
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.detailItems == nil { return 0 }
         return self.detailItems!.count
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
-        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
+        let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
         let controller = self.view.window!.rootViewController
         listCell.viewIpad = controller!.view
         var plpArray : NSDictionary = [:]
-        plpArray = UserCurrentSession.sharedInstance().getArrayPLP((self.detailItems![indexPath.row] as NSDictionary))
+        plpArray = UserCurrentSession.sharedInstance().getArrayPLP((self.detailItems![(indexPath as NSIndexPath).row] as NSDictionary))
         
         var through: NSString! = ""
-        through = plpArray["promo"] as! String
+        through = plpArray["promo"] as! String as NSString!
         
-        listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row), productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
+        listCell.setValuesDictionary(self.detailItems![(indexPath as NSIndexPath).row],disabled:!self.selectedItems!.contains((indexPath as NSIndexPath).row), productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
         listCell.detailDelegate = self
         
         listCell.setValueArray(plpArray["arrayItems"] as! NSArray)
-        listCell.hideUtilityButtonsAnimated(false)
+        listCell.hideUtilityButtons(animated: false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)
       
@@ -168,7 +188,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         return listCell 
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = ProductDetailPageViewController()
         var productsToShow:[AnyObject] = []
         for idx in 0 ..< self.detailItems!.count {
@@ -179,9 +199,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":"","sku": product["id"] as! NSString])
         }
         controller.itemsToShow = productsToShow
-        controller.ixSelected = indexPath.row
+        controller.ixSelected = (indexPath as NSIndexPath).row
         
-        let product = self.detailItems![indexPath.row]
+        let product = self.detailItems![(indexPath as NSIndexPath).row]
         let upc = product["upc"] as! NSString
         let description = product["description"] as! NSString
         
@@ -192,23 +212,23 @@ DetailListViewCellDelegate,UIActivityItemSource {
     }
     
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row == self.detailItems!.count ? 56.0 : 114.0
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return (indexPath as NSIndexPath).row == self.detailItems!.count ? 56.0 : 114.0
     }
     
     //MARK: Delegate item cell
-    func didChangeQuantity(cell:DetailListViewCell){
+    func didChangeQuantity(_ cell:DetailListViewCell){
         
         if self.quantitySelector == nil {
             
-            let indexPath = self.tableView!.indexPathForCell(cell)
+            let indexPath = self.tableView!.indexPath(for: cell)
             if indexPath == nil {
                 return
             }
             var isPesable = false
             var price: NSNumber? = nil
           
-                let item = self.detailItems![indexPath!.row]
+                let item = self.detailItems![(indexPath! as NSIndexPath).row]
                 if let pesable = item["type"] as? NSString {
                     isPesable = pesable.intValue == 1
                 }
@@ -220,7 +240,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             if TabBarHidden.isTabBarHidden {
                 height += 45.0
             }
-            let selectorFrame = CGRectMake(0, self.view.frame.height, width, height)
+            let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
             if isPesable {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
@@ -232,20 +252,20 @@ DetailListViewCellDelegate,UIActivityItemSource {
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
             }
-            self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
+            self.quantitySelector!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
-                var item = self.detailItems![indexPath!.row]
+                var item = self.detailItems![(indexPath! as NSIndexPath).row]
                 //var upc = item["upc"] as? String
-                item["quantity"] = NSNumber(integer:Int(quantity)!)
-                self.detailItems![indexPath!.row] = item
+                item["quantity"] = NSNumber(value: Int(quantity)! as Int)
+                self.detailItems![(indexPath! as NSIndexPath).row] = item
                 self.tableView?.reloadData()
                 self.removeSelector()
                 self.updateTotalLabel()
                 //TODO: Update quantity
             }
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.quantitySelector!.frame = CGRectMake(0.0, 0.0, width, height)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.quantitySelector!.frame = CGRect(x: 0.0, y: 0.0, width: width, height: height)
             })
             
         }
@@ -256,11 +276,11 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     func removeSelector() {
         if   self.quantitySelector != nil {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
                     let width:CGFloat = self.view.frame.width
                     let height:CGFloat = self.view.frame.height - self.header!.frame.height
-                    self.quantitySelector!.frame = CGRectMake(0.0, self.view.frame.height, width, height)
+                    self.quantitySelector!.frame = CGRect(x: 0.0, y: self.view.frame.height, width: width, height: height)
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
@@ -273,12 +293,12 @@ DetailListViewCellDelegate,UIActivityItemSource {
     }
 
     
-    func didDisable(disaable:Bool, cell:DetailListViewCell) {
-        let indexPath = self.tableView?.indexPathForCell(cell)
+    func didDisable(_ disaable:Bool, cell:DetailListViewCell) {
+        let indexPath = self.tableView?.indexPath(for: cell)
         if disaable {
-            self.selectedItems?.removeObject(indexPath!.row)
+            self.selectedItems?.remove((indexPath! as NSIndexPath).row)
         } else {
-            self.selectedItems?.addObject(indexPath!.row)
+            self.selectedItems?.add((indexPath! as NSIndexPath).row)
         }
         self.updateTotalLabel()
     }
@@ -294,29 +314,29 @@ DetailListViewCellDelegate,UIActivityItemSource {
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
             let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
-            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            self.navigationController?.present(controller, animated: true, completion: nil)
             
         }
     }
     
     //MARK: activityViewControllerDelegate
-    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
         return "Walmart"
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
         
      
-       let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+       let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         var dominio = "https://www.walmart.com.mx"
         if environment != "PRODUCTION"{
             dominio = "http://192.168.43.192:8085"
         }
         var urlss  = ""
         if self.lineId != nil {
-            let name  = self.schoolName!.stringByReplacingOccurrencesOfString(" ", withString: "-")
-            let desc = self.gradeName!.stringByReplacingOccurrencesOfString(" ", withString: "-")
-            let namelines = self.nameLine!.stringByReplacingOccurrencesOfString(" ", withString: "-")
+            let name  = self.schoolName!.replacingOccurrences(of: " ", with: "-")
+            let desc = self.gradeName!.replacingOccurrences(of: " ", with: "-")
+            let namelines = self.nameLine!.replacingOccurrences(of: " ", with: "-")
             
             var  appLink  = UserCurrentSession.urlWithRootPath("\(dominio)/images/m_webParts/banners/Carrusel/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name_\(name)&description=\(desc)")
             
@@ -328,16 +348,16 @@ DetailListViewCellDelegate,UIActivityItemSource {
         }
       
         
-        if activityType == UIActivityTypeMail {
+        if activityType == UIActivityType.mail {
             return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss)"
-        }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
+        }else if activityType == UIActivityType.postToTwitter ||  activityType == UIActivityType.postToVimeo ||  activityType == UIActivityType.postToFacebook  {
             return "Chequa esta lista de productos:  #walmartapp #wow "
         }
         return "Chequa esta lista de productos: \(urlss) "
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
-        if activityType == UIActivityTypeMail {
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
             if UserCurrentSession.sharedInstance().userSigned == nil {
                 return "Encontré estos productos te pueden interesar en www.walmart.com.mx"
             } else {
@@ -351,7 +371,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     func buildImageToShare() -> UIImage? {
         
         
-        self.tableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+        self.tableView!.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: false)
         
         self.isSharing = true
         let oldFrame : CGRect = self.tableView!.frame
@@ -360,8 +380,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
         self.tableView!.frame = frame
         
         UIGraphicsBeginImageContextWithOptions(self.tableView!.bounds.size, false, 2.0)
-        self.tableView!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        self.tableView!.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         self.isSharing = false
@@ -396,32 +416,32 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 let idx = idxVal as! Int
                 var params: [String:AnyObject] = [:]
                 let item = self.detailItems![idx]
-                params["upc"] = item["upc"] as! String
-                params["desc"] = item["description"] as! String
-                params["imgUrl"] = item["imageUrl"] as! String
+                params["upc"] = item["upc"] as! String as AnyObject?
+                params["desc"] = item["description"] as! String as AnyObject?
+                params["imgUrl"] = item["imageUrl"] as! String as AnyObject?
                 if let price = item["price"] as? NSNumber {
-                    params["price"] = "\(price)"
+                    params["price"] = "\(price)" as AnyObject?
                 }
                 if let quantity = item["quantity"] as? NSNumber {
-                    params["quantity"] = "\(quantity)"
+                    params["quantity"] = "\(quantity)" as AnyObject?
                 }
                 
                 params["pesable"] = item["type"] as? NSString
-                params["wishlist"] = false
-                params["type"] = ResultObjectType.Groceries.rawValue
-                params["comments"] = ""
+                params["wishlist"] = false as AnyObject?
+                params["type"] = ResultObjectType.Groceries.rawValue as AnyObject?
+                params["comments"] = "" as AnyObject?
                 if let type = item["type"] as? String {
                     if Int(type)! == 0 { //Piezas
-                        params["onHandInventory"] = "99"
+                        params["onHandInventory"] = "99" as AnyObject?
                     }
                     else { //Gramos
-                        params["onHandInventory"] = "20000"
+                        params["onHandInventory"] = "20000" as AnyObject?
                     }
                 }
-                upcs.append(params)
+                upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
             }else{
                 self.noProductsAvailableAlert()
                 return
@@ -448,7 +468,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
         let fmtTotal = CurrencyCustomLabel.formatString("\(total)")
         let amount = String(format: NSLocalizedString("list.detail.buy",comment:""), fmtTotal)
-        self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+        self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
     
     func calculateTotalAmount() -> Double {
@@ -482,7 +502,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             if let typeProd = item["type"] as? NSString {
                 if typeProd.integerValue == 0 {
                     let quantity = item["quantity"] as! NSNumber
-                    count += quantity.integerValue
+                    count += quantity.intValue
                 }
                 else {
                     count += 1
@@ -497,15 +517,15 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     override func willShowTabbar() {
         isShowingTabBar = true
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 117 , self.view.frame.width, 72)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 117 , width: self.view.frame.width, height: 72)
         })
     }
     
     override func willHideTabbar() {
         isShowingTabBar = false
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72, self.view.frame.width, 72)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 72, width: self.view.frame.width, height: 72)
         })
     }
     
@@ -519,7 +539,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     }
     
     
-    func invokeSaveListToDuplicateService(listName:String,successDuplicateList:(() -> Void)) {
+    func invokeSaveListToDuplicateService(_ listName:String,successDuplicateList:@escaping (() -> Void)) {
         
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
@@ -554,7 +574,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     
     
-    func copyList(listName:String,itemsUserList:[AnyObject]?,successDuplicateList:(() -> Void)) {
+    func copyList(_ listName:String,itemsUserList:[AnyObject]?,successDuplicateList:@escaping (() -> Void)) {
         let service = GRSaveUserListService()
         var items: [AnyObject] = []
         if self.detailItems != nil {
@@ -571,15 +591,15 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 }
                 
                 if let upc = product["upc"] as? String {
-                    let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: imageUrl, description: dsc, price: price.stringValue, type:type,nameLine: nameLine)
-                    items.append(item)
+                    let item = service.buildProductObject(upc: upc, quantity: quantity.intValue, image: imageUrl, description: dsc, price: price.stringValue, type:type,nameLine: nameLine)
+                    items.append(item as AnyObject)
                 }
             }
         }
         
         var copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
         if copyName.length() > 25 {
-            copyName = (copyName as NSString).substringToIndex(24)
+            copyName = (copyName as NSString).substring(to: 24)
         }
         service.callService(service.buildParams(copyName, items: items),
             successBlock: { (result:NSDictionary) -> Void in
@@ -593,16 +613,16 @@ DetailListViewCellDelegate,UIActivityItemSource {
         )
     }
     
-    func buildDuplicateNameList(theName:String, forListId listId:String?,itemsUserList:[AnyObject]?) -> String {
+    func buildDuplicateNameList(_ theName:String, forListId listId:String?,itemsUserList:[AnyObject]?) -> String {
      
         
         var listName = "\(theName)" //Se crea una nueva instancia
-        let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        let whitespaceset = CharacterSet.whitespaces
         var arrayOfIndex: [Int] = []
-        if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
-            listName = listName.substringToIndex(range.startIndex)
+        if let range = listName.range(of: "copia", options: .literal, range: nil, locale: nil) {
+            listName = listName.substring(to: range.lowerBound)
         }
-        listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
+        listName = listName.trimmingCharacters(in: whitespaceset)
         if itemsUserList != nil {
             if itemsUserList!.count > 0 {
                 for idx in 0 ..< itemsUserList!.count {
@@ -620,13 +640,13 @@ DetailListViewCellDelegate,UIActivityItemSource {
                     }
                     
                     if name != nil {
-                        if let range = name!.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
-                            stringIndex = name!.substringFromIndex(range.endIndex)
-                            name = name!.substringToIndex(range.startIndex)
+                        if let range = name!.range(of: "copia", options: .literal, range: nil, locale: nil) {
+                            stringIndex = name!.substring(from: range.upperBound)
+                            name = name!.substring(to: range.lowerBound)
                         }
-                        name = name!.stringByTrimmingCharactersInSet(whitespaceset)
+                        name = name!.trimmingCharacters(in: whitespaceset)
                         if stringIndex != nil {
-                            stringIndex = stringIndex!.stringByTrimmingCharactersInSet(whitespaceset)
+                            stringIndex = stringIndex!.trimmingCharacters(in: whitespaceset)
                             if name!.hasPrefix(listName) {
                                 stringIndex = stringIndex! == "" ? "1" : stringIndex
                                 arrayOfIndex.append(Int(stringIndex!)!)
@@ -637,7 +657,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             }
         }
         let listIndexes = Set([1,2,3,4,5,6,7,8,9,10,11,12])
-        let dispinibleIndex = listIndexes.subtract(arrayOfIndex).minElement()
+        let dispinibleIndex = listIndexes.subtracting(arrayOfIndex).min()
         var idxTxt = dispinibleIndex == 1 ? "copia" : "copia \(dispinibleIndex!)"
         
         if self.findListindb("\(listName) \(idxTxt)") {
@@ -646,7 +666,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
         var returnName =  "\(listName) \(idxTxt)"
         if returnName.length() > 25 {
-            returnName = (returnName as NSString).substringToIndex(24)
+            returnName = (returnName as NSString).substring(to: 24)
             returnName = "\(returnName)\(dispinibleIndex!)"
         }
         
@@ -655,9 +675,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
     }
     
-    func findListindb(newNameList:String) -> Bool{
+    func findListindb(_ newNameList:String) -> Bool{
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let service =  GRSaveUserListService()

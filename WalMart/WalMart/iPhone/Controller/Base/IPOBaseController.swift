@@ -16,12 +16,12 @@ class IPOBaseController : BaseController {
     var lastContentOffset: CGFloat? = 0
     var isVisibleTab: Bool = true
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.startContentOffset = scrollView.contentOffset.y
         self.lastContentOffset = scrollView.contentOffset.y
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentOffset: CGFloat = scrollView.contentOffset.y
         let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
         let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
@@ -30,7 +30,7 @@ class IPOBaseController : BaseController {
         if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden && !IS_IPAD {
             
             
-            if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
+            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
                 
                 var insetToUse : CGFloat = scrollView.contentInset.bottom  - 45
                 if insetToUse < 0 {
@@ -58,13 +58,13 @@ class IPOBaseController : BaseController {
                 willHideTabbar()
                 isVisibleTab = false
                 TabBarHidden.isTabBarHidden = true
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
             }
         }
         if (differenceFromStart > 0 && TabBarHidden.isTabBarHidden) && !IS_IPAD{
             
             
-            if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
+            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
                 
                 if let collectionView = scrollView as? UICollectionView {
                     if let layoutFlow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -86,7 +86,7 @@ class IPOBaseController : BaseController {
                 willShowTabbar()
                 isVisibleTab = true
                 TabBarHidden.isTabBarHidden = false
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
             }
         }
     }

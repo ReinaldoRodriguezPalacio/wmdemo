@@ -26,22 +26,22 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewLoad = WMLoadingView(frame:CGRectZero)
+        viewLoad = WMLoadingView(frame:CGRect.zero)
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = NSLocalizedString("profile.myOrders", comment: "")
 
         tableOrders = UITableView()
         tableOrders.dataSource = self
         tableOrders.delegate = self
         
-        tableOrders.registerClass(PreviousOrdersTableViewCell.self, forCellReuseIdentifier: "prevousOrder")
+        tableOrders.register(PreviousOrdersTableViewCell.self, forCellReuseIdentifier: "prevousOrder")
         
-        tableOrders.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableOrders.separatorStyle = UITableViewCellSeparatorStyle.none
         
         self.view.addSubview(tableOrders)
         
-        emptyView = IPOOrderEmptyView(frame: CGRectZero)
+        emptyView = IPOOrderEmptyView(frame: CGRect.zero)
         emptyView.returnAction = {() in
             self.back()
         }
@@ -50,7 +50,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         self.reloadPreviousOrders()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         isShowingTabBar = !TabBarHidden.isTabBarHidden
         
@@ -58,17 +58,17 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         if isShowingTabBar {
-            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 109 , self.view.frame.width, 64)
+            self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 109 , width: self.view.frame.width, height: 64)
         }else{
             //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
         }
         
         if isShowingButtonFactura {
-           self.buttonFactura.frame = CGRectMake(16, 14, facturasToolBar.frame.width - 32, 34)
+           self.buttonFactura.frame = CGRect(x: 16, y: 14, width: facturasToolBar.frame.width - 32, height: 34)
         }
         
     }
@@ -79,19 +79,19 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableOrders.dequeueReusableCellWithIdentifier("prevousOrder") as! PreviousOrdersTableViewCell
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        if !(indexPath.row > self.items.count) && self.items.count > 0 {
-            let item = self.items[indexPath.row] as! NSDictionary
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableOrders.dequeueReusableCell(withIdentifier: "prevousOrder") as! PreviousOrdersTableViewCell
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        if !((indexPath as NSIndexPath).row > self.items.count) && self.items.count > 0 {
+            let item = self.items[(indexPath as NSIndexPath).row] as! NSDictionary
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
             var statusStr = item["status"] as! String
@@ -105,8 +105,8 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let item = self.items[indexPath.row] as! NSDictionary
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = self.items[(indexPath as NSIndexPath).row] as! NSDictionary
         let detailController = OrderShippingViewController()
         
         //let dateStr = item["placedDate"] as! String
@@ -126,13 +126,13 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     func reloadPreviousOrders() {
         self.items = []
-        self.emptyView.frame = CGRectMake(0, 46, self.view.frame.width, self.view.frame.height - 46)
-        self.viewLoad.frame = CGRectMake(0, 46, self.view.frame.width, self.view.frame.height - 46)
+        self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.frame.width, height: self.view.frame.height - 46)
+        self.viewLoad.frame = CGRect(x: 0, y: 46, width: self.view.frame.width, height: self.view.frame.height - 46)
         //self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 155)
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
         }
-        viewLoad.backgroundColor = UIColor.whiteColor()
+        viewLoad.backgroundColor = UIColor.white
         self.view.addSubview(viewLoad)
         viewLoad.startAnnimating(self.isVisibleTab)
         
@@ -144,30 +144,30 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 self.items.append(dictMGOrder)
             }
             
-            let dateFormat = NSDateFormatter()
+            let dateFormat = DateFormatter()
             dateFormat.dateFormat = "dd/MM/yyyy"
-            self.items.sortInPlace({
+            self.items.sort(by: {
                 let firstDate = $0["placedDate"] as! String
                 let secondDate = $1["placedDate"] as! String
-                let dateOne = dateFormat.dateFromString(firstDate)!
-                let dateTwo = dateFormat.dateFromString(secondDate)!
-                return dateOne.compare(dateTwo) == NSComparisonResult.OrderedDescending
+                let dateOne = dateFormat.date(from: firstDate)!
+                let dateTwo = dateFormat.date(from: secondDate)!
+                return dateOne.compare(dateTwo) == ComparisonResult.orderedDescending
             })
             
-            self.emptyView.hidden = self.items.count > 0
-            self.facturasToolBar.hidden = !(self.items.count > 0)
+            self.emptyView.isHidden = self.items.count > 0
+            self.facturasToolBar.isHidden = !(self.items.count > 0)
             if self.items.count > 0 {
-                self.facturasToolBar.backgroundColor = UIColor.whiteColor()
+                self.facturasToolBar.backgroundColor = UIColor.white
             }
             self.tableOrders.reloadData()
             self.viewLoad.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 self.viewLoad.stopAnnimating()
                 self.tableOrders.reloadData()
-                self.emptyView.hidden = self.items.count > 0
-                self.facturasToolBar.hidden = !(self.items.count > 0)
+                self.emptyView.isHidden = self.items.count > 0
+                self.facturasToolBar.isHidden = !(self.items.count > 0)
                 if self.items.count > 0 {
-                    self.facturasToolBar.backgroundColor = UIColor.whiteColor()
+                    self.facturasToolBar.backgroundColor = UIColor.white
                 }
             
             //}, errorBlock: { (error:NSError) -> Void in
@@ -216,16 +216,16 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     
        func tabFooterView() {
-        facturasToolBar = UIView(frame: CGRectMake(0, self.view.frame.height - 64 , self.view.bounds.width, 64))
+        facturasToolBar = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.bounds.width, height: 64))
         //facturasToolBar.backgroundColor = UIColor.whiteColor()
-        facturasToolBar.backgroundColor = UIColor.clearColor()
+        facturasToolBar.backgroundColor = UIColor.clear
         
-        self.buttonFactura = UIButton(frame: CGRectMake(16, 14, facturasToolBar.frame.width - 32, 34))
+        self.buttonFactura = UIButton(frame: CGRect(x: 16, y: 14, width: facturasToolBar.frame.width - 32, height: 34))
         self.buttonFactura.backgroundColor = WMColor.light_blue
         self.buttonFactura.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.buttonFactura.layer.cornerRadius = 17
-        self.buttonFactura.addTarget(self, action: #selector(OrderViewController.showWebView), forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonFactura.setTitle("Facturación electrónica",forState:UIControlState.Normal)
+        self.buttonFactura.addTarget(self, action: #selector(OrderViewController.showWebView), for: UIControlEvents.touchUpInside)
+        self.buttonFactura.setTitle("Facturación electrónica",for:UIControlState())
         
         facturasToolBar.addSubview(self.buttonFactura)
         //self.view.addSubview(facturasToolBar)
@@ -235,22 +235,22 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     func showWebView() {
         let webCtrl = IPOWebViewController()
         webCtrl.openURLFactura()
-        self.presentViewController(webCtrl,animated:true,completion:nil)
+        self.present(webCtrl,animated:true,completion:nil)
     }
     
     override func willShowTabbar() {
         isShowingTabBar = true
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 110 , self.view.frame.width, 64)
-            self.tableOrders!.frame = CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 109)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 110 , width: self.view.frame.width, height: 64)
+            self.tableOrders!.frame = CGRect(x: 0, y: 46 , width: self.view.frame.width, height: self.view.frame.height - 109)
         })
     }
     
     override func willHideTabbar() {
         isShowingTabBar = false
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
-            self.tableOrders!.frame = CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 64)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
+            self.tableOrders!.frame = CGRect(x: 0, y: 46 , width: self.view.frame.width, height: self.view.frame.height - 64)
         })
     }
     

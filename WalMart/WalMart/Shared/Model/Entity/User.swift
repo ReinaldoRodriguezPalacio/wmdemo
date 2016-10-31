@@ -15,7 +15,7 @@ class User : NSManagedObject {
     @NSManaged var cartId: NSString
     @NSManaged var email: NSString
     @NSManaged var idUser: NSString
-    @NSManaged var lastLogin: NSDate
+    @NSManaged var lastLogin: Date
     @NSManaged var maximumAmount: NSNumber
     @NSManaged var profile: Profile
     @NSManaged var productsInCart: NSSet

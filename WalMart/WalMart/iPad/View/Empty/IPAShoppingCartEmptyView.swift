@@ -13,8 +13,8 @@ class IPAShoppingCartEmptyView: IPOShoppingCartEmptyView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.height - 85, 160 , 40)
-        iconImageView.frame = CGRectMake(0.0, 0.0,  self.bounds.width,  self.bounds.height)//  self.bounds.height)
+        self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.height - 85, width: 160 , height: 40)
+        iconImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height: self.bounds.height)//  self.bounds.height)
     }
     
 }

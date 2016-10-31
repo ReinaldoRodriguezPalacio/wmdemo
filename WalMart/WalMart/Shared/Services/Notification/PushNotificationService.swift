@@ -10,7 +10,7 @@ import Foundation
 
 class PushNotificationService :  BaseService {
     
-    func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in

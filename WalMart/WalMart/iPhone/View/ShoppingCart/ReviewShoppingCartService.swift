@@ -10,7 +10,7 @@ import Foundation
 
 class ReviewShoppingCartService : BaseService {
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!([:])
             }, errorBlock: { (error:NSError) -> Void in

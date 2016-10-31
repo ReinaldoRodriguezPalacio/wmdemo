@@ -14,9 +14,9 @@ class ProductDetailBundleTableViewCell : ProductDetailCrossSellTableViewCell {
     
     override func setup() {
         super.setup()
-        collection.registerClass(ProductDetailBundleItemCollectionViewCell.self, forCellWithReuseIdentifier: "productBundleCell")
+        collection.register(ProductDetailBundleItemCollectionViewCell.self, forCellWithReuseIdentifier: "productBundleCell")
         
-        downBorder = UIView(frame: CGRectMake(0, 129, self.frame.width, AppDelegate.separatorHeigth()))
+        downBorder = UIView(frame: CGRect(x: 0, y: 129, width: self.frame.width, height: AppDelegate.separatorHeigth()))
         downBorder.backgroundColor = WMColor.light_light_gray
         
         
@@ -24,10 +24,10 @@ class ProductDetailBundleTableViewCell : ProductDetailCrossSellTableViewCell {
         
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("productBundleCell", forIndexPath: indexPath) as! ProductDetailBundleItemCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: "productBundleCell", for: indexPath) as! ProductDetailBundleItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
         let item = itemUPC["item"] as! [String:AnyObject]
         let parentProducts = item["parentProducts"] as! [[String:AnyObject]]
         let parent = parentProducts.first

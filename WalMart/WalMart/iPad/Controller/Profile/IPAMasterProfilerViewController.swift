@@ -18,7 +18,7 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
     var navigation : UINavigationController!
     var profile = IPAProfileViewController()
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
@@ -34,7 +34,7 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
         selected = 0
         self.viewControllers = [profile, navigation];
         
-        if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
+        if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
         {
             self.maximumPrimaryColumnWidth = 342.0
             self.minimumPrimaryColumnWidth = 342.0
@@ -49,33 +49,33 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
         // Dispose of any resources that can be recreated.
     }
 
-    func selectedDetail(row: Int){
+    func selectedDetail(_ row: Int){
         if selected == row{
-            self.navigation.popToRootViewControllerAnimated(true)
+            self.navigation.popToRootViewController(animated: true)
             return
         }
         self.navigation = UINavigationController()
-        self.navigation!.popViewControllerAnimated(true)
+        self.navigation!.popViewController(animated: true)
         
         switch row {
         case 0:
-            self.profile.editProfileButton!.selected = false
+            self.profile.editProfileButton!.isSelected = false
             let recent = IPARecentProductsViewController()
             self.navigation.pushViewController(recent, animated: true)
         case 1:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
-            self.profile.editProfileButton!.selected = false
+            self.profile.editProfileButton!.isSelected = false
             let myAddres = IPAMyAddressViewController()
             self.navigation.pushViewController(myAddres, animated: true)
         case 2:
-            self.profile.editProfileButton!.selected = false
+            self.profile.editProfileButton!.isSelected = false
             let order = IPAOrderViewController()
             
             self.navigation.pushViewController(order, animated: true)
         case 3:
             let edit = IPAEditProfileViewController()
-            let indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
-            self.profile.table.deselectRowAtIndexPath(indexPath, animated: true)
+            let indexPath = IndexPath(item:Int(selected!), section:0)
+            self.profile.table.deselectRow(at: indexPath, animated: true)
             edit.delegate  = self.profile
             self.navigation.pushViewController(edit, animated: true)
         default :
@@ -87,7 +87,7 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
     }
     
     func closeSession() {
-        self.navigation!.popToRootViewControllerAnimated(true)
+        self.navigation!.popToRootViewController(animated: true)
     }
     
     

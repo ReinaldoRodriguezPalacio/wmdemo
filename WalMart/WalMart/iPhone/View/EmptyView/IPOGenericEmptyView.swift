@@ -33,8 +33,8 @@ class IPOGenericEmptyView : IPOEmptyView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.descLabel.frame = CGRectMake(50, 28.0, self.bounds.width - 100, 42)
-        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.size.height - 140, 160 , 40)
+        self.descLabel.frame = CGRect(x: 50, y: 28.0, width: self.bounds.width - 100, height: 42)
+        self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.size.height - 140, width: 160 , height: 40)
     }
     
     

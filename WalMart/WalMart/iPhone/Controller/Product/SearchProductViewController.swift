@@ -8,6 +8,44 @@
 
 import Foundation
 import CoreData
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 
 struct SearchResult {
@@ -15,9 +53,9 @@ struct SearchResult {
     var totalResults = -1
     var resultsInResponse = 0
    
-    mutating func addResults(otherProducts:NSArray) {
+    mutating func addResults(_ otherProducts:NSArray) {
         if self.products != nil {
-            self.products = self.products!.arrayByAddingObjectsFromArray(otherProducts as [AnyObject])
+            self.products = self.products!.addingObjects(from: otherProducts as [AnyObject]) as NSArray?
         }
         else {
             self.products = otherProducts
@@ -32,20 +70,20 @@ struct SearchResult {
 }
 
 enum SearchServiceContextType {
-    case WithText
-    case WithCategoryForMG
-    case WithCategoryForGR
-    case WithTextForCamFind
-    case WithRecomendedLine
+    case withText
+    case withCategoryForMG
+    case withCategoryForGR
+    case withTextForCamFind
+    case withRecomendedLine
 }
  
  enum SearchServiceFromContext {
-    case FromRecomended
-    case FromLineSearch
-    case FromSearchText
-    case FromSearchCamFind
-    case FromSearchTextSelect
-    case FromSearchTextList
+    case fromRecomended
+    case fromLineSearch
+    case fromSearchText
+    case fromSearchCamFind
+    case fromSearchTextSelect
+    case fromSearchTextList
  }
 
 class SearchProductViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FilterProductsViewControllerDelegate, SearchProductCollectionViewCellDelegate {
@@ -107,9 +145,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
             switch self.searchContextType! {
-            case .WithCategoryForMG :
+            case .withCategoryForMG :
                 return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
-            case .WithCategoryForGR :
+            case .withCategoryForGR :
                 return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
             default :
                 break
@@ -121,34 +159,34 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         collection = getCollectionView()
-        collection?.registerClass(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
-        collection?.registerClass(LoadingProductCollectionViewCell.self, forCellWithReuseIdentifier: "loadCell")
-        collection?.registerClass(SectionHeaderSearchHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        collection?.register(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
+        collection?.register(LoadingProductCollectionViewCell.self, forCellWithReuseIdentifier: "loadCell")
+        collection?.register(SectionHeaderSearchHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         collection?.allowsMultipleSelection = true
         
         collection!.dataSource = self
         collection!.delegate = self
         
-        collection!.backgroundColor = UIColor.whiteColor()
+        collection!.backgroundColor = UIColor.white
         self.idSort =  FilterType.none.rawValue
-        if self.searchContextType! == .WithCategoryForMG {
+        if self.searchContextType! == .withCategoryForMG {
             self.idSort =  FilterType.rankingASC.rawValue
         }
         
-        self.filterButton = UIButton(type: .Custom)
+        self.filterButton = UIButton(type: .custom)
         //self.filterButton!.setImage(iconImage, forState: .Normal)
         //elf.filterButton!.setImage(iconSelected, forState: .Highlighted)
-        self.filterButton!.addTarget(self, action: #selector(SearchProductViewController.filter(_:)), forControlEvents: .TouchUpInside)
-        self.filterButton!.tintColor = UIColor.whiteColor()
+        self.filterButton!.addTarget(self, action: #selector(SearchProductViewController.filter(_:)), for: .touchUpInside)
+        self.filterButton!.tintColor = UIColor.white
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
+        self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: UIControlState())
         self.filterButton!.backgroundColor = WMColor.light_blue
         self.filterButton!.layer.cornerRadius = 11.0
 
-        self.filterButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.filterButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         
         self.header?.addSubview(self.filterButton!)
@@ -163,9 +201,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         self.selectQuantity?.closeAction()
         self.selectQuantityGR?.closeAction()
     }
@@ -188,14 +226,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         attachment.image = UIImage(named: "search_edit")
         let attachmentString = NSAttributedString(attachment: attachment)
         let myString = NSMutableAttributedString(string: "\(titleText) ")
-        myString.appendAttributedString(attachmentString)
+        myString.append(attachmentString)
         titleLabelEdit.numberOfLines = 2
         titleLabelEdit.attributedText = myString
-        titleLabelEdit.userInteractionEnabled = true
+        titleLabelEdit.isUserInteractionEnabled = true
         titleLabelEdit.textColor =  WMColor.light_blue
         titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabelEdit.numberOfLines = 2
-        titleLabelEdit.textAlignment = .Center
+        titleLabelEdit.textAlignment = .center
     
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductViewController.editSearch))
         titleLabelEdit.addGestureRecognizer(tapGesture)
@@ -205,17 +243,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func editSearch(){
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.header?.addSubview(self.filterButton!)
         self.view.addSubview(collection!)
-        self.isTextSearch = (self.searchContextType == SearchServiceContextType.WithText || self.searchContextType == SearchServiceContextType.WithTextForCamFind)
-        self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
+        self.isTextSearch = (self.searchContextType == SearchServiceContextType.withText || self.searchContextType == SearchServiceContextType.withTextForCamFind)
+        self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.withText || self.originalSearchContextType == SearchServiceContextType.withTextForCamFind
         
         if self.isTextSearch || isOriginalTextSearch
         {
@@ -241,8 +279,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         //aqui la quite
         if loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
-            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.loading = WMLoadingView(frame: CGRect(x: 11, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.white
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
@@ -252,14 +290,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.loading!.startAnnimating(self.isVisibleTab)
         }
     
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
     }
-    override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
         self.viewEmptyImage =  true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 		self.collection!.reloadData()
         
@@ -275,7 +313,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if finsihService || didSelectProduct {
             self.loading?.stopAnnimating()
         }
-        if self.results!.totalResults == 0 && self.searchContextType == .WithCategoryForMG {
+        if self.results!.totalResults == 0 && self.searchContextType == .withCategoryForMG {
             self.showEmptyView()
         }
     }
@@ -292,8 +330,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
-            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.loading = WMLoadingView(frame: CGRect(x: 11, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.white
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
@@ -305,24 +343,24 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         //TODO MAke Search only one resultset
-        contentCollectionOffset = CGPointZero
-        self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
-        self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
+        contentCollectionOffset = CGPoint.zero
+        self.collection!.frame = CGRect(x: 0, y: startPoint, width: self.view.bounds.width, height: self.view.bounds.height - startPoint)
+        self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y: (self.header!.frame.size.height - 22)/2 , width: 55, height: 22)
 
         //if self.searchContextType == SearchServiceContextType.WithTextForCamFind {
-        self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width - 5, 0, self.view.bounds.width - (self.filterButton!.frame.width * 2) - 10, self.header!.frame.maxY)
+        self.titleLabel!.frame = CGRect(x: self.filterButton!.frame.width - 5, y: 0, width: self.view.bounds.width - (self.filterButton!.frame.width * 2) - 10, height: self.header!.frame.maxY)
         
-        if self.searchContextType != SearchServiceContextType.WithTextForCamFind {
-            self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width , 0, self.view.bounds.width - (self.filterButton!.frame.width * 2) - 12, self.header!.frame.maxY)
+        if self.searchContextType != SearchServiceContextType.withTextForCamFind {
+            self.titleLabel!.frame = CGRect(x: self.filterButton!.frame.width , y: 0, width: self.view.bounds.width - (self.filterButton!.frame.width * 2) - 12, height: self.header!.frame.maxY)
         }
     
-        self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.loading!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         if self.isAplyFilter {
-            self.filterButton!.setTitle(NSLocalizedString("restaurar", comment:"" ) , forState: .Normal)
-            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 90 , (self.header!.frame.size.height - 22)/2 , 70, 22)
+            self.filterButton!.setTitle(NSLocalizedString("restaurar", comment:"" ) , for: UIControlState())
+            self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 90 , y: (self.header!.frame.size.height - 22)/2 , width: 70, height: 22)
         }else{
-            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
-            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
+            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: UIControlState())
+            self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y: (self.header!.frame.size.height - 22)/2 , width: 55, height: 22)
         }
     }
     
@@ -342,37 +380,37 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //    }
     
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! SectionHeaderSearchHeader
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SectionHeaderSearchHeader
             
             view.title = setTitleWithEdit()
-            view.title?.textAlignment = .Center
+            view.title?.textAlignment = .center
             view.addSubview(view.title!)
             view.addSubview(self.filterButton!)
 
             view.backgroundColor = WMColor.light_gray
             
-            if indexPath.section == 0 {
-                view.frame = CGRectMake(0, 0, 0, 0)
+            if (indexPath as NSIndexPath).section == 0 {
+                view.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
             }
             
             return view
         }
-        return UICollectionReusableView(frame: CGRectZero)
+        return UICollectionReusableView(frame: CGRect.zero)
     }
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
-            return CGSizeZero
+            return CGSize.zero
         }
         
-        return CGSizeMake(self.view.frame.width, 44)
+        return CGSize(width: self.view.frame.width, height: 44)
     }
     
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //Camfind results
 //        if upcsToShow?.count > 0 && section == 0 {
 //            if self.btnSuper.selected {
@@ -408,20 +446,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         return size
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Show loading cell and invoke service
         var commonTotal = 0
         commonTotal =  (self.results!.totalResults == -1 ? 0:self.results!.totalResults)
         
-        if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
-            let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath)
+        if (indexPath as NSIndexPath).row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
+            let loadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadCell", for: indexPath)
             self.invokeServiceInError =  true
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
         }
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(productCellIdentifier(), forIndexPath: indexPath) as! SearchProductCollectionViewCell
-        if self.allProducts?.count <= indexPath.item {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: indexPath) as! SearchProductCollectionViewCell
+        if self.allProducts?.count <= (indexPath as NSIndexPath).item {
             return cell
         }
         var item : NSDictionary = [:]
@@ -436,7 +474,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
 //        }
 //        
-        item = self.allProducts?[indexPath.item] as! NSDictionary
+        item = self.allProducts?[(indexPath as NSIndexPath).item] as! NSDictionary
         let upc = item["upc"] as! String
         let skuid = item["skuId"] as? String ?? ""
         let description = item["description"] as? String
@@ -448,7 +486,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         else if let pricenum = item["specialPrice"] as? NSNumber {
             let txt = pricenum.stringValue
-            price = txt
+            price = txt as NSString?
         }
         
         if let priceThr = item["saving"] as? NSString {
@@ -529,7 +567,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             isLowStock:isLowStock,
             category:productDeparment,
             equivalenceByPiece: equivalenceByPiece,
-            position:self.isAplyFilter ? "" : "\(indexPath.row)"
+            position:self.isAplyFilter ? "" : "\((indexPath as NSIndexPath).row)"
         )
         
         cell.setValueArray(plpArray["arrayItems"] as! NSArray)
@@ -545,15 +583,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func retrieveProductInList(forProduct upc:String?, inListWithId listId:String) -> Product? {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var detail: Product? = nil
         if upc != nil {
             let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: context)
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: context)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list.idList == %@", upc!, listId)
-            var result: [Product] = (try! context.executeFetchRequest(fetchRequest)) as! [Product]
+            var result: [Product] = (try! context.fetch(fetchRequest)) as! [Product]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -561,27 +599,27 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         return detail
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(self.view.bounds.maxX/2, 190)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.bounds.maxX/2, height: 190)
      }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat{
         return 0
     }
     //MARK: - UICollectionViewDelegate
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         didSelectProduct = true
-        let cell = self.collection?.cellForItemAtIndexPath(indexPath)
-        if cell!.isKindOfClass(SearchProductCollectionViewCell){
+        let cell = self.collection?.cellForItem(at: indexPath)
+        if cell!.isKind(of: SearchProductCollectionViewCell.self){
             let controller = ProductDetailPageViewController()
             var productsToShow : [[String:String]] = []
-            if indexPath.section == 0 && self.upcsToShow?.count > 0 {
-                if indexPath.row < self.allProducts!.count {
+            if (indexPath as NSIndexPath).section == 0 && self.upcsToShow?.count > 0 {
+                if (indexPath as NSIndexPath).row < self.allProducts!.count {
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
@@ -595,7 +633,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                 }
             } else {
-                if indexPath.row < self.allProducts!.count {
+                if (indexPath as NSIndexPath).row < self.allProducts!.count {
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
@@ -610,9 +648,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
             controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
-            controller.itemsToShow = productsToShow
-            controller.ixSelected = indexPath.row
-            controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
+            controller.itemsToShow = productsToShow as [AnyObject]
+            controller.ixSelected = (indexPath as NSIndexPath).row
+            controller.itemSelectedSolar = self.isAplyFilter ? "" : "\((indexPath as NSIndexPath).row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
             self.navigationController!.pushViewController(controller, animated: true)
@@ -622,7 +660,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: - Services
     
-    func getServiceProduct(resetTable resetTable:Bool) {
+    func getServiceProduct(resetTable:Bool) {
         self.filterButton?.alpha = 0
         self.contentCollectionOffset = self.collection?.contentOffset
         
@@ -658,7 +696,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     //Solo ocupar este servicio para busqueda
-    func invokeSearchUPCGroceries(actionSuccess actionSuccess:(() -> Void)?) {
+    func invokeSearchUPCGroceries(actionSuccess:(() -> Void)?) {
         if self.upcsToShow?.count > 0 {
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:NSDictionary) -> Void in
@@ -677,7 +715,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    func invokeSearchProducts(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
+    func invokeSearchProducts(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
         if self.results!.totalResults != -1 && self.results!.resultsInResponse >= self.results!.totalResults {
             if self.allProducts == nil || self.allProducts!.count == 0{
@@ -750,26 +788,26 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         )
     }
     
-    func updateViewAfterInvokeService(resetTable resetTable:Bool) {
+    func updateViewAfterInvokeService(resetTable:Bool) {
         
         if firstOpen && (self.results!.products == nil || self.results!.products!.count == 0 ) {
             self.allProducts = []
             if self.results?.products != nil {
                 if self.itemsUPC?.count > 0 {
-                    self.allProducts?.addObjectsFromArray(self.itemsUPC as! [AnyObject])
+                    self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:AnyObject]
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPC!.containsObject(productUPC) {
-                                filtredProducts.append(productDict)
+                            if !self.itemsUPC!.contains(productUPC) {
+                                filtredProducts.append(productDict as AnyObject)
                             }
                         }
                     }
-                    self.allProducts?.addObjectsFromArray(filtredProducts)
+                    self.allProducts?.addObjects(from: filtredProducts)
                 } else {
                     if self.results!.products != nil{
-                        self.allProducts?.addObjectsFromArray(self.results!.products as! [AnyObject])
+                        self.allProducts?.addObjects(from: self.results!.products as! [AnyObject])
                     }
                 }
             }
@@ -778,20 +816,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.allProducts = []
             if self.results?.products != nil {
                 if self.itemsUPC?.count > 0 {
-                    self.allProducts?.addObjectsFromArray(self.itemsUPC as! [AnyObject])
+                    self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:AnyObject]
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPC!.containsObject(productUPC) {
-                                filtredProducts.append(productDict)
+                            if !self.itemsUPC!.contains(productUPC) {
+                                filtredProducts.append(productDict as AnyObject)
                             }
                         }
                     }
                     
-                    self.allProducts?.addObjectsFromArray(filtredProducts)
+                    self.allProducts?.addObjects(from: filtredProducts)
                 } else {
-                    self.allProducts?.addObjectsFromArray(self.results!.products as! [AnyObject])
+                    self.allProducts?.addObjects(from: self.results!.products as! [AnyObject])
                 }
             }
         }
@@ -807,65 +845,65 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 switch (FilterType(rawValue: self.idSort!)!) {
                 case .descriptionAsc :
                     //println("descriptionAsc")
-                    self.allProducts?.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
+                    self.allProducts?.sort(using: [NSSortDescriptor(key: "description", ascending: true)])
                     //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
                 case .descriptionDesc :
                     //println("descriptionDesc")
-                    self.allProducts?.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
+                    self.allProducts?.sort(using: [NSSortDescriptor(key: "description", ascending: false)])
                     //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
                 case .priceAsc :
                     //println("priceAsc")
-                    self.allProducts?.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    self.allProducts?.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
                         let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                         let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                         
                         if priceOne < priceTwo {
-                            return NSComparisonResult.OrderedAscending
+                            return ComparisonResult.orderedAscending
                         }
                         else if (priceOne > priceTwo) {
-                            return NSComparisonResult.OrderedDescending
+                            return ComparisonResult.orderedDescending
                         }
                         else {
-                            return NSComparisonResult.OrderedSame
+                            return ComparisonResult.orderedSame
                         }
                         
-                    })
+                    } as! (Any, Any) -> ComparisonResult)
                    
                 case .none : print("Not sorted")
                 default :
                     //println("priceDesc")
-                    self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
                         let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                         let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                         
                         if priceOne > priceTwo {
-                            return NSComparisonResult.OrderedAscending
+                            return ComparisonResult.orderedAscending
                         }
                         else if (priceOne < priceTwo) {
-                            return NSComparisonResult.OrderedDescending
+                            return ComparisonResult.orderedDescending
                         }
                         else {
-                            return NSComparisonResult.OrderedSame
+                            return ComparisonResult.orderedSame
                         }
                         
-                    })
+                    } as! (Any, Any) -> ComparisonResult)
                 }
             }
             if self.emptyMGGR != nil {
                 self.emptyMGGR.removeFromSuperview()
             }
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.showLoadingIfNeeded(true)
                 self.collection?.reloadData()
                 self.collection?.alpha = 1
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
                 self.filterButton?.alpha = 1
             }
         }
     }
     
-    func priceValueFrom(dictionary:NSDictionary) -> Double {
+    func priceValueFrom(_ dictionary:NSDictionary) -> Double {
         var price:Double = 0.0
         
         if let priceTxt = dictionary["price"] as? NSString {
@@ -902,23 +940,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        if self.searchFromContextType != .FromSearchTextList{
+        if self.searchFromContextType != .fromSearchTextList{
             self.empty.descLabel.text = "No existe ese artículo"
         } else {
             self.empty.descLabel.text = "No existen artículos"
         }
         
         self.view.addSubview(self.empty)
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
     }
     
     //MARK: - Actions
     
     func returnBack() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    func showLoadingIfNeeded(hidden: Bool ) {
+    func showLoadingIfNeeded(_ hidden: Bool ) {
         if hidden {
             self.loading!.stopAnnimating()
         } else {
@@ -929,19 +967,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: - Filters
     
-    func filter(sender:UIButton){
+    func filter(_ sender:UIButton){
         if self.isAplyFilter {
             print("Resetea filtros")
             self.isAplyFilter =  false
-            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
-            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
+            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: UIControlState())
+            self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y: (self.header!.frame.size.height - 22)/2 , width: 55, height: 22)
             self.results!.resetResult()
             self.getServiceProduct(resetTable: true)
         }else{
             print("Nuevos filtros")
             if controllerFilter == nil {
                 controllerFilter = FilterProductsViewController()
-                controllerFilter.facet = self.facet
+                controllerFilter.facet = self.facet as NSArray?
                 controllerFilter.textToSearch = self.textToSearch
                 controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort! 
                 controllerFilter.delegate = self
@@ -957,13 +995,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter.sliderTableViewCell?.resetSlider()
             controllerFilter.upcPrices =  nil
             controllerFilter.selectedElementsFacet = [:]
-            controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
+            controllerFilter.searchContext = SearchServiceContextType.withCategoryForMG //
             self.navigationController?.pushViewController(controllerFilter, animated: true)
         }
     }
     
     
-    func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
+    func apply(_ order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         
         self.isAplyFilter =  true
         
@@ -986,7 +1024,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.idDepartment = filters![JSON_KEY_IDDEPARTMENT] as? String
             self.idFamily = filters![JSON_KEY_IDFAMILY] as? String
             self.idLine = filters![JSON_KEY_IDLINE] as? String
-            self.searchContextType = flag ? .WithCategoryForGR : .WithCategoryForMG
+            self.searchContextType = flag ? .withCategoryForGR : .withCategoryForMG
             
             if self.upcsToShowApply?.count == 0 {
                 self.upcsToShowApply = self.upcsToShow
@@ -1009,12 +1047,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.getServiceProduct(resetTable: true)
     }
     
-    func sendBrandFilter(brandFilter: String) {
+    func sendBrandFilter(_ brandFilter: String) {
         self.brandText = brandFilter
         
     }
 
-    func apply(order:String, upcs: [String]) {
+    func apply(_ order:String, upcs: [String]) {
 
         self.isAplyFilter =  true
         
@@ -1041,51 +1079,51 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
-            if self.originalSearchContextType != .WithTextForCamFind {
+            if self.originalSearchContextType != .withTextForCamFind {
                 self.allProducts? = []
             }
-            self.allProducts?.addObjectsFromArray(result.arrayObject!)
+            self.allProducts?.addObjects(from: result.arrayObject!)
             self.results?.totalResults = self.allProducts!.count
             self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
                 //println("descriptionAsc")
-                self.allProducts!.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
+                self.allProducts!.sort(using: [NSSortDescriptor(key: "description", ascending: true)])
             case .descriptionDesc :
                 //println("descriptionDesc")
-                self.allProducts!.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
+                self.allProducts!.sort(using: [NSSortDescriptor(key: "description", ascending: false)])
             case .priceAsc :
                 //println("priceAsc")
-                self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
                     let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                     let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
                     if priceOne < priceTwo {
-                        return NSComparisonResult.OrderedAscending
+                        return ComparisonResult.orderedAscending
                     }
                     else if (priceOne > priceTwo) {
-                        return NSComparisonResult.OrderedDescending
+                        return ComparisonResult.orderedDescending
                     }
                     else {
-                        return NSComparisonResult.OrderedSame
+                        return ComparisonResult.orderedSame
                     }
                     
                 })
             case .none : print("Not sorted")
             case .priceDesc :
                 //println("priceDesc")
-                self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
                     let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                     let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
                     if priceOne > priceTwo {
-                        return NSComparisonResult.OrderedAscending
+                        return ComparisonResult.orderedAscending
                     }
                     else if (priceOne < priceTwo) {
-                        return NSComparisonResult.OrderedDescending
+                        return ComparisonResult.orderedDescending
                     }
                     else {
-                        return NSComparisonResult.OrderedSame
+                        return ComparisonResult.orderedSame
                     }
                     
                 })
@@ -1155,29 +1193,29 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     //MARK: Filter Super Tecnologia
-    func changeSuperTech(sender:UIButton) {
+    func changeSuperTech(_ sender:UIButton) {
         //self.collection?.contentOffset = CGPointZero
         
-        sender.selected = true
+        sender.isSelected = true
         
         self.allProducts = nil
         updateViewAfterInvokeService(resetTable:true)
-        self.searchContextType = SearchServiceContextType.WithCategoryForGR
+        self.searchContextType = SearchServiceContextType.withCategoryForGR
     }
     
     //MARK: SearchProductCollectionViewCellDelegate
     
-    func buildGRSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
+    func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect){
         var prodQuantity = "1"
         if cell.pesable! {
             prodQuantity = "50"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:Int(equivalence!),upcProduct:cell.upc)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(Int(equivalence!)),upcProduct:cell.upc)
             
         }else{
             prodQuantity = "1"
-            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),upcProduct:cell.upc)
+            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc)
         }
         
         //EVENT
@@ -1197,7 +1235,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 }else{
                     self.addItemToList(cell, quantity:quantity)
                 }
@@ -1223,14 +1261,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //selectQuantityGR!.generateBlurImage(self.view,frame:selectQuantityGR.bounds)
     }
     
-    func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
-        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
         self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantityGR)
     }
     
-    func buildMGSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
-        selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
+    func buildMGSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect){
+        selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),upcProduct:cell.upc)
         selectQuantity!.closeAction = { () in
             self.selectQuantity.removeFromSuperview()
         }
@@ -1248,14 +1286,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                     BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                     
-                    UIView.animateWithDuration(0.2,
+                    UIView.animate(withDuration: 0.2,
                         animations: { () -> Void in
                             self.selectQuantity!.closeAction()
                         },
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                         }
                     )
                 }
@@ -1272,13 +1310,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
-        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
         self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantity)
     }
     
-    func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
+    func buildParamsUpdateShoppingCart(_ cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
         let pesable = cell.pesable! ? "1" : "0"
         let searchText = self.textToSearch ?? ""
         let channel = IS_IPAD ? "ipad" : "iphone"
@@ -1287,14 +1325,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if searchText != ""{
                 return ["upc":cell.upc,"skuId":cell.skuId,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel,"position":position]]
             }
-            return ["upc":cell.upc,"skuId":cell.skuId,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+            return ["upc":cell.upc as AnyObject,"skuId":cell.skuId as AnyObject,"desc":cell.desc as AnyObject,"imgUrl":cell.imageURL as AnyObject,"price":cell.price as AnyObject,"quantity":quantity as AnyObject,"comments":"" as AnyObject,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
         }
         else {
             
             if searchText != ""{
             return ["upc":cell.upc,"skuId":cell.skuId,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment,"parameter":["q":searchText,"eventtype": "addtocart","collection":"mg","channel": channel,"position":position]]
             }
-            return ["upc":cell.upc,"skuId":cell.skuId,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment]
+            return ["upc":cell.upc as AnyObject,"skuId":cell.skuId as AnyObject,"desc":cell.desc as AnyObject,"imgUrl":cell.imageURL as AnyObject,"price":cell.price as AnyObject,"quantity":quantity as AnyObject,"onHandInventory":cell.onHandInventory,"wishlist":false as AnyObject,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment]
         }
     }
     
@@ -1313,7 +1351,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 //self.itemsUPCMG = result.arrayObject
                 let upcs : NSArray = result.arrayObject!
                 if upcs.count > 0 {
-                self.allProducts?.addObjectsFromArray(upcs as [AnyObject])
+                self.allProducts?.addObjects(from: upcs as [AnyObject])
                 self.finsihService =  true
                 self.invokeServiceUpc =  true
                 self.collection?.reloadData()
@@ -1336,7 +1374,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK AddToList
     
-    func addItemToList(cell:SearchProductCollectionViewCell,quantity:String){
+    func addItemToList(_ cell:SearchProductCollectionViewCell,quantity:String){
        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.message.addingProductToList.fromList", comment:""))
         

@@ -18,19 +18,19 @@ class MGShoppingCartQuantitySelectorView : ShoppingCartQuantitySelectorView {
      self.keyboardView.removeFromSuperview()
      self.keyboardView = nil
      let startPos = (self.frame.width - 288) / 2
-     self.keyboardView = NumericKeyboardView(frame:CGRectMake(startPos, lblQuantity.frame.maxY + 10, 315, 212))
+     self.keyboardView = NumericKeyboardView(frame:CGRect(x: startPos, y: lblQuantity.frame.maxY + 10, width: 315, height: 212))
      self.keyboardView.widthButton = 80
-     self.keyboardView.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor(),numberOfButtons: 5)
+     self.keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white,numberOfButtons: 5)
     self.keyboardView.delegate = self
-    self.lblQuantity.textAlignment = .Center
+    self.lblQuantity.textAlignment = .center
     
-    self.btnLess = UIButton(frame: CGRectMake(lblQuantity.frame.minX , lblQuantity.frame.minY , 32, 32))
-    self.btnLess.addTarget(self, action: #selector(MGShoppingCartQuantitySelectorView.btnLessAction), forControlEvents: UIControlEvents.TouchUpInside)
-    self.btnLess.setImage(UIImage(named: "addProduct_Less"), forState: UIControlState.Normal)
+    self.btnLess = UIButton(frame: CGRect(x: lblQuantity.frame.minX , y: lblQuantity.frame.minY , width: 32, height: 32))
+    self.btnLess.addTarget(self, action: #selector(MGShoppingCartQuantitySelectorView.btnLessAction), for: UIControlEvents.touchUpInside)
+    self.btnLess.setImage(UIImage(named: "addProduct_Less"), for: UIControlState())
     
-    self.btnMore = UIButton(frame: CGRectMake(lblQuantity.frame.maxX - 32, lblQuantity.frame.minY , 32, 32))
-    self.btnMore.addTarget(self, action: #selector(MGShoppingCartQuantitySelectorView.btnMoreAction), forControlEvents: UIControlEvents.TouchUpInside)
-    self.btnMore.setImage(UIImage(named: "addProduct_Add"), forState: UIControlState.Normal)
+    self.btnMore = UIButton(frame: CGRect(x: lblQuantity.frame.maxX - 32, y: lblQuantity.frame.minY , width: 32, height: 32))
+    self.btnMore.addTarget(self, action: #selector(MGShoppingCartQuantitySelectorView.btnMoreAction), for: UIControlEvents.touchUpInside)
+    self.btnMore.setImage(UIImage(named: "addProduct_Add"), for: UIControlState())
     
     self.addSubview(btnLess)
     self.addSubview(btnMore)

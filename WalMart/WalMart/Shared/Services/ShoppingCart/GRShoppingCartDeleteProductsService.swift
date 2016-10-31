@@ -11,16 +11,16 @@ import CoreData
 
 class GRShoppingCartDeleteProductsService : GRBaseService {
     
-    func buildParams(upc:String) -> NSDictionary {
+    func buildParams(_ upc:String) -> NSDictionary {
         return ["parameter":[upc]]
     }
     
-    func builParams(upcArray:[String]) -> [String:AnyObject] {
-        return ["parameter":upcArray]
+    func builParams(_ upcArray:[String]) -> [String:AnyObject] {
+        return ["parameter":upcArray as AnyObject]
     }
     
-    func callService(upcArray:[String],successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(requestParams: builParams(upcArray), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ upcArray:[String],successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(requestParams: builParams(upcArray) as NSDictionary, successBlock: successBlock, errorBlock: errorBlock)
     }
 
     
@@ -45,12 +45,12 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
     }
 
     
-    func callCoreDataServiceWithString(upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataServiceWithString(_ upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callCoreDataService(buildParams(upc), successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callCoreDataService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    func callCoreDataService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         if let parameter = params["parameter"] as? [String] {
@@ -63,7 +63,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                     let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                     
                     for cartDelete in array {
-                        cartDelete.status = NSNumber(integer:CartStatus.Deleted.rawValue)
+                        cartDelete.status = NSNumber(value: CartStatus.deleted.rawValue as Int)
                     }
                     var error: NSError? = nil
                     do {

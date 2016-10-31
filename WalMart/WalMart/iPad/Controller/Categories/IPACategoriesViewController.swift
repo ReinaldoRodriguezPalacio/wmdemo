@@ -13,7 +13,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     
     @IBOutlet var categories: UICollectionView!
     var items: [AnyObject] = []
-    var selectedIndex: NSIndexPath!
+    var selectedIndex: IndexPath!
     var selectedLine: Bool = false
     var controllerAnimateView : IPACategoriesResultViewController!
     var selIdDepartment :String!
@@ -45,24 +45,24 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         
         
         let serviceCategory = CategoryService()
-        items = serviceCategory.getCategoriesContent(from: "mg")
+        items = serviceCategory.getCategoriesContent(from: "mg") as [AnyObject]
         
-        categories.registerClass(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "categoryCell")
+        categories.register(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "categoryCell")
         categories.delegate = self
         categories.dataSource = self
-        categories.multipleTouchEnabled = false
+        categories.isMultipleTouchEnabled = false
     }
     
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count //+ 1
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let categoryCell = categories.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! IPACategoryCollectionViewClass
         
-        let currentItem = indexPath.row
-        if indexPath.item == 0 && landingItem != nil  {
+        let currentItem = (indexPath as NSIndexPath).row
+        if (indexPath as NSIndexPath).item == 0 && landingItem != nil  {
             
             let itemBannerPhone = landingItem!["bannerUrlTablet"]
             categoryCell.setValuesLanding("https://\(itemBannerPhone!)")
@@ -85,17 +85,17 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     }
 
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
         
         if landingItem != nil {
             switch (indexPath.section,indexPath.row) {
             case (0,0):
-                return CGSizeMake(self.view.frame.width - 16, 216)
+                return CGSize(width: self.view.frame.width - 16, height: 216)
             default:
                 print("")
             }
         }
-        return CGSizeMake(((self.view.frame.width - 34 ) / 3) , 216)
+        return CGSize(width: ((self.view.frame.width - 34 ) / 3) , height: 216)
 
     }
     
@@ -104,7 +104,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
 //    }
 //    
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         /*if selectedLine == false {
             if selectedIndex != nil {
                 let reloadBk = NSIndexPath(forRow: selectedIndex.row, inSection: 0)
@@ -115,7 +115,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             collectionView.reloadItemsAtIndexPaths([indexPath])
         }*/
 
-        if indexPath.row == 0  && landingItem != nil  {
+        if (indexPath as NSIndexPath).row == 0  && landingItem != nil  {
             let eventUrl = landingItem!["eventUrl"]
             self.handleLandingEvent(eventUrl!)
             return
@@ -125,7 +125,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         if self.selectedIndex == nil {
             self.selectedIndex = indexPath
             
-            let item = items[indexPath.row] as! [String:AnyObject]
+            let item = items[(indexPath as NSIndexPath).row] as! [String:AnyObject]
             let idDepartment = item["idDept"] as! String
             let famArray : AnyObject = item["familyContent"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
@@ -144,7 +144,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             
             if itemsLine.count == 0{
                 self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
-                let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
+                let cellSelected = categories.cellForItem(at: selectedIndex) as! IPACategoryCollectionViewClass
                 self.didSelectLine("", family: "", line: "", name: "", imageDepartment: cellSelected.imageBackground.image, imageIcon: cellSelected.imageIcon.image)
                 return
             }
@@ -159,14 +159,14 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
                 selName = nameLineDefault
                 
                 self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
-                let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
-                UIView.animateWithDuration(0.35, animations: { () -> Void in
-                    self.categories.scrollToItemAtIndexPath(self.selectedIndex, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
-                    }) { (complete:Bool) -> Void in
+                let cellSelected = categories.cellForItem(at: selectedIndex) as! IPACategoryCollectionViewClass
+                UIView.animate(withDuration: 0.35, animations: { () -> Void in
+                    self.categories.scrollToItem(at: self.selectedIndex, at: UICollectionViewScrollPosition.top, animated: false)
+                    }, completion: { (complete:Bool) -> Void in
                         if complete {
                             self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName,imageDepartment:cellSelected.imageBackground.image,imageIcon:cellSelected.imageIcon.image)
                         }
-                }
+                }) 
         //}
     }
     
@@ -176,39 +176,39 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     }
     
 
-    func didSelectLine(department:String,family:String,line:String, name:String) {
+    func didSelectLine(_ department:String,family:String,line:String, name:String) {
         
     }
     
-    func didSelectLine(department:String,family:String,line:String, name:String,imageDepartment:UIImage?,imageIcon:UIImage?) {
+    func didSelectLine(_ department:String,family:String,line:String, name:String,imageDepartment:UIImage?,imageIcon:UIImage?) {
         if selectedIndex != nil &&  self.selectedLine == false {
             selectedLine = true
-            let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
+            let cellSelected = categories.cellForItem(at: selectedIndex) as! IPACategoryCollectionViewClass
             
             let item = items[selectedIndex.row] as! [String:AnyObject]
             let famArray : AnyObject = item["familyContent"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
             
-            categories.scrollEnabled = false
+            categories.isScrollEnabled = false
        
             CategoryShouldShowFamily.shouldshowfamily = true
             controllerAnimateView = IPACategoriesResultViewController()
             controllerAnimateView.setValues(department, family: family, line: line, name:name)
             controllerAnimateView.imgCategory =  imageDepartment
-            controllerAnimateView.frameStart = CGRectMake(cellSelected.frame.minX, 0, cellSelected.frame.width, cellSelected.frame.height)
-            controllerAnimateView.frameEnd = CGRectMake(0, 0, categories.frame.width, categories.frame.height)
+            controllerAnimateView.frameStart = CGRect(x: cellSelected.frame.minX, y: 0, width: cellSelected.frame.width, height: cellSelected.frame.height)
+            controllerAnimateView.frameEnd = CGRect(x: 0, y: 0, width: categories.frame.width, height: categories.frame.height)
             controllerAnimateView.imgIcon = imageIcon
             controllerAnimateView.titleStr = cellSelected.titleLabel.text
             controllerAnimateView.families = itemsFam
             controllerAnimateView.name = name
-            controllerAnimateView.searchContextType = SearchServiceContextType.WithCategoryForMG
+            controllerAnimateView.searchContextType = SearchServiceContextType.withCategoryForMG
             controllerAnimateView.actionClose = {() in
-                self.categories.scrollEnabled = true
+                self.categories.isScrollEnabled = true
                 self.selectedLine = false
                 self.controllerAnimateView = nil
                 self.selectedIndex = nil
-                UIView.animateWithDuration(0.2, animations: { () -> Void in
-                    self.categories.contentInset = UIEdgeInsetsZero
+                UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                    self.categories.contentInset = UIEdgeInsets.zero
                     }, completion: { (complete:Bool) -> Void in
                         self.categories.reloadData()
                 })
@@ -223,19 +223,19 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     
     func reloadSelectedCell() {
         if controllerAnimateView != nil {
-            let currentCell = controllerAnimateView.searchProduct.collection!.cellForItemAtIndexPath(controllerAnimateView.searchProduct.currentCellSelected) as! IPASearchProductCollectionViewCell!
-            currentCell.showImageView()
+            let currentCell = controllerAnimateView.searchProduct.collection!.cellForItem(at: controllerAnimateView.searchProduct.currentCellSelected as IndexPath) as! IPASearchProductCollectionViewCell!
+            currentCell?.showImageView()
         }
     }
     
     
-    func handleLandingEvent(strAction:String) {
-        var components = strAction.componentsSeparatedByString("_")
+    func handleLandingEvent(_ strAction:String) {
+        var components = strAction.components(separatedBy: "_")
         if(components.count > 1){
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
             if let customBar = window!.rootViewController as? IPACustomBarViewController {
                 let cmpStr  = components[0] as String
-                let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
+                let strValue = strAction.replacingOccurrences(of: "\(cmpStr)_", with: "")
                 var strAction = ""
                 switch components[0] {
                 case "f":

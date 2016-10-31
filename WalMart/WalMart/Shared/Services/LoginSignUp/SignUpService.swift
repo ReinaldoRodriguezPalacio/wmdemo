@@ -10,17 +10,17 @@ import Foundation
 
 class SignUpService : BaseService {
     
-    func buildParamsWithMembershipAndBirthDate(username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,birthdate:String,gender:String,allowTransfer:String) -> NSDictionary {
-        let lowCaseUser = username.lowercaseString
+    func buildParamsWithMembershipAndBirthDate(_ username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,birthdate:String,gender:String,allowTransfer:String) -> NSDictionary {
+        let lowCaseUser = username.lowercased()
         return ["email":lowCaseUser,"password":password,"firstName":name,"lastName":lastName,"allowMarketingEmail":allowMarketingEmail == "true" ? "Si":"No","forOBIEE":allowTransfer,"birthdate":birthdate,"gender":gender]
     }
     
-    func buildParamsWithMembership(username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,allowTransfer:String) -> NSDictionary {
-        let lowCaseUser = username.lowercaseString
+    func buildParamsWithMembership(_ username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,allowTransfer:String) -> NSDictionary {
+        let lowCaseUser = username.lowercased()
         return ["email":lowCaseUser,"password":password,"firstName":name,"lastName":lastName,"allowMarketingEmail":allowMarketingEmail == "true" ? "Si":"No","forOBIEE":allowTransfer == "true" ? "Si":"No"]
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in

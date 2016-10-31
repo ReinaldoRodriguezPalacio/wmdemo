@@ -13,7 +13,7 @@ class GRItemByTicketService : GRBaseService {
     
     
     
-    func buildParams(number:String) -> NSDictionary {
+    func buildParams(_ number:String) -> NSDictionary {
         return ["number":[["number":number]]]
     }
     

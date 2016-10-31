@@ -35,15 +35,15 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
         self.hiddenBack =  IS_IPAD 
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = NSLocalizedString("preferences.myPreferences", comment: "")
         
         tablePreferences = UITableView()
         tablePreferences.dataSource = self
         tablePreferences.delegate = self
         
-        tablePreferences.registerClass(MoreMenuViewCell.self, forCellReuseIdentifier: "Cell")
-        tablePreferences.separatorStyle = UITableViewCellSeparatorStyle.None
+        tablePreferences.register(MoreMenuViewCell.self, forCellReuseIdentifier: "Cell")
+        tablePreferences.separatorStyle = UITableViewCellSeparatorStyle.none
         
         self.view.addSubview(tablePreferences)
         
@@ -51,30 +51,30 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.tablePreferences.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.tablePreferences.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tablePreferences?.reloadData()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return preferenceOptions.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tablePreferences.dequeueReusableCellWithIdentifier("Cell") as! MoreMenuViewCell
-        let srtOption = preferenceOptions[indexPath.row]
+        let cell = tablePreferences.dequeueReusableCell(withIdentifier: "Cell") as! MoreMenuViewCell
+        let srtOption = preferenceOptions[(indexPath as NSIndexPath).row]
         
         cell.isSeparatorComplete = true
         cell.setPreferenceValues(srtOption, size: 16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
@@ -82,10 +82,10 @@ class PreferencesController : NavigationViewController,UITableViewDataSource,UIT
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-        let optionTxt = self.preferenceOptions[indexPath.row]
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        let optionTxt = self.preferenceOptions[(indexPath as NSIndexPath).row]
         
         switch (PreferenceOptionsController(rawValue: optionTxt)!) {
         case .Category:

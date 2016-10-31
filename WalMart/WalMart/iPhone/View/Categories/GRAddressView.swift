@@ -18,7 +18,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var viewLoad : WMLoadingView!
     var onCloseAddressView: (() -> Void)?
     var newAdressForm: (() -> Void)?
-    var addressSelected: ((addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) -> Void)?
+    var addressSelected: ((_ addressId:String,_ addressName:String,_ selectedStore:String,_ stores:[NSDictionary]) -> Void)?
     var blockRows:Bool = false
     var alertView: IPOWMAlertViewController?
     
@@ -35,8 +35,8 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     func setup() {
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_gray.CGColor
-        self.layer.insertSublayer(layerLine, atIndex: 0)
+        layerLine.backgroundColor = WMColor.light_gray.cgColor
+        self.layer.insertSublayer(layerLine, at: 0)
         
         self.titleLabel = UILabel()
         self.titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
@@ -45,38 +45,38 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.addSubview(self.titleLabel!)
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.setTitle("Cancelar", for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: #selector(GRAddressView.close), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(GRAddressView.close), for: UIControlEvents.touchUpInside)
         self.addSubview(cancelButton!)
         
         self.newButton = UIButton()
-        self.newButton!.setTitle("Nueva Dirección", forState:.Normal)
-        self.newButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.newButton!.setTitle("Nueva Dirección", for:UIControlState())
+        self.newButton!.titleLabel!.textColor = UIColor.white
         self.newButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.newButton!.backgroundColor = WMColor.light_blue
         self.newButton!.layer.cornerRadius = 17
-        self.newButton!.addTarget(self, action: #selector(GRAddressView.new), forControlEvents: UIControlEvents.TouchUpInside)
+        self.newButton!.addTarget(self, action: #selector(GRAddressView.new), for: UIControlEvents.touchUpInside)
         self.addSubview(newButton!)
         
         self.tableAddress = UITableView()
         self.tableAddress!.delegate = self
         self.tableAddress!.dataSource = self
-        self.tableAddress!.registerClass(GRAddressViewCell.self, forCellReuseIdentifier: "labelCell")
+        self.tableAddress!.register(GRAddressViewCell.self, forCellReuseIdentifier: "labelCell")
         self.addSubview(tableAddress!)
         self.callServiceAddressGR()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.titleLabel?.frame = CGRectMake(16, 62,self.frame.width, 14)
-        self.tableAddress?.frame = CGRectMake(16, self.titleLabel!.frame.maxY + 16 ,self.frame.width - 16, 210)
-        self.layerLine.frame = CGRectMake(0,self.tableAddress!.frame.maxY,self.frame.width, 1)
-        self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 129,self.layerLine.frame.maxY + 16, 125, 34)
-        self.newButton?.frame = CGRectMake((self.frame.width/2) + 4 , self.layerLine.frame.maxY + 16, 125, 34)
+        self.titleLabel?.frame = CGRect(x: 16, y: 62,width: self.frame.width, height: 14)
+        self.tableAddress?.frame = CGRect(x: 16, y: self.titleLabel!.frame.maxY + 16 ,width: self.frame.width - 16, height: 210)
+        self.layerLine.frame = CGRect(x: 0,y: self.tableAddress!.frame.maxY,width: self.frame.width, height: 1)
+        self.cancelButton?.frame = CGRect(x: (self.frame.width/2) - 129,y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
+        self.newButton?.frame = CGRect(x: (self.frame.width/2) + 4 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
     }
     
     /**
@@ -100,22 +100,22 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     //MARK: TableViewDelegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.addressArray!.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? GRAddressViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? GRAddressViewCell
         var prefered = false
         
-        let item = self.addressArray[indexPath.row] as! NSDictionary
+        let item = self.addressArray[(indexPath as NSIndexPath).row] as! NSDictionary
         let name = item["name"] as! String
         if let pref = item["preferred"] as? NSNumber{
-            if pref.integerValue == 1 {
+            if pref.intValue == 1 {
                 prefered = true
             }
         }
@@ -128,9 +128,9 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         if let addId =  item["id"] as? String {
             addressId = addId
         }
-        cell!.selectionStyle = .None
+        cell!.selectionStyle = .none
         let textColor = prefered ? WMColor.light_blue : WMColor.reg_gray
-        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: textColor,align:NSTextAlignment.Left,addressID: addressId)
+        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: textColor,align:NSTextAlignment.left,addressID: addressId)
         if let isAddressOK = item["isAddressOk"] as? String {
             cell!.showErrorFieldImage(isAddressOK == "False")
         }else{
@@ -139,13 +139,13 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.blockRows {
             return
         }
         self.blockRows = true
         self.addViewLoad()
-        let item = self.addressArray[indexPath.row] as! NSDictionary
+        let item = self.addressArray[(indexPath as NSIndexPath).row] as! NSDictionary
         let validStore = item["isAddressOk"] as! String!
         if validStore == "False"{
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
@@ -181,8 +181,8 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func addViewLoad(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.bounds.width, self.bounds.height - 46))
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.bounds.width, height: self.bounds.height - 46))
+            viewLoad.backgroundColor = UIColor.white
             self.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
         }

@@ -7,6 +7,17 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 
 class CategoryService : BaseService {
@@ -15,7 +26,7 @@ class CategoryService : BaseService {
     let typeCategory = "categories"
    
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
                 
@@ -50,7 +61,7 @@ class CategoryService : BaseService {
             }
             response = filterResponse
             
-             response = response.sort({ (obj1:[String : AnyObject], obj2:[String : AnyObject]) -> Bool in
+             response = response.sorted(by: { (obj1:[String : AnyObject], obj2:[String : AnyObject]) -> Bool in
                 let firstString = obj1["DepartmentName"] as! String?
                 let secondString = obj2["DepartmentName"] as! String?
                 return firstString < secondString

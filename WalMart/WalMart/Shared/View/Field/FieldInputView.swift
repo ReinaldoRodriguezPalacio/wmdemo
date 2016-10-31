@@ -14,8 +14,8 @@ class FieldInputView: UIInputView {
     var textField : UITextField? = nil
     var textView : UITextView? = nil
     var titleSave : String? = nil
-    var saveBlock : ((field:UITextField?) -> Void)? = nil
-    var saveBlockTextView : ((field:UITextView?) -> Void)? = nil
+    var saveBlock : ((_ field:UITextField?) -> Void)? = nil
+    var saveBlockTextView : ((_ field:UITextView?) -> Void)? = nil
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
@@ -26,14 +26,14 @@ class FieldInputView: UIInputView {
         setup()
     }
     
-    init(frame: CGRect, inputViewStyle: UIInputViewStyle,titleSave : String,save:((field:UITextField?) -> Void)?) {
+    init(frame: CGRect, inputViewStyle: UIInputViewStyle,titleSave : String,save:((_ field:UITextField?) -> Void)?) {
         super.init(frame: frame, inputViewStyle:  inputViewStyle)
         self.titleSave = titleSave
         setup()
         self.saveBlock = save
     }
     
-    init(frame: CGRect, inputViewStyle: UIInputViewStyle,titleSave : String,saveText:((field:UITextView?) -> Void)?) {
+    init(frame: CGRect, inputViewStyle: UIInputViewStyle,titleSave : String,saveText:((_ field:UITextView?) -> Void)?) {
         super.init(frame: frame, inputViewStyle:  inputViewStyle)
         self.titleSave = titleSave
         setup()
@@ -41,20 +41,20 @@ class FieldInputView: UIInputView {
     }
     
     func setup(){
-        self.saveBarButton = UIButton(type: .Custom) as UIButton
-        self.saveBarButton!.frame = CGRectMake(self.bounds.width - 100 , 0, 100, self.bounds.height)
-        self.saveBarButton!.setTitle(self.titleSave, forState: .Normal)
-        self.saveBarButton!.backgroundColor = UIColor.clearColor()
-        self.saveBarButton!.addTarget(self, action: #selector(FieldInputView.save(_:)), forControlEvents: .TouchUpInside)
+        self.saveBarButton = UIButton(type: .custom) as UIButton
+        self.saveBarButton!.frame = CGRect(x: self.bounds.width - 100 , y: 0, width: 100, height: self.bounds.height)
+        self.saveBarButton!.setTitle(self.titleSave, for: UIControlState())
+        self.saveBarButton!.backgroundColor = UIColor.clear
+        self.saveBarButton!.addTarget(self, action: #selector(FieldInputView.save(_:)), for: .touchUpInside)
         self.addSubview(self.saveBarButton!)
     }
     
-    func save(button:UIButton) {
+    func save(_ button:UIButton) {
         if self.saveBlock != nil {
-            self.saveBlock!(field:textField)
+            self.saveBlock!(textField)
         }
         if self.saveBlockTextView != nil {
-            self.saveBlockTextView!(field:textView)
+            self.saveBlockTextView!(textView)
         }
     }
     

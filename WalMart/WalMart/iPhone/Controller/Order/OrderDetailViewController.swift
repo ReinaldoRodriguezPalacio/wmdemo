@@ -25,7 +25,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var detailsOrderGroceries : NSDictionary!
     
     var alertView: IPOWMAlertViewController?
-    var timmer : NSTimer!
+    var timmer : Timer!
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREVIOUSORDERDETAIL.rawValue
@@ -34,15 +34,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = shipping
         
         tableDetailOrder = UITableView()
        
-        tableDetailOrder.registerClass(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
-        tableDetailOrder.registerClass(ProductDetailLabelCollectionView.self, forCellReuseIdentifier: "labelCell")
-        tableDetailOrder.registerClass(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
-        tableDetailOrder.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableDetailOrder.register(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
+        tableDetailOrder.register(ProductDetailLabelCollectionView.self, forCellReuseIdentifier: "labelCell")
+        tableDetailOrder.register(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
+        tableDetailOrder.separatorStyle = UITableViewCellSeparatorStyle.none
     
         self.view.addSubview(tableDetailOrder)
         
@@ -60,10 +60,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        self.tableDetailOrder.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         isShowingTabBar = !TabBarHidden.isTabBarHidden
@@ -72,26 +72,26 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.removeLoadingView()
     }
     
-    func showProducDetail(indexPath: NSIndexPath){
+    func showProducDetail(_ indexPath: IndexPath){
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section)
-        controller.ixSelected = indexPath.row
+        controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section) as [AnyObject]
+        controller.ixSelected = (indexPath as NSIndexPath).row
         if !showFedexGuide {
-            controller.ixSelected = indexPath.row - 2
+            controller.ixSelected = (indexPath as NSIndexPath).row - 2
         }
         self.navigationController!.delegate = nil
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
     //MARK:TableViewDelegate
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         if showFedexGuide {
             return self.itemDetailProducts.count
         }
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if showFedexGuide {
             if section == 0 {
                 return 1
@@ -101,31 +101,31 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return 2 + self.itemDetailProducts.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
         
-        switch (indexPath.section, indexPath.row) {
+        switch ((indexPath as NSIndexPath).section, (indexPath as NSIndexPath).row) {
             case (0,0):
-                let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-                cellDetail.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellDetail.frame.height)
+                let cellDetail = tableDetailOrder.dequeueReusableCell(withIdentifier: "detailOrder") as! PreviousDetailTableViewCell
+                cellDetail.frame = CGRect(x: 0, y: 0, width: self.tableDetailOrder.frame.width, height: cellDetail.frame.height)
                 cellDetail.setValuesDetail(self.detailsOrderGroceries)
                 cell = cellDetail
             case (0,1):
-                let cellCharacteristicsTitle = tableDetailOrder.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
-                cellCharacteristicsTitle!.setValues("Artículos de mi compra", font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
+                let cellCharacteristicsTitle = tableDetailOrder.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
+                cellCharacteristicsTitle!.setValues("Artículos de mi compra", font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.left)
                 cell = cellCharacteristicsTitle
             default:
-                let cellOrderProduct = tableDetailOrder.dequeueReusableCellWithIdentifier("orderCell", forIndexPath: indexPath) as! OrderProductTableViewCell
-                cellOrderProduct.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellOrderProduct.frame.height)
+                let cellOrderProduct = tableDetailOrder.dequeueReusableCell(withIdentifier: "orderCell", for: indexPath) as! OrderProductTableViewCell
+                cellOrderProduct.frame = CGRect(x: 0, y: 0, width: self.tableDetailOrder.frame.width, height: cellOrderProduct.frame.height)
                 cellOrderProduct.type = self.type
                 var dictProduct = [:]
                 if showFedexGuide {
-                    dictProduct = itemDetailProducts[indexPath.row ] as! NSDictionary
+                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row ] as! NSDictionary) as! [AnyHashable : Any]
                 } else {
-                    dictProduct = itemDetailProducts[indexPath.row - 2] as! NSDictionary
+                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row - 2] as! NSDictionary) as! [AnyHashable : Any]
                 }
                 
-                let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct)
+                let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct as NSDictionary)
                 let valuesItems = itemShow[0] as NSDictionary
                 
                 //valuesItems["skuId"] as! String
@@ -136,12 +136,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 cell = cellOrderProduct
 
         }
-        cell!.selectionStyle = UITableViewCellSelectionStyle.None
+        cell!.selectionStyle = UITableViewCellSelectionStyle.none
 
         return cell!
     }
     
-    class func prepareValuesItems (itemDetail : NSDictionary) -> [[String:String]]  {
+    class func prepareValuesItems (_ itemDetail : NSDictionary) -> [[String:String]]  {
         var upcItems : [[String:String]] = []
         
         let upcProduct = itemDetail["upc"] as! String
@@ -195,10 +195,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return upcItems
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
        
-        if indexPath.section == 0 && indexPath.row == 0{
-            let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
+        if (indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 0{
+            let cellDetail = tableDetailOrder.dequeueReusableCell(withIdentifier: "detailOrder") as! PreviousDetailTableViewCell
             let size = cellDetail.sizeCell(self.view.frame.width, values: self.detailsOrderGroceries, showHeader: false)
             return size
         }else{
@@ -206,9 +206,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !showFedexGuide {
-            switch indexPath.row {
+            switch (indexPath as NSIndexPath).row {
             case 0:
                 return
             case 1:
@@ -218,19 +218,19 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.showProducDetail(indexPath)
             }
         }
-        if indexPath.section > 0 {
+        if (indexPath as NSIndexPath).section > 0 {
             self.showProducDetail(indexPath)
         }
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section > 0 {
             return 44
         }
         return 0
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section > 0 {
             
             let arrayProductsFed = itemDetailProducts[section - 1] as! [String:AnyObject]
@@ -239,23 +239,23 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             let viewFedex = UIView()
             viewFedex.backgroundColor = WMColor.light_light_gray
             
-            let lblGuide = UILabel(frame: CGRectMake(16, 0, 200, 44))
+            let lblGuide = UILabel(frame: CGRect(x: 16, y: 0, width: 200, height: 44))
             lblGuide.text = "Guía: \(guide)"
             lblGuide.textColor = WMColor.light_blue
             lblGuide.font = WMFont.fontMyriadProRegularOfSize(14)
             
             if guideurl != "" {
-                let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(68, 22), radius: 10)
-                let iconSelected = UIImage(color: WMColor.dark_gray, size: CGSizeMake(68, 22), radius: 10)
+                let iconImage = UIImage(color: WMColor.light_blue, size: CGSize(width: 68, height: 22), radius: 10)
+                let iconSelected = UIImage(color: WMColor.dark_gray, size: CGSize(width: 68, height: 22), radius: 10)
                 
-                let btnGoToGuide = UIButton(frame:CGRectMake(self.view.frame.width - 84 , 11, 68, 22))
-                btnGoToGuide.setTitle("Rastrear", forState: UIControlState.Normal)
-                btnGoToGuide.setBackgroundImage(iconSelected, forState: .Selected)
-                btnGoToGuide.setBackgroundImage(iconImage, forState: .Normal)
-                btnGoToGuide.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                let btnGoToGuide = UIButton(frame:CGRect(x: self.view.frame.width - 84 , y: 11, width: 68, height: 22))
+                btnGoToGuide.setTitle("Rastrear", for: UIControlState())
+                btnGoToGuide.setBackgroundImage(iconSelected, for: .selected)
+                btnGoToGuide.setBackgroundImage(iconImage, for: UIControlState())
+                btnGoToGuide.setTitleColor(UIColor.white, for: UIControlState())
                 btnGoToGuide.layer.cornerRadius = btnGoToGuide.frame.height / 2
                 btnGoToGuide.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-                btnGoToGuide.addTarget(self, action: #selector(OrderDetailViewController.didSelectItem(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                btnGoToGuide.addTarget(self, action: #selector(OrderDetailViewController.didSelectItem(_:)), for: UIControlEvents.touchUpInside)
                 btnGoToGuide.tag = section
                 if guide != "No disponible" {
                     viewFedex.addSubview(btnGoToGuide)
@@ -267,16 +267,16 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return UIView()
     }
     
-    func didSelectItem(sender:UIButton) {
+    func didSelectItem(_ sender:UIButton) {
         let arrayProductsFed = itemDetailProducts[sender.tag - 1] as! [String:AnyObject]
         let guideurl = arrayProductsFed["urlfedexGuide"] as! String
         
         
         let webCtrl = IPOWebViewController()
-        if let url = NSURL(string: guideurl) {
-            if UIApplication.sharedApplication().canOpenURL(url){
+        if let url = URL(string: guideurl) {
+            if UIApplication.shared.canOpenURL(url){
                 webCtrl.openURL(guideurl)
-                self.presentViewController(webCtrl,animated:true,completion:nil)
+                self.present(webCtrl,animated:true,completion:nil)
             }
         }
     }
@@ -293,7 +293,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return upcItems
     }
     
-    func getUPCItems(section:Int) -> [[String:String]] {
+    func getUPCItems(_ section:Int) -> [[String:String]] {
         var upcItems : [[String:String]] = []
         if !showFedexGuide {
             return getUPCItems()
@@ -402,8 +402,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
-        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+        self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
     }

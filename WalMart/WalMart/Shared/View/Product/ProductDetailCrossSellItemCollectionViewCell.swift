@@ -15,13 +15,13 @@ class ProductDetailCrossSellItemCollectionViewCell : ProductCollectionViewCell {
     override func setup() {
         super.setup()
         
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (75 / 2), 0, 75, 75)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 0, width: 75, height: 75)
         
-        self.productPriceLabel!.frame = CGRectMake(4, self.productImage!.frame.maxY  , self.frame.width - 8 , 14)
+        self.productPriceLabel!.frame = CGRect(x: 4, y: self.productImage!.frame.maxY  , width: self.frame.width - 8 , height: 14)
         //self.productPriceLabel!.textAlignment = .Center
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(4, self.productPriceLabel!.frame.maxY + 7 , self.frame.width - 8, 36)
-        self.productShortDescriptionLabel!.textAlignment = .Center
+        self.productShortDescriptionLabel!.frame = CGRect(x: 4, y: self.productPriceLabel!.frame.maxY + 7 , width: self.frame.width - 8, height: 36)
+        self.productShortDescriptionLabel!.textAlignment = .center
         self.productShortDescriptionLabel!.numberOfLines = 3
         
         

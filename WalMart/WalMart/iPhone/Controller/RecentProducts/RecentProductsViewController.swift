@@ -35,16 +35,16 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         recentProducts = UITableView()
         
-        recentProducts.registerClass(RecentProductsTableViewCell.self, forCellReuseIdentifier: "recentCell")
+        recentProducts.register(RecentProductsTableViewCell.self, forCellReuseIdentifier: "recentCell")
         recentProducts.delegate = self
         recentProducts.dataSource = self
-        recentProducts.separatorStyle = UITableViewCellSeparatorStyle.None
-        recentProducts.backgroundColor =  UIColor.whiteColor()
-        recentProducts.layoutMargins = UIEdgeInsetsZero
+        recentProducts.separatorStyle = UITableViewCellSeparatorStyle.none
+        recentProducts.backgroundColor =  UIColor.white
+        recentProducts.layoutMargins = UIEdgeInsets.zero
         self.view.addSubview(recentProducts)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        emptyView = IPOGenericEmptyView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109))
+        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109))
         emptyView.returnAction = {() in
             self.back()
         }
@@ -54,14 +54,14 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.recentProducts.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.recentProducts.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRectMake(self.view.bounds.minX,46, self.view.bounds.width, self.view.bounds.height -  self.header!.frame.maxY))
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX,y: 46, width: self.view.bounds.width, height: self.view.bounds.height -  self.header!.frame.maxY))
+            viewLoad.backgroundColor = UIColor.white
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
             recentProducts.reloadData()
@@ -71,9 +71,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         }
         
         if IS_IOS8_OR_LESS {
-            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         }else{
-            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109)
+            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109)
         }
     }
    
@@ -89,7 +89,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
             self.invokeStop = true
             self.viewLoad = nil
-            self.emptyView!.hidden = true
+            self.emptyView!.isHidden = true
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.viewLoad.stopAnnimating()
@@ -97,7 +97,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         })
     }
     
-    func contResult(resultDictionary: NSDictionary) {
+    func contResult(_ resultDictionary: NSDictionary) {
         let productItemsOriginal = resultDictionary["responseArray"] as! [AnyObject]
         
         if productItemsOriginal.count > 0{
@@ -111,7 +111,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
      
      - parameter resultDictionary: NSDictionary recent products service
      */
-    class func adjustDictionary(resultDictionary: AnyObject, isShoppingCart:Bool) -> AnyObject {
+    class func adjustDictionary(_ resultDictionary: AnyObject, isShoppingCart:Bool) -> AnyObject {
         var recentLineItems : [AnyObject] = []
         
         var productItemsOriginal:[AnyObject] = []
@@ -135,7 +135,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                     
                     if lineObj.count > 0 {
                         if indi == 0 {
-                            recentLineItems.append(lineObj["fineLineName"] as! String == "" ? "Otros" : lineObj["fineLineName"] as! String)
+                            recentLineItems.append(lineObj["fineLineName"] as! String == "" ? "Otros" : lineObj["fineLineName"] as! String as AnyObject)
                             indi = indi + 1
                             flagOther = false
                         } else {
@@ -152,12 +152,12 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                                 }
                             }
                             if flagInsert {
-                                recentLineItems.append(lineObj["fineLineName"] as! String)
+                                recentLineItems.append(lineObj["fineLineName"] as! String as AnyObject)
                                 indi = indi + 1
                             }
                         }
                     } else {
-                        recentLineItems.append("Otros")
+                        recentLineItems.append("Otros" as AnyObject)
                     }
                 } else {
                     flagOther = true
@@ -165,15 +165,15 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
             
             //Order Ascending array final
-            let sortedArray = recentLineItems.sort {$0.localizedCaseInsensitiveCompare($1 as! String) == NSComparisonResult.OrderedAscending }
+            let sortedArray = recentLineItems.sorted {$0.localizedCaseInsensitiveCompare($1 as! String) == ComparisonResult.orderedAscending }
             recentLineItems = sortedArray
             
             if flagOther{
                 if recentLineItems.count == 0 {
-                    recentLineItems.append("Otros")
+                    recentLineItems.append("Otros" as AnyObject)
                 }
                 if recentLineItems[0] as! String != "" && recentLineItems.count != 1 {
-                    recentLineItems.append("Otros")
+                    recentLineItems.append("Otros" as AnyObject)
                 }
             }
         }
@@ -202,12 +202,12 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         if objProduct["fineContent"] != nil || !isShoppingCart{
                             
                             if lineObj["fineLineName"] as! String == "" || lineObj["fineLineName"] as! String == "Otros" {
-                                objectsLine.insert(objProduct, atIndex: indLine)
+                                objectsLine.insert(objProduct, at: indLine)
                                 lineString = "Otros"
                                 indLine = indLine + 1
                             }
                         } else {
-                            objectsLine.insert(objProduct, atIndex: indLine)
+                            objectsLine.insert(objProduct, at: indLine)
                             lineString = "Otros"
                             indLine = indLine + 1
                         }
@@ -215,7 +215,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         if objProduct["fineContent"] != nil || !isShoppingCart{
                             
                             if obj as? String == lineObj["fineLineName"] as? String {
-                                objectsLine.insert(objProduct, atIndex: indLine)
+                                objectsLine.insert(objProduct, at: indLine)
                                 lineString = lineObj["fineLineName"] as! String
                                 indLine = indLine + 1
                             }
@@ -231,28 +231,28 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         //Add Dictionay final in self.recentProductItems
         //self.recentProductItems = objectsFinal
-        return objectsFinal
+        return objectsFinal as AnyObject
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let listObj = self.recentProductItems[section] as! NSDictionary
         let prodObj = listObj["products"]
-        return prodObj!.count
+        return (prodObj! as AnyObject).count
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return heightHeaderTable
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.recentProductItems.count
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerView = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, heightHeaderTable))
-        headerView.backgroundColor = UIColor.whiteColor()
-        let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, self.view.frame.width, heightHeaderTable))
+        let headerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: heightHeaderTable))
+        headerView.backgroundColor = UIColor.white
+        let titleLabel = UILabel(frame: CGRect(x: 15.0, y: 0.0, width: self.view.frame.width, height: heightHeaderTable))
         
         let listObj = self.recentProductItems[section] as! NSDictionary
         titleLabel.text = listObj["name"] as? String
@@ -263,12 +263,12 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         return headerView
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cellRecentProducts = tableView.dequeueReusableCellWithIdentifier("recentCell") as! RecentProductsTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
         
-        let listObj = self.recentProductItems[indexPath.section] as! NSDictionary
+        let listObj = self.recentProductItems[(indexPath as NSIndexPath).section] as! NSDictionary
         let prodObj = listObj["products"] as! NSArray
-        let objProduct = prodObj[indexPath.row] as! NSDictionary
+        let objProduct = prodObj[(indexPath as NSIndexPath).row] as! NSDictionary
         //image
         let parentProd = objProduct["parentProducts"] as! NSArray
         
@@ -295,7 +295,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         //Falta priceEvent
         promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! String
         
-        cellRecentProducts.selectionStyle = .None
+        cellRecentProducts.selectionStyle = .none
         cellRecentProducts.delegateProduct = self
         cellRecentProducts.setValues(skuid!, upc:upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
 
@@ -306,23 +306,23 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         return cellRecentProducts
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 128
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let line = self.recentProductItems[indexPath.section]
+        let line = self.recentProductItems[(indexPath as NSIndexPath).section]
         let productsline = line["products"]
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![(indexPath as NSIndexPath).row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
+        controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section, row: (indexPath as NSIndexPath).row) as [AnyObject]
         controller.ixSelected = self.itemSelect //indexPath.row
         self.navigationController!.pushViewController(controller, animated: true)
     }
 
-    func getUPCItems(section: Int, row: Int) -> [[String:String]] {
+    func getUPCItems(_ section: Int, row: Int) -> [[String:String]] {
         var upcItems : [[String:String]] = []
         var countItems = 0
         //Get UPC of All items
@@ -342,7 +342,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         return upcItems
     }
     
-    func deleteFromWishlist(UPC:String){
+    func deleteFromWishlist(_ UPC:String){
         
     }
     

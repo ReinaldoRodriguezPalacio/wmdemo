@@ -27,8 +27,8 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
   
     
     func setup() {
-        self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
-        self.userInteractionEnabled =  true
+        self.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        self.isUserInteractionEnabled =  true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(LegendView.closeView))
         tap.delegate = self
@@ -48,7 +48,7 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
     func createFormview()  {
     
         legendForm =  UIView(frame: CGRect(x: IS_IPAD ? self.frame.midX - 121 : 39, y: self.frame.midY - 116  , width:242, height:232))
-        legendForm!.backgroundColor = UIColor.whiteColor()
+        legendForm!.backgroundColor = UIColor.white
         legendForm!.addGestureRecognizer(UIPanGestureRecognizer(target: self, action:#selector(LegendView.panViewGesture(_:)) ))
         legendForm!.layer.cornerRadius =  11
         legendForm!.clipsToBounds =  true
@@ -59,20 +59,20 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
         legendForm!.addSubview(headerView)
         
         
-        let buttonClose = UIButton(frame: CGRectMake(0, 0, 44, 44))
-        buttonClose.setImage(UIImage(named:"detail_close"), forState: UIControlState.Normal)
-        buttonClose.addTarget(self, action: #selector(HelpHomeView.closeView), forControlEvents: UIControlEvents.TouchUpInside)
+        let buttonClose = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        buttonClose.setImage(UIImage(named:"detail_close"), for: UIControlState())
+        buttonClose.addTarget(self, action: #selector(HelpHomeView.closeView), for: UIControlEvents.touchUpInside)
         headerView.addSubview(buttonClose)
         
-        let titleLegend =  UILabel(frame: CGRectMake(buttonClose.frame.maxX , 0,legendForm!.frame.width - (44 + 21 + 16), 46))
+        let titleLegend =  UILabel(frame: CGRect(x: buttonClose.frame.maxX , y: 0,width: legendForm!.frame.width - (44 + 21 + 16), height: 46))
         titleLegend.text = NSLocalizedString("Leyendas", comment: "")
-        titleLegend.textAlignment = .Center
+        titleLegend.textAlignment = .center
         titleLegend.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLegend.textColor =  WMColor.regular_blue
-        titleLegend.textAlignment =  .Center
+        titleLegend.textAlignment =  .center
         headerView.addSubview(titleLegend)
         
-        let buttonMove = UIImageView(frame: CGRectMake(titleLegend.frame.maxX,(headerView.frame.height - 16) / 2 , 21, 16))
+        let buttonMove = UIImageView(frame: CGRect(x: titleLegend.frame.maxX,y: (headerView.frame.height - 16) / 2 , width: 21, height: 16))
         buttonMove.image = UIImage(named: "icon_move_pop")
         headerView.addSubview(buttonMove)
         
@@ -86,7 +86,7 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      
      - parameter headerView: header
      */
-    func createIcons(headerView:UIView){
+    func createIcons(_ headerView:UIView){
         
         var y : CGFloat = 16.0
         var x :CGFloat = 16.0
@@ -117,21 +117,21 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
             
             legendForm!.addSubview(viewIcon)
             
-            let icon =  UILabel(frame: CGRectMake(0, 0,viewIcon.frame.width, viewIcon.frame.height))
+            let icon =  UILabel(frame: CGRect(x: 0, y: 0,width: viewIcon.frame.width, height: viewIcon.frame.height))
             icon.text = legendsIcon[index]
-            icon.textAlignment = .Center
+            icon.textAlignment = .center
             icon.font = WMFont.fontMyriadProRegularOfSize(9)
-            icon.textColor = UIColor.whiteColor()
-            icon.textAlignment =  .Center
+            icon.textColor = UIColor.white
+            icon.textAlignment =  .center
             viewIcon.addSubview(icon)
             
             
-            let iconDescription =  UILabel(frame: CGRectMake(viewIcon.frame.maxX + 4 ,headerView.frame.maxY + y,79 ,14))
+            let iconDescription =  UILabel(frame: CGRect(x: viewIcon.frame.maxX + 4 ,y: headerView.frame.maxY + y,width: 79 ,height: 14))
             iconDescription.text = legends[index]
-            iconDescription.textAlignment = .Center
+            iconDescription.textAlignment = .center
             iconDescription.font = WMFont.fontMyriadProRegularOfSize(9)
             iconDescription.textColor = WMColor.reg_gray
-            iconDescription.textAlignment =  .Left
+            iconDescription.textAlignment =  .left
             legendForm!.addSubview(iconDescription)
             
             y = y + 20.0
@@ -150,13 +150,13 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      
      - parameter sender: view Reconozer
      */
-    func panViewGesture(sender: UIPanGestureRecognizer) {
-        let locationInView = sender.locationInView(self)
-        if sender.state == .Changed {
-            self.legendForm!.frame = CGRectMake(locationInView.x - (self.legendForm!.frame.width - 23),
-                                                locationInView.y - 23 ,
-                                                self.legendForm!.frame.width,
-                                                self.legendForm!.frame.height )
+    func panViewGesture(_ sender: UIPanGestureRecognizer) {
+        let locationInView = sender.location(in: self)
+        if sender.state == .changed {
+            self.legendForm!.frame = CGRect(x: locationInView.x - (self.legendForm!.frame.width - 23),
+                                                y: locationInView.y - 23 ,
+                                                width: self.legendForm!.frame.width,
+                                                height: self.legendForm!.frame.height )
         }
     }
     /**
@@ -173,11 +173,11 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      
      - parameter viewPresent: view on present
      */
-    func showLegend(viewPresent:UIView){
+    func showLegend(_ viewPresent:UIView){
         if IS_IPAD {
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
             if let customBar = window!.rootViewController as? IPACustomBarViewController {
-                self.frame = CGRectMake(0,0 , customBar.view.bounds.width, customBar.view.frame.height)
+                self.frame = CGRect(x: 0,y: 0 , width: customBar.view.bounds.width, height: customBar.view.frame.height)
                 
                 self.onClose  = {() in
                     self.removeLegend()
@@ -186,9 +186,9 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
             }
     
         }else{
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
             if let customBar = window!.rootViewController as? CustomBarViewController {
-                self.frame = CGRectMake(0,0 , viewPresent.bounds.width, customBar.view.frame.height)
+                self.frame = CGRect(x: 0,y: 0 , width: viewPresent.bounds.width, height: customBar.view.frame.height)
                 
                 self.onClose  = {() in
                     self.removeLegend()
@@ -203,7 +203,7 @@ class LegendView: UIView,UIGestureRecognizerDelegate {
      */
     func removeLegend() {
         
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
                                    animations: { () -> Void in
                                     self.alpha = 0.0
             },

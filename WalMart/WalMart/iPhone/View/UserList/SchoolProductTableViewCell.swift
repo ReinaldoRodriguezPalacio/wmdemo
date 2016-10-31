@@ -10,21 +10,21 @@ import Foundation
 
 class SchoolProductTableViewCell: DetailListViewCell {
     
-  override func setValuesDictionary(product:[String:AnyObject],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
+  override func setValuesDictionary(_ product:[String:AnyObject],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
         var imageUrl: String? = ""
         if let imageArray = product["imageUrl"] as? NSArray {
             if imageArray.count > 0 {
                 var imgSmall = NSString(string: imageArray[0] as! String)
-                imgSmall = imgSmall.stringByReplacingOccurrencesOfString("img_large", withString: "img_small")
+                imgSmall = imgSmall.replacingOccurrences(of: "img_large", with: "img_small") as NSString
                 let pathExtention = imgSmall.pathExtension
-                imageUrl = imgSmall.stringByReplacingOccurrencesOfString("L.\(pathExtention)", withString:"s.\(pathExtention)")
+                imageUrl = imgSmall.replacingOccurrences(of: "L.\(pathExtention)", with:"s.\(pathExtention)")
             }
         } else if let imageUrlTxt = product["imageUrl"] as? String {
             imageUrl = imageUrlTxt
         }
     
-        self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURL(NSURL(string: imageUrl!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.productImage!.contentMode = UIViewContentMode.center
+        self.productImage!.setImageWith(URL(string: imageUrl!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
             self.productImage!.contentMode = self.contentModeOrig
             self.productImage!.image = image
             self.imageGrayScale = self.convertImageToGrayScale(image)
@@ -48,11 +48,11 @@ class SchoolProductTableViewCell: DetailListViewCell {
         }
     
         if savingPrice != ""{
-            self.promoDescription!.hidden = false
+            self.promoDescription!.isHidden = false
             self.promoDescription!.text = savingPrice
             self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
         } else{
-            self.promoDescription!.hidden = true
+            self.promoDescription!.isHidden = true
         }
     
         self.upcVal = product["upc"] as? String
@@ -63,7 +63,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
         
         if let equivalence = product["equivalenceByPiece"] as? NSString {
             if equivalence != "" {
-                self.equivalenceByPiece =  NSNumber(int: equivalence.intValue)
+                self.equivalenceByPiece =  NSNumber(value: equivalence.intValue as Int32)
             }
         }
     
@@ -86,13 +86,13 @@ class SchoolProductTableViewCell: DetailListViewCell {
         var total: Double = 0.0
         //Piezas
         if Int(quantity) == 1 {
-            text = String(format: NSLocalizedString("shoppingcart.quantity.article", comment:""), NSNumber(double:quantity))
+            text = String(format: NSLocalizedString("shoppingcart.quantity.article", comment:""), NSNumber(value: quantity as Double))
         }
         else {
-            text = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), NSNumber(double:quantity))
+            text = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), NSNumber(value: quantity as Double))
         }
         total = (quantity * price.doubleValue)
-        self.quantityIndicator!.setTitle(text!, forState: .Normal)
+        self.quantityIndicator!.setTitle(text!, for: UIControlState())
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
         self.total = formatedPrice
     
@@ -101,13 +101,13 @@ class SchoolProductTableViewCell: DetailListViewCell {
     
         if let stock = product["stock"] as? NSString {
             if stock == "false" {
-                self.check!.enabled = false
-                self.quantityIndicator!.enabled = false
+                self.check!.isEnabled = false
+                self.quantityIndicator!.isEnabled = false
                 self.quantityIndicator!.backgroundColor = WMColor.light_gray
                 self.hasStock = false
             } else {
-                 self.check!.enabled = true
-                self.quantityIndicator!.enabled = true
+                 self.check!.isEnabled = true
+                self.quantityIndicator!.isEnabled = true
                 self.quantityIndicator!.backgroundColor = WMColor.yellow
                 self.hasStock = true
             }

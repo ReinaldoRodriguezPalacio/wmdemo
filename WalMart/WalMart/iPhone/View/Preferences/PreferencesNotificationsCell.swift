@@ -9,7 +9,7 @@
 import Foundation
 
 protocol PreferencesNotificationsCellDelegate {
-    func changeStatus(row:Int,value:Bool)
+    func changeStatus(_ row:Int,value:Bool)
     func editPhone(inEdition edition:Bool,field:FormFieldView)
 }
 
@@ -49,11 +49,11 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         descriptionBlock!.textColor =  WMColor.reg_gray
         descriptionBlock!.text = description
         descriptionBlock!.numberOfLines =  0
-        descriptionBlock!.lineBreakMode = .ByWordWrapping
+        descriptionBlock!.lineBreakMode = .byWordWrapping
         
-        switchBlock = CMSwitchView(frame: CGRectMake(self.frame.width - (16 + 34), descriptionBlock!.frame.midY - 17  , 54, 34))
+        switchBlock = CMSwitchView(frame: CGRect(x: self.frame.width - (16 + 34), y: descriptionBlock!.frame.midY - 17  , width: 54, height: 34))
         switchBlock!.borderWidth = 0
-        switchBlock!.dotColor = UIColor.whiteColor()
+        switchBlock!.dotColor = UIColor.white
         switchBlock!.dotBorderColor = WMColor.light_gray
         switchBlock!.color = WMColor.empty_gray
         switchBlock!.tintColor = WMColor.green
@@ -75,37 +75,37 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         descriptionBlock!.frame = CGRect(x:16 , y:titleBlock!.frame.maxY + 8 , width:self.frame.width - (28 + 60) , height: 0)
         descriptionBlock!.sizeToFit()
         descriptionBlock!.frame.size = descriptionBlock!.bounds.size
-        switchBlock!.frame =  CGRectMake(self.frame.width - (32 + 34), descriptionBlock!.frame.midY - 17  , 54, 34)
-        self.separator!.frame =  CGRectMake(0.0, self.bounds.height - 1, bounds.width, 1.0)
+        switchBlock!.frame =  CGRect(x: self.frame.width - (32 + 34), y: descriptionBlock!.frame.midY - 17  , width: 54, height: 34)
+        self.separator!.frame =  CGRect(x: 0.0, y: self.bounds.height - 1, width: bounds.width, height: 1.0)
     }
     
-    func setValues(title:String,description:String,isOn:Bool,contenField:Bool,position:Int,phone:String){
+    func setValues(_ title:String,description:String,isOn:Bool,contenField:Bool,position:Int,phone:String){
         
         self.titleBlock?.text = title
         self.descriptionBlock?.text = description
         switchBlock!.drawSelected(isOn)
         switchBlock!.borderColor = isOn ? WMColor.green :  WMColor.reg_gray
-        self.separator?.hidden = position == 2
+        self.separator?.isHidden = position == 2
         self.switchBlock?.tag = position
        
         
         if contenField {
-            let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+            let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44), inputViewStyle: .keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
                 self.delegate.editPhone(inEdition: false,field: self.phoneField!)
                 self.endEditing(true)
             })
             if self.phoneField == nil {
-                self.phoneField = FormFieldView(frame: CGRectMake(16, descriptionBlock!.frame.maxY - 16.0, self.frame.width - 32, 44))
+                self.phoneField = FormFieldView(frame: CGRect(x: 16, y: descriptionBlock!.frame.maxY - 16.0, width: self.frame.width - 32, height: 44))
             }
             self.phoneField!.isRequired = isOn
-            self.phoneField!.typeField = TypeField.Phone
+            self.phoneField!.typeField = TypeField.phone
             self.phoneField!.nameField = "Teléfono"
             self.phoneField!.maxLength = 10
             self.phoneField!.minLength = 10
             self.phoneField!.text = phone
             self.phoneField!.disablePaste = true
-            self.phoneField!.keyboardType = UIKeyboardType.NumberPad
-            self.phoneField!.hidden =  !isOn
+            self.phoneField!.keyboardType = UIKeyboardType.numberPad
+            self.phoneField!.isHidden =  !isOn
             self.phoneField!.inputAccessoryView = viewAccess
             self.phoneField!.delegate = self
             self.addSubview(self.phoneField!)
@@ -118,11 +118,11 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     
     
     //MARK:CMSwitchViewDelegate
-    func switchValueChanged(sender: AnyObject!, andNewValue value: Bool) {
+    func switchValueChanged(_ sender: AnyObject!, andNewValue value: Bool) {
         switchBlock!.borderColor = value ? WMColor.green :  WMColor.reg_gray
         if sender.tag == 2 {
             self.phoneField!.isRequired = value
-            self.phoneField?.hidden =  !value
+            self.phoneField?.isHidden =  !value
             if !value {
                 self.phoneField!.text = ""
                 self.errorView?.removeFromSuperview()
@@ -138,7 +138,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         self.delegate.changeStatus(sender.tag, value: value)
     }
     
-    func validate(cell:PreferencesNotificationsCell) -> Bool{
+    func validate(_ cell:PreferencesNotificationsCell) -> Bool{
         
         if self.phoneSelected {
             return viewError(cell.phoneField!)
@@ -155,12 +155,12 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         return true
     }
     
-    func viewError(field: FormFieldView)-> Bool{
+    func viewError(_ field: FormFieldView)-> Bool{
         let message = field.validate()
         return self.viewError(field,message: message)
     }
     
-    func viewError(field: FormFieldView,message:String?)-> Bool{
+    func viewError(_ field: FormFieldView,message:String?)-> Bool{
         
         if message != nil {
             if self.errorView == nil{
@@ -180,14 +180,14 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     //MARK: UITextFieldDelegate
     
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.delegate.editPhone(inEdition: true,field: self.phoneField!)
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let fieldString = strNSString.replacingCharacters(in: range, with: string)
         
         if fieldString.characters.count == 11{
                 return false
@@ -198,7 +198,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     
 
 
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
          self.delegate.editPhone(inEdition: false,field: self.phoneField!)
     }
     

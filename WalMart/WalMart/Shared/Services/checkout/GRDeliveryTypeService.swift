@@ -14,12 +14,12 @@ class GRDeliveryTypeService : GRBaseService {
     var addressId: String?
     var isFreeShiping: String?
     
-    func buildParams(numProducts:String,addressId:String,nightHours:String,isFreeShiping:String) -> NSDictionary {
+    func buildParams(_ numProducts:String,addressId:String,nightHours:String,isFreeShiping:String) -> NSDictionary {
         return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours,"isFreeShiping":isFreeShiping]
         //return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours]
     }
     
-    func setParams(numProducts:String, addressId:String,isFreeShiping:String) {
+    func setParams(_ numProducts:String, addressId:String,isFreeShiping:String) {
         self.numProducts = numProducts
         self.addressId = addressId
         self.isFreeShiping = isFreeShiping

@@ -29,14 +29,14 @@ class FilterCategoryViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         self.check = UIImageView()
         self.contentView.addSubview(self.check!)
         
         self.name = UILabel()
         self.name!.font = WMFont.fontMyriadProLightOfSize(16)
-        self.name!.backgroundColor = UIColor.whiteColor()
+        self.name!.backgroundColor = UIColor.white
         self.contentView.addSubview(self.name!)
         
         self.separator = UIView()
@@ -56,37 +56,37 @@ class FilterCategoryViewCell: UITableViewCell {
             x += 64.0
         }
         
-        self.check!.frame = CGRectMake(x, (size.height - 16.0)/2, 16.0, 16.0)
-        self.name!.frame = CGRectMake(self.check!.frame.maxX + separation, 0.0, size.width - (self.check!.frame.maxX + separation), size.height)
-        self.separator!.frame = CGRectMake(0.0, size.height - 1, size.width, 1.0)
+        self.check!.frame = CGRect(x: x, y: (size.height - 16.0)/2, width: 16.0, height: 16.0)
+        self.name!.frame = CGRect(x: self.check!.frame.maxX + separation, y: 0.0, width: size.width - (self.check!.frame.maxX + separation), height: size.height)
+        self.separator!.frame = CGRect(x: 0.0, y: size.height - 1, width: size.width, height: 1.0)
     }
     
     //MARK: - Actions
     
-    func setValues(item:[String:AnyObject], selected:Bool) {
+    func setValues(_ item:[String:AnyObject], selected:Bool) {
         
         self.type = .department
         if let level = item["level"] as? NSNumber {
-            if level.integerValue == 0 {
+            if level.intValue == 0 {
                 self.type = .department
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_blue_selected")
-                 self.separator!.hidden = false
+                 self.separator!.isHidden = false
             }
-            else if level.integerValue == 1 {
+            else if level.intValue == 1 {
                 self.type = .family
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
-                self.separator!.hidden = true
+                self.separator!.isHidden = true
             }
-            else if level.integerValue == 2 {
+            else if level.intValue == 2 {
                 self.type = .line
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
-                self.separator!.hidden = true
+                self.separator!.isHidden = true
             }
         }
 
@@ -97,10 +97,10 @@ class FilterCategoryViewCell: UITableViewCell {
                 self.name!.text = "\(self.name!.text!)"
             }
         }
-        self.check!.highlighted = selected
+        self.check!.isHighlighted = selected
     }
     
-    func setValuesFacets(item:[String:AnyObject]?,nameBrand:String, selected:Bool){
+    func setValuesFacets(_ item:[String:AnyObject]?,nameBrand:String, selected:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor
@@ -109,10 +109,10 @@ class FilterCategoryViewCell: UITableViewCell {
         //self.separator!.hidden = false
         
         if item?["itemName"] as? String == ""{
-            self.check!.hidden = true
+            self.check!.isHidden = true
             
         }
-        else{ self.check!.hidden = false
+        else{ self.check!.isHidden = false
             
         }
         var countItem  =  0
@@ -126,19 +126,19 @@ class FilterCategoryViewCell: UITableViewCell {
         
         self.name!.text = item != nil ? "\(name) (\(countItem))": nameBrand
         
-        self.check!.highlighted = selected
+        self.check!.isHighlighted = selected
     }
     
-     func setValuesSelectAll( selected:Bool, isFacet:Bool){
+     func setValuesSelectAll( _ selected:Bool, isFacet:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
         self.check!.highlightedImage = UIImage(named: "radio_full")
-        self.separator!.hidden = false
+        self.separator!.isHidden = false
         
          self.name!.text = isFacet ? NSLocalizedString("product.search.filterall", comment: "") : NSLocalizedString("product.search.departments", comment: "")
-        self.check!.highlighted = selected
+        self.check!.isHighlighted = selected
     }
     
     

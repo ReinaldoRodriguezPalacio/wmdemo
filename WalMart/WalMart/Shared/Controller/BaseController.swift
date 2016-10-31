@@ -20,7 +20,7 @@ class BaseController : UIViewController {
             if !valueScreenName.isEmpty {
                 tracker.set(kGAIScreenName, value: self.getScreenGAIName())
                 let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
-                tracker.send(eventTracker as! [NSObject : AnyObject])
+                tracker.send(eventTracker as! [AnyHashable: Any])
             }
             
         }
@@ -28,37 +28,37 @@ class BaseController : UIViewController {
 
     
     func loadStoryboardDefinition() -> UIStoryboard? {
-        let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
+        let storyboardName = UIDevice.current.userInterfaceIdiom == .phone ? "Storyboard_iphone" : "Storyboard_ipad"
         let storyboard : UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil);
         return storyboard;
     }
         
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        let rotation = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? UIInterfaceOrientationMask.Portrait : UIInterfaceOrientationMask.Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        let rotation = UIDevice.current.userInterfaceIdiom == .phone ? UIInterfaceOrientationMask.portrait : UIInterfaceOrientationMask.landscape
          return rotation
     }
     
     //WHITE BAR
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
 
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
     
-    class func sendAnalytics(category:String, action: String, label:String){
+    class func sendAnalytics(_ category:String, action: String, label:String){
            ////////
 //        print("Category: \(category) Action: \(action) Label: \(label)")
                 if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
+                    tracker.send(GAIDictionaryBuilder.createEvent(withCategory: category,
                         action: action,
-                        label: label, value: nil).build() as [NSObject : AnyObject])
+                        label: label, value: nil).build() as [AnyHashable: Any])
                 }
     }
     
-    class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
+    class func sendAnalytics(_ categoryAuth:String, categoryNoAuth:String, action: String, label:String){
         let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
         BaseController.sendAnalytics(category, action: action, label: label)
     }

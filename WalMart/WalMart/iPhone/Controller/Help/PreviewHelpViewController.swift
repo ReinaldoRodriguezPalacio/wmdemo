@@ -31,7 +31,7 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
         }
         
         self.webShowDetail = UIWebView()
-        self.webShowDetail.contentMode = UIViewContentMode.ScaleAspectFill
+        self.webShowDetail.contentMode = UIViewContentMode.scaleAspectFill
         self.webShowDetail!.scalesPageToFit = true
         self.webShowDetail.scrollView.delegate = self
         self.view.addSubview(webShowDetail)
@@ -45,34 +45,34 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
             }
             
             if resource == "privacy" {
-                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
-                let myFilePath = documentDirectory.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
-                let manager = NSFileManager.defaultManager()
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+                let myFilePath = documentDirectory.appendingPathComponent("AvisoPrivacidad.pdf")
+                let manager = FileManager.default
                 
-                if (manager.fileExistsAtPath(myFilePath)) {
-                    let request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath))
+                if (manager.fileExists(atPath: myFilePath)) {
+                    let request = URLRequest(url: URL(fileURLWithPath: myFilePath))
                     self.webShowDetail.loadRequest(request)
                 }
                 else{
-                    let filePath = NSBundle.mainBundle().URLForResource("privacy", withExtension: "pdf")
-                    let request = NSURLRequest(URL: filePath!)
+                    let filePath = Bundle.main.url(forResource: "privacy", withExtension: "pdf")
+                    let request = URLRequest(url: filePath!)
                     self.webShowDetail.loadRequest(request)
                 }
             }
             else{
-                let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource as String, ofType: self.type as String)!
+                let htmlFile : NSString = Bundle.main.path(forResource: resource as String, ofType: self.type as String)! as NSString
                 
                 switch self.type {
                 case "html":
-                    var  htmlString : NSString = try! NSString(contentsOfFile:htmlFile as String, encoding: NSUTF8StringEncoding)
+                    var  htmlString : NSString = try! NSString(contentsOfFile:htmlFile as String, encoding: String.Encoding.utf8.rawValue)
                     
                     if imgFile != nil{
-                        let imgFilePath  = NSBundle.mainBundle().pathForResource(imgFile as? String, ofType: "jpg")
-                        htmlString = htmlString.stringByReplacingOccurrencesOfString("$pathImage$", withString: imgFilePath!)
+                        let imgFilePath  = Bundle.main.path(forResource: imgFile as? String, ofType: "jpg")
+                        htmlString = htmlString.replacingOccurrences(of: "$pathImage$", with: imgFilePath!) as NSString
                     }
                     self.webShowDetail.loadHTMLString(htmlString as String, baseURL: nil)
                 case "pdf":
-                    let request = NSURLRequest(URL: NSURL(string: htmlFile as String)!)
+                    let request = URLRequest(url: URL(string: htmlFile as String)!)
                     self.webShowDetail.loadRequest(request)
                 default :
                     break
@@ -90,10 +90,10 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
         if self.titleText != nil  {
-            self.webShowDetail!.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
+            self.webShowDetail!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: bounds.width, height: bounds.height - self.header!.frame.maxY )
         }
         else {
-            self.webShowDetail!.frame =  CGRectMake(0, 0, bounds.width, bounds.height )
+            self.webShowDetail!.frame =  CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height )
         }
     }
     

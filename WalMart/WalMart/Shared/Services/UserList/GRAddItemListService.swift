@@ -11,32 +11,32 @@ import CoreData
 
 class GRAddItemListService: GRBaseService {
     
-    func buildParams(idList idList:String, upcs:[AnyObject]?) -> [String:AnyObject]! {
+    func buildParams(idList:String, upcs:[AnyObject]?) -> [String:AnyObject]! {
         //{"idList":"26e50bc7-3644-48d8-a51c-73d7536ab30d","itemArrImp":[{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}]}
-        return ["idList":idList, "itemArrImp":upcs!]
+        return ["idList":idList as AnyObject, "itemArrImp":upcs! as AnyObject]
     }
     
-    func buildProductObject(upc upc:String, quantity:Int,pesable:String,active:Bool) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int,pesable:String,active:Bool) -> [String:AnyObject] {
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
-        return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : "","isActive":active]
+        return ["longDescription" : "" as AnyObject, "quantity" : quantity as AnyObject, "upc" : upc as AnyObject, "pesable" : pesable as AnyObject, "equivalenceByPiece" : "" as AnyObject, "promoDescription" : "" as AnyObject, "productIsInStores" : "" as AnyObject,"isActive":active]
     }
     
-    func buildProductObject(upc upc:String, quantity:Int,pesable:String) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int,pesable:String) -> [String:AnyObject] {
         // {"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
-        return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : ""]
+        return ["longDescription" : "" as AnyObject, "quantity" : quantity as AnyObject, "upc" : upc as AnyObject, "pesable" : pesable as AnyObject, "equivalenceByPiece" : "" as AnyObject, "promoDescription" : "" as AnyObject, "productIsInStores" : "" as AnyObject]
     }
     
-    func buildItemMustang(upc:String,sku:String,quantity:Int) -> NSDictionary {
+    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> NSDictionary {
         return ["upc":upc,"skuId":sku,"quantity":quantity]
     
     }
     
-    func buildItemMustangObject(idList idList:String, upcs:[AnyObject]?) -> NSDictionary {
+    func buildItemMustangObject(idList:String, upcs:[AnyObject]?) -> NSDictionary {
         return ["idList":idList,"items":upcs!]
     }
     
     
-    func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         /*var toSneditem : [String:AnyObject] = [:]
         let arrayItems = params["itemArrImp"] as! NSArray
         var arrayToSend : [[String:AnyObject]] = []
@@ -66,8 +66,8 @@ class GRAddItemListService: GRBaseService {
         
     }
     
-    func manageList(list:NSDictionary) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    func manageList(_ list:NSDictionary) {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         if  let listId = list["id"] as? String {
@@ -85,10 +85,10 @@ class GRAddItemListService: GRBaseService {
                 }
             }
             if entity == nil {
-                entity = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: context) as? List
+                entity = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List
                 entity!.idList = listId
                 entity!.user = UserCurrentSession.sharedInstance().userSigned!
-                entity!.registryDate = NSDate()
+                entity!.registryDate = Date()
                 entity!.name = list["name"] as! String
                 //println("Creating user list \(listId)")
                 
@@ -104,13 +104,13 @@ class GRAddItemListService: GRBaseService {
             }
             else {
                 let fetchRequest = NSFetchRequest()
-                fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: context)
+                fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: context)
                 fetchRequest.predicate = NSPredicate(format: "list == %@", entity!)
-                let result: [Product] = (try! context.executeFetchRequest(fetchRequest)) as! [Product]
+                let result: [Product] = (try! context.fetch(fetchRequest)) as! [Product]
                 if result.count > 0 {
                     for listDetail in result {
                         //println("Delete product list \(listDetail.upc)")
-                        context.deleteObject(listDetail)
+                        context.delete(listDetail)
                     }
                     do {
                         try context.save()
@@ -121,11 +121,11 @@ class GRAddItemListService: GRBaseService {
             }
             
             if let items = list["items"] as? [AnyObject] {
-                entity!.countItem = NSNumber(integer: items.count)
+                entity!.countItem = NSNumber(value: items.count as Int)
                 
                 for idx in 0 ..< items.count {
                     var item = items[idx] as! [String:AnyObject]
-                    let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+                    let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                     detail!.upc = item["upc"] as! String
                     detail!.img = item["imageUrl"] as! String
                     detail!.desc = item["description"] as! String
@@ -134,10 +134,10 @@ class GRAddItemListService: GRBaseService {
                     }
                     
                     if let price = item["price"] as? NSNumber {
-                        detail!.price = "\(price)"
+                        detail!.price = "\(price)" as NSString
                     }
                     else if let price = item["price"] as? String {
-                        detail!.price = price
+                        detail!.price = price as NSString
                     }
                     detail!.list = entity!
                 }

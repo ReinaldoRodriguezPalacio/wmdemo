@@ -13,11 +13,11 @@ class ZipCodeService : BaseService {
     
     var code : String? = nil
     
-    func buildParams(zipCode:String) {
+    func buildParams(_ zipCode:String) {
         self.code = zipCode
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in

@@ -22,38 +22,38 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
     
     var currentValGr : Double! = 50.0
     var currentValCstmGr : Double! = 0.0
-    var priceProduct : NSNumber! = NSNumber(int: 0)
-    var equivalence : NSNumber! = NSNumber(int: 0)
+    var priceProduct : NSNumber! = NSNumber(value: 0 as Int32)
+    var equivalence : NSNumber! = NSNumber(value: 0 as Int32)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundView.backgroundColor = WMColor.light_blue
         
         orderPiceButton.backgroundColor = WMColor.blue
-        orderPiceButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        orderPiceButton.setTitleColor(UIColor.white, for: UIControlState())
         orderPiceButton.layer.cornerRadius = 9
-        orderPiceButton.addTarget(self, action: #selector(KeyboardPicesViewController.gotograms), forControlEvents: UIControlEvents.TouchUpInside)
+        orderPiceButton.addTarget(self, action: #selector(KeyboardPicesViewController.gotograms), for: UIControlEvents.touchUpInside)
         
         addButton.backgroundColor = WMColor.green
-        addButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        addButton.setTitleColor(UIColor.white, for: UIControlState())
         
-        keyboardView.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
+        keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
         keyboardView.delegate = self
         
         
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        addButton.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
+        addButton.setTitle("\(strAdddToSC) $0.00", for: UIControlState())
         addButton.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         addButton.layer.cornerRadius = 18.0
         addButton.backgroundColor = WMColor.green
-        addButton.addTarget(self, action: Selector("addtoshoppingcart:"), forControlEvents: UIControlEvents.TouchUpInside)
+        addButton.addTarget(self, action: Selector("addtoshoppingcart:"), for: UIControlEvents.touchUpInside)
         
         
-        lblQuantity = UILabel(frame:CGRectMake(0, 0 ,viewContainerQ.frame.width, 40))
+        lblQuantity = UILabel(frame:CGRect(x: 0, y: 0 ,width: viewContainerQ.frame.width, height: 40))
         lblQuantity.font = WMFont.fontMyriadProRegularOfSize(40)
-        lblQuantity.textColor = UIColor.whiteColor()
+        lblQuantity.textColor = UIColor.white
         lblQuantity.text = " \(Int(currentValGr)) pzas (5000g)"
-        lblQuantity.textAlignment = NSTextAlignment.Center
+        lblQuantity.textAlignment = NSTextAlignment.center
         lblQuantity.minimumScaleFactor =  35 / 40
         lblQuantity.adjustsFontSizeToFitWidth = true
         
@@ -62,7 +62,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
             self.updateShoppButton()
     }
     
-    func userSelectValue(value:String!) {
+    func userSelectValue(_ value:String!) {
         
     }
     
@@ -71,14 +71,14 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
     }
     
     func gotograms() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func updateShoppButton(){
         let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        addButton.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+        addButton.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
     }
 
     

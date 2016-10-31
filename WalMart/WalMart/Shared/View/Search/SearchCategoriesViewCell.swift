@@ -16,8 +16,8 @@ class SearchCategoriesViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
-        self.backgroundColor = UIColor.clearColor()
+        self.selectionStyle = .none
+        self.backgroundColor = UIColor.clear
         
         self.departament = UILabel()
         self.departament!.textColor = WMColor.reg_gray
@@ -25,14 +25,14 @@ class SearchCategoriesViewCell: UITableViewCell {
         
         self.title = UILabel()
         self.title!.textColor = WMColor.light_blue
-        self.title!.backgroundColor = UIColor.clearColor()
+        self.title!.backgroundColor = UIColor.clear
         self.title!.font = WMFont.fontMyriadProRegularOfSize(14)
 
         //self.title!.numberOfLines = 2
         self.contentView.addSubview(self.title!)
         self.contentView.addSubview(self.departament!)
         
-        self.contentView.backgroundColor = UIColor.clearColor()
+        self.contentView.backgroundColor = UIColor.clear
         self.fontTitle = WMFont.fontMyriadProRegularOfSize(14)
         self.fontTitleKey = WMFont.fontMyriadProBoldOfSize(14)
     }
@@ -41,35 +41,35 @@ class SearchCategoriesViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func setValueTitle(value:String, forKey key:String, andDepartament departament:String) {
+    func setValueTitle(_ value:String, forKey key:String, andDepartament departament:String) {
         self.title!.attributedText = SearchSingleViewCell.attributedText(key, value: value, fontKey: self.fontTitleKey!, fontValue: self.fontTitle!)
         self.departament!.text = departament;
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     override func layoutSubviews() {
         let bounds = self.frame.size
-        self.contentView.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
-        self.title!.frame = CGRectMake(15.0, 12, bounds.width - 30.0, 12)
-        self.departament!.frame = CGRectMake(15 , 33 , bounds.width - 30.0 , 12)
+        self.contentView.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height)
+        self.title!.frame = CGRect(x: 15.0, y: 12, width: bounds.width - 30.0, height: 12)
+        self.departament!.frame = CGRect(x: 15 , y: 33 , width: bounds.width - 30.0 , height: 12)
     }
 
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         var color : UIColor!
         if highlighted == true {
-            color = UIColor.whiteColor()
+            color = UIColor.white
         }else{
-            color = UIColor.clearColor()
+            color = UIColor.clear
         }
         let codeChange = {() -> Void  in
             self.backgroundColor = color
             self.contentView.backgroundColor = color
         }
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             codeChange()
         })
     }

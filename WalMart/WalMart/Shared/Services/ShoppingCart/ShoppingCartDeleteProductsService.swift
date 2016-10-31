@@ -12,21 +12,21 @@ import CoreData
 
 class ShoppingCartDeleteProductsService : BaseService {
  
-    func builParams(upc:String) -> [String:AnyObject] {
+    func builParams(_ upc:String) -> [String:AnyObject] {
         return ["removalCommerceIds":[upc], "removeAllItems": "false"]
     }
     
 
-    func builParamsMultiple(upcs:[String]) -> [String:AnyObject] {
-        return ["removalCommerceIds":upcs, "removeAllItems": "false"]
+    func builParamsMultiple(_ upcs:[String]) -> [String:AnyObject] {
+        return ["removalCommerceIds":upcs as AnyObject, "removeAllItems": "false" as AnyObject]
     }
     
     
-    func callCoreDataService(upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataServiceWithParams(builParams(upc), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(_ upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataServiceWithParams(builParams(upc) as NSDictionary, successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
                 //let shoppingService = ShoppingCartProductsService()
@@ -46,8 +46,8 @@ class ShoppingCartDeleteProductsService : BaseService {
         }
     }
     
-    func callCoreDataServiceWithParams(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    func callCoreDataServiceWithParams(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let parameter = params["removalCommerceIds"] as! NSArray
@@ -61,7 +61,7 @@ class ShoppingCartDeleteProductsService : BaseService {
                 let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                 
                 for cartDelete in array {
-                    cartDelete.status = NSNumber(integer:CartStatus.Deleted.rawValue)
+                    cartDelete.status = NSNumber(value: CartStatus.deleted.rawValue as Int)
                 }
                 do {
                     try context.save()

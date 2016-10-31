@@ -31,28 +31,28 @@ class IPOCategoryView : CategoryView {
         titleLabel.numberOfLines = 2
         
         auxiliarBgView = UIView()
-        auxiliarBgView.backgroundColor = UIColor.whiteColor()
+        auxiliarBgView.backgroundColor = UIColor.white
         
         viewOverCellWhite = UIView()
-        viewOverCellWhite.backgroundColor = UIColor.whiteColor()
-        viewOverCellWhite.hidden = true
+        viewOverCellWhite.backgroundColor = UIColor.white
+        viewOverCellWhite.isHidden = true
         
         closeButton = UIButton()
-        closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: #selector(IPOCategoryView.closeCategory), forControlEvents: UIControlEvents.TouchUpInside)
-        self.closeButton.enabled = false
+        closeButton.setImage(UIImage(named:"close"), for: UIControlState())
+        closeButton.addTarget(self, action: #selector(IPOCategoryView.closeCategory), for: UIControlEvents.touchUpInside)
+        self.closeButton.isEnabled = false
         self.closeButton.alpha = 0
         
-        imageIcon.contentMode = UIViewContentMode.Center
+        imageIcon.contentMode = UIViewContentMode.center
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         
         separator = UIView()
         separator.backgroundColor = WMColor.light_gray
         
         
         self.addSubview(auxiliarBgView)
-        self.bringSubviewToFront(titleLabel)
+        self.bringSubview(toFront: titleLabel)
         self.addSubview(closeButton)
         self.addSubview(separator)
         self.addSubview(viewOverCellWhite)
@@ -64,42 +64,42 @@ class IPOCategoryView : CategoryView {
     override func layoutSubviews() {
         super.layoutSubviews()
         viewOverCellWhite.frame = self.bounds
-        if self.selected == false {
+        if self.isSelected == false {
             imageBackground.frame = self.bounds
-            titleLabel.frame = CGRectMake(114, 0, self.frame.width - self.frame.height, self.frame.height)
-            auxiliarBgView.frame = CGRectMake(self.frame.height, 0, self.frame.width - self.frame.height, self.frame.height)
-            imageIcon.frame = CGRectMake(0, 0, self.frame.height, self.frame.height)
-            closeButton.frame = CGRectMake(self.frame.maxX - 36, 0, 36, self.frame.height)
+            titleLabel.frame = CGRect(x: 114, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
+            auxiliarBgView.frame = CGRect(x: self.frame.height, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
+            imageIcon.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
+            closeButton.frame = CGRect(x: self.frame.maxX - 36, y: 0, width: 36, height: self.frame.height)
             let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-            separator.frame = CGRectMake(auxiliarBgView.frame.minX, self.frame.height - widthAndHeightSeparator, self.frame.width, widthAndHeightSeparator)
+            separator.frame = CGRect(x: auxiliarBgView.frame.minX, y: self.frame.height - widthAndHeightSeparator, width: self.frame.width, height: widthAndHeightSeparator)
         }
     }
     
     func animateAfterSelect() {
-        self.closeButton.enabled = true
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        self.closeButton.isEnabled = true
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.closeButton.alpha = 1
-            self.auxiliarBgView.frame = CGRectMake(self.frame.maxX, 0, self.frame.width - self.frame.height, self.frame.height)
-            self.titleLabel.frame = CGRectMake(self.frame.height - 24, 0, self.frame.width - self.frame.height, self.frame.height)
-            self.titleLabel.textColor = UIColor.whiteColor()
+            self.auxiliarBgView.frame = CGRect(x: self.frame.maxX, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
+            self.titleLabel.frame = CGRect(x: self.frame.height - 24, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
+            self.titleLabel.textColor = UIColor.white
             let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-            self.separator.frame = CGRectMake(self.auxiliarBgView.frame.minX, self.frame.height - widthAndHeightSeparator, self.frame.width, widthAndHeightSeparator)
+            self.separator.frame = CGRect(x: self.auxiliarBgView.frame.minX, y: self.frame.height - widthAndHeightSeparator, width: self.frame.width, height: widthAndHeightSeparator)
         })
         
     }
     
     func closeCategory() {
-        self.closeButton.enabled = false
+        self.closeButton.isEnabled = false
         self.delegate.closeButtonPressed()
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.titleLabel.frame = CGRectMake(114, 0, self.frame.width - self.frame.height, self.frame.height)
-            self.auxiliarBgView.frame = CGRectMake(self.frame.height, 0, self.frame.width - self.frame.height, self.frame.height)
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.titleLabel.frame = CGRect(x: 114, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
+            self.auxiliarBgView.frame = CGRect(x: self.frame.height, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
             self.titleLabel.textColor = WMColor.light_blue
             let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-            self.separator.frame = CGRectMake(self.auxiliarBgView.frame.minX, self.frame.height - widthAndHeightSeparator, self.frame.width, widthAndHeightSeparator)
-            }) { (complete:Bool) -> Void in
+            self.separator.frame = CGRect(x: self.auxiliarBgView.frame.minX, y: self.frame.height - widthAndHeightSeparator, width: self.frame.width, height: widthAndHeightSeparator)
+            }, completion: { (complete:Bool) -> Void in
             self.delegate.closeButtonPressedEndAnimation()
-        }
+        }) 
         
     }
     

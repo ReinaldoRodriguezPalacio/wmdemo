@@ -34,9 +34,9 @@ class FormFieldErrorView: UIView {
         
         self.errorLabel = UILabel()
         self.errorLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.errorLabel!.textColor = UIColor.whiteColor()
+        self.errorLabel!.textColor = UIColor.white
 
-        self.errorLabel!.backgroundColor = UIColor.clearColor()
+        self.errorLabel!.backgroundColor = UIColor.clear
         
         self.viewError!.layer.cornerRadius = 4
         self.viewError.addSubview(self.errorLabel)
@@ -46,15 +46,15 @@ class FormFieldErrorView: UIView {
     }
     
 
-    func setValues (width:CGFloat, strLabel:String, strValue: String ){
-        let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:UIColor.whiteColor(), colorValue:UIColor.whiteColor(), size: 12)
-        let rectSize = attrString.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+    func setValues (_ width:CGFloat, strLabel:String, strValue: String ){
+        let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:UIColor.white, colorValue:UIColor.white, size: 12)
+        let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.max), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         
-        self.bounds = CGRectMake(10, 0, rectSize.width + 20 , rectSize.height + 10 )
+        self.bounds = CGRect(x: 10, y: 0, width: rectSize.width + 20 , height: rectSize.height + 10 )
         
-        self.imageIcon!.frame = CGRectMake (18, self.frame.height - 4,  6, 4)
-        self.viewError!.frame = CGRectMake(15, 2, rectSize.width + 10, rectSize.height + 4)
-        self.errorLabel!.frame = CGRectMake(5, 2, rectSize.width, rectSize.height)
+        self.imageIcon!.frame = CGRect (x: 18, y: self.frame.height - 4,  width: 6, height: 4)
+        self.viewError!.frame = CGRect(x: 15, y: 2, width: rectSize.width + 10, height: rectSize.height + 4)
+        self.errorLabel!.frame = CGRect(x: 5, y: 2, width: rectSize.width, height: rectSize.height)
 
         self.errorLabel.attributedText = attrString
         self.errorLabel.numberOfLines = 0

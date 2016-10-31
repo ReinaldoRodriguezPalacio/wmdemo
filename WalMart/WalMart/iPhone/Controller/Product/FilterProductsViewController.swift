@@ -7,13 +7,33 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol FilterProductsViewControllerDelegate {
-    func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool)
-    func apply(order:String, upcs: [String])
+    func apply(_ order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool)
+    func apply(_ order:String, upcs: [String])
     func removeFilters()
     func removeSelectedFilters()
-    func sendBrandFilter(brandFilter:String)
+    func sendBrandFilter(_ brandFilter:String)
 }
 
 class FilterProductsViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, FilterOrderViewCellDelegate,SliderTableViewCellDelegate {
@@ -40,7 +60,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var tableElements: [AnyObject]?
     var tableReset: [AnyObject]?
     var selectedElements: [Bool]?
-    var selectedElementsFacet: [NSIndexPath:Bool]?
+    var selectedElementsFacet: [IndexPath:Bool]?
     var selectedOrder: String?
     var isGroceriesSearch: Bool = false
     var facetGr: NSArray? = nil
@@ -70,29 +90,29 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         super.viewDidLoad()
 
         self.titleLabel!.text = NSLocalizedString("filter.title", comment:"")
-        self.titleLabel!.textAlignment =  .Center
+        self.titleLabel!.textAlignment =  .center
         
-        let iconImage = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11)
+        let iconImage = UIImage(color: WMColor.green, size: CGSize(width: 55, height: 22), radius: 11) // UIImage(named:"button_bg")
+        let iconSelected = UIImage(color: WMColor.green, size: CGSize(width: 55, height: 22), radius: 11)
         
-        self.applyButton = UIButton(type: .Custom)
-        self.applyButton!.setBackgroundImage(iconImage, forState: .Normal)
-        self.applyButton!.setBackgroundImage(iconSelected, forState: .Selected)
-        self.applyButton!.setTitle(NSLocalizedString("filter.apply", comment:""), forState: .Normal)
-        self.applyButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
-        self.applyButton!.addTarget(self, action: #selector(FilterProductsViewController.applyFilters), forControlEvents: .TouchUpInside)
+        self.applyButton = UIButton(type: .custom)
+        self.applyButton!.setBackgroundImage(iconImage, for: UIControlState())
+        self.applyButton!.setBackgroundImage(iconSelected, for: .selected)
+        self.applyButton!.setTitle(NSLocalizedString("filter.apply", comment:""), for: UIControlState())
+        self.applyButton!.setTitleColor(WMColor.light_light_gray, for: UIControlState())
+        self.applyButton!.addTarget(self, action: #selector(FilterProductsViewController.applyFilters), for: .touchUpInside)
         self.applyButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         
         self.header!.addSubview(self.applyButton!)
 
-        self.removeButton = UIButton(type: .Custom)
-        self.removeButton!.setBackgroundImage(iconImage, forState: .Normal)
-        self.removeButton!.setBackgroundImage(iconSelected, forState: .Selected)
-        self.removeButton!.setTitle(NSLocalizedString("filter.button.clean", comment:""), forState: .Normal)
-        self.removeButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.removeButton!.addTarget(self, action: #selector(FilterProductsViewController.removeFilters), forControlEvents: .TouchUpInside)
+        self.removeButton = UIButton(type: .custom)
+        self.removeButton!.setBackgroundImage(iconImage, for: UIControlState())
+        self.removeButton!.setBackgroundImage(iconSelected, for: .selected)
+        self.removeButton!.setTitle(NSLocalizedString("filter.button.clean", comment:""), for: UIControlState())
+        self.removeButton!.setTitleColor(UIColor.white, for: UIControlState())
+        self.removeButton!.addTarget(self, action: #selector(FilterProductsViewController.removeFilters), for: .touchUpInside)
         self.removeButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.removeButton!.hidden = true
+        self.removeButton!.isHidden = true
         self.removeButton!.layer.cornerRadius = 11
         self.header!.addSubview(self.removeButton!)
         
@@ -102,23 +122,23 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         self.header!.addSubview(self.removeButton!)
 */
-        self.tableView = UITableView(frame: CGRectMake(0.0, 0.0, 320.0, 480.0), style: .Plain)
-        self.tableView!.separatorStyle = .None
+        self.tableView = UITableView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 480.0), style: .plain)
+        self.tableView!.separatorStyle = .none
         self.view.addSubview(self.tableView!)
         
-        self.tableView!.registerClass(FilterOrderViewCell.self, forCellReuseIdentifier: self.ORDERCELL_ID)
-        self.tableView!.registerClass(FilterCategoryViewCell.self, forCellReuseIdentifier: self.CELL_ID)
-        self.tableView!.registerClass(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
+        self.tableView!.register(FilterOrderViewCell.self, forCellReuseIdentifier: self.ORDERCELL_ID)
+        self.tableView!.register(FilterCategoryViewCell.self, forCellReuseIdentifier: self.CELL_ID)
+        self.tableView!.register(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
         
         self.selectedElementsFacet = [:]
         self.selectedFacetGr = [:]
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Solo en el caso de que la busqueda sea con texto o camfind
-        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
+        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.withText || self.originalSearchContext! == SearchServiceContextType.withTextForCamFind
         
         if self.originalSearchContext != nil && self.isTextSearch {
             self.loadLinesForSearch()
@@ -147,7 +167,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     facetEnd.append(["itemsFacet":newItemsFacet,"type":facetItemsCount["type"],"name":facetItemsCount["name"],"order":facetItemsCount["order"]])
                 }
             }
-            facet = facetEnd
+            facet = facetEnd as NSArray?
         }
     }
     
@@ -157,14 +177,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         let headerBounds = self.header!.frame.size
         let buttonWidth: CGFloat = 55.0
         let buttonHeight: CGFloat = 22.0
-        self.applyButton!.frame = CGRectMake(headerBounds.width - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
-        self.removeButton!.frame = CGRectMake(self.applyButton!.frame.minX - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
-        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
+        self.applyButton!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+        self.removeButton!.frame = CGRect(x: self.applyButton!.frame.minX - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.withText && self.originalSearchContext != self.searchContext {
             //self.titleLabel!.frame = CGRectMake(46.0, 0, self.header!.frame.width - (46.0 + (buttonWidth*2) + 32.0), self.header!.frame.maxY)
         }
 
         let bounds = self.view.frame
-        self.tableView!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - self.header!.frame.height)
+        self.tableView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.height)
     }
     
     //MARK: - Actions
@@ -198,7 +218,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         
         //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
             //self.successCallBack!()
             
             //var intIx = 0
@@ -206,26 +226,26 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             for selElement in self.selectedElementsFacet!.keys {
                 let valSelected =  self.selectedElementsFacet?[selElement]
                 if valSelected! {
-                    if selElement.row == 0 && upcByPrice == nil {
+                    if (selElement as NSIndexPath).row == 0 && upcByPrice == nil {
                         self.delegate?.apply(self.selectedOrder!, filters: nil, isForGroceries: false)
                         if successCallBack != nil {
                             self.successCallBack!()
                         }else {
-                            self.navigationController!.popViewControllerAnimated(true)
+                            self.navigationController!.popViewController(animated: true)
                         }
                         return
                     }
-                    let itemFacet = self.facet![selElement.section - 1] as! [String:AnyObject]
+                    let itemFacet = self.facet![(selElement as NSIndexPath).section - 1] as! [String:AnyObject]
                     if  let typeFacet = itemFacet["type"] as? String {
                         if typeFacet == "check" {
                             let allnameFacets = itemFacet["itemsFacet"] as! [[String:AnyObject]]
                             
-                            if selElement.row  > 0 {
-                                let facet = allnameFacets[selElement.row - 1]
+                            if (selElement as NSIndexPath).row  > 0 {
+                                let facet = allnameFacets[(selElement as NSIndexPath).row - 1]
                                 let allUpcs = facet["upcs"] as! [String]
                                 for upcVal in allUpcs {
                                     if upcByPrice != nil {
-                                        if  self.upcByPrice!.containsObject(upcVal)  {
+                                        if  self.upcByPrice!.contains(upcVal)  {
                                             upcs.append(upcVal)
                                         }
                                     }else {
@@ -248,7 +268,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if successCallBack != nil {
                 self.successCallBack!()
             }else {
-                self.navigationController!.popViewControllerAnimated(true)
+                self.navigationController!.popViewController(animated: true)
             }
             return
         }
@@ -262,7 +282,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if lastSelected != nil {
             var element = self.tableElements![lastSelected!] as! [String:AnyObject]
             if let path = element["path"] as? String {
-                var options = path.componentsSeparatedByString("|")
+                var options = path.components(separatedBy: "|")
                 department = options[0]
                 family = options.count > 1 ? options[1] : ""
                 line = options.count > 2 ? options[2] : ""
@@ -276,13 +296,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         var filters:[String:AnyObject] = [:]
         if !line.isEmpty {
-            filters[JSON_KEY_IDLINE] = line
+            filters[JSON_KEY_IDLINE] = line as AnyObject?
         }
         if !family.isEmpty {
-            filters[JSON_KEY_IDFAMILY] = family
+            filters[JSON_KEY_IDFAMILY] = family as AnyObject?
         }
         if !department.isEmpty {
-            filters[JSON_KEY_IDDEPARTMENT] = department
+            filters[JSON_KEY_IDDEPARTMENT] = department as AnyObject?
         }
 
         self.delegate?.apply(self.selectedOrder!, filters: filters.count > 0 ? filters : nil, isForGroceries: groceriesType)
@@ -290,7 +310,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if successCallBack != nil {
             self.successCallBack!()
         }else {
-            self.navigationController!.popViewControllerAnimated(true)
+            self.navigationController!.popViewController(animated: true)
         }
        self.delegate?.removeSelectedFilters()
         
@@ -303,18 +323,18 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if successCallBack != nil {
             self.successCallBack!()
         }else {
-            self.navigationController!.popViewControllerAnimated(true)
+            self.navigationController!.popViewController(animated: true)
         }
     }
  
     //MARK: - UITableViewDelegate
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         if self.originalSearchContext != nil && self.isTextSearch {
                  return 2
         }
-        if self.originalSearchContext != nil  && facet != nil && facet?.count > 0  && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
+        if self.originalSearchContext != nil  && facet != nil && facet?.count > 0  && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
             return 1 + facet!.count
         }
         
@@ -324,14 +344,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         }
         if self.originalSearchContext != nil && self.isTextSearch {
             return self.tableElements != nil ? self.tableElements!.count + 1 : 0
         }
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
             let itemFacet = self.facet![section - 1] as! [String:AnyObject]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == "check" {
@@ -351,9 +371,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(self.ORDERCELL_ID, forIndexPath: indexPath) as! FilterOrderViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: self.ORDERCELL_ID, for: indexPath) as! FilterOrderViewCell
             cell.delegate = self
             cell.setValues(self.selectedOrder!)
             filterOrderViewCell =  cell
@@ -362,11 +382,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         if self.facetGr != nil{
             
-            let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
+            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
             
             var item :String = ""
-            if indexPath.row > 0 {
-                item = self.facetGr![indexPath.row - 1] as! String
+            if (indexPath as NSIndexPath).row > 0 {
+                item = self.facetGr![(indexPath as NSIndexPath).row - 1] as! String
             }else{
                 item = ""//self.facetGr![indexPath.row ] as! String
             }
@@ -377,8 +397,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 selected = valSelected!
             }
             
-            if indexPath.row > 0 {
-                 item = self.facetGr![indexPath.row - 1] as! String
+            if (indexPath as NSIndexPath).row > 0 {
+                 item = self.facetGr![(indexPath as NSIndexPath).row - 1] as! String
                 selectedFacetGr?.updateValue(selected,forKey: item)
                 listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
                 
@@ -397,12 +417,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return listCell
         }
         
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
-            let facetInfo = facet![indexPath.section - 1] as! NSDictionary
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
+            let facetInfo = facet![(indexPath as NSIndexPath).section - 1] as! NSDictionary
             
             if  let typeFacet = facetInfo["type"] as? String {
                 if typeFacet == "check" {
-                    let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
+                    let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
 
                     var selected = false
                     let valSelected =  self.selectedElementsFacet?[indexPath]
@@ -410,9 +430,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         selected = valSelected!
                     }
                     
-                    if indexPath.row > 0 {
+                    if (indexPath as NSIndexPath).row > 0 {
                         let facetitem = facetInfo["itemsFacet"] as! [[String:AnyObject]]
-                        let item = facetitem[indexPath.row - 1]
+                        let item = facetitem[(indexPath as NSIndexPath).row - 1]
                         self.addBrandFacet(item["itemName"] as! String)
                         listCell.setValuesFacets(item,nameBrand:"", selected: selected)
                     } else {
@@ -435,7 +455,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     //self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
                     
                     self.processPriceFacet(facetInfo)
-                    let cell = tableView.dequeueReusableCellWithIdentifier(self.sliderCellId) as! SliderTableViewCell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: self.sliderCellId) as! SliderTableViewCell
                     let sliderCell : SliderTableViewCell = cell as SliderTableViewCell
                     if self.prices != nil {
                         sliderCell.setValuesSlider(self.prices!)
@@ -448,7 +468,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
         } else {
-            let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
+            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
             /*if self.selectedElements != nil {
              let selected = self.selectedElements![indexPath.row]
              let item = self.tableElements![indexPath.row] as! [String:AnyObject]
@@ -461,9 +481,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 selected = valSelected!
                 }
 
-            if indexPath.row > 0 {
-                let selected = self.selectedElements![indexPath.row]
-                let item = self.tableElements![indexPath.row - 1] as! [String:AnyObject]
+            if (indexPath as NSIndexPath).row > 0 {
+                let selected = self.selectedElements![(indexPath as NSIndexPath).row]
+                let item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:AnyObject]
                 listCell.setValues(item, selected:selected)
                 } else {
                 if self.selectedElementsFacet!.count == 0  {
@@ -482,14 +502,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         return UITableViewCell()
     }
     
-    func processPriceFacet(fitem:NSDictionary) {
+    func processPriceFacet(_ fitem:NSDictionary) {
         if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? NSArray {
             var array = Array<Double>()
             var mirror = Array<NSArray>()
             for idx in 0 ..< itemsFacet.count {
                 let item = itemsFacet[idx] as! NSDictionary
                 if let value = item[JSON_KEY_FACET_ITEMNAME] as? NSString {
-                    var values = value.componentsSeparatedByString("-")
+                    var values = value.components(separatedBy: "-")
                     if idx == itemsFacet.count - 1 {
                         let price = values[0] as NSString
                         let lastPrice = values[1] as NSString
@@ -503,17 +523,17 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
                 mirror.append(item[JSON_KEY_FACET_UPCS] as! NSArray)
             }
-            self.prices = array
-            self.upcPrices = mirror
+            self.prices = array as NSArray?
+            self.upcPrices = mirror as NSArray?
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == 0 {
             return 103.0
         }
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
-            let itemFacet = self.facet![indexPath.section - 1] as! [String:AnyObject]
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
+            let itemFacet = self.facet![(indexPath as NSIndexPath).section - 1] as! [String:AnyObject]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == JSON_SLIDER {
                     return 73.0
@@ -524,20 +544,20 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         return 36.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 0 {
             return
         }
         
         if self.facetGr != nil {
-            if indexPath.row == 0 {
+            if (indexPath as NSIndexPath).row == 0 {
                 self.selectedFacetGr = [:]
-                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: UITableViewRowAnimation.fade)
                 BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 return
             }
             
-            let item = self.facetGr![indexPath.row - 1] as? String
+            let item = self.facetGr![(indexPath as NSIndexPath).row - 1] as? String
             var currentVal = true
             for items in self.selectedFacetGr! {
                 if items.1 == true{
@@ -552,23 +572,23 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             self.selectedFacetGr!.updateValue(currentVal, forKey: item!)
             //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
-            self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Fade)
+            self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: .fade)
             return
         }
         
         //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
+        if self.originalSearchContext != nil && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
             //self.selectedElements![indexPath.row] = true
-            if indexPath.row == 0 {
+            if (indexPath as NSIndexPath).row == 0 {
                 self.selectedElementsFacet = [:]
-                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: UITableViewRowAnimation.fade)
                 BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 return
             }
             
             var currentVal = true
             var countselected = 0
-            var ixSelected : NSIndexPath? = nil
+            var ixSelected : IndexPath? = nil
             for items in self.selectedElementsFacet! {
                 if items.1 == true{
                     countselected += 1
@@ -586,31 +606,31 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
            
             self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
             for keyObj in self.selectedElementsFacet!.keys {
-                if keyObj.row == 0 {
+                if (keyObj as NSIndexPath).row == 0 {
                     self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
                 }
             }
-            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[(indexPath as NSIndexPath).row - 1])
             
-            self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Fade)
+            self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: .fade)
             //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
             //self.removeButton!.hidden = false
             
             return
         }
         
-        if indexPath.row == 0 {
+        if (indexPath as NSIndexPath).row == 0 {
             self.selectedElementsFacet = [:]
                 self.tableElements = nil
                 self.tableElements = self.tableReset
-                self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
+                self.selectedElements = [Bool](repeating: false, count: (self.tableElements!.count + 1))
                 self.selectedElements![0] = true
-                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: UITableViewRowAnimation.fade)
                 BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
             return
             }
         
-        let isAlreadyOpen = self.selectedElements![indexPath.row]
+        let isAlreadyOpen = self.selectedElements![(indexPath as NSIndexPath).row]
         if isAlreadyOpen {
             return
         }
@@ -618,43 +638,43 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         var visibleCells = tableView.visibleCells
         for idx in 0 ..< visibleCells.count {
             if let cell = visibleCells[idx] as? FilterCategoryViewCell {
-                cell.check!.highlighted = false
+                cell.check!.isHighlighted = false
             }
         }
         
-        var item = self.tableElements![indexPath.row - 1] as! [String:AnyObject]
-        let itemLevel = (item["level"] as! NSNumber).integerValue
+        var item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:AnyObject]
+        let itemLevel = (item["level"] as! NSNumber).intValue
         let itemId = item["id"] as! String
         let itemParentId = item["parentId"] as! String
         
         if itemLevel != 2 {
-            var indexes:[NSIndexPath] = []
+            var indexes:[IndexPath] = []
             var filteredElements:[AnyObject] = []
             for idx in 0 ..< self.tableElements!.count {
                 var element = self.tableElements![idx] as! [String:AnyObject]
                 let elementId = element["id"] as! String
                 let elementParentId = element["parentId"] as! String
-                let level = (element["level"] as! NSNumber).integerValue
+                let level = (element["level"] as! NSNumber).intValue
                 
                 if level == 0 || itemId == elementId || itemParentId == elementParentId {
-                    filteredElements.append(element)
+                    filteredElements.append(element as AnyObject)
                     continue
                 }
                 if self.itemIsContained(item, node: element) {
-                    filteredElements.append(element)
+                    filteredElements.append(element as AnyObject)
                     continue
                 }
                 
                 if level > 0 {
-                    indexes.append(NSIndexPath(forRow: idx, inSection: 1))
+                    indexes.append(IndexPath(row: idx, section: 1))
                 }
             }
             self.tableElements = filteredElements
-            self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
+            self.selectedElements = [Bool](repeating: false, count: (self.tableElements!.count + 1))
             self.selectedElements![0] = false
-            tableView.deleteRowsAtIndexPaths(indexes, withRowAnimation: .Automatic)
+            tableView.deleteRows(at: indexes, with: .automatic)
             
-            var updatedIndex:NSIndexPath? = nil
+            var updatedIndex:IndexPath? = nil
             for idx in 1 ..< (self.tableElements!.count + 1) {
                 var element = self.tableElements![idx - 1] as! [String:AnyObject]
                 let elementId = element["id"] as! String
@@ -662,7 +682,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     self.selectedElements![idx] = true
                 }
                 if itemId == elementId {
-                    updatedIndex = NSIndexPath(forRow: idx, inSection: 1)
+                    updatedIndex = IndexPath(row: idx, section: 1)
                     self.selectedElements![idx] = true
                 }
             }
@@ -678,28 +698,28 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
         }
         else {
-            self.selectedElements![indexPath.row] = true
+            self.selectedElements![(indexPath as NSIndexPath).row] = true
             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
         }
 
         for idx in 1 ..< self.selectedElements!.count {
             if self.selectedElements![idx] {
-                if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: (idx), inSection: 1)) as? FilterCategoryViewCell {
-                    cell.check!.highlighted = true
+                if let cell = tableView.cellForRow(at: IndexPath(row: (idx), section: 1)) as? FilterCategoryViewCell {
+                    cell.check!.isHighlighted = true
                 }
             }
         }
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 36.0
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 36.0))
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 36.0))
         header.backgroundColor = WMColor.light_gray
         
-        let title = UILabel(frame: CGRectMake(16.0, 0.0, self.view.frame.width - 32.0, 36.0))
+        let title = UILabel(frame: CGRect(x: 16.0, y: 0.0, width: self.view.frame.width - 32.0, height: 36.0))
         //title.backgroundColor = WMColor.light_light_gray
         title.textColor = WMColor.reg_gray
         title.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -710,7 +730,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if self.originalSearchContext != nil && self.isTextSearch {
                 title.text = NSLocalizedString("filter.section.categories", comment:"")
             }
-            if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
+            if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
                 let facetName = facet![section - 1] as! NSDictionary
                 let nameTitle =  facetName["name"] as! String
                 title.text = nameTitle.contains("Precios") ? NSLocalizedString("Rango de Precio", comment: "") : nameTitle
@@ -728,23 +748,23 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     //MARK: - Utils
     
-    func insertItems(items:[String:AnyObject], atIndexPath indexPath:NSIndexPath) {
+    func insertItems(_ items:[String:AnyObject], atIndexPath indexPath:IndexPath) {
         if items.keys.count > 0 {
-            var indexes:[NSIndexPath] = []
+            var indexes:[IndexPath] = []
             var idx = 0
             for key in items.keys {
-                let index = indexPath.row + (idx)
+                let index = (indexPath as NSIndexPath).row + (idx)
                 let inner = items[key] as! [String:AnyObject]
-                indexes.append(NSIndexPath(forRow: (index + 1), inSection: 1))
-                self.tableElements!.insert(inner, atIndex: index)
-                self.selectedElements!.insert(false, atIndex: (index + 1))
+                indexes.append(IndexPath(row: (index + 1), section: 1))
+                self.tableElements!.insert(inner as AnyObject, at: index)
+                self.selectedElements!.insert(false, at: (index + 1))
                 idx += 1
             }
-            self.tableView!.insertRowsAtIndexPaths(indexes, withRowAnimation: .Automatic)
+            self.tableView!.insertRows(at: indexes, with: .automatic)
         }
     }
     
-    func deleteItems(items:[AnyObject], atIndexPath indexPath:NSIndexPath) {
+    func deleteItems(_ items:[AnyObject], atIndexPath indexPath:IndexPath) {
         if items.count > 0 {
             var indexes:[AnyObject] = []
             for idx in 0 ..< items.count {
@@ -754,8 +774,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     let innerElement:AnyObject = self.tableElements![idxe]
                     let innerId = innerElement["id"] as! String
                     if id == innerId {
-                        self.tableElements!.removeAtIndex(idxe)
-                        indexes.append(NSIndexPath(forRow: (idxe + 1), inSection: 1))
+                        self.tableElements!.remove(at: idxe)
+                        indexes.append(IndexPath(row: (idxe + 1), section: 1) as AnyObject)
                         break
                     }
                 }
@@ -763,10 +783,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
     }
     
-    func itemIsContained(item:[String:AnyObject], node:[String:AnyObject]) -> Bool {
+    func itemIsContained(_ item:[String:AnyObject], node:[String:AnyObject]) -> Bool {
         var isContained = false
-        let itemLevel = (item["level"] as! NSNumber).integerValue
-        let nodeLevel = (node["level"] as! NSNumber).integerValue
+        let itemLevel = (item["level"] as! NSNumber).intValue
+        let nodeLevel = (node["level"] as! NSNumber).intValue
         if itemLevel != nodeLevel && itemLevel > nodeLevel {
             let itemId = item["id"] as! String
             //Find as family
@@ -805,7 +825,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     //MARK: - Services
     
     func loadLinesForSearch() {
-        self.loading = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        self.loading = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         self.loading!.startAnnimating(self.isVisibleTab)
         self.view.addSubview(self.loading!)
         
@@ -815,7 +835,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 
         let success = { () -> Void in
             //Recarga view
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 NSLog("Recagra view")
                 self.loading?.stopAnnimating()
                 self.loading = nil
@@ -826,7 +846,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         let errorBlock = { (error:NSError) -> Void in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                  NSLog("Recagra view2")
                 self.tableView!.delegate = self
                 self.tableView!.dataSource = self
@@ -850,7 +870,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 //        )
     }
     
-    func invokeRetrieveLinesForGroceries(successBlock successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
+    func invokeRetrieveLinesForGroceries(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         NSLog("self.categories = categories")
         let service = GRLinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!),
@@ -862,7 +882,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     NSLog("if self.tableElements?.count > 0 {")
                     if self.tableElements?.count > 0 {
                         NSLog("self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)")
-                        self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
+                        self.selectedElements = [Bool](repeating: false, count: (self.tableElements!.count + 1))
                     }
                     NSLog("successBlock?()")
                     successBlock?()
@@ -876,7 +896,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         )
     }
     
-    func invokeRetrieveLinesForMG(successBlock successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
+    func invokeRetrieveLinesForMG(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         let service = LinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!),
             successBlock: { (categories:[AnyObject]) -> Void in
@@ -913,7 +933,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
                 
                 if self.tableElements?.count > 0 {
-                    self.selectedElements = [Bool](count: (self.tableElements!.count + 1), repeatedValue: false)
+                    self.selectedElements = [Bool](repeating: false, count: (self.tableElements!.count + 1))
                 }
                 NSLog("Termina pintado de datos")
                 successBlock?()
@@ -928,9 +948,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     //MARK: - FilterOrderViewCellDelegate
     
-    func didChangeOrder(order:String) {
+    func didChangeOrder(_ order:String) {
         var result = order
-        if (self.originalSearchContext! == SearchServiceContextType.WithCategoryForGR || self.searchContext! == SearchServiceContextType.WithCategoryForGR ) && order == "popularity"{
+        if (self.originalSearchContext! == SearchServiceContextType.withCategoryForGR || self.searchContext! == SearchServiceContextType.withCategoryForGR ) && order == "popularity"{
             result = ""
         }
         self.selectedOrder = result
@@ -962,10 +982,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
         }
-        self.upcByPrice = array
+        self.upcByPrice = array as NSArray?
     }
     
-    func addBrandFacet(brand:String){
+    func addBrandFacet(_ brand:String){
         if !self.brandFacets.contains(brand){
             self.brandFacets.append(brand)
         }

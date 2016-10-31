@@ -11,14 +11,14 @@ import Foundation
 class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
     
     override func statusForProduct() -> Int {
-        return CartStatus.Updated.rawValue
+        return CartStatus.updated.rawValue
     }
     
     override func updateShoppingCart() -> Bool {
         return false
     }
     
-    func callService(params: AnyObject,updateSC:Bool, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    func callService(_ params: AnyObject,updateSC:Bool, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:AnyObject]] = []
             var upcSend = ""
@@ -47,7 +47,7 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
     }
     
     
-    func callService(params: AnyObject, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    func callService(_ params: AnyObject, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         self.callService(params,updateSC:false, successBlock: successBlock, errorBlock: errorBlock)
     }
     

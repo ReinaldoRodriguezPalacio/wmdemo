@@ -29,7 +29,7 @@ class IPOCheckOutTotalView : UIView {
     }
     
     func setup() {
-        numProducts = UILabel(frame: CGRectMake(16, 16, 75, 14))
+        numProducts = UILabel(frame: CGRect(x: 16, y: 16, width: 75, height: 14))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
         numProducts.textColor = WMColor.reg_gray
         self.addSubview(numProducts)
@@ -40,36 +40,36 @@ class IPOCheckOutTotalView : UIView {
         subtotalTitleLabel.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
         subtotalTitleLabel.textColor = WMColor.reg_gray
         subtotalTitleLabel.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        subtotalTitleLabel.textAlignment = .Right
-        subtotalTitleLabel.frame = CGRectMake(156, 18, 91, 12)
+        subtotalTitleLabel.textAlignment = .right
+        subtotalTitleLabel.frame = CGRect(x: 156, y: 18, width: 91, height: 12)
         
         
         savingTitleLable = UILabel()
         savingTitleLable.text = NSLocalizedString("shoppingcart.saving",comment:"")
         savingTitleLable.textColor =  WMColor.green
         savingTitleLable.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        savingTitleLable.textAlignment = .Right
-        savingTitleLable.frame = CGRectMake(156, subtotalTitleLabel.frame.maxY + 6, 91, 12)
+        savingTitleLable.textAlignment = .right
+        savingTitleLable.frame = CGRect(x: 156, y: subtotalTitleLabel.frame.maxY + 6, width: 91, height: 12)
         
         
         totalTitleLable = UILabel()
         totalTitleLable.text = NSLocalizedString("shoppingcart.total",comment:"")
         totalTitleLable.textColor =  WMColor.orange
         totalTitleLable.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        totalTitleLable.textAlignment = .Right
-        totalTitleLable.frame = CGRectMake(156, savingTitleLable.frame.maxY + 6, 91, 12)
+        totalTitleLable.textAlignment = .right
+        totalTitleLable.frame = CGRect(x: 156, y: savingTitleLable.frame.maxY + 6, width: 91, height: 12)
         
         
         
         
-        subtotalValueLabel = CurrencyCustomLabel(frame: CGRectMake(subtotalTitleLabel.frame.maxX + 3, subtotalTitleLabel.frame.minY, 50, 12))
-        subtotalValueLabel.textAlignment = .Right
+        subtotalValueLabel = CurrencyCustomLabel(frame: CGRect(x: subtotalTitleLabel.frame.maxX + 3, y: subtotalTitleLabel.frame.minY, width: 50, height: 12))
+        subtotalValueLabel.textAlignment = .right
        
-        savingValueLabel = CurrencyCustomLabel(frame: CGRectMake(savingTitleLable.frame.maxX + 3, savingTitleLable.frame.minY, 50, 12))
-        savingValueLabel.textAlignment = .Right
+        savingValueLabel = CurrencyCustomLabel(frame: CGRect(x: savingTitleLable.frame.maxX + 3, y: savingTitleLable.frame.minY, width: 50, height: 12))
+        savingValueLabel.textAlignment = .right
         
-        totalValueLabel = CurrencyCustomLabel(frame: CGRectMake(totalTitleLable.frame.maxX + 3, totalTitleLable.frame.minY, 50, 12))
-        totalValueLabel.textAlignment = .Right
+        totalValueLabel = CurrencyCustomLabel(frame: CGRect(x: totalTitleLable.frame.maxX + 3, y: totalTitleLable.frame.minY, width: 50, height: 12))
+        totalValueLabel.textAlignment = .right
         
         self.addSubview(savingValueLabel)
         self.addSubview(totalValueLabel)
@@ -81,24 +81,24 @@ class IPOCheckOutTotalView : UIView {
         
     }
     
-    func setTotalValues(numProds: String,subtotal: String,saving:String){
+    func setTotalValues(_ numProds: String,subtotal: String,saving:String){
     
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
         numProducts.text = "\(numProds) \(articles)"
-        savingValueLabel.hidden = false
-        savingTitleLable.hidden = false
+        savingValueLabel.isHidden = false
+        savingTitleLable.isHidden = false
         
-        subtotalValueLabel.hidden = false
-        subtotalTitleLabel.hidden = false
+        subtotalValueLabel.isHidden = false
+        subtotalTitleLabel.isHidden = false
         
         
         
-        totalTitleLable.frame = CGRectMake(156, savingTitleLable.frame.maxY + 6, 91, 12)
-        totalValueLabel.frame = CGRectMake(totalTitleLable.frame.maxX + 3, totalTitleLable.frame.minY, 50, 12)
-        numProducts.frame = CGRectMake(16, 16, 75, 14)
+        totalTitleLable.frame = CGRect(x: 156, y: savingTitleLable.frame.maxY + 6, width: 91, height: 12)
+        totalValueLabel.frame = CGRect(x: totalTitleLable.frame.maxX + 3, y: totalTitleLable.frame.minY, width: 50, height: 12)
+        numProducts.frame = CGRect(x: 16, y: 16, width: 75, height: 14)
         
-        let dSaving = NSNumberFormatter().numberFromString(saving)
-        let dSubtotal = NSNumberFormatter().numberFromString(subtotal)
+        let dSaving = NumberFormatter().number(from: saving)
+        let dSubtotal = NumberFormatter().number(from: subtotal)
         let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
         
        // let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
@@ -113,7 +113,7 @@ class IPOCheckOutTotalView : UIView {
         
     }
     
-    func setValues(numProds: String,subtotal: String,saving:String){
+    func setValues(_ numProds: String,subtotal: String,saving:String){
         
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
         numProducts.text = "\(numProds) \(articles)"
@@ -121,16 +121,16 @@ class IPOCheckOutTotalView : UIView {
        
         
         if saving == "" {
-            savingValueLabel.hidden = true
-            savingTitleLable.hidden = true
+            savingValueLabel.isHidden = true
+            savingTitleLable.isHidden = true
             
-            subtotalValueLabel.hidden = true
-            subtotalTitleLabel.hidden = true
+            subtotalValueLabel.isHidden = true
+            subtotalTitleLabel.isHidden = true
             
             
-            totalValueLabel.frame = CGRectMake(totalValueLabel.frame.minX, (95 / 2) - (totalValueLabel.frame.height / 2), totalValueLabel.frame.width, totalValueLabel.frame.height)
-            totalTitleLable.frame = CGRectMake(totalTitleLable.frame.minX, (95 / 2) - (totalTitleLable.frame.height / 2), totalTitleLable.frame.width, totalTitleLable.frame.height)
-            numProducts.frame = CGRectMake(numProducts.frame.minX, (95 / 2) - (numProducts.frame.height / 2), numProducts.frame.width, numProducts.frame.height)
+            totalValueLabel.frame = CGRect(x: totalValueLabel.frame.minX, y: (95 / 2) - (totalValueLabel.frame.height / 2), width: totalValueLabel.frame.width, height: totalValueLabel.frame.height)
+            totalTitleLable.frame = CGRect(x: totalTitleLable.frame.minX, y: (95 / 2) - (totalTitleLable.frame.height / 2), width: totalTitleLable.frame.width, height: totalTitleLable.frame.height)
+            numProducts.frame = CGRect(x: numProducts.frame.minX, y: (95 / 2) - (numProducts.frame.height / 2), width: numProducts.frame.width, height: numProducts.frame.height)
             
             let formatedTotal = CurrencyCustomLabel.formatString(subtotal)
             totalValueLabel.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.orange, interLine: false)
@@ -138,20 +138,20 @@ class IPOCheckOutTotalView : UIView {
             
         }else {
             
-            savingValueLabel.hidden = false
-            savingTitleLable.hidden = false
+            savingValueLabel.isHidden = false
+            savingTitleLable.isHidden = false
             
-            subtotalValueLabel.hidden = false
-            subtotalTitleLabel.hidden = false
+            subtotalValueLabel.isHidden = false
+            subtotalTitleLabel.isHidden = false
             
             
             
-            totalTitleLable.frame = CGRectMake(156, savingTitleLable.frame.maxY + 6, 91, 12)
-            totalValueLabel.frame = CGRectMake(totalTitleLable.frame.maxX + 3, totalTitleLable.frame.minY, 50, 12)
-            numProducts.frame = CGRectMake(16, 16, 75, 14)
+            totalTitleLable.frame = CGRect(x: 156, y: savingTitleLable.frame.maxY + 6, width: 91, height: 12)
+            totalValueLabel.frame = CGRect(x: totalTitleLable.frame.maxX + 3, y: totalTitleLable.frame.minY, width: 50, height: 12)
+            numProducts.frame = CGRect(x: 16, y: 16, width: 75, height: 14)
             
-            let dSaving = NSNumberFormatter().numberFromString(saving)
-            let dSubtotal = NSNumberFormatter().numberFromString(subtotal)
+            let dSaving = NumberFormatter().number(from: saving)
+            let dSubtotal = NumberFormatter().number(from: subtotal)
             let total = dSubtotal!.doubleValue - dSaving!.doubleValue
             
             let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)

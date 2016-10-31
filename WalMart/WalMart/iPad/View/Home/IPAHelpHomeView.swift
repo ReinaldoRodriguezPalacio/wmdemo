@@ -11,23 +11,23 @@ import Foundation
 class IPAHelpHomeView: HelpHomeView {
 
     override class func initView() -> IPAHelpHomeView {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let helpView = IPAHelpHomeView(frame:vc!.view.bounds)
         return helpView
     }
 
     
     override func layoutSubviews() {
-        self.logo?.frame = CGRectMake(457,29,112,28)
-        self.arrowImage?.frame = CGRectMake(self.logo!.frame.maxX + 8,self.logo!.frame.minY + 7,30,10)
-        self.logoLabel?.frame = CGRectMake(self.logo!.frame.maxX + 48,self.logo!.frame.minY + 6,128,14)
-        self.searchIcon?.frame = CGRectMake(12,33,20,20)
-        self.searchLabel?.frame = CGRectMake(8,self.searchIcon!.frame.maxY + 15,35,14)
-        self.shoppingCartIcon?.frame = CGRectMake(self.frame.width - 51,26,35,35)
-        self.shoppingCartLabel?.frame = CGRectMake(self.frame.width - 51,self.shoppingCartIcon!.frame.maxY + 8,35,14)
-        self.continueButton?.frame = CGRectMake((self.frame.width - 140)/2,(self.frame.height - 40)/2,140,40)
-        self.helpLabel?.frame = CGRectMake((self.frame.width - 162)/2,self.continueButton!.frame.minY - 42,162,20)
-        self.helloLabel?.frame = CGRectMake((self.frame.width - 80)/2,self.helpLabel!.frame.minY - 40,80,32)
+        self.logo?.frame = CGRect(x: 457,y: 29,width: 112,height: 28)
+        self.arrowImage?.frame = CGRect(x: self.logo!.frame.maxX + 8,y: self.logo!.frame.minY + 7,width: 30,height: 10)
+        self.logoLabel?.frame = CGRect(x: self.logo!.frame.maxX + 48,y: self.logo!.frame.minY + 6,width: 128,height: 14)
+        self.searchIcon?.frame = CGRect(x: 12,y: 33,width: 20,height: 20)
+        self.searchLabel?.frame = CGRect(x: 8,y: self.searchIcon!.frame.maxY + 15,width: 35,height: 14)
+        self.shoppingCartIcon?.frame = CGRect(x: self.frame.width - 51,y: 26,width: 35,height: 35)
+        self.shoppingCartLabel?.frame = CGRect(x: self.frame.width - 51,y: self.shoppingCartIcon!.frame.maxY + 8,width: 35,height: 14)
+        self.continueButton?.frame = CGRect(x: (self.frame.width - 140)/2,y: (self.frame.height - 40)/2,width: 140,height: 40)
+        self.helpLabel?.frame = CGRect(x: (self.frame.width - 162)/2,y: self.continueButton!.frame.minY - 42,width: 162,height: 20)
+        self.helloLabel?.frame = CGRect(x: (self.frame.width - 80)/2,y: self.helpLabel!.frame.minY - 40,width: 80,height: 32)
     }
     
     override func retrieveTabBarOptions() -> [String] {
@@ -42,21 +42,21 @@ class IPAHelpHomeView: HelpHomeView {
         var xImage: CGFloat = self.frame.midX  - ((((6 * 27 ) + (32 * 5))) / 2 )
         for image in images {
             var title = NSString(format: "tabbar.%@", image)
-            title = NSLocalizedString(title as String, comment: "")
+            title = NSLocalizedString(title as String, comment: "") as NSString
             let imageLabel = UILabel()
             imageLabel.font = WMFont.fontMyriadProLightOfSize(12)
-            imageLabel.textColor = UIColor.whiteColor()
+            imageLabel.textColor = UIColor.white
             imageLabel.text = title as String
-            imageLabel.frame = CGRectMake(xLabel, 110, 65, 26)
+            imageLabel.frame = CGRect(x: xLabel, y: 110, width: 65, height: 26)
             imageLabel.numberOfLines = 2
-            imageLabel.textAlignment = .Center
-            xLabel = CGRectGetMaxX(imageLabel.frame) + spaceLabel
+            imageLabel.textAlignment = .center
+            xLabel = imageLabel.frame.maxX + spaceLabel
             self.addSubview(imageLabel)
             
             let imageView = UIImageView()
             imageView.image = UIImage(named: NSString(format: "%@_active", image) as String)
-            imageView.frame = CGRectMake(xImage, 75, 27, 27)
-            xImage = CGRectGetMaxX(imageView.frame) + spaceImage
+            imageView.frame = CGRect(x: xImage, y: 75, width: 27, height: 27)
+            xImage = imageView.frame.maxX + spaceImage
             self.addSubview(imageView)
         }
     }

@@ -20,22 +20,22 @@ class WishlistAddProductStatus : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        viewBg = UIView(frame:CGRectMake(0, 0,320,48))
+        viewBg = UIView(frame:CGRect(x: 0, y: 0,width: 320,height: 48))
         viewBg.backgroundColor = WMColor.light_blue
         self.addSubview(viewBg)
         
-        textView = UILabel(frame:CGRectMake(0, 0, 320, 48))
+        textView = UILabel(frame:CGRect(x: 0, y: 0, width: 320, height: 48))
         textView.font = WMFont.fontMyriadProLightOfSize(18)
-        textView.textColor = UIColor.whiteColor()
+        textView.textColor = UIColor.white
         textView.numberOfLines = 2
-        textView.textAlignment = NSTextAlignment.Center
+        textView.textAlignment = NSTextAlignment.center
         self.addSubview(textView)
         
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.viewBg.frame = CGRectMake(0, 0,self.bounds.width,48)
+        self.viewBg.frame = CGRect(x: 0, y: 0,width: self.bounds.width,height: 48)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,18 +43,18 @@ class WishlistAddProductStatus : UIView {
     }
     
     func closeStatus() {
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.frame = CGRectMake(self.frame.minX, self.frame.origin.y, self.frame.width, 0)
-            }) { (complete:Bool) -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.frame = CGRect(x: self.frame.minX, y: self.frame.origin.y, width: self.frame.width, height: 0)
+            }, completion: { (complete:Bool) -> Void in
             self.removeFromSuperview()
-        }
+        }) 
     }
     
-    func generateBlurImage(viewBg:UIView,frame:CGRect) {
+    func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
         
-        let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
+        let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
         UIGraphicsEndImageContext();
         
         let blurredImage = cloneImage.applyLightEffect()
@@ -64,11 +64,11 @@ class WishlistAddProductStatus : UIView {
         imageBlurView.image = blurredImage
         
         self.addSubview(imageBlurView)
-        self.sendSubviewToBack(imageBlurView)
+        self.sendSubview(toBack: imageBlurView)
     }
 
     func prepareToClose() {
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(WishlistAddProductStatus.closeStatus), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(WishlistAddProductStatus.closeStatus), userInfo: nil, repeats: false)
     }
     
 }

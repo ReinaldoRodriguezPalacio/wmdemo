@@ -9,7 +9,7 @@
 import Foundation
 
 protocol IPALinesListViewControllerDelegate {
-    func didSelectLineList(department:String,family:String,line:String, name:String)
+    func didSelectLineList(_ department:String,family:String,line:String, name:String)
 }
 
 class IPALinesListViewController : LineViewController {
@@ -17,9 +17,9 @@ class IPALinesListViewController : LineViewController {
       var delegate : IPALinesListViewControllerDelegate!
     
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-            let lineSelect  = self.families[indexPath.row] as NSDictionary
+            let lineSelect  = self.families[(indexPath as NSIndexPath).row] as NSDictionary
             let linesId = lineSelect["subCategoryId"] as! String
             let name = lineSelect["subCategoryName"] as! String
             delegate.didSelectLineList(departmentId,family: "_",line: linesId, name: name)

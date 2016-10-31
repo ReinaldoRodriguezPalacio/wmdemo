@@ -35,18 +35,18 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
         
         
         
-        title = UIButton(frame: CGRectMake((self.frame.width / 2) - 200, (self.frame.height / 2) - 12, 400, 24))
+        title = UIButton(frame: CGRect(x: (self.frame.width / 2) - 200, y: (self.frame.height / 2) - 12, width: 400, height: 24))
         title.backgroundColor = WMColor.light_blue
-        title.addTarget(self, action: #selector(IPASectionHeaderSearchReusable.didTapInTitle), forControlEvents: UIControlEvents.TouchUpInside)
-        title.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        title.addTarget(self, action: #selector(IPASectionHeaderSearchReusable.didTapInTitle), for: UIControlEvents.touchUpInside)
+        title.setTitleColor(UIColor.white, for: UIControlState())
         title.titleLabel!.font =  WMFont.fontMyriadProRegularOfSize(16)
-        title.titleLabel!.textAlignment = .Left
-        title.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        title.titleLabel!.textAlignment = .left
+        title.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         title.titleEdgeInsets = UIEdgeInsetsMake(2.0, 10, 0, 0.0);
         title.layer.cornerRadius = 4
         
         let imageDown = UIImage(named: "categories_title_down")
-        titleImage = UIImageView(frame: CGRectMake(0, 0, imageDown!.size.width, imageDown!.size.height))
+        titleImage = UIImageView(frame: CGRect(x: 0, y: 0, width: imageDown!.size.width, height: imageDown!.size.height))
         titleImage.image = imageDown
         
         title.addSubview(titleImage)
@@ -59,8 +59,8 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     
     func didTapInTitle() {
         title.backgroundColor = WMColor.blue
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.titleImage.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.titleImage.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
         })
         
         if delegate != nil {
@@ -71,17 +71,17 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     
     func setSelected(){
         title.backgroundColor = WMColor.blue
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.titleImage.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.titleImage.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
         })
     }
     
     
     func dismissPopover() {
-        dispatch_async(dispatch_get_main_queue(),{
+        DispatchQueue.main.async(execute: {
             self.title.backgroundColor = WMColor.light_blue
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.titleImage.transform = CGAffineTransformMakeRotation(CGFloat(0))
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                self.titleImage.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             })
         })
     }
@@ -89,7 +89,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        titleImage.frame = CGRectMake(self.title.frame.width - titleImage.frame.width - 10 ,(self.title.frame.height / 2) - (titleImage.frame.height / 2), titleImage.frame.width, titleImage.frame.height)
+        titleImage.frame = CGRect(x: self.title.frame.width - titleImage.frame.width - 10 ,y: (self.title.frame.height / 2) - (titleImage.frame.height / 2), width: titleImage.frame.width, height: titleImage.frame.height)
     }
     
 }

@@ -15,11 +15,11 @@ class GRDiscountAssociateService: GRBaseService{
     var determinant: String?
     var total:String?
     
-    func buildParams(associateNumber:String, startDate:String, determinant: String, total: String) -> NSDictionary{
+    func buildParams(_ associateNumber:String, startDate:String, determinant: String, total: String) -> NSDictionary{
         return ["isAssociated":true,"idAssociated":associateNumber,"dateAdmission":startDate, "determinant":determinant, "total":total]
     }
     
-    func setParams(params:[String:String])
+    func setParams(_ params:[String:String])
     {
         self.associateNumber = params[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
         self.dateAdmission = params[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]

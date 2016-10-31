@@ -31,24 +31,24 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         self.addSubview(labelDesc)
         
         titleLabel.text = NSLocalizedString("productdetail.characteristics",comment:"")
-        titleLabel.frame = CGRectMake(12, 0, self.bounds.width - (12 * 2), 40.0)
+        titleLabel.frame = CGRect(x: 12, y: 0, width: self.bounds.width - (12 * 2), height: 40.0)
         titleLabel.font =  WMFont.fontMyriadProLightOfSize(14)
         titleLabel.numberOfLines = 1
-        titleLabel.textAlignment = .Left
+        titleLabel.textAlignment = .left
         titleLabel.textColor =  WMColor.light_blue
         
         descLabel = UIView()
         
-        downBorder = UIView(frame: CGRectZero)
+        downBorder = UIView(frame: CGRect.zero)
         downBorder.backgroundColor = WMColor.light_light_gray
         self.addSubview(downBorder)
         self.addSubview(descLabel)
         self.addSubview(titleLabel)
         
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
-    func setValues(values:NSArray){
+    func setValues(_ values:NSArray){
         var currentY = 40.0 as CGFloat
         var index = 0
         
@@ -63,33 +63,33 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
                 let strValue = dicVal["value"] as! String
                 
                 let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.reg_gray, colorValue:WMColor.dark_gray, size: 14)
-                let rectSize = attrString.boundingRectWithSize(CGSizeMake(self.frame.width - 32, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-                let bgView = UIView(frame: CGRectMake(0, currentY, self.frame.width, rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
-                let labelCharacteristic = WMTCopyLable(frame: CGRectMake(16, 5, self.frame.width-32, rectSize.height))
+                let rectSize = attrString.boundingRect(with: CGSize(width: self.frame.width - 32, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+                let bgView = UIView(frame: CGRect(x: 0, y: currentY, width: self.frame.width, height: rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
+                let labelCharacteristic = WMTCopyLable(frame: CGRect(x: 16, y: 5, width: self.frame.width-32, height: rectSize.height))
                 labelCharacteristic.stringCopy = strValue
                 labelCharacteristic.attributedText = attrString
                 labelCharacteristic.numberOfLines = 0
                 index += 1
                 if index % 2 == 0 {
-                    bgView.backgroundColor = UIColor.whiteColor()
+                    bgView.backgroundColor = UIColor.white
                 }else{
                     bgView.backgroundColor = WMColor.light_light_gray
                 }
                 bgView.addSubview(labelCharacteristic)
-                bgView.userInteractionEnabled = true
-                descLabel.userInteractionEnabled = true
-                self.superview?.userInteractionEnabled = true
+                bgView.isUserInteractionEnabled = true
+                descLabel.isUserInteractionEnabled = true
+                self.superview?.isUserInteractionEnabled = true
                 descLabel.addSubview(bgView)
                 currentY += rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()
             }
         }
-        descLabel.frame = CGRectMake(0, 0,  self.frame.width, currentY)
-        downBorder.frame = CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth())
+        descLabel.frame = CGRect(x: 0, y: 0,  width: self.frame.width, height: currentY)
+        downBorder.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth())
         
     }
     
     
-    class func sizeForCell(width:CGFloat,values:NSArray) -> CGFloat {
+    class func sizeForCell(_ width:CGFloat,values:NSArray) -> CGFloat {
         var heigth = 0.0 as CGFloat
         //var valuesDict = NSMutableArray()
         
@@ -99,7 +99,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String
                 let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.reg_gray, colorValue:WMColor.dark_gray, size:14)
-                let rectSize = attrString.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+                let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
                 heigth += rectSize.height + heightCharacteristic()
                 
             }
@@ -107,15 +107,15 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         return heigth
     }
     
-    class func buildAttributtedString(key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat ) -> NSAttributedString {
+    class func buildAttributtedString(_ key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat ) -> NSAttributedString {
         //var valueItem = NSMutableAttributedString()
         let valuesDescItem = NSMutableAttributedString()
         if key != ""{
             let attrStringLab = NSAttributedString(string:"\(key): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(size),NSForegroundColorAttributeName:colorKey])
-            valuesDescItem.appendAttributedString(attrStringLab)
+            valuesDescItem.append(attrStringLab)
         }
         let attrStringVal = NSAttributedString(string:"\(value)", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(size),NSForegroundColorAttributeName:colorValue])
-        valuesDescItem.appendAttributedString(attrStringVal)
+        valuesDescItem.append(attrStringVal)
         return valuesDescItem
     }
     

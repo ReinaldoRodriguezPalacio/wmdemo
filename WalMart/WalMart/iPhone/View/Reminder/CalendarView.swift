@@ -9,15 +9,15 @@
 import UIKit
 
 protocol CalendarViewDelegate{
-    func selectedDate(date:NSDate?)
+    func selectedDate(_ date:Date?)
 }
 
 class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDataSourceProtocol{
      var calendar: ABCalendarPicker?
      var alertView:IPOWMAlertViewController?
      var delegate:CalendarViewDelegate?
-     var originalDate: NSDate?
-     var selectedDate: NSDate?
+     var originalDate: Date?
+     var selectedDate: Date?
      var saveButton: UIButton?
      var cancelButton: UIButton?
      var layerLine: CALayer!
@@ -35,53 +35,53 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     
      func setup() {
         //ABCalendarPickerStateDays
-        self.calendar = ABCalendarPicker(frame: CGRectMake(0.0, 46.0, 288, 300), andState: ABCalendarPickerStateDays, andDelegate: self, andDataSource:self)
-        self.calendar!.backgroundColor = UIColor.whiteColor()
+        self.calendar = ABCalendarPicker(frame: CGRect(x: 0.0, y: 46.0, width: 288, height: 300), andState: ABCalendarPickerStateDays, andDelegate: self, andDataSource:self)
+        self.calendar!.backgroundColor = UIColor.white
         self.calendar!.bottomExpanding = true
         self.addSubview(self.calendar!)
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.setTitle("Cancelar", for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: #selector(CalendarView.cancel), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(CalendarView.cancel), for: UIControlEvents.touchUpInside)
         self.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Guardar", forState:.Normal)
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.setTitle("Guardar", for:UIControlState())
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(CalendarView.save), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(CalendarView.save), for: UIControlEvents.touchUpInside)
         self.addSubview(saveButton!)
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(layerLine, atIndex: 0)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(layerLine, at: 0)
     }
     
     override func layoutSubviews() {
-        self.calendar!.frame = CGRectMake(0.0, 46.0,288, 300)
-        self.layerLine.frame = CGRectMake(0,  self.calendar!.frame.maxY + 24,  self.frame.width, 1)
-        self.cancelButton!.frame = CGRectMake(16, self.layerLine.frame.maxY + 16, 125, 34)
-        self.saveButton!.frame = CGRectMake(  self.frame.width - 141 , self.layerLine.frame.maxY + 16, 125, 34)
+        self.calendar!.frame = CGRect(x: 0.0, y: 46.0,width: 288, height: 300)
+        self.layerLine.frame = CGRect(x: 0,  y: self.calendar!.frame.maxY + 24,  width: self.frame.width, height: 1)
+        self.cancelButton!.frame = CGRect(x: 16, y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
+        self.saveButton!.frame = CGRect(  x: self.frame.width - 141 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
     }
     
     // MARK: - ABCalendarPickerDataSourceProtocol
-    func calendarPicker(calendarPicker: ABCalendarPicker!, numberOfEventsForDate date: NSDate!, onState state: ABCalendarPickerState) -> Int {
+    func calendarPicker(_ calendarPicker: ABCalendarPicker!, numberOfEventsFor date: Date!, on state: ABCalendarPickerState) -> Int {
         if self.originalDate != nil {
-            let timeDisplay = NSDateFormatter()
+            let timeDisplay = DateFormatter()
             timeDisplay.dateFormat = "HH:mm"
-            let originalDateHour = timeDisplay.stringFromDate(self.originalDate!)
-            let hourArray = originalDateHour.componentsSeparatedByString(":")
+            let originalDateHour = timeDisplay.string(from: self.originalDate!)
+            let hourArray = originalDateHour.components(separatedBy: ":")
             let closedDate = self.createDateFrom(date, forHour: Int(hourArray.first!)!, andMinute: Int(hourArray.last!)!)
             let compareResult = closedDate!.compare(self.originalDate!)
-            if compareResult == NSComparisonResult.OrderedSame {
+            if compareResult == ComparisonResult.orderedSame {
                 return 1
             }
-            else if compareResult == NSComparisonResult.OrderedDescending {
+            else if compareResult == ComparisonResult.orderedDescending {
                 switch(self.notificationType!) {
                     case 1 :
                         if self.isDate(closedDate!, partOfIntervalOfDays: 7, fromDate: self.originalDate!) {
@@ -96,15 +96,15 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
                             return 1
                         }
                     case 4 :
-                        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+                        var calendar = Calendar(identifier: Calendar.Identifier.gregorian)
                         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-                        calendar!.timeZone = NSTimeZone.localTimeZone()
-                        let closedDateComponents = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: closedDate!)
-                        let dayRangeClosedDate = calendar!.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: closedDate!)
+                        calendar.timeZone = TimeZone.autoupdatingCurrent
+                        let closedDateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: closedDate!)
+                        let dayRangeClosedDate = (calendar as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: closedDate!)
                         //print("month:\(closedDateComponents.month) days:\(dayRangeClosedDate.length)")
                         
-                        let originalDateComponents = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: self.originalDate!)
-                        let originalRangeClosedDate = calendar!.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: self.originalDate!)
+                        let originalDateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: self.originalDate!)
+                        let originalRangeClosedDate = (calendar as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: self.originalDate!)
                         //this day is last of month
                         
                         if closedDateComponents.day == originalDateComponents.day {
@@ -115,11 +115,11 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
                             return 1
                         }
                         
-                        if originalDateComponents.day == originalRangeClosedDate.length && originalDateComponents.day < dayRangeClosedDate.length {
+                        if originalDateComponents.day! == originalRangeClosedDate.length && originalDateComponents.day! < dayRangeClosedDate.length {
                             return 1
                         }
                         
-                        if closedDateComponents.day == dayRangeClosedDate.length && originalDateComponents.day > dayRangeClosedDate.length {
+                        if closedDateComponents.day! == dayRangeClosedDate.length && originalDateComponents.day! > dayRangeClosedDate.length {
                             return 1
                         }
                         
@@ -143,46 +143,46 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
      
      - returns: Bool returns true if the difference of days between the dates is equals to days parameter
      */
-    func isDate(theDate:NSDate, partOfIntervalOfDays days:Int, fromDate:NSDate) -> Bool {
-        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+    func isDate(_ theDate:Date, partOfIntervalOfDays days:Int, fromDate:Date) -> Bool {
+        var calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-        calendar!.timeZone = NSTimeZone.localTimeZone()
-        let components = calendar!.components(NSCalendarUnit.Day, fromDate: fromDate, toDate: theDate, options: [])
-        return components.day % days == 0
+        calendar.timeZone = TimeZone.autoupdatingCurrent
+        let components = (calendar as NSCalendar).components(NSCalendar.Unit.day, from: fromDate, to: theDate, options: [])
+        return components.day! % days == 0
     }
     
     // MARK: - ABCalendarPickerDelegateProtocol
-    func calendarPickerHeightForHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
+    func calendarPickerHeight(forHeader calendarPicker: ABCalendarPicker!) -> CGFloat {
         return 37
     }
     
-    func calendarPickerHeightForColumnHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
+    func calendarPickerHeight(forColumnHeader calendarPicker: ABCalendarPicker!) -> CGFloat {
         return 37
     }
     
-    func calendarPicker(calendarPicker: ABCalendarPicker!, animateNewHeight height: CGFloat) {
+    func calendarPicker(_ calendarPicker: ABCalendarPicker!, animateNewHeight height: CGFloat) {
         
     }
     
-    func calendarPicker(calendarPicker: ABCalendarPicker!, shouldSetState state: ABCalendarPickerState, fromState: ABCalendarPickerState) -> Bool {
+    func calendarPicker(_ calendarPicker: ABCalendarPicker!, shouldSetState state: ABCalendarPickerState, from fromState: ABCalendarPickerState) -> Bool {
         return state.rawValue == ABCalendarPickerStateDays.rawValue
     }
     
     
-    func calendarPicker(calendarPicker: ABCalendarPicker!, willAnimateWith animation: ABCalendarPickerAnimation) {
+    func calendarPicker(_ calendarPicker: ABCalendarPicker!, willAnimateWith animation: ABCalendarPickerAnimation) {
     }
     
-    func calendarPicker(calendarPicker: ABCalendarPicker!, dateSelected date: NSDate!, withState state: ABCalendarPickerState) {
+    func calendarPicker(_ calendarPicker: ABCalendarPicker!, dateSelected date: Date!, with state: ABCalendarPickerState) {
         let theDate = self.createDateFrom(date, forHour: 0, andMinute: 0)
-        let today = self.createDateFrom(NSDate(), forHour: 0, andMinute: 0)
+        let today = self.createDateFrom(Date(), forHour: 0, andMinute: 0)
        
        
-       if theDate!.compare(today!) == NSComparisonResult.OrderedAscending {
+       if theDate!.compare(today!) == ComparisonResult.orderedAscending {
             let text = NSLocalizedString("list.reminder.notification.validationDate",comment:"")
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(text)
             self.alertView!.showErrorIcon("Aceptar")
-            calendarPicker.setHighlightedAndSectedDate(NSDate(), animated: true)
+            calendarPicker.setHighlightedAndSectedDate(Date(), animated: true)
             return
         }
         
@@ -198,15 +198,15 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
      
      - returns: NSDate with date, hours and minutes
      */
-    func createDateFrom(date:NSDate, forHour hour:Int, andMinute minute:Int) -> NSDate? {
-        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+    func createDateFrom(_ date:Date, forHour hour:Int, andMinute minute:Int) -> Date? {
+        var calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-        calendar!.timeZone = NSTimeZone.localTimeZone()
-        let components = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: date)
+        calendar.timeZone = TimeZone.autoupdatingCurrent
+        var components = (calendar as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: date)
         components.second = 00
         components.minute = minute
         components.hour = hour
-        let otherDate = calendar!.dateFromComponents(components)
+        let otherDate = calendar.date(from: components)
         return otherDate
     }
     

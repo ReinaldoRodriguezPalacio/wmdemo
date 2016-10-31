@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FilterOrderViewCellDelegate {
-    func didChangeOrder(order:String)
+    func didChangeOrder(_ order:String)
 }
 
 class FilterOrderViewCell: UITableViewCell {
@@ -33,11 +33,11 @@ class FilterOrderViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         if IS_IPAD {
             let oldFrame = self.contentView.frame as CGRect
-            self.contentView.frame = CGRectMake( oldFrame.origin.x,oldFrame.origin.y,oldFrame.size.width,oldFrame.size.height + 60)
+            self.contentView.frame = CGRect( x: oldFrame.origin.x,y: oldFrame.origin.y,width: oldFrame.size.width,height: oldFrame.size.height + 60)
         }
         self.descAscButton = self.buildButton(FilterType.descriptionAsc)
         self.descDescButton = self.buildButton(FilterType.descriptionDesc)
@@ -45,7 +45,7 @@ class FilterOrderViewCell: UITableViewCell {
         self.priceDescButton = self.buildButton(FilterType.priceDesc)
         self.popularityButton = self.buildButton(FilterType.popularity)
 
-        self.popularityButton!.selected = true
+        self.popularityButton!.isSelected = true
         self.popularityButton!.backgroundColor = WMColor.light_blue
 
         self.buttons = [self.descAscButton!, self.descDescButton!, self.priceAscButton!, self.priceDescButton!, self.popularityButton!]
@@ -59,17 +59,17 @@ class FilterOrderViewCell: UITableViewCell {
         var x = separation
         for button in self.buttons! {
             if button == self.popularityButton! {
-                button.frame = CGRectMake((self.frame.width / 2) - (self.POPULARITY_WIDTH / 2),y + 20 + self.BUTTON_HEIGHT,self.POPULARITY_WIDTH, self.BUTTON_HEIGHT)
+                button.frame = CGRect(x: (self.frame.width / 2) - (self.POPULARITY_WIDTH / 2),y: y + 20 + self.BUTTON_HEIGHT,width: self.POPULARITY_WIDTH, height: self.BUTTON_HEIGHT)
                 continue
             }
-            button.frame = CGRectMake(x, y, self.BUTTON_WIDTH, self.BUTTON_HEIGHT)
+            button.frame = CGRect(x: x, y: y, width: self.BUTTON_WIDTH, height: self.BUTTON_HEIGHT)
             x = button.frame.maxX + separation
         }
     }
     
     //MARK: - Actions
     
-    func setValues(order:String) {
+    func setValues(_ order:String) {
         var buttonToSelect:UIButton? = nil
         if let type = FilterType(rawValue: order) {
             switch type {
@@ -85,31 +85,31 @@ class FilterOrderViewCell: UITableViewCell {
         if buttonToSelect != nil {
             for button in self.buttons! {
                 if button == buttonToSelect {
-                    button.selected = true
+                    button.isSelected = true
                     button.backgroundColor = WMColor.light_blue
                 }
                 else {
-                    button.selected = false
-                    button.backgroundColor = UIColor.whiteColor()
+                    button.isSelected = false
+                    button.backgroundColor = UIColor.white
                 }
             }
         }
     }
     
-    func filter(sender:UIButton) {
-        if !sender.selected {
+    func filter(_ sender:UIButton) {
+        if !sender.isSelected {
             for button in self.buttons! {
                 if button == sender {
-                    button.selected = true
+                    button.isSelected = true
                     button.backgroundColor = WMColor.light_blue
                 }
                 else {
-                    button.selected = false
-                    button.backgroundColor = UIColor.whiteColor()
+                    button.isSelected = false
+                    button.backgroundColor = UIColor.white
                 }
             }
             
-            let index = (self.buttons!).indexOf(sender)
+            let index = (self.buttons!).index(of: sender)
             
             var order: String? = nil
             var action = ""
@@ -132,17 +132,17 @@ class FilterOrderViewCell: UITableViewCell {
 
     //MARK: - Utils
     
-    func buildButton(type:FilterType) -> UIButton {
+    func buildButton(_ type:FilterType) -> UIButton {
         
-        let button = UIButton(type: .Custom)
-        button.setTitle(NSLocalizedString(type.rawValue, comment:""), forState: .Normal)
-        button.setTitleColor(WMColor.light_blue, forState: .Normal)
-        button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
+        let button = UIButton(type: .custom)
+        button.setTitle(NSLocalizedString(type.rawValue, comment:""), for: UIControlState())
+        button.setTitleColor(WMColor.light_blue, for: UIControlState())
+        button.setTitleColor(UIColor.white, for: .selected)
         button.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         button.layer.cornerRadius = self.BUTTON_HEIGHT/2
         button.layer.borderWidth = 0.5
-        button.layer.borderColor = WMColor.light_blue.CGColor
-        button.addTarget(self, action: #selector(FilterOrderViewCell.filter(_:)), forControlEvents: .TouchUpInside)
+        button.layer.borderColor = WMColor.light_blue.cgColor
+        button.addTarget(self, action: #selector(FilterOrderViewCell.filter(_:)), for: .touchUpInside)
         self.contentView.addSubview(button)
         return button
     }
@@ -150,11 +150,11 @@ class FilterOrderViewCell: UITableViewCell {
     func resetOrderFilter() {
        
         for button in self.buttons! {
-            button.selected = false
-            button.backgroundColor = UIColor.whiteColor()
+            button.isSelected = false
+            button.backgroundColor = UIColor.white
         }
         self.setValues("popularity")
-        self.popularityButton!.selected = true
+        self.popularityButton!.isSelected = true
         self.popularityButton!.backgroundColor = WMColor.light_blue
     }
     

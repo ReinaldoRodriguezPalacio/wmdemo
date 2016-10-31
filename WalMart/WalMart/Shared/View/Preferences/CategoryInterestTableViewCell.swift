@@ -17,23 +17,23 @@ class CategoryInterestTableViewCell: UITableViewCell {
         
         self.categoryButton = UIButton()
     
-        self.categoryButton?.setTitle(NSLocalizedString("preferences.category.all.button",comment:""), forState: UIControlState.Normal)
-        self.categoryButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
-        self.categoryButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.categoryButton?.setTitle(NSLocalizedString("preferences.category.all.button",comment:""), for: UIControlState())
+        self.categoryButton!.setImage(UIImage(named:"filter_check_gray"), for: UIControlState())
+        self.categoryButton!.setImage(UIImage(named:"check_blue"), for: UIControlState.selected)
         self.categoryButton!.titleLabel?.font = WMFont.fontMyriadProLightOfSize(16)
-        self.categoryButton!.setTitleColor(WMColor.reg_gray, forState: UIControlState.Normal)
-        self.categoryButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.categoryButton!.setTitleColor(WMColor.reg_gray, for: UIControlState())
+        self.categoryButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.categoryButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 10, 0, 0);
         self.categoryButton!.contentEdgeInsets = UIEdgeInsetsMake(0, 16, 0, 0);
         self.addSubview(self.categoryButton!)
         
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         
     }
     
     override func layoutSubviews() {
         let bounds = self.frame.size
-        self.categoryButton!.frame = CGRectMake(0, 0, self.bounds.width, bounds.height)
+        self.categoryButton!.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: bounds.height)
     }
     
     required init?(coder aDecoder: NSCoder) {

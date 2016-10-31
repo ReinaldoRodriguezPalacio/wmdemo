@@ -12,13 +12,13 @@ class IPODepartmentCollectionViewCell : DepartmentCollectionViewCell {
     
     override func setup() {
         super.setup()
-        imageBackground.contentMode = UIViewContentMode.Left
+        imageBackground.contentMode = UIViewContentMode.left
         titleLabel.font  = WMFont.fontMyriadProRegularOfSize(16)
         
         imageBackground.frame = self.bounds
-        titleLabel.frame = CGRectMake(0, 66, self.frame.width , 16)
-        imageIcon.frame = CGRectMake((self.frame.width / 2) - 14, 22 , 28, 28)
-        buttonClose.frame = CGRectMake(0, 0, 40, 40)
+        titleLabel.frame = CGRect(x: 0, y: 66, width: self.frame.width , height: 16)
+        imageIcon.frame = CGRect(x: (self.frame.width / 2) - 14, y: 22 , width: 28, height: 28)
+        buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         
     }
     
@@ -26,9 +26,9 @@ class IPODepartmentCollectionViewCell : DepartmentCollectionViewCell {
         super.layoutSubviews()
         if isOpen == false {
             imageBackground.frame = self.bounds
-            titleLabel.frame = CGRectMake(0, 66, self.frame.width , 16)
-            imageIcon.frame = CGRectMake((self.frame.width / 2) - 14, 22 , 28, 28)
-            buttonClose.frame = CGRectMake(0, 0, 40, 40)
+            titleLabel.frame = CGRect(x: 0, y: 66, width: self.frame.width , height: 16)
+            imageIcon.frame = CGRect(x: (self.frame.width / 2) - 14, y: 22 , width: 28, height: 28)
+            buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         }
     }
     

@@ -11,11 +11,11 @@ import Foundation
 
 class SearchItemsByUPCService : BaseService {
     
-    func buildParams(upcs:[String]) -> [String:AnyObject] {
-        return ["upc":upcs]
+    func buildParams(_ upcs:[String]) -> [String:AnyObject] {
+        return ["upc":upcs as AnyObject]
     }
     
-    func callService(upcs:[String],successJSONBlock:((JSON) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ upcs:[String],successJSONBlock:((JSON) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.jsonFromObject(buildParams(upcs))
         callPOSTService(buildParams(upcs), successBlock: { (result:NSDictionary) -> Void in
             

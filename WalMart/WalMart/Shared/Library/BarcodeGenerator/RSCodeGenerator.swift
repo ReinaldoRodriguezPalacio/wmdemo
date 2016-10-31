@@ -15,22 +15,22 @@ let DIGITS_STRING = "0123456789"
 
 // Code generators are required to provide these two functions.
 public protocol RSCodeGenerator {
-     func generateCode(machineReadableCodeObject:AVMetadataMachineReadableCodeObject) -> UIImage?
+     func generateCode(_ machineReadableCodeObject:AVMetadataMachineReadableCodeObject) -> UIImage?
     
-     func generateCode(contents:String, machineReadableCodeObjectType:String) -> UIImage?
+     func generateCode(_ contents:String, machineReadableCodeObjectType:String) -> UIImage?
 }
 
 // Check digit are not required for all code generators.
 // UPC-E is using check digit to valid the contents to be encoded.
 // Code39Mod43, Code93 and Code128 is using check digit to encode barcode.
 public protocol RSCheckDigitGenerator {
-    func checkDigit(contents:String) -> String
+    func checkDigit(_ contents:String) -> String
 }
 
 // Abstract code generator, provides default functions for validations and generations.
-public class RSAbstractCodeGenerator : RSCodeGenerator {
+open class RSAbstractCodeGenerator : RSCodeGenerator {
     // Check whether the given contents are valid.
-    public func isValid(contents:String) -> Bool {
+    open func isValid(_ contents:String) -> Bool {
         let length = contents.length()
         if length > 0 {
             for i in 0..<length {
@@ -45,27 +45,27 @@ public class RSAbstractCodeGenerator : RSCodeGenerator {
     }
     
     // Barcode initiator, subclass should return its own value.
-    public func initiator() -> String {
+    open func initiator() -> String {
         return ""
     }
     
     // Barcode terminator, subclass should return its own value.
-    public func terminator() -> String {
+    open func terminator() -> String {
         return ""
     }
     
     // Barcode content, subclass should return its own value.
-    public func barcode(contents:String) -> String {
+    open func barcode(_ contents:String) -> String {
         return ""
     }
     
     // Composer for combining barcode initiator, contents, terminator together.
-    func completeBarcode(barcode:String) -> String {
+    func completeBarcode(_ barcode:String) -> String {
         return self.initiator() + barcode + self.terminator()
     }
     
     // Drawer for completed barcode.
-    func drawCompleteBarcode(completeBarcode:String) -> UIImage? {
+    func drawCompleteBarcode(_ completeBarcode:String) -> UIImage? {
         let length:Int = completeBarcode.length()
         if length <= 0 {
             return nil
@@ -77,27 +77,27 @@ public class RSAbstractCodeGenerator : RSCodeGenerator {
         // Left & right spacing = 2
         // Height               = 28
         let width = length + 4
-        let size = CGSizeMake(CGFloat(width), 28)
+        let size = CGSize(width: CGFloat(width), height: 28)
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         let context = UIGraphicsGetCurrentContext()
         
-        CGContextSetShouldAntialias(context, false)
+        context?.setShouldAntialias(false)
         
-        UIColor.clearColor().setFill()
-        UIColor.blackColor().setStroke()
+        UIColor.clear.setFill()
+        UIColor.black.setStroke()
         
-        CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height))
-        CGContextSetLineWidth(context, 1)
+        context?.fill(CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        context?.setLineWidth(1)
         
         for i in 0..<length {
             let character = completeBarcode[i]
             if character == "1" {
                 let x = i + (2 + 1)
-                CGContextMoveToPoint(context, CGFloat(x), 1.5)
-                CGContextAddLineToPoint(context, CGFloat(x), size.height - 2)
+                context?.move(to: CGPoint(x: CGFloat(x), y: 1.5))
+                context?.addLine(to: CGPoint(x: CGFloat(x), y: size.height - 2))
             }
         }
-        CGContextDrawPath(context, CGPathDrawingMode.FillStroke)
+        context?.drawPath(using: CGPathDrawingMode.fillStroke)
         let barcode = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return barcode
@@ -105,11 +105,11 @@ public class RSAbstractCodeGenerator : RSCodeGenerator {
     
     // RSCodeGenerator
     
-    public func generateCode(machineReadableCodeObject:AVMetadataMachineReadableCodeObject) -> UIImage? {
+    open func generateCode(_ machineReadableCodeObject:AVMetadataMachineReadableCodeObject) -> UIImage? {
         return self.generateCode(machineReadableCodeObject.stringValue, machineReadableCodeObjectType: machineReadableCodeObject.type)
     }
     
-    public func generateCode(contents:String, machineReadableCodeObjectType:String) -> UIImage? {
+    open func generateCode(_ contents:String, machineReadableCodeObjectType:String) -> UIImage? {
         if self.isValid(contents) {
             return self.drawCompleteBarcode(self.completeBarcode(self.barcode(contents)))
         }
@@ -119,7 +119,7 @@ public class RSAbstractCodeGenerator : RSCodeGenerator {
     // Class funcs
     
     // Get CIFilter name by machine readable code object type
-    public class func filterName(machineReadableCodeObjectType:String) -> String! {
+    open class func filterName(_ machineReadableCodeObjectType:String) -> String! {
         if machineReadableCodeObjectType == AVMetadataObjectTypeQRCode {
             return "CIQRCodeGenerator"
         } else if machineReadableCodeObjectType == AVMetadataObjectTypePDF417Code {
@@ -134,33 +134,33 @@ public class RSAbstractCodeGenerator : RSCodeGenerator {
     }
     
     // Generate CI related code image
-    public class func generateCode(contents:String, filterName:String) -> UIImage {
+    open class func generateCode(_ contents:String, filterName:String) -> UIImage {
         if filterName == "" {
             return UIImage()
         }
         
         let filter = CIFilter(name: filterName)
         filter!.setDefaults()
-        let inputMessage = contents.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        let inputMessage = contents.data(using: String.Encoding.utf8, allowLossyConversion: false)
         filter!.setValue(inputMessage, forKey: "inputMessage")
         
         let outputImage = filter!.outputImage
         let context = CIContext(options: nil)
-        let cgImage = context.createCGImage(outputImage!, fromRect: outputImage!.extent)
-        return UIImage(CGImage: cgImage, scale: 1, orientation: UIImageOrientation.Up)
+        let cgImage = context.createCGImage(outputImage!, from: outputImage!.extent)
+        return UIImage(cgImage: cgImage!, scale: 1, orientation: UIImageOrientation.up)
     }
     
     // Resize image
-    public class func resizeImage(source:UIImage, scale:CGFloat) -> UIImage {
+    open class func resizeImage(_ source:UIImage, scale:CGFloat) -> UIImage {
         let width = source.size.width * scale
         let height = source.size.height * scale
         
-        UIGraphicsBeginImageContext(CGSizeMake(width, height))
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetInterpolationQuality(context, CGInterpolationQuality.None)
-        source.drawInRect(CGRectMake(0, 0, width, height))
+        context!.interpolationQuality = CGInterpolationQuality.none
+        source.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
         let target = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return target
+        return target!
     }
 }

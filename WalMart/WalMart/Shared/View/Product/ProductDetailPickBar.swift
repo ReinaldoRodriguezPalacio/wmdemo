@@ -38,19 +38,19 @@ class ProductDetailPickBar: UIView {
     
     func setup() {
         self.clipsToBounds = true
-        self.userInteractionEnabled = true
-        self.backgroundColor = UIColor.clearColor()
+        self.isUserInteractionEnabled = true
+        self.backgroundColor = UIColor.clear
         self.alpha = 0.9
         
         self.bodyView = UIView()
         self.bodyView.backgroundColor = WMColor.light_gray
         
         self.actionButton = UIButton()
-        self.actionButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.actionButton.setTitleColor(UIColor.white, for: UIControlState())
         self.actionButton.layer.cornerRadius = 11.0
         self.actionButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.actionButton.backgroundColor = WMColor.light_blue
-        self.actionButton.addTarget(self, action: #selector(ProductDetailPickBar.pickAction), forControlEvents: UIControlEvents.TouchUpInside)
+        self.actionButton.addTarget(self, action: #selector(ProductDetailPickBar.pickAction), for: UIControlEvents.touchUpInside)
         
         self.descLabel = UILabel()
         self.descLabel.font = WMFont.fontMyriadProSemiboldSize(11)
@@ -88,34 +88,34 @@ class ProductDetailPickBar: UIView {
     override func layoutSubviews() {
         
         if self.showHeader {
-            self.bodyView.frame = CGRectMake(0, 18, self.frame.width, 46)
-            self.titleView.frame = CGRectMake(8, 0, 88, 18)
+            self.bodyView.frame = CGRect(x: 0, y: 18, width: self.frame.width, height: 46)
+            self.titleView.frame = CGRect(x: 8, y: 0, width: 88, height: 18)
         }else{
-            self.titleView.frame = CGRectMake(0, 0, 0, 0)
-            self.bodyView.frame = CGRectMake(0, 0, self.frame.width, 46)
+            self.titleView.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            self.bodyView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 46)
         }
         
-        self.titleLabel.frame = CGRectMake(8, 0, 60, 18)
-        self.arrowImage.frame = CGRectMake(68, 3, 12, 12)
-        self.actionButton.frame = CGRectMake(self.frame.width - 104, 12, 88, 22)
-        self.selectImage.frame = CGRectMake(16, 16, 16, 16)
+        self.titleLabel.frame = CGRect(x: 8, y: 0, width: 60, height: 18)
+        self.arrowImage.frame = CGRect(x: 68, y: 3, width: 12, height: 12)
+        self.actionButton.frame = CGRect(x: self.frame.width - 104, y: 12, width: 88, height: 22)
+        self.selectImage.frame = CGRect(x: 16, y: 16, width: 16, height: 16)
         
          if UserCurrentSession.hasLoggedUser() {
-            self.descLabel.frame = CGRectMake(40, 12, self.actionButton.frame.minX - 35, 25)
+            self.descLabel.frame = CGRect(x: 40, y: 12, width: self.actionButton.frame.minX - 35, height: 25)
          }else{
-           self.descLabel.frame = CGRectMake(16, 12, self.actionButton.frame.minX - 35, 25)
+           self.descLabel.frame = CGRect(x: 16, y: 12, width: self.actionButton.frame.minX - 35, height: 25)
         }
     }
     
     
     func setValues() {
         if UserCurrentSession.hasLoggedUser() {
-            self.selectImage.hidden = false
-            self.actionButton.setTitle("cambiar tienda", forState: .Normal)
+            self.selectImage.isHidden = false
+            self.actionButton.setTitle("cambiar tienda", for: UIControlState())
             self.descLabel.text = "No disponible para recoger en \n\(self.storeName)"
         }else{
-            self.selectImage.hidden = true
-            self.actionButton.setTitle("Iniciar Sesión", forState: .Normal)
+            self.selectImage.isHidden = true
+            self.actionButton.setTitle("Iniciar Sesión", for: UIControlState())
             self.descLabel.text = "Inicia sesión parac saber si pouedes\n recoger este artículo en tu tienda"
         }
     }
@@ -123,16 +123,16 @@ class ProductDetailPickBar: UIView {
     func showPickBar() {
         if self.isShowingBar {
             self.bodyView.alpha = 1.0
-            UIView.animateWithDuration(0.3, animations: {
-                self.frame.origin = CGPointMake(self.startPossition.x, self.startPossition.y - 46)
-                self.frame.size = CGSizeMake(self.frame.width, 64)
+            UIView.animate(withDuration: 0.3, animations: {
+                self.frame.origin = CGPoint(x: self.startPossition.x, y: self.startPossition.y - 46)
+                self.frame.size = CGSize(width: self.frame.width, height: 64)
                 }, completion: { (complete) in
                 self.isShowingBar = false
             })
         }else{
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                  self.frame.origin = self.startPossition
-                 self.frame.size = CGSizeMake(self.frame.width, 18)
+                 self.frame.size = CGSize(width: self.frame.width, height: 18)
                 }, completion: { (complete) in
                     self.isShowingBar = true
                     self.bodyView.alpha = 0.0
@@ -151,9 +151,9 @@ class ProductDetailPickBar: UIView {
     
     
     
-    class func initDefault(possition: CGPoint,width: CGFloat) -> ProductDetailPickBar{
+    class func initDefault(_ possition: CGPoint,width: CGFloat) -> ProductDetailPickBar{
         let pickBar = ProductDetailPickBar()
-        pickBar.frame = CGRectMake(possition.x,possition.y, width, 64)
+        pickBar.frame = CGRect(x: possition.x,y: possition.y, width: width, height: 64)
         pickBar.startPossition = possition
         return pickBar
     }

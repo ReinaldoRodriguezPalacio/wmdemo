@@ -10,25 +10,25 @@ import UIKit
 
 class GRUpdateItemListService: GRBaseService {
     
-    func buildParams(upc upc:String, quantity:Int) -> [AnyObject] {
-        return [self.buildProductObject(upc: upc, quantity: quantity)]
+    func buildParams(upc:String, quantity:Int) -> [AnyObject] {
+        return [self.buildProductObject(upc: upc, quantity: quantity) as AnyObject]
     }
     
-    func buildProductObject(upc upc:String, quantity:Int) -> [String:AnyObject] {
-        return ["upc":upc, "quantity":quantity, "comments":"", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""]
+    func buildProductObject(upc:String, quantity:Int) -> [String:AnyObject] {
+        return ["upc":upc as AnyObject, "quantity":quantity as AnyObject, "comments":"" as AnyObject, "longDescription": "" as AnyObject, "pesable": "" as AnyObject, "equivalenceByPiece": "" as AnyObject, "promoDescription": "" as AnyObject, "productIsInStores": ""]
     }
     
-    func buildItemMustang(upc:String,sku:String,quantity:Int) -> NSDictionary {
+    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> NSDictionary {
         return ["upc":upc,"skuId":sku,"quantity":quantity]
         
     }
     
-    func buildItemMustangObject(idList idList:String, upcs:NSDictionary) -> NSDictionary {
+    func buildItemMustangObject(idList:String, upcs:NSDictionary) -> NSDictionary {
         return ["idList":idList,"items":[upcs]]
     }
 
     
-    func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(params)
         self.callPOSTService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in

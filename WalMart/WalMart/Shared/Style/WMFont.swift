@@ -11,79 +11,79 @@ import Foundation
 
 class WMFont {
     
-    class func fontMyriadProBlackOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProBlackOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-Black", size: size)
     }
     
-    class func fontMyriadProBlackCondOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProBlackCondOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-BlackCond", size: size)
     }
     
-    class func fontMyriadProBlackCondItOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProBlackCondItOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-BlackCondIt", size: size)
     }
     
-    class func fontMyriadProBlackSemiExtItOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProBlackSemiExtItOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-BlackSemiExtIt", size: size)
     }
     
-    class func fontMyriadProBoldOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProBoldOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-Bold", size: size)
     }
     
-    class func fontMyriadProBoldCondOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProBoldCondOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-BoldCond", size: size)
     }
     
-    class func fontMyriadProBoldItOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProBoldItOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-BoldIt", size: size)
     }
     
-    class func fontMyriadProItOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProItOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-It", size: size)
     }
     
-    class func fontMyriadProLightOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProLightOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-Light", size: size)
     }
     
-    class func fontMyriadProLightCondOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProLightCondOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-LightCond", size: size)
     }
     
-    class func fontMyriadProLightCondItOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProLightCondItOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-LightCondIt", size: size)
     }
     
-    class func fontMyriadProLightSemiExtItOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProLightSemiExtItOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-LightSemiExtIt", size: size)
     }
     
-    class func fontMyriadProRegularOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProRegularOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-Regular", size: size)
     }
     
-    class func fontMyriadProSemiboldSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProSemiboldSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-Semibold", size: size)
     }
     
-    class func fontMyriadProSemiboldCondOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProSemiboldCondOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-SemiboldCond", size: size)
     }
     
-    class func fontMyriadProSemiboldOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProSemiboldOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-Semibold", size: size)
     }
     
-    class func fontMyriadProSemiboldSemiExtOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProSemiboldSemiExtOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-SemiboldSemiExt", size: size)
     }
     
-    class func fontMyriadProSemiExtOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProSemiExtOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-SemiExt", size: size)
     }
     
-    class func fontMyriadProSemiExtItOfSize (size:CGFloat) -> UIFont!{
+    class func fontMyriadProSemiExtItOfSize (_ size:CGFloat) -> UIFont!{
         return UIFont(name:"MyriadPro-SemiExtIt", size: size)
     }
     

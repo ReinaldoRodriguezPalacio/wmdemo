@@ -29,37 +29,37 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
 
-    class func maxItemsInShoppingCart(useDefault:Bool, onHandInventory:Int) -> Int {
+    class func maxItemsInShoppingCart(_ useDefault:Bool, onHandInventory:Int) -> Int {
         return useDefault ? ShoppingCartParams.maxProducts : onHandInventory
     }
     
     
-    func builParam(skuId:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"skuId":skuId,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
+    func builParam(_ skuId:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [String:AnyObject] {
+        return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"skuId":skuId as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
     }
     
-    func builParam(skuId:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"skuId":skuId,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]
+    func builParam(_ skuId:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:AnyObject] {
+        return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"skuId":skuId as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]
     }
     
-    func builParams(skuId:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
+    func builParams(_ skuId:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
         if useSignals && parameter != nil{
-            parameterSend = parameter!
-            return [["comments":comments,"quantity":quantity,"skuId":skuId,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]]
+            parameterSend = parameter! as AnyObject?
+            return [["comments":comments as AnyObject,"quantity":quantity as AnyObject,"skuId":skuId as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]]
         }
-        return [["comments":comments,"quantity":quantity,"skuId":skuId,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]]
+        return [["comments":comments as AnyObject,"quantity":quantity as AnyObject,"skuId":skuId as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]]
     }
     
-    func builParamSvc(skuId:String,upc:String,quantity:String,comments:String) -> NSDictionary {
+    func builParamSvc(_ skuId:String,upc:String,quantity:String,comments:String) -> NSDictionary {
         //return ["comments":comments,"quantity":quantity,"upc":upc]
         return ["catalogRefIds": skuId, "productId": upc, "quantity": quantity, "orderedUOM": "EA", "itemComment": "EA","orderedQTYWeight": "6"]
     }
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist]
+    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:AnyObject] {
+        return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"wishlist":wishlist as AnyObject]
     }
     
-    func buildProductObject(upcsParams:NSDictionary) -> AnyObject {
+    func buildProductObject(_ upcsParams:NSDictionary) -> AnyObject {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]
@@ -69,14 +69,14 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
     
-    func callService(skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(builParams(skuid,upc:upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, pesable:pesable, parameter:parameter), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(builParams(skuid,upc:upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, pesable:pesable, parameter:parameter) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String, pesable:NSString ,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(skuid,upc:upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,pesable:pesable,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(_ skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String, pesable:NSString ,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataService(builParams(skuid,upc:upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,pesable:pesable,parameter: nil) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             
             //var itemsSvc : [String:AnyObject]
@@ -167,7 +167,7 @@ class ShoppingCartAddProductsService : BaseService {
         }
     }
     
-    func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !self.isInCart {
             if (UserCurrentSession.sharedInstance().hasPreorderable()) {// is preorderable
                 //let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
@@ -189,7 +189,7 @@ class ShoppingCartAddProductsService : BaseService {
             }
         }
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         for product in params as! NSArray {
@@ -201,14 +201,14 @@ class ShoppingCartAddProductsService : BaseService {
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
-                cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
-                let productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
+                cartProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
+                let productBD =  NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
                 cartProduct.product = productBD
             }else{
                 cartProduct = array[0]
             }
             let quantityStr = product["quantity"] as! NSString
-            cartProduct.quantity = NSNumber(integer:quantityStr.integerValue)
+            cartProduct.quantity = NSNumber(value: quantityStr.integerValue as Int)
             
             print("Product in shopping cart: \(product)")
             
@@ -236,12 +236,12 @@ class ShoppingCartAddProductsService : BaseService {
             if let pesableP = product["pesable"] as? String {
                 pesable = pesableP
             }
-            cartProduct.product.type = pesable.integerValue
+            cartProduct.product.type = NSNumber(pesable.integerValue)
             if let comment  = product["comments"] as? NSString {
-                cartProduct.note = comment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                cartProduct.note = comment.trimmingCharacters(in: CharacterSet.whitespaces)
             }
             //
-            cartProduct.status = NSNumber(integer: statusForProduct())
+            cartProduct.status = NSNumber(value: statusForProduct() as Int)
             cartProduct.type = ResultObjectType.Mg.rawValue
             if let category = product["category"] as? String {
                 cartProduct.product.department = category
@@ -264,7 +264,7 @@ class ShoppingCartAddProductsService : BaseService {
     }
     
     func statusForProduct() -> Int {
-        return CartStatus.Created.rawValue
+        return CartStatus.created.rawValue
     }
     
     func updateShoppingCart() -> Bool {

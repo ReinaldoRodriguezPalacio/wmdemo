@@ -27,7 +27,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     }
     
     override func viewDidLoad() {
-        if UIDevice.currentDevice().userInterfaceIdiom != .Phone  {
+        if UIDevice.current.userInterfaceIdiom != .phone  {
             self.hiddenBack = true
             if  self.navigationController != nil {
                 self.navigationController!.setNavigationBarHidden(true, animated: true)
@@ -39,7 +39,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.titleLabel?.text = NSLocalizedString("more.notification.title", comment: "")
         
         self.headerNotification = UIView()
-        self.headerNotification!.backgroundColor =  UIColor.whiteColor()
+        self.headerNotification!.backgroundColor =  UIColor.white
         self.view.addSubview(self.headerNotification!)
         
         self.receiveNotificationLabel = UILabel()
@@ -50,10 +50,10 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
         let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
         
-        self.receiveNotificationButton = CMSwitchView(frame: CGRectMake(0.0, 0.0, 54, 34))
+        self.receiveNotificationButton = CMSwitchView(frame: CGRect(x: 0.0, y: 0.0, width: 54, height: 34))
         self.receiveNotificationButton!.borderWidth = 1
         self.receiveNotificationButton!.borderColor =  showNotification ? WMColor.green : WMColor.reg_gray
-        self.receiveNotificationButton!.dotColor = UIColor.whiteColor()
+        self.receiveNotificationButton!.dotColor = UIColor.white
         self.receiveNotificationButton!.dotBorderColor = WMColor.light_gray
         self.receiveNotificationButton!.color = WMColor.reg_gray
         self.receiveNotificationButton!.tintColor = WMColor.green
@@ -64,24 +64,24 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.headerNotification!.addSubview(self.receiveNotificationLabel!)
         self.headerNotification!.addSubview(self.receiveNotificationButton!)
         
-        self.notification = UITableView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY + 46,
-            self.view.bounds.width, self.view.bounds.height - (self.header!.frame.maxY + self.headerNotification!.frame.height ) ) )
-        self.notification.registerClass(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
+        self.notification = UITableView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY + 46,
+            width: self.view.bounds.width, height: self.view.bounds.height - (self.header!.frame.maxY + self.headerNotification!.frame.height ) ) )
+        self.notification.register(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
         self.notification.dataSource = self
         self.notification.delegate = self
-        self.notification.separatorStyle = .None
-        self.notification.backgroundColor =  UIColor.whiteColor()
+        self.notification.separatorStyle = .none
+        self.notification.backgroundColor =  UIColor.white
         self.view.addSubview(self.notification)
         
         self.layerLine = CALayer()
-        self.layerLine!.backgroundColor = WMColor.light_light_gray.CGColor
-        self.headerNotification!.layer.insertSublayer(layerLine!, atIndex: 1000)
+        self.layerLine!.backgroundColor = WMColor.light_light_gray.cgColor
+        self.headerNotification!.layer.insertSublayer(layerLine!, at: 1000)
         self.showLoadingView()
         self.invokeNotificationService()
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //let receiveNotification = false
     }
@@ -89,22 +89,22 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.headerNotification?.frame = CGRectMake(0,self.header!.frame.maxY ,self.view.frame.width,  self.header!.frame.maxY)
+        self.headerNotification?.frame = CGRect(x: 0,y: self.header!.frame.maxY ,width: self.view.frame.width,  height: self.header!.frame.maxY)
         
-        self.receiveNotificationLabel?.frame = CGRectMake(16, 0,200, 46)
-        receiveNotificationButton?.frame = CGRectMake(self.view.bounds.width - 70, 6, 54, 34)
-        self.layerLine?.frame = CGRectMake(0, 45, self.view.frame.width, 1)
+        self.receiveNotificationLabel?.frame = CGRect(x: 16, y: 0,width: 200, height: 46)
+        receiveNotificationButton?.frame = CGRect(x: self.view.bounds.width - 70, y: 6, width: 54, height: 34)
+        self.layerLine?.frame = CGRect(x: 0, y: 45, width: self.view.frame.width, height: 1)
         
-        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.headerNotification!.frame.maxY , self.view.bounds.width, self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
+        emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
         
-        notification?.frame = CGRectMake(self.view.bounds.minX,self.header!.frame.maxY + 46,
-                                         self.view.bounds.width,
-                                         self.view.bounds.height - (self.headerNotification!.frame.height))
+        notification?.frame = CGRect(x: self.view.bounds.minX,y: self.header!.frame.maxY + 46,
+                                         width: self.view.bounds.width,
+                                         height: self.view.bounds.height - (self.headerNotification!.frame.height))
         
-        self.viewLoad?.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height)
+        self.viewLoad?.frame = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height)
         if self.viewLoad != nil {
             let frameImg  = self.viewLoad!.loadImage.frame
-            self.viewLoad!.loadImage.frame = CGRectMake(self.viewLoad!.frame.midX - (frameImg.width / 2),self.viewLoad!.frame.midY - (frameImg.height / 2)  , frameImg.width, frameImg.height)
+            self.viewLoad!.loadImage.frame = CGRect(x: self.viewLoad!.frame.midX - (frameImg.width / 2),y: self.viewLoad!.frame.midY - (frameImg.height / 2)  , width: frameImg.width, height: frameImg.height)
         }
     }
     
@@ -116,7 +116,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             self.allNotifications = self.getNotificationsForDevice(dict)
             
             if self.allNotifications.count == 0 {
-                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
                 self.view.addSubview(self.emptyView!)
             } else {
                 self.notification.reloadData()
@@ -125,21 +125,21 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             }, errorBlock: {
                 (error) -> Void in print("Error pushNotificationService")
                 self.removeLoadingView()
-                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
                 self.view.addSubview(self.emptyView!)
         })
         
     }
     
     //MARK : TableViewDelegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allNotifications.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cellNot") as! NotificationTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellNot") as! NotificationTableViewCell
         
-        let notiicationInfo = allNotifications[indexPath.row] as! NSDictionary
+        let notiicationInfo = allNotifications[(indexPath as NSIndexPath).row] as! NSDictionary
         let hour = notiicationInfo["hour"] as! String
         let date = notiicationInfo["date"] as! String
         let message = notiicationInfo["body"] as! String
@@ -149,23 +149,23 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         
         return cell
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 91
     }
     
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectable  {
             selectable = false
-            let notiicationInfo = allNotifications[indexPath.row] as! NSDictionary
+            let notiicationInfo = allNotifications[(indexPath as NSIndexPath).row] as! NSDictionary
             let type = notiicationInfo["type"] as! String
             let name = ""
             let value = notiicationInfo["value"] as! String
-            let business = (notiicationInfo["business"] as! String).lowercaseString
+            let business = (notiicationInfo["business"] as! String).lowercased()
             selectable = type == "URL"
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_DETAIL_NOTIFICATION.rawValue , label:"\(type) \(value) \(business)")
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
             
             if let customBar = window!.rootViewController  as? CustomBarViewController {
                 
@@ -177,7 +177,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.selectable = true
     }
     
@@ -190,7 +190,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
      
      - returns: array notificatios acording to device
      */
-    func getNotificationsForDevice(dict: NSDictionary) -> [AnyObject]{
+    func getNotificationsForDevice(_ dict: NSDictionary) -> [AnyObject]{
         var showNotifications: [AnyObject] = []
         if let notifications = dict["notifications"] as? [AnyObject]{
             for notif in notifications{
@@ -219,10 +219,10 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     //MARK: CMSwitchViewDelegate
     
-    func switchValueChanged(sender: AnyObject!, andNewValue value: Bool) {
+    func switchValueChanged(_ sender: AnyObject!, andNewValue value: Bool) {
         self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.reg_gray
 
-        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let idDevice = UIDevice.current.identifierForVendor!.uuidString
         let notService = NotificationService()
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: !value)
@@ -248,8 +248,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, self.view.bounds.height))
-        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.bounds.height))
+        self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
     }

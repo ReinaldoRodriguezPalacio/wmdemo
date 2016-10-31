@@ -10,13 +10,13 @@ import Foundation
 
 class IPAProductDetailBundleTableViewCell : ProductDetailBundleTableViewCell {
     
-    var currentCellSelected : NSIndexPath!
+    var currentCellSelected : IndexPath!
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        super.collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, didSelectItemAt: indexPath)
         currentCellSelected = indexPath
-        let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
-        currentCell.hideImageView()
+        let currentCell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell!
+        currentCell?.hideImageView()
     }
 
     

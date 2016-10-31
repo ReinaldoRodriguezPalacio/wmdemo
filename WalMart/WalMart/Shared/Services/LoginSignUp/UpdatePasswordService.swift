@@ -10,15 +10,15 @@ import Foundation
 
 class UpdatePasswordService : BaseService {
     
-    func buildParams(password:String,newPassword:String) -> NSDictionary {
+    func buildParams(_ password:String,newPassword:String) -> NSDictionary {
         return ["password":password,"newPassword":newPassword]
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
-                if codeMessage.integerValue == 0 {
+                if codeMessage.intValue == 0 {
                     successBlock!(resultCall)
                 }
                 else{

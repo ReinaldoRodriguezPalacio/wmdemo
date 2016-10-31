@@ -11,8 +11,8 @@ import Foundation
 
 class LoginWithIdService : LoginWithEmailService {
     
-    func buildParams(idUser:String) -> NSDictionary {
-        let lowCaseUser = idUser.lowercaseString
+    func buildParams(_ idUser:String) -> NSDictionary {
+        let lowCaseUser = idUser.lowercased()
         return ["profileId":lowCaseUser]
     }
     

@@ -16,17 +16,17 @@ class IPACheckOutViewController : CheckOutViewController {
      
      - parameter webView:  Web inyect info
      */
-    override func writeDeviceInfo(webView:UIWebView){
+    override func writeDeviceInfo(_ webView:UIWebView){
         
-        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
-        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
+        let majorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let minorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         let version = "\(majorVersion) (\(minorVersion))"
         
-        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_channel').value='2';")
-        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_subchannel').value='3';")
-        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osVersion').value='\(version)';")
-        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osName').value='iOS \(UIDevice.currentDevice().systemVersion)';")
-        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_isEmployeeDiscount').value='false';")//cambio para mustang
+        webView.stringByEvaluatingJavaScript(from: "document.getElementById('_channel').value='2';")
+        webView.stringByEvaluatingJavaScript(from: "document.getElementById('_subchannel').value='3';")
+        webView.stringByEvaluatingJavaScript(from: "document.getElementById('_osVersion').value='\(version)';")
+        webView.stringByEvaluatingJavaScript(from: "document.getElementById('_osName').value='iOS \(UIDevice.current.systemVersion)';")
+        webView.stringByEvaluatingJavaScript(from: "document.getElementById('_isEmployeeDiscount').value='false';")//cambio para mustang
         
         
 //        let doc = webView.stringByEvaluatingJavaScriptFromString("document.documentElement.outerHTML")

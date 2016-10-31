@@ -9,12 +9,12 @@
 import UIKit
 
 @objc protocol AddressViewDelegate {
-    func textModify(textField: UITextField!)
+    func textModify(_ textField: UITextField!)
     func setContentSize()
-    optional func validateZip(isvalidate:Bool)
+    @objc optional func validateZip(_ isvalidate:Bool)
     
-    optional func showUpdate()
-    optional func showNoCPWarning()
+    @objc optional func showUpdate()
+    @objc optional func showNoCPWarning()
     
 }
 
@@ -59,8 +59,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     var neighborhoods : [String]! = []
     var stores : [String]! = []
     
-    var selectedStore : NSIndexPath!
-    var selectedNeighborhood : NSIndexPath!
+    var selectedStore : IndexPath!
+    var selectedNeighborhood : IndexPath!
     
     var viewLoad : WMLoadingView!
     var delegate:AddressViewDelegate?
@@ -70,11 +70,11 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     var picker : AlertPickerView!
     var titleLabel: UILabel!
     var currentZipCode = ""
-    var typeAddress: TypeAddress = TypeAddress.Shiping
+    var typeAddress: TypeAddress = TypeAddress.shiping
     
     let tableHeight: CGFloat = 136.0
     var popupTable: UITableView? = nil
-    var popupTableSelected : NSIndexPath? = nil
+    var popupTableSelected : IndexPath? = nil
     var popupTableItem: FormFieldView? = nil
     var itemsToShow : [String] = []
     var usePopupPicker = true
@@ -107,7 +107,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             width = 1024.0
         }
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+        let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: width , height: 44), inputViewStyle: .keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 if field == self.zipcode!{
                     self.callServiceZip(field!.text!, showError: true)
@@ -127,7 +127,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         shortNameField = FormFieldView()
         self.shortNameField!.isRequired = true
         shortNameField!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname.description",comment:""))
-        self.shortNameField!.typeField = TypeField.Alphanumeric
+        self.shortNameField!.typeField = TypeField.alphanumeric
         self.shortNameField!.minLength = 3
         self.shortNameField!.maxLength = 25
         self.shortNameField!.nameField = NSLocalizedString("profile.address.shortName",comment:"")
@@ -135,7 +135,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         street = FormFieldView()
         self.street!.isRequired = true
         street!.setCustomPlaceholder(NSLocalizedString("profile.address.street",comment:""))
-        self.street!.typeField = TypeField.Alphanumeric
+        self.street!.typeField = TypeField.alphanumeric
         self.street!.minLength = 2
         self.street!.maxLength = 50
         self.street!.nameField = NSLocalizedString("profile.address.street",comment:"")
@@ -143,7 +143,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         outdoornumber = FormFieldView()
         self.outdoornumber!.isRequired = true
         outdoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.outdoornumber",comment:""))
-        self.outdoornumber!.typeField = TypeField.NumAddress
+        self.outdoornumber!.typeField = TypeField.numAddress
         self.outdoornumber!.minLength = 0
         self.outdoornumber!.maxLength = 5
         self.outdoornumber!.nameField = NSLocalizedString("profile.address.outdoornumber",comment:"")
@@ -151,7 +151,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         indoornumber = FormFieldView()
         self.indoornumber!.isRequired = false
         indoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.indoornumber",comment:""))
-        self.indoornumber!.typeField = TypeField.NumAddress
+        self.indoornumber!.typeField = TypeField.numAddress
         self.indoornumber!.minLength = 0
         self.indoornumber!.maxLength = 5
         self.indoornumber!.nameField = NSLocalizedString("profile.address.indoornumber",comment:"")
@@ -159,46 +159,46 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         self.zipcode = FormFieldView()
         self.zipcode!.isRequired = true
         self.zipcode!.setCustomPlaceholder(NSLocalizedString("profile.address.zipcode",comment:""))
-        self.zipcode!.typeField = TypeField.Number
+        self.zipcode!.typeField = TypeField.number
         self.zipcode!.minLength = 5
         self.zipcode!.maxLength = 5
         self.zipcode!.nameField = NSLocalizedString("profile.address.zipcode",comment:"")
         self.zipcode!.delegate = self
-        self.zipcode!.keyboardType = UIKeyboardType.NumberPad
+        self.zipcode!.keyboardType = UIKeyboardType.numberPad
         self.zipcode!.inputAccessoryView = self.keyboardBar
         
         suburb = FormFieldView()
         self.suburb!.isRequired = true
         suburb!.setCustomPlaceholder(NSLocalizedString("profile.address.suburb",comment:""))
-        self.suburb!.typeField = TypeField.List
+        self.suburb!.typeField = TypeField.list
         self.suburb!.nameField = NSLocalizedString("profile.address.suburb",comment:"")
         //suburb!.delegate = self
         self.suburb!.inputAccessoryView = self.keyboardBar
-        self.suburb!.hidden = true
+        self.suburb!.isHidden = true
         
         municipality = FormFieldView()
         self.municipality!.isRequired = true
         municipality!.setCustomPlaceholder(NSLocalizedString("profile.address.municipality",comment:""))
-        self.municipality!.typeField = TypeField.None
+        self.municipality!.typeField = TypeField.none
         self.municipality!.nameField = NSLocalizedString("profile.address.municipality",comment:"")
-        self.municipality!.enabled = false
-        self.municipality!.hidden = true
+        self.municipality!.isEnabled = false
+        self.municipality!.isHidden = true
         
         city = FormFieldView()
         self.city!.isRequired = true
         city!.setCustomPlaceholder(NSLocalizedString("profile.address.city",comment:""))
-        self.city!.typeField = TypeField.None
+        self.city!.typeField = TypeField.none
         self.city!.nameField = NSLocalizedString("profile.address.city",comment:"")
-        self.city!.enabled = false
-        self.city!.hidden = true
+        self.city!.isEnabled = false
+        self.city!.isHidden = true
         
         state = FormFieldView()
         self.state!.isRequired = true
         state!.setCustomPlaceholder(NSLocalizedString("profile.address.state",comment:""))
-        self.state!.typeField = TypeField.None
+        self.state!.typeField = TypeField.none
         self.state!.nameField = NSLocalizedString("profile.address.state",comment:"")
-        self.state!.enabled = false
-        self.state!.hidden = true
+        self.state!.isEnabled = false
+        self.state!.isHidden = true
         
         preferedLabel = UILabel()
         
@@ -208,8 +208,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         self.titleLabel!.text =  NSLocalizedString("profile.address", comment: "")
         //if !isLogin {
             self.titleLabel!.textColor = WMColor.light_blue
-            self.titleLabel!.backgroundColor = UIColor.whiteColor()
-            self.backgroundColor = UIColor.whiteColor()
+            self.titleLabel!.backgroundColor = UIColor.white
+            self.backgroundColor = UIColor.white
         /*}else {
             self.backgroundColor = UIColor.clearColor()
             self.titleLabel.backgroundColor = UIColor.clearColor()
@@ -221,16 +221,16 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         
         self.preferedLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.preferedLabel!.textColor = WMColor.reg_gray
-        self.preferedLabel!.textAlignment = .Right
+        self.preferedLabel!.textAlignment = .right
         
         self.telephone = FormFieldView()
         self.telephone!.isRequired = true
         self.telephone!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone",comment:""))
-        self.telephone!.typeField = TypeField.Number
+        self.telephone!.typeField = TypeField.number
         self.telephone!.nameField = NSLocalizedString("profile.address.telephone",comment:"")
         self.telephone!.minLength = 10
         self.telephone!.maxLength = 10
-        self.telephone!.keyboardType = UIKeyboardType.NumberPad
+        self.telephone!.keyboardType = UIKeyboardType.numberPad
         self.telephone!.delegate = self
         self.telephone!.inputAccessoryView = self.keyboardBar
         
@@ -245,19 +245,19 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         store = FormFieldView()
         self.store!.isRequired = true
         store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
-        self.store!.typeField = TypeField.List
+        self.store!.typeField = TypeField.list
         self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
         //suburb!.delegate = self
         self.store!.inputAccessoryView = self.keyboardBar
-        self.store!.hidden = true
+        self.store!.isHidden = true
         
         self.errorLabelStore = UILabel()
         self.errorLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)
         self.errorLabelStore!.text =  NSLocalizedString("gr.address.section.errorLabelStore", comment: "")
-        self.errorLabelStore!.textColor = UIColor.redColor()
+        self.errorLabelStore!.textColor = UIColor.red
         self.errorLabelStore!.numberOfLines = 3
-        self.errorLabelStore!.textAlignment = NSTextAlignment.Right
-        self.errorLabelStore!.hidden = true
+        self.errorLabelStore!.textAlignment = NSTextAlignment.right
+        self.errorLabelStore!.isHidden = true
 
         self.viewAddress!.addSubview(titleLabel!)
         self.viewAddress!.addSubview(preferedLabel!)
@@ -272,14 +272,14 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         self.viewAddress!.addSubview(state!)
         
         self.itemsToShow = []
-        self.popupTable = UITableView(frame: CGRectMake(0, 0,  self.store!.frame.width,tableHeight))
-        self.popupTable!.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
+        self.popupTable = UITableView(frame: CGRect(x: 0, y: 0,  width: self.store!.frame.width,height: tableHeight))
+        self.popupTable!.register(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
         self.popupTable!.delegate = self
         self.popupTable!.dataSource = self
-        self.popupTable!.hidden = true
+        self.popupTable!.isHidden = true
         self.viewAddress!.addSubview(self.popupTable!)
       
-        if self.typeAddress == TypeAddress.Shiping {
+        if self.typeAddress == TypeAddress.shiping {
             self.viewAddress!.addSubview(self.store)
             self.viewAddress.addSubview(self.errorLabelStore)
         
@@ -329,37 +329,37 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             }
         }
         
-        self.viewAddress!.backgroundColor = UIColor.clearColor()
+        self.viewAddress!.backgroundColor = UIColor.clear
 
     }
     
     override func layoutSubviews() {
         
-        self.preferedLabel?.frame = CGRectMake(self.bounds.width - 80 ,  0, 80 - leftRightPadding , fieldHeight)
-        self.titleLabel?.frame = CGRectMake(leftRightPadding,  0, self.bounds.width - (leftRightPadding*2) - 60 , fieldHeight)
+        self.preferedLabel?.frame = CGRect(x: self.bounds.width - 80 ,  y: 0, width: 80 - leftRightPadding , height: fieldHeight)
+        self.titleLabel?.frame = CGRect(x: leftRightPadding,  y: 0, width: self.bounds.width - (leftRightPadding*2) - 60 , height: fieldHeight)
         
-        self.shortNameField?.frame = CGRectMake(leftRightPadding,  self.titleLabel!.frame.maxY, self.bounds.width - (leftRightPadding*2), fieldHeight)
-        self.street?.frame = CGRectMake(leftRightPadding, self.shortNameField!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
-        self.outdoornumber?.frame = CGRectMake(leftRightPadding,  street!.frame.maxY + 8, (self.shortNameField!.frame.width / 2) - 5 , fieldHeight)
-        self.indoornumber?.frame = CGRectMake(self.outdoornumber!.frame.maxX + 10 , self.outdoornumber!.frame.minY,   self.outdoornumber!.frame.width  , fieldHeight)
-        self.zipcode?.frame = CGRectMake(leftRightPadding,  outdoornumber!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
-        self.suburb?.frame = CGRectMake(leftRightPadding,  zipcode!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
+        self.shortNameField?.frame = CGRect(x: leftRightPadding,  y: self.titleLabel!.frame.maxY, width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.street?.frame = CGRect(x: leftRightPadding, y: self.shortNameField!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
+        self.outdoornumber?.frame = CGRect(x: leftRightPadding,  y: street!.frame.maxY + 8, width: (self.shortNameField!.frame.width / 2) - 5 , height: fieldHeight)
+        self.indoornumber?.frame = CGRect(x: self.outdoornumber!.frame.maxX + 10 , y: self.outdoornumber!.frame.minY,   width: self.outdoornumber!.frame.width  , height: fieldHeight)
+        self.zipcode?.frame = CGRect(x: leftRightPadding,  y: outdoornumber!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
+        self.suburb?.frame = CGRect(x: leftRightPadding,  y: zipcode!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
         self.suburb!.setImageTypeField()
-        self.municipality?.frame = CGRectMake(leftRightPadding,  suburb!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
-        self.city?.frame = CGRectMake(leftRightPadding,  municipality!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
-        self.state?.frame = CGRectMake(leftRightPadding,  city!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
+        self.municipality?.frame = CGRect(x: leftRightPadding,  y: suburb!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
+        self.city?.frame = CGRect(x: leftRightPadding,  y: municipality!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
+        self.state?.frame = CGRect(x: leftRightPadding,  y: city!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
     
-        if self.typeAddress == TypeAddress.Shiping {
-            self.store.frame = CGRectMake(leftRightPadding, self.state!.frame.maxY + 8, self.shortNameField!.frame.width , fieldHeight)
-            self.viewAddress.frame = CGRectMake(0,0, self.bounds.width, showSuburb == true ? self.store!.frame.maxY : self.zipcode!.frame.maxY )
+        if self.typeAddress == TypeAddress.shiping {
+            self.store.frame = CGRect(x: leftRightPadding, y: self.state!.frame.maxY + 8, width: self.shortNameField!.frame.width , height: fieldHeight)
+            self.viewAddress.frame = CGRect(x: 0,y: 0, width: self.bounds.width, height: showSuburb == true ? self.store!.frame.maxY : self.zipcode!.frame.maxY )
         
         }
         else {
-            self.viewAddress.frame = CGRectMake(0,0, self.bounds.width, showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
+            self.viewAddress.frame = CGRect(x: 0,y: 0, width: self.bounds.width, height: showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
         }
     }
     
-    func setItemWithDictionary(itemValues: NSDictionary) {
+    func setItemWithDictionary(_ itemValues: NSDictionary) {
         self.item = itemValues
         if self.item != nil{
             //TODO:Checar por que las direcciones no traen Id
@@ -402,9 +402,9 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         }
     }*/
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let keyword = strNSString.replacingCharacters(in: range, with: string)
         
         if self.delegate != nil{
             self.delegate!.textModify(textField)
@@ -439,15 +439,15 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         return true
     }
     
-    func callServiceZip(zipCodeUsr: String, showError:Bool){
+    func callServiceZip(_ zipCodeUsr: String, showError:Bool){
         
-        let zipCode = zipCodeUsr.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let zipCode = zipCodeUsr.trimmingCharacters(in: CharacterSet.whitespaces)
         if zipCode.characters.count==0 {
             return
         }
         var padding : String = ""
         if zipCode.characters.count < 5 {
-            padding =  padding.stringByPaddingToLength( 5 - zipCode.characters.count , withString: "0", startingAtIndex: 0)
+            padding =  padding.padding( toLength: 5 - zipCode.characters.count , withPad: "0", startingAt: 0)
         }
         
         if (padding + zipCode ==  "00000") {
@@ -460,8 +460,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         }
         
         if viewLoad == nil{
-            viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.superview!.frame.width, self.superview!.frame.height - 46))
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.superview!.frame.width, height: self.superview!.frame.height - 46))
+            viewLoad.backgroundColor = UIColor.white
         }
         
         
@@ -486,7 +486,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                     for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
                         if dic["neighbourhoodId"] as? String ==  self.idSuburb{
                             self.suburb!.text = dic["neighbourhoodName"] as? String
-                            self.city!.hidden = true
+                            self.city!.isHidden = true
                             setElement = true
                         }// if dic["id"] as? String ==  self.idSuburb{
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
@@ -499,7 +499,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
                     self.neighborhoods.append(dic["neighbourhoodName"] as! String!)
                     if dic["neighbourhoodId"] as? String ==  self.idSuburb{
-                        self.selectedNeighborhood = NSIndexPath(forRow: index, inSection: 0)
+                        self.selectedNeighborhood = IndexPath(row: index, section: 0)
                     }
                     index += 1
                 }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
@@ -513,7 +513,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                     
                     if dic["storeId"] as? String ==  self.idStoreSelected{
                         self.store!.text = "\(name) - \(cost)"
-                        self.selectedStore = NSIndexPath(forRow: self.stores.count - 1, inSection: 0)
+                        self.selectedStore = IndexPath(row: self.stores.count - 1, section: 0)
                         //self.currentZipCode = self.zipcode.text!
                     }
                 }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
@@ -521,18 +521,18 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 
                 self.validateShowField()
                 if !setElement && self.neighborhoodsDic.count > 0  {
-                    self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
+                    self.selectedNeighborhood = IndexPath(row: 0, section: 0)
                     self.suburb?.becomeFirstResponder()
-                    self.suburb!.text = self.neighborhoodsDic[0].objectForKey("neighbourhoodName") as? String
-                    self.idSuburb = self.neighborhoodsDic[0].objectForKey("neighbourhoodId") as? String
+                    self.suburb!.text = self.neighborhoodsDic[0].object(forKey: "neighbourhoodName") as? String
+                    self.idSuburb = self.neighborhoodsDic[0].object(forKey: "neighbourhoodId") as? String
                 }//if setElement && self.listSuburb.count > 0  {
                 
                 if !setElement && self.storesDic.count > 0  {
-                    self.selectedStore = NSIndexPath(forRow: 0, inSection: 0)
-                    let name = self.storesDic[0].objectForKey("storeName") as! String!
-                    let cost = self.storesDic[0].objectForKey("cost") as! String!
+                    self.selectedStore = IndexPath(row: 0, section: 0)
+                    let name = self.storesDic[0].object(forKey: "storeName") as! String!
+                    let cost = self.storesDic[0].object(forKey: "cost") as! String!
                     self.store!.text = "\(name) - \(cost)"
-                    self.idStoreSelected = self.storesDic[0].objectForKey("storeId") as! String!
+                    self.idStoreSelected = self.storesDic[0].object(forKey: "storeId") as! String!
                 }//if setElement && self.listSuburb.count > 0  {
                 
                 
@@ -555,7 +555,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                         self.errorView = FormFieldErrorView()
                     }
                     let stringToShow : NSString = error.localizedDescription
-                    let withoutName = stringToShow.stringByReplacingOccurrencesOfString(self.zipcode!.nameField, withString: "")
+                    let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
                     SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
                 }
                 else{
@@ -569,24 +569,24 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     func validateShowField() {
         if self.neighborhoodsDic.count > 0{
             if !showSuburb {
-                self.viewAddress.frame = CGRectMake(0,0, self.bounds.width,self.state!.frame.maxY)
-                self.suburb!.hidden = false
-                self.municipality!.hidden = false
-                self.city!.hidden = false
-                self.state!.hidden = false
-                self.store!.hidden = false
+                self.viewAddress.frame = CGRect(x: 0,y: 0, width: self.bounds.width,height: self.state!.frame.maxY)
+                self.suburb!.isHidden = false
+                self.municipality!.isHidden = false
+                self.city!.isHidden = false
+                self.state!.isHidden = false
+                self.store!.isHidden = false
                 showSuburb = true
                 delegate?.validateZip?(true)
                 delegate?.setContentSize()
             }
         } else {
             if showSuburb == true {
-                self.viewAddress.frame = CGRectMake(0,0, self.bounds.width,self.zipcode!.frame.maxY)
-                self.suburb!.hidden = true
-                self.municipality!.hidden = true
-                self.city!.hidden = true
-                self.state!.hidden = true
-                self.store!.hidden = true
+                self.viewAddress.frame = CGRect(x: 0,y: 0, width: self.bounds.width,height: self.zipcode!.frame.maxY)
+                self.suburb!.isHidden = true
+                self.municipality!.isHidden = true
+                self.city!.isHidden = true
+                self.state!.isHidden = true
+                self.store!.isHidden = true
                 showSuburb = false
                 delegate?.setContentSize()
             }
@@ -594,9 +594,9 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         
     }
     
-    func showErrorLabel(show: Bool)
+    func showErrorLabel(_ show: Bool)
     {
-        self.errorLabelStore!.hidden = !show
+        self.errorLabelStore!.isHidden = !show
     }
 
     
@@ -654,7 +654,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         for item in  self.allAddress as! [NSDictionary]{
             let idItem = item["addressId"] as? NSString
             let name = item["name"] as! NSString
-            if idItem != nil && id != idItem! && name.uppercaseString ==  shortNameField!.text!.uppercaseString {
+            if idItem != nil && id != idItem! as String && name.uppercased ==  shortNameField!.text!.uppercased() {
                 self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true
             }
@@ -662,12 +662,12 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         return false
     }
     
-    func viewError(field: FormFieldView)-> Bool{
+    func viewError(_ field: FormFieldView)-> Bool{
         let message = field.validate()
         return self.viewError(field,message: message)
     }
     
-    func viewError(field: FormFieldView,message:String?)-> Bool{
+    func viewError(_ field: FormFieldView,message:String?)-> Bool{
         if message != nil {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
@@ -682,22 +682,22 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
            let paramsAdd : NSMutableDictionary? = [:]
         let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!]
         if idAddress != nil{
-           paramsAdd?.addEntriesFromDictionary(paramsAddress)
-            paramsAdd?.addEntriesFromDictionary(["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser])
+           paramsAdd?.addEntries(from: paramsAddress)
+            paramsAdd?.addEntries(from: ["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance().userSigned!.idUser])
             return  paramsAdd!
         }
-        return paramsAddress
+        return paramsAddress as NSDictionary
         
     }
     
     
     //MARK: - AlertPickerView
-    func didSelectOption(picker:AlertPickerView, indexPath:NSIndexPath ,selectedStr:String) {
+    func didSelectOption(_ picker:AlertPickerView, indexPath:IndexPath ,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.store! {
                 self.store!.text = selectedStr
                 self.selectedStore = indexPath
-                self.idStoreSelected = self.idStoreArray[indexPath.row]
+                self.idStoreSelected = self.idStoreArray[(indexPath as NSIndexPath).row]
                 /*if delegate != nil {
                     self.delegate.showUpdate!()
                 }*/
@@ -705,7 +705,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             if formFieldObj ==  self.suburb! {
                 self.suburb!.text = selectedStr
                 self.selectedNeighborhood = indexPath
-                self.idSuburb = self.neighborhoods[indexPath.row]
+                self.idSuburb = self.neighborhoods[(indexPath as NSIndexPath).row]
                 
                 /*if delegate != nil {
                     self.delegate.showUpdate!()
@@ -714,7 +714,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         }
     }
     
-    func didDeSelectOption(picker:AlertPickerView) {
+    func didDeSelectOption(_ picker:AlertPickerView) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.store! {
                 self.store!.text = ""
@@ -725,14 +725,14 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         }
     }
     
-    func viewReplaceContent(frame:CGRect) -> UIView! {
+    func viewReplaceContent(_ frame:CGRect) -> UIView! {
         return UIView()
     }
     
     func saveReplaceViewSelected() {
     }
 
-    func buttomViewSelected(sender: UIButton) {
+    func buttomViewSelected(_ sender: UIButton) {
         
     }
     
@@ -741,16 +741,16 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
      
      - parameter itemView: item which is to be added the popup
      */
-    func addPopupTable(itemView: FormFieldView){
+    func addPopupTable(_ itemView: FormFieldView){
         if itemView == self.popupTableItem {
-            self.popupTable!.hidden = true
+            self.popupTable!.isHidden = true
             self.popupTableItem!.imageList?.image = UIImage(named: "fieldListOpen")
             self.popupTableItem = nil
         }else{
-            self.popupTable?.frame = CGRectMake(itemView.frame.minX, itemView.frame.maxY - 0.1, itemView.frame.width, tableHeight)
+            self.popupTable?.frame = CGRect(x: itemView.frame.minX, y: itemView.frame.maxY - 0.1, width: itemView.frame.width, height: tableHeight)
             self.popupTable?.backgroundColor =  WMColor.light_light_gray
             self.popupTableItem = itemView
-            self.popupTable!.hidden = false
+            self.popupTable!.isHidden = false
         }
     }
     
@@ -760,33 +760,33 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
      
      - parameter values: New options from table
      */
-    func setValues(values:[String]) {
+    func setValues(_ values:[String]) {
         self.itemsToShow = values
         popupTable!.reloadData()
     }
     
     //MARK: TableViewDelegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return itemsToShow.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        self.popupTable!.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
-        let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
-        cell.textLabel?.text = itemsToShow[indexPath.row]
+        self.popupTable!.separatorStyle = UITableViewCellSeparatorStyle.singleLine
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellSelItem") as! SelectItemTableViewCell!
+        cell?.textLabel?.text = itemsToShow[(indexPath as NSIndexPath).row]
         self.popupTableSelected = self.popupTableSelected ?? indexPath
         if self.popupTable != nil {
-            cell.setSelected(indexPath.row == self.popupTableSelected!.row, animated: true)
-            cell.backgroundColor = WMColor.light_light_gray
+            cell?.setSelected((indexPath as NSIndexPath).row == (self.popupTableSelected! as NSIndexPath).row, animated: true)
+            cell?.backgroundColor = WMColor.light_light_gray
         }
-        return cell
+        return cell!
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedStr = self.itemsToShow[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedStr = self.itemsToShow[(indexPath as NSIndexPath).row]
         if popupTableItem ==  self.store! {
             self.store!.text = selectedStr
             self.store!.imageList?.image = UIImage(named: "fieldListOpen")
@@ -798,12 +798,12 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             self.suburb!.imageList?.image = UIImage(named: "fieldListOpen")
             self.selectedNeighborhood = indexPath
         }
-        self.popupTable!.hidden = true
+        self.popupTable!.isHidden = true
         self.popupTableItem = nil
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let textCell = itemsToShow[indexPath.row]
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let textCell = itemsToShow[(indexPath as NSIndexPath).row]
         return  SelectItemTableViewCell.sizeText(textCell, width: 247.0)
     }
 

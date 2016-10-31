@@ -18,7 +18,7 @@ enum OnlyAlertPreferences : String {
 class SetPreferencesService : BaseService {
     
     
-    func buildParams(userPreferences:NSArray,onlyTelephonicAlert:String,abandonCartAlert:Bool,telephonicSmsAlert:Bool,mobileNumber:String,receivePromoEmail:String,forOBIEE:Bool,acceptConsent:Bool,receiveInfoEmail:Bool) -> NSDictionary {
+    func buildParams(_ userPreferences:NSArray,onlyTelephonicAlert:String,abandonCartAlert:Bool,telephonicSmsAlert:Bool,mobileNumber:String,receivePromoEmail:String,forOBIEE:Bool,acceptConsent:Bool,receiveInfoEmail:Bool) -> NSDictionary {
         
         return ["userPreferences":userPreferences, "onlyTelephonicAlert":onlyTelephonicAlert,"abandonCartAlert":abandonCartAlert,"telephonicSmsAlert":telephonicSmsAlert,"mobileNumber":mobileNumber,"receivePromoEmail":receivePromoEmail,"forOBIEE":forOBIEE,"acceptConsent":acceptConsent,"receiveInfoEmail":receiveInfoEmail]
     }
@@ -35,7 +35,7 @@ class SetPreferencesService : BaseService {
     }
     
     
-    func getPreferences(successBlock:((NSDictionary) -> Void)?){
+    func getPreferences(_ successBlock:((NSDictionary) -> Void)?){
         let servicePreference  = GetPreferencesService()
         servicePreference.callService({ (result:NSDictionary) in
             successBlock!(result)

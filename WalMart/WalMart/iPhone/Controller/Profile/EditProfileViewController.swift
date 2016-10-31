@@ -55,21 +55,21 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var legalInformation: UIButton?
     var legalInformationLabel: UILabel?
     
-    var dateFmt: NSDateFormatter?
-    var parseFmt: NSDateFormatter?
+    var dateFmt: DateFormatter?
+    var parseFmt: DateFormatter?
     var delegate: EditProfileViewControllerDelegate!
     
     var showPasswordInfo: Bool = false
     var showAssociateInfo: Bool = false
     var showTabbar:Bool = false
-    var dateSelected : NSDate!
-    var associateDateSelected : NSDate!
+    var dateSelected : Date!
+    var associateDateSelected : Date!
     var picker : AlertPickerView!
-    var selectedGender: NSIndexPath!
+    var selectedGender: IndexPath!
     var dateBriday  = ""
     
     var occupationList: [String]! = []
-    var selectedOccupation: NSIndexPath?
+    var selectedOccupation: IndexPath?
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
@@ -77,23 +77,23 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = NSLocalizedString("profile.title", comment: "")
         
-        self.dateFmt = NSDateFormatter()
+        self.dateFmt = DateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.setValues), name: ProfileNotification.updateProfile.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.setValues), name: NSNotification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_EDITPROFILE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [AnyHashable: Any])
         }
         
-        self.dateFmt = NSDateFormatter()
+        self.dateFmt = DateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
 
-        self.parseFmt = NSDateFormatter()
+        self.parseFmt = DateFormatter()
         self.parseFmt!.dateFormat = "dd/MM/yyyy"
 
         self.content = TPKeyboardAvoidingScrollView()
@@ -109,7 +109,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.name = FormFieldView()
         self.name!.isRequired = true
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
-        self.name!.typeField = TypeField.Name
+        self.name!.typeField = TypeField.name
         self.name!.minLength = 3
         self.name!.maxLength = 25
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
@@ -118,7 +118,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.lastName = FormFieldView()
         self.lastName!.isRequired = true
         self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
-        self.lastName!.typeField = TypeField.String
+        self.lastName!.typeField = TypeField.string
         self.lastName!.minLength = 3
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
@@ -127,11 +127,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.email = FormFieldView()
         self.email!.isRequired = true
         self.email!.setCustomPlaceholder(NSLocalizedString("profile.email",comment:""))
-        self.email!.keyboardType = UIKeyboardType.EmailAddress
-        self.email!.typeField = TypeField.Email
+        self.email!.keyboardType = UIKeyboardType.emailAddress
+        self.email!.typeField = TypeField.email
         self.email!.maxLength = 45
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
-        self.email!.enabled = false
+        self.email!.isEnabled = false
         self.content?.addSubview(self.email!)
         
         self.changePasswordLabel = UILabel()
@@ -148,21 +148,21 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content?.addSubview(self.passwordInfoLabel!)
         
         self.changuePasswordButton = UIButton()
-        self.changuePasswordButton?.setTitle(NSLocalizedString("profile.edit.password.button",comment:""), forState: UIControlState.Normal)
-        self.changuePasswordButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
-        self.changuePasswordButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.changuePasswordButton?.setTitle(NSLocalizedString("profile.edit.password.button",comment:""), for: UIControlState())
+        self.changuePasswordButton!.setImage(UIImage(named:"filter_check_blue"), for: UIControlState())
+        self.changuePasswordButton!.setImage(UIImage(named:"check_blue"), for: UIControlState.selected)
         self.changuePasswordButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.changuePasswordButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Normal)
-        self.changuePasswordButton?.addTarget(self, action: #selector(EditProfileViewController.showPasswordData(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.changuePasswordButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.changuePasswordButton!.setTitleColor(WMColor.dark_gray, for: UIControlState())
+        self.changuePasswordButton?.addTarget(self, action: #selector(EditProfileViewController.showPasswordData(_:)), for: UIControlEvents.touchUpInside)
+        self.changuePasswordButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.changuePasswordButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
         self.content?.addSubview(self.changuePasswordButton!)
         
         self.passworCurrent = FormFieldView()
         self.passworCurrent!.isRequired = true
         self.passworCurrent!.setCustomPlaceholder(NSLocalizedString("profile.password.current",comment:""))
-        self.passworCurrent!.secureTextEntry = true
-        self.passworCurrent!.typeField = TypeField.Password
+        self.passworCurrent!.isSecureTextEntry = true
+        self.passworCurrent!.typeField = TypeField.password
         self.passworCurrent!.nameField = NSLocalizedString("profile.password.current",comment:"")
         self.passworCurrent!.alpha = 0.0
         self.content?.addSubview(self.passworCurrent!)
@@ -170,8 +170,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.password = FormFieldView()
         self.password!.isRequired = true
         self.password!.setCustomPlaceholder(NSLocalizedString("profile.newpassword",comment:""))
-        self.password!.secureTextEntry = true
-        self.password!.typeField = TypeField.Password
+        self.password!.isSecureTextEntry = true
+        self.password!.typeField = TypeField.password
         self.password!.nameField = NSLocalizedString("profile.newpassword",comment:"")
         self.password!.minLength = 8
         self.password!.maxLength = 20
@@ -181,8 +181,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.confirmPassword = FormFieldView()
         self.confirmPassword!.isRequired = true
         self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmnewpassword",comment:""))
-        self.confirmPassword!.secureTextEntry = true
-        self.confirmPassword!.typeField = TypeField.Password
+        self.confirmPassword!.isSecureTextEntry = true
+        self.confirmPassword!.typeField = TypeField.password
         self.confirmPassword!.nameField = NSLocalizedString("profile.confirmnewpassword",comment:"")
         self.confirmPassword!.minLength = 8
         self.confirmPassword!.maxLength = 20
@@ -198,28 +198,28 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.birthDate = FormFieldView()
         self.birthDate!.isRequired = true
         self.birthDate!.setCustomPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
-        self.birthDate!.typeField = .None
+        self.birthDate!.typeField = .none
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
         self.birthDate!.disablePaste = true
         self.content?.addSubview(self.birthDate!)
         
-        self.gender = FormFieldView(frame:CGRectMake(16, 0, self.view.frame.width - 32, 40))
+        self.gender = FormFieldView(frame:CGRect(x: 16, y: 0, width: self.view.frame.width - 32, height: 40))
         self.gender!.isRequired = false
         self.gender!.setCustomPlaceholder(NSLocalizedString("profile.gender",comment:""))
-        self.gender!.typeField = TypeField.List
+        self.gender!.typeField = TypeField.list
         self.gender!.nameField = NSLocalizedString("profile.gender",comment:"")
         self.gender!.setImageTypeField()
         self.content?.addSubview(self.gender!)
         
-        self.ocupation = FormFieldView(frame:CGRectMake(16, 0, self.view.frame.width - 32, 40))
+        self.ocupation = FormFieldView(frame:CGRect(x: 16, y: 0, width: self.view.frame.width - 32, height: 40))
         self.ocupation!.isRequired = false
         self.ocupation!.setCustomPlaceholder(NSLocalizedString("profile.edit.ocupation",comment:""))
-        self.ocupation!.typeField = TypeField.List
+        self.ocupation!.typeField = TypeField.list
         self.ocupation!.nameField = NSLocalizedString("profile.edit.ocupation",comment:"")
         self.ocupation!.setImageTypeField()
         self.content?.addSubview(self.ocupation!)
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+        let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width , height: 44), inputViewStyle: .keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 self.dateChanged()
                 self.associateDateChanged()
@@ -228,21 +228,21 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         })
         
         
-        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-        let currentDate = NSDate()
-        let comps = NSDateComponents()
+        let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+        let currentDate = Date()
+        var comps = DateComponents()
         comps.year = -18
-        let maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        let maxDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
         comps.year = -100
-        let minDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        let minDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
         
         self.inputBirthdateView = UIDatePicker()
-        self.inputBirthdateView!.datePickerMode = .Date
-        self.inputBirthdateView!.date = NSDate()
+        self.inputBirthdateView!.datePickerMode = .date
+        self.inputBirthdateView!.date = Date()
         self.inputBirthdateView!.maximumDate = maxDate
         self.inputBirthdateView!.minimumDate = minDate
 
-        self.inputBirthdateView!.addTarget(self, action: #selector(EditProfileViewController.dateChanged), forControlEvents: .ValueChanged)
+        self.inputBirthdateView!.addTarget(self, action: #selector(EditProfileViewController.dateChanged), for: .valueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess
         self.dateChanged()
@@ -256,11 +256,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.phoneHome = FormFieldView()
         self.phoneHome!.isRequired = true
         self.phoneHome!.setCustomPlaceholder(NSLocalizedString("profile.edit.phoneDesc",comment:""))
-        self.phoneHome!.typeField = TypeField.Number
+        self.phoneHome!.typeField = TypeField.number
         self.phoneHome!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHome!.minLength = 8
         self.phoneHome!.maxLength = 10
-        self.phoneHome!.keyboardType = UIKeyboardType.NumberPad
+        self.phoneHome!.keyboardType = UIKeyboardType.numberPad
         self.phoneHome!.inputAccessoryView = viewAccess
         self.phoneHome!.delegate =  self
         self.content?.addSubview(self.phoneHome!)
@@ -268,11 +268,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.phoneHomeExtension = FormFieldView()
         self.phoneHomeExtension!.isRequired = false
         self.phoneHomeExtension!.setCustomPlaceholder(NSLocalizedString("profile.edit.extension",comment:""))
-        self.phoneHomeExtension!.typeField = TypeField.Number
+        self.phoneHomeExtension!.typeField = TypeField.number
         self.phoneHomeExtension!.nameField = NSLocalizedString("profile.edit.extension",comment:"")
         self.phoneHomeExtension!.minLength = 3
         self.phoneHomeExtension!.maxLength = 5
-        self.phoneHomeExtension!.keyboardType = UIKeyboardType.NumberPad
+        self.phoneHomeExtension!.keyboardType = UIKeyboardType.numberPad
         self.phoneHomeExtension!.inputAccessoryView = viewAccess
         self.phoneHomeExtension!.delegate =  self
         self.content?.addSubview(self.phoneHomeExtension!)
@@ -280,11 +280,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.cellPhone = FormFieldView()
         self.cellPhone!.isRequired = false
         self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile.edit.cellphoneDesc",comment:""))
-        self.cellPhone!.typeField = TypeField.Number
+        self.cellPhone!.typeField = TypeField.number
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
         self.cellPhone!.maxLength = 15
-        self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
+        self.cellPhone!.keyboardType = UIKeyboardType.numberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         self.cellPhone!.delegate =  self
         self.content?.addSubview(self.cellPhone!)
@@ -296,20 +296,20 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content?.addSubview(self.associateLabel!)
         
         self.isAssociateButton = UIButton()
-        self.isAssociateButton?.setTitle(NSLocalizedString("profile.edit.associate.button",comment:""), forState: UIControlState.Normal)
-        self.isAssociateButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
-        self.isAssociateButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.isAssociateButton?.setTitle(NSLocalizedString("profile.edit.associate.button",comment:""), for: UIControlState())
+        self.isAssociateButton!.setImage(UIImage(named:"filter_check_blue"), for: UIControlState())
+        self.isAssociateButton!.setImage(UIImage(named:"check_blue"), for: UIControlState.selected)
         self.isAssociateButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.isAssociateButton?.addTarget(self, action: #selector(EditProfileViewController.showAssociateData(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.isAssociateButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.isAssociateButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Normal)
+        self.isAssociateButton?.addTarget(self, action: #selector(EditProfileViewController.showAssociateData(_:)), for: UIControlEvents.touchUpInside)
+        self.isAssociateButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+        self.isAssociateButton!.setTitleColor(WMColor.dark_gray, for: UIControlState())
         self.isAssociateButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
         self.content?.addSubview(self.isAssociateButton!)
         
         self.associateNumber = FormFieldView()
         self.associateNumber!.isRequired = true
         self.associateNumber!.setCustomPlaceholder(NSLocalizedString("profile.edit.associateNumber",comment:""))
-        self.associateNumber!.typeField = TypeField.Number
+        self.associateNumber!.typeField = TypeField.number
         self.associateNumber!.minLength = 10
         self.associateNumber!.maxLength = 10
         self.associateNumber!.nameField = NSLocalizedString("profile.edit.associateNumber",comment:"")
@@ -319,7 +319,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDeterminant = FormFieldView()
         self.associateDeterminant!.isRequired = true
         self.associateDeterminant!.setCustomPlaceholder(NSLocalizedString("profile.edit.determinant",comment:""))
-        self.associateDeterminant!.typeField = TypeField.Number
+        self.associateDeterminant!.typeField = TypeField.number
         self.associateDeterminant!.minLength = 5
         self.associateDeterminant!.maxLength = 5
         self.associateDeterminant!.nameField = NSLocalizedString("profile.edit.determinant",comment:"")
@@ -329,19 +329,19 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDate = FormFieldView()
         self.associateDate!.isRequired = true
         self.associateDate!.setCustomPlaceholder(NSLocalizedString("profile.edit.dateAdmission",comment:""))
-        self.associateDate!.typeField = .None
+        self.associateDate!.typeField = .none
         self.associateDate!.nameField = NSLocalizedString("profile.edit.dateAdmission",comment:"")
         self.associateDate!.disablePaste = true
         self.associateDate!.alpha = 0.0
         self.content?.addSubview(self.associateDate!)
         
         self.inputAssociateDateView = UIDatePicker()
-        self.inputAssociateDateView!.datePickerMode = .Date
-        self.inputAssociateDateView!.date = NSDate()
-        self.inputAssociateDateView!.maximumDate = NSDate()
-        self.inputAssociateDateView!.minimumDate = NSDate()
+        self.inputAssociateDateView!.datePickerMode = .date
+        self.inputAssociateDateView!.date = Date()
+        self.inputAssociateDateView!.maximumDate = Date()
+        self.inputAssociateDateView!.minimumDate = Date()
         
-        self.inputAssociateDateView!.addTarget(self, action: #selector(EditProfileViewController.associateDateChanged), forControlEvents: .ValueChanged)
+        self.inputAssociateDateView!.addTarget(self, action: #selector(EditProfileViewController.associateDateChanged), for: .valueChanged)
         self.associateDate!.inputView = self.inputAssociateDateView!
         self.associateDate!.inputAccessoryView = viewAccess
         //self.associateDateChanged()
@@ -352,25 +352,25 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view.layer.insertSublayer(layerLine, atIndex: 1000)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view.layer.insertSublayer(layerLine, at: 1000)
 
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: #selector(EditProfileViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(EditProfileViewController.back), for: UIControlEvents.touchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), forState:.Normal)
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), for:UIControlState())
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(EditProfileViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(EditProfileViewController.save(_:)), for: UIControlEvents.touchUpInside)
         self.view.addSubview(saveButton!)
     
         
@@ -380,12 +380,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             NSUnderlineStyleAttributeName : 1]
         let attributedString = NSMutableAttributedString(string:"")
         let buttonTitleStr = NSMutableAttributedString(string:NSLocalizedString("profile.terms.privacy", comment: ""), attributes:attrs)
-        attributedString.appendAttributedString(buttonTitleStr)
+        attributedString.append(buttonTitleStr)
         
         self.legalInformation = UIButton()
-        self.legalInformation!.setAttributedTitle(attributedString, forState: .Normal)
-        self.legalInformation!.addTarget(self, action: #selector(EditProfileViewController.noticePrivacy), forControlEvents: .TouchUpInside)
-        self.legalInformation!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.legalInformation!.setAttributedTitle(attributedString, for: UIControlState())
+        self.legalInformation!.addTarget(self, action: #selector(EditProfileViewController.noticePrivacy), for: .touchUpInside)
+        self.legalInformation!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.content?.addSubview(self.legalInformation!)
         
         self.legalInformationLabel = UILabel()
@@ -394,35 +394,35 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.legalInformationLabel!.text = NSLocalizedString("profile.legalinfo.label", comment: "")
         self.content?.addSubview(self.legalInformationLabel!)
         
-        self.content.backgroundColor = UIColor.whiteColor()
+        self.content.backgroundColor = UIColor.white
         
         self.view.addSubview(self.content)
         
         self.content.clipsToBounds = true
-        self.view.bringSubviewToFront(self.header!)
+        self.view.bringSubview(toFront: self.header!)
         self.showTabbar = !TabBarHidden.isTabBarHidden
         self.getOccupationList()
         
         self.picker = AlertPickerView.initPickerWithDefault()
-        self.selectedGender = NSIndexPath(forRow: 0, inSection: 0)
+        self.selectedGender = IndexPath(row: 0, section: 0)
         self.gender?.onBecomeFirstResponder = { () in
             self.picker.contentHeight = 220.0
             self.picker!.selected = self.selectedGender
             self.picker!.sender = self.gender!
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("profile.gender",comment:""), values: [NSLocalizedString("profile.gender.female",comment:""),NSLocalizedString("profile.gender.male",comment:"")])
-            self.picker!.cellType = TypeField.Check
+            self.picker!.cellType = TypeField.check
             self.picker!.showPicker()
             self.view.endEditing(true)
         }
         
         self.ocupation?.onBecomeFirstResponder = { () in
             self.picker.contentHeight = 316
-            self.picker!.selected = self.selectedOccupation ?? NSIndexPath(forRow: 0, inSection: 0)
+            self.picker!.selected = self.selectedOccupation as NSIndexPath?? ?? IndexPath(row: 0, section: 0)
             self.picker!.sender = self.ocupation!
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues(NSLocalizedString("profile.edit.ocupation",comment:""), values: self.occupationList!)
-            self.picker!.cellType = TypeField.Check
+            self.picker!.cellType = TypeField.check
             self.picker!.showPicker()
             self.view.endEditing(true)
         }
@@ -433,18 +433,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.buildComponetViews()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
         self.setValues()
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.tabBarActions()
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
     
@@ -460,54 +460,54 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         let fieldWidth = self.view.bounds.width - (horSpace*2)
         let fieldHeight: CGFloat = 40.0
         
-        self.personalInfoLabel.frame = CGRectMake(horSpace, 0, fieldWidth, 28)
-        self.name.frame = CGRectMake(horSpace, self.personalInfoLabel.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.lastName.frame = CGRectMake(horSpace, self.name.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.email.frame = CGRectMake(horSpace, self.lastName.frame.maxY + topSpace, fieldWidth, fieldHeight)
+        self.personalInfoLabel.frame = CGRect(x: horSpace, y: 0, width: fieldWidth, height: 28)
+        self.name.frame = CGRect(x: horSpace, y: self.personalInfoLabel.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.lastName.frame = CGRect(x: horSpace, y: self.name.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.email.frame = CGRect(x: horSpace, y: self.lastName.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
         
-        self.changePasswordLabel.frame = CGRectMake(horSpace, self.email.frame.maxY + topSpace, fieldWidth, 28)
-        self.changuePasswordButton!.frame = CGRectMake(horSpace, self.changePasswordLabel.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.passwordInfoLabel.frame = CGRectMake(horSpace, self.changuePasswordButton!.frame.maxY + topSpace, fieldWidth, 14)
-        self.passworCurrent!.frame = CGRectMake(horSpace, self.passwordInfoLabel!.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.password!.frame = CGRectMake(horSpace, self.passworCurrent!.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.confirmPassword!.frame = CGRectMake(horSpace, self.password!.frame.maxY + topSpace, fieldWidth, fieldHeight)
+        self.changePasswordLabel.frame = CGRect(x: horSpace, y: self.email.frame.maxY + topSpace, width: fieldWidth, height: 28)
+        self.changuePasswordButton!.frame = CGRect(x: horSpace, y: self.changePasswordLabel.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.passwordInfoLabel.frame = CGRect(x: horSpace, y: self.changuePasswordButton!.frame.maxY + topSpace, width: fieldWidth, height: 14)
+        self.passworCurrent!.frame = CGRect(x: horSpace, y: self.passwordInfoLabel!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.password!.frame = CGRect(x: horSpace, y: self.passworCurrent!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.confirmPassword!.frame = CGRect(x: horSpace, y: self.password!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
 
         if self.showPasswordInfo {
-            self.aditionalInfoLabel.frame = CGRectMake(horSpace, self.confirmPassword!.frame.maxY + topSpace, fieldWidth, 28)
+            self.aditionalInfoLabel.frame = CGRect(x: horSpace, y: self.confirmPassword!.frame.maxY + topSpace, width: fieldWidth, height: 28)
         }else{
-            self.aditionalInfoLabel.frame = CGRectMake(horSpace, self.changuePasswordButton!.frame.maxY + topSpace, fieldWidth, 28)
+            self.aditionalInfoLabel.frame = CGRect(x: horSpace, y: self.changuePasswordButton!.frame.maxY + topSpace, width: fieldWidth, height: 28)
         }
         
-        self.gender.frame = CGRectMake(horSpace, self.aditionalInfoLabel.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.birthDate.frame = CGRectMake(horSpace, self.gender.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.ocupation.frame = CGRectMake(horSpace, self.birthDate.frame.maxY + topSpace, fieldWidth, fieldHeight)
+        self.gender.frame = CGRect(x: horSpace, y: self.aditionalInfoLabel.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.birthDate.frame = CGRect(x: horSpace, y: self.gender.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.ocupation.frame = CGRect(x: horSpace, y: self.birthDate.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
         
-        self.phoneInformationLabel.frame = CGRectMake(horSpace, self.ocupation.frame.maxY + topSpace, fieldWidth, 28)
-        self.phoneHome!.frame = CGRectMake(horSpace, self.phoneInformationLabel.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.phoneHomeExtension!.frame = CGRectMake(horSpace, self.phoneHome!.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.cellPhone!.frame = CGRectMake(horSpace, self.phoneHomeExtension!.frame.maxY + topSpace, fieldWidth, fieldHeight)
+        self.phoneInformationLabel.frame = CGRect(x: horSpace, y: self.ocupation.frame.maxY + topSpace, width: fieldWidth, height: 28)
+        self.phoneHome!.frame = CGRect(x: horSpace, y: self.phoneInformationLabel.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.phoneHomeExtension!.frame = CGRect(x: horSpace, y: self.phoneHome!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.cellPhone!.frame = CGRect(x: horSpace, y: self.phoneHomeExtension!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
         
-        self.associateLabel.frame = CGRectMake(horSpace, self.cellPhone!.frame.maxY + topSpace, fieldWidth, 28)
-        self.isAssociateButton!.frame = CGRectMake(horSpace, self.associateLabel.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.associateNumber!.frame = CGRectMake(horSpace, self.isAssociateButton!.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.associateDeterminant!.frame = CGRectMake(horSpace, self.associateNumber!.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.associateDate!.frame = CGRectMake(horSpace, self.associateDeterminant!.frame.maxY + topSpace, fieldWidth, fieldHeight)
+        self.associateLabel.frame = CGRect(x: horSpace, y: self.cellPhone!.frame.maxY + topSpace, width: fieldWidth, height: 28)
+        self.isAssociateButton!.frame = CGRect(x: horSpace, y: self.associateLabel.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.associateNumber!.frame = CGRect(x: horSpace, y: self.isAssociateButton!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.associateDeterminant!.frame = CGRect(x: horSpace, y: self.associateNumber!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
+        self.associateDate!.frame = CGRect(x: horSpace, y: self.associateDeterminant!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
         
         if self.showAssociateInfo {
-            self.legalInformationLabel!.frame = CGRectMake(horSpace, self.associateDate!.frame.maxY + horSpace, 103, 14)
-            self.legalInformation!.frame = CGRectMake(self.legalInformationLabel!.frame.maxX, self.associateDate!.frame.maxY + horSpace, fieldWidth - 103, 14)
+            self.legalInformationLabel!.frame = CGRect(x: horSpace, y: self.associateDate!.frame.maxY + horSpace, width: 103, height: 14)
+            self.legalInformation!.frame = CGRect(x: self.legalInformationLabel!.frame.maxX, y: self.associateDate!.frame.maxY + horSpace, width: fieldWidth - 103, height: 14)
         }else{
-            self.legalInformationLabel!.frame = CGRectMake(horSpace, self.isAssociateButton!.frame.maxY + horSpace, 103, 14)
-            self.legalInformation!.frame = CGRectMake(self.legalInformationLabel!.frame.maxX, self.isAssociateButton!.frame.maxY + horSpace, fieldWidth - 103, 14)
+            self.legalInformationLabel!.frame = CGRect(x: horSpace, y: self.isAssociateButton!.frame.maxY + horSpace, width: 103, height: 14)
+            self.legalInformation!.frame = CGRect(x: self.legalInformationLabel!.frame.maxX, y: self.isAssociateButton!.frame.maxY + horSpace, width: fieldWidth - 103, height: 14)
         }
         
         let downSpace: CGFloat = self.showTabbar ? CGFloat(156.0) : CGFloat(110.0)
         self.content.contentSize = CGSize(width: bounds.width, height:  self.legalInformation!.frame.maxY + horSpace)
-        self.content.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - downSpace)
+        self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY , width: self.view.bounds.width , height: self.view.bounds.height - downSpace)
         
-        self.layerLine.frame = CGRectMake(0, self.content.frame.maxY, self.view.bounds.width, 1)
-        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
-        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
+        self.layerLine.frame = CGRect(x: 0, y: self.content.frame.maxY, width: self.view.bounds.width, height: 1)
+        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
+        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
     }
     
     /**
@@ -519,10 +519,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.email!.text = user.email as String
             self.lastName!.text = user.profile.lastName as String
             self.gender!.text = user.profile.sex as String
-            self.selectedGender = NSIndexPath(forRow:(self.gender!.text == NSLocalizedString("profile.gender.male",comment:"") ? 1 : 0), inSection: 0)
+            self.selectedGender = IndexPath(row:(self.gender!.text == NSLocalizedString("profile.gender.male",comment:"") ? 1 : 0), section: 0)
             self.ocupation!.text = user.profile.profession as String
-            if let date = self.parseFmt!.dateFromString(user.profile.birthDate as String) {
-                self.birthDate!.text = self.dateFmt!.stringFromDate(date)
+            if let date = self.parseFmt!.date(from: user.profile.birthDate as String) {
+                self.birthDate!.text = self.dateFmt!.string(from: date)
                 self.dateSelected = date
                 self.inputBirthdateView!.date = date
             }
@@ -532,11 +532,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             
             if user.profile.associateNumber as String != "" {
                 self.showAssociateInfo = true
-                self.isAssociateButton?.selected = true
+                self.isAssociateButton?.isSelected = true
                 self.associateNumber!.text = user.profile.associateNumber as String
                 self.associateDeterminant!.text = user.profile.associateStore as String
-                if let associateDate = self.parseFmt!.dateFromString(user.profile.joinDate as String) {
-                    self.associateDate!.text = self.dateFmt!.stringFromDate(associateDate)
+                if let associateDate = self.parseFmt!.date(from: user.profile.joinDate as String) {
+                    self.associateDate!.text = self.dateFmt!.string(from: associateDate)
                     self.associateDateSelected = associateDate
                     self.inputAssociateDateView!.date = associateDate
                 }
@@ -554,20 +554,20 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             print(result)
             if let code = result["codeMessage"] as? Int {
                 if code == 0{
-                    self.ocupation.enabled = true
+                    self.ocupation.isEnabled = true
                     let responceObject = result["responseObject"] as! [String:AnyObject]
                     self.occupationList = responceObject["occupationList"] as! [String]
                 }else{
                    self.occupationList = []
-                   self.ocupation.enabled = false
+                   self.ocupation.isEnabled = false
                 }
             }else{
                 self.occupationList = []
-                self.ocupation.enabled = false
+                self.ocupation.isEnabled = false
             }
            }, errorBlock: {(error) -> Void in
                self.occupationList = []
-               self.ocupation.enabled = false
+               self.ocupation.isEnabled = false
         })
     }
     
@@ -576,7 +576,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      */
     func dateChanged() {
         let date = self.inputBirthdateView!.date
-        self.birthDate!.text = self.dateFmt!.stringFromDate(date)
+        self.birthDate!.text = self.dateFmt!.string(from: date)
         self.dateSelected = date
     }
     
@@ -586,28 +586,28 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 
     func associateDateChanged(){
         let date = self.inputAssociateDateView!.date
-        self.associateDate!.text = self.dateFmt!.stringFromDate(date)
+        self.associateDate!.text = self.dateFmt!.string(from: date)
         self.associateDateSelected = date
         //TODO: validar al entrar al perfil que se mande con el formato correcto.
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
-        self.dateBriday = dateFormatter.stringFromDate(date)
+        self.dateBriday = dateFormatter.string(from: date)
        
     }
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.view.frame.width, content.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: content.contentSize.height)
     }
     
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     
     //MARK: - TextFieldDelegate
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let fieldString = strNSString.replacingCharacters(in: range, with: string)
         
         if textField == self.phoneHome! && fieldString.length() > 10 {
             return false
@@ -624,13 +624,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return true
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if errorView != nil{
             if errorView!.focusError == textField &&  errorView?.superview != nil {
                 errorView?.removeFromSuperview()
                 errorView!.focusError = nil
                 errorView = nil
-                self.content.frame = CGRectMake(0, self.header!.frame.maxY  , self.view.bounds.width , self.view.bounds.height - 110.0 )
+                self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY  , width: self.view.bounds.width , height: self.view.bounds.height - 110.0 )
             }
         }
     }
@@ -657,7 +657,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      
      - parameter sender: save button
      */
-    func save(sender:UIButton) {
+    func save(_ sender:UIButton) {
         if showPasswordInfo {
             self.updatePassword()
         }
@@ -721,8 +721,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                 self.alertView!.showDoneIcon()
             }
             if self.delegate == nil {
-                self.navigationController!.popViewControllerAnimated(true)
-                NSNotificationCenter.defaultCenter().postNotificationName("RELOAD_PROFILE", object: nil)
+                self.navigationController!.popViewController(animated: true)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "RELOAD_PROFILE"), object: nil)
             }
             else{
                 self.delegate.finishSave()
@@ -831,13 +831,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             error = viewError(birthDate!)
         }
         
-        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-        let currentDate = NSDate()
-        let comps = NSDateComponents()
+        let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+        let currentDate = Date()
+        var comps = DateComponents()
         comps.year = -18
-        let maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        let maxDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
         
-        if self.inputBirthdateView?.date.compare(maxDate!) != NSComparisonResult.OrderedDescending
+        if self.inputBirthdateView?.date.compare(maxDate!) != ComparisonResult.orderedDescending
         {
             if self.errorView == nil{
             self.errorView = FormFieldErrorView()
@@ -873,7 +873,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      
      - returns: Bool
      */
-    func viewError(field: FormFieldView)-> Bool{
+    func viewError(_ field: FormFieldView)-> Bool{
         let message = field.validate()
         if message != nil{
             if self.errorView == nil{
@@ -882,7 +882,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             SignUpViewController.presentMessage(field,  nameField:field.nameField , message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
             
             if field == self.name {
-                self.content.frame = CGRectMake(0, self.header!.frame.maxY + 25 , self.view.bounds.width , self.view.bounds.height - 110.0)
+                self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY + 25 , width: self.view.bounds.width , height: self.view.bounds.height - 110.0)
             }
             return true
         }
@@ -895,10 +895,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      
      - parameter sender: UIButton
      */
-    func showAssociateData(sender:UIButton) {
-        self.isAssociateButton!.selected = !self.isAssociateButton!.selected
-        self.showAssociateInfo = self.isAssociateButton!.selected
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+    func showAssociateData(_ sender:UIButton) {
+        self.isAssociateButton!.isSelected = !self.isAssociateButton!.isSelected
+        self.showAssociateInfo = self.isAssociateButton!.isSelected
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.associateNumber!.alpha = self.showAssociateInfo ? 1.0 : 0.0
             self.associateDeterminant!.alpha = self.showAssociateInfo ? 1.0 : 0.0
             self.associateDate!.alpha = self.showAssociateInfo ? 1.0 : 0.0
@@ -912,10 +912,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      - parameter sender: UIButton
      */
 
-    func showPasswordData(sender:UIButton) {
-        self.changuePasswordButton!.selected = !self.changuePasswordButton!.selected
-        self.showPasswordInfo = self.changuePasswordButton!.selected
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+    func showPasswordData(_ sender:UIButton) {
+        self.changuePasswordButton!.isSelected = !self.changuePasswordButton!.isSelected
+        self.showPasswordInfo = self.changuePasswordButton!.isSelected
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.passwordInfoLabel.alpha = self.showPasswordInfo ? 1.0 : 0.0
             self.passworCurrent!.alpha = self.showPasswordInfo ? 1.0 : 0.0
             self.password!.alpha = self.showPasswordInfo ? 1.0 : 0.0
@@ -927,14 +927,14 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     //MARK: Tabbar Notification
     override func willShowTabbar() {
         self.showTabbar = true
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.buildComponetViews()
         })
     }
     
     override func willHideTabbar() {
         self.showTabbar = false
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.buildComponetViews()
         })
     }
@@ -954,7 +954,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     func noticePrivacy() {
         let controller = PreviewHelpViewController()
         let name = NSLocalizedString("profile.terms.privacy", comment: "")
-        controller.titleText = NSLocalizedString(name, comment: "")
+        controller.titleText = NSLocalizedString(name, comment: "") as NSString!
         controller.resource = "privacy"
         controller.type = "pdf"
         self.navigationController!.pushViewController(controller, animated: true)
@@ -971,7 +971,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     //MARK: - AlertPickerSelectOptionDelegate
-    func didSelectOptionAtIndex(indexPath: NSIndexPath){
+    func didSelectOptionAtIndex(_ indexPath: IndexPath){
         if self.errorView != nil{
             self.errorView!.removeFromSuperview()
             self.errorView!.focusError = nil
@@ -980,12 +980,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         let sender = self.picker.sender as? FormFieldView
         if sender == self.gender {
             self.selectedGender = indexPath
-            self.gender?.text = indexPath.row == 1 ? NSLocalizedString("profile.gender.male",comment:"") : NSLocalizedString("profile.gender.female",comment:"")
+            self.gender?.text = (indexPath as NSIndexPath).row == 1 ? NSLocalizedString("profile.gender.male",comment:"") : NSLocalizedString("profile.gender.female",comment:"")
             self.gender?.layer.borderWidth = 0
         }
         if sender == self.ocupation {
             self.selectedOccupation = indexPath
-            self.ocupation?.text = self.occupationList[indexPath.row]
+            self.ocupation?.text = self.occupationList[(indexPath as NSIndexPath).row]
             self.ocupation?.layer.borderWidth = 0
         }
     }

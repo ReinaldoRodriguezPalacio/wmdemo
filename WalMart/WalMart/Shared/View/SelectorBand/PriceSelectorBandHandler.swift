@@ -12,16 +12,16 @@ class PriceSelectorBandHandler: SelectorBandHandler {
     
     var button: UIButton!
     //var price: CurrencyCustomLabel?
-    var currencyFmt: NSNumberFormatter?
+    var currencyFmt: NumberFormatter?
     var tapGesture: UITapGestureRecognizer!
 
-    override func buildSelector(frame:CGRect) -> UIView? {
+    override func buildSelector(_ frame:CGRect) -> UIView? {
         
-        self.currencyFmt = NSNumberFormatter()
-        self.currencyFmt!.numberStyle = .CurrencyStyle
+        self.currencyFmt = NumberFormatter()
+        self.currencyFmt!.numberStyle = .currency
         self.currencyFmt!.minimumFractionDigits = 2
         self.currencyFmt!.maximumFractionDigits = 2
-        self.currencyFmt!.locale = NSLocale(localeIdentifier: "es_MX")
+        self.currencyFmt!.locale = Locale(identifier: "es_MX")
 
         self.selectorNormalFont = WMFont.fontMyriadProSemiboldOfSize(14)
         self.selectorSelectedFont =  WMFont.fontMyriadProSemiboldOfSize(14)
@@ -31,10 +31,10 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         //self.container!.layer.borderWidth = 1
         self.container!.clipsToBounds = true
         
-        self.button = UIButton(type: .Custom)
-        self.button!.frame = CGRectMake(frame.width - frame.size.height, 0.0 , frame.size.height, frame.size.height)
-        self.button!.addTarget(self, action: #selector(PriceSelectorBandHandler.showBand(_:)), forControlEvents: .TouchUpInside)
-        self.button!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.button = UIButton(type: .custom)
+        self.button!.frame = CGRect(x: frame.width - frame.size.height, y: 0.0 , width: frame.size.height, height: frame.size.height)
+        self.button!.addTarget(self, action: #selector(PriceSelectorBandHandler.showBand(_:)), for: .touchUpInside)
+        self.button!.setTitleColor(UIColor.white, for: UIControlState())
         self.button!.backgroundColor = WMColor.yellow
         self.button!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         self.button!.layer.cornerRadius = frame.size.height / 2
@@ -42,7 +42,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.container!.addSubview(self.button!)
 
         //self.price = CurrencyCustomLabel(frame: CGRectMake(0, 0, 0, 14))
-        self.container!.backgroundColor = UIColor.clearColor()
+        self.container!.backgroundColor = UIColor.clear
         //self.container!.addSubview(self.price!)
         
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(PriceSelectorBandHandler.didTap));
@@ -52,10 +52,10 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.bandLayout!.minimumInteritemSpacing = 0.0
         self.bandLayout!.minimumLineSpacing = 0.0
         self.bandLayout!.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-        self.bandLayout!.scrollDirection = .Horizontal
-        self.bandLayout!.itemSize = CGSizeMake(frame.size.height , frame.size.height)
+        self.bandLayout!.scrollDirection = .horizontal
+        self.bandLayout!.itemSize = CGSize(width: frame.size.height , height: frame.size.height)
         
-        self.band = UICollectionView(frame: CGRectMake(frame.size.width,0.0,frame.size.width, frame.size.height), collectionViewLayout: self.bandLayout!)
+        self.band = UICollectionView(frame: CGRect(x: frame.size.width,y: 0.0,width: frame.size.width, height: frame.size.height), collectionViewLayout: self.bandLayout!)
         self.band!.layer.cornerRadius = frame.size.height / 2
         //self.band!.layer.borderWidth = 1
         self.band!.backgroundColor = WMColor.yellow
@@ -63,8 +63,8 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.band!.showsVerticalScrollIndicator = false
         self.band!.delegate = self
         self.band!.dataSource = self
-        self.band!.registerClass(PriceSelectorBandCell.self, forCellWithReuseIdentifier: "Cell")
-        self.band!.registerClass(PriceSelectorTrashCell.self, forCellWithReuseIdentifier: "Trash")
+        self.band!.register(PriceSelectorBandCell.self, forCellWithReuseIdentifier: "Cell")
+        self.band!.register(PriceSelectorTrashCell.self, forCellWithReuseIdentifier: "Trash")
         
         self.container!.addSubview(self.band!)
         self.selectedOption = 1
@@ -74,9 +74,9 @@ class PriceSelectorBandHandler: SelectorBandHandler {
     
     func setValues(forQuantity quantity:Int, withPrice value:Double) {
         self.selectedOption = quantity
-        self.button!.setTitle("\(quantity)", forState: .Normal)
+        self.button!.setTitle("\(quantity)", for: UIControlState())
         let calculated: Double = value * Double(quantity)
-        let resultStr = CurrencyCustomLabel.formatString(NSNumber(double: calculated).stringValue)
+        let resultStr = CurrencyCustomLabel.formatString(NSNumber(value: calculated as Double).stringValue)
         self.totalString = resultStr
         //var title = "Añadir \(resultStr)"
         /*self.price!.updateMount(title, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
@@ -85,7 +85,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.price!.frame = CGRectMake((self.container!.frame.size.width / 2) - ((sizeLabel.width + 5.0) / 2), (self.container!.frame.size.height - sizeLabel.height)/2, sizeLabel.width, sizeLabel.height)*/
     }
     
-    func showBand(sender:UIButton) {
+    func showBand(_ sender:UIButton) {
         
         self.band!.reloadData()
         /*if self.selectedOption > -1 {
@@ -94,18 +94,18 @@ class PriceSelectorBandHandler: SelectorBandHandler {
             self.band!.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .Left , animated: false)
         }*/
         let frame = self.container!.frame
-        self.band!.frame = CGRectMake(self.container!.frame.width  ,0.0,0.0, frame.size.height)
-        UIView.animateWithDuration(animationSpeed, animations:{
-            self.band!.frame = CGRectMake(0.0,0.0,frame.size.width , frame.size.height)
+        self.band!.frame = CGRect(x: self.container!.frame.width  ,y: 0.0,width: 0.0, height: frame.size.height)
+        UIView.animate(withDuration: animationSpeed, animations:{
+            self.band!.frame = CGRect(x: 0.0,y: 0.0,width: frame.size.width , height: frame.size.height)
             }, completion: {(completed: Bool) in
                 if completed == true {
                     self.isShowingScroll = true
                     self.delegate?.startEdditingQuantity()
-                    self.tapGesture.enabled = false
-                    self.timer = NSTimer(fireDate:NSDate(timeIntervalSinceNow:10), interval:5.0, target:self, selector:#selector(SelectorBandHandler.removeBand), userInfo:nil, repeats:true)
-                    let runner = NSRunLoop.currentRunLoop()
-                    runner.addTimer(self.timer!, forMode: NSDefaultRunLoopMode)
-                    self.container?.bringSubviewToFront(self.band!)
+                    self.tapGesture.isEnabled = false
+                    self.timer = Timer(fireAt:Date(timeIntervalSinceNow:10), interval:5.0, target:self, selector:#selector(SelectorBandHandler.removeBand), userInfo:nil, repeats:true)
+                    let runner = RunLoop.current
+                    runner.add(self.timer!, forMode: RunLoopMode.defaultRunLoopMode)
+                    self.container?.bringSubview(toFront: self.band!)
                 }
         })
     }
@@ -120,13 +120,13 @@ class PriceSelectorBandHandler: SelectorBandHandler {
             return
         }
         
-        UIView.animateWithDuration(animationSpeed, animations:{
+        UIView.animate(withDuration: animationSpeed, animations:{
             let frame = self.container!.frame
-            self.band!.frame = CGRectMake(frame.size.width,0.0,0, frame.size.height)
+            self.band!.frame = CGRect(x: frame.size.width,y: 0.0,width: 0, height: frame.size.height)
             },
             completion: {(Bool) in
                 self.timer!.invalidate()
-                self.tapGesture.enabled = true
+                self.tapGesture.isEnabled = true
                 self.isShowingScroll = false
                 self.delegate?.endEdditingQuantity()
         })
@@ -134,41 +134,41 @@ class PriceSelectorBandHandler: SelectorBandHandler {
     
     func closeBand(){
         let frame = self.container!.frame
-        self.band!.frame = CGRectMake(frame.size.width,0.0,0, frame.size.height)
-        self.tapGesture.enabled = true
+        self.band!.frame = CGRect(x: frame.size.width,y: 0.0,width: 0, height: frame.size.height)
+        self.tapGesture.isEnabled = true
         self.isShowingScroll = false
     }
 
     //MARK: - UICollectionView
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.numberOfOptions! + 1
     }
     
-    override  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Trash", forIndexPath: indexPath) as! PriceSelectorTrashCell
+    override  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if (indexPath as NSIndexPath).row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Trash", for: indexPath) as! PriceSelectorTrashCell
             return cell
         }
-        let cell: PriceSelectorBandCell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! PriceSelectorBandCell
+        let cell: PriceSelectorBandCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PriceSelectorBandCell
         cell.normalFont = self.selectorNormalFont
         cell.selectedFont = self.selectorSelectedFont
-        cell.setText("\(indexPath.item)", selected: self.selectedOption == indexPath.item)
+        cell.setText("\((indexPath as NSIndexPath).item)", selected: self.selectedOption == (indexPath as NSIndexPath).item)
         return cell
     }
 
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.row == 0 {
-            UIView.animateWithDuration(animationSpeed,
+        if (indexPath as NSIndexPath).row == 0 {
+            UIView.animate(withDuration: animationSpeed,
                 animations:{
                     let frame = self.container!.frame
-                    self.band!.frame = CGRectMake(frame.size.width,0.0,0.0, frame.size.height)
+                    self.band!.frame = CGRect(x: frame.size.width,y: 0.0,width: 0.0, height: frame.size.height)
                 },
                 completion: {(finished:Bool) in
                     if finished {
                         self.isShowingScroll = false
                         self.delegate?.endEdditingQuantity()
-                        self.tapGesture.enabled = true
+                        self.tapGesture.isEnabled = true
                         self.selectedOption = -1
                         self.delegate?.deleteProduct()
                     }
@@ -176,23 +176,23 @@ class PriceSelectorBandHandler: SelectorBandHandler {
             return
         }
 
-        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SelectorBandCell {
-            cell.setText("\(indexPath.item)", selected: true)
+        if let cell = collectionView.cellForItem(at: indexPath) as? SelectorBandCell {
+            cell.setText("\((indexPath as NSIndexPath).item)", selected: true)
         }
         
-        let option = indexPath.item
+        let option = (indexPath as NSIndexPath).item
         if self.isShowingScroll {
-            self.button!.setTitle("\(option)", forState: .Normal)
-            UIView.animateWithDuration(animationSpeed,
+            self.button!.setTitle("\(option)", for: UIControlState())
+            UIView.animate(withDuration: animationSpeed,
                 animations:{
                     let frame = self.container!.frame
-                    self.band!.frame = CGRectMake(frame.size.width,0.0,0.0, frame.size.height)
+                    self.band!.frame = CGRect(x: frame.size.width,y: 0.0,width: 0.0, height: frame.size.height)
                 },
                 completion: {(finished:Bool) in
                     if finished {
                         self.isShowingScroll = false
                         self.delegate?.endEdditingQuantity()
-                        self.tapGesture.enabled = true
+                        self.tapGesture.isEnabled = true
                         if option != self.selectedOption {
                             self.selectedOption = option
                             self.delegate?.addProductQuantity(self.selectedOption)

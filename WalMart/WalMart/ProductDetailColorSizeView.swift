@@ -7,9 +7,29 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 protocol ProductDetailColorSizeDelegate {
-    func selectDetailItem(selected:String, itemType: String)
+    func selectDetailItem(_ selected:String, itemType: String)
 }
 
 class ProductDetailColorSizeView: UIView {
@@ -37,24 +57,24 @@ class ProductDetailColorSizeView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.bottomBorder.frame = CGRectMake(0.0, self.frame.height - 1, self.frame.size.width, 1)
-        self.topBorder.frame = CGRectMake(0.0, 0.0, self.frame.size.width, 1)
+        self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
+        self.topBorder.frame = CGRect(x: 0.0, y: 0.0, width: self.frame.size.width, height: 1)
         buildItemsView()
     }
 
     
     func setup() {
-        self.scrollView = UIScrollView(frame: CGRectMake(0, 0, self.frame.width, self.frame.height))
-        self.scrollView?.scrollEnabled = false
+        self.scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        self.scrollView?.isScrollEnabled = false
         self.viewToInsert = UIView(frame: self.frame)
         self.viewToInsert! = self
         self.bottomBorder = CALayer()
-        self.bottomBorder.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(bottomBorder, atIndex: 99)
+        self.bottomBorder.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(bottomBorder, at: 99)
         self.topBorder = CALayer()
-        self.topBorder.backgroundColor = WMColor.light_light_gray.CGColor
+        self.topBorder.backgroundColor = WMColor.light_light_gray.cgColor
         if self.showTopBorder {
-          self.layer.insertSublayer(topBorder, atIndex: 100)
+          self.layer.insertSublayer(topBorder, at: 100)
         }
         buildItemsView()
     }
@@ -80,9 +100,9 @@ class ProductDetailColorSizeView: UIView {
             var startPos = CGFloat(viewWidthCenter) - CGFloat(butonsWidthCenter)
             if CGFloat(self.frame.width) < CGFloat(butonsWidthCenter * 2)
             {
-                self.scrollView = UIScrollView(frame: CGRectMake(0, 0, self.frame.width, self.frame.height))
-                self.scrollView!.scrollEnabled = true
-                self.scrollView!.contentSize = CGSizeMake(CGFloat(butonsWidthCenter * 2), self.frame.height)
+                self.scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+                self.scrollView!.isScrollEnabled = true
+                self.scrollView!.contentSize = CGSize(width: CGFloat(butonsWidthCenter * 2), height: self.frame.height)
                 viewToInsert = self.scrollView!
                 self.addSubview(scrollView!)
                 startPos = 0
@@ -105,64 +125,64 @@ class ProductDetailColorSizeView: UIView {
         }
     }
     
-    func buildColorButton(item: [String:AnyObject], position:CGFloat, buttonPositionY:CGFloat, count: Int){
-        let backView = UIView(frame: CGRectMake(position, buttonPositionY, CGFloat(backViewWidth), CGFloat(backViewWidth)))
+    func buildColorButton(_ item: [String:AnyObject], position:CGFloat, buttonPositionY:CGFloat, count: Int){
+        let backView = UIView(frame: CGRect(x: position, y: buttonPositionY, width: CGFloat(backViewWidth), height: CGFloat(backViewWidth)))
         backView.layer.cornerRadius = 4
         let tap = UITapGestureRecognizer(target: self, action: #selector(ProductDetailColorSizeView.backViewTap(_:)))
         backView.addGestureRecognizer(tap)
             
-        let colorButton = UIButton(type: UIButtonType.Custom)
+        let colorButton = UIButton(type: UIButtonType.custom)
         let buttonPosition = (CGFloat(backViewWidth) - CGFloat(buttonWidth)) / 2
-        colorButton.frame = CGRectMake(CGFloat(buttonPosition), CGFloat(buttonPosition), CGFloat(buttonWidth), CGFloat(buttonWidth))
+        colorButton.frame = CGRect(x: CGFloat(buttonPosition), y: CGFloat(buttonPosition), width: CGFloat(buttonWidth), height: CGFloat(buttonWidth))
         colorButton.layer.cornerRadius = 2
         var stringColor: String = item["value"]! as! String
-        if stringColor.containsString("#"){
-            stringColor = stringColor.substringFromIndex(stringColor.startIndex.advancedBy(1))
+        if stringColor.contains("#"){
+            stringColor = stringColor.substring(from: stringColor.characters.index(stringColor.startIndex, offsetBy: 1))
         }
         let intColor = UInt(stringColor, radix: 16)
         colorButton.backgroundColor = WMColor.UIColorFromRGB(intColor!, alpha: 1.0)
-        colorButton.addTarget(self, action: #selector(ProductDetailColorSizeView.selectColor(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        colorButton.addTarget(self, action: #selector(ProductDetailColorSizeView.selectColor(_:)), for: UIControlEvents.touchUpInside)
         colorButton.tag = count
         if intColor >= 16770000 {
             colorButton.layer.borderWidth = 0.5
-            colorButton.layer.borderColor = WMColor.dark_gray.CGColor
+            colorButton.layer.borderColor = WMColor.dark_gray.cgColor
             colorButton.layer.cornerRadius = 2
         }else{
-            colorButton.layer.borderColor = UIColor.whiteColor().CGColor
+            colorButton.layer.borderColor = UIColor.white.cgColor
             colorButton.layer.borderWidth = 0.0
         }
         
         if item["selected"]! as! Bool {
             backView.layer.borderWidth = 1
-            backView.layer.borderColor = WMColor.reg_gray.CGColor
+            backView.layer.borderColor = WMColor.reg_gray.cgColor
         }
 
         backView.addSubview(colorButton)
         self.viewToInsert!.addSubview(backView)
     }
     
-    func buildTextButton(item: [String:AnyObject], position:CGFloat, buttonPositionY:CGFloat, count: Int) -> CGFloat{
+    func buildTextButton(_ item: [String:AnyObject], position:CGFloat, buttonPositionY:CGFloat, count: Int) -> CGFloat{
         let sizeButonWidth = self.getButtonWidth(item["value"] as? String)
         let backViewSizeWidth = sizeButonWidth + 7.0
-        let backView = UIView(frame: CGRectMake(position, buttonPositionY, backViewSizeWidth , CGFloat(backViewWidth)))
+        let backView = UIView(frame: CGRect(x: position, y: buttonPositionY, width: backViewSizeWidth , height: CGFloat(backViewWidth)))
         backView.layer.cornerRadius = 4
             
-        let sizeButton = UIButton(type: UIButtonType.Custom)
+        let sizeButton = UIButton(type: UIButtonType.custom)
         let buttonPosition = (CGFloat(backViewSizeWidth) - CGFloat(sizeButonWidth)) / 2
-        sizeButton.frame = CGRectMake(CGFloat(buttonPosition), 4.8,sizeButonWidth , CGFloat(buttonWidth))
+        sizeButton.frame = CGRect(x: CGFloat(buttonPosition), y: 4.8,width: sizeButonWidth , height: CGFloat(buttonWidth))
         sizeButton.layer.cornerRadius = 2
-        sizeButton.setTitle(item["value"] as? String, forState: UIControlState.Normal)
-        sizeButton.setTitleColor(WMColor.dark_gray, forState: UIControlState.Normal)
-        sizeButton.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
+        sizeButton.setTitle(item["value"] as? String, for: UIControlState())
+        sizeButton.setTitleColor(WMColor.dark_gray, for: UIControlState())
+        sizeButton.setTitleColor(WMColor.light_gray, for: UIControlState.disabled)
         sizeButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        sizeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
-        sizeButton.addTarget(self, action: #selector(ProductDetailColorSizeView.selectSize(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        sizeButton.enabled = item["enabled"] as! Bool
+        sizeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        sizeButton.addTarget(self, action: #selector(ProductDetailColorSizeView.selectSize(_:)), for: UIControlEvents.touchUpInside)
+        sizeButton.isEnabled = item["enabled"] as! Bool
         sizeButton.tag = count
         
         if item["selected"]! as! Bool {
             backView.layer.borderWidth = 1
-            backView.layer.borderColor = WMColor.reg_gray.CGColor
+            backView.layer.borderColor = WMColor.reg_gray.cgColor
         }
 
         backView.addSubview(sizeButton)
@@ -171,58 +191,58 @@ class ProductDetailColorSizeView: UIView {
     }
 
     
-    func getButtonWidth(text:String?) -> CGFloat {
-        let stringSize = text!.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+    func getButtonWidth(_ text:String?) -> CGFloat {
+        let stringSize = text!.size(attributes: [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
         let buttonWidth = stringSize.width < 13 ? 13 : stringSize.width
         return buttonWidth
     }
 
-    func backViewTap(sender: UIGestureRecognizer){
+    func backViewTap(_ sender: UIGestureRecognizer){
         let backView = sender.view!
         let button  = backView.subviews[0] as! UIButton
         selectColor(button)
     }
     
-    func selectColor(sender: AnyObject)
+    func selectColor(_ sender: AnyObject)
     {
         self.clearColorButtons()
         let button  = sender as! UIButton
         let backView = button.superview!
         backView.layer.borderWidth = 1
-        backView.layer.borderColor = WMColor.reg_gray.CGColor
+        backView.layer.borderColor = WMColor.reg_gray.cgColor
         let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
     
     
-    func selectSize(sender: AnyObject)
+    func selectSize(_ sender: AnyObject)
     {
         self.clearColorButtons()
         let button  = sender as! UIButton
         let backView = button.superview!
         backView.layer.borderWidth = 1
-        backView.layer.borderColor = WMColor.reg_gray.CGColor
+        backView.layer.borderColor = WMColor.reg_gray.cgColor
         let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
     
-    func enableButtonWhithTitles(titles: [String])
+    func enableButtonWhithTitles(_ titles: [String])
     {
         clearColorButtons()
         for title in titles{
             for view in self.viewToInsert!.subviews {
-                if view.subviews.count > 0 && view.subviews[0].isKindOfClass(UIButton){
+                if view.subviews.count > 0 && view.subviews[0].isKind(of: UIButton.self){
                     let button = view.subviews[0] as! UIButton
-                    button.enabled = (button.titleLabel?.text == title)
-                    if titles.count == 1 && button.enabled{
-                        button.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+                    button.isEnabled = (button.titleLabel?.text == title)
+                    if titles.count == 1 && button.isEnabled{
+                        button.sendActions(for: UIControlEvents.touchUpInside)
                     }
                 }
             }
         }
     }
     
-    func selectButton(selected: String){
+    func selectButton(_ selected: String){
         var count = 0
         for item in self.items{
             if item["value"] as! String == selected{
@@ -232,10 +252,10 @@ class ProductDetailColorSizeView: UIView {
         }
         
         for view in self.viewToInsert!.subviews {
-            if view.subviews.count > 0 && view.subviews[0].isKindOfClass(UIButton){
+            if view.subviews.count > 0 && view.subviews[0].isKind(of: UIButton.self){
                 let button = view.subviews[0] as! UIButton
                 if button.tag == count {
-                    button.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+                    button.sendActions(for: UIControlEvents.touchUpInside)
                 }
             }
         }
@@ -245,7 +265,7 @@ class ProductDetailColorSizeView: UIView {
         for view in self.viewToInsert!.subviews
         {
             view.layer.borderWidth = 0
-            view.layer.borderColor = UIColor.whiteColor().CGColor
+            view.layer.borderColor = UIColor.white.cgColor
         }
     }
     
@@ -260,11 +280,11 @@ class ProductDetailColorSizeView: UIView {
         }
     }
     
-    func buildItemForColor(item:[String:AnyObject]) -> Bool{
+    func buildItemForColor(_ item:[String:AnyObject]) -> Bool{
         var buildForColors = false
         var unit = item["value"] as! String
-        if unit.containsString("#"){
-            unit = unit.substringFromIndex(unit.startIndex.advancedBy(1))
+        if unit.contains("#"){
+            unit = unit.substring(from: unit.characters.index(unit.startIndex, offsetBy: 1))
         }
         let intColor = UInt(unit, radix: 16)
         buildForColors = (intColor != nil)

@@ -23,7 +23,7 @@ class IPABackToSchoolContainerViewController: UIViewController, IPABackToSchoolV
         self.view.backgroundColor = WMColor.light_light_gray
         
         self.separatorLayer = CALayer()
-        self.separatorLayer!.backgroundColor = WMColor.light_light_gray.CGColor
+        self.separatorLayer!.backgroundColor = WMColor.light_light_gray.cgColor
         
         self.btsController = IPABackToSchoolViewController()
         self.btsController!.urlTicer = self.urlTicer
@@ -31,31 +31,31 @@ class IPABackToSchoolContainerViewController: UIViewController, IPABackToSchoolV
         self.btsController!.btsDelegate = self
         self.addChildViewController(btsController!)
         self.view.addSubview(btsController!.view)
-        btsController!.didMoveToParentViewController(self)
-        btsController!.view.frame = CGRectMake(0.0, 0.0, 341, 658.0)
-        self.btsController!.view.layer.insertSublayer(self.separatorLayer!, atIndex: 1000)
+        btsController!.didMove(toParentViewController: self)
+        btsController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 341, height: 658.0)
+        self.btsController!.view.layer.insertSublayer(self.separatorLayer!, at: 1000)
     }
     
     override func viewWillLayoutSubviews() {
         let bounds = self.view.bounds
-        self.separatorLayer!.frame = CGRectMake(341, 0.0, 1.0, bounds.height)
-        self.btsController!.view.frame = CGRectMake(0.0, 0.0, 342, bounds.height)
+        self.separatorLayer!.frame = CGRect(x: 341, y: 0.0, width: 1.0, height: bounds.height)
+        self.btsController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 342, height: bounds.height)
     }
     
     //MARK: IPABackToSchoolViewControllerDelegate
     
-    func schoolSelected(familyId: String, schoolName: String) {
+    func schoolSelected(_ familyId: String, schoolName: String) {
         let gradesListController = GradesListViewController()
         gradesListController.departmentId = self.departmentId
         gradesListController.familyId = familyId
         gradesListController.schoolName = schoolName
         
         let navController = UINavigationController(rootViewController: gradesListController)
-        navController.navigationBarHidden = true
+        navController.isNavigationBarHidden = true
         self.addChildViewController(navController)
         self.view.addSubview(navController.view)
-        navController.didMoveToParentViewController(self)
-        navController.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
+        navController.didMove(toParentViewController: self)
+        navController.view.frame = CGRect(x: 342.0, y: 0.0, width: 682.0, height: 658.0)
         self.detailController = navController
     }
 }

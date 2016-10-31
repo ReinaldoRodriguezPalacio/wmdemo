@@ -15,7 +15,7 @@ class ProductTableViewCell : SWTableViewCell {
     var productImage : UIImageView? = nil
     var productShortDescriptionLabel : UILabel? = nil
     var productPriceLabel : CurrencyCustomLabel? = nil
-    let contentModeOrig = UIViewContentMode.ScaleAspectFit
+    let contentModeOrig = UIViewContentMode.scaleAspectFit
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,16 +35,16 @@ class ProductTableViewCell : SWTableViewCell {
     func setup() {
         
         productImage = UIImageView()
-        productImage?.contentMode = UIViewContentMode.ScaleAspectFit
+        productImage?.contentMode = UIViewContentMode.scaleAspectFit
         
         productShortDescriptionLabel = UILabel()
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         productShortDescriptionLabel!.numberOfLines = 2
         productShortDescriptionLabel!.textColor =  WMColor.reg_gray
-        productShortDescriptionLabel!.textAlignment = .Left
+        productShortDescriptionLabel!.textAlignment = .left
         
         
-        productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)
+        productPriceLabel = CurrencyCustomLabel(frame: CGRect.zero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
         //productPriceLabel!.textColor = WMColor.orange
         
@@ -53,7 +53,7 @@ class ProductTableViewCell : SWTableViewCell {
         self.contentView.addSubview(productPriceLabel!)
         
 
-        productPriceLabel!.backgroundColor = UIColor.whiteColor()
+        productPriceLabel!.backgroundColor = UIColor.white
     }
     /**
      Set image in cell from url, price and product description
@@ -62,12 +62,12 @@ class ProductTableViewCell : SWTableViewCell {
      - parameter productShortDescription: product description
      - parameter productPrice:            product price
      */
-    func setValues(productImageURL:String,productShortDescription:String,productPrice:String) {
+    func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String) {
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
         
-        self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURL(NSURL(string: productImageURL), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.productImage!.contentMode = UIViewContentMode.center
+        self.productImage!.setImageWith(URL(string: productImageURL), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
             self.productImage!.contentMode = self.contentModeOrig
             self.productImage!.image = image
             }, failure: nil)

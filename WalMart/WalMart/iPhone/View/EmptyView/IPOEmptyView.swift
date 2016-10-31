@@ -10,14 +10,14 @@
 
 import Foundation
 
-let IS_IPAD = (UIDevice.currentDevice().model.lowercaseString.uppercaseString.rangeOfString("IPAD") == nil ? false : true )
-let IS_IPHONE = (UIDevice.currentDevice().model.lowercaseString.uppercaseString.rangeOfString("IPHONE") == nil ? false : true )
-let IS_IPOD = (UIDevice.currentDevice().model.lowercaseString.uppercaseString.rangeOfString("IPOD") == nil ? false : true )
-let IS_RETINA = (UIScreen.mainScreen().scale >= 2.0)
-let IS_IPAD_MINI = (UIDevice.currentDevice().modelName.lowercaseString.uppercaseString.rangeOfString("IPAD MINI") == nil ? false : true)
+let IS_IPAD = (UIDevice.current.model.lowercased().uppercased().range(of: "IPAD") == nil ? false : true )
+let IS_IPHONE = (UIDevice.current.model.lowercased().uppercased().range(of: "IPHONE") == nil ? false : true )
+let IS_IPOD = (UIDevice.current.model.lowercased().uppercased().range(of: "IPOD") == nil ? false : true )
+let IS_RETINA = (UIScreen.main.scale >= 2.0)
+let IS_IPAD_MINI = (UIDevice.current.modelName.lowercased.uppercased().range(of: "IPAD MINI") == nil ? false : true)
 
-let SCREEN_WIDTH =  UIScreen.mainScreen().bounds.size.width
-let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
+let SCREEN_WIDTH =  UIScreen.main.bounds.size.width
+let SCREEN_HEIGHT = UIScreen.main.bounds.size.height
 let SCREEN_MAX_LENGTH = (max(SCREEN_WIDTH, SCREEN_HEIGHT))
 let SCREEN_MIN_LENGTH = (min(SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -26,7 +26,7 @@ let IS_IPHONE_5 = (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
 let IS_IPHONE_6 = (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 let IS_IPHONE_6P = (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-let IS_IOS8_OR_LESS = (NSString(string: UIDevice.currentDevice().systemVersion).doubleValue < 9.0)
+let IS_IOS8_OR_LESS = (NSString(string: UIDevice.current.systemVersion).doubleValue < 9.0)
 
 class IPOEmptyView : UIView {
     
@@ -52,16 +52,16 @@ class IPOEmptyView : UIView {
         descLabel = UILabel()
         descLabel.font = WMFont.fontMyriadProLightOfSize(14)
         descLabel.textColor = WMColor.light_blue
-        descLabel.textAlignment = NSTextAlignment.Center
+        descLabel.textAlignment = NSTextAlignment.center
         
         returnButton = UIButton()
-        returnButton.titleLabel?.textColor = UIColor.whiteColor()
+        returnButton.titleLabel?.textColor = UIColor.white
         returnButton.layer.cornerRadius = 20
         returnButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
         returnButton.backgroundColor = WMColor.light_blue
-        returnButton.setTitle(NSLocalizedString("empty.return",comment:""), forState: UIControlState.Normal)
-        returnButton.addTarget(self, action: #selector(IPOEmptyView.returnActionSel), forControlEvents: UIControlEvents.TouchUpInside)
+        returnButton.setTitle(NSLocalizedString("empty.return",comment:""), for: UIControlState())
+        returnButton.addTarget(self, action: #selector(IPOEmptyView.returnActionSel), for: UIControlEvents.touchUpInside)
         
         self.addSubview(iconImageView)
         self.addSubview(descLabel)
@@ -70,15 +70,15 @@ class IPOEmptyView : UIView {
             self.addSubview(returnButton)
         //}
         
-        self.insertSubview(iconImageView, atIndex: 0)
+        self.insertSubview(iconImageView, at: 0)
     }
     
     override func layoutSubviews() {
         if iconImageView != nil && iconImageView.image != nil {
-         iconImageView.frame = CGRectMake(0.0, 0.0,  self.bounds.width,  iconImageView.image!.size.height)//  self.bounds.height)
+         iconImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height: iconImageView.image!.size.height)//  self.bounds.height)
         }
-        self.descLabel.frame = CGRectMake(0.0, 28.0, self.bounds.width, 16.0)
-        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.size.height - 200, 160 , 40)
+        self.descLabel.frame = CGRect(x: 0.0, y: 28.0, width: self.bounds.width, height: 16.0)
+        self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.size.height - 200, width: 160 , height: 40)
     }
 
     func returnActionSel() {
@@ -94,7 +94,7 @@ public extension UIDevice {
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
         let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8 where value != 0 else { return identifier }
+            guard let value = element.value as? Int8 , value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         

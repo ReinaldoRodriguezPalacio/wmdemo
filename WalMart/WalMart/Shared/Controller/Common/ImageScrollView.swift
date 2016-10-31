@@ -12,7 +12,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
 
     var imageView: UIImageView?
     var index: Int?
-    let contentModeOrig = UIViewContentMode.ScaleAspectFit
+    let contentModeOrig = UIViewContentMode.scaleAspectFit
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -40,7 +40,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
     }
     
     //MARK: - TapHandlers
-    func scrollViewDoubleTapped(sender:UIGestureRecognizer) {
+    func scrollViewDoubleTapped(_ sender:UIGestureRecognizer) {
         if (self.zoomScale == self.maximumZoomScale) {
             self.setZoomScale(self.minimumZoomScale, animated: true)
         }else {
@@ -48,7 +48,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         }
     }
     
-    func scrollViewTwoFingerTapped(sender:UIGestureRecognizer) {
+    func scrollViewTwoFingerTapped(_ sender:UIGestureRecognizer) {
         var newZoomScale:CGFloat = self.zoomScale / 1.5
         newZoomScale = max(newZoomScale, self.minimumZoomScale)
         self.setZoomScale(newZoomScale, animated: true)
@@ -82,13 +82,13 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
     }
     //MARK: - UIScrollView delegate methods
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView!
     }
     
     
     //MARK: - Configure scrollView to display new image (tiled or not)
-    func displayImage(image:UIImage) {
+    func displayImage(_ image:UIImage) {
         // clear the previous imageView
         self.imageView?.removeFromSuperview()
         self.imageView = nil
@@ -102,18 +102,18 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         self.zoomScale = self.minimumZoomScale
     }
     
-    func displayImageWithUrl(urlImage:String) {
+    func displayImageWithUrl(_ urlImage:String) {
         self.imageView?.removeFromSuperview()
         self.imageView = nil
         
         self.imageView = UIImageView()
         self.addSubview(self.imageView!)
 
-        self.imageView!.contentMode = UIViewContentMode.Center
-        self.imageView!.setImageWithURL(NSURL(string: urlImage), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.imageView!.contentMode = UIViewContentMode.center
+        self.imageView!.setImageWith(URL(string: urlImage), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
             self.imageView!.contentMode = self.contentModeOrig
             self.imageView!.image = image
-            self.imageView!.frame = CGRectMake(0.0,0.0,image.size.width, image.size.height)
+            self.imageView!.frame = CGRect(x: 0.0,y: 0.0,width: image.size.width, height: image.size.height)
             self.contentSize = image.size
             self.setMaxMinZoomScalesForCurrentBounds()
             self.zoomScale = self.minimumZoomScale
@@ -146,8 +146,8 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
     
     // returns the center point, in image coordinate space, to try to restore after rotation.
     func pointToCenterAfterRotation() -> CGPoint! {
-        let boundsCenter:CGPoint = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
-        return self.convertPoint(boundsCenter, toView: self.imageView!)
+        let boundsCenter:CGPoint = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+        return self.convert(boundsCenter, to: self.imageView!)
     }
     
     // returns the zoom scale to attempt to restore after rotation.
@@ -166,22 +166,22 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
     func maximumContentOffset() -> CGPoint {
         let contentSize:CGSize = self.contentSize
         let boundsSize:CGSize = self.bounds.size
-        return CGPointMake(contentSize.width - boundsSize.width, contentSize.height - boundsSize.height);
+        return CGPoint(x: contentSize.width - boundsSize.width, y: contentSize.height - boundsSize.height);
     }
     
     func minimumContentOffset() -> CGPoint {
-        return CGPointZero
+        return CGPoint.zero
     }
 
-    func restoreCenterPoint(oldCenter:CGPoint, oldScale:CGFloat) {
+    func restoreCenterPoint(_ oldCenter:CGPoint, oldScale:CGFloat) {
         // Step 1: restore zoom scale, first making sure it is within the allowable range.
         self.zoomScale = min(self.maximumZoomScale, max(self.minimumZoomScale, oldScale))
         // Step 2: restore center point, first making sure it is within the allowable range.
         // 2a: convert our desired center point back to our own coordinate space
-        let boundsCenter:CGPoint = self.convertPoint(oldCenter, fromView: self.imageView!)
+        let boundsCenter:CGPoint = self.convert(oldCenter, from: self.imageView!)
         // 2b: calculate the content offset that would yield that center point
-        var offset:CGPoint = CGPointMake(boundsCenter.x - self.bounds.size.width / 2.0,
-            boundsCenter.y - self.bounds.size.height / 2.0);
+        var offset:CGPoint = CGPoint(x: boundsCenter.x - self.bounds.size.width / 2.0,
+            y: boundsCenter.y - self.bounds.size.height / 2.0);
         // 2c: restore offset, adjusted to be within the allowable range
         let maxOffset:CGPoint = self.maximumContentOffset()
         let minOffset:CGPoint = self.minimumContentOffset()
@@ -190,7 +190,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         self.contentOffset = offset
     }
 
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ZOMMIMAGE_PRODUCTDETAIL.rawValue, label: "")
     }
     

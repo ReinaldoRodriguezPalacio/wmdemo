@@ -11,7 +11,7 @@ import Foundation
 class ForgotPasswordService : BaseService {
     
     
-    func buildParams(email:String) -> NSDictionary {
+    func buildParams(_ email:String) -> NSDictionary {
         return ["login":email]
     }
     

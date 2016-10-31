@@ -12,7 +12,7 @@ class InvoiceAddressByUserService : BaseService {
     
     let JSON_RESULT = "responseObject"
     
-    func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         self.setManagerTempHeader()
         self.callGETService(afManager,serviceURL:self.serviceUrl(),params:[:], successBlock: { (resultCall:NSDictionary) -> Void in
@@ -23,9 +23,9 @@ class InvoiceAddressByUserService : BaseService {
     }
     
     func setManagerTempHeader() {
-        let timeInterval = NSDate().timeIntervalSince1970
-        let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue)
-        let uuid  = NSUUID().UUIDString
+        let timeInterval = Date().timeIntervalSince1970
+        let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
+        let uuid  = UUID().uuidString
         let strUsr  = "ff24423eefbca345" + timeStamp + uuid
         AFStatic.manager.requestSerializer!.setValue(timeStamp, forHTTPHeaderField: "timestamp")
         AFStatic.manager.requestSerializer!.setValue(uuid, forHTTPHeaderField: "requestID")

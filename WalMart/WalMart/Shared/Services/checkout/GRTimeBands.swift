@@ -11,7 +11,7 @@ import Foundation
 
 class GRTimeBands: GRBaseService {
     
-    func buildParams(date:String,addressId:String) -> NSDictionary {
+    func buildParams(_ date:String,addressId:String) -> NSDictionary {
         return ["date":date,"addressId":addressId,"channelType":"20"]
     }
     

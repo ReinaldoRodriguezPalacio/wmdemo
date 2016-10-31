@@ -7,6 +7,17 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 
 enum UpdateNotification : String {
@@ -33,8 +44,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var imageNotification : UIImageView?
     var categoryType :  [String:String]!
     //var carouselItems : [[String:String]]
-    var timmerPleca : NSTimer!
-    var itntervalPleca : NSTimeInterval = 5.0
+    var timmerPleca : Timer!
+    var itntervalPleca : TimeInterval = 5.0
     
     var valueTerms = ""
     var typeAction =  ""
@@ -48,9 +59,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collection.registerClass(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
-        collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
-        collection.registerClass(ProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "productHome")
+        collection.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
+        collection.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
+        collection.register(ProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "productHome")
         
         //Read a banner list
         let serviceBanner = BannerService()
@@ -59,12 +70,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
       
 
     
-        NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 20.0, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: false)
         
         self.recommendItems = []
         
         self.categories = getCategories()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.updatecontent(_:)), name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updatecontent(_:)), name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
         
         self.view.clipsToBounds = true
         collection!.clipsToBounds = true
@@ -75,11 +86,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     func removePleca(){
         
-        UIView.animateWithDuration(0.2 , animations: {
+        UIView.animate(withDuration: 0.2 , animations: {
             self.titleView?.alpha = 0
             self.detailsButton?.alpha = 0
             self.imageNotification?.alpha = 0
-             self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 0)
+             self.alertBank?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 0)
             }, completion: {(bool : Bool) in
                     self.alertBank?.alpha = 0
                     self.alertBank?.removeFromSuperview()
@@ -93,7 +104,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if timmerPleca != nil {
             timmerPleca.invalidate()
         }
-        timmerPleca = NSTimer.scheduledTimerWithTimeInterval(itntervalPleca, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: true)
+        timmerPleca = Timer.scheduledTimer(timeInterval: itntervalPleca, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: true)
     }
     
     func stopTimmerPleca() {
@@ -105,8 +116,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func showPleca (){
         if plecaItems !=  nil && plecaItems!.count > 0 {
             if alertBank == nil {
-                alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 0))
-                alertBank!.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
+                alertBank = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 0))
+                alertBank!.backgroundColor = WMColor.dark_blue.withAlphaComponent(0.9)
                 self.view.addSubview(alertBank!)
             }
             
@@ -115,9 +126,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
             }
             titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
-            titleView!.textColor = UIColor.whiteColor()
+            titleView!.textColor = UIColor.white
             titleView!.text = plecaItems?["terms"] as? String
-            titleView!.textAlignment = .Left
+            titleView!.textAlignment = .left
             titleView?.numberOfLines = 2
             titleView?.alpha = 0
             self.alertBank!.addSubview(titleView!)
@@ -129,9 +140,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
-            detailsButton!.setTitle("Detalles", forState:.Normal)
-            detailsButton!.addTarget(self, action: #selector(HomeViewController.openDetailPleca), forControlEvents: .TouchUpInside)
-            detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
+            detailsButton!.setTitle("Detalles", for:UIControlState())
+            detailsButton!.addTarget(self, action: #selector(HomeViewController.openDetailPleca), for: .touchUpInside)
+            detailsButton!.setTitleColor(WMColor.light_light_gray, for: UIControlState())
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0
             self.alertBank!.addSubview(detailsButton!)
@@ -142,11 +153,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             self.alertBank!.addSubview(imageNotification!)
             imageNotification?.alpha = 0
             
-            UIView.animateWithDuration(0.2, animations: {
-                self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 46)
-                self.titleView!.frame = CGRectMake(28, 0, self.view.frame.width-91, self.alertBank!.frame.height)
-                self.detailsButton.frame = CGRectMake(self.view.frame.width-60, 12, 55, 22)
-                self.imageNotification?.frame = CGRectMake(8,self.alertBank!.frame.midY-6,12,12)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.alertBank?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
+                self.titleView!.frame = CGRect(x: 28, y: 0, width: self.view.frame.width-91, height: self.alertBank!.frame.height)
+                self.detailsButton.frame = CGRect(x: self.view.frame.width-60, y: 12, width: 55, height: 22)
+                self.imageNotification?.frame = CGRect(x: 8,y: self.alertBank!.frame.midY-6,width: 12,height: 12)
                 
                 }, completion: {(bool : Bool) in
                         self.alertBank?.alpha = 1
@@ -177,7 +188,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             self.bussinesTerms = business
         }
    
-        let window = UIApplication.sharedApplication().keyWindow
+        let window = UIApplication.shared.keyWindow
         if let customBar = window!.rootViewController as? CustomBarViewController {
             customBar.handleNotification(self.typeAction,name:"",value:self.valueTerms,bussines:self.bussinesTerms)
             self.alertBank!.alpha = 0
@@ -185,14 +196,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         self.bannerCell?.startTimmer()
         self.showPleca()
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.bannerCell?.stopTimmer()
         self.removePleca()
@@ -212,11 +223,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     // MARK: - UICollectionViewDataSource
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if section == 0 {
             return 2
@@ -231,11 +242,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell : UICollectionViewCell
-        switch (indexPath.section,indexPath.row) {
+        switch ((indexPath as NSIndexPath).section,(indexPath as NSIndexPath).row) {
             case (0,0):
-                bannerCell = collectionView.dequeueReusableCellWithReuseIdentifier(bannerCellIdentifier() , forIndexPath: indexPath) as? BannerCollectionViewCell
+                bannerCell = collectionView.dequeueReusableCell(withReuseIdentifier: bannerCellIdentifier() , for: indexPath) as? BannerCollectionViewCell
                 bannerCell!.delegate = self
                 bannerCell!.dataSource = self.bannerItems
                 bannerCell!.setup()
@@ -246,31 +257,31 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 cell = bannerCell!
                 break;
             case (0,1):
-                let categoryCell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryHome", forIndexPath: indexPath) as! CategoryCollectionViewCell
+                let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryHome", for: indexPath) as! CategoryCollectionViewCell
                 categoryCell.delegate = self
                 categoryCell.setCategoriesAndReloadData(categories)
                 cell = categoryCell
                 break;
             default:
-                let productCell = collectionView.dequeueReusableCellWithReuseIdentifier(productCellIdentifier(), forIndexPath: indexPath) as! ProductHomeCollectionViewCell
+                let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: indexPath) as! ProductHomeCollectionViewCell
                 
                 let catNameFilter = self.categories[selectedIndexCategory]
                 let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
                 let arrayItemsResult =  arrayItems as! [AnyObject]
-                let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
+                let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:AnyObject]
                
                 var desc = ""
                 var imageUrl = ""
                 var preorderable = false
                 
                 if let sku = recommendProduct["sku"] as? NSDictionary {
-                    if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                        if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                    if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                        if let item =  parentProducts.object(at: 0) as? NSDictionary {
                             desc = item["longDescription"] as? String ?? (item["description"] as? String)!
                             imageUrl = item["largeImageUrl"] as! String
                         }
                     }
-                    preorderable = sku.objectForKey("weighable") as! String  == "N" ? false : true
+                    preorderable = sku.object(forKey: "weighable") as! String  == "N" ? false : true
                 }
                 
                 var price = ""
@@ -305,35 +316,35 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        switch  (indexPath.section,indexPath.row) {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch  ((indexPath as NSIndexPath).section,(indexPath as NSIndexPath).row) {
         case (0,0):
-            return CGSizeMake(320, 217)
+            return CGSize(width: 320, height: 217)
         case (0,1):
-            return CGSizeMake(320, 44)
+            return CGSize(width: 320, height: 44)
         default:
-            return CGSizeMake(106.66, 146)
+            return CGSize(width: 106.66, height: 146)
         }
     }
        
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 1 {
             
             let controller = ProductDetailPageViewController()
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
             let arrayItemsResult =  arrayItems as! [AnyObject]
-            let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
+            let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:AnyObject]
             var upc = ""
             var desc = ""
             var skuId =  ""
             
             if let sku = recommendProduct["sku"] as? NSDictionary {
-                skuId =  sku.objectForKey("id") as! String
-                if let parentProducts = sku.objectForKey("parentProducts") as? NSArray{
-                    if let item =  parentProducts.objectAtIndex(0) as? NSDictionary {
+                skuId =  sku.object(forKey: "id") as! String
+                if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                    if let item =  parentProducts.object(at: 0) as? NSDictionary {
                         upc = item["repositoryId"] as? String ?? item["id"] as! String
                         desc = item["longDescription"] as? String ?? item["description"] as! String
                     }
@@ -355,26 +366,26 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat{
         return 0
     }
     
     
-    func bannerDidSelect(queryBanner:String,type:String,urlTteaser:String?) {
+    func bannerDidSelect(_ queryBanner:String,type:String,urlTteaser:String?) {
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Banner.rawValue
         
         //var params : Dictionary<String,String>?  = nil
-        var components = queryBanner.componentsSeparatedByString("_")
+        var components = queryBanner.components(separatedBy: "_")
         if urlTteaser !=  nil  {
             components[0] = "lc"
         }
         //Pendiente validar bts
-        let componentsBts = queryBanner.componentsSeparatedByString("bts")
+        let componentsBts = queryBanner.components(separatedBy: "bts")
         if componentsBts.count > 1 && urlTteaser != nil {
             components[0] = "bts"
         }
@@ -382,16 +393,16 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if(components.count <= 1 && urlTteaser == nil){
             return
         }
-        let bannerStr : NSString = queryBanner
+        let bannerStr : NSString = queryBanner as NSString
         switch components[0] {
         case "f":
-            let val = bannerStr.substringFromIndex(2)
+            let val = bannerStr.substring(from: 2)
             showProducts(forDepartmentId: nil, andFamilyId: val, andLineId: nil,type:type)
         case "c":
-            let val = bannerStr.substringFromIndex(2)
+            let val = bannerStr.substring(from: 2)
             showProducts(forDepartmentId: val, andFamilyId: nil, andLineId: nil,type:type)
         case "l":
-            let val = bannerStr.substringFromIndex(2)
+            let val = bannerStr.substring(from: 2)
             if type == ResultObjectType.Mg.rawValue  {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_LINE.rawValue , label: "\(val)")
             } else {
@@ -399,16 +410,16 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
             showProducts(forDepartmentId: nil, andFamilyId: nil, andLineId: val,type:type)
         case "UPC":
-            let val = bannerStr.substringFromIndex(4)
+            let val = bannerStr.substring(from: 4)
             if type == ResultObjectType.Mg.rawValue  {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue , label: "\(val)")
             } else {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue , label: "\(val)")
             }
-            if val.rangeOfString(",") != nil {
-                let upcss :NSString = val
-                let myStringArr = upcss.componentsSeparatedByString(",")
-                self.showFindUpc(myStringArr ,type: type)
+            if val.range(of: ",") != nil {
+                let upcss :NSString = val as NSString
+                let myStringArr = upcss.components(separatedBy: ",")
+                self.showFindUpc(myStringArr as NSArray ,type: type)
                 
             }else{
                 showProductDetail(val,type: type)
@@ -427,7 +438,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     /**
      Open BackToSchoolCategory
      */
-    func openBackToSchoolCategory(urlTicer:String,idFamily:String){
+    func openBackToSchoolCategory(_ urlTicer:String,idFamily:String){
         let controller = BackToSchoolCategoryViewController()
         controller.urlTicer = urlTicer
         controller.departmentId = idFamily
@@ -440,7 +451,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
      - parameter urlTicer: url of image
      - parameter idFamily: family search
      */
-    func openLandinCampaign(urlTicer:String,idFamily:String){
+    func openLandinCampaign(_ urlTicer:String,idFamily:String){
         
         let controller = IPOLinesViewController()
         controller.urlTicer = urlTicer
@@ -455,7 +466,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
      - parameter urlTicer:   image use in next controller
      - parameter idCategory: idCategory Search
      */
-    func opnenLandingCategory(urlTicer:String,idCategory:String){
+    func opnenLandingCategory(_ urlTicer:String,idCategory:String){
 
         print("Abrir categorias de escuelas")
         print(urlTicer)
@@ -467,14 +478,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     
     
-    func showFindUpc(upcs:NSArray,type:String){
+    func showFindUpc(_ upcs:NSArray,type:String){
         let controller = SearchProductViewController()
         if type == "mg" {
-            controller.searchContextType = .WithCategoryForMG
+            controller.searchContextType = .withCategoryForMG
         }else {
-            controller.searchContextType = .WithCategoryForGR
+            controller.searchContextType = .withCategoryForGR
         }
-        controller.findUpcsMg = upcs as? [String]
+        controller.findUpcsMg = upcs as? [String] as NSArray?
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         
@@ -484,9 +495,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){
         let controller = SearchProductViewController()
         if type == "mg" {
-            controller.searchContextType = .WithCategoryForMG
+            controller.searchContextType = .withCategoryForMG
         }else {
-            controller.searchContextType = .WithCategoryForGR
+            controller.searchContextType = .withCategoryForGR
         }
         controller.idFamily  = family == nil ? "_" :  family
         controller.idDepartment = depto == nil ? "_" :  depto
@@ -496,12 +507,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
 
     
-    func showProductDetail(upcProduct:String,type:String){
+    func showProductDetail(_ upcProduct:String,type:String){
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = [["upc":upcProduct,"description":"","type":type,"sku":upcProduct]]//sku
         
         willHideTabbar()
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
         
         self.navigationController!.pushViewController(controller, animated: true)
     }
@@ -536,15 +547,15 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     
                     if let catItem : AnyObject = recommendCategoryItems[nameCategory] {
                         var array = catItem as! [AnyObject]
-                        array.append(itemRec)
-                        recommendCategoryItems.updateValue(array, forKey: nameCategory)
+                        array.append(itemRec as AnyObject)
+                        recommendCategoryItems.updateValue(array as AnyObject, forKey: nameCategory)
                     } else {
                         recommendCategoryItems[nameCategory] = upcs
                     }
             }
 
         
-        categories.sortInPlace { (item, seconditem) -> Bool in
+        categories.sort { (item, seconditem) -> Bool in
             let first = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
             let second = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
             let firstItem = first[0] as NSDictionary
@@ -558,7 +569,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
     }
     
-    func updatecontent(sender:AnyObject) {
+    func updatecontent(_ sender:AnyObject) {
         //Read a banner list
         let serviceBanner = BannerService()
         self.bannerItems = serviceBanner.getBannerContent()
@@ -580,12 +591,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         return "productHome"
     }
     
-    func didSelectCategory(index:Int) {
+    func didSelectCategory(_ index:Int) {
         
         if self.selectedIndexCategory != index {
-            var indexesPathsUpdate : [NSIndexPath] = []
-            var indexesPathsDelete : [NSIndexPath] = []
-            var indexesPathsInsert : [NSIndexPath] = []
+            var indexesPathsUpdate : [IndexPath] = []
+            var indexesPathsDelete : [IndexPath] = []
+            var indexesPathsInsert : [IndexPath] = []
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
@@ -597,18 +608,18 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             for ix in 0...arrayItemsResult.count - 1 {
                 if arrayItemsResultNew.count > ix {
-                    indexesPathsUpdate.append(NSIndexPath(forRow: ix , inSection: 1))
+                    indexesPathsUpdate.append(IndexPath(row: ix , section: 1))
                 }
             }
             
             
             if arrayItemsResultNew.count > arrayItemsResult.count {
                 for ix in arrayItemsResult.count...arrayItemsResultNew.count - 1 {
-                    indexesPathsInsert.append(NSIndexPath(forRow: ix , inSection: 1))
+                    indexesPathsInsert.append(IndexPath(row: ix , section: 1))
                 }
             } else if arrayItemsResultNew.count < arrayItemsResult.count {
                 for ix in arrayItemsResultNew.count...arrayItemsResult.count - 1 {
-                    indexesPathsDelete.append(NSIndexPath(forRow: ix , inSection: 1))
+                    indexesPathsDelete.append(IndexPath(row: ix , section: 1))
                 }
             }
             
@@ -616,11 +627,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             if indexesPathsDelete.count > 0 {
                 collection.performBatchUpdates({ () -> Void in
                     
-                    self.collection.deleteItemsAtIndexPaths(indexesPathsDelete)
+                    self.collection.deleteItems(at: indexesPathsDelete)
                     }, completion: { (complete:Bool) -> Void in
                     self.collection.performBatchUpdates({ () -> Void in
                         if indexesPathsUpdate.count > 0 {
-                            self.collection.reloadItemsAtIndexPaths(indexesPathsUpdate)
+                            self.collection.reloadItems(at: indexesPathsUpdate)
                         }
                         }, completion: { (complete:Bool) -> Void in
                          //println("Termina")
@@ -629,11 +640,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
             if indexesPathsInsert.count > 0 {
                 collection.performBatchUpdates({ () -> Void in
-                     self.collection.insertItemsAtIndexPaths(indexesPathsInsert)
+                     self.collection.insertItems(at: indexesPathsInsert)
                     
                     }, completion: { (complete:Bool) -> Void in
                         self.collection.performBatchUpdates({ () -> Void in
-                            self.collection.reloadItemsAtIndexPaths(indexesPathsUpdate)
+                            self.collection.reloadItems(at: indexesPathsUpdate)
                             }, completion: { (complete:Bool) -> Void in
                                 //println("Termina")
                         })
@@ -641,7 +652,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
             if indexesPathsDelete.count == 0 && indexesPathsInsert.count == 0 {
                 collection.performBatchUpdates({ () -> Void in
-                    self.collection.reloadItemsAtIndexPaths(indexesPathsUpdate)
+                    self.collection.reloadItems(at: indexesPathsUpdate)
                     }, completion: { (complete:Bool) -> Void in
                     //println("Termina")
                 })
@@ -651,19 +662,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == 1 {
             if let layoutFlow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 return layoutFlow.sectionInset
             }
         }
-        return UIEdgeInsetsZero
+        return UIEdgeInsets.zero
     }
     
-    func termsSelect(url: String) {
+    func termsSelect(_ url: String) {
         let ctrlWeb = IPOWebViewController()
         ctrlWeb.openURL(url)
-        self.presentViewController(ctrlWeb, animated: true, completion: nil)
+        self.present(ctrlWeb, animated: true, completion: nil)
     }
     
     

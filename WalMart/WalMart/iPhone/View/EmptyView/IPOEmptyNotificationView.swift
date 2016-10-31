@@ -24,10 +24,10 @@ class IPOEmptyNotificationView : IPOEmptyView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone  {
-            descLabel.frame = CGRectMake(0.0, 28.0, self.bounds.width, 16.0)
+        if UIDevice.current.userInterfaceIdiom == .phone  {
+            descLabel.frame = CGRect(x: 0.0, y: 28.0, width: self.bounds.width, height: 16.0)
         } else {
-            descLabel.frame = CGRectMake(0.0, 56.0, self.bounds.width, 16.0)
+            descLabel.frame = CGRect(x: 0.0, y: 56.0, width: self.bounds.width, height: 16.0)
         }
     }
     

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol KeyboardViewDelegate {
-    func userSelectValue(value:String!)
+    func userSelectValue(_ value:String!)
     func userSelectDelete()
 }
 
@@ -43,7 +43,7 @@ class NumericKeyboardView : UIView {
     }
 
     
-    func changeType(typeKeyboard:NumericKeyboardViewType) {
+    func changeType(_ typeKeyboard:NumericKeyboardViewType) {
         for viewChild in self.subviews {
             viewChild.removeFromSuperview()
         }
@@ -51,7 +51,7 @@ class NumericKeyboardView : UIView {
         self.generateButtons(normal, selected: selected)
     }
     
-    func generateButtons(normal:UIColor,selected:UIColor,numberOfButtons: Int) {
+    func generateButtons(_ normal:UIColor,selected:UIColor,numberOfButtons: Int) {
         self.normal = normal
         self.selected = selected
         
@@ -66,8 +66,8 @@ class NumericKeyboardView : UIView {
             widthBetweenButtons = 24
         }
         
-        let imageNotSelected = generateCircleImage(normal, size: CGSizeMake(widthButton, widthButton))
-        let imageSelected = generateCircleImage(selected, size:CGSizeMake(widthButton, widthButton))
+        let imageNotSelected = generateCircleImage(normal, size: CGSize(width: widthButton, height: widthButton))
+        let imageSelected = generateCircleImage(selected, size:CGSize(width: widthButton, height: widthButton))
         
         for index in 1...numberOfButtons {
             
@@ -86,14 +86,14 @@ class NumericKeyboardView : UIView {
                 }
             }
             
-            let btnNumber = UIButton(frame: CGRectMake(currentX, currentY, widthButton, widthButton))
-            btnNumber.setTitle(txtButton, forState: UIControlState.Normal)
+            let btnNumber = UIButton(frame: CGRect(x: currentX, y: currentY, width: widthButton, height: widthButton))
+            btnNumber.setTitle(txtButton, for: UIControlState())
             
-            btnNumber.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            btnNumber.setTitleColor(WMColor.light_blue, forState: UIControlState.Highlighted)
+            btnNumber.setTitleColor(UIColor.white, for: UIControlState())
+            btnNumber.setTitleColor(WMColor.light_blue, for: UIControlState.highlighted)
             
-            btnNumber.setImage(imageNotSelected, forState: UIControlState.Normal)
-            btnNumber.setImage(imageSelected, forState: UIControlState.Highlighted)
+            btnNumber.setImage(imageNotSelected, for: UIControlState())
+            btnNumber.setImage(imageSelected, for: UIControlState.highlighted)
             
             
             let insetTitle : CGFloat = btnNumber.frame.width * -1
@@ -106,8 +106,8 @@ class NumericKeyboardView : UIView {
             btnNumber.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, insetImage2);
             let buttonFontSize: CGFloat = self.widthButton <= 40 ? 18.0 : 30.0
             btnNumber.titleLabel!.font = WMFont.fontMyriadProSemiboldSize(buttonFontSize)
-            btnNumber.titleLabel!.textAlignment = NSTextAlignment.Center
-            btnNumber.addTarget(self, action: #selector(NumericKeyboardView.chngequantity(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            btnNumber.titleLabel!.textAlignment = NSTextAlignment.center
+            btnNumber.addTarget(self, action: #selector(NumericKeyboardView.chngequantity(_:)), for: UIControlEvents.touchUpInside)
             
             
             
@@ -121,18 +121,18 @@ class NumericKeyboardView : UIView {
             
         }
         
-        let btnDelete = UIButton(frame: CGRectMake(currentX, currentY, self.widthButton, self.widthButton))
-        btnDelete.setTitle("Borrar", forState: UIControlState.Normal)
+        let btnDelete = UIButton(frame: CGRect(x: currentX, y: currentY, width: self.widthButton, height: self.widthButton))
+        btnDelete.setTitle("Borrar", for: UIControlState())
         let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
         btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(buttonFontSize)
-        btnDelete.addTarget(self, action: #selector(NumericKeyboardView.deletequantity(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        btnDelete.addTarget(self, action: #selector(NumericKeyboardView.deletequantity(_:)), for: UIControlEvents.touchUpInside)
         btnDelete.tag = 999
         self.addSubview(btnDelete)
     
     }
     
     
-    func generateButtons(normal:UIColor,selected:UIColor) {
+    func generateButtons(_ normal:UIColor,selected:UIColor) {
         var nomberOfButtons = 10
         if typeKeyboard == NumericKeyboardViewType.Decimal {
             nomberOfButtons = 11
@@ -140,16 +140,16 @@ class NumericKeyboardView : UIView {
         self.generateButtons(normal, selected: selected, numberOfButtons: nomberOfButtons)
     }
     
-    func generateCircleImage (colorImage:UIColor,size:CGSize) -> UIImage {
+    func generateCircleImage (_ colorImage:UIColor,size:CGSize) -> UIImage {
         var screenShot : UIImage? = nil
         autoreleasepool {
-            let tempView = UIView(frame: CGRectMake(0, 0, size.width, size.height))
+            let tempView = UIView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
             tempView.backgroundColor = colorImage
             tempView.layer.cornerRadius = size.width / 2
             
             //UIGraphicsBeginImageContext(size);
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            tempView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+            tempView.layer.render(in: UIGraphicsGetCurrentContext()!)
             screenShot = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }
@@ -157,14 +157,14 @@ class NumericKeyboardView : UIView {
         return screenShot!
     }
     
-    func chngequantity(sender:UIButton) {
+    func chngequantity(_ sender:UIButton) {
         if delegate != nil {
             self.delegate.userSelectValue("\(sender.titleLabel!.text!)")
         }
     }
     
     
-    func deletequantity(sender:UIButton) {
+    func deletequantity(_ sender:UIButton) {
         if delegate != nil {
             BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ERASE_QUANTITY.rawValue, label: "")
             self.delegate.userSelectDelete()

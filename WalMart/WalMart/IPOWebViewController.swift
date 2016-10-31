@@ -12,7 +12,7 @@ import Foundation
 
 class  IPOWebViewController : UIViewController {
     
-    let timeInterval : NSTimeInterval = 10.0
+    let timeInterval : TimeInterval = 10.0
     var webViewMain : UIWebView!
     var btnClose : UIButton!
     
@@ -23,15 +23,15 @@ class  IPOWebViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        self.view.backgroundColor = UIColor.whiteColor()
-        btnClose = UIButton(frame:CGRectMake(0,20,40,40))
-        btnClose.setImage(UIImage(named:"detail_close"), forState: UIControlState.Normal)
-        btnClose.addTarget(self , action: #selector(IPOWebViewController.close), forControlEvents:UIControlEvents.TouchUpInside)
+        self.view.backgroundColor = UIColor.white
+        btnClose = UIButton(frame:CGRect(x: 0,y: 20,width: 40,height: 40))
+        btnClose.setImage(UIImage(named:"detail_close"), for: UIControlState())
+        btnClose.addTarget(self , action: #selector(IPOWebViewController.close), for:UIControlEvents.touchUpInside)
         self.view.addSubview(btnClose)
         
         
         if webViewMain == nil {
-            webViewMain = UIWebView(frame:CGRectZero)
+            webViewMain = UIWebView(frame:CGRect.zero)
             self.view.addSubview(webViewMain)
         }
         
@@ -41,12 +41,12 @@ class  IPOWebViewController : UIViewController {
     
     func openURLFactura() {
         if webViewMain == nil {
-            webViewMain = UIWebView(frame:CGRectZero)
+            webViewMain = UIWebView(frame:CGRect.zero)
             self.view.addSubview(webViewMain)
-            self.view.sendSubviewToBack(webViewMain)
+            self.view.sendSubview(toBack: webViewMain)
         }
         
-        let request = NSURLRequest(URL: NSURL(string: "https://facturacion.walmartmexico.com.mx/m/")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeInterval)
+        let request = URLRequest(url: URL(string: "https://facturacion.walmartmexico.com.mx/m/")!, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeInterval)
         webViewMain.loadRequest(request)
         
         
@@ -55,26 +55,26 @@ class  IPOWebViewController : UIViewController {
         
     }
     
-    func openURL(togoURL:String) {
+    func openURL(_ togoURL:String) {
         if webViewMain == nil {
-            webViewMain = UIWebView(frame:CGRectZero)
+            webViewMain = UIWebView(frame:CGRect.zero)
             self.view.addSubview(webViewMain)
-            self.view.sendSubviewToBack(webViewMain)
+            self.view.sendSubview(toBack: webViewMain)
         }
-        let request = NSURLRequest(URL: NSURL(string: togoURL)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeInterval)
+        let request = URLRequest(url: URL(string: togoURL)!, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeInterval)
         webViewMain.loadRequest(request)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        webViewMain.frame = CGRectMake(0, btnClose.frame.maxY, self.view.frame.width, self.view.bounds.height - btnClose.frame.maxY)
+        webViewMain.frame = CGRect(x: 0, y: btnClose.frame.maxY, width: self.view.frame.width, height: self.view.bounds.height - btnClose.frame.maxY)
     }
     
     
     func close() {
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_GERATE_BILLIG.rawValue, label: "")
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismiss(animated: true, completion: { () -> Void in
             
         })
     }

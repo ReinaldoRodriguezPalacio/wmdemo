@@ -10,25 +10,25 @@ import UIKit
 
 class GRDeleteItemListService: GRAddItemListService {
 
-    func buildParams(upc:String?) -> [String:AnyObject]! {
+    func buildParams(_ upc:String?) -> [String:AnyObject]! {
         //{"parameter":["0750179163767"]}
         return ["parameter":[upc!]]
     }
     
-    func buildParamsArray(upcs:[String]?) -> [String:AnyObject]! {
-        return ["parameter":upcs!]
+    func buildParamsArray(_ upcs:[String]?) -> [String:AnyObject]! {
+        return ["parameter":upcs! as AnyObject]
     }
     
     func buildDeleteItemMustang(repositoryId sku:String) -> [String:AnyObject]!{
-        return ["repositoryId":sku]
+        return ["repositoryId":sku as AnyObject]
     }
     
-    func buildDeleteItemMustangObject(idList idList:String, upcs:NSDictionary) -> NSDictionary {
+    func buildDeleteItemMustangObject(idList:String, upcs:NSDictionary) -> NSDictionary {
         return ["idList":idList,"items":[upcs]]
     }
     
     
-    override func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    override func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(params)
         self.callPOSTService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in

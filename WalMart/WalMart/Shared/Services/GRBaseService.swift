@@ -11,8 +11,8 @@ import Foundation
 
 class GRBaseService : BaseService {
     
-    override func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+    override func serviceUrl(_ serviceName:String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         var serviceConfigDictionary = ConfigServices.ConfigIdMG
         if self.urlForSession {
             serviceConfigDictionary = UserCurrentSession.hasLoggedUser() ? ConfigServices.ConfigIdGRSign : ConfigServices.ConfigIdMG
@@ -27,7 +27,7 @@ class GRBaseService : BaseService {
 //        }
         
         
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
+        let services = Bundle.main.object(forInfoDictionaryKey: serviceConfigDictionary) as! NSDictionary
         let environmentServices = services[environment] as! [String:AnyObject]
         let serviceURL =  environmentServices[serviceName] as! String
         //println(serviceURL)
@@ -36,9 +36,9 @@ class GRBaseService : BaseService {
 
     override func getManager() -> AFHTTPSessionManager {
         if shouldIncludeHeaders() { // UserCurrentSession.hasLoggedUser() &&
-            let timeInterval = NSDate().timeIntervalSince1970
-            let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue) // Time in milis "1400705132881"//
-            let uuid  = NSUUID().UUIDString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
+            let timeInterval = Date().timeIntervalSince1970
+            let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue) // Time in milis "1400705132881"//
+            let uuid  = UUID().uuidString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
             let strUsr  = "ff24423eefbca345" + timeStamp + uuid // "f3062afbe4c4a8ea2fc730687d0e9f818c7f9a23"//
             
             if AFStatic.managerGR.requestSerializer == nil {
@@ -68,7 +68,7 @@ class GRBaseService : BaseService {
     }
 
     static func getUseSignalServices() ->Bool{
-        return NSBundle.mainBundle().objectForInfoDictionaryKey("useSignalsServices") as! Bool
+        return Bundle.main.object(forInfoDictionaryKey: "useSignalsServices") as! Bool
     }
     
 }

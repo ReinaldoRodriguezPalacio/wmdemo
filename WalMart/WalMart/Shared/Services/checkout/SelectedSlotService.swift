@@ -10,7 +10,7 @@ import Foundation
 
 class SelectedSlotService: GRBaseService{
 
-    func buildParams(deliveryType:String,selectedSlotId:String) -> NSDictionary{
+    func buildParams(_ deliveryType:String,selectedSlotId:String) -> NSDictionary{
         return ["deliveryType": deliveryType,"selectedSlotId": selectedSlotId]
     }
     

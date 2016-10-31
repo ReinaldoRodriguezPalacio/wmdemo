@@ -45,60 +45,60 @@ class TotalView: UIView {
         articlesTitle.text = NSLocalizedString("articulos",comment:"")
         articlesTitle.textColor = WMColor.reg_gray
         articlesTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        articlesTitle.textAlignment = .Left
-        articlesTitle.frame = CGRectMake(16, 16, 101, 14)
+        articlesTitle.textAlignment = .left
+        articlesTitle.frame = CGRect(x: 16, y: 16, width: 101, height: 14)
         
         subtotalTitle = UILabel()
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
         subtotalTitle.textColor = WMColor.reg_gray
         subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        subtotalTitle.textAlignment = .Right
-        subtotalTitle.frame = CGRectMake(146, 16, 101, 14)
+        subtotalTitle.textAlignment = .right
+        subtotalTitle.frame = CGRect(x: 146, y: 16, width: 101, height: 14)
         
         shippingCostTitle = UILabel()
         shippingCostTitle.text = NSLocalizedString("Costo envío",comment:"")
         shippingCostTitle.textColor = WMColor.reg_gray
         shippingCostTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        shippingCostTitle.textAlignment = .Right
-        shippingCostTitle.frame = CGRectMake(146, subtotalTitle.frame.maxY + 6, 101, 14)
+        shippingCostTitle.textAlignment = .right
+        shippingCostTitle.frame = CGRect(x: 146, y: subtotalTitle.frame.maxY + 6, width: 101, height: 14)
         
         ivaTitle = UILabel()
         ivaTitle.text = NSLocalizedString("Impuestos",comment:"")
         ivaTitle.textColor = WMColor.reg_gray
         ivaTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        ivaTitle.textAlignment = .Right
-        ivaTitle.frame = CGRectMake(146, shippingCostTitle.frame.maxY + 6, 101, 14)
+        ivaTitle.textAlignment = .right
+        ivaTitle.frame = CGRect(x: 146, y: shippingCostTitle.frame.maxY + 6, width: 101, height: 14)
 
         savingTitle = UILabel()
         savingTitle.text = NSLocalizedString("Descuento",comment:"")
         savingTitle.textColor =  WMColor.green
         savingTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        savingTitle.textAlignment = .Right
-        savingTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 3, 101, 14)
+        savingTitle.textAlignment = .right
+        savingTitle.frame = CGRect(x: 146, y: ivaTitle.frame.maxY + 3, width: 101, height: 14)
         
         totalTitle = UILabel()
         totalTitle.text = NSLocalizedString("Total",comment:"")
         totalTitle.textColor = WMColor.orange
         totalTitle.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        totalTitle.textAlignment = .Right
-        totalTitle.frame = CGRectMake(146, ivaTitle.frame.maxY + 20, 101, 14)
+        totalTitle.textAlignment = .right
+        totalTitle.frame = CGRect(x: 146, y: ivaTitle.frame.maxY + 20, width: 101, height: 14)
         
         //values
         
-        valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 8, subtotalTitle.frame.minY, 50, 14))
-        valueSubtotal.textAlignment = .Right
+        valueSubtotal = CurrencyCustomLabel(frame: CGRect(x: subtotalTitle.frame.maxX + 8, y: subtotalTitle.frame.minY, width: 50, height: 14))
+        valueSubtotal.textAlignment = .right
         
-        valueShippingCost = CurrencyCustomLabel(frame: CGRectMake(shippingCostTitle.frame.maxX + 8, shippingCostTitle.frame.minY, 50, 14))
-        valueShippingCost.textAlignment = .Right
+        valueShippingCost = CurrencyCustomLabel(frame: CGRect(x: shippingCostTitle.frame.maxX + 8, y: shippingCostTitle.frame.minY, width: 50, height: 14))
+        valueShippingCost.textAlignment = .right
         
-        valueIva = CurrencyCustomLabel(frame: CGRectMake(ivaTitle.frame.maxX + 8, ivaTitle.frame.minY, 50, 14))
-        valueIva.textAlignment = .Right
+        valueIva = CurrencyCustomLabel(frame: CGRect(x: ivaTitle.frame.maxX + 8, y: ivaTitle.frame.minY, width: 50, height: 14))
+        valueIva.textAlignment = .right
         
-        valueTotal = CurrencyCustomLabel(frame: CGRectMake(totalTitle.frame.maxX + 8, totalTitle.frame.minY, 50, 14))
-        valueTotal.textAlignment = .Right
+        valueTotal = CurrencyCustomLabel(frame: CGRect(x: totalTitle.frame.maxX + 8, y: totalTitle.frame.minY, width: 50, height: 14))
+        valueTotal.textAlignment = .right
         
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(ivaTitle.frame.maxX + 8, savingTitle.frame.minY, 50, 14))
-        valueTotalSaving.textAlignment = .Right
+        valueTotalSaving = CurrencyCustomLabel(frame: CGRect(x: ivaTitle.frame.maxX + 8, y: savingTitle.frame.minY, width: 50, height: 14))
+        valueTotalSaving.textAlignment = .right
         
         
         self.addSubview(articlesTitle)
@@ -119,7 +119,7 @@ class TotalView: UIView {
     
     
     
-    func setValues(articles articles:String,subtotal:String,shippingCost:String,iva:String,saving:String,total:String){
+    func setValues(articles:String,subtotal:String,shippingCost:String,iva:String,saving:String,total:String){
         
         articlesTitle.text  = "\(articles) \(NSLocalizedString("artículos",comment:""))"
         

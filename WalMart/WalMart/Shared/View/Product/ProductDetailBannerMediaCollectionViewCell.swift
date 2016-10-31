@@ -24,15 +24,15 @@ class ProductDetailBannerMediaCollectionViewCell : UICollectionViewCell {
     func setup() {
         imageView = UIImageView()
         imageView.image = UIImage(named:"img_default_cell")
-        imageView.frame =  CGRectMake(0, 24 ,self.bounds.width, self.bounds.height - 48 )
+        imageView.frame =  CGRect(x: 0, y: 24 ,width: self.bounds.width, height: self.bounds.height - 48 )
         //imageView.frame = self.bounds
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.contentMode = UIViewContentMode.scaleAspectFit
         self.addSubview(imageView)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.imageView.frame =  CGRectMake(0, 24 ,self.bounds.width, self.bounds.height - 48 )
+        self.imageView.frame =  CGRect(x: 0, y: 24 ,width: self.bounds.width, height: self.bounds.height - 48 )
     }
 
     

@@ -24,61 +24,61 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.useSignals = self.useSignalsServices
     }
     
-    func buildParams(quantity:String,upc:String,comments:String) -> NSArray {
+    func buildParams(_ quantity:String,upc:String,comments:String) -> NSArray {
         let quantityInt : Int = Int(quantity)!
         return [["quantity":quantityInt,"upc":upc,"comments":comments]]
         //return [["items":["quantity":quantityInt,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]]
     }
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory]
+    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString) -> [String:AnyObject] {
+        return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory]
     }
     
-    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
+    func builParams(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
         if useSignals && parameter != nil{
             self.parameterSend  = parameter
-          return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable,"parameter":parameter!]]
+          return [["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"pesable":pesable,"parameter":parameter! as AnyObject]]
             
         }
-        return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable]]
+        return [["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"pesable":pesable]]
     }
     
-    func builParamSvc(upc:String,quantity:String,comments:String) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"upc":upc]
+    func builParamSvc(_ upc:String,quantity:String,comments:String) -> [String:AnyObject] {
+        return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject]
     }
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]
+    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:AnyObject] {
+        return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"wishlist":wishlist as AnyObject,"pesable":pesable,"isPreorderable":isPreorderable as AnyObject,"category":category as AnyObject]
     }
     
   
     
-    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(requestParams: builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable,parameter: parameter), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(requestParams: builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable,parameter: parameter) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable,parameter: nil) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
 
-    func callService(upc:String,quantity:String,comments:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ upc:String,quantity:String,comments:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callService(requestParams: buildParams(quantity,upc:upc,comments:comments), successBlock: successBlock,errorBlock:errorBlock)
     }
 
-    func buildParams(products:[AnyObject]) -> [String:AnyObject] {
-        return ["strArrImp":products]
+    func buildParams(_ products:[AnyObject]) -> [String:AnyObject] {
+        return ["strArrImp":products as AnyObject]
     }
     
-    func buildProductObject(upc upc:String, quantity:String, comments:String) -> AnyObject {
+    func buildProductObject(upc:String, quantity:String, comments:String) -> AnyObject {
         return ["quantity":quantity,"upc":upc,"comments":comments]
     }
     
-    func buildProductObject(upcsParams:[AnyObject]) -> AnyObject {
+    func buildProductObject(_ upcsParams:[AnyObject]) -> AnyObject {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]
             
         }
-        return upcsParams
+        return upcsParams as AnyObject
     }
     
     
@@ -108,7 +108,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 if useSignals  && self.parameterSend != nil{
                 send = buildProductObject(itemsSvc)
                 }else{
-                    send = itemsSvc
+                    send = itemsSvc as AnyObject?
                 }
                 //self.jsonFromObject(send!)
                 self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
@@ -145,9 +145,9 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
     
     
-    func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         for product in params as! NSArray {
@@ -159,14 +159,14 @@ class GRShoppingCartAddProductsService : GRBaseService {
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
-                cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart" as String, inManagedObjectContext: context) as! Cart
-                let productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product" as String, inManagedObjectContext: context) as! Product
+                cartProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart" as String, into: context) as! Cart
+                let productBD =  NSEntityDescription.insertNewObject(forEntityName: "Product" as String, into: context) as! Product
                 cartProduct.product = productBD
             }else{
                 cartProduct = array[0]
             }
             let quantityStr = product["quantity"] as! NSString
-            cartProduct.quantity = NSNumber(integer:quantityStr.integerValue)
+            cartProduct.quantity = NSNumber(value: quantityStr.integerValue as Int)
             
             print("Product in shopping cart: \(product)")
 
@@ -181,12 +181,12 @@ class GRShoppingCartAddProductsService : GRBaseService {
             cartProduct.product.onHandInventory = product["onHandInventory"] as! String
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
-            cartProduct.product.type = pesable.integerValue
-            cartProduct.status = NSNumber(integer: statusForProduct())
+            cartProduct.product.type = NSNumber(pesable.integerValue)
+            cartProduct.status = NSNumber(value: statusForProduct() as Int)
             cartProduct.type = ResultObjectType.Groceries.rawValue
             
             if let comment  = product["comments"] as? NSString {
-                cartProduct.note = comment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                cartProduct.note = comment.trimmingCharacters(in: CharacterSet.whitespaces)
             }
             
             if UserCurrentSession.hasLoggedUser() {
@@ -204,7 +204,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
     
     func statusForProduct() -> Int {
-        return CartStatus.Created.rawValue
+        return CartStatus.created.rawValue
     }
     
     func updateShoppingCart() -> Bool {

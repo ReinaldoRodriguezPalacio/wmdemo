@@ -29,7 +29,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     //var picker : AlertPickerView!
     var stores : [String]! = []
     var suportHelp : FormFieldView?
-    var selectedType : NSIndexPath!
+    var selectedType : IndexPath!
     
     var paymentOptionsPicker: UIPickerView?
     var scrollForm : TPKeyboardAvoidingScrollView!
@@ -81,46 +81,46 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         self.labelQuestion1!.font = WMFont.fontMyriadProLightOfSize(14)
         self.labelQuestion1!.textColor = WMColor.light_blue
-        self.labelQuestion1!.backgroundColor = UIColor.clearColor()
-        self.labelQuestion1!.textAlignment = .Center
+        self.labelQuestion1!.backgroundColor = UIColor.clear
+        self.labelQuestion1!.textAlignment = .center
         
         self.labelQuestion2!.font = WMFont.fontMyriadProLightOfSize(14)
         self.labelQuestion2!.textColor = WMColor.light_blue
-        self.labelQuestion2!.backgroundColor = UIColor.clearColor()
-        self.labelQuestion2!.textAlignment = .Center
+        self.labelQuestion2!.backgroundColor = UIColor.clear
+        self.labelQuestion2!.textAlignment = .center
         
         let valuesDescItem = NSMutableAttributedString()
-        valuesDescItem.appendAttributedString(attrStringLab)
-        valuesDescItem.appendAttributedString(attrStringVal)
+        valuesDescItem.append(attrStringLab)
+        valuesDescItem.append(attrStringVal)
         
         self.labelQuestion1.text = NSLocalizedString("Support.label.question.comment" , comment: "")
         self.labelQuestion2.attributedText = valuesDescItem
         
         self.callme!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.callme!.textColor = WMColor.reg_gray
-        self.callme!.backgroundColor = UIColor.clearColor()
-        self.callme!.textAlignment = .Center
+        self.callme!.backgroundColor = UIColor.clear
+        self.callme!.textAlignment = .center
         
         self.callmeNumber!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.callmeNumber!.textColor = WMColor.reg_gray
-        self.callmeNumber!.backgroundColor = UIColor.clearColor()
-        self.callmeNumber!.textAlignment = .Center
+        self.callmeNumber!.backgroundColor = UIColor.clear
+        self.callmeNumber!.textAlignment = .center
         
         self.sendmeMail!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.sendmeMail!.textColor = WMColor.reg_gray
-        self.sendmeMail!.backgroundColor = UIColor.clearColor()
-        self.sendmeMail!.textAlignment = .Center
+        self.sendmeMail!.backgroundColor = UIColor.clear
+        self.sendmeMail!.textAlignment = .center
         
         
-        self.buttomCall.setImage(UIImage(named:"support-call"), forState: UIControlState.Normal)
-        self.buttomCall.setImage(UIImage(named:"support-call."), forState: UIControlState.Selected)
-        self.buttomCall.addTarget(self , action: #selector(SupportViewController.selectecButton(_:)), forControlEvents:UIControlEvents.TouchUpInside)
-        self.buttomCall.backgroundColor = UIColor.clearColor()
+        self.buttomCall.setImage(UIImage(named:"support-call"), for: UIControlState())
+        self.buttomCall.setImage(UIImage(named:"support-call."), for: UIControlState.selected)
+        self.buttomCall.addTarget(self , action: #selector(SupportViewController.selectecButton(_:)), for:UIControlEvents.touchUpInside)
+        self.buttomCall.backgroundColor = UIColor.clear
         
-        self.buttomMail.setImage(UIImage(named:"support-email"), forState: UIControlState.Normal)
-        self.buttomMail.setImage(UIImage(named:"support-email"), forState: UIControlState.Selected)
-        self.buttomMail.addTarget(self , action: #selector(SupportViewController.selectecButton(_:)), forControlEvents:UIControlEvents.TouchUpInside)
-        self.buttomMail.backgroundColor = UIColor.clearColor()
+        self.buttomMail.setImage(UIImage(named:"support-email"), for: UIControlState())
+        self.buttomMail.setImage(UIImage(named:"support-email"), for: UIControlState.selected)
+        self.buttomMail.addTarget(self , action: #selector(SupportViewController.selectecButton(_:)), for:UIControlEvents.touchUpInside)
+        self.buttomMail.backgroundColor = UIColor.clear
       
         self.view.addSubview(imgConfirm)
         
@@ -143,7 +143,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         //var fheight: CGFloat = 44.0
         //var lheight: CGFloat = 25.0
         
-        self.selectedType = NSIndexPath(forRow: 0, inSection: 0)
+        self.selectedType = IndexPath(row: 0, section: 0)
         
         /*self.picker!.selected = self.selectedType
         self.picker!.delegate = self
@@ -170,46 +170,46 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         super.viewDidLayoutSubviews()
         
         let bounds = self.view.bounds
-        self.imgConfirm.frame =  CGRectMake(0,  self.header!.frame.maxY , self.imgConfirm.image!.size.width, self.imgConfirm.image!.size.height)
-        self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 28 , bounds.width, 15 )
-        self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY  , bounds.width, 15 )
+        self.imgConfirm.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: self.imgConfirm.image!.size.width, height: self.imgConfirm.image!.size.height)
+        self.labelQuestion1.frame = CGRect(x: 0,  y: self.header!.frame.maxY + 28 , width: bounds.width, height: 15 )
+        self.labelQuestion2.frame = CGRect(x: 0,  y: self.labelQuestion1.frame.maxY  , width: bounds.width, height: 15 )
         
         if IS_IPHONE {
             let referenceHeight = IS_IPHONE_4_OR_LESS ? bounds.midY + 30 : bounds.midY
-            callmeNumber.frame =  CGRectMake(32 , referenceHeight + 120 , 131, 15)
-            callme.frame =  CGRectMake(64 , referenceHeight + 106  , 64, 15)
-            sendmeMail.frame =   CGRectMake(callme.frame.maxX + 67 , referenceHeight + 106 , 64, 15)
-            buttomCall.frame =  CGRectMake(64 , referenceHeight + 40 , 64, 64)
-            buttomMail.frame =  CGRectMake(buttomCall.frame.maxX + 64 , referenceHeight + 40 , 64, 64)
+            callmeNumber.frame =  CGRect(x: 32 , y: referenceHeight + 120 , width: 131, height: 15)
+            callme.frame =  CGRect(x: 64 , y: referenceHeight + 106  , width: 64, height: 15)
+            sendmeMail.frame =   CGRect(x: callme.frame.maxX + 67 , y: referenceHeight + 106 , width: 64, height: 15)
+            buttomCall.frame =  CGRect(x: 64 , y: referenceHeight + 40 , width: 64, height: 64)
+            buttomMail.frame =  CGRect(x: buttomCall.frame.maxX + 64 , y: referenceHeight + 40 , width: 64, height: 64)
         }else{
-            callmeNumber.hidden = true
-            callme.hidden = true
-            buttomCall.hidden = true
-            sendmeMail.frame =  CGRectMake((bounds.width - 64) / 2 , bounds.maxY - 134 , 64, 15)
-            buttomMail.frame =  CGRectMake((bounds.width - 64) / 2 , sendmeMail.frame.midY - 78 , 64, 64)
+            callmeNumber.isHidden = true
+            callme.isHidden = true
+            buttomCall.isHidden = true
+            sendmeMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: bounds.maxY - 134 , width: 64, height: 15)
+            buttomMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: sendmeMail.frame.midY - 78 , width: 64, height: 64)
         }
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
    
     }
     
     
-    func selectecButton(sender:UIButton){
+    func selectecButton(_ sender:UIButton){
         if sender == self.buttomCall{
-            self.buttomMail.selected = false
+            self.buttomMail.isSelected = false
             print("Selected call", terminator: "")
          if IS_IPHONE == true {
                 let strTel = "telprompt://018009256278"
-                if UIApplication.sharedApplication().canOpenURL(NSURL(string: strTel)!) {
-                    UIApplication.sharedApplication().openURL(NSURL(string: strTel)!)
+                if UIApplication.shared.canOpenURL(URL(string: strTel)!) {
+                    UIApplication.shared.openURL(URL(string: strTel)!)
                 }
          }
             
         }else{
-            self.buttomCall.selected = false
+            self.buttomCall.isSelected = false
             self.pikerBtn!.showPicker()
         }
         
@@ -217,29 +217,29 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
     }
     
-    func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
+    func buildSectionTitle(_ title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
-        sectionTitle.backgroundColor = UIColor.whiteColor()
+        sectionTitle.backgroundColor = UIColor.white
         return sectionTitle
     }
     
     //Marck: select Picker
-    func didSelectOption(picker: AlertPickerView, indexPath: NSIndexPath, selectedStr: String) {
+    func didSelectOption(_ picker: AlertPickerView, indexPath: IndexPath, selectedStr: String) {
         /*print(selectedStr)
         self.selectedType = indexPath
         self.pikerBtn!.showPicker()*/
     }
     
-    func didDeSelectOption(picker: AlertPickerView) {
+    func didDeSelectOption(_ picker: AlertPickerView) {
        
     }
     
-    func viewReplaceContent(frame: CGRect) -> UIView! {
+    func viewReplaceContent(_ frame: CGRect) -> UIView! {
         scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
-        scrollForm.contentSize = CGSizeMake(frame.width, 600)
+        scrollForm.contentSize = CGSize(width: frame.width, height: 600)
         return scrollForm
     }
     
@@ -247,15 +247,15 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
     }
     
-    func buttomViewSelected(sender: UIButton) {
+    func buttomViewSelected(_ sender: UIButton) {
         
-        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
-        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
-        let ver  = "(IOS \(UIDevice.currentDevice().systemVersion), V App \(majorVersion) \(minorVersion))"
-        let device = UIDevice.currentDevice().model.lowercaseString.uppercaseString
-        let status = AFNetworkReachabilityManager.sharedManager().reachableViaWiFi ? "Wifi" : "WWAN"
+        let majorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let minorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+        let ver  = "(IOS \(UIDevice.current.systemVersion), V App \(majorVersion) \(minorVersion))"
+        let device = UIDevice.current.model.lowercased.uppercased()
+        let status = AFNetworkReachabilityManager.shared().isReachableViaWiFi ? "Wifi" : "WWAN"
         
-        UIDevice.currentDevice().localizedModel
+        UIDevice.current.localizedModel
         
         if sender.tag == 1{//groceries
             print("btn Groceries", terminator: "")
@@ -266,10 +266,10 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
                 let mc: MFMailComposeViewController = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
                 mc.setSubject(subject)//Titulo de ,correo
-                mc.setMessageBody("\n\n\nwalmart super\ndispositivo: IOS \(UIDevice.currentDevice().systemVersion)\nV App: \(majorVersion) \(minorVersion)\nDevice: \(device)\nConectado via: \(status)", isHTML: false)
+                mc.setMessageBody("\n\n\nwalmart super\ndispositivo: IOS \(UIDevice.current.systemVersion)\nV App: \(majorVersion) \(minorVersion)\nDevice: \(device)\nConectado via: \(status)", isHTML: false)
                 mc.setToRecipients([EMAIL_MG])
             
-                self.presentViewController(mc, animated: true, completion: nil)
+                self.present(mc, animated: true, completion: nil)
             }
             else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
@@ -284,9 +284,9 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
                     let mc: MFMailComposeViewController = MFMailComposeViewController()
                     mc.mailComposeDelegate = self
                     mc.setSubject(subject)//Titulo de ,correo
-                    mc.setMessageBody("\n\n\nwalmart MG\ndispositivo: IOS \(UIDevice.currentDevice().systemVersion)\nV App: \(majorVersion) \(minorVersion)\nDevice: \(device)\nConectado via: \(status)", isHTML: false)
+                    mc.setMessageBody("\n\n\nwalmart MG\ndispositivo: IOS \(UIDevice.current.systemVersion)\nV App: \(majorVersion) \(minorVersion)\nDevice: \(device)\nConectado via: \(status)", isHTML: false)
                     mc.setToRecipients([EMAIL_MG])
-                    self.presentViewController(mc, animated: true, completion: nil)
+                    self.present(mc, animated: true, completion: nil)
                 }
                 else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
@@ -300,17 +300,17 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     }
     
        //MARK: - MFMailComposeViewControllerDelegate
-    func mailComposeController(controller:MFMailComposeViewController, didFinishWithResult result:MFMailComposeResult, error:NSError?) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: - UIPickerViewDataSource
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return 3
     }
     

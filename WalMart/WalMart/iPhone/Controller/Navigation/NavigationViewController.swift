@@ -33,23 +33,23 @@ class NavigationViewController: IPOBaseController {
         
         if !hiddenBack{
             self.backButton = UIButton()
-            self.backButton!.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
-            self.backButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+            self.backButton!.setImage(UIImage(named: "BackProduct"), for: UIControlState())
+            self.backButton!.addTarget(self, action: #selector(NavigationViewController.back), for: UIControlEvents.touchUpInside)
             self.header?.addSubview(self.backButton!)
        }//if !hiddenBack{
     
-        self.titleLabel?.textAlignment = NSTextAlignment.Center
+        self.titleLabel?.textAlignment = NSTextAlignment.center
     }
     
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if self.titleLabel != nil && self.titleLabel!.frame.width == 0 {
-            self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-            self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
+            self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46)
+            self.titleLabel!.frame = CGRect(x: 46, y: 0, width: self.header!.frame.width - 92, height: self.header!.frame.maxY)
         }
         if backButton != nil{
-            self.backButton!.frame = CGRectMake(0, 0  ,46,46)
+            self.backButton!.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)
         }
     }
     
@@ -63,8 +63,8 @@ class NavigationViewController: IPOBaseController {
     
     func back(){
         if self.navigationController != nil {
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-            self.navigationController!.popViewControllerAnimated(true)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+            self.navigationController!.popViewController(animated: true)
         }
     }
     

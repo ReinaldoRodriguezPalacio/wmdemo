@@ -7,6 +7,26 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 class IPASchoolListViewController: SchoolListViewController, UIPopoverControllerDelegate {
     
@@ -17,30 +37,30 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     override func setup() {
         super.setup()
         if self.showInPopover {
-            self.backButton?.setImage(UIImage(named:"detail_close"), forState: .Normal)
+            self.backButton?.setImage(UIImage(named:"detail_close"), for: UIControlState())
         }
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if !self.isSharing {
-            self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + self.footerSection!.frame.height))
+            self.tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - (self.header!.frame.height + self.footerSection!.frame.height))
         }
-        self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72 , self.view.frame.width, 72)
+        self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 72 , width: self.view.frame.width, height: 72)
         let y = (self.footerSection!.frame.height - 34.0)/2
         var x: CGFloat = self.showInPopover ? 312 : 162.0
-        self.selectAllButton?.frame = CGRectMake(x, y, 34.0, 34.0)
+        self.selectAllButton?.frame = CGRect(x: x, y: y, width: 34.0, height: 34.0)
          x = self.selectAllButton!.frame.maxX + 16
-        self.shareButton!.frame = CGRectMake(x, y, 34.0, 34.0)
-        self.wishlistButton!.frame = CGRectMake(x, y, 34.0, 34.0)
+        self.shareButton!.frame = CGRect(x: x, y: y, width: 34.0, height: 34.0)
+        self.wishlistButton!.frame = CGRect(x: x, y: y, width: 34.0, height: 34.0)
          x = self.wishlistButton!.frame.maxX + 16
         let shopButtonSpace: CGFloat = self.showInPopover ? 296.0 : 146.0
-        self.addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + shopButtonSpace), 34.0)
-        self.customLabel!.frame = CGRectMake(0, 0, self.footerSection!.frame.width - (x + shopButtonSpace), 34.0)
+        self.addToCartButton?.frame = CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + shopButtonSpace), height: 34.0)
+        self.customLabel!.frame = CGRect(x: 0, y: 0, width: self.footerSection!.frame.width - (x + shopButtonSpace), height: 34.0)
     }
     
     //MARK: TableViewDelegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 || indexPath.row == self.detailItems!.count {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 0 || (indexPath as NSIndexPath).row == self.detailItems!.count {
             return
         }
         
@@ -54,16 +74,16 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue, "saving":""])
         }
         controller.itemsToShow = productsToShow
-        controller.ixSelected = indexPath.row
+        controller.ixSelected = (indexPath as NSIndexPath).row
         
-        let product = self.detailItems![indexPath.row]
+        let product = self.detailItems![(indexPath as NSIndexPath).row]
         let upc = product["upc"] as! NSString
         let description = product["description"] as! NSString
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
         
         if self.navigationController != nil && !self.showInPopover {
-            if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
+            if let navCtrl = self.navigationController!.parent as UIViewController! {
                 navCtrl.navigationController!.pushViewController(controller, animated: true)
             }
         }else{
@@ -74,31 +94,31 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     }
     
     //MARK: Delegate item cell
-    override func didChangeQuantity(cell:DetailListViewCell){
+    override func didChangeQuantity(_ cell:DetailListViewCell){
             
-        let indexPath = self.tableView!.indexPathForCell(cell)
+        let indexPath = self.tableView!.indexPath(for: cell)
         if indexPath == nil {
             return
         }
         var price: String? = nil
             
-        let item = self.detailItems![indexPath!.row]
+        let item = self.detailItems![(indexPath! as NSIndexPath).row]
         price = item["price"] as? String
-        let selectorFrame = CGRectMake(0.0, 0.0, 320.0, 388.0)
-        self.quantitySelectorMg = ShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: NSNumber(double:Double(price!)!),upcProduct:cell.upcVal!)
+        let selectorFrame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0)
+        self.quantitySelectorMg = ShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: NSNumber(value: Double(price!)! as Double),upcProduct:cell.upcVal!)
         self.view.addSubview(self.quantitySelectorMg!)
         self.quantitySelectorMg!.closeAction = { () in
-            self.sharePopover!.dismissPopoverAnimated(true)
+            self.sharePopover!.dismiss(animated: true)
             self.quantitySelectorMg = nil
         }
         self.quantitySelectorMg!.addToCartAction = { (quantity:String) in
             self.quantitySelectorMg!.closeAction()
             let maxProducts = (cell.onHandInventory <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory : 5
             if maxProducts >= Int(quantity) {
-                var item = self.detailItems![indexPath!.row]
+                var item = self.detailItems![(indexPath! as NSIndexPath).row]
                 //var upc = item["upc"] as? String
-                item["quantity"] = NSNumber(integer:Int(quantity)!)
-                self.detailItems![indexPath!.row] = item
+                item["quantity"] = NSNumber(value: Int(quantity)! as Int)
+                self.detailItems![(indexPath! as NSIndexPath).row] = item
                 self.tableView?.reloadData()
                 self.removeSelector()
                 self.updateTotalLabel()
@@ -114,17 +134,17 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
             }
         }
         
-        self.quantitySelectorMg!.backgroundColor = UIColor.clearColor()
+        self.quantitySelectorMg!.backgroundColor = UIColor.clear
         let controller = UIViewController()
-        controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 388.0)
+        controller.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0)
         controller.view.addSubview(self.quantitySelectorMg!)
-        controller.view.backgroundColor = UIColor.clearColor()
+        controller.view.backgroundColor = UIColor.clear
             
         self.sharePopover = UIPopoverController(contentViewController: controller)
-        self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
+        self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 388.0)
         self.sharePopover!.backgroundColor = WMColor.light_blue
-        let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
-        self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+        let rect = cell.convert(cell.quantityIndicator!.frame, to: self.view.superview!)
+        self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
     }
     
     /**
@@ -132,11 +152,11 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
      */
     override func addViewLoad(){
         if self.loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, 682.0, 658.0))
+            self.loading = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: 682.0, height: 658.0))
             if self.showInPopover {
-                self.loading?.frame = CGRectMake(0.0, 0.0, self.view.frame.width, self.view.frame.height)
+                self.loading?.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height)
             }
-            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.loading!.backgroundColor = UIColor.white
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
@@ -156,13 +176,13 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
             //self.sharePopover!.backgroundColor = UIColor.greenColor()
-            let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
-            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            let rect = self.footerSection!.convert(self.shareButton!.frame, to: self.view.superview!)
+            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
         }
     }
     
     //MARK: - UIPopoverControllerDelegate
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+    func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         self.sharePopover = nil
     }
     

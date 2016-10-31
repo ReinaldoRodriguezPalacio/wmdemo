@@ -31,28 +31,28 @@ class PreviousOrdersTableViewCell: UITableViewCell {
     
     func setup() {
         
-        trackingNumberLabel = UILabel(frame: CGRectMake(16, 0, (IS_IPAD ? 182 : 64), 46))
+        trackingNumberLabel = UILabel(frame: CGRect(x: 16, y: 0, width: (IS_IPAD ? 182 : 64), height: 46))
         trackingNumberLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         trackingNumberLabel.textColor = WMColor.reg_gray
         
-        dateLabel = UILabel(frame: CGRectMake((IS_IPAD ? 214 : 91), 0, (IS_IPAD ? 182 : 64), 46))
+        dateLabel = UILabel(frame: CGRect(x: (IS_IPAD ? 214 : 91), y: 0, width: (IS_IPAD ? 182 : 64), height: 46))
         dateLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         dateLabel.textColor = WMColor.reg_gray
         
-        statusLabel = UILabel(frame: CGRectMake((IS_IPAD ? 412 : 171), 0, (IS_IPAD ? 193 : 100), 46))
+        statusLabel = UILabel(frame: CGRect(x: (IS_IPAD ? 412 : 171), y: 0, width: (IS_IPAD ? 193 : 100), height: 46))
         statusLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         statusLabel.textColor = WMColor.reg_gray
         statusLabel.numberOfLines = 2
-        statusLabel.textAlignment = NSTextAlignment.Left
+        statusLabel.textAlignment = NSTextAlignment.left
         
-        countItems = UILabel(frame: CGRectMake((IS_IPAD ? 621 : self.bounds.width - 32), 0, (IS_IPAD ? 46 : 18), 46))
+        countItems = UILabel(frame: CGRect(x: (IS_IPAD ? 621 : self.bounds.width - 32), y: 0, width: (IS_IPAD ? 46 : 18), height: 46))
         countItems.font = WMFont.fontMyriadProRegularOfSize(12)
         countItems.textColor = WMColor.reg_gray
-        countItems.textAlignment = NSTextAlignment.Center
+        countItems.textAlignment = NSTextAlignment.center
         
         viewSeparator = UIView()
         viewSeparator.backgroundColor = WMColor.light_gray
-        self.viewSeparator.frame = CGRectMake(trackingNumberLabel.frame.minX ,self.frame.maxY - AppDelegate.separatorHeigth(),self.frame.width - trackingNumberLabel.frame.minX,AppDelegate.separatorHeigth())
+        self.viewSeparator.frame = CGRect(x: trackingNumberLabel.frame.minX ,y: self.frame.maxY - AppDelegate.separatorHeigth(),width: self.frame.width - trackingNumberLabel.frame.minX,height: AppDelegate.separatorHeigth())
         self.addSubview(viewSeparator)
         
         self.addSubview(trackingNumberLabel)
@@ -65,17 +65,17 @@ class PreviousOrdersTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        viewSeparator.frame = CGRectMake(trackingNumberLabel.frame.minX, self.bounds.maxY - AppDelegate.separatorHeigth(), self.bounds.width - trackingNumberLabel.frame.minX,AppDelegate.separatorHeigth())
+        viewSeparator.frame = CGRect(x: trackingNumberLabel.frame.minX, y: self.bounds.maxY - AppDelegate.separatorHeigth(), width: self.bounds.width - trackingNumberLabel.frame.minX,height: AppDelegate.separatorHeigth())
         //statusLabel.frame = CGRectMake(self.bounds.width - 94, 18, 70, 14)
     }
     
-    func setValues(date:String,trackingNumber:String,status:String, countsItem:String) {
-        let dateFormat = NSDateFormatter()
+    func setValues(_ date:String,trackingNumber:String,status:String, countsItem:String) {
+        let dateFormat = DateFormatter()
         dateFormat.dateFormat = "dd/MM/yyyy"
-        let date = dateFormat.dateFromString(date)
+        let date = dateFormat.date(from: date)
         
         //dateFormat.dateFormat = "dd MMM yy"
-        let resultDate = dateFormat.stringFromDate(date!)
+        let resultDate = dateFormat.string(from: date!)
         
         dateLabel.text = resultDate
         trackingNumberLabel.text = trackingNumber
@@ -85,7 +85,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         statusLabel.textColor = PreviousOrdersTableViewCell.setColorStatus(status)
     }
     
-    class func setColorStatus(status:String) -> UIColor? {
+    class func setColorStatus(_ status:String) -> UIColor? {
         var ColorStatus : UIColor?
         
         switch status {

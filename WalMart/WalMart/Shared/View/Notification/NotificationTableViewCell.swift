@@ -27,37 +27,37 @@ class NotificationTableViewCell : UITableViewCell {
     
     func setup() {
         
-        dateLabel = UILabel(frame: CGRectMake(16, 16, 100, 16))
+        dateLabel = UILabel(frame: CGRect(x: 16, y: 16, width: 100, height: 16))
         dateLabel?.textColor = WMColor.light_blue
         dateLabel?.font = WMFont.fontMyriadProLightOfSize(16)
         self.addSubview(dateLabel!)
         
-        hourLabel = UILabel (frame: CGRectMake(269, 16, 35, 16))
+        hourLabel = UILabel (frame: CGRect(x: 269, y: 16, width: 35, height: 16))
         hourLabel?.textColor = WMColor.light_blue
         hourLabel?.font = WMFont.fontMyriadProLightOfSize(16)
-        hourLabel?.textAlignment = .Right
+        hourLabel?.textAlignment = .right
         self.addSubview(hourLabel!)
         
-        descLabel = UILabel (frame: CGRectMake(16, hourLabel!.frame.maxY + 8, self.frame.size.width - 32, 40))
+        descLabel = UILabel (frame: CGRect(x: 16, y: hourLabel!.frame.maxY + 8, width: self.frame.size.width - 32, height: 40))
         descLabel?.textColor = WMColor.reg_gray
         descLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         descLabel?.numberOfLines = 3
-        descLabel?.lineBreakMode =  .ByClipping
+        descLabel?.lineBreakMode =  .byClipping
         descLabel?.adjustsFontSizeToFitWidth =  true
         
         self.addSubview(descLabel!)
         
         line = CALayer()
-        line.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(line, atIndex: 1000)
+        line.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(line, at: 1000)
         
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        hourLabel?.frame =  CGRectMake(self.frame.width - 51, 16, 35, 16)
-        descLabel!.frame = CGRectMake(16, hourLabel!.frame.maxY + 8, self.frame.size.width - 32, 40)
-        line.frame = CGRectMake(0,self.bounds.maxY - 1,self.bounds.width, 1)
+        hourLabel?.frame =  CGRect(x: self.frame.width - 51, y: 16, width: 35, height: 16)
+        descLabel!.frame = CGRect(x: 16, y: hourLabel!.frame.maxY + 8, width: self.frame.size.width - 32, height: 40)
+        line.frame = CGRect(x: 0,y: self.bounds.maxY - 1,width: self.bounds.width, height: 1)
 
     }
     

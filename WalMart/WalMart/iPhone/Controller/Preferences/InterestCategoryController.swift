@@ -39,7 +39,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         if !IS_IPAD {
             self.titleLabel!.frame.origin.x = 30
@@ -51,50 +51,50 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         tableCategories.dataSource = self
         tableCategories.delegate = self
         
-        tableCategories.registerClass(CategoryInterestTableViewCell.self, forCellReuseIdentifier: "CategoryInterestCell")
-        tableCategories.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableCategories.register(CategoryInterestTableViewCell.self, forCellReuseIdentifier: "CategoryInterestCell")
+        tableCategories.separatorStyle = UITableViewCellSeparatorStyle.none
         
         self.view.addSubview(tableCategories)
         
         self.checkAllButton = UIButton()
         
-        self.checkAllButton?.setTitle(NSLocalizedString("preferences.category.all.button",comment:""), forState: UIControlState.Normal)
-        self.checkAllButton!.setImage(UIImage(named:"filter_check_gray"), forState: UIControlState.Normal)
-        self.checkAllButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.checkAllButton?.setTitle(NSLocalizedString("preferences.category.all.button",comment:""), for: UIControlState())
+        self.checkAllButton!.setImage(UIImage(named:"filter_check_gray"), for: UIControlState())
+        self.checkAllButton!.setImage(UIImage(named:"check_blue"), for: UIControlState.selected)
         self.checkAllButton!.titleLabel?.font = IS_IPAD ?  WMFont.fontMyriadProRegularOfSize(14) : WMFont.fontMyriadProRegularOfSize(12)
-        self.checkAllButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        self.checkAllButton?.addTarget(self, action: #selector(InterestCategoryController.markAllInterestCategories(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.checkAllButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.checkAllButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
+        self.checkAllButton?.addTarget(self, action: #selector(InterestCategoryController.markAllInterestCategories(_:)), for: UIControlEvents.touchUpInside)
+        self.checkAllButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.checkAllButton!.titleEdgeInsets = UIEdgeInsetsMake(2, 8, 0, 0)
         self.checkAllButton?.contentEdgeInsets = UIEdgeInsetsMake(0, 16, 0, 0)
         self.header?.addSubview(self.checkAllButton!)
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view!.layer.insertSublayer(layerLine, atIndex: 1000)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view!.layer.insertSublayer(layerLine, at: 1000)
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), for: UIControlEvents.touchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), forState:.Normal)
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), for:UIControlState())
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(InterestCategoryController.savePreferences(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(InterestCategoryController.savePreferences(_:)), for: UIControlEvents.touchUpInside)
         self.view.addSubview(saveButton!)
         
         tableHeaderView = UIView()
         headerLabel = UILabel()
         headerLabel!.numberOfLines = 2
-        headerLabel!.lineBreakMode = .ByWordWrapping
+        headerLabel!.lineBreakMode = .byWordWrapping
         headerLabel!.font = IS_IPAD ?  WMFont.fontMyriadProRegularOfSize(14) : WMFont.fontMyriadProRegularOfSize(12)
         headerLabel!.textColor = WMColor.reg_gray
         headerLabel!.text = NSLocalizedString("preferences.category.headerTitle", comment:"")
@@ -106,36 +106,36 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.titleLabel!.frame = CGRectMake(5, 1, self.header!.frame.width - 92, self.header!.frame.maxY)
-        self.checkAllButton!.frame = CGRectMake(self.header!.frame.width - 80, 1, 80, 46)
-        checkAllButton!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-        checkAllButton!.titleLabel!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-        checkAllButton!.imageView!.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+        self.titleLabel!.frame = CGRect(x: 5, y: 1, width: self.header!.frame.width - 92, height: self.header!.frame.maxY)
+        self.checkAllButton!.frame = CGRect(x: self.header!.frame.width - 80, y: 1, width: 80, height: 46)
+        checkAllButton!.transform = CGAffineTransform(scaleX: -1.0, y: 1.0);
+        checkAllButton!.titleLabel!.transform = CGAffineTransform(scaleX: -1.0, y: 1.0);
+        checkAllButton!.imageView!.transform = CGAffineTransform(scaleX: -1.0, y: 1.0);
         
         self.layerLineHeader = CALayer()
-        layerLineHeader.backgroundColor = WMColor.light_light_gray.CGColor
-        self.tableHeaderView!.layer.insertSublayer(layerLineHeader, atIndex: 1000)
+        layerLineHeader.backgroundColor = WMColor.light_light_gray.cgColor
+        self.tableHeaderView!.layer.insertSublayer(layerLineHeader, at: 1000)
         
-        self.tableHeaderView!.frame = CGRectMake(0, 0,  self.view.frame.width, 46)
-        self.headerLabel!.frame = CGRectMake(16, 0,  self.view.frame.width - 32, 46)
-        self.layerLineHeader.frame = CGRectMake(0, self.tableHeaderView!.frame.height - 1,  self.tableHeaderView!.frame.width, 1)
+        self.tableHeaderView!.frame = CGRect(x: 0, y: 0,  width: self.view.frame.width, height: 46)
+        self.headerLabel!.frame = CGRect(x: 16, y: 0,  width: self.view.frame.width - 32, height: 46)
+        self.layerLineHeader.frame = CGRect(x: 0, y: self.tableHeaderView!.frame.height - 1,  width: self.tableHeaderView!.frame.width, height: 1)
         self.tableCategories.tableHeaderView = tableHeaderView
         
         if TabBarHidden.isTabBarHidden || IS_IPAD {
-            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
-            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
-            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
-            self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 112)
+            self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 66,  width: self.view.frame.width, height: 1)
+            self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 50, width: 140, height: 34)
+            self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 50, width: 140, height: 34)
+            self.tableCategories.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 112)
         } else {
-            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
-            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
-            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
-            self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 158)
+            self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 112,  width: self.view.frame.width, height: 1)
+            self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 96, width: 140, height: 34)
+            self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 96, width: 140, height: 34)
+            self.tableCategories.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 158)
         }
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     }
@@ -146,28 +146,28 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     }
     
     override func willShowTabbar() {
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 112,  self.view.frame.width, 1)
-            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 96, 140, 34)
-            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 96, 140, 34)
-            self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 158)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 112,  width: self.view.frame.width, height: 1)
+            self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 96, width: 140, height: 34)
+            self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 96, width: 140, height: 34)
+            self.tableCategories.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 158)
         })
     }
     
     override func willHideTabbar() {
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.layerLine.frame = CGRectMake(0, self.view.frame.height - 66,  self.view.frame.width, 1)
-            self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148, self.view.frame.height - 50, 140, 34)
-            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.frame.height - 50, 140, 34)
-            self.tableCategories.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 112)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 66,  width: self.view.frame.width, height: 1)
+            self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 50, width: 140, height: 34)
+            self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 50, width: 140, height: 34)
+            self.tableCategories.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 112)
         })
     }
     
     func addViewLoad(){
         if viewLoad == nil {
-            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            let bounds = IS_IPAD ? CGRect(x: 0, y: 0, width: 341, height: 705) : self.view.bounds
             viewLoad = WMLoadingView(frame: bounds)
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.backgroundColor = UIColor.white
             viewLoad.startAnnimating(true)
             self.view.addSubview(viewLoad)
         }
@@ -187,16 +187,16 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         invokePreferenceService()
     }
     
-    func savePreferences(sender:UIButton) {
+    func savePreferences(_ sender:UIButton) {
         self.invokeSavepeferences()
     }
     
-    private func invokePreferenceService(){
+    fileprivate func invokePreferenceService(){
         
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:NSDictionary) in
             
-            self.userPreferences.addEntriesFromDictionary(result as [NSObject : AnyObject])
+            self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
             let categories = result["categories"] as! NSArray
             let userPreferencesCategories = result["userPreferences"] as! NSArray
             
@@ -219,16 +219,16 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
                 self.interestCategories.append(newCategory)
             }
             
-            self.interestCategories.sortInPlace({ $0.categoryDescription < $1.categoryDescription })
+            self.interestCategories.sort(by: { $0.categoryDescription < $1.categoryDescription })
             self.tableCategories.reloadData()
             self.removeViewLoad()
             
-            self.alertView?.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
+            self.alertView?.setMessage(NSLocalizedString("preferences.message.saved", comment:"") as NSString)
             self.alertView?.showDoneIcon()
             
         }, errorBlock: { (error:NSError) in
             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
-            alertView!.setMessage(NSLocalizedString("preferences.message.errorLoad", comment:""))
+            alertView!.setMessage(NSLocalizedString("preferences.message.errorLoad", comment:"") as NSString)
             alertView!.showErrorIcon("Ok")
             self.removeViewLoad()
             print("Error invokePreferenceService \(error.localizedDescription)")
@@ -236,16 +236,16 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         
     }
     
-    private func invokeSavepeferences(){
+    fileprivate func invokeSavepeferences(){
         
         // TODO preguntar por valor:: acceptConsent
         
         let peferencesService = SetPreferencesService()
-        let params = peferencesService.buildParams(self.getSelectedInterestCategories(), onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as? String ?? "", abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
+        let params = peferencesService.buildParams(self.getSelectedInterestCategories() as NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as? String ?? "", abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
         peferencesService.jsonFromObject(params)
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
-        self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
+        self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:"") as NSString)
             
         peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
             print("Preferencias Guardadas")
@@ -259,7 +259,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         
     }
     
-    private func getSelectedInterestCategories()-> [String] {
+    fileprivate func getSelectedInterestCategories()-> [String] {
         
         let interestCategoriesPreferences = self.interestCategories.filter({$0.isSelected == true})
         var filteredCategories = [String]()
@@ -271,27 +271,27 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         return filteredCategories
     }
     
-    func markInterestCategory(sender:UIButton) {
+    func markInterestCategory(_ sender:UIButton) {
         
         interestCategories[sender.tag].isSelected = !interestCategories[sender.tag].isSelected
-        sender.selected = !sender.selected
+        sender.isSelected = !sender.isSelected
         
         if self.interestCategories.filter({$0.isSelected}).count == self.interestCategories.count {
-            self.checkAllButton!.selected = true
+            self.checkAllButton!.isSelected = true
         } else {
-            self.checkAllButton!.selected = false
+            self.checkAllButton!.isSelected = false
         }
         
     }
     
-    func markAllInterestCategories(sender:UIButton) {
+    func markAllInterestCategories(_ sender:UIButton) {
         
-        self.checkAllButton!.selected = !self.checkAllButton!.selected
+        self.checkAllButton!.isSelected = !self.checkAllButton!.isSelected
         
         var interestTemporalCategories = [InterestCategory]()
         
         for var interestCategory in interestCategories {
-            interestCategory.isSelected = self.checkAllButton!.selected ? true : false
+            interestCategory.isSelected = self.checkAllButton!.isSelected ? true : false
             interestTemporalCategories.append(interestCategory)
         }
         
@@ -302,24 +302,24 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     
     // MARK: - TableViewDataSource
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return interestCategories.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableCategories.dequeueReusableCellWithIdentifier("CategoryInterestCell") as! CategoryInterestTableViewCell
-        let interestCategory = interestCategories[indexPath.row]
+        let cell = tableCategories.dequeueReusableCell(withIdentifier: "CategoryInterestCell") as! CategoryInterestTableViewCell
+        let interestCategory = interestCategories[(indexPath as NSIndexPath).row]
         
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        cell.categoryButton!.setTitle(interestCategory.categoryDescription, forState: .Normal)
-        cell.categoryButton!.selected = interestCategory.isSelected
-        cell.categoryButton!.addTarget(self, action: #selector(InterestCategoryController.markInterestCategory(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        cell.categoryButton!.tag = indexPath.row
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        cell.categoryButton!.setTitle(interestCategory.categoryDescription, for: UIControlState())
+        cell.categoryButton!.isSelected = interestCategory.isSelected
+        cell.categoryButton!.addTarget(self, action: #selector(InterestCategoryController.markInterestCategory(_:)), for: UIControlEvents.touchUpInside)
+        cell.categoryButton!.tag = (indexPath as NSIndexPath).row
         
         return cell
     }

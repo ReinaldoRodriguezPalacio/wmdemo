@@ -19,6 +19,6 @@ class IPOOrderEmptyView : IPOEmptyView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.size.height - 140, 160 , 40)
+        self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.size.height - 140, width: 160 , height: 40)
     }    
 }

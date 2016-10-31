@@ -27,35 +27,35 @@ class UpdateViewController: UIView {
     
         title = UILabel()
         title.text = NSLocalizedString("update.title",comment:"")
-        title.textColor = UIColor.whiteColor()
+        title.textColor = UIColor.white
         title.font = WMFont.fontMyriadProSemiboldOfSize(24)
-        title.textAlignment = .Center
+        title.textAlignment = .center
         self.addSubview(title)
        
         desc = UILabel()
         desc.text = NSLocalizedString("update.description" ,comment:"")
-        desc.textColor = UIColor.whiteColor()
+        desc.textColor = UIColor.white
         desc.font = WMFont.fontMyriadProRegularOfSize(15)
         desc.numberOfLines = 0
-        desc.textAlignment = .Center
+        desc.textAlignment = .center
         self.addSubview(desc)
         
         later = UIButton()
-        later.setTitle(NSLocalizedString("update.later" ,comment:""), forState: UIControlState.Normal)
-        later.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        later.setTitle(NSLocalizedString("update.later" ,comment:""), for: UIControlState())
+        later.setTitleColor(UIColor.white, for: UIControlState())
         later.backgroundColor = WMColor.blue
         later.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
         later.layer.cornerRadius = 18
-        later.addTarget(self, action: #selector(UpdateViewController.updatelater), forControlEvents: UIControlEvents.TouchUpInside)
+        later.addTarget(self, action: #selector(UpdateViewController.updatelater), for: UIControlEvents.touchUpInside)
         self.addSubview(later)
         
         update = UIButton()
-        update.setTitle(NSLocalizedString("update.update" ,comment:""), forState: UIControlState.Normal)
-        update.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        update.setTitle(NSLocalizedString("update.update" ,comment:""), for: UIControlState())
+        update.setTitleColor(UIColor.white, for: UIControlState())
         update.backgroundColor = WMColor.green
         update.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
         update.layer.cornerRadius = 18
-        update.addTarget(self, action: #selector(UpdateViewController.goToAppStore), forControlEvents: UIControlEvents.TouchUpInside)
+        update.addTarget(self, action: #selector(UpdateViewController.goToAppStore), for: UIControlEvents.touchUpInside)
         self.addSubview(update)
         
     }
@@ -68,19 +68,19 @@ class UpdateViewController: UIView {
         
         
         var startY  : CGFloat =  189.0
-        if UIDevice.currentDevice().userInterfaceIdiom != .Phone  {
+        if UIDevice.current.userInterfaceIdiom != .phone  {
             startY =  289
         }
         
-        title.frame = CGRectMake((self.frame.width / 2) - 145, startY, 290, 24)
-        desc.frame = CGRectMake((self.frame.width / 2) - 145, title.frame.maxY  + 26, 290, 45)
+        title.frame = CGRect(x: (self.frame.width / 2) - 145, y: startY, width: 290, height: 24)
+        desc.frame = CGRect(x: (self.frame.width / 2) - 145, y: title.frame.maxY  + 26, width: 290, height: 45)
        
         
         if !forceUpdate {
-            later.frame = CGRectMake((self.frame.width / 2) - 145, desc.frame.maxY + 80, 136, 36)
-            update.frame = CGRectMake(later.frame.maxX + 15, later.frame.minY, 136, 36)
+            later.frame = CGRect(x: (self.frame.width / 2) - 145, y: desc.frame.maxY + 80, width: 136, height: 36)
+            update.frame = CGRect(x: later.frame.maxX + 15, y: later.frame.minY, width: 136, height: 36)
         } else {
-            update.frame = CGRectMake((self.frame.width / 2) - 145,  desc.frame.maxY + 80, 290, 36)
+            update.frame = CGRect(x: (self.frame.width / 2) - 145,  y: desc.frame.maxY + 80, width: 290, height: 36)
         }
         
         
@@ -96,18 +96,18 @@ class UpdateViewController: UIView {
     }
     
     func close() {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.alpha = 0
-            }) { (complete) -> Void in
+            }, completion: { (complete) -> Void in
                 self.removeFromSuperview()
-        }
+        }) 
     }
     
     
     func goToAppStore() {
-        let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
-        if UIApplication.sharedApplication().canOpenURL(url!) == true  {
-            UIApplication.sharedApplication().openURL(url!)
+        let url  = URL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+        if UIApplication.shared.canOpenURL(url!) == true  {
+            UIApplication.shared.openURL(url!)
         }
         if !forceUpdate {
             self.close()

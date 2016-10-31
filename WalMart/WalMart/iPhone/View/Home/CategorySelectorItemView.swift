@@ -31,12 +31,12 @@ class CategorySelectorItemView: UIView {
         
         
         let maxStrCat =  "Especiales "
-        sizeEspeciales = maxStrCat.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
+        sizeEspeciales = maxStrCat.size(attributes: [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
         
-        especiales = UILabel(frame: CGRectMake(-sizeEspeciales.width, self.bounds.minY, sizeEspeciales.width, self.bounds.height))
+        especiales = UILabel(frame: CGRect(x: -sizeEspeciales.width, y: self.bounds.minY, width: sizeEspeciales.width, height: self.bounds.height))
         especiales.text = maxStrCat
         especiales.font = WMFont.fontMyriadProRegularOfSize(16)
-        especiales.textColor = UIColor.whiteColor()
+        especiales.textColor = UIColor.white
         especiales.alpha = 0
         especiales.clipsToBounds = true
         
@@ -47,26 +47,26 @@ class CategorySelectorItemView: UIView {
     
     
     func setTextEspeciales() {
-        self.especiales.frame =  CGRectMake( self.title.frame.minX, self.bounds.minY, 0, self.bounds.height)
+        self.especiales.frame =  CGRect( x: self.title.frame.minX, y: self.bounds.minY, width: 0, height: self.bounds.height)
         self.especiales.alpha = 1
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             let maxStrCat =  self.title.text!
-            let sizeCategory = maxStrCat.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
+            let sizeCategory = maxStrCat.size(attributes: [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
             let space = self.sizeEspeciales.width + sizeCategory.width
-            self.especiales.frame = CGRectMake((self.bounds.width / 2) - (space / 2) , self.bounds.minY, self.sizeEspeciales.width, self.bounds.height)
-            self.title.frame = CGRectMake(self.especiales.frame.maxX, self.bounds.minY, sizeCategory.width , self.bounds.height)
-            }) { (complete:Bool) -> Void in
+            self.especiales.frame = CGRect(x: (self.bounds.width / 2) - (space / 2) , y: self.bounds.minY, width: self.sizeEspeciales.width, height: self.bounds.height)
+            self.title.frame = CGRect(x: self.especiales.frame.maxX, y: self.bounds.minY, width: sizeCategory.width , height: self.bounds.height)
+            }, completion: { (complete:Bool) -> Void in
                 
-        }
+        }) 
     }
     
     func deleteEspeciales() {
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.especiales.alpha = 0
             self.centerText()
-            }) { (complete:Bool) -> Void in
+            }, completion: { (complete:Bool) -> Void in
                 
-        }
+        }) 
     }
     
     func centerText() {

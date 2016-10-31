@@ -30,28 +30,28 @@ class AddressNoStoreView: UIView {
         self.infoLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.infoLabel!.textColor = WMColor.light_blue
         self.infoLabel!.numberOfLines = 2
-        self.infoLabel!.textAlignment = .Center
+        self.infoLabel!.textAlignment = .center
         self.addSubview(infoLabel!)
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_gray.CGColor
-        self.layer.insertSublayer(layerLine, atIndex: 0)
+        layerLine.backgroundColor = WMColor.light_gray.cgColor
+        self.layer.insertSublayer(layerLine, at: 0)
         
         self.newButton = UIButton()
-        self.newButton!.setTitle("Crear Dirección", forState:.Normal)
-        self.newButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.newButton!.setTitle("Crear Dirección", for:UIControlState())
+        self.newButton!.titleLabel!.textColor = UIColor.white
         self.newButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.newButton!.backgroundColor = WMColor.green
         self.newButton!.layer.cornerRadius = 17
-        self.newButton!.addTarget(self, action: #selector(AddressNoStoreView.new), forControlEvents: UIControlEvents.TouchUpInside)
+        self.newButton!.addTarget(self, action: #selector(AddressNoStoreView.new), for: UIControlEvents.touchUpInside)
         self.addSubview(newButton!)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.infoLabel!.frame = CGRectMake(16,49,self.frame.width - 40, 95)
-        self.layerLine.frame = CGRectMake(0,self.infoLabel!.frame.maxY,self.frame.width, 1)
-        self.newButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
+        self.infoLabel!.frame = CGRect(x: 16,y: 49,width: self.frame.width - 40, height: 95)
+        self.layerLine.frame = CGRect(x: 0,y: self.infoLabel!.frame.maxY,width: self.frame.width, height: 1)
+        self.newButton?.frame = CGRect(x: (self.frame.width/2) - 63 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
     }
     
     /**

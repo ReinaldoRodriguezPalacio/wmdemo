@@ -9,9 +9,9 @@
 import Foundation
 
 protocol IPOGRDepartmentSpecialTableViewCellDelegate {
-    func didTapProduct(upcProduct:String,descProduct:String)
-    func didTapLine(name:String,department:String,family:String,line:String)
-    func didTapMore(index: NSIndexPath)
+    func didTapProduct(_ upcProduct:String,descProduct:String)
+    func didTapLine(_ name:String,department:String,family:String,line:String)
+    func didTapMore(_ index: IndexPath)
 }
 
 class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
@@ -21,7 +21,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     var descLabel: UILabel?
     var moreButton: UIButton?
     var moreLabel: UILabel?
-    var index: NSIndexPath!
+    var index: IndexPath!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -47,13 +47,13 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         self.moreLabel?.text = "Ver todo"
         self.moreLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         self.moreLabel?.textColor = WMColor.light_blue
-        self.moreLabel?.textAlignment = .Center
-        self.moreLabel!.hidden =  true
+        self.moreLabel?.textAlignment = .center
+        self.moreLabel!.isHidden =  true
         
         self.moreButton = UIButton()
-        self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), forState: UIControlState.Normal)
-        self.moreButton!.hidden =  true
-        self.moreButton!.addTarget(self, action: #selector(IPOGRDepartmentSpecialTableViewCell.moreTap), forControlEvents: UIControlEvents.TouchUpInside)
+        self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), for: UIControlState())
+        self.moreButton!.isHidden =  true
+        self.moreButton!.addTarget(self, action: #selector(IPOGRDepartmentSpecialTableViewCell.moreTap), for: UIControlEvents.touchUpInside)
         
         self.addSubview(self.descLabel!)
         self.addSubview(self.moreLabel!)
@@ -65,7 +65,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     }
 
     
-    func setLines(lines:[[String:AnyObject]],width:CGFloat, index: NSIndexPath) {
+    func setLines(_ lines:[[String:AnyObject]],width:CGFloat, index: IndexPath) {
         self.index = index
         let jsonLines = JSON(lines)
         
@@ -75,7 +75,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 12, width, 111))
+            let product = GRProductSpecialCollectionViewCell(frame: CGRect(x: currentX, y: 12, width: width, height: 111))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["name"].stringValue
             
@@ -92,36 +92,36 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         }
         
         self.moreButton?.frame = CGRect(x: currentX + 24, y: 43, width: 16, height: 16)
-        self.moreButton!.hidden =  true
+        self.moreButton!.isHidden =  true
         self.moreLabel?.frame = CGRect(x: currentX, y: self.moreButton!.frame.maxY + 36, width: 64, height: 11)
-        self.moreLabel!.hidden =  true
-        self.descLabel!.hidden =  true
+        self.moreLabel!.isHidden =  true
+        self.descLabel!.isHidden =  true
         
         let tapOnMore =  UITapGestureRecognizer(target: self, action: #selector(IPOGRDepartmentSpecialTableViewCell.moreTap))
         descLabel!.addGestureRecognizer(tapOnMore)
         self.viewLoadingProduct ()
-        NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: #selector(IPOGRDepartmentSpecialTableViewCell.removeViewLoading), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(IPOGRDepartmentSpecialTableViewCell.removeViewLoading), userInfo: nil, repeats: false)
     }
     
     func removeViewLoading(){
-        viewLoading!.hidden =  true
-        moreButton!.hidden =  false
-        moreLabel!.hidden =  false
-        descLabel!.hidden =  false
+        viewLoading!.isHidden =  true
+        moreButton!.isHidden =  false
+        moreLabel!.isHidden =  false
+        descLabel!.isHidden =  false
     }
     
     func viewLoadingProduct(){
         viewLoading =  UIView()
-        viewLoading!.frame = CGRectMake(0,0,self.frame.width,125)
-        viewLoading!.backgroundColor =  UIColor.whiteColor()
+        viewLoading!.frame = CGRect(x: 0,y: 0,width: self.frame.width,height: 125)
+        viewLoading!.backgroundColor =  UIColor.white
         
-        let imageIndicator =  UIImageView(frame: CGRectMake(self.frame.midX - 16, 20,32,32))
+        let imageIndicator =  UIImageView(frame: CGRect(x: self.frame.midX - 16, y: 20,width: 32,height: 32))
         imageIndicator.image =  UIImage(named:"home_super_spark")
         viewLoading!.addSubview(imageIndicator)
         
-        let labelLoading =  UILabel(frame:CGRectMake(0, imageIndicator.frame.maxY + 10, self.frame.width, 30))
+        let labelLoading =  UILabel(frame:CGRect(x: 0, y: imageIndicator.frame.maxY + 10, width: self.frame.width, height: 30))
         labelLoading.text =  NSLocalizedString("gr.category.message.loading", comment:"")
-        labelLoading.textAlignment =  .Center
+        labelLoading.textAlignment =  .center
         labelLoading.font =  WMFont.fontMyriadProRegularOfSize(14)
         labelLoading.textColor = WMColor.light_blue
         viewLoading!.addSubview(labelLoading)
@@ -135,7 +135,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         }
     }
     
-    func productTap(sender:UITapGestureRecognizer) {
+    func productTap(_ sender:UITapGestureRecognizer) {
         //let viewC = sender.view as! GRProductSpecialCollectionViewCell
 //        
 //        delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!)

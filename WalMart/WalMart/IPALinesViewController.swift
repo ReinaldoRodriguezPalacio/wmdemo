@@ -18,27 +18,27 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     var linesCamp :[[String:AnyObject]]?
     var familyId : String!
     var loading: WMLoadingView?
-    var timmer: NSTimer?
+    var timmer: Timer?
  
 
     override func viewDidLoad() {
         self.view.clipsToBounds = true
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         //self.showLoadingView()
-        viewImageBgCategory = UIImageView(frame: CGRectMake(-120, 0, 1024, frameStart.height))
-        viewImageBgCategory.contentMode = UIViewContentMode.ScaleAspectFill
+        viewImageBgCategory = UIImageView(frame: CGRect(x: -120, y: 0, width: 1024, height: frameStart.height))
+        viewImageBgCategory.contentMode = UIViewContentMode.scaleAspectFill
         viewImageBgCategory.image = imgCategory
         viewImageBgCategory.clipsToBounds = true
         
         imageIcon = UIImageView()
-        imageIcon.frame = CGRectMake((self.frameStart.width / 2) - 24, 48, 48, 48)
+        imageIcon.frame = CGRect(x: (self.frameStart.width / 2) - 24, y: 48, width: 48, height: 48)
         imageIcon.image = imgIcon
         
         titleLabel = UILabel()
         titleLabel.font  = WMFont.fontMyriadProLightOfSize(25)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
-        titleLabel.frame = CGRectMake((self.frameStart.width / 2) - 200, 112, 400, 50)
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
+        titleLabel.frame = CGRect(x: (self.frameStart.width / 2) - 200, y: 112, width: 400, height: 50)
         titleLabel.text = titleStr
         
         
@@ -50,18 +50,18 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
         
         self.invokeServiceLine { () -> Void in
-            self.buttonClose?.hidden = true
+            self.buttonClose?.isHidden = true
             let lineSelect  = self.linesCamp![0] as NSDictionary
             self.searchProduct = IPASearchCatProductViewController()
             self.searchProduct.searchContextType = self.searchContextType
             self.searchProduct.delegateImgHeader = self
             self.searchProduct.imageBgCategory =  UIImage(named: "header_default")
             self.imageBackground = UIImageView()
-            self.imageBackground.setImageWithURL(NSURL(string: "http://\(self.urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.setImageWith(URL(string: "http://\(self.urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageBackground.image = image
                 self.searchProduct.imageBgCategory = image
                 
-                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
                     print("Error al presentar imagen")
             }
             self.searchProduct.imageIconCategory = UIImage(named: "default")
@@ -74,7 +74,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             self.searchProduct.delegateHeader = self
             self.view.addSubview(self.viewImageContent)
             
-            self.searchProduct.view.frame = CGRectMake(0, 0,  self.frameEnd.width,  self.frameEnd.height)
+            self.searchProduct.view.frame = CGRect(x: 0, y: 0,  width: self.frameEnd.width,  height: self.frameEnd.height)
             self.addChildViewController(self.searchProduct)
             self.view.addSubview(self.searchProduct.view)
             self.addPopover()
@@ -83,18 +83,18 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
          //self.view.addSubview(viewImageContent)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPALinesViewController.finisSearch), name: "FINISH_SEARCH", object: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(IPALinesViewController.finisSearch), name: NSNotification.Name(rawValue: "FINISH_SEARCH"), object: nil)
 
         if self.loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
-            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.loading = WMLoadingView(frame: CGRect(x: 11, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.white
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(true)
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         //super.viewDidAppear(animated)
     }
     
@@ -103,7 +103,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
      */
     func finisSearch(){
         self.loading!.stopAnnimating()
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         print("::Termina carga de productos de linea::")
     }
 
@@ -113,10 +113,10 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
      
      - parameter succesBlock: if succes service, return block
      */
-    func invokeServiceLine(succesBlock:(() -> Void)){
+    func invokeServiceLine(_ succesBlock:@escaping (() -> Void)){
         print("familyId::::\(familyId)")
         let service =  LineService()
-        service.callService(requestParams:familyId, successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams:familyId as AnyObject, successBlock: { (response:NSDictionary) -> Void in
             let listLines  =  response["subCategories"] as! NSArray
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
@@ -139,14 +139,14 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         lineController.families = self.linesCamp!
         lineController.selectedFamily = nil
         lineController.delegate = self
-        lineController.modalPresentationStyle = .Popover
-        lineController.preferredContentSize = CGSizeMake(320, 322)
+        lineController.modalPresentationStyle = .popover
+        lineController.preferredContentSize = CGSize(width: 320, height: 322)
         
         if popover ==  nil {
             popover = UIPopoverController(contentViewController: lineController)
         }
         popover!.delegate = self
-        timmer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(IPALinesViewController.openPopover), userInfo: nil, repeats: false)
+        timmer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(IPALinesViewController.openPopover), userInfo: nil, repeats: false)
         searchProduct.setSelectedHeaderCat()
         
         if lineController.familyTable != nil {
@@ -156,7 +156,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     }
     
     func openPopover() {
-        self.popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,250, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        self.popover!.present(from: CGRect(x: self.frameEnd.width / 2,y: 250, width: 0, height: 0), in: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         self.loading?.stopAnnimating()
     }
     
@@ -166,9 +166,9 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     override func closeCategory() {
         self.timmer?.invalidate()
         self.loading?.stopAnnimating()
-        self.popover?.dismissPopoverAnimated(false)
+        self.popover?.dismiss(animated: false)
         self.popover = nil
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewController(animated: true)
         self.actionClose?()
         //self.removeFromParentViewController()
         //self.view.removeFromSuperview()
@@ -181,14 +181,14 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
         lineController.families = self.linesCamp!
         
-        let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2, 245), toView:self.view)
+        let pointPop =  searchProduct.viewHeader.convert(CGPoint(x: self.view.frame.width / 2, y: 245), to:self.view)
         print(pointPop)
-        lineController.modalPresentationStyle = .Popover
+        lineController.modalPresentationStyle = .popover
         //lineController.preferredContentSize = CGSizeMake(320, 322)
         
         popover = UIPopoverController(contentViewController: lineController)
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,250, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popover!.present(from: CGRect(x: self.frameEnd.width / 2,y: 250, width: 0, height: 0), in: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         lineController.familyTable.reloadData()
         lineController.familyTable.contentSize =  CGSize(width: self.view.bounds.width, height: CGFloat((((self.linesCamp?.count)! + 1) * 64) + 40))
      
@@ -202,10 +202,10 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
      - parameter line:       line select
      - parameter name:       Title
      */
-    func didSelectLineList(department:String,family:String,line:String, name:String) {
+    func didSelectLineList(_ department:String,family:String,line:String, name:String) {
         lineController.departmentId = line
-        let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height - 40 ), toView:self.view)
-        searchProduct.loading = WMLoadingView(frame: CGRectMake(0, pointPop.y, self.view.bounds.width, self.view.bounds.height - pointPop.y))
+        let pointPop =  searchProduct.viewHeader.convert(CGPoint(x: self.view.frame.width / 2,  y: frameStart.height - 40 ), to:self.view)
+        searchProduct.loading = WMLoadingView(frame: CGRect(x: 0, y: pointPop.y, width: self.view.bounds.width, height: self.view.bounds.height - pointPop.y))
         
         //searchProduct.mgResults!.resetResult()
         searchProduct.results!.resetResult()
@@ -215,14 +215,14 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         searchProduct.idLine = line
         searchProduct.titleHeader = name
         
-        searchProduct.collection?.scrollRectToVisible(CGRectMake(0, 0, self.frameEnd.width, self.frameEnd.height), animated: false)
+        searchProduct.collection?.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.frameEnd.width, height: self.frameEnd.height), animated: false)
         searchProduct.showLoadingIfNeeded(false)
         searchProduct.brandText = ""
         
         searchProduct.getServiceProduct(resetTable: true)
         
         searchProduct.dismissCategory()
-        popover!.dismissPopoverAnimated(false)
+        popover!.dismiss(animated: false)
     }
 
     

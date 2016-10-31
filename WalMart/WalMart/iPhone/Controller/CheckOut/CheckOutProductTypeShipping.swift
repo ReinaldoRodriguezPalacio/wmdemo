@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CheckOutProductTypeShippingDelegate {
-    func selectDataTypeShipping(envio: String, util: String, date: String, rowSelected: Int,idSolot:String)
+    func selectDataTypeShipping(_ envio: String, util: String, date: String, rowSelected: Int,idSolot:String)
 }
 
 
@@ -46,8 +46,8 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var selectTypeDelivery = ""
     var textFieldSelected = ""
     var slotSelected = ""
-    var selectedSlotIdx: NSIndexPath! = NSIndexPath(forRow: 0, inSection: 0)
-    var selectedDateIdx: NSIndexPath! = NSIndexPath(forRow: 0, inSection: 0)
+    var selectedSlotIdx: IndexPath! = IndexPath(row: 0, section: 0)
+    var selectedDateIdx: IndexPath! = IndexPath(row: 0, section: 0)
     var titleString : String?
     
     var paymentSelected : NSDictionary?
@@ -62,26 +62,26 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel?.text = titleString
-        self.backButton?.hidden =  IS_IPAD
+        self.backButton?.isHidden =  IS_IPAD
         
         self.viewFooter =  UIView()
-        self.viewFooter?.backgroundColor = UIColor.whiteColor()
+        self.viewFooter?.backgroundColor = UIColor.white
         self.view.addSubview(viewFooter!)
         
         let layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        viewFooter!.layer.insertSublayer(layerLine, atIndex: 1000)
-        layerLine.frame = CGRectMake(0, 0, self.viewFooter!.frame.width, 2)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        viewFooter!.layer.insertSublayer(layerLine, at: 1000)
+        layerLine.frame = CGRect(x: 0, y: 0, width: self.viewFooter!.frame.width, height: 2)
         
         saveButton = UIButton()
-        saveButton!.setTitle(NSLocalizedString("Guardar", comment: ""), forState: .Normal)
-        saveButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        saveButton!.setTitle(NSLocalizedString("Guardar", comment: ""), for: UIControlState())
+        saveButton!.setTitleColor(UIColor.white, for: UIControlState())
         saveButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         saveButton!.backgroundColor =  WMColor.green
         saveButton!.layer.cornerRadius =  17
-        saveButton!.addTarget(self, action: #selector(CheckOutProductTypeShipping.save), forControlEvents: .TouchUpInside)
+        saveButton!.addTarget(self, action: #selector(CheckOutProductTypeShipping.save), for: .touchUpInside)
         self.viewFooter?.addSubview(saveButton!)
         self.view.addSubview(viewFooter!)
         
@@ -93,37 +93,37 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
 
 
         self.deliveryButton = UIButton()
-        self.deliveryButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.deliveryButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.deliveryButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
-        self.deliveryButton!.setTitle(NSLocalizedString("home.delivery", comment: ""), forState: .Normal)
+        self.deliveryButton!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+        self.deliveryButton!.setImage(UIImage(named:"check_full"), for: UIControlState.selected)
+        self.deliveryButton!.setTitleColor(WMColor.dark_gray, for: UIControlState())
+        self.deliveryButton!.setTitle(NSLocalizedString("home.delivery", comment: ""), for: UIControlState())
         self.deliveryButton!.titleEdgeInsets = UIEdgeInsets(top: 3, left: 10, bottom: 0, right:0)
-        self.deliveryButton!.contentHorizontalAlignment = .Left
+        self.deliveryButton!.contentHorizontalAlignment = .left
         self.deliveryButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.deliveryButton?.tag =  1
-        self.deliveryButton?.addTarget(self, action: #selector(CheckOutProductTypeShipping.checkTypeDeliver(_:) ), forControlEvents: .TouchUpInside)
+        self.deliveryButton?.addTarget(self, action: #selector(CheckOutProductTypeShipping.checkTypeDeliver(_:) ), for: .touchUpInside)
        
 
         self.view.addSubview(deliveryButton!)
         
-        delivaryCost = CurrencyCustomLabel(frame: CGRectMake(self.deliveryButton!.frame.maxX + 3, deliveryButton!.frame.minY, 50, 18))
-        delivaryCost!.textAlignment = .Right
+        delivaryCost = CurrencyCustomLabel(frame: CGRect(x: self.deliveryButton!.frame.maxX + 3, y: deliveryButton!.frame.minY, width: 50, height: 18))
+        delivaryCost!.textAlignment = .right
         self.view.addSubview(delivaryCost!)
         
         self.collectButton = UIButton()
-        self.collectButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.collectButton!.setImage(UIImage(named:"check_full"), forState: UIControlState.Selected)
-        self.collectButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
-        self.collectButton!.setTitle(NSLocalizedString("store.pickup", comment: ""), forState: .Normal)
+        self.collectButton!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+        self.collectButton!.setImage(UIImage(named:"check_full"), for: UIControlState.selected)
+        self.collectButton!.setTitleColor(WMColor.dark_gray, for: UIControlState())
+        self.collectButton!.setTitle(NSLocalizedString("store.pickup", comment: ""), for: UIControlState())
         self.collectButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.collectButton!.titleEdgeInsets = UIEdgeInsets(top: 3, left: 10, bottom: 0, right:0)
-        self.collectButton!.addTarget(self, action: #selector(CheckOutProductTypeShipping.checkTypeDeliver(_:)), forControlEvents: .TouchUpInside)
+        self.collectButton!.addTarget(self, action: #selector(CheckOutProductTypeShipping.checkTypeDeliver(_:)), for: .touchUpInside)
         self.collectButton?.tag =  2
-        self.collectButton!.contentHorizontalAlignment = .Left
+        self.collectButton!.contentHorizontalAlignment = .left
         self.view.addSubview(collectButton!)
         
-        collectCost = CurrencyCustomLabel(frame: CGRectMake(self.collectButton!.frame.maxX + 3, collectButton!.frame.minY, 50, 18))
-        collectCost!.textAlignment = .Right
+        collectCost = CurrencyCustomLabel(frame: CGRect(x: self.collectButton!.frame.maxX + 3, y: collectButton!.frame.minY, width: 50, height: 18))
+        collectCost!.textAlignment = .right
         self.view.addSubview(collectCost!)
         
         setvalues()
@@ -138,22 +138,22 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         super.viewWillLayoutSubviews()
         self.viewFooter?.frame = CGRect(x:0 , y:self.view.frame.maxY - 64, width:self.view.bounds.width , height: 64 )
         
-        self.titleDelivery?.frame =  CGRectMake(16,headerHeight + 16 ,self.view.frame.width - 32 ,14)
+        self.titleDelivery?.frame =  CGRect(x: 16,y: headerHeight + 16 ,width: self.view.frame.width - 32 ,height: 14)
         
-        self.deliveryButton?.frame =  CGRectMake(16,self.titleDelivery!.frame.maxY + 16 ,self.view.frame.midX - 16 ,46)
+        self.deliveryButton?.frame =  CGRect(x: 16,y: self.titleDelivery!.frame.maxY + 16 ,width: self.view.frame.midX - 16 ,height: 46)
         
-        delivaryCost?.frame = CGRectMake(self.view.frame.width - (self.deliveryButton!.frame.width + 16) , deliveryButton!.frame.minY, self.deliveryButton!.frame.width , 46)
+        delivaryCost?.frame = CGRect(x: self.view.frame.width - (self.deliveryButton!.frame.width + 16) , y: deliveryButton!.frame.minY, width: self.deliveryButton!.frame.width , height: 46)
         
-        self.collectButton?.frame =  CGRectMake(16,self.deliveryButton!.frame.maxY + 8 ,self.view.frame.midX - 16 ,46)
-        collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 46)
+        self.collectButton?.frame =  CGRect(x: 16,y: self.deliveryButton!.frame.maxY + 8 ,width: self.view.frame.midX - 16 ,height: 46)
+        collectCost?.frame = CGRect(x: self.view.frame.width - (self.collectButton!.frame.width + 16) , y: collectButton!.frame.minY, width: self.collectButton!.frame.width , height: 46)
         
         if afterSelected != nil &&  afterSelected!.tag == 1 {
                 
-                self.collectButton?.frame =  CGRectMake(16,self.viewDelivery!.frame.maxY + 8 ,self.view.frame.midX - 16 ,46)
-                collectCost?.frame = CGRectMake(self.view.frame.width - (self.collectButton!.frame.width + 16) , collectButton!.frame.minY, self.collectButton!.frame.width , 46)
+                self.collectButton?.frame =  CGRect(x: 16,y: self.viewDelivery!.frame.maxY + 8 ,width: self.view.frame.midX - 16 ,height: 46)
+                collectCost?.frame = CGRect(x: self.view.frame.width - (self.collectButton!.frame.width + 16) , y: collectButton!.frame.minY, width: self.collectButton!.frame.width , height: 46)
             
         }else{
-                self.viewDelivery?.frame = CGRectMake(16,self.collectButton!.frame.maxY + 16 ,self.view.frame.width - 32 ,144)
+                self.viewDelivery?.frame = CGRect(x: 16,y: self.collectButton!.frame.maxY + 16 ,width: self.view.frame.width - 32 ,height: 144)
         }
         
         self.saveButton?.frame =  CGRect(x:16 , y:16 , width:self.view.frame.width - 32, height:34)
@@ -161,7 +161,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     }
     
   
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         print("viewDidAppear ... . . ")
         self.checkTypeDeliver(deliveryButton!)
     }
@@ -170,9 +170,9 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     func showLoadingView(){
         if viewLoad == nil {
-            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            let bounds = IS_IPAD ? CGRect(x: 0, y: 0, width: 341, height: 705) : self.view.bounds
             viewLoad = WMLoadingView(frame: bounds)
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.backgroundColor = UIColor.white
             viewLoad.startAnnimating(true)
             self.view.addSubview(viewLoad)
         }
@@ -196,17 +196,17 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     
     var afterSelected : UIButton?
-    func checkTypeDeliver(sender:UIButton) {
+    func checkTypeDeliver(_ sender:UIButton) {
         
         if afterSelected != nil {
-            self.afterSelected!.selected =  false
+            self.afterSelected!.isSelected =  false
         }
         
-        sender.selected = !sender.selected
+        sender.isSelected = !sender.isSelected
         
         self.viewDelivery?.removeFromSuperview()
         afterSelected =  sender
-        self.createView(CGRectMake(16,sender.frame.maxY + 16 ,self.view.frame.width - 32 ,144))
+        self.createView(CGRect(x: 16,y: sender.frame.maxY + 16 ,width: self.view.frame.width - 32 ,height: 144))
         
         self.slotSelected = ""
         self.invokeSloteService(sender.tag == 1 ? HOME_DELIVERY : STORE_PICK_UP )
@@ -220,27 +220,27 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var  dateForm : FormFieldView?
     var  timeForm : FormFieldView?
     
-    func createView(frame:CGRect)  {
+    func createView(_ frame:CGRect)  {
         
         viewDelivery = UIView(frame: frame)
         
-        let  addressInvoice = FormFieldView(frame: CGRectMake(0, 0, frame.width, 40))
+        let  addressInvoice = FormFieldView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 40))
         addressInvoice.attributedPlaceholder = NSAttributedString(string: "Mi casa", attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
         addressInvoice.isRequired = true
-        addressInvoice.enabled = false
-        addressInvoice.typeField = TypeField.List
+        addressInvoice.isEnabled = false
+        addressInvoice.typeField = TypeField.list
         addressInvoice.setImageTypeField()
         addressInvoice.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
     
-        addressInvoice.imageList!.hidden = true
+        addressInvoice.imageList!.isHidden = true
         viewDelivery!.addSubview(addressInvoice)
         
       
         
-        dateForm = FormFieldView(frame: CGRectMake(0, addressInvoice.frame.maxY + 8 , frame.width, 40))
+        dateForm = FormFieldView(frame: CGRect(x: 0, y: addressInvoice.frame.maxY + 8 , width: frame.width, height: 40))
         dateForm!.setCustomPlaceholder(NSLocalizedString("dates.aviables", comment: ""))
         dateForm!.isRequired = true
-        dateForm!.typeField = TypeField.List
+        dateForm!.typeField = TypeField.list
         dateForm!.setImageTypeField()
         dateForm!.nameField = NSLocalizedString("dates.aviables", comment:"")
         dateForm!.onBecomeFirstResponder = { () in
@@ -249,7 +249,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                 self.picker!.sender = self.dateForm
                 self.picker!.selectOptionDelegate = self
                 self.picker!.setValues(NSLocalizedString("dates.delivery.aviables",comment:""), values:self.dateSlot )
-                self.picker!.cellType = TypeField.Check
+                self.picker!.cellType = TypeField.check
                 self.picker!.showPicker()
                 self.view.endEditing(true)
                 self.textFieldSelected = "Date"
@@ -258,10 +258,10 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         viewDelivery!.addSubview(dateForm!)
 
         
-        timeForm = FormFieldView(frame: CGRectMake(0, dateForm!.frame.maxY + 8, frame.width, 40))
+        timeForm = FormFieldView(frame: CGRect(x: 0, y: dateForm!.frame.maxY + 8, width: frame.width, height: 40))
         timeForm!.setCustomPlaceholder(NSLocalizedString("times.aviables", comment: ""))
         timeForm!.isRequired = true
-        timeForm!.typeField = TypeField.List
+        timeForm!.typeField = TypeField.list
         timeForm!.setImageTypeField()
         timeForm!.nameField = NSLocalizedString("times.aviables", comment:"")
         timeForm!.onBecomeFirstResponder = { () in
@@ -270,7 +270,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                 self.picker!.sender = self.timeForm
                 self.picker!.selectOptionDelegate = self
                 self.picker!.setValues(NSLocalizedString("times.aviables",comment:""), values:self.timeSelect )
-                self.picker!.cellType = TypeField.Check
+                self.picker!.cellType = TypeField.check
                 self.picker!.showPicker()
                 self.textFieldSelected = "Time"
                 self.view.endEditing(true)
@@ -291,7 +291,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
             let params = selectedSlotService.buildParams(self.selectTypeDelivery, selectedSlotId: self.slotSelected)
             selectedSlotService.callService(requestParams: params, succesBlock: { (result) -> Void in
                 self.delegate?.selectDataTypeShipping(NSLocalizedString(self.selectTypeDelivery, comment: ""), util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
-                self.navigationController!.popViewControllerAnimated(true)
+                self.navigationController!.popViewController(animated: true)
                 }, errorBlock: { (error) -> Void in
                     
                     print("error guardando slot")
@@ -302,14 +302,14 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     //MARK:  Invoke Services
     
-    func invokeSloteService(type:String) {
+    func invokeSloteService(_ type:String) {
         
         let service =  DisplaySlotsService()
         
         service.callService(requestParams: service.buildParamsHomeDelivery(type), succesBlock: { (responce:NSDictionary) in
             
             let slots =  responce["responseObject"] as! NSDictionary
-            let key =  slots.allKeys.sort({ (first, second) -> Bool in
+            let key =  slots.allKeys.sorted(by: { (first, second) -> Bool in
                 let onne = first as! String
                 let two = second as! String
                 return onne < two
@@ -318,23 +318,23 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
             for keys in key{
                 let horsSlot :NSMutableArray  = []
                 let slot :NSMutableArray  = []
-                let slotForDay = slots.objectForKey(keys) as! NSArray
+                let slotForDay = slots.object(forKey: keys) as! NSArray
                 
                 for daySlot in slotForDay {
                     
-                    horsSlot.addObject(daySlot["deliveryTime"] as! String)
-                    slot.addObject(daySlot["slotId"] as! String)
+                    horsSlot.add(daySlot["deliveryTime"] as! String)
+                    slot.add(daySlot["slotId"] as! String)
                     
                     let date  = daySlot["DeliveryDateCalendar.time"] as! NSDictionary
-                    let dayDelivery  = "\(date.objectForKey("formattedDate") as! String)"
+                    let dayDelivery  = "\(date.object(forKey: "formattedDate") as! String)"
                     
                     if !self.dateSlot.contains(dayDelivery) {
                         self.dateSlot.append(dayDelivery)
                     }
                     
                 }
-                self.hourArray.addObject(horsSlot)
-                self.slotArray.addObject(slot)
+                self.hourArray.add(horsSlot)
+                self.slotArray.add(slot)
             }
             self.getAviableDates()
             print(self.hourArray)
@@ -351,17 +351,17 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     func getAviableDates(){
         
-        let dateFmt = NSDateFormatter()
-        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+        let dateFmt = DateFormatter()
+        dateFmt.timeZone = TimeZone.current
         
         var datearray : [String] = []
         var index =  0
         for dates in self.dateSlot {
             
             dateFmt.dateFormat = "dd/MM/yyyy"
-            let dateform =  dateFmt.dateFromString(dates)
+            let dateform =  dateFmt.date(from: dates)
             dateFmt.dateFormat = "EEEE dd '\(NSLocalizedString("checkout.confirm.to", comment: ""))' MMMM"
-            var stringDate = dateFmt.stringFromDate(dateform!).capitalizedString
+            var stringDate = dateFmt.string(from: dateform!).capitalized
             if index == 0{
                 stringDate = "Hoy \(stringDate)"
             }else if index == 1{
@@ -379,7 +379,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         var typeArray : [String] = []
         
         for time in self.timeSelect {
-            typeArray.append("Entre \(time.stringByReplacingOccurrencesOfString("-", withString: " y ").stringByReplacingOccurrencesOfString(":00 ", withString: " "))")
+            typeArray.append("Entre \(time.replacingOccurrences(of: "-", with: " y ").replacingOccurrences(of: ":00 ", with: " "))")
         }
         timeSelect = typeArray
     }
@@ -388,35 +388,35 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     var dateSelected = false
     var slotIsSelected =  false
-    func didSelectOptionAtIndex(indexPath: NSIndexPath){
+    func didSelectOptionAtIndex(_ indexPath: IndexPath){
         
         if self.textFieldSelected == "Date" {
-           dateForm?.text =   self.dateSlot[indexPath.row]
-            let times  =  self.hourArray.objectAtIndex(indexPath.row) as! [String]
+           dateForm?.text =   self.dateSlot[(indexPath as NSIndexPath).row]
+            let times  =  self.hourArray.object(at: (indexPath as NSIndexPath).row) as! [String]
             timeSelect =  times
             self.getTimes()
             
-            let slots  =  self.slotArray.objectAtIndex(indexPath.row) as! [String]
+            let slots  =  self.slotArray.object(at: (indexPath as NSIndexPath).row) as! [String]
             groupSlotSelect = slots
             selectedDateIdx = indexPath
             dateSelected =  true
-            self.dateForm!.layer.borderColor = UIColor.clearColor().CGColor
+            self.dateForm!.layer.borderColor = UIColor.clear.cgColor
             self.errorView?.removeFromSuperview()
             self.errorView = nil
             
         }else{
-            timeForm?.text = timeSelect[indexPath.row]
-            slotSelected = groupSlotSelect[indexPath.row]
+            timeForm?.text = timeSelect[(indexPath as NSIndexPath).row]
+            slotSelected = groupSlotSelect[(indexPath as NSIndexPath).row]
             selectedSlotIdx = indexPath
             slotIsSelected =  true
-            self.timeForm!.layer.borderColor = UIColor.clearColor().CGColor
+            self.timeForm!.layer.borderColor = UIColor.clear.cgColor
             self.errorView?.removeFromSuperview()
             self.errorView = nil
         }
     }
     
     
-    func viewError(field: FormFieldView,message:String?)-> Bool{
+    func viewError(_ field: FormFieldView,message:String?)-> Bool{
         if message != nil {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()

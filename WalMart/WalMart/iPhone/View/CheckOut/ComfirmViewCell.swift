@@ -25,11 +25,11 @@ class ComfirmViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         self.titleLabel = UILabel()
         self.titleLabel!.numberOfLines = 1
-        self.titleLabel!.textAlignment = .Left
+        self.titleLabel!.textAlignment = .left
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.titleLabel!.textColor =  WMColor.light_blue
         self.contentView.addSubview(self.titleLabel!)
@@ -63,16 +63,16 @@ class ComfirmViewCell: UITableViewCell {
     }
     
     
-    func setValues(title: String,name:String,description:String,detailDesc:String) {
+    func setValues(_ title: String,name:String,description:String,detailDesc:String) {
         
         titleLabel!.text = title
         nameLabel?.text =  name
-        nameLabel!.hidden = name == ""
+        nameLabel!.isHidden = name == ""
         
         descriptionLabel!.text = description
-        descriptionLabel!.hidden = description == ""
+        descriptionLabel!.isHidden = description == ""
         
-        moreDetail!.hidden = detailDesc == ""
+        moreDetail!.isHidden = detailDesc == ""
         moreDetail!.text = detailDesc
     
     }

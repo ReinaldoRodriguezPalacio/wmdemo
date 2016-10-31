@@ -17,12 +17,12 @@ class IPAProductHomeCollectionViewCell  : ProductHomeCollectionViewCell {
         
         productShortDescriptionLabel!.numberOfLines = 3
         
-        self.productImage!.frame = CGRectMake(16, 16, self.frame.width - 32 , 116)
+        self.productImage!.frame = CGRect(x: 16, y: 16, width: self.frame.width - 32 , height: 116)
         
-        self.productPriceLabel!.frame = CGRectMake(16, self.productImage!.frame.maxY  , self.frame.width - 32 , 14)
+        self.productPriceLabel!.frame = CGRect(x: 16, y: self.productImage!.frame.maxY  , width: self.frame.width - 32 , height: 14)
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(16, self.productPriceLabel!.frame.maxY  , self.frame.width - 32, 33)
-        self.productShortDescriptionLabel!.textAlignment = .Center
+        self.productShortDescriptionLabel!.frame = CGRect(x: 16, y: self.productPriceLabel!.frame.maxY  , width: self.frame.width - 32, height: 33)
+        self.productShortDescriptionLabel!.textAlignment = .center
         self.productShortDescriptionLabel!.numberOfLines = 3
      
         

@@ -30,29 +30,29 @@ class OrderProductTableViewCell : ProductTableViewCell {
     override func setup() {
         super.setup()
         
-        self.productPriceLabel!.hidden = true
+        self.productPriceLabel!.isHidden = true
         
         productShortDescriptionLabel!.textColor = WMColor.reg_gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
-        productImage!.frame = CGRectMake(16, 0, 80, 109)
-        productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
+        productImage!.frame = CGRect(x: 16, y: 0, width: 80, height: 109)
+        productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
         
-        btnShoppingCart = UIButton(frame: CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32))
-        btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
-        btnShoppingCart.addTarget(self, action: #selector(OrderProductTableViewCell.addToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        btnShoppingCart = UIButton(frame: CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32))
+        btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
+        btnShoppingCart.addTarget(self, action: #selector(OrderProductTableViewCell.addToShoppingCart), for: UIControlEvents.touchUpInside)
         
-        separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, 1))
+        separatorView = UIView(frame:CGRect(x: productShortDescriptionLabel!.frame.minX, y: 108,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 1))
         separatorView.backgroundColor = WMColor.light_gray
         
-        priceString = CurrencyCustomLabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18, 100, 18))
-        priceString.textAlignment = .Left
-        priceString.backgroundColor = UIColor.clearColor()
+        priceString = CurrencyCustomLabel(frame: CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 18, width: 100, height: 18))
+        priceString.textAlignment = .left
+        priceString.backgroundColor = UIColor.clear
         priceString.setCurrencyUserInteractionEnabled(true)
         //upcString = UILabel(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12))
         
-        quantityString = UILabel(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, priceString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12))
+        quantityString = UILabel(frame:CGRect(x: productShortDescriptionLabel!.frame.minX, y: priceString.frame.maxY + 3,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12))
        
         self.contentView.addSubview(priceString)
         //self.contentView.addSubview(upcString)
@@ -64,16 +64,16 @@ class OrderProductTableViewCell : ProductTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        productImage!.frame = CGRectMake(16, 0, 80, 109)
-        productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
-        btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
-        separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, 1)
-        priceString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 58, 100, 18)
+        productImage!.frame = CGRect(x: 16, y: 0, width: 80, height: 109)
+        productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
+        btnShoppingCart.frame = CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32)
+        separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 108,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 1)
+        priceString.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 58, width: 100, height: 18)
         //upcString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
-        quantityString.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, priceString.frame.maxY + 3,self.frame.width - productShortDescriptionLabel!.frame.minX, 12)
+        quantityString.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: priceString.frame.maxY + 3,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12)
     }
     
-    func setValues(skuid:String,upc:String,productImageURL:String,productShortDescription:String,productPrice:String,quantity:NSString, type:ResultObjectType, pesable:Bool, onHandInventory:String,isActive:Bool,isPreorderable:String) {
+    func setValues(_ skuid:String,upc:String,productImageURL:String,productShortDescription:String,productPrice:String,quantity:NSString, type:ResultObjectType, pesable:Bool, onHandInventory:String,isActive:Bool,isPreorderable:String) {
         
         self.upc = upc
         self.skuid = skuid
@@ -82,7 +82,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         self.price = productPrice
         self.type = type
         self.pesable = pesable
-        self.onHandInventory = onHandInventory
+        self.onHandInventory = onHandInventory as NSString!
         self.isPreorderable = isPreorderable
         
         let lblUPC = NSLocalizedString("previousorder.upc",comment:"")
@@ -92,8 +92,8 @@ class OrderProductTableViewCell : ProductTableViewCell {
         let attrStringVal = NSAttributedString(string:"\(upc)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         
         let valuesDescItem = NSMutableAttributedString()
-        valuesDescItem.appendAttributedString(attrStringLab)
-        valuesDescItem.appendAttributedString(attrStringVal)
+        valuesDescItem.append(attrStringLab)
+        valuesDescItem.append(attrStringVal)
         
         //upcString.attributedText = valuesDescItem
         priceString.updateMount(productPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
@@ -111,23 +111,23 @@ class OrderProductTableViewCell : ProductTableViewCell {
         }
         
         let valuesDescItemQ = NSMutableAttributedString()
-        valuesDescItemQ.appendAttributedString(attrStringLabQ)
-        valuesDescItemQ.appendAttributedString(attrStringValQ)
+        valuesDescItemQ.append(attrStringLabQ)
+        valuesDescItemQ.append(attrStringValQ)
         
         quantityString.attributedText = valuesDescItemQ
         
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
         
         if isActive == false  {
-            btnShoppingCart.enabled = false
-            self.btnShoppingCart.setImage(UIImage(named: "wishlist_cart_disabled"), forState: UIControlState.Normal)
+            btnShoppingCart.isEnabled = false
+            self.btnShoppingCart.setImage(UIImage(named: "wishlist_cart_disabled"), for: UIControlState())
         }else{
             if isInShoppingCart {
-                btnShoppingCart.enabled = true
-                btnShoppingCart.setImage(UIImage(named: "products_done"), forState:UIControlState.Normal)
+                btnShoppingCart.isEnabled = true
+                btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
-                btnShoppingCart.enabled = true
-                btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
+                btnShoppingCart.isEnabled = true
+                btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }
         }
         
@@ -157,14 +157,14 @@ class OrderProductTableViewCell : ProductTableViewCell {
                 
                 let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.skuid,upc:self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type.rawValue , pesable: (self.pesable == true ? "1" : "0"),isPreorderable:isPreorderable)
                 
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 
             }
             else {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue , label:"\(self.desc) \(self.upc)")
                 
                 let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.skuid, upc:self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String, wishlist:false,type:self.type.rawValue ,pesable:"0",isPreorderable:isPreorderable, category: "")
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
             }
             
             //let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:"1",wishlist:false,type:type.rawValue,pesable:"0")

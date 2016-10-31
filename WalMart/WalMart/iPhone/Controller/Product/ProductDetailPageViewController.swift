@@ -29,7 +29,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.pageController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
+        self.pageController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options: nil)
         
         self.pageController.delegate = self
         self.pageController.dataSource = self
@@ -44,12 +44,12 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         
         let ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving,sku: sku)
         if ctrlToShow != nil {
-            self.pageController.setViewControllers([ctrlToShow!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+            self.pageController.setViewControllers([ctrlToShow!], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         }
         
         self.addChildViewController(self.pageController)
         self.view.addSubview(self.pageController.view)
-        self.pageController.didMoveToParentViewController(self)
+        self.pageController.didMove(toParentViewController: self)
       
     }
     
@@ -59,7 +59,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     }
     
     
-    func getControllerToShow(upc:String,descr:String,type:String,sku:String) -> UIViewController? {
+    func getControllerToShow(_ upc:String,descr:String,type:String,sku:String) -> UIViewController? {
        return self.getControllerToShow(upc, descr: descr, type: type, saving: "",sku: sku)
     }
     /**
@@ -72,17 +72,17 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
      
      - returns: ProductDetailViewController mg or gr
      */
-    func getControllerToShow(upc:String,descr:String,type:String,saving:String?,sku:String) -> UIViewController? {
+    func getControllerToShow(_ upc:String,descr:String,type:String,saving:String?,sku:String) -> UIViewController? {
         storyBoard = loadStoryboardDefinition()
     
-        if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
-            vc.upc = upc
-            vc.sku = sku //nuevo
+        if let vc = storyBoard!.instantiateViewController(withIdentifier: "productDetailVC") as? ProductDetailViewController {
+            vc.upc = upc as NSString
+            vc.sku = sku as NSString //nuevo
             vc.indexRowSelected = self.itemSelectedSolar
             vc.stringSearching =  self.stringSearching
             vc.fromSearch =  self.isForSeach
-            vc.name = descr
-            vc.saving = saving == nil ? "" : saving!
+            vc.name = descr as NSString
+            vc.saving = saving == nil ? "" : saving! as NSString
             vc.view.tag = ixSelected
             vc.idListFromlistFind = self.idListSeleted! // new
             
@@ -92,20 +92,20 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     }
     
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
         
     }
     
     //MARK: PageViewControllerDataSource
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         ixSelected =  viewController.view.tag
         if ixSelected > 0 {
             ixSelected = ixSelected - 1
@@ -124,7 +124,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     }
     
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         ixSelected =  viewController.view.tag
         if ixSelected + 1 < itemsToShow.count {
             ixSelected = ixSelected + 1
@@ -150,15 +150,15 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
      
      - parameter enabled: active or no gesture true/false
      */
-    func enabledGesture(enabled:  Bool ) {
+    func enabledGesture(_ enabled:  Bool ) {
         for recognizer in pageController.gestureRecognizers {
              let rec = recognizer
-             rec.enabled = enabled;
+             rec.isEnabled = enabled;
         }
         
         for recognizer in pageController.view.subviews {
             if let view = recognizer as? UIScrollView {
-                view.scrollEnabled = enabled;
+                view.isScrollEnabled = enabled;
             }
         }
         

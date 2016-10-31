@@ -15,15 +15,15 @@ class GRLinesForSearchService: GRBaseService {
         self.urlForSession = true
     }
 
-    func buildParams(string:String) -> [String:AnyObject] {
-        return ["storeId":"","expression":string,"departmentName":"","family":""] as [String:AnyObject]
+    func buildParams(_ string:String) -> [String:AnyObject] {
+        return ["storeId":"" as AnyObject,"expression":string as AnyObject,"departmentName":"" as AnyObject,"family":"" as AnyObject] as [String:AnyObject]
     }
     
-    func callService(params:NSDictionary, successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:NSDictionary, successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params)
-        self.getManager().POST(serviceUrl(), parameters: params,
-            success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
+        self.getManager().post(serviceUrl(), parameters: params,
+            success: {(request:URLSessionDataTask!, json:AnyObject!) in
               
                 self.printTimestamp("success GRLinesForSearchService")
                  self.jsonFromObject(json)
@@ -56,7 +56,7 @@ class GRLinesForSearchService: GRBaseService {
                     }
                 
             },
-            failure: {(request:NSURLSessionDataTask!, error:NSError!) in
+            failure: {(request:URLSessionDataTask!, error:NSError!) in
                 if error.code == -1005 {
                     print("Response Error : \(error) \n Response \(request.response)")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
@@ -67,7 +67,7 @@ class GRLinesForSearchService: GRBaseService {
         })
     }
 
-    func buildResponse(response:[AnyObject],successBuildBlock:(([String : AnyObject]) -> Void)?) {
+    func buildResponse(_ response:[AnyObject],successBuildBlock:(([String : AnyObject]) -> Void)?) {
 
         printTimestamp("buildResponse GRLinesForSearchService")
         
@@ -90,20 +90,20 @@ class GRLinesForSearchService: GRBaseService {
         if strInLines == "" {
             return  successBuildBlock!(dictionary)
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 
                 let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
-                if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
+                if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
                     //var keywords = Array<AnyObject>()
                     while rs.next() {
-                        let idDepto = rs.stringForColumn("idDepto")
-                        let idFamily = rs.stringForColumn("idFamily")
-                        let idLine = rs.stringForColumn("idLine")
+                        let idDepto = rs.string(forColumn: "idDepto")
+                        let idFamily = rs.string(forColumn: "idFamily")
+                        let idLine = rs.string(forColumn: "idLine")
                         
-                        let depName = rs.stringForColumn("departament")
-                        let famName = rs.stringForColumn("family")
-                        let linName = rs.stringForColumn("line")
+                        let depName = rs.string(forColumn: "departament")
+                        let famName = rs.string(forColumn: "family")
+                        let linName = rs.string(forColumn: "line")
                         
                         
                         var cdepto = dictionary[idDepto] as? [String:AnyObject]
@@ -112,7 +112,7 @@ class GRLinesForSearchService: GRBaseService {
                                 "name" : depName,
                                 "id" : idDepto,
                                 "responseType" : ResultObjectType.Groceries.rawValue,
-                                "level" : NSNumber(integer: 0),
+                                "level" : NSNumber(value: 0 as Int),
                                 "parentId" : "",
                                 "path" : idDepto,
                                 "families" : NSMutableDictionary()]
@@ -126,7 +126,7 @@ class GRLinesForSearchService: GRBaseService {
                                 "id" : idFamily,
                                 "name" : famName,
                                 "responseType" : ResultObjectType.Groceries.rawValue,
-                                "level" : NSNumber(integer: 1),
+                                "level" : NSNumber(value: 1 as Int),
                                 "parentId" : idDepto,
                                 "path" : "\(idDepto)|\(idFamily)",
                                 "lines" : NSMutableDictionary()]
@@ -138,7 +138,7 @@ class GRLinesForSearchService: GRBaseService {
                         let cline = [
                             "id" : idLine,
                             "name" : (linName),
-                            "level" : NSNumber(integer: 2),
+                            "level" : NSNumber(value: 2 as Int),
                             "parentId" : idFamily,
                             "path" : "\(idDepto)|\(idFamily)|\(idLine!)",
                             "responseType" : ResultObjectType.Groceries.rawValue]
@@ -150,7 +150,7 @@ class GRLinesForSearchService: GRBaseService {
                     rs.close()
                     rs.setParentDB(nil)
                     
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         print("Success")
                         successBuildBlock?(dictionary)
                     })

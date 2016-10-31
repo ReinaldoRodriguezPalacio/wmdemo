@@ -28,21 +28,21 @@ class LoadingProductCollectionViewCell: UICollectionViewCell {
     }
 
     func setup() {
-        self.contentView.backgroundColor = UIColor.whiteColor()
+        self.contentView.backgroundColor = UIColor.white
 //        self.loading = WMLoadingView(frame: frame)
 //        self.loading!.startAnnimating(false)
 //        self.contentView.addSubview(self.loading!)
 
         self.title = UILabel()
         self.title!.textColor = WMColor.reg_gray
-        self.title!.textAlignment = .Center
-        self.title!.backgroundColor = UIColor.clearColor()
+        self.title!.textAlignment = .center
+        self.title!.backgroundColor = UIColor.clear
         self.title!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.title!.text = NSLocalizedString("product.search.loading", comment:"")
         self.title!.numberOfLines = 2
         self.contentView.addSubview(self.title!)
 
-        self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.activityIndicator!.startAnimating()
         self.contentView.addSubview(self.activityIndicator!)
         
@@ -57,11 +57,11 @@ class LoadingProductCollectionViewCell: UICollectionViewCell {
         let bounds = self.frame
         let width: CGFloat = bounds.width - (self.margin*2.0)
         
-        let computedRect: CGRect = self.title!.text!.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:self.title!.font], context: nil)
+        let computedRect: CGRect = self.title!.text!.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:self.title!.font], context: nil)
         
-        self.title!.frame = CGRectMake(self.margin, self.margin, width, computedRect.size.height)
+        self.title!.frame = CGRect(x: self.margin, y: self.margin, width: width, height: computedRect.size.height)
         let size = self.activityIndicator!.frame.size
-        self.activityIndicator!.center = CGPointMake(bounds.size.width/2, CGRectGetMaxY(self.title!.frame) + 10.0 + (size.height/2))
+        self.activityIndicator!.center = CGPoint(x: bounds.size.width/2, y: self.title!.frame.maxY + 10.0 + (size.height/2))
         
     }
 

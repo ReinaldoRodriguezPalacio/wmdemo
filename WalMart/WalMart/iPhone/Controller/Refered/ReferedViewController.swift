@@ -13,7 +13,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     //let headerHeight: CGFloat = 46
     
     var referedTable: UITableView!
-    var selectedRow: NSIndexPath! = nil
+    var selectedRow: IndexPath! = nil
     var referedCountLabel: UILabel?
     var referedDescLabel: UILabel?
     var addReferedButton: UIButton?
@@ -32,17 +32,17 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel?.text = NSLocalizedString("refered.title", comment: "")
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view.layer.insertSublayer(layerLine, atIndex: 0)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view.layer.insertSublayer(layerLine, at: 0)
         
         referedTable = UITableView()
-        referedTable.registerClass(ReferedTableViewCell.self, forCellReuseIdentifier: "referedCell")
-        referedTable.registerClass(ReferedDetailTableViewCell.self, forCellReuseIdentifier: "referedDetail")
-        referedTable.separatorStyle = UITableViewCellSeparatorStyle.None
+        referedTable.register(ReferedTableViewCell.self, forCellReuseIdentifier: "referedCell")
+        referedTable.register(ReferedDetailTableViewCell.self, forCellReuseIdentifier: "referedDetail")
+        referedTable.separatorStyle = UITableViewCellSeparatorStyle.none
         referedTable.delegate = self
         referedTable.dataSource = self
         self.view.addSubview(referedTable!)
@@ -51,7 +51,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         referedCountLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         referedCountLabel?.textColor = WMColor.light_blue
         referedCountLabel?.text = ""
-        referedCountLabel?.textAlignment = .Center
+        referedCountLabel?.textAlignment = .center
         self.view.addSubview(referedCountLabel!)
         
         referedDescLabel = UILabel()
@@ -59,17 +59,17 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         referedDescLabel?.textColor = WMColor.light_blue
         referedDescLabel?.numberOfLines = 3
         referedDescLabel?.text =  NSLocalizedString("refered.description.message", comment: "")
-        referedDescLabel?.textAlignment = .Center
+        referedDescLabel?.textAlignment = .center
         self.view.addSubview(referedDescLabel!)
         
         addReferedButton = UIButton()
-        addReferedButton?.setTitle(NSLocalizedString("refered.button.add", comment: ""), forState:.Normal)
-        addReferedButton?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        addReferedButton?.setTitle(NSLocalizedString("refered.button.add", comment: ""), for:UIControlState())
+        addReferedButton?.setTitleColor(UIColor.white, for: UIControlState())
         addReferedButton?.backgroundColor = WMColor.light_gray
         addReferedButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         addReferedButton?.layer.cornerRadius = 16
-        addReferedButton?.addTarget(self, action: #selector(ReferedViewController.addRefered), forControlEvents: UIControlEvents.TouchUpInside)
-        addReferedButton?.enabled = false
+        addReferedButton?.addTarget(self, action: #selector(ReferedViewController.addRefered), for: UIControlEvents.touchUpInside)
+        addReferedButton?.isEnabled = false
         self.view.addSubview(addReferedButton!)
         
         self.addViewLoad()
@@ -80,19 +80,19 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.referedCountLabel!.frame = CGRectMake(0, headerHeight + 16, self.view.frame.width, 16)
-        self.referedDescLabel!.frame = CGRectMake(0, self.referedCountLabel!.frame.maxY + 16, self.view.frame.width, 42)
-        self.addReferedButton!.frame = CGRectMake((self.view.frame.width - 132) / 2, self.referedDescLabel!.frame.maxY + 16, 132, 34)
-        self.layerLine.frame =  CGRectMake(0, self.addReferedButton!.frame.maxY + 15, self.view.frame.width, 1)
-        self.referedTable!.frame = CGRectMake(0, self.addReferedButton!.frame.maxY + 16, self.view.frame.width, self.view.frame.height - self.addReferedButton!.frame.maxY)
+        self.referedCountLabel!.frame = CGRect(x: 0, y: headerHeight + 16, width: self.view.frame.width, height: 16)
+        self.referedDescLabel!.frame = CGRect(x: 0, y: self.referedCountLabel!.frame.maxY + 16, width: self.view.frame.width, height: 42)
+        self.addReferedButton!.frame = CGRect(x: (self.view.frame.width - 132) / 2, y: self.referedDescLabel!.frame.maxY + 16, width: 132, height: 34)
+        self.layerLine.frame =  CGRect(x: 0, y: self.addReferedButton!.frame.maxY + 15, width: self.view.frame.width, height: 1)
+        self.referedTable!.frame = CGRect(x: 0, y: self.addReferedButton!.frame.maxY + 16, width: self.view.frame.width, height: self.view.frame.height - self.addReferedButton!.frame.maxY)
     }
     
     //MARK: Tableview Delegate
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectedRow != nil {
             if selectedRow.section == section {
                 return numberOfRowsInSection(section) + 1
@@ -101,16 +101,16 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell! = nil
         var referedArray = []
         var titleSection = ""
         
-        if indexPath.section == 0{
+        if (indexPath as NSIndexPath).section == 0{
             referedArray = self.pendingRefered
             titleSection = NSLocalizedString("refered.title.pendig", comment: "")
         }
@@ -119,13 +119,13 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             titleSection = NSLocalizedString("refered.title.confirm", comment: "")
         }
         
-        if indexPath.row == 0{
-            let referedCell = referedTable.dequeueReusableCellWithIdentifier("referedCell", forIndexPath: indexPath) as! ReferedTableViewCell
+        if (indexPath as NSIndexPath).row == 0{
+            let referedCell = referedTable.dequeueReusableCell(withIdentifier: "referedCell", for: indexPath) as! ReferedTableViewCell
             referedCell.setTitleAndCount(titleSection, count:  "\(referedArray.count)")
             cell = referedCell
         }else{
-           let cellDetail = referedTable.dequeueReusableCellWithIdentifier("referedDetail", forIndexPath: indexPath) as! ReferedDetailTableViewCell
-            let refered = referedArray[indexPath.row - 1]
+           let cellDetail = referedTable.dequeueReusableCell(withIdentifier: "referedDetail", for: indexPath) as! ReferedDetailTableViewCell
+            let refered = referedArray[(indexPath as NSIndexPath).row - 1]
             let name = refered["nameRef"] as! String
             let email = refered["emailRef"] as! String
             cellDetail.setValues(name, email: email)
@@ -134,8 +134,8 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0  {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).row == 0  {
             if selectedRow != nil && indexPath == selectedRow{
                 deSelectSection(selectedRow)
             }else{
@@ -144,18 +144,18 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                 }
                 selectSection(indexPath)
             }
-        }else if indexPath.section == 1 {
-            let refered = self.confirmRefered[indexPath.row - 1]
+        }else if (indexPath as NSIndexPath).section == 1 {
+            let refered = self.confirmRefered[(indexPath as NSIndexPath).row - 1]
             let name = refered["nameRef"] as! String
             let email = refered["emailRef"] as! String
-            let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
+            let addreferedForm = ReferedForm(frame: CGRect(x: 0, y: 0,  width: 288, height: 248))
             addreferedForm.showReferedUser(name, mail: email)
             self.modalView = AlertModalView.initModalWithView(NSLocalizedString("refered.title.showrefered", comment: ""),innerView: addreferedForm)
             self.modalView!.showPicker()
         }
     }
     
-    func numberOfRowsInSection(section:Int) -> Int {
+    func numberOfRowsInSection(_ section:Int) -> Int {
         if section == 0 {
             return self.pendingRefered.count
         }
@@ -170,15 +170,15 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
      
      - parameter indexPath: selected indexPath
      */
-    func selectSection(indexPath: NSIndexPath!) {
+    func selectSection(_ indexPath: IndexPath!) {
         selectedRow = indexPath
         let numberOfItems = numberOfRowsInSection(indexPath.section)
-        var arratIndexes : [NSIndexPath] = []
+        var arratIndexes : [IndexPath] = []
         if numberOfItems > 0 {
             for index in 1...numberOfItems {
-                arratIndexes.append(NSIndexPath(forRow: index, inSection: indexPath.section))
+                arratIndexes.append(IndexPath(row: index, section: indexPath.section))
             }
-            self.referedTable.insertRowsAtIndexPaths(arratIndexes, withRowAnimation: .Automatic)
+            self.referedTable.insertRows(at: arratIndexes, with: .automatic)
         }
     }
     
@@ -187,15 +187,15 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
      
      - parameter indexPath: selected indexPath
      */
-    func deSelectSection(indexPath: NSIndexPath!) {
+    func deSelectSection(_ indexPath: IndexPath!) {
         selectedRow = nil
         let numberOfItems = numberOfRowsInSection(indexPath.section)
-        var arratIndexes : [NSIndexPath] = []
+        var arratIndexes : [IndexPath] = []
         if numberOfItems > 0 {
             for index in 1...numberOfItems {
-                arratIndexes.append(NSIndexPath(forRow: index, inSection: indexPath.section))
+                arratIndexes.append(IndexPath(row: index, section: indexPath.section))
             }
-            self.referedTable.deleteRowsAtIndexPaths(arratIndexes, withRowAnimation: .Automatic)
+            self.referedTable.deleteRows(at: arratIndexes, with: .automatic)
         }
     }
     
@@ -203,7 +203,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
      Shows a form to adds refered
      */
     func addRefered(){
-        let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
+        let addreferedForm = ReferedForm(frame: CGRect(x: 0, y: 0,  width: 288, height: 248))
         addreferedForm.delegate = self
         self.modalView = AlertModalView.initModalWithView(addreferedForm)
         self.modalView!.showPicker()
@@ -214,7 +214,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
      
      - parameter countRefered: user refered number
      */
-    func setCountLabel(countRefered:Int){
+    func setCountLabel(_ countRefered:Int){
        var message = ""
         if countRefered == 0{
             message = "No tienes envíos sin costo disponibles"
@@ -267,25 +267,25 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         validateActiveReferedService.callService({ (result:NSDictionary) -> Void in
             if let isActive = result["responseObject"] as? Bool{
                 if isActive{
-                    self.addReferedButton?.enabled = true
+                    self.addReferedButton?.isEnabled = true
                     self.addReferedButton?.backgroundColor = WMColor.light_blue
                 }
                 else{
-                    self.addReferedButton?.enabled = false
+                    self.addReferedButton?.isEnabled = false
                     self.addReferedButton?.backgroundColor = WMColor.light_gray
                 }
             }
             }, errorBlock: {(error:NSError) -> Void in
                 print("Error in validateActiveReferedService")
-                self.addReferedButton?.enabled = false
+                self.addReferedButton?.isEnabled = false
                 self.addReferedButton?.backgroundColor = WMColor.light_gray
         })
     }
     
     func addViewLoad(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame:CGRectMake(0, 0, (self.parentViewController?.view.bounds.width)!, (self.parentViewController?.view.bounds.height)!))
-            viewLoad!.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame:CGRect(x: 0, y: 0, width: (self.parent?.view.bounds.width)!, height: (self.parent?.view.bounds.height)!))
+            viewLoad!.backgroundColor = UIColor.white
             viewLoad!.startAnnimating(true)
             self.view.addSubview(viewLoad!)
         }
@@ -305,7 +305,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
      - parameter name: refered name
      - parameter mail: refered mail
      */
-    func selectSaveButton(name:String,mail:String) {
+    func selectSaveButton(_ name:String,mail:String) {
         modalView?.closePicker()
         let addReferedService = AddReferedCustumerService()
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))

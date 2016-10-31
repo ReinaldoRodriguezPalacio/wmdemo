@@ -8,7 +8,7 @@
 
 import Foundation
 protocol CommentBubbleViewDelegate {
-    func showBottonAddNote(show : Bool)
+    func showBottonAddNote(_ show : Bool)
 }
 
 
@@ -23,17 +23,17 @@ class CommentBubbleView : UIView, UITextViewDelegate {
         
         self.field = UITextView()
         self.field!.layer.cornerRadius = 5.0
-        self.field!.returnKeyType = .Default
-        self.field!.autocapitalizationType = .None
-        self.field!.autocorrectionType = .No
+        self.field!.returnKeyType = .default
+        self.field!.autocapitalizationType = .none
+        self.field!.autocorrectionType = .no
         self.field!.enablesReturnKeyAutomatically = true
         self.field!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.field!.text = "Agrega tu nota aqui";
-        self.field!.textColor = UIColor.grayColor()
+        self.field!.textColor = UIColor.gray
         self.field!.delegate = self
         
         
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         indicator = UIImageView()
         indicator!.image = UIImage(named: "note_indicator")
         self.addSubview(self.field!)
@@ -45,25 +45,25 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-     func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 20, 11);
+     func textRectForBounds(_ bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: 20, dy: 11);
     }
     
     
     
     override func layoutSubviews() {
-        self.indicator!.frame = CGRectMake ((self.bounds.width - 6) / 2, 4,  6, 4)
-        self.field!.frame = CGRectMake((self.bounds.width - 288) / 2, 8 , 288, self.bounds.height - 8)
+        self.indicator!.frame = CGRect (x: (self.bounds.width - 6) / 2, y: 4,  width: 6, height: 4)
+        self.field!.frame = CGRect(x: (self.bounds.width - 288) / 2, y: 8 , width: 288, height: self.bounds.height - 8)
     }
     
 
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     {
         if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
             self.delegate?.showBottonAddNote(false)
             textView.text = "Agrega tu nota aqui"
             textView.resignFirstResponder()
-            textView.textColor = UIColor.grayColor()
+            textView.textColor = UIColor.gray
         }else{
             self.delegate?.showBottonAddNote(true)
 
@@ -72,7 +72,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
         return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
     }
     
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         if textView.text == "Agrega tu nota aqui" {
             textView.text = ""
             textView.textColor = WMColor.dark_gray
@@ -81,10 +81,10 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     }
     
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text == "" {
             textView.text = "Agrega tu nota aqui"
-            textView.textColor = UIColor.grayColor()
+            textView.textColor = UIColor.gray
         }
     }
     

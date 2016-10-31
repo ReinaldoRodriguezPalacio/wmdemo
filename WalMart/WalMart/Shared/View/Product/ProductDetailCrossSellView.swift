@@ -10,7 +10,7 @@ import Foundation
 
 protocol ProductDetailCrossSellViewDelegate {
     
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect,idList:String)
+    func goTODetailProduct(_ upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect,idList:String)
     
 }
 
@@ -18,7 +18,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     
     var collection: UICollectionView!
     var delegate: ProductDetailCrossSellViewDelegate!
-    var itemSize :CGSize! = CGSizeMake(106.66, 146)
+    var itemSize :CGSize! = CGSize(width: 106.66, height: 146)
     var upc: String = ""
     var itemsUPC: NSArray = []
     var cellClass: AnyClass? = nil
@@ -48,22 +48,22 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     func setup() {
         
         let collectionLayout = UICollectionViewFlowLayout()
-        collectionLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+        collectionLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
         
         collection = UICollectionView(frame: self.bounds, collectionViewLayout: collectionLayout)
-        collection.registerClass(self.cellClass, forCellWithReuseIdentifier: self.cellReuseid)
+        collection.register(self.cellClass, forCellWithReuseIdentifier: self.cellReuseid)
         
         collection.dataSource = self
         collection.delegate = self
-        collection.pagingEnabled = true
-        collection.backgroundColor = UIColor.whiteColor()
+        collection.isPagingEnabled = true
+        collection.backgroundColor = UIColor.white
         
         
         
         self.addSubview(collection)
     }
     
-    func reloadData(itemsUPC: NSArray,upc:String){
+    func reloadData(_ itemsUPC: NSArray,upc:String){
         self.itemsUPC = itemsUPC
         self.upc = upc
         collection.reloadData()
@@ -74,14 +74,14 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         collection.frame = self.bounds
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemsUPC.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier(self.cellReuseid, forIndexPath: indexPath) as! ProductCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: self.cellReuseid, for: indexPath) as! ProductCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
         
         let desc = itemUPC["description"] as! NSString
         
@@ -91,7 +91,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
             price = value
         }
         else if let value = itemUPC["price"] as? NSNumber {
-            price = "\(value)"
+            price = "\(value)" as NSString
         }
     
         var imageUrl = ""
@@ -99,7 +99,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         
         if let imageArray = itemUPC["imageUrl"] as? NSArray{
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as! String
+                imageUrl = imageArray.object(at: 0) as! String
             }
         }
         else
@@ -116,21 +116,21 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
         return itemSize
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var upcItems : [[String:String]] = []
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell
         for upcStr in itemsUPC {
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String
@@ -143,7 +143,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         
         
         
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:CGRectZero,idList: self.idListSeletSearch)
+        delegate.goTODetailProduct(upc, items: upcItems,index:(indexPath as NSIndexPath).row,imageProduct: cell.productImage!.image!,point:CGRect.zero,idList: self.idListSeletSearch)
     }
     
     
