@@ -412,7 +412,7 @@ extension BaseController {
             productsAdd.append(products)
         }
         
-        let ecomerce =  ["ecommerce":["purchase":["sucursal": sucursal, "formaPago": paymentType, "tipoEntrega": deliveryType, "fechaEntrega": deliveryDate, "horaEntrega": deliveryHour, "numeroCompraClientes": "1", "tipoTarjeta": "", "banco": "", "MSI": "", "carrier": "", "codigoPostalEntrega": "", "ciudadEntrega": "", "estadoEntrega": "", "actionField": ["id": purchaseId, "affiliation": affiliation, "revenue": revenue, "tax": tax, "shipping": shipping,"coupon": coupon, "products": productsAdd]]]]
+        let ecomerce =  ["event": "ecommerce", "ecommerce":["purchase":["sucursal": sucursal, "formaPago": paymentType, "tipoEntrega": deliveryType, "fechaEntrega": deliveryDate, "horaEntrega": deliveryHour, "numeroCompraClientes": "1", "tipoTarjeta": "", "banco": "", "MSI": "", "carrier": "", "codigoPostalEntrega": "", "ciudadEntrega": "", "estadoEntrega": "", "actionField": ["id": purchaseId, "affiliation": affiliation, "revenue": revenue, "tax": tax, "shipping": shipping,"coupon": coupon, "products": productsAdd]]]]
         
         dataLayer.push(ecomerce)
         print("sendAnalyticsPreviewCart")
