@@ -15,7 +15,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
         return ["parameter":[upc]]
     }
     
-    func builParams(_ upcArray:[String]) -> [String:AnyObject] {
+    func builParams(_ upcArray:[String]) -> [String:Any] {
         return ["parameter":upcArray as AnyObject]
     }
     

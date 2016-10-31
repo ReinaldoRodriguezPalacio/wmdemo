@@ -48,7 +48,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
        
         let svcDefaulLists = DefaultListService()
         svcDefaulLists.callService({ (result:NSDictionary) -> Void in
-                self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
+                self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
                 self.tableView?.reloadData()
                 self.removeLoadingView()
             }, errorBlock: { (error:NSError) -> Void in
@@ -88,7 +88,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         let itemList = itemsLists[(indexPath as NSIndexPath).row] as! NSDictionary
         
         let listName = itemList["name"] as? String
-        let items = itemList["items"] as? [[String:AnyObject]]
+        let items = itemList["items"] as? [[String:Any]]
         var totalInList = 0.0
         for itmProduct in items! {
             
@@ -116,11 +116,11 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let itemList = itemsLists[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let itemList = itemsLists[(indexPath as NSIndexPath).row] as! [String:Any]
         
         let destDetailList =  DefaultListDetailViewController()
         destDetailList.defaultListName = itemList["name"] as? String
-        destDetailList.detailItems = itemList["items"] as? [[String:AnyObject]]
+        destDetailList.detailItems = itemList["items"] as? [[String:Any]]
         
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA.rawValue, action: WMGAIUtils.ACTION_OPEN_PRACTILISTA.rawValue, label: itemList["name"] as! String)

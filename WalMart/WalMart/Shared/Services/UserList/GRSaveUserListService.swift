@@ -19,30 +19,30 @@ import CoreData
 
 class GRSaveUserListService : GRBaseService {
     
-    func buildParams(_ name:String?) -> [String:AnyObject]! {
+    func buildParams(_ name:String?) -> [String:Any]! {
         //{"name":"PentonVillet30Mayo2014","items":[]}
         return ["name":name! as AnyObject, "items":[]]
     }
 
-    func buildParams(_ name:String?, items:[AnyObject]) -> [String:AnyObject]! {
+    func buildParams(_ name:String?, items:[AnyObject]) -> [String:Any]! {
         return ["name":name! as AnyObject, "items":items as AnyObject]
     }
 
-    func buildBaseProductObject(upc:String, quantity:Int) -> [String:AnyObject] {
+    func buildBaseProductObject(upc:String, quantity:Int) -> [String:Any] {
         return ["upc":upc as AnyObject, "quantity":quantity as AnyObject]
     }
     
-    func buildParamsMustang(_ name:String?) -> [String:AnyObject]! {
+    func buildParamsMustang(_ name:String?) -> [String:Any]! {
         return ["name":name! as AnyObject,"description":"" as AnyObject]
     }
     
     
-    func buildProductObject(upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?,nameLine:String?) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?,nameLine:String?) -> [String:Any] {
         //Este JSON de ejemplo es tomado del servicio de addItemToList
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         //Los argumentos: image, description y price son usados solo localmente
         //los valores a ser enviados al servicio solo son upc y quantity
-        var base: [String:AnyObject] = ["upc":upc as AnyObject, "quantity":quantity as AnyObject]
+        var base: [String:Any] = ["upc":upc as AnyObject, "quantity":quantity as AnyObject]
         if image != nil {
             base["imageUrl"] = image! as AnyObject?
         }
@@ -64,12 +64,12 @@ class GRSaveUserListService : GRBaseService {
     func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if  UserCurrentSession.hasLoggedUser() {
             print(params["name"] as! String)
-            var cleaned:[String:AnyObject] = ["name":(params["name"] as! String as AnyObject)]
+            var cleaned:[String:Any] = ["name":(params["name"] as! String as AnyObject)]
             //Se remueven atributos de los productos que sean innecesarios
             if let items = params["items"] as? [AnyObject] {
                 var cleanedItems:[AnyObject] = []
                 for idx in 0 ..< items.count {
-                    var item = items[idx] as! [String:AnyObject]
+                    var item = items[idx] as! [String:Any]
                     item.removeValue(forKey: "imageUrl")
                     item.removeValue(forKey: "description")
                     item.removeValue(forKey: "price")
@@ -95,7 +95,7 @@ class GRSaveUserListService : GRBaseService {
         }
         else {
             print("Saving list without user")
-            if !self.includeListInDB(params as! [String:AnyObject]) {
+            if !self.includeListInDB(params as! [String:Any]) {
                 successBlock?([:])
             } else {
                 let message = NSLocalizedString("gr.list.samename",  comment: "")
@@ -127,7 +127,7 @@ class GRSaveUserListService : GRBaseService {
         if let items = list["items"] as? [AnyObject] {
             entity!.countItem = NSNumber(value: items.count as Int)
             for idx in 0 ..< items.count {
-                var item = items[idx] as! [String:AnyObject]
+                var item = items[idx] as! [String:Any]
                 let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                 detail!.upc = item["upc"] as! String
                 detail!.img = item["imageUrl"] as! String
@@ -159,7 +159,7 @@ class GRSaveUserListService : GRBaseService {
     
     //MARK: - CoreData
     
-    func includeListInDB(_ list:[String:AnyObject]) -> Bool {
+    func includeListInDB(_ list:[String:Any]) -> Bool {
         var existsList = false
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -178,7 +178,7 @@ class GRSaveUserListService : GRBaseService {
         if items != nil && items!.count > 0 {
             countItem = items!.count
             for idx in 0 ..< items!.count {
-                var item = items![idx] as! [String:AnyObject]
+                var item = items![idx] as! [String:Any]
                 let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                 detail!.upc = item["upc"] as! String
                 if let imageUrl = item["imageUrl"] as? String {

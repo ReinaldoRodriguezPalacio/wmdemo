@@ -826,7 +826,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 client.sendTwitterRequest(request) { response, data, connectionError in
                     if data != nil {
                         do {
-                            let json = try JSONSerialization.jsonObject(with: data!, options: []) as! [String:AnyObject]
+                            let json = try JSONSerialization.jsonObject(with: data!, options: []) as! [String:Any]
                             let name = json["name"] as? String ?? ""
                             let email = json["email"] as? String ?? ""
                             self.loginWithEmail(email, firstName: name, lastName: "", gender: "", birthDay: "")

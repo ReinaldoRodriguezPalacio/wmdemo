@@ -18,7 +18,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
     var urlTicer : String!
     var familyName : String!
     var loading: WMLoadingView?
-    var linesCamp :[[String:AnyObject]]?
+    var linesCamp :[[String:Any]]?
 
     override func viewDidLoad() {
       self.view.backgroundColor =  UIColor.white

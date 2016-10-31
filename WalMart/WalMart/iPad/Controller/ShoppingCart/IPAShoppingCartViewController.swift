@@ -436,7 +436,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         var countItems = 0
         //Get UPC of All items
         for lineItems in self.itemsInCartOrderSection {
-            let productsline = lineItems["products"] as! [[String:AnyObject]]
+            let productsline = lineItems["products"] as! [[String:Any]]
             for product in productsline {
 //                if section == sect && row == idx {
 //                    self.itemSelect = countItems

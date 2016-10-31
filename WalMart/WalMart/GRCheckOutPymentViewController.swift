@@ -73,9 +73,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var payPalFuturePayment : Bool = false
     var showPayPalFuturePayment : Bool = false //iniciar en false
     
-    var confirmOrderDictionary: [String:AnyObject]! = [:]
-    var cancelOrderDictionary:  [String:AnyObject]! = [:]
-    var completeOrderDictionary: [String:AnyObject]! = [:]
+    var confirmOrderDictionary: [String:Any]! = [:]
+    var cancelOrderDictionary:  [String:Any]! = [:]
+    var completeOrderDictionary: [String:Any]! = [:]
     
     //Confirmation view
     var serviceDetail : OrderConfirmDetailView? = nil
@@ -394,7 +394,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 //            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
 //            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
 //            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
-//            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+//            let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
             
             
             
@@ -518,7 +518,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     */
     func showPayPalPaymentController()
     {
-        let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+        let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
         var payPalItems: [PayPalItem] = []
         for item in items {
             var itemPrice = item["price"] as! Double
@@ -624,7 +624,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func invokeGetPromotionsService(_ pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:@escaping ((Bool) -> Void))
     {
         var savinAply : Double = 0.0
-        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
         if let savingGR = items["saving"] as? NSNumber {
             savinAply =  savingGR.doubleValue
             
@@ -712,7 +712,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     print("Boton Comprar :: \(self.newTotal)")
                     //self.updateShopButton("\(self.newTotal)")
                     var savinAply : Double = 0.0
-                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
                     if let savingGR = items["saving"] as? NSNumber {
                         savinAply =  savingGR.doubleValue
                     }
@@ -764,7 +764,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])
                 
                 for paymentOption in self.paymentOptionsItems!{
-                    if let payment = paymentOption as? [String:AnyObject] {
+                    if let payment = paymentOption as? [String:Any] {
                         if let option = payment["id"] as? String {
                             if option == "-1"{
                                self.showOnilePayments = true
@@ -821,7 +821,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:NSDictionary) -> Void in
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
-                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
                     //if let savingGR = items["saving"] as? Double {
                     
                     items["saving"] = resultCall["saving"] as? Double as AnyObject? //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
@@ -1174,7 +1174,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         print(completedPayment.description)
         
         
-        if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
+        if let completeDict = completedPayment.confirmation["response"] as? [String:Any] {
             if let idPayPal = completeDict["id"] as? String {
                 if let idAuthorization = completeDict["authorization_id"] as? String {
                     self.invokePaypalUpdateOrderService(idPayPal,paymentType:"-1",idAuthorization:idAuthorization)

@@ -92,8 +92,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var alertView : IPOWMAlertViewController? = nil
     var colorItems : [AnyObject] = []
     var sizeItems : [AnyObject] = []
-    var facets: [[String:AnyObject]]? = nil
-    var facetsDetails: [String:AnyObject]? = nil
+    var facets: [[String:Any]]? = nil
+    var facetsDetails: [String:Any]? = nil
     var selectedDetailItem: [String:String]? = nil
     var colorsView: ProductDetailColorSizeView? = nil
     var sizesView: ProductDetailColorSizeView? = nil
@@ -1025,7 +1025,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let params = productService.buildMustangParams(upc as String, skuId:self.sku as String) //TODO : Validar si es sku
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             self.reloadViewWithData(result)
-            if let facets = result["facets"] as? [[String:AnyObject]] {
+            if let facets = result["facets"] as? [[String:Any]] {
                 self.facets = facets
                 self.facetsDetails = self.getFacetsDetails()
                 let keys = Array(self.facetsDetails!.keys)
@@ -1067,8 +1067,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func reloadViewWithData(_ result:NSDictionary){
         
-        let sku = result["sku"] as! [String:AnyObject]
-        let parentProducts = sku["parentProducts"] as! [[String:AnyObject]]
+        let sku = result["sku"] as! [String:Any]
+        let parentProducts = sku["parentProducts"] as! [[String:Any]]
         let parentProduct = parentProducts.first
         
         self.name = parentProduct!["displayName"] as! String as NSString
@@ -1312,8 +1312,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
      
      - returns: dictionary wit facet details
      */
-    func getFacetsDetails() -> [String:AnyObject]{
-        var facetsDetails : [String:AnyObject] = [String:AnyObject]()
+    func getFacetsDetails() -> [String:Any]{
+        var facetsDetails : [String:Any] = [String:Any]()
         self.selectedDetailItem = [:]
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
@@ -1353,11 +1353,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
      
      - returns: dictionary wit facet details
      */
-    func marckSelectedDetails(_ facetsDetails: [String:AnyObject]) -> [String:AnyObject] {
-        var selectedDetails: [String:AnyObject] = [:]
+    func marckSelectedDetails(_ facetsDetails: [String:Any]) -> [String:Any] {
+        var selectedDetails: [String:Any] = [:]
         let filteredKeys = self.getFilteredKeys(facetsDetails)
         // Primer elemento
-        let itemsFirst: [[String:AnyObject]] = facetsDetails[filteredKeys.first!] as! [[String:AnyObject]]
+        let itemsFirst: [[String:Any]] = facetsDetails[filteredKeys.first!] as! [[String:Any]]
         let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
         var values: [AnyObject] = []
         for item in itemsFirst{
@@ -1368,7 +1368,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         selectedDetails[selecteFirst] = values as AnyObject?
         
         if filteredKeys.count > 1 {
-            let itemsSecond: [[String:AnyObject]] = facetsDetails[filteredKeys.last!] as! [[String:AnyObject]]
+            let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
             let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
             
             let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
@@ -1399,7 +1399,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
      
      - returns: String array with keys in order
      */
-    func getFilteredKeys(_ facetsDetails: [String:AnyObject]) -> [String] {
+    func getFilteredKeys(_ facetsDetails: [String:Any]) -> [String] {
         let keys = Array(facetsDetails.keys)
         var filteredKeys = keys.filter(){
             return ($0 as String) != "itemDetails"
@@ -1439,7 +1439,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         return upc
     }
     
-    func getFacetWithUpc(_ upc:String) -> [String:AnyObject] {
+    func getFacetWithUpc(_ upc:String) -> [String:Any] {
         var facet = self.facets!.first
         for product in self.facets! {
             if (product["upc"] as! String) == upc {
@@ -1536,13 +1536,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         if colorItems.count != 0 || sizeItems.count != 0{
             if colorItems.count != 0 && sizeItems.count != 0{
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView?.items = self.colorItems as! [[String:AnyObject]]
+                self.colorsView?.items = self.colorItems as! [[String:Any]]
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
                 self.colorsView!.buildItemsView()
                 self.colorsView?.delegate = self
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems as! [[String:AnyObject]]
+                self.sizesView!.items = self.sizeItems as! [[String:Any]]
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRect(x: 0,y: 40,width: width, height: 40.0)
                 self.sizesView!.buildItemsView()
@@ -1555,7 +1555,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count != 0 && sizeItems.count == 0{
                 self.sizesView?.alpha = 0
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView!.items = self.colorItems as! [[String:AnyObject]]
+                self.colorsView!.items = self.colorItems as! [[String:Any]]
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
                 self.colorsView!.buildItemsView()
@@ -1566,7 +1566,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count == 0 && sizeItems.count != 0{
                 self.colorsView?.alpha = 0
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems as! [[String:AnyObject]]
+                self.sizesView!.items = self.sizeItems as! [[String:Any]]
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRect(x: 0,y: 0,width: width, height: 40.0)
                 self.sizesView!.buildItemsView()

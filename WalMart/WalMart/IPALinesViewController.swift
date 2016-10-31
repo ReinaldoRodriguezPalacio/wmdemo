@@ -15,7 +15,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     var buttonClose : UIButton!
     var imageBackground : UIImageView!
     var urlTicer : String!
-    var linesCamp :[[String:AnyObject]]?
+    var linesCamp :[[String:Any]]?
     var familyId : String!
     var loading: WMLoadingView?
     var timmer: Timer?

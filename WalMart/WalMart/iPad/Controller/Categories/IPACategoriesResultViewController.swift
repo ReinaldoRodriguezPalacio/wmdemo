@@ -24,7 +24,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
     var searchProduct : IPASearchCatProductViewController!
     var department : String!
     var family : String!
-    var families : [[String:AnyObject]]!
+    var families : [[String:Any]]!
     var line : String!
     var name : String!
     

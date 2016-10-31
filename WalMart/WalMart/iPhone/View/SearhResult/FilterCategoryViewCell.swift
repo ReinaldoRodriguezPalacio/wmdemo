@@ -63,7 +63,7 @@ class FilterCategoryViewCell: UITableViewCell {
     
     //MARK: - Actions
     
-    func setValues(_ item:[String:AnyObject], selected:Bool) {
+    func setValues(_ item:[String:Any], selected:Bool) {
         
         self.type = .department
         if let level = item["level"] as? NSNumber {
@@ -100,7 +100,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.check!.isHighlighted = selected
     }
     
-    func setValuesFacets(_ item:[String:AnyObject]?,nameBrand:String, selected:Bool){
+    func setValuesFacets(_ item:[String:Any]?,nameBrand:String, selected:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor

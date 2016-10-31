@@ -124,7 +124,7 @@ class IPOWMAlertViewController : UIViewController {
      
      - parameter message: message to present
      */
-    func setMessage(_ message:NSString){
+    func setMessage(_ message:String){
         let size =  message.boundingRect(with: CGSize(width: titleLabel.frame.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
         titleLabel.frame = CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.minY, width: 232, height: size.height)
         titleLabel.text = message as String

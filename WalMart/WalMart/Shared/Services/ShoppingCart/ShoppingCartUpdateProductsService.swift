@@ -22,7 +22,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
     func callService(_ params: AnyObject,updateSC:Bool, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         
         if UserCurrentSession.hasLoggedUser() {
-            var itemsSvc : [[String:AnyObject]] = []
+            var itemsSvc : [[String:Any]] = []
             var upcSend = ""
             for itemSvc in params as! NSArray {
                 let upc = itemSvc["productId"] as! String

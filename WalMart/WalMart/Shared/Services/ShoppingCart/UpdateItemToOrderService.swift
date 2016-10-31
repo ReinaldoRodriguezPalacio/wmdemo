@@ -11,7 +11,7 @@ import Foundation
 
 class UpdateItemToOrderService:GRBaseService {
     
-    func buildParameter(_ catalogRefIds:String, productId:String,quantity:String,quantityWithFraction:String,orderedUOM:String,orderedQTYWeight:String) -> [String:AnyObject] {
+    func buildParameter(_ catalogRefIds:String, productId:String,quantity:String,quantityWithFraction:String,orderedUOM:String,orderedQTYWeight:String) -> [String:Any] {
         
         return ["catalogRefIds": catalogRefIds as AnyObject,"productId": productId as AnyObject,"quantity": quantity as AnyObject,"quantityWithFraction": quantityWithFraction as AnyObject,"orderedUOM": orderedUOM as AnyObject,"orderedQTYWeight": orderedQTYWeight as AnyObject,"action": "" as AnyObject]
     }

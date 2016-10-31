@@ -122,7 +122,7 @@ class DetailListViewCell: ProductTableViewCell {
      - parameter product:  array products
      - parameter disabled: validate if row is active
      */
-    func setValuesDictionary(_ product:[String:AnyObject],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
+    func setValuesDictionary(_ product:[String:Any],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
         var imageUrl = ""
         var descriptionItem = ""
         var upcItem = ""

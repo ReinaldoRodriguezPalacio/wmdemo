@@ -91,9 +91,9 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             currentItem = currentItem - 1
         }
     
-        let item = items![currentItem] as! [String:AnyObject]
+        let item = items![currentItem] as! [String:Any]
         let famArray : AnyObject = item["familyContent"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+        let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
         
         let label = item["DepartmentName"] as? String ?? ""
         let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
@@ -170,7 +170,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             currentItem = currentItem - 1
         }
         
-        let item = items![currentItem] as! [String:AnyObject]
+        let item = items![currentItem] as! [String:Any]
         let descDepartment = item["DepartmentName"] as? String ?? ""
         let bgDepartment = item["idDept"] as! String
         

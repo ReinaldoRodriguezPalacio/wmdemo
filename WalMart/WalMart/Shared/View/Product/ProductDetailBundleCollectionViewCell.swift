@@ -25,8 +25,8 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "productBundleCell", for: indexPath) as! ProductDetailBundleItemCollectionViewCell
         
         let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
-        let item = itemUPC["item"] as! [String:AnyObject]
-        let parentProducts = item["parentProducts"] as! [[String:AnyObject]]
+        let item = itemUPC["item"] as! [String:Any]
+        let parentProducts = item["parentProducts"] as! [[String:Any]]
         let parent = parentProducts.first
         let desc = parent!["description"] as! String
         let imageUrl = parent!["thumbnailImageUrl"] as! String

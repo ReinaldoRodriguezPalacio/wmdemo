@@ -10,7 +10,7 @@ import Foundation
 
 class SchoolProductTableViewCell: DetailListViewCell {
     
-  override func setValuesDictionary(_ product:[String:AnyObject],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
+  override func setValuesDictionary(_ product:[String:Any],disabled:Bool, productPriceThrough:String, isMoreArts:Bool) {
         var imageUrl: String? = ""
         if let imageArray = product["imageUrl"] as? NSArray {
             if imageArray.count > 0 {

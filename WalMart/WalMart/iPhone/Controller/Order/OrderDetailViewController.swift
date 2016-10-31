@@ -233,7 +233,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section > 0 {
             
-            let arrayProductsFed = itemDetailProducts[section - 1] as! [String:AnyObject]
+            let arrayProductsFed = itemDetailProducts[section - 1] as! [String:Any]
             let guide = arrayProductsFed["fedexGuide"] as! String
             let guideurl = arrayProductsFed["urlfedexGuide"] as! String
             let viewFedex = UIView()
@@ -268,7 +268,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func didSelectItem(_ sender:UIButton) {
-        let arrayProductsFed = itemDetailProducts[sender.tag - 1] as! [String:AnyObject]
+        let arrayProductsFed = itemDetailProducts[sender.tag - 1] as! [String:Any]
         let guideurl = arrayProductsFed["urlfedexGuide"] as! String
         
         
@@ -298,7 +298,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if !showFedexGuide {
             return getUPCItems()
         }
-        let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:AnyObject]
+        let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:Any]
         if let  listUPCItems =  shoppingCartProduct["items"] as? NSArray {
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
             
@@ -432,7 +432,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         let service = GRAddItemListService()
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemDetailProducts.count {
-            let item = self.itemDetailProducts[idx] as! [String:AnyObject]
+            let item = self.itemDetailProducts[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0
@@ -514,7 +514,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemDetailProducts.count {
-            let item = self.itemDetailProducts[idx] as! [String:AnyObject]
+            let item = self.itemDetailProducts[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0

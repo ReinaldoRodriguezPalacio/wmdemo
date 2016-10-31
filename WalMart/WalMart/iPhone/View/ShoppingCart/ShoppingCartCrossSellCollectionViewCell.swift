@@ -51,7 +51,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let shoppingCartItems  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
        
         /*for itemInCart in shoppingCartItems! {
-            if let dictItem = itemInCart as? [String:AnyObject] {
+            if let dictItem = itemInCart as? [String:Any] {
                // if let preorderable = dictItem["isPreorderable"] {
                //     if(preorderable as! String == "true"){
                 

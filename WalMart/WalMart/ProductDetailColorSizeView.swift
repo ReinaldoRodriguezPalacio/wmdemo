@@ -125,7 +125,7 @@ class ProductDetailColorSizeView: UIView {
         }
     }
     
-    func buildColorButton(_ item: [String:AnyObject], position:CGFloat, buttonPositionY:CGFloat, count: Int){
+    func buildColorButton(_ item: [String:Any], position:CGFloat, buttonPositionY:CGFloat, count: Int){
         let backView = UIView(frame: CGRect(x: position, y: buttonPositionY, width: CGFloat(backViewWidth), height: CGFloat(backViewWidth)))
         backView.layer.cornerRadius = 4
         let tap = UITapGestureRecognizer(target: self, action: #selector(ProductDetailColorSizeView.backViewTap(_:)))
@@ -161,7 +161,7 @@ class ProductDetailColorSizeView: UIView {
         self.viewToInsert!.addSubview(backView)
     }
     
-    func buildTextButton(_ item: [String:AnyObject], position:CGFloat, buttonPositionY:CGFloat, count: Int) -> CGFloat{
+    func buildTextButton(_ item: [String:Any], position:CGFloat, buttonPositionY:CGFloat, count: Int) -> CGFloat{
         let sizeButonWidth = self.getButtonWidth(item["value"] as? String)
         let backViewSizeWidth = sizeButonWidth + 7.0
         let backView = UIView(frame: CGRect(x: position, y: buttonPositionY, width: backViewSizeWidth , height: CGFloat(backViewWidth)))
@@ -280,7 +280,7 @@ class ProductDetailColorSizeView: UIView {
         }
     }
     
-    func buildItemForColor(_ item:[String:AnyObject]) -> Bool{
+    func buildItemForColor(_ item:[String:Any]) -> Bool{
         var buildForColors = false
         var unit = item["value"] as! String
         if unit.contains("#"){

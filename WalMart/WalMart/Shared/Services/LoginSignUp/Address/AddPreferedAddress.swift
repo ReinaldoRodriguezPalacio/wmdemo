@@ -15,7 +15,7 @@ class AddPreferedAddress : BaseService {
     func buildParams(_ zipCode:String) {
         self.code = zipCode
     }
-    func buildParamsInvoice(_ idAddressParam:String) -> [String:AnyObject] {
+    func buildParamsInvoice(_ idAddressParam:String) -> [String:Any] {
         
         return ["addressId":idAddressParam as AnyObject]
     }

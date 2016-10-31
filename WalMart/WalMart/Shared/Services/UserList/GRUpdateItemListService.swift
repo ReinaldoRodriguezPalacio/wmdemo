@@ -14,7 +14,7 @@ class GRUpdateItemListService: GRBaseService {
         return [self.buildProductObject(upc: upc, quantity: quantity) as AnyObject]
     }
     
-    func buildProductObject(upc:String, quantity:Int) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int) -> [String:Any] {
         return ["upc":upc as AnyObject, "quantity":quantity as AnyObject, "comments":"" as AnyObject, "longDescription": "" as AnyObject, "pesable": "" as AnyObject, "equivalenceByPiece": "" as AnyObject, "promoDescription": "" as AnyObject, "productIsInStores": ""]
     }
     

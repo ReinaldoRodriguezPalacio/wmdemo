@@ -147,7 +147,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.collection?.reloadData()
     }
     
-    override func apply(_ order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
+    override func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool) {
         super.apply(order, filters: filters, isForGroceries: flag)
         self.filterButton?.setTitle(NSLocalizedString("restaurar", comment:"" ) , for: UIControlState())
         self.filterButton?.frame = CGRect(x: self.view.bounds.maxX - 90 , y: (self.header!.frame.size.height - 22)/2 , width: 70, height: 22)

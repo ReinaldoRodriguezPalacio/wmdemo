@@ -28,7 +28,7 @@ class GRBaseService : BaseService {
         
         
         let services = Bundle.main.object(forInfoDictionaryKey: serviceConfigDictionary) as! NSDictionary
-        let environmentServices = services[environment] as! [String:AnyObject]
+        let environmentServices = services[environment] as! [String:Any]
         let serviceURL =  environmentServices[serviceName] as! String
         //println(serviceURL)
         return serviceURL

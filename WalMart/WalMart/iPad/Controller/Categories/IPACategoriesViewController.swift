@@ -70,7 +70,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             
         }// if indexPath.item == 0 {
         
-        let item = items[currentItem] as! [String:AnyObject]
+        let item = items[currentItem] as! [String:Any]
         let descDepartment = item["DepartmentName"] as! String
         let bgDepartment = item["idDept"] as! String
         /*var selected = false
@@ -125,21 +125,21 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         if self.selectedIndex == nil {
             self.selectedIndex = indexPath
             
-            let item = items[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+            let item = items[(indexPath as NSIndexPath).row] as! [String:Any]
             let idDepartment = item["idDept"] as! String
             let famArray : AnyObject = item["familyContent"] as AnyObject!
-            let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+            let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
             var famSelected = itemsFam[0]
             var idFamDefault = famSelected["familyId"] as! String
             
             var lineArray : AnyObject = famSelected["fineContent"] as AnyObject!
-            var itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
+            var itemsLine : [[String:Any]] = lineArray as! [[String:Any]]
             
             if itemsLine.count == 0 {
                 famSelected = itemsFam[1]
                 idFamDefault = famSelected["id"] as! String
                 lineArray = famSelected["fineContent"] as AnyObject!
-                itemsLine = lineArray as! [[String:AnyObject]]
+                itemsLine = lineArray as! [[String:Any]]
             }
             
             if itemsLine.count == 0{
@@ -185,9 +185,9 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             selectedLine = true
             let cellSelected = categories.cellForItem(at: selectedIndex) as! IPACategoryCollectionViewClass
             
-            let item = items[selectedIndex.row] as! [String:AnyObject]
+            let item = items[selectedIndex.row] as! [String:Any]
             let famArray : AnyObject = item["familyContent"] as AnyObject!
-            let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+            let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
             
             categories.isScrollEnabled = false
        

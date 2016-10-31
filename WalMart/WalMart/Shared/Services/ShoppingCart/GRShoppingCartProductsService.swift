@@ -323,7 +323,7 @@ class GRShoppingCartProductsService : GRBaseService {
 //        var error: NSError? = nil
 //        context.save(&error)
 //        
-        var resultServiceCall : [String:AnyObject] = [:]
+        var resultServiceCall : [String:Any] = [:]
         var resultItems : [NSDictionary] = []
         
         for shoppingCartProduct in itemsInShoppingCart! {

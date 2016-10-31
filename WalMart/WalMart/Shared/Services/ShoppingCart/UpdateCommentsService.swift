@@ -10,11 +10,11 @@ import Foundation
 
 class UpdateCommentsService:GRBaseService {
     
-    func buildParameterOrder(_ orderComent:String) -> [String:AnyObject] {
+    func buildParameterOrder(_ orderComent:String) -> [String:Any] {
         return ["updateOrderComment":"true" as AnyObject,"orderComment":orderComent as AnyObject]
     }
     
-    func buildParameterItem(_ itemComent:String,itemId:String) -> [String:AnyObject] {
+    func buildParameterItem(_ itemComent:String,itemId:String) -> [String:Any] {
         return ["commerceIds":itemId as AnyObject,"itemComment":itemComent as AnyObject,"updateOrderComment":"false" as AnyObject]
     }
     

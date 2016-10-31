@@ -723,7 +723,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.showShoppingCart(self.btnShopping!)
             }
         }
-        let params = (notification as NSNotification).userInfo as! [String:AnyObject]
+        let params = (notification as NSNotification).userInfo as! [String:Any]
         
         addShopping.params = params
         
@@ -758,11 +758,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func addItemsToShoppingCart(_ notification:Notification) {
         let addShopping = ShoppingCartUpdateController()
         
-        let params = (notification as NSNotification).userInfo as! [String:AnyObject]
+        let params = (notification as NSNotification).userInfo as! [String:Any]
         var type = params["type"] as? String
         var price: Double = 0
         var upc: String = "["
-        let allItems = params["allitems"] as? [[String:AnyObject]]
+        let allItems = params["allitems"] as? [[String:Any]]
         
         for item in allItems! {
             let productUpc = item["upc"] as? String
@@ -783,7 +783,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         addShopping.goToShoppingCart = {() in
             self.showShoppingCart(self.btnShopping!)
         }
-        addShopping.multipleItems = (notification as NSNotification).userInfo as? [String:AnyObject]
+        addShopping.multipleItems = (notification as NSNotification).userInfo as? [String:Any]
         self.addChildViewController(addShopping)
         addShopping.view.frame = self.view.bounds
         self.view.addSubview(addShopping.view)
@@ -835,7 +835,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      - parameter notification: notification
      */
     func camFindSearch(_ notification:Notification){
-        let searchDic = notification.object as! [String:AnyObject]
+        let searchDic = notification.object as! [String:Any]
         let upcs = searchDic["upcs"] as! [String]
         let keyWord = searchDic["keyWord"] as! String
         let controllernav = self.currentController as? UINavigationController

@@ -29,9 +29,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     @IBOutlet weak var collection: UICollectionView!
     
     var bannerItems :  [[String:String]]? = nil
-    var recommendCategoryItems :  [String:AnyObject]!
-    var recommendItems :  [[String:AnyObject]]? = nil
-    //var exclusiveItems :  [[String:AnyObject]]? = nil
+    var recommendCategoryItems :  [String:Any]!
+    var recommendItems :  [[String:Any]]? = nil
+    //var exclusiveItems :  [[String:Any]]? = nil
     var selectedIndexCategory :  Int = 0
     var categories :  [String] = []
     var categoryCell : CategoryCollectionViewCell!
@@ -268,7 +268,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 let catNameFilter = self.categories[selectedIndexCategory]
                 let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
                 let arrayItemsResult =  arrayItems as! [AnyObject]
-                let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+                let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:Any]
                
                 var desc = ""
                 var imageUrl = ""
@@ -336,7 +336,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
             let arrayItemsResult =  arrayItems as! [AnyObject]
-            let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+            let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:Any]
             var upc = ""
             var desc = ""
             var skuId =  ""

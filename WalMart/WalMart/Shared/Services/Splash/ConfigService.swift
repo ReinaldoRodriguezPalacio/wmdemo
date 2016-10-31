@@ -25,9 +25,9 @@ class ConfigService : BaseService {
     }
     
     
-    func getConfoigContent() -> [String:AnyObject] {
-        let values = getDataFromFile(fileName) as? [String:AnyObject]
-        if let grCategory = values?["groceriescategoryproduct"] as? [String:AnyObject] {
+    func getConfoigContent() -> [String:Any] {
+        let values = getDataFromFile(fileName) as? [String:Any]
+        if let grCategory = values?["groceriescategoryproduct"] as? [String:Any] {
             return grCategory
         }
         return [:]

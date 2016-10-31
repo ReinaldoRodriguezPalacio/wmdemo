@@ -497,7 +497,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
                 case ("completed"):
                     let name = response.object(forKey: "name") as! String
                     var items : [String] = []
-                    if let allItems = response.object(forKey: "items") as? [[String:AnyObject]] {
+                    if let allItems = response.object(forKey: "items") as? [[String:Any]] {
                         for item in allItems {
                             let data = item["data"] as! [String:String]
                             let valueData = data["product_id"]

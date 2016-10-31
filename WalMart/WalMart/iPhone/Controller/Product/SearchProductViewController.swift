@@ -112,7 +112,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var maxResult: Int = 20
     var brandText: String? = ""
     
-    var facet : [[String:AnyObject]]!
+    var facet : [[String:Any]]!
     
     var controllerFilter : FilterProductsViewController!
     
@@ -797,7 +797,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
-                        let productDict = product as! [String:AnyObject]
+                        let productDict = product as! [String:Any]
                         if let productUPC =  productDict["upc"] as? String {
                             if !self.itemsUPC!.contains(productUPC) {
                                 filtredProducts.append(productDict as AnyObject)
@@ -819,7 +819,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
-                        let productDict = product as! [String:AnyObject]
+                        let productDict = product as! [String:Any]
                         if let productUPC =  productDict["upc"] as? String {
                             if !self.itemsUPC!.contains(productUPC) {
                                 filtredProducts.append(productDict as AnyObject)
@@ -1001,7 +1001,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     
-    func apply(_ order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
+    func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool) {
         
         self.isAplyFilter =  true
         
@@ -1316,7 +1316,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(selectQuantity)
     }
     
-    func buildParamsUpdateShoppingCart(_ cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
+    func buildParamsUpdateShoppingCart(_ cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:Any] {
         let pesable = cell.pesable! ? "1" : "0"
         let searchText = self.textToSearch ?? ""
         let channel = IS_IPAD ? "ipad" : "iphone"

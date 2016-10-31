@@ -621,7 +621,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section - 1, row: (indexPath as NSIndexPath).row) as [AnyObject]
             controller.ixSelected = self.itemSelect//indexPath.row
             
-            let item = productObje[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+            let item = productObje[(indexPath as NSIndexPath).row] as! [String:Any]
             let  name = item["productDisplayName"] as! String
             let upc = item["productId"] as! String
             //EVENT
@@ -753,7 +753,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func endUpdatingShoppingCart(_ cell:ProductShoppingCartTableViewCell) {
         let indexPath : IndexPath = self.viewShoppingCart.indexPath(for: cell)!
         
-        var itemByUpc  = self.itemsInShoppingCart![(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        var itemByUpc  = self.itemsInShoppingCart![(indexPath as NSIndexPath).row] as! [String:Any]
         itemByUpc.updateValue(String(cell.quantity) , forKey: "quantity")
         self.itemsInShoppingCart[(indexPath as NSIndexPath).row] = itemByUpc as AnyObject
         
@@ -855,7 +855,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
     }
     
-    func buildParamsUpdateShoppingCart(_ cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
+    func buildParamsUpdateShoppingCart(_ cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:Any] {
         let pesable = cell.pesable ? "1" : "0"
         return ["upc":cell.skuId as AnyObject,"desc":cell.desc as AnyObject,"imgUrl":cell.imageurl as AnyObject,"price":cell.price,"quantity":quantity as AnyObject,"comments":cell.comments as AnyObject,"onHandInventory":cell.onHandInventory,"wishlist":false as AnyObject,"type":ResultObjectType.Groceries.rawValue as AnyObject,"pesable":pesable,"commerceItemId":cell.commerceIds,"skuId":cell.skuId]
     }
@@ -919,7 +919,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.showLoadingView()
         listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as! NSDictionary
         productObje = listObj["products"] as! NSArray
-        let itemWishlist = productObje[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let itemWishlist = productObje[(indexPath as NSIndexPath).row] as! [String:Any]
         let upc = itemWishlist["commerceItemId"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
@@ -965,7 +965,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var showIva = true
         
         for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
             
             var price : NSString = ""
             
@@ -1046,7 +1046,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let priceLasiItem = 0.0
         var upc = ""
            for shoppingCartProduct in  itemsInShoppingCart {
-            //let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            //let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
             var price : NSString = ""
             let priceInfo = shoppingCartProduct["priceInfo"] as! NSDictionary
             
@@ -1079,7 +1079,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         //Get UPC of All items
          for lineItems in self.itemsInCartOrderSection {
-            let productsline = lineItems["products"] as! [[String:AnyObject]]
+            let productsline = lineItems["products"] as! [[String:Any]]
             for product in productsline {
                 let upc = product["productId"] as! String
                 let desc = product["productDisplayName"] as! String
@@ -1650,7 +1650,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let service = GRAddItemListService()
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInShoppingCart.count {
-            let item = self.itemsInShoppingCart[idx] as! [String:AnyObject]
+            let item = self.itemsInShoppingCart[idx] as! [String:Any]
             
             let upc = item["productId"] as! String
             var quantity: Int = 0
@@ -1699,7 +1699,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         for idx in 0 ..< self.itemsInShoppingCart.count {
-            let item = self.itemsInShoppingCart[idx] as! [String:AnyObject]
+            let item = self.itemsInShoppingCart[idx] as! [String:Any]
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -1809,7 +1809,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInShoppingCart.count {
-            let item = self.itemsInShoppingCart[idx] as! [String:AnyObject]
+            let item = self.itemsInShoppingCart[idx] as! [String:Any]
             
             let upc = item["productId"] as! String
             var quantity: Int = 0

@@ -214,7 +214,7 @@ class SchoolListViewController : DefaultListDetailViewController {
      - parameter product:   product
      - parameter indexPath: indexpath
      */
-    func removeDisabled(_ product:[String:AnyObject],indexPath:IndexPath){
+    func removeDisabled(_ product:[String:Any],indexPath:IndexPath){
         
         if let stock = product["stock"] as? NSString {
             if stock == "false" {
@@ -239,7 +239,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100, brand: nil)
         service.callService(params,
                             successBlock:{ (arrayProduct,facet:NSArray?) in
-                                self.detailItems = arrayProduct as? [[String:AnyObject]]
+                                self.detailItems = arrayProduct as? [[String:Any]]
                                 
                                 if self.detailItems?.count == 0 || self.detailItems == nil {
                                     self.selectedItems = []
@@ -432,7 +432,7 @@ class SchoolListViewController : DefaultListDetailViewController {
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
-                var params: [String:AnyObject] = [:]
+                var params: [String:Any] = [:]
                 let item = self.detailItems![idx]
                 params["upc"] = item["upc"] as! String as AnyObject?
                 params["desc"] = item["description"] as! String as AnyObject?

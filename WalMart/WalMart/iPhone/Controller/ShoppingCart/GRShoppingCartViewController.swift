@@ -496,7 +496,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     
-    func buildParamsUpdateShoppingCart(_ cell:GRProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
+    func buildParamsUpdateShoppingCart(_ cell:GRProductShoppingCartTableViewCell,quantity:String) -> [String:Any] {
         let pesable = cell.pesable ? "1" : "0"
         return ["upc":cell.upc as AnyObject,"desc":cell.desc as AnyObject,"imgUrl":cell.imageurl as AnyObject,"price":cell.price,"quantity":quantity as AnyObject,"comments":cell.comments as AnyObject,"onHandInventory":cell.onHandInventory,"wishlist":false as AnyObject,"type":ResultObjectType.Groceries.rawValue as AnyObject,"pesable":pesable]
     }
@@ -714,7 +714,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     //MARK: Delete item 
     
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemGRSC = itemsInCart[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let itemGRSC = itemsInCart[(indexPath as NSIndexPath).row] as! [String:Any]
         let upc = itemGRSC["upc"] as! String
         
         /*let serviceWishDelete = GRShoppingCartDeleteProductsService()
@@ -920,7 +920,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let service = GRAddItemListService()
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0
@@ -965,7 +965,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
 
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:Any]
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -1052,7 +1052,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0

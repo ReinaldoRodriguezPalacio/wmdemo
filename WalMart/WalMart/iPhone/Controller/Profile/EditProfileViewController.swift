@@ -555,7 +555,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             if let code = result["codeMessage"] as? Int {
                 if code == 0{
                     self.ocupation.isEnabled = true
-                    let responceObject = result["responseObject"] as! [String:AnyObject]
+                    let responceObject = result["responseObject"] as! [String:Any]
                     self.occupationList = responceObject["occupationList"] as! [String]
                 }else{
                    self.occupationList = []

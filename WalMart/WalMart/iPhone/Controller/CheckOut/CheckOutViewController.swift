@@ -247,7 +247,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             didLoginWithEmail = true
             
             //sendTuneAnalytics
-//            let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
+//            let items :[[String:Any]] = self.itemsMG as! [[String:Any]]
 //            let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
             //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
             
@@ -379,7 +379,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         //sendTuneAnalytics
         if stopTune {
             print("before finishLoadCheckOut stopTune:::")
-//            let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
+//            let items :[[String:Any]] = self.itemsMG as! [[String:Any]]
 //            let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
             //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
             stopTune =  false

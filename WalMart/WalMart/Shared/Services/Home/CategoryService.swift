@@ -34,7 +34,7 @@ class CategoryService : BaseService {
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                 successBlock?(resultCall)
                 
-                self.loadKeyFieldCategories(resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]], type: ResultObjectType.Mg.rawValue);
+                self.loadKeyFieldCategories(resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:Any]], type: ResultObjectType.Mg.rawValue);
                 
                 return
             },
@@ -46,12 +46,12 @@ class CategoryService : BaseService {
     }
     
     
-    func getCategoriesContent(from type:String) -> [[String:AnyObject]] {
-        var response : [[String:AnyObject]] = []
-        var filterResponse : [[String:AnyObject]] = []
+    func getCategoriesContent(from type:String) -> [[String:Any]] {
+        var response : [[String:Any]] = []
+        var filterResponse : [[String:Any]] = []
         let values = self.getDataFromFile(fileName)
         if values != nil {
-            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
+            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
             for category in response {
                 if category["business"]  != nil {
                 if category["business"] as! String == type{

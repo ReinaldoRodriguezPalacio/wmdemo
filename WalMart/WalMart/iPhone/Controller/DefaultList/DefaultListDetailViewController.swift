@@ -36,7 +36,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     var tableView : UITableView?
     
     var defaultListName : String? = ""
-    var detailItems : [[String:AnyObject]]? = []
+    var detailItems : [[String:Any]]? = []
     var selectedItems : NSMutableArray? = nil
     var quantitySelector: GRShoppingCartQuantitySelectorView?
     
@@ -414,7 +414,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
-                var params: [String:AnyObject] = [:]
+                var params: [String:Any] = [:]
                 let item = self.detailItems![idx]
                 params["upc"] = item["upc"] as! String as AnyObject?
                 params["desc"] = item["description"] as! String as AnyObject?
@@ -628,7 +628,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 for idx in 0 ..< itemsUserList!.count {
                     var name:String? = nil
                     var stringIndex: String? = nil
-                    if let innerList = itemsUserList![idx] as? [String:AnyObject] {
+                    if let innerList = itemsUserList![idx] as? [String:Any] {
                         let innerListId = innerList["repositoryId"] as! String
                         if innerListId == listId! {
                             continue

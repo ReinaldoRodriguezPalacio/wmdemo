@@ -65,7 +65,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     }
 
     
-    func setLines(_ lines:[[String:AnyObject]],width:CGFloat, index: IndexPath) {
+    func setLines(_ lines:[[String:Any]],width:CGFloat, index: IndexPath) {
         self.index = index
         let jsonLines = JSON(lines)
         

@@ -10,7 +10,7 @@ import Foundation
 
 class LinesForSearchService: BaseService {
 
-    func buildParams(_ string:String) -> [String:AnyObject] {
+    func buildParams(_ string:String) -> [String:Any] {
         return ["id":string as AnyObject]
     }
 
@@ -61,8 +61,8 @@ class LinesForSearchService: BaseService {
 //        var dictionary = self.buildResponse(response)
 //        var values = [AnyObject](dictionary.values)
 //        values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
-//            var deptoOne = objectOne as [String:AnyObject]
-//            var deptoTwo = objectTwo as [String:AnyObject]
+//            var deptoOne = objectOne as [String:Any]
+//            var deptoTwo = objectTwo as [String:Any]
 //            var nameOne = deptoOne["name"] as NSString
 //            var nameTwo = deptoTwo["name"] as NSString
 //            return nameOne.caseInsensitiveCompare(nameTwo) == NSComparisonResult.OrderedAscending
@@ -74,13 +74,13 @@ class LinesForSearchService: BaseService {
         
     }
     
-    func buildResponse(_ response:[AnyObject],successBuildBlock:(([String:AnyObject]) -> Void)?) {
+    func buildResponse(_ response:[AnyObject],successBuildBlock:(([String:Any]) -> Void)?) {
         
         printTimestamp("buildResponse LinesForSearchService")
         
         var strInLines : String = ""
         for i in 0 ..< response.count {
-            var responseObject = response[i] as! [String:AnyObject]
+            var responseObject = response[i] as! [String:Any]
             let id = responseObject["subCategoryId"] as? String
             if id == nil {
                 continue
@@ -92,14 +92,14 @@ class LinesForSearchService: BaseService {
             }
         }
         
-        let dictionary: [String:AnyObject] = [:]
+        let dictionary: [String:Any] = [:]
         
         if strInLines == "" {
             return  successBuildBlock!(dictionary)
         }
         
         WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
-            var dictionary: [String:AnyObject] = [:]
+            var dictionary: [String:Any] = [:]
             //NSLog("Ejecuta busqueda")
             let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
             if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
@@ -116,7 +116,7 @@ class LinesForSearchService: BaseService {
                     let linName = rs.string(forColumn: "line")
                     
                     
-                    var cdepto = dictionary[idDepto] as? [String:AnyObject]
+                    var cdepto = dictionary[idDepto] as? [String:Any]
                     if cdepto == nil {
                         cdepto = [
                             "name" : depName,
@@ -130,7 +130,7 @@ class LinesForSearchService: BaseService {
                     }
                     
                     let families = cdepto!["families"] as! NSMutableDictionary
-                    var cfamily = families[idFamily] as? [String:AnyObject]
+                    var cfamily = families[idFamily] as? [String:Any]
                     if cfamily == nil {
                         families[idFamily] = [
                             "id" : idFamily,
@@ -140,7 +140,7 @@ class LinesForSearchService: BaseService {
                             "parentId" : idDepto,
                             "path" : "\(idDepto)|\(idFamily)",
                             "lines" : NSMutableDictionary()]
-                        cfamily = families[idFamily] as? [String:AnyObject]
+                        cfamily = families[idFamily] as? [String:Any]
                     }
                     
                     let lines = cfamily!["lines"] as! NSMutableDictionary

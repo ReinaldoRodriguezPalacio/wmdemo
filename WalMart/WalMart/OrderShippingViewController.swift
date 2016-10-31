@@ -355,7 +355,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 }
             } else {
                 for item in self.shippingAll! {
-                    let itmProdVal = item["items"] as! [[String:AnyObject]]
+                    let itmProdVal = item["items"] as! [[String:Any]]
                     for itemProd in itmProdVal {
                         upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
                         
@@ -366,9 +366,9 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         }
     }
     
-    func getItemToShoppingCart(_ item:NSDictionary) ->  [String:AnyObject] {
+    func getItemToShoppingCart(_ item:NSDictionary) ->  [String:Any] {
         
-        var params: [String:AnyObject] = [:]
+        var params: [String:Any] = [:]
         params["upc"] = item["upc"] as! String as AnyObject?
         params["desc"] = item["description"] as! String as AnyObject?
         

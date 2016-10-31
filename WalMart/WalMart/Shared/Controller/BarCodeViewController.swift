@@ -344,7 +344,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     
                     var products:[AnyObject] = []
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:AnyObject]
+                        var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
                         let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue)

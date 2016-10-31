@@ -19,7 +19,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     var selectedFamily : IndexPath! = nil
     var delegate:TermViewControllerDelegate!
     var familyTable: UITableView!
-    var families : [[String:AnyObject]] = []
+    var families : [[String:Any]] = []
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TERMSANDCONDITIONS.rawValue
@@ -47,7 +47,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             print(error.localizedDescription)
             jsonData = nil
         }
-        let resultArray = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [[String:AnyObject]]
+        let resultArray = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [[String:Any]]
         
         families = resultArray
 

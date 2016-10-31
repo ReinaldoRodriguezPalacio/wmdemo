@@ -305,7 +305,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.selectedItems = NSMutableArray()
                 if self.products != nil  && self.products!.count > 0  {
                     for i in 0...self.products!.count - 1 {
-                        let item =  self.products![i] //as? [String:AnyObject]
+                        let item =  self.products![i] //as? [String:Any]
                         if let sku = item["sku"] as? NSDictionary {
                             if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
                                 if let item =  parentProducts.object(at: 0) as? NSDictionary {
@@ -480,7 +480,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         //ValidateActives
         var hasActive = false
         for product in self.products! {
-            if let item = product as? [String:AnyObject] {
+            if let item = product as? [String:Any] {
                 if let stock = item["stock"] as? Bool { //Preguntar con que se valida la venta
                     if stock == true {
                         hasActive = true
@@ -511,7 +511,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.products != nil && self.products!.count > 0 {
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
-               var params: [String:AnyObject] = [:]
+               var params: [String:Any] = [:]
                 //validar session
                 if  UserCurrentSession.hasLoggedUser() {
                     var index = 0
@@ -627,7 +627,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             var upcs: [String] = []
             var entities: [Product] = []
             for idx in 0 ..< self.products!.count {
-                if let item = self.products![idx] as? [String:AnyObject] {
+                if let item = self.products![idx] as? [String:Any] {
                     if let upc = item["upc"] as? String {
                         upcs.append(upc)
                     }
@@ -843,7 +843,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         var count = 0
         for idxVal  in selectedItems! {
             let idx = idxVal as! Int
-            if let item = self.products![idx] as? [String:AnyObject] {
+            if let item = self.products![idx] as? [String:Any] {
                 if let typeProd = item["type"] as? NSString {
                     if typeProd.integerValue == 0 {
                         let quantity = item["quantity"] as! NSNumber
@@ -871,7 +871,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     //MARK: - UITableViewDataSource
     let linesArray : NSMutableArray = []
-    //var newArrayProducts : [[String:AnyObject]]! = []
+    //var newArrayProducts : [[String:Any]]! = []
     
     /**
      Find any lines and organized by sections
@@ -899,7 +899,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
               //  newArrayProducts.append ([lineArray as! String:arrayitems])
             }
-//            self.newArrayProducts = newArrayProducts.sort({ (first:[String:AnyObject], second:[String:AnyObject]) -> Bool in
+//            self.newArrayProducts = newArrayProducts.sort({ (first:[String:Any], second:[String:Any]) -> Bool in
 //                let dicFirst = first.first!.0 as String
 //                let dicSecond = second.first!.0 as String
 //                return dicFirst < dicSecond
@@ -1039,7 +1039,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let controller = ProductDetailPageViewController()
             var productsToShow:[AnyObject] = []
             for idx in 0 ..< self.products!.count {
-                if let product = self.products![idx] as? [String:AnyObject] {
+                if let product = self.products![idx] as? [String:Any] {
                     
                     if let sku = product["sku"] as? NSDictionary {
                         if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
@@ -1150,7 +1150,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             var isPesable = false
             var price: NSNumber? = nil
-            if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:AnyObject] {
+            if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                 if let pesable = item["type"] as? NSString {
                     isPesable = pesable.intValue == 1
                 }
@@ -1183,7 +1183,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
-                if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:AnyObject] {
+                if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                     
                     if let sku = item["sku"] as? NSDictionary {
                         if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
@@ -1248,7 +1248,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             self.fromDelete =  false
                                             self.selectedItems = NSMutableArray()
                                             for i in 0...self.products!.count - 1 {
-                                                let item =  self.products![i] //as? [String:AnyObject]
+                                                let item =  self.products![i] //as? [String:Any]
                                                 if let sku = item["sku"] as? NSDictionary {
                                                     if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
                                                         if let item =  parentProducts.object(at: 0) as? NSDictionary {
@@ -1852,7 +1852,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     let service = GRAddItemListService()
                     var products: [AnyObject] = []
                     for idx in 0 ..< items.count {
-                        let item = items[idx] as! [String:AnyObject]
+                        let item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         var quantity: Int = 0
                         

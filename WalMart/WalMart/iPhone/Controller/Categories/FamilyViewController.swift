@@ -19,7 +19,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     
     var familyTable: UITableView!
     var departmentId : String = ""
-    var families : [[String:AnyObject]] = []
+    var families : [[String:Any]] = []
     
     var categoriesType: CategoriesType?
     

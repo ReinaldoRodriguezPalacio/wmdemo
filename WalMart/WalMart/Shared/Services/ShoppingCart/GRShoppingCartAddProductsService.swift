@@ -11,7 +11,7 @@ import CoreData
 
 class GRShoppingCartAddProductsService : GRBaseService {
     var useSignals = false
-    var parameterSend:[String:AnyObject]?
+    var parameterSend:[String:Any]?
     
     override init() {
         super.init()
@@ -30,11 +30,11 @@ class GRShoppingCartAddProductsService : GRBaseService {
         //return [["items":["quantity":quantityInt,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]]
     }
     
-    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString) -> [String:AnyObject] {
+    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString) -> [String:Any] {
         return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory]
     }
     
-    func builParams(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
+    func builParams(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:Any]?) -> [[String:Any]] {
         if useSignals && parameter != nil{
             self.parameterSend  = parameter
           return [["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"pesable":pesable,"parameter":parameter! as AnyObject]]
@@ -43,17 +43,17 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return [["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"pesable":pesable]]
     }
     
-    func builParamSvc(_ upc:String,quantity:String,comments:String) -> [String:AnyObject] {
+    func builParamSvc(_ upc:String,quantity:String,comments:String) -> [String:Any] {
         return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject]
     }
     
-    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:AnyObject] {
+    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:Any] {
         return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"wishlist":wishlist as AnyObject,"pesable":pesable,"isPreorderable":isPreorderable as AnyObject,"category":category as AnyObject]
     }
     
   
     
-    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:Any]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callService(requestParams: builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable,parameter: parameter) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
     func callCoreDataService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -64,7 +64,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.callService(requestParams: buildParams(quantity,upc:upc,comments:comments), successBlock: successBlock,errorBlock:errorBlock)
     }
 
-    func buildParams(_ products:[AnyObject]) -> [String:AnyObject] {
+    func buildParams(_ products:[AnyObject]) -> [String:Any] {
         return ["strArrImp":products as AnyObject]
     }
     

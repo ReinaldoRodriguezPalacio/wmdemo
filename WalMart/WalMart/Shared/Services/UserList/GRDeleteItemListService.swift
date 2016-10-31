@@ -10,16 +10,16 @@ import UIKit
 
 class GRDeleteItemListService: GRAddItemListService {
 
-    func buildParams(_ upc:String?) -> [String:AnyObject]! {
+    func buildParams(_ upc:String?) -> [String:Any]! {
         //{"parameter":["0750179163767"]}
         return ["parameter":[upc!]]
     }
     
-    func buildParamsArray(_ upcs:[String]?) -> [String:AnyObject]! {
+    func buildParamsArray(_ upcs:[String]?) -> [String:Any]! {
         return ["parameter":upcs! as AnyObject]
     }
     
-    func buildDeleteItemMustang(repositoryId sku:String) -> [String:AnyObject]!{
+    func buildDeleteItemMustang(repositoryId sku:String) -> [String:Any]!{
         return ["repositoryId":sku as AnyObject]
     }
     

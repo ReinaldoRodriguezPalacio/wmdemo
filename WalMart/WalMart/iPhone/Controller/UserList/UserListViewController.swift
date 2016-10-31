@@ -54,7 +54,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var cellEditing: SWTableViewCell? = nil
     var selectedIndex: IndexPath? = nil
     
-    var itemsList : [[String:AnyObject]] = []
+    var itemsList : [[String:Any]] = []
     
     var listHelView : ListHelpView?
     
@@ -1364,7 +1364,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
                 self.selectedIndex = indexPath
-                //self.itemsList =  listItem["giftlistItems"] as! [[String:AnyObject]]
+                //self.itemsList =  listItem["giftlistItems"] as! [[String:Any]]
 
                 self.performSegue(withIdentifier: "showListDetail", sender: self)
             }
@@ -1635,7 +1635,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     var products:[AnyObject] = []
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:AnyObject]
+                        var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
                         let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue)

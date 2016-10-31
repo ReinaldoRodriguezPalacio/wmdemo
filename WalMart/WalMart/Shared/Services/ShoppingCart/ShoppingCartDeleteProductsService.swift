@@ -12,12 +12,12 @@ import CoreData
 
 class ShoppingCartDeleteProductsService : BaseService {
  
-    func builParams(_ upc:String) -> [String:AnyObject] {
+    func builParams(_ upc:String) -> [String:Any] {
         return ["removalCommerceIds":[upc], "removeAllItems": "false"]
     }
     
 
-    func builParamsMultiple(_ upcs:[String]) -> [String:AnyObject] {
+    func builParamsMultiple(_ upcs:[String]) -> [String:Any] {
         return ["removalCommerceIds":upcs as AnyObject, "removeAllItems": "false" as AnyObject]
     }
     

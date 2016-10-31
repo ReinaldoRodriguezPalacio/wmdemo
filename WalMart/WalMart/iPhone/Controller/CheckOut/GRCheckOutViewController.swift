@@ -114,9 +114,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var associateNumber : String! = ""
     var dateAdmission : String! = ""
     var determinant : String! = ""
-    var confirmOrderDictionary: [String:AnyObject]! = [:]
-    var cancelOrderDictionary:  [String:AnyObject]! = [:]
-    var completeOrderDictionary: [String:AnyObject]! = [:]
+    var confirmOrderDictionary: [String:Any]! = [:]
+    var cancelOrderDictionary:  [String:Any]! = [:]
+    var completeOrderDictionary: [String:Any]! = [:]
     var promotionIds: String! = ""
     var promotionsDesc: [[String:String]]! = []
     var promotionButtons: [UIView]! = []
@@ -611,7 +611,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func paymentOption(atIndex index:Int) -> String {
         if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
-            var option = self.paymentOptionsItems![index] as! [String:AnyObject]
+            var option = self.paymentOptionsItems![index] as! [String:Any]
             if let text = option["paymentType"] as? String {
                 return text
             }
@@ -621,7 +621,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func addressOption(atIndex index:Int) -> String {
         if self.addressItems != nil && self.addressItems!.count > 0 {
-            var option = self.addressItems![index] as! [String:AnyObject]
+            var option = self.addressItems![index] as! [String:Any]
             if let text = option["name"] as? String {
                 return text
             }
@@ -631,7 +631,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func shipmentOption(atIndex index:Int) -> String {
         if self.shipmentItems != nil && self.shipmentItems!.count > 0 {
-            var option = self.shipmentItems![index] as! [String:AnyObject]
+            var option = self.shipmentItems![index] as! [String:Any]
             if let text = option["name"] as? String {
                 return text
             }
@@ -762,7 +762,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             //self.addViewLoad()
         var savinAply : Double = 0.0
-        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
         if let savingGR = items["saving"] as? NSNumber {
           savinAply =  savingGR.doubleValue
         
@@ -855,7 +855,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     if self.newTotal != nil {
                         self.updateShopButton("\(self.newTotal)")
                         var savinAply : Double = 0.0
-                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
                         if let savingGR = items["saving"] as? NSNumber {
                             savinAply =  savingGR.doubleValue
                         }
@@ -907,7 +907,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:NSDictionary) -> Void in
                // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
-                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
                     //if let savingGR = items["saving"] as? Double {
                     
                     items["saving"] = resultCall["saving"] as? Double as AnyObject? //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
@@ -1108,7 +1108,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     
                     if self.newTotal != nil {
                         var savinAply : Double = 0.0
-                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
                         if let savingGR = items["saving"] as? NSNumber {
                             savinAply =  savingGR.doubleValue
                         }
@@ -1249,7 +1249,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.addViewLoad()//--ok
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
-                var option = self.addressItems![(indexPath as NSIndexPath).row] as! [String:AnyObject]
+                var option = self.addressItems![(indexPath as NSIndexPath).row] as! [String:Any]
                 if let addressId = option["id"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
@@ -1317,7 +1317,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
         if formFieldObj ==  self.address! {
             self.address!.text = ""
-            //var option = self.addressItems![indexPath.row] as [String:AnyObject]
+            //var option = self.addressItems![indexPath.row] as [String:Any]
             //if let addressId = option["id"] as? String {
                 self.selectedAddress = ""
             //}
@@ -1541,7 +1541,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 //                let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
 //                let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
 //                let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
-//                let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+//                let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
 
                 
                 
@@ -1719,7 +1719,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     //MARK: - PayPal
     func showPayPalPaymentController()
     {
-        let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+        let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
         var payPalItems: [PayPalItem] = []
         for item in items {
             var itemPrice = item["price"] as! Double
@@ -1842,7 +1842,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         print(completedPayment.description)
         
        
-        if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
+        if let completeDict = completedPayment.confirmation["response"] as? [String:Any] {
             if let idPayPal = completeDict["id"] as? String {
                 if let idAuthorization = completeDict["authorization_id"] as? String {
                     self.invokePaypalUpdateOrderService(idPayPal,paymentType:"-1",idAuthorization:idAuthorization)

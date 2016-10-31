@@ -101,7 +101,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellSelItem") as! SelectItemTableViewCell!
-        let store = self.storeArray[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let store = self.storeArray[(indexPath as NSIndexPath).row] as! [String:Any]
         cell?.textLabel?.text = store["name"] as? String
         cell?.checkSelected.frame = CGRect(x: 0, y: 0, width: 33, height: 46)
         cell?.selectionStyle = .none
@@ -127,7 +127,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         cell?.isSelected = false
         let lastSelected =  self.selectedStore
         self.selectedStore = indexPath
-        let store = self.storeArray[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let store = self.storeArray[(indexPath as NSIndexPath).row] as! [String:Any]
         self.selectedstoreId = store["id"] as! String
         tableView.reloadRows(at: [ self.selectedStore! ,lastSelected!], with: UITableViewRowAnimation.none)
     }

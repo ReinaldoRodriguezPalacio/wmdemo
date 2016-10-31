@@ -10,9 +10,9 @@ import Foundation
 
 class GRProductByTicket: GRBaseService {
 
-    func buildParams(_ ticket:String) -> [String:AnyObject] {
+    func buildParams(_ ticket:String) -> [String:Any] {
         //{"number":"GQ9$JAQ+9B+-ORE5"}
-        return ["number":ticket as AnyObject] as [String:AnyObject]
+        return ["number":ticket as AnyObject] as [String:Any]
     }
 
     func callService(_ params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {

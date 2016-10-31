@@ -24,11 +24,11 @@ class GRProductBySearchService: GRBaseService {
     }
     
     
-    func buildParamsForSearch(text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:AnyObject]! {
+    func buildParamsForSearch(text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:Any]! {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
-            var parameter = ["q":searchText,"eventtype": "search","collection":"dah","channel": channel] as [String:AnyObject]
+            var parameter = ["q":searchText,"eventtype": "search","collection":"dah","channel": channel] as [String:Any]
             if searchText == ""{
                parameter = ["category":idLine!,"eventtype": "categoryview","collection":"dah","channel": channel]
             }
@@ -41,7 +41,7 @@ class GRProductBySearchService: GRBaseService {
                 JSON_KEY_STARTOFFSET:"\(startOffSet)", //startOffSet
                 JSON_KEY_MAXRESULTS:"\(max)" //"maxResults"
                 ,JSON_KEY_BRAND:(brand != nil ? brand! : "")//"brand"
-                ,"parameter":parameter] as [String:AnyObject]
+                ,"parameter":parameter] as [String:Any]
         }
         return [
             JSON_KEY_TEXT:(text ?? ""), //"pText"
@@ -52,7 +52,7 @@ class GRProductBySearchService: GRBaseService {
             JSON_KEY_STARTOFFSET:"\(startOffSet)", //startOffSet
             JSON_KEY_MAXRESULTS:"\(max)" //"maxResults"
             ,JSON_KEY_BRAND:(brand != nil ? brand! : "")//"brand"
-        ] as [String:AnyObject]
+        ] as [String:Any]
     }
 
     func callService(_ params:NSDictionary, successBlock:((NSArray,_ facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
@@ -77,7 +77,7 @@ class GRProductBySearchService: GRBaseService {
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
                     var newItemsArray = Array<AnyObject>()
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:AnyObject]
+                        var item = items[idx] as! [String:Any]
                         if let promodesc = item["promoDescription"] as? String{
                             if promodesc != "null" {
                                 item["saving"] = promodesc as AnyObject?
@@ -99,7 +99,7 @@ class GRProductBySearchService: GRBaseService {
                     //Array items
                     if let items = responseObject["items"] as? NSArray {
                         for idx in 0 ..< items.count {
-                            var item = items[idx] as! [String:AnyObject]
+                            var item = items[idx] as! [String:Any]
                             if let promodesc = item["promoDescription"] as? String{
                                 if promodesc != "null" {
                                     item["saving"] = promodesc as AnyObject?

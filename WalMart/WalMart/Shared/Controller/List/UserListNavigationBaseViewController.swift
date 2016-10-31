@@ -25,7 +25,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 var items: [AnyObject] = []
                 //if let products = result["items"] as? NSArray {
                     for idx in 0 ..< products.count {
-                        var product = products[idx] as! [String:AnyObject]
+                        var product = products[idx] as! [String:Any]
                         let quantity = product["quantityDesired"] as! String
                         var  nameLine = ""
                         if let line = product["line"] as? NSDictionary {
@@ -95,7 +95,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             for idx in 0 ..< itemsUserList!.count {
                 var name:String? = nil
                 var stringIndex: String? = nil
-                if let innerList = itemsUserList![idx] as? [String:AnyObject] {
+                if let innerList = itemsUserList![idx] as? [String:Any] {
                     //let innerListId = innerList["id"] as! String
                     //if innerListId == listId! {
                       //  continue

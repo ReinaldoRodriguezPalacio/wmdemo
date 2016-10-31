@@ -27,12 +27,12 @@ class GRPaypalUpdateOrderService: GRBaseService{
         let jsonParams = JSON(params)
         let slot = jsonParams["slot"]
         let leapRequest = slot["leapRequest"]
-        let fixedLeapRequest : [String:AnyObject]  =  [ "zipCode": leapRequest["zipCode"].stringValue,
+        let fixedLeapRequest : [String:Any]  =  [ "zipCode": leapRequest["zipCode"].stringValue,
                                                     "storeId": leapRequest["storeId"].intValue,
                                                     "businessId": leapRequest["businessId"].stringValue]
         
         
-        let fixedSlot : [String:AnyObject]  = ["date": slot["date"].intValue,
+        let fixedSlot : [String:Any]  = ["date": slot["date"].intValue,
                                                 "storeId": slot["storeId"].intValue,
                                                 "slotId": slot["slotId"].intValue,
                                                 "transactionId": slot["transactionId"].intValue,
@@ -40,7 +40,7 @@ class GRPaypalUpdateOrderService: GRBaseService{
                                                 "orderId": slot["orderId"].intValue,
                                                 "leapRequest" : fixedLeapRequest]
         
-        let fixedParamsToSend : [String:AnyObject] = ["slot":fixedSlot,"device": jsonParams["device"].stringValue,"paymentType": jsonParams["deliveryType"].stringValue,"deliveryType": jsonParams["deliveryType"].stringValue, "trackingNumber": jsonParams["trackingNumber"].stringValue]
+        let fixedParamsToSend : [String:Any] = ["slot":fixedSlot,"device": jsonParams["device"].stringValue,"paymentType": jsonParams["deliveryType"].stringValue,"deliveryType": jsonParams["deliveryType"].stringValue, "trackingNumber": jsonParams["trackingNumber"].stringValue]
         
         
         self.callPOSTService(fixedParamsToSend, successBlock: { (resultCall:NSDictionary) -> Void in

@@ -145,7 +145,7 @@ class ShoppingCartProductsService : BaseService {
             fatalError()
         }
         
-         var resultServiceCall : [String:AnyObject] = [:]
+         var resultServiceCall : [String:Any] = [:]
         
         let orderId = itemsInShoppingCart["orderId"] as? NSString
         

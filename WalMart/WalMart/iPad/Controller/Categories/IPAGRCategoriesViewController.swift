@@ -13,7 +13,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     var items : [AnyObject]? = []
     @IBOutlet var colCategories : UICollectionView!
-    var canfigData : [String:AnyObject]! = [:]
+    var canfigData : [String:Any]! = [:]
     var animateView : UIView!
     var controllerAnimateView : IPACategoriesResultViewController!
     var newModalView: AlertModalView? = nil
@@ -95,10 +95,10 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         cell.delegate =  self // new 
         cell.index = IndexPath(row: (indexPath as NSIndexPath).row, section: (indexPath as NSIndexPath).section)
         
-        let item = items![(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let item = items![(indexPath as NSIndexPath).row] as! [String:Any]
         let descDepartment = item["DepartmentName"] as! String
         var bgDepartment = item["idDept"] as! String
-        let families = JSON(item["familyContent"] as! [[String:AnyObject]])
+        let families = JSON(item["familyContent"] as! [[String:Any]])
         cell.descLabel!.text = "Lo más destacado de \(descDepartment)"
         bgDepartment = bgDepartment.trimmingCharacters(in: CharacterSet.whitespaces)
         
@@ -131,15 +131,15 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         let pontInView = cellSelected?.superview!.convert(cellSelected!.frame, to: self.view)
         pontInViewNuew = pontInView!
 
-        let item = self.items![(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let item = self.items![(indexPath as NSIndexPath).row] as! [String:Any]
         let idDepartment = item["idDept"] as! String
         let famArray : AnyObject = item["familyContent"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+        let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
         let famSelected = itemsFam[0]
         let idFamDefault = famSelected["familyId"] as! String
         
         let lineArray : AnyObject = famSelected["fineContent"] as AnyObject!
-        let itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
+        let itemsLine : [[String:Any]] = lineArray as! [[String:Any]]
         let lineSelected = itemsLine[0]
         let idLineDefault = lineSelected["id"] as! String
         let nameLineDefault = lineSelected["displayName"] as! String
@@ -234,7 +234,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
    
     
-    func fillConfigData(_ depto:String,families:JSON) -> [[String:AnyObject]]? {
+    func fillConfigData(_ depto:String,families:JSON) -> [[String:Any]]? {
         var resultDict : [AnyObject] = []
         if Array(canfigData.keys.filter {$0 == depto }).count > 0 {
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
@@ -258,7 +258,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             }
         }
         
-        return resultDict as? [[String:AnyObject]]
+        return resultDict as? [[String:Any]]
     }
     
     func didTapLine(_ name:String,department:String,family:String,line:String) {

@@ -11,17 +11,17 @@ import CoreData
 
 class GRAddItemListService: GRBaseService {
     
-    func buildParams(idList:String, upcs:[AnyObject]?) -> [String:AnyObject]! {
+    func buildParams(idList:String, upcs:[AnyObject]?) -> [String:Any]! {
         //{"idList":"26e50bc7-3644-48d8-a51c-73d7536ab30d","itemArrImp":[{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}]}
         return ["idList":idList as AnyObject, "itemArrImp":upcs! as AnyObject]
     }
     
-    func buildProductObject(upc:String, quantity:Int,pesable:String,active:Bool) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int,pesable:String,active:Bool) -> [String:Any] {
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         return ["longDescription" : "" as AnyObject, "quantity" : quantity as AnyObject, "upc" : upc as AnyObject, "pesable" : pesable as AnyObject, "equivalenceByPiece" : "" as AnyObject, "promoDescription" : "" as AnyObject, "productIsInStores" : "" as AnyObject,"isActive":active]
     }
     
-    func buildProductObject(upc:String, quantity:Int,pesable:String) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int,pesable:String) -> [String:Any] {
         // {"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         return ["longDescription" : "" as AnyObject, "quantity" : quantity as AnyObject, "upc" : upc as AnyObject, "pesable" : pesable as AnyObject, "equivalenceByPiece" : "" as AnyObject, "promoDescription" : "" as AnyObject, "productIsInStores" : "" as AnyObject]
     }
@@ -37,9 +37,9 @@ class GRAddItemListService: GRBaseService {
     
     
     func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        /*var toSneditem : [String:AnyObject] = [:]
+        /*var toSneditem : [String:Any] = [:]
         let arrayItems = params["itemArrImp"] as! NSArray
-        var arrayToSend : [[String:AnyObject]] = []
+        var arrayToSend : [[String:Any]] = []
         for item in arrayItems {
             let paramUpc = item["upc"] as! String
             let paramQuantity = item["quantity"] as! Int
@@ -124,7 +124,7 @@ class GRAddItemListService: GRBaseService {
                 entity!.countItem = NSNumber(value: items.count as Int)
                 
                 for idx in 0 ..< items.count {
-                    var item = items[idx] as! [String:AnyObject]
+                    var item = items[idx] as! [String:Any]
                     let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                     detail!.upc = item["upc"] as! String
                     detail!.img = item["imageUrl"] as! String

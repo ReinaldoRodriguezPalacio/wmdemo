@@ -18,7 +18,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var items : [AnyObject]? = []
     var collapsed = false
     var familyController : FamilyViewController!
-    var canfigData : [String:AnyObject]! = [:]
+    var canfigData : [String:Any]! = [:]
     var newModalView: AlertModalView? = nil
     var addressView: GRAddressView?
     
@@ -160,7 +160,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                 rowforsearch = Int((indexPath as NSIndexPath).row / 2)
             }
             
-            let item = items![rowforsearch] as! [String:AnyObject]
+            let item = items![rowforsearch] as! [String:Any]
             let descDepartment = item["DepartmentName"] as? String ?? ""
             let bgDepartment = (item["idDept"] as! String).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             let scale = UIScreen.main.scale
@@ -173,9 +173,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             cellSpecials.delegate = self
             
             let rowforsearch = Int((indexPath as NSIndexPath).row / 2)
-            let item = items![rowforsearch] as! [String:AnyObject]
+            let item = items![rowforsearch] as! [String:Any]
             var bgDepartment = item["idDept"] as! String
-            let families = JSON(item["familyContent"] as! [[String:AnyObject]])
+            let families = JSON(item["familyContent"] as! [[String:Any]])
             let descDepartment = item["DepartmentName"] as? String ?? ""
             bgDepartment = bgDepartment.trimmingCharacters(in: CharacterSet.whitespaces)
             
@@ -258,9 +258,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                         rowforsearch = Int((indexPath as NSIndexPath).row / 2)
                     }
                     
-                    let item = self.items![rowforsearch] as! [String:AnyObject]
+                    let item = self.items![rowforsearch] as! [String:Any]
                     let famArray : AnyObject = item["familyContent"] as AnyObject!
-                    let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+                    let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
                     let descDepartment = item["description"] as? String ?? ""
                    
                     self.familyController.departmentId = item["idDept"] as! String
@@ -413,7 +413,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         self.tableView(self.categoriesTable, didSelectRowAt: index)
     }
     
-    func fillConfigData(_ depto:String,families:JSON) -> [[String:AnyObject]]? {
+    func fillConfigData(_ depto:String,families:JSON) -> [[String:Any]]? {
         var resultDict : [AnyObject] = []
         if Array(canfigData.keys.filter {$0 == depto }).count > 0 {
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
@@ -437,7 +437,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             }
         }
         
-        return resultDict as? [[String:AnyObject]]
+        return resultDict as? [[String:Any]]
     }
     
     //MARK changeStore

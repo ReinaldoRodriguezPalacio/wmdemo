@@ -346,7 +346,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             if formFieldObj ==  self.address! {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
-                var option = self.addressItems![(indexPath as NSIndexPath).row] as! [String:AnyObject]
+                var option = self.addressItems![(indexPath as NSIndexPath).row] as! [String:Any]
                 if let addressId = option["addressId"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
@@ -363,7 +363,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             }
             if formFieldObj ==  self.addressInvoice! {
                 self.addressInvoice!.text = selectedStr
-                var option = self.addressInvoiceItems![(indexPath as NSIndexPath).row] as! [String:AnyObject]
+                var option = self.addressInvoiceItems![(indexPath as NSIndexPath).row] as! [String:Any]
                 if let addressId = option["id"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddressInvoice = addressId

@@ -334,7 +334,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         var productsToShow:[AnyObject] = []
         if !tableView.cellForRow(at: indexPath)!.isKind(of: ShoppingCartTotalsTableViewCell.self){
             for productObj  in self.products! {
-                if let product = productObj as? [String:AnyObject] {
+                if let product = productObj as? [String:Any] {
                     
                     if let sku = product["sku"] as? NSDictionary {
                         if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
@@ -369,7 +369,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         var isPesable = false
         var price: NSNumber? = nil
-        if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:AnyObject] {
+        if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
             
             if let pesable = item["type"] as?  NSString {
                 isPesable = pesable.intValue == 1
@@ -405,7 +405,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             
              self.sharePopover?.dismiss(animated: false)
             
-             if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:AnyObject] {
+             if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                 
                 if let sku = item["sku"] as? NSDictionary {
                     if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{

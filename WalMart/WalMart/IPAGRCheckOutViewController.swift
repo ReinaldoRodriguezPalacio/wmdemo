@@ -186,7 +186,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         var products: [AnyObject] = []
         let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
         for idx in 0 ..< itemsCart.count {
-            let item = itemsCart[idx] as! [String:AnyObject]
+            let item = itemsCart[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0
@@ -239,7 +239,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         //var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:Any]
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -367,7 +367,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:Any]
             
             let upc = item["productId"] as! String
             var quantity: Int = 0

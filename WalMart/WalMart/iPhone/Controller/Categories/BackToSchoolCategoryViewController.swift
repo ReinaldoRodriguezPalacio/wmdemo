@@ -15,8 +15,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var urlTicer : String!
     var departmentId : String!
     var loading: WMLoadingView?
-    var schoolsList :[[String:AnyObject]]! = [[:]]
-    var filterList :[[String:AnyObject]]! = [[:]]
+    var schoolsList :[[String:Any]]! = [[:]]
+    var filterList :[[String:Any]]! = [[:]]
     var searchView: UIView!
     var clearButton : UIButton?
     var searchField: FormFieldSearch!
@@ -190,7 +190,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
      
      - returns: Array of Schools
      */
-    func searchForItems(_ textUpdate:String) -> [[String:AnyObject]]? {
+    func searchForItems(_ textUpdate:String) -> [[String:Any]]? {
         if textUpdate == "" {
             return self.schoolsList
         }

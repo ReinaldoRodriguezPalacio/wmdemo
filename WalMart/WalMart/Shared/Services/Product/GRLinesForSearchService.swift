@@ -15,8 +15,8 @@ class GRLinesForSearchService: GRBaseService {
         self.urlForSession = true
     }
 
-    func buildParams(_ string:String) -> [String:AnyObject] {
-        return ["storeId":"" as AnyObject,"expression":string as AnyObject,"departmentName":"" as AnyObject,"family":"" as AnyObject] as [String:AnyObject]
+    func buildParams(_ string:String) -> [String:Any] {
+        return ["storeId":"" as AnyObject,"expression":string as AnyObject,"departmentName":"" as AnyObject,"family":"" as AnyObject] as [String:Any]
     }
     
     func callService(_ params:NSDictionary, successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
@@ -35,8 +35,8 @@ class GRLinesForSearchService: GRBaseService {
                             let values = [AnyObject](dictionary.values)
                             
 //                            values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
-//                                var deptoOne = objectOne as [String:AnyObject]
-//                                var deptoTwo = objectTwo as [String:AnyObject]
+//                                var deptoOne = objectOne as [String:Any]
+//                                var deptoTwo = objectTwo as [String:Any]
 //                                var nameOne = deptoOne["name"] as NSString
 //                                var nameTwo = deptoTwo["name"] as NSString
 //                                NSLog("Sorting")
@@ -73,7 +73,7 @@ class GRLinesForSearchService: GRBaseService {
         
         var strInLines : String = ""
         for i in 0 ..< response.count {
-            var responseObject = response[i] as! [String:AnyObject]
+            var responseObject = response[i] as! [String:Any]
             let id = responseObject["id"] as? String
             if id == nil {
                 continue
@@ -85,7 +85,7 @@ class GRLinesForSearchService: GRBaseService {
             }
         }
         
-         var dictionary: [String:AnyObject] = [:]
+         var dictionary: [String:Any] = [:]
         
         if strInLines == "" {
             return  successBuildBlock!(dictionary)
@@ -106,7 +106,7 @@ class GRLinesForSearchService: GRBaseService {
                         let linName = rs.string(forColumn: "line")
                         
                         
-                        var cdepto = dictionary[idDepto] as? [String:AnyObject]
+                        var cdepto = dictionary[idDepto] as? [String:Any]
                         if cdepto == nil {
                             cdepto = [
                                 "name" : depName,

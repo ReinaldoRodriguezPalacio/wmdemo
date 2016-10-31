@@ -13,7 +13,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     var schoolName: String! = ""
     var familyId: String! = ""
     var departmentId: String?
-    var gradesList :[[String:AnyObject]]! = [[:]]
+    var gradesList :[[String:Any]]! = [[:]]
     var gradesTable : UITableView!
     var loading: WMLoadingView?
     var emptyView: IPOGenericEmptyView!

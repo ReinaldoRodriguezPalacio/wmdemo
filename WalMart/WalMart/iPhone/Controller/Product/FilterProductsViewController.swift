@@ -29,7 +29,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 protocol FilterProductsViewControllerDelegate {
-    func apply(_ order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool)
+    func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool)
     func apply(_ order:String, upcs: [String])
     func removeFilters()
     func removeSelectedFilters()
@@ -155,8 +155,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if facet != nil {
             var facetEnd : [AnyObject] = []
             for facetItemsCount in facet! {
-                let facetitem = facetItemsCount["itemsFacet"] as! [[String:AnyObject]]
-                var newItemsFacet : [[String:AnyObject]] = []
+                let facetitem = facetItemsCount["itemsFacet"] as! [[String:Any]]
+                var newItemsFacet : [[String:Any]] = []
                 for itemFac in facetitem {
                     if itemFac["itemName"] as! String != ""{
                         newItemsFacet.append(itemFac)
@@ -235,10 +235,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         }
                         return
                     }
-                    let itemFacet = self.facet![(selElement as NSIndexPath).section - 1] as! [String:AnyObject]
+                    let itemFacet = self.facet![(selElement as NSIndexPath).section - 1] as! [String:Any]
                     if  let typeFacet = itemFacet["type"] as? String {
                         if typeFacet == "check" {
-                            let allnameFacets = itemFacet["itemsFacet"] as! [[String:AnyObject]]
+                            let allnameFacets = itemFacet["itemsFacet"] as! [[String:Any]]
                             
                             if (selElement as NSIndexPath).row  > 0 {
                                 let facet = allnameFacets[(selElement as NSIndexPath).row - 1]
@@ -280,7 +280,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         var line = ""
         var groceriesType = false
         if lastSelected != nil {
-            var element = self.tableElements![lastSelected!] as! [String:AnyObject]
+            var element = self.tableElements![lastSelected!] as! [String:Any]
             if let path = element["path"] as? String {
                 var options = path.components(separatedBy: "|")
                 department = options[0]
@@ -294,7 +294,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
         }
         
-        var filters:[String:AnyObject] = [:]
+        var filters:[String:Any] = [:]
         if !line.isEmpty {
             filters[JSON_KEY_IDLINE] = line as AnyObject?
         }
@@ -352,10 +352,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return self.tableElements != nil ? self.tableElements!.count + 1 : 0
         }
         if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
-            let itemFacet = self.facet![section - 1] as! [String:AnyObject]
+            let itemFacet = self.facet![section - 1] as! [String:Any]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == "check" {
-                    let allnameFacets = itemFacet["itemsFacet"] as! [[String:AnyObject]]
+                    let allnameFacets = itemFacet["itemsFacet"] as! [[String:Any]]
                     return allnameFacets.count + 1
                 }
                 if typeFacet == JSON_SLIDER {
@@ -431,7 +431,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     }
                     
                     if (indexPath as NSIndexPath).row > 0 {
-                        let facetitem = facetInfo["itemsFacet"] as! [[String:AnyObject]]
+                        let facetitem = facetInfo["itemsFacet"] as! [[String:Any]]
                         let item = facetitem[(indexPath as NSIndexPath).row - 1]
                         self.addBrandFacet(item["itemName"] as! String)
                         listCell.setValuesFacets(item,nameBrand:"", selected: selected)
@@ -471,7 +471,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
             /*if self.selectedElements != nil {
              let selected = self.selectedElements![indexPath.row]
-             let item = self.tableElements![indexPath.row] as! [String:AnyObject]
+             let item = self.tableElements![indexPath.row] as! [String:Any]
              listCell.setValues(item, selected:selected)
             }*/
             
@@ -483,7 +483,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 
             if (indexPath as NSIndexPath).row > 0 {
                 let selected = self.selectedElements![(indexPath as NSIndexPath).row]
-                let item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:AnyObject]
+                let item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:Any]
                 listCell.setValues(item, selected:selected)
                 } else {
                 if self.selectedElementsFacet!.count == 0  {
@@ -533,7 +533,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return 103.0
         }
         if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
-            let itemFacet = self.facet![(indexPath as NSIndexPath).section - 1] as! [String:AnyObject]
+            let itemFacet = self.facet![(indexPath as NSIndexPath).section - 1] as! [String:Any]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == JSON_SLIDER {
                     return 73.0
@@ -642,7 +642,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
         }
         
-        var item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:AnyObject]
+        var item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:Any]
         let itemLevel = (item["level"] as! NSNumber).intValue
         let itemId = item["id"] as! String
         let itemParentId = item["parentId"] as! String
@@ -651,7 +651,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             var indexes:[IndexPath] = []
             var filteredElements:[AnyObject] = []
             for idx in 0 ..< self.tableElements!.count {
-                var element = self.tableElements![idx] as! [String:AnyObject]
+                var element = self.tableElements![idx] as! [String:Any]
                 let elementId = element["id"] as! String
                 let elementParentId = element["parentId"] as! String
                 let level = (element["level"] as! NSNumber).intValue
@@ -676,7 +676,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             var updatedIndex:IndexPath? = nil
             for idx in 1 ..< (self.tableElements!.count + 1) {
-                var element = self.tableElements![idx - 1] as! [String:AnyObject]
+                var element = self.tableElements![idx - 1] as! [String:Any]
                 let elementId = element["id"] as! String
                 if self.itemIsContained(item, node: element) {
                     self.selectedElements![idx] = true
@@ -687,12 +687,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
             
-            if let family = item["families"] as? [String:AnyObject] {
+            if let family = item["families"] as? [String:Any] {
                 self.insertItems(family, atIndexPath: updatedIndex!)
                  BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_DEPARMENT.rawValue, label: "")
             }
                 
-            else if let line = item["lines"] as? [String:AnyObject] {
+            else if let line = item["lines"] as? [String:Any] {
                 self.insertItems(line, atIndexPath: updatedIndex!)
                 BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_FAMILY.rawValue, label: "")
             }
@@ -748,13 +748,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     //MARK: - Utils
     
-    func insertItems(_ items:[String:AnyObject], atIndexPath indexPath:IndexPath) {
+    func insertItems(_ items:[String:Any], atIndexPath indexPath:IndexPath) {
         if items.keys.count > 0 {
             var indexes:[IndexPath] = []
             var idx = 0
             for key in items.keys {
                 let index = (indexPath as NSIndexPath).row + (idx)
-                let inner = items[key] as! [String:AnyObject]
+                let inner = items[key] as! [String:Any]
                 indexes.append(IndexPath(row: (index + 1), section: 1))
                 self.tableElements!.insert(inner as AnyObject, at: index)
                 self.selectedElements!.insert(false, at: (index + 1))
@@ -768,7 +768,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if items.count > 0 {
             var indexes:[AnyObject] = []
             for idx in 0 ..< items.count {
-                var itemToDelete = items[idx] as! [String:AnyObject]
+                var itemToDelete = items[idx] as! [String:Any]
                 let id = itemToDelete["id"] as! String
                 for idxe in 0 ..< self.tableElements!.count {
                     let innerElement:AnyObject = self.tableElements![idxe]
@@ -783,7 +783,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
     }
     
-    func itemIsContained(_ item:[String:AnyObject], node:[String:AnyObject]) -> Bool {
+    func itemIsContained(_ item:[String:Any], node:[String:Any]) -> Bool {
         var isContained = false
         let itemLevel = (item["level"] as! NSNumber).intValue
         let nodeLevel = (node["level"] as! NSNumber).intValue
@@ -791,9 +791,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             let itemId = item["id"] as! String
             //Find as family
             if nodeLevel == 0 {
-                let families = node["families"] as! [String:AnyObject]
+                let families = node["families"] as! [String:Any]
                 for idx in 0 ..< families.keys.count {
-                    var family = families[Array(families.keys)[idx]] as! [String:AnyObject]
+                    var family = families[Array(families.keys)[idx]] as! [String:Any]
                     if itemLevel == 1 {
                         let familyId = family["id"] as! String
                         if itemId == familyId {
@@ -808,9 +808,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
             else if nodeLevel == 1 {
-                let lines = node["lines"] as! [String:AnyObject]
+                let lines = node["lines"] as! [String:Any]
                 for idx in 0 ..< Array(lines.keys).count {
-                    var line = lines[Array(lines.keys)[idx]] as! [String:AnyObject]
+                    var line = lines[Array(lines.keys)[idx]] as! [String:Any]
                     let lineId = line["id"] as! String
                     if itemId == lineId {
                         isContained = true
@@ -905,8 +905,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     let array = self.categories! + categories
                     self.categories = array
 //                    self.categories!.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
-//                        var deptoOne = objectOne as [String:AnyObject]
-//                        var deptoTwo = objectTwo as [String:AnyObject]
+//                        var deptoOne = objectOne as [String:Any]
+//                        var deptoTwo = objectTwo as [String:Any]
 //                        var nameOne = deptoOne["name"] as NSString
 //                        var nameTwo = deptoTwo["name"] as NSString
 //                        return nameOne.caseInsensitiveCompare(nameTwo) == NSComparisonResult.OrderedAscending
@@ -920,8 +920,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     let array = self.tableElements! + categories
                     self.tableElements = array
 //                    self.tableElements!.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
-//                        var deptoOne = objectOne as [String:AnyObject]
-//                        var deptoTwo = objectTwo as [String:AnyObject]
+//                        var deptoOne = objectOne as [String:Any]
+//                        var deptoTwo = objectTwo as [String:Any]
 //                        var nameOne = deptoOne["name"] as NSString
 //                        var nameTwo = deptoTwo["name"] as NSString
 //                        return nameOne.caseInsensitiveCompare(nameTwo) == NSComparisonResult.OrderedAscending

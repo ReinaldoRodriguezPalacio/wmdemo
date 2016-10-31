@@ -32,8 +32,8 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate {
     
     var minContentY : CGFloat = 0
-    var params : [String:AnyObject]!
-    var multipleItems : [String:AnyObject]? = nil
+    var params : [String:Any]!
+    var multipleItems : [String:Any]? = nil
     var viewBgImage : UIView!
     var imageURL : String = ""
     var spinImage : UIImageView!
@@ -69,7 +69,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             if multipleItems?.count > 0 {
                 let allItems = multipleItems!["allitems"] as! NSArray
                 if allItems.count > 0 {
-                    params = allItems[currentIndex] as? [String:AnyObject]
+                    params = allItems[currentIndex] as? [String:Any]
                 }
             }
         }
@@ -295,7 +295,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
             }
         }else{
-            let signalParametrer = params["parameter"] as? [String:AnyObject]
+            let signalParametrer = params["parameter"] as? [String:Any]
             let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
             let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
             
@@ -319,7 +319,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     typeProduct = ResultObjectType.Groceries
                     print("Parametros = \(params)")
                     //TODO Signals
-                    let signalParametrer = params["parameter"] as? [String:AnyObject]
+                    let signalParametrer = params["parameter"] as? [String:Any]
                     
                     let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
                     let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
@@ -367,11 +367,11 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }*/
             
             typeProduct = ResultObjectType.Mg
-            serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString as String,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString as String,parameter: params["parameter"] as? [String:Any], successBlock: { (result:NSDictionary) -> Void in
                 
                 let responceObject = result["responseObject"] as! [String: AnyObject]
                 let order = responceObject["order"] as! [String: AnyObject]
-                let commerceItems = order["commerceItems"] as! [[String:AnyObject]]
+                let commerceItems = order["commerceItems"] as! [[String:Any]]
                 
                 for item in commerceItems {
                     let productId = item["productId"] as! String
@@ -416,7 +416,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     func callItemsService() {
         let allItems = multipleItems!["allitems"] as! NSArray
         if allItems.count > currentIndex {
-            params = allItems[currentIndex] as? [String:AnyObject]
+            params = allItems[currentIndex] as? [String:Any]
             
             let imageUrl = params["imgUrl"] as! String
             imageProduct.setImageWith(URL(string: imageUrl))

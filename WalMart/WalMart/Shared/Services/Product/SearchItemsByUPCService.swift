@@ -11,7 +11,7 @@ import Foundation
 
 class SearchItemsByUPCService : BaseService {
     
-    func buildParams(_ upcs:[String]) -> [String:AnyObject] {
+    func buildParams(_ upcs:[String]) -> [String:Any] {
         return ["upc":upcs as AnyObject]
     }
     
@@ -25,7 +25,7 @@ class SearchItemsByUPCService : BaseService {
                 //println(items)
                 self.saveKeywords(items) //Creating keywords
                 for idx in 0 ..< items.count {
-                    var item = items[idx] as! [String:AnyObject]
+                    var item = items[idx] as! [String:Any]
                     item["type"] = ResultObjectType.Mg.rawValue
                     newItemsArray.append(item)
                 }

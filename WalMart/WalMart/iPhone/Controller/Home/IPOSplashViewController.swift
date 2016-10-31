@@ -29,7 +29,7 @@ struct ConfigServices {
 
 struct RecommendedCategory {
     static var cagtegories : NSArray = []
-    static var groceriescategory : [String:AnyObject] = [:]
+    static var groceriescategory : [String:Any] = [:]
     
 }
 

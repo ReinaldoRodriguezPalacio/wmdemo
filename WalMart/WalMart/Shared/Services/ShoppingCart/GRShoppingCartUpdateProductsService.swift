@@ -20,7 +20,7 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
     
     func callService(_ params: AnyObject,updateSC:Bool, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         if UserCurrentSession.hasLoggedUser() {
-            var itemsSvc : [[String:AnyObject]] = []
+            var itemsSvc : [[String:Any]] = []
             var upcSend = ""
             for itemSvc in params as! NSArray {
                 let upc = itemSvc["upc"] as! String

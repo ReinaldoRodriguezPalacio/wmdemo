@@ -46,7 +46,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let categoryCell = categories!.dequeueReusableCell(withReuseIdentifier: "DepartmentCell", for: indexPath) as! DepartmentCollectionViewCell
         
-        let item = items![(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let item = items![(indexPath as NSIndexPath).row] as! [String:Any]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
         //let departmentId = item["idDepto"] as! String

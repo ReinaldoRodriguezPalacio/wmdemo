@@ -12,7 +12,7 @@ class GRDeleteUserListService: GRBaseService {
 
     var listId: String?
     
-    func buildParams(_ idList:String) -> [String:AnyObject]! {
+    func buildParams(_ idList:String) -> [String:Any]! {
         return ["idList":idList as AnyObject]
     }
     

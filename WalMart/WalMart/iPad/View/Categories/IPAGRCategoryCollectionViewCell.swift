@@ -97,7 +97,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         self.imageBackground.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 103)
     }
     
-    func setValues(_ categoryId:String,categoryTitle:String,products:[[String:AnyObject]]) {
+    func setValues(_ categoryId:String,categoryTitle:String,products:[[String:Any]]) {
         let svcUrl = serviceUrl("WalmartMG.GRCategoryIconIpad")
         let imageIconURL = "i_\(categoryId.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)).png"
         let imgURLName = "\(svcUrl)\(imageIconURL)"
@@ -154,7 +154,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     }
 
     
-    func setProducts(_ products:[[String:AnyObject]],width:CGFloat) {
+    func setProducts(_ products:[[String:Any]],width:CGFloat) {
         
         for sView in   self.subviews {
             if let viewProduct = sView as? GRProductSpecialCollectionViewCell {

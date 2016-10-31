@@ -53,12 +53,12 @@ class GRUserListService : GRBaseService {
         
         if notSyncList != nil && notSyncList!.count > 0 {
             let list = notSyncList!.first
-            var listToMerge: [String:AnyObject]? = nil
+            var listToMerge: [String:Any]? = nil
 
             let currentLists = response["responseArray"] as? [AnyObject]
             if currentLists != nil && currentLists!.count > 0 {
                 for idx in 0 ..< currentLists!.count {
-                    var innerList = currentLists![idx] as! [String:AnyObject]
+                    var innerList = currentLists![idx] as! [String:Any]
                     if let name = innerList["name"] as? String {
                         if name == list!.name {
                             listToMerge = innerList
@@ -260,7 +260,7 @@ class GRUserListService : GRBaseService {
                             }
                             
                             for idx in 0 ..< items.count {
-                                var item = items[idx] as! [String:AnyObject]
+                                var item = items[idx] as! [String:Any]
                                 let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
                                 print("UPC:::")
                                 print(item["upc"] as! String)

@@ -118,7 +118,7 @@ class IPACustomBarViewController :  CustomBarViewController {
    
     
     override func camFindSearch(_ notification:Notification){
-        let searchDic = notification.object as! [String:AnyObject]
+        let searchDic = notification.object as! [String:Any]
         let upcs = searchDic["upcs"] as! [String]
         let keyWord = searchDic["keyWord"] as! String
         let controller = IPASearchProductViewController()

@@ -22,12 +22,12 @@ class IPADefaultListViewController : DefaultListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let itemList = itemsLists[(indexPath as NSIndexPath).row] as! [String:AnyObject]
+        let itemList = itemsLists[(indexPath as NSIndexPath).row] as! [String:Any]
         
         let destDetailList =  IPADefaultListDetailViewController()
         destDetailList.delegate = delegate
         destDetailList.defaultListName = itemList["name"] as? String
-        destDetailList.detailItems = itemList["items"] as? [[String:AnyObject]]
+        destDetailList.detailItems = itemList["items"] as? [[String:Any]]
         
         self.navigationController?.pushViewController(destDetailList, animated: true)
     }

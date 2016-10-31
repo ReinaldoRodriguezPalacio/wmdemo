@@ -39,8 +39,8 @@ class CarouselService : BaseService {
     }
    
     
-    func getCarouselContent() -> [[String:AnyObject]] {
-        var carouselItems : [[String:AnyObject]] = []
+    func getCarouselContent() -> [[String:Any]] {
+        var carouselItems : [[String:Any]] = []
         
         let values = getDataFromFile(fileName)
         if values == nil {
@@ -49,7 +49,7 @@ class CarouselService : BaseService {
         
         
         
-        carouselItems = values![JSON_BANNER_RESPONSEARRAY] as! [[String:AnyObject]]
+        carouselItems = values![JSON_BANNER_RESPONSEARRAY] as! [[String:Any]]
         
         if var moreCarousel = values![JSON_BANNER_RESPONSEARRAY] as? [[String:String]] {
             
