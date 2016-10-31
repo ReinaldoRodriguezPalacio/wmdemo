@@ -194,7 +194,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }*/
             let allItems = multipleItems!["allitems"] as! NSArray
             let serviceAddProduct = ShoppingCartAddProductsService()
-            var paramsitems : [AnyObject] = []
+            var paramsitems : [Any] = []
             
             var type : NSString = ""
             

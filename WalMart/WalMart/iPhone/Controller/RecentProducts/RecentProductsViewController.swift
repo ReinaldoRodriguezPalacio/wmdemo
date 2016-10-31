@@ -14,7 +14,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     //@IBOutlet var recentProducts : UITableView!
     var recentProducts : UITableView!
-    var recentProductItems : [AnyObject] = []
+    var recentProductItems : [Any] = []
     
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
@@ -82,7 +82,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         service.callService({ (resultado:NSDictionary) -> Void in
             self.contResult(resultado)
             // TODO : Servicios En walmart validar con servicio
-            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]! , isShoppingCart: false) as! [AnyObject]
+            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]! , isShoppingCart: false) as! [Any]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -98,7 +98,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     func contResult(_ resultDictionary: NSDictionary) {
-        let productItemsOriginal = resultDictionary["responseArray"] as! [AnyObject]
+        let productItemsOriginal = resultDictionary["responseArray"] as! [Any]
         
         if productItemsOriginal.count > 0{
             let titleBasic = self.titleLabel?.text
@@ -112,14 +112,14 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
      - parameter resultDictionary: NSDictionary recent products service
      */
     class func adjustDictionary(_ resultDictionary: AnyObject, isShoppingCart:Bool) -> AnyObject {
-        var recentLineItems : [AnyObject] = []
+        var recentLineItems : [Any] = []
         
-        var productItemsOriginal:[AnyObject] = []
+        var productItemsOriginal:[Any] = []
         
-        if let resultArray = resultDictionary as? [AnyObject] {
+        if let resultArray = resultDictionary as? [Any] {
             productItemsOriginal = resultArray
         }else{
-           productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [AnyObject] : resultDictionary  as! [[String:Any]] //["responseArray"] as! [AnyObject]
+           productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [Any] : resultDictionary  as! [[String:Any]] //["responseArray"] as! [Any]
         }
         
         var objectsFinal : [NSDictionary] = []
@@ -317,7 +317,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![(indexPath as NSIndexPath).row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section, row: (indexPath as NSIndexPath).row) as [AnyObject]
+        controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section, row: (indexPath as NSIndexPath).row) as [Any]
         controller.ixSelected = self.itemSelect //indexPath.row
         self.navigationController!.pushViewController(controller, animated: true)
     }

@@ -99,7 +99,7 @@ class IPAHomeViewController : HomeViewController {
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as! [AnyObject]
+            let arrayItemsResult =  arrayItems as! [Any]
           
             let paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = (indexPath as NSIndexPath).row

@@ -11,7 +11,7 @@ import CoreData
 
 class GRAddItemListService: GRBaseService {
     
-    func buildParams(idList:String, upcs:[AnyObject]?) -> [String:Any]! {
+    func buildParams(idList:String, upcs:[Any]?) -> [String:Any]! {
         //{"idList":"26e50bc7-3644-48d8-a51c-73d7536ab30d","itemArrImp":[{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}]}
         return ["idList":idList as AnyObject, "itemArrImp":upcs! as AnyObject]
     }
@@ -31,7 +31,7 @@ class GRAddItemListService: GRBaseService {
     
     }
     
-    func buildItemMustangObject(idList:String, upcs:[AnyObject]?) -> NSDictionary {
+    func buildItemMustangObject(idList:String, upcs:[Any]?) -> NSDictionary {
         return ["idList":idList,"items":upcs!]
     }
     
@@ -120,7 +120,7 @@ class GRAddItemListService: GRBaseService {
                 }
             }
             
-            if let items = list["items"] as? [AnyObject] {
+            if let items = list["items"] as? [Any] {
                 entity!.countItem = NSNumber(value: items.count as Int)
                 
                 for idx in 0 ..< items.count {

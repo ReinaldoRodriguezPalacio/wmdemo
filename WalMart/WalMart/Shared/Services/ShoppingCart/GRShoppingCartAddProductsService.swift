@@ -64,21 +64,21 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.callService(requestParams: buildParams(quantity,upc:upc,comments:comments), successBlock: successBlock,errorBlock:errorBlock)
     }
 
-    func buildParams(_ products:[AnyObject]) -> [String:Any] {
+    func buildParams(_ products:[Any]) -> [String:Any] {
         return ["strArrImp":products as AnyObject]
     }
     
-    func buildProductObject(upc:String, quantity:String, comments:String) -> AnyObject {
+    func buildProductObject(upc:String, quantity:String, comments:String) -> [String: Any] {
         return ["quantity":quantity,"upc":upc,"comments":comments]
     }
     
-    func buildProductObject(_ upcsParams:[AnyObject]) -> AnyObject {
+    func buildProductObject(_ upcsParams:[Any]) -> Any {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]
             
         }
-        return upcsParams as AnyObject
+        return upcsParams
     }
     
     
@@ -87,9 +87,9 @@ class GRShoppingCartAddProductsService : GRBaseService {
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(params)
         if UserCurrentSession.hasLoggedUser() {
-            var itemsSvc : [AnyObject] = []
+            var itemsSvc : [Any] = []
             var upcSend = ""
-            for itemSvc in params as! NSArray {
+            for itemSvc in params as! [[String:Any]] {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
@@ -104,7 +104,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             if !hasUPC {
               
                 
-                var send  : AnyObject?
+                var send  : Any?
                 if useSignals  && self.parameterSend != nil{
                 send = buildProductObject(itemsSvc)
                 }else{

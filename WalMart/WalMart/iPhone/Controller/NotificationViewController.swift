@@ -190,9 +190,9 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
      
      - returns: array notificatios acording to device
      */
-    func getNotificationsForDevice(_ dict: NSDictionary) -> [AnyObject]{
-        var showNotifications: [AnyObject] = []
-        if let notifications = dict["notifications"] as? [AnyObject]{
+    func getNotificationsForDevice(_ dict: NSDictionary) -> [Any]{
+        var showNotifications: [Any] = []
+        if let notifications = dict["notifications"] as? [Any]{
             for notif in notifications{
                 let device = notif["device"] as! String
                 if IS_IPHONE && device == "iphone" {

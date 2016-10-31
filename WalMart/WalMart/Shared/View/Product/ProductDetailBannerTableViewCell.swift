@@ -36,7 +36,7 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
     
     var delegate : ProductDetailBannerCollectionViewDelegate!
     var collection: UICollectionView!
-    var items: [AnyObject]! = []
+    var items: [Any]! = []
     var pointSection: UIView? = nil
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil

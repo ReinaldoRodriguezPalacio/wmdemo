@@ -180,11 +180,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      */
     func listSelectorDidAddProduct(inList listId:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:"") as NSString)
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
         let service = GRAddItemListService()
-        var products: [AnyObject] = []
-        let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
+        var products: [Any] = []
+        let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [Any]
         for idx in 0 ..< itemsCart.count {
             let item = itemsCart[idx] as! [String:Any]
             
@@ -212,14 +212,14 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         service.callService(service.buildParams(idList: listId, upcs: products) as NSDictionary,
             successBlock: { (result:NSDictionary) -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:"") as NSString)
+                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
                 self.alertView!.afterRemove = {
                     self.removeListSelector(action: nil)
                 }
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error at add product to list: \(error.localizedDescription)")
-                self.alertView!.setMessage(error.localizedDescription as NSString)
+                self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
                 self.alertView!.afterRemove = {
                     self.removeListSelector(action: nil)
@@ -237,7 +237,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        //var products: [AnyObject] = []
+        //var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:Any]
             
@@ -361,11 +361,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      */
     func listSelectorDidCreateList(_ name:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:"") as NSString)
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
         let service = GRSaveUserListService()
         
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:Any]
             
@@ -410,12 +410,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         service.callService(service.buildParams(name, items: products) as NSDictionary,
             successBlock: { (result:NSDictionary) -> Void in
                 self.listSelectorController!.loadLocalList()
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:"") as NSString)
+                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
             },
             errorBlock: { (error:NSError) -> Void in
                 print(error)
-                self.alertView!.setMessage(error.localizedDescription as NSString)
+                self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
             }
         )

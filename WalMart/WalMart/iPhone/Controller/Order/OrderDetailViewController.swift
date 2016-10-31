@@ -21,7 +21,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var itemDetailProducts : NSArray!
     var type : ResultObjectType!
     
-    var detailsOrder : [AnyObject]!
+    var detailsOrder : [Any]!
     var detailsOrderGroceries : NSDictionary!
     
     var alertView: IPOWMAlertViewController?
@@ -74,7 +74,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func showProducDetail(_ indexPath: IndexPath){
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section) as [AnyObject]
+        controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section) as [Any]
         controller.ixSelected = (indexPath as NSIndexPath).row
         if !showFedexGuide {
             controller.ixSelected = (indexPath as NSIndexPath).row - 2
@@ -430,7 +430,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
         let service = GRAddItemListService()
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemDetailProducts.count {
             let item = self.itemDetailProducts[idx] as! [String:Any]
             
@@ -512,7 +512,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         let service = GRSaveUserListService()
         
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemDetailProducts.count {
             let item = self.itemDetailProducts[idx] as! [String:Any]
             

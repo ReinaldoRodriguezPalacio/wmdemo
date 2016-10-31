@@ -38,7 +38,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 protocol IPAUserListDetailDelegate {
-    func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int)
+    func showProductListDetail(fromProducts products:[Any], indexSelected index:Int)
     func reloadTableListUser()
     func closeUserListDetail()
     func reloadTableListUserSelectedRow()
@@ -331,7 +331,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     //MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         if !tableView.cellForRow(at: indexPath)!.isKind(of: ShoppingCartTotalsTableViewCell.self){
             for productObj  in self.products! {
                 if let product = productObj as? [String:Any] {
@@ -581,7 +581,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
       
     }
     
-    override func invokeAddproductTolist(_ response:NSDictionary?,products:[AnyObject]?,succesBlock:(() -> Void)){
+    override func invokeAddproductTolist(_ response:NSDictionary?,products:[Any]?,succesBlock:(() -> Void)){
         super.invokeAddproductTolist(response, products: products) { () -> Void in
             self.reloadTableListUser()
         }

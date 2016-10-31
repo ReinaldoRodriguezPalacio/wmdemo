@@ -38,7 +38,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var listId: String?
     var listName: String?
     var listEntity: List?
-    var products: [AnyObject]?
+    var products: [Any]?
     var isEdditing = false
     var enableScrollUpdateByTabBar = true
 
@@ -509,7 +509,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         if self.products != nil && self.products!.count > 0 {
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             for idxVal  in selectedItems! {
                var params: [String:Any] = [:]
                 //validar session
@@ -888,7 +888,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             }
             for lineArray in linesArray {
-                var arrayitems : [AnyObject] = []
+                var arrayitems : [Any] = []
                 for  items in self.products!  {
                     let line = items["fineContent"] as? NSDictionary
                     let lineId = line!["fineLineName"] as? String
@@ -916,7 +916,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
     
             for lineArray in linesArray {
-                var arrayitems : [AnyObject] = []
+                var arrayitems : [Any] = []
                 for  items in self.products!  {
                     let productItem =  items as! Product
                     if productItem.nameLine == lineArray as! String {
@@ -1037,7 +1037,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if cell!.isKind(of: DetailListViewCell.self) {
             self.openDetailOrReminder =  true
             let controller = ProductDetailPageViewController()
-            var productsToShow:[AnyObject] = []
+            var productsToShow:[Any] = []
             for idx in 0 ..< self.products!.count {
                 if let product = self.products![idx] as? [String:Any] {
                     
@@ -1238,7 +1238,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         detailService.callService(detailService.buildParams(self.listId!),
                                   successBlock: { (result:NSDictionary) -> Void in
                                     
-                                    self.products = result["giftlistItems"] as? [AnyObject]
+                                    self.products = result["giftlistItems"] as? [Any]
                                     self.titleLabel?.text = result["name"] as? String
                                     
                                     if self.products == nil || self.products!.count == 0  {
@@ -1796,7 +1796,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     
-    func invokeAddproductTolist(_ response:NSDictionary?,products:[AnyObject]?,succesBlock:@escaping (() -> Void)){
+    func invokeAddproductTolist(_ response:NSDictionary?,products:[Any]?,succesBlock:@escaping (() -> Void)){
         
         let service = GRAddItemListService()
         var isPesable  = ""
@@ -1842,7 +1842,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             successBlock: { (result: NSDictionary) -> Void in
                 
                 
-                if let items = result["items"] as? [AnyObject] {
+                if let items = result["items"] as? [Any] {
                     if items.count == 0 {
                         self.alertView?.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
                         self.alertView?.showErrorIcon("Ok")
@@ -1850,7 +1850,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                     
                     let service = GRAddItemListService()
-                    var products: [AnyObject] = []
+                    var products: [Any] = []
                     for idx in 0 ..< items.count {
                         let item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String

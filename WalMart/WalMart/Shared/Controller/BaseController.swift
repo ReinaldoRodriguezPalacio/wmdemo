@@ -111,7 +111,7 @@ class BaseController : UIViewController {
 //            Tune.setUserId(idUser)
 //            
 //            let event :TuneEvent = TuneEvent(name: event)
-//            event.eventItems = payPalItems as [AnyObject]
+//            event.eventItems = payPalItems as [Any]
 //            event.refId = refId
 //            event.revenue = CGFloat(total)
 //            event.currencyCode = "MXN"

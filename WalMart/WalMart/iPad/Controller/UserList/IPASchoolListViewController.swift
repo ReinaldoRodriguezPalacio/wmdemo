@@ -65,7 +65,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         }
         
         let controller = IPAProductDetailPageViewController()
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString

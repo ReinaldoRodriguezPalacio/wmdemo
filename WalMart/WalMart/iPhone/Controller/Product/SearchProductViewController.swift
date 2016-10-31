@@ -55,7 +55,7 @@ struct SearchResult {
    
     mutating func addResults(_ otherProducts:NSArray) {
         if self.products != nil {
-            self.products = self.products!.addingObjects(from: otherProducts as [AnyObject]) as NSArray?
+            self.products = self.products!.addingObjects(from: otherProducts as [Any]) as NSArray?
         }
         else {
             self.products = otherProducts
@@ -648,7 +648,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
             controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
-            controller.itemsToShow = productsToShow as [AnyObject]
+            controller.itemsToShow = productsToShow as [Any]
             controller.ixSelected = (indexPath as NSIndexPath).row
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\((indexPath as NSIndexPath).row)"
             controller.idListSeleted =  self.idListFromSearch!
@@ -794,8 +794,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.allProducts = []
             if self.results?.products != nil {
                 if self.itemsUPC?.count > 0 {
-                    self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
-                    var filtredProducts : [AnyObject] = []
+                    self.allProducts?.addObjects(from: self.itemsUPC as! [Any])
+                    var filtredProducts : [Any] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:Any]
                         if let productUPC =  productDict["upc"] as? String {
@@ -807,7 +807,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.allProducts?.addObjects(from: filtredProducts)
                 } else {
                     if self.results!.products != nil{
-                        self.allProducts?.addObjects(from: self.results!.products as! [AnyObject])
+                        self.allProducts?.addObjects(from: self.results!.products as! [Any])
                     }
                 }
             }
@@ -816,8 +816,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.allProducts = []
             if self.results?.products != nil {
                 if self.itemsUPC?.count > 0 {
-                    self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
-                    var filtredProducts : [AnyObject] = []
+                    self.allProducts?.addObjects(from: self.itemsUPC as! [Any])
+                    var filtredProducts : [Any] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:Any]
                         if let productUPC =  productDict["upc"] as? String {
@@ -829,7 +829,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                     self.allProducts?.addObjects(from: filtredProducts)
                 } else {
-                    self.allProducts?.addObjects(from: self.results!.products as! [AnyObject])
+                    self.allProducts?.addObjects(from: self.results!.products as! [Any])
                 }
             }
         }
@@ -1351,7 +1351,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 //self.itemsUPCMG = result.arrayObject
                 let upcs : NSArray = result.arrayObject!
                 if upcs.count > 0 {
-                self.allProducts?.addObjects(from: upcs as [AnyObject])
+                self.allProducts?.addObjects(from: upcs as [Any])
                 self.finsihService =  true
                 self.invokeServiceUpc =  true
                 self.collection?.reloadData()

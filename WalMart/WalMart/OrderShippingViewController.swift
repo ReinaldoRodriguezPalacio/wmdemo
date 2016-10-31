@@ -15,7 +15,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     var colorHeader = WMColor.yellow
     var itemDetail : NSDictionary! = [:]
     var shippingAll : NSArray! = []
-    var detailsOrder : [AnyObject]!
+    var detailsOrder : [Any]!
     
     var type : ResultObjectType!
     var showFedexGuide : Bool = true
@@ -348,7 +348,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     func addListToCart (){
         
         if self.shippingAll != nil && self.shippingAll.count > 0 {
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             if !showFedexGuide {
                 for item in self.shippingAll! {
                     upcs.append(getItemToShoppingCart(item as! NSDictionary) as AnyObject)
@@ -423,9 +423,9 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         }
     }
     
-    func imageToShareWishList() -> [AnyObject]? {
+    func imageToShareWishList() -> [Any]? {
         
-        var objImages : [AnyObject] = []
+        var objImages : [Any] = []
         
         for section in 0...shippingAll.count - 1 {
             var ixYSpace : CGFloat = 0

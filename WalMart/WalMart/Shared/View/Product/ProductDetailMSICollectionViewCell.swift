@@ -96,7 +96,7 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         self.titleMSILabel.frame = CGRect(x: self.imageMSI.frame.maxX + 8,y: 16, width: self.bounds.width - 32, height: 16.0)
     }
     
-    func setValues(_ msi:NSArray){
+    func setValues(_ msi:[String]){
 
         if doneValues  { return }
         doneValues = true
@@ -110,7 +110,7 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         for msiVal in msi {
             
             let payDetailPrice = NSNumber(value: (priceProduct.doubleValue/(msiVal as AnyObject).doubleValue) as Double).stringValue
-            let formattedStr = CurrencyCustomLabel.formatString(payDetailPrice)
+            let formattedStr = CurrencyCustomLabel.formatString(payDetailPrice as NSString)
             
             let lblPay = UILabel(frame: CGRect(x: 40, y: currntY, width: 55, height: 14))
             lblPay.textAlignment = NSTextAlignment.left

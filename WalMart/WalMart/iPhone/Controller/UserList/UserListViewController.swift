@@ -337,7 +337,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    self.itemsUserList = result["responseArray"] as? [Any]
                     
                     self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                         
@@ -433,7 +433,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
                     self.isShowingSuperlists = !self.isEditingUserList
-                    self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    self.itemsUserList = result["responseArray"] as? [Any]
                     if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
@@ -848,7 +848,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 //                    println("pase por acas")
 //                }, itemsUserList: self.itemsUserList!)
                 //self.invokeSaveListToDuplicateService(forListId: listId, andName: listName,succ)
-                self.invokeSaveListToDuplicateService(forListId: self.itemsList as [AnyObject], andName: listName, successDuplicateList: { () -> Void in
+                self.invokeSaveListToDuplicateService(forListId: self.itemsList as [Any], andName: listName, successDuplicateList: { () -> Void in
                     self.newListEnabled = false
                     self.isShowingSuperlists = true
                     self.newListBtn!.isSelected = false
@@ -1621,7 +1621,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let service = GRProductByTicket()
         service.callService(service.buildParams(value!),
             successBlock: { (result: NSDictionary) -> Void in
-                if let items = result["items"] as? [AnyObject] {
+                if let items = result["items"] as? [Any] {
                     
                     if items.count == 0 {
                         self.alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
@@ -1633,7 +1633,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
                     
-                    var products:[AnyObject] = []
+                    var products:[Any] = []
                     for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String

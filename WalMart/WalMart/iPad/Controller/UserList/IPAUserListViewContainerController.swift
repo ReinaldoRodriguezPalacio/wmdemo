@@ -223,7 +223,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             vc.listName = listName
             vc.listEntity = entity
             vc.itemsUserList = self.listController!.itemsUserList
-            vc.products = self.listController!.itemsList as [AnyObject]?
+            vc.products = self.listController!.itemsList as [Any]?
 
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
@@ -235,7 +235,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     
     //MARK: - IPAUserListDetailDelegate
     
-    func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int) {
+    func showProductListDetail(fromProducts products:[Any], indexSelected index:Int) {
         let controller = IPAProductDetailPageViewController()
         controller.ixSelected = index
         controller.itemsToShow = products

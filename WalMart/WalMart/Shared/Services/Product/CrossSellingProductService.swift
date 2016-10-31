@@ -15,8 +15,8 @@ class CrossSellingProductService : BaseService {
     
     
     
-    func callService(requestParams params:AnyObject,successBlock:((NSArray?) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.jsonFromObject(params)
+    func callService(requestParams params:Any,successBlock:((NSArray?) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             if let resultObject =  resultCall[self.JSON_CROSSSELL_RESULT] as? NSArray {
                 successBlock!(resultObject)

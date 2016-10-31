@@ -22,8 +22,8 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     var viewLoad: WMLoadingView?
     var alertView: IPOWMAlertViewController? = nil
     
-    var confirmRefered: [AnyObject]! = []
-    var pendingRefered: [AnyObject]! = []
+    var confirmRefered: [Any]! = []
+    var pendingRefered: [Any]! = []
     var numFreeShipping: Int = 0
     
     override func getScreenGAIName() -> String {
@@ -238,7 +238,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                     self.numFreeShipping = numFreeShippingRef
                 }
                 
-                if let responceArray = result["listEmailsRef"] as? [AnyObject] {
+                if let responceArray = result["listEmailsRef"] as? [Any] {
                     for refered in responceArray {
                         let status = refered["statusRef"] as! String
                         if status == "No"{

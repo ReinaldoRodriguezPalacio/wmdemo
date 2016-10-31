@@ -15,7 +15,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var landingItem : [String:String]? = nil
 
     @IBOutlet var categoriesTable : UITableView!
-    var items : [AnyObject]? = []
+    var items : [Any]? = []
     var collapsed = false
     var familyController : FamilyViewController!
     var canfigData : [String:Any]! = [:]
@@ -99,9 +99,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         self.titleLabel!.frame.origin = CGPoint(x: 10, y: 0)
     }
     
-    func loadDepartments() -> [AnyObject]? {
+    func loadDepartments() -> [Any]? {
         let serviceCategory = CategoryService()
-        self.items = serviceCategory.getCategoriesContent(from: "gr") as [AnyObject]?
+        self.items = serviceCategory.getCategoriesContent(from: "gr") as [Any]?
         return self.items
     }
     
@@ -414,7 +414,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func fillConfigData(_ depto:String,families:JSON) -> [[String:Any]]? {
-        var resultDict : [AnyObject] = []
+        var resultDict : [Any] = []
         if Array(canfigData.keys.filter {$0 == depto }).count > 0 {
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {

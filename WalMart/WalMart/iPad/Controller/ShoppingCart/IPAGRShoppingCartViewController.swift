@@ -329,7 +329,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInCart.count > (indexPath as NSIndexPath).row   {
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [AnyObject]
+            controller.itemsToShow = getUPCItems() as [Any]
             
             controller.ixSelected = (indexPath as NSIndexPath).row
             self.navigationController!.delegate = nil

@@ -57,9 +57,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var ingredients: String = ""
     var nutrimentalInfo: [String: String] = [:]
     var type : NSString = ResultObjectType.Mg.rawValue as NSString
-    var imageUrl : [AnyObject] = []
-    var characteristics : [AnyObject] = []
-    var bundleItems : [AnyObject] = []
+    var imageUrl : [Any] = []
+    var characteristics : [Any] = []
+    var bundleItems : [Any] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var productDetailButton: ProductDetailButtonBarCollectionViewCell?
@@ -90,8 +90,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var pagerController : IPAProductDetailPageViewController? = nil
     var isPesable = false
     var alertView : IPOWMAlertViewController? = nil
-    var colorItems : [AnyObject] = []
-    var sizeItems : [AnyObject] = []
+    var colorItems : [Any] = []
+    var sizeItems : [Any] = []
     var facets: [[String:Any]]? = nil
     var facetsDetails: [String:Any]? = nil
     var selectedDetailItem: [String:String]? = nil
@@ -1040,13 +1040,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     }
                 })
                 if self.facetsDetails?.count > 1 {
-                    if let colors = self.facetsDetails![filteredKeys.first!] as? [AnyObject]{
+                    if let colors = self.facetsDetails![filteredKeys.first!] as? [Any]{
                         self.colorItems = colors
                         self.tabledetail.reloadData()
                     }
                 }
                 if self.facetsDetails?.count > 2 {
-                    if let sizes = self.facetsDetails![filteredKeys[1]] as? [AnyObject]{
+                    if let sizes = self.facetsDetails![filteredKeys[1]] as? [Any]{
                         self.sizeItems = sizes
                         self.tabledetail.reloadData()
                     }
@@ -1098,11 +1098,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         self.listPrice = result["original_listprice"] as? NSString ?? ""
         self.characteristics = []
-        if let cararray = result["characteristics"] as? [AnyObject] {
+        if let cararray = result["characteristics"] as? [Any] {
             self.characteristics = cararray
         }
         
-        var allCharacteristics : [AnyObject] = []
+        var allCharacteristics : [Any] = []
         
         let strLabel = "UPC"
         //let strValue = self.upc
@@ -1130,7 +1130,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }
         }
         
-        if let images = parentProduct!["largeImageUrl"] as? [AnyObject] {
+        if let images = parentProduct!["largeImageUrl"] as? [Any] {
             self.imageUrl = images
         }else{
             self.imageUrl = [(parentProduct!["largeImageUrl"] as! String as AnyObject)]
@@ -1160,8 +1160,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.isPreorderable = "true" == self.strisPreorderable
         
         
-        self.bundleItems = [AnyObject]()
-        if let bndl = sku["bundleLinks"] as?  [AnyObject] {
+        self.bundleItems = [Any]()
+        if let bndl = sku["bundleLinks"] as?  [Any] {
             self.bundleItems = bndl
         }
         
@@ -1318,14 +1318,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
             let selected = productUpc == self.upc as String
-            let details = product["details"] as! [AnyObject]
+            let details = product["details"] as! [Any]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
             var count = 0
             for detail in details{
                 let label = detail["description"] as! String
                 let unit = detail["unit"] as! String
-                var values = facetsDetails[label] as? [AnyObject]
+                var values = facetsDetails[label] as? [Any]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
                 if !(values! as NSArray).contains(itemToAdd) {
@@ -1338,7 +1338,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.selectedDetailItem![label] = unit
                 }
             }
-            var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
+            var detailsValues = facetsDetails["itemDetails"] as? [Any]
             if detailsValues == nil{ detailsValues = []}
             detailsValues!.append(itemDetail as AnyObject)
             facetsDetails["itemDetails"] = detailsValues as AnyObject?
@@ -1359,7 +1359,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         // Primer elemento
         let itemsFirst: [[String:Any]] = facetsDetails[filteredKeys.first!] as! [[String:Any]]
         let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
-        var values: [AnyObject] = []
+        var values: [Any] = []
         for item in itemsFirst{
             let label = item["type"] as! String
             let unit = item["value"] as! String
@@ -1371,7 +1371,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
             let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
             
-            let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
+            let itemDetails = facetsDetails["itemDetails"] as? [Any]
             var findObj: [String] = []
             for item in itemDetails!{
                 if(item[filteredKeys.first!] as! String == selecteFirst)
@@ -1380,7 +1380,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 }
             }
             
-            var valuesSecond: [AnyObject] = []
+            var valuesSecond: [Any] = []
             for item in itemsSecond{
                 let label = item["type"] as! String
                 let unit = item["value"] as! String
@@ -1420,7 +1420,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     {
         var upc = ""
         var isSelected = false
-        let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        let details = self.facetsDetails!["itemDetails"] as? [Any]
         for item in details! {
             isSelected = false
             for selectItem in itemsSelected{
@@ -1451,7 +1451,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
-        let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        let itemDetails = self.facetsDetails!["itemDetails"] as? [Any]
         var findObj: [String] = []
         for item in itemDetails!{
             if(item[key] as! String == value)
@@ -1866,7 +1866,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     //MARK: - IPAUserListDetailDelegate
-    func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int) {
+    func showProductListDetail(fromProducts products:[Any], indexSelected index:Int) {
         let controller = IPAProductDetailPageViewController()
         controller.ixSelected = index
         controller.itemsToShow = products

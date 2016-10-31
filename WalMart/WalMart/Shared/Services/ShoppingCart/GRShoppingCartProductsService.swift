@@ -148,7 +148,7 @@ class GRShoppingCartProductsService : GRBaseService {
         }
         
 //        var returnDictionary = [:]
-//        var items : [AnyObject] = []
+//        var items : [Any] = []
 //        var subtotal : Double = 0.0
 //        var iva : Double = 0.0
 //        var totalest : Double = 0.0
@@ -226,7 +226,7 @@ class GRShoppingCartProductsService : GRBaseService {
         let updated = Array(UserCurrentSession.sharedInstance().userSigned!.productsInCart.filtered(using: predicateUpdated)) as! [Cart]
         if updated.count > 0 {
             let serviceUpdate = GRShoppingCartUpdateProductsService()
-            var arrayUpcsUpdate : [AnyObject] = []
+            var arrayUpcsUpdate : [Any] = []
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: ""))
@@ -254,7 +254,7 @@ class GRShoppingCartProductsService : GRBaseService {
           let serviceUpdate = GRShoppingCartAddProductsService()
             
             
-            var arrayUpcsUpdate : [AnyObject] = []
+            var arrayUpcsUpdate : [Any] = []
             for itemUpdated in updated {
                 let ntVal = itemUpdated.note != nil ? itemUpdated.note! : ""
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ntVal))

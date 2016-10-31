@@ -19,7 +19,7 @@ class GRLinesForSearchService: GRBaseService {
         return ["storeId":"" as AnyObject,"expression":string as AnyObject,"departmentName":"" as AnyObject,"family":"" as AnyObject] as [String:Any]
     }
     
-    func callService(_ params:NSDictionary, successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:NSDictionary, successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params)
         self.getManager().post(serviceUrl(), parameters: params,
@@ -28,11 +28,11 @@ class GRLinesForSearchService: GRBaseService {
                 self.printTimestamp("success GRLinesForSearchService")
                  self.jsonFromObject(json)
                 
-                    if let response = json as? [AnyObject] {
+                    if let response = json as? [Any] {
                         
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
                             // var dictionary = self.buildResponse(response)
-                            let values = [AnyObject](dictionary.values)
+                            let values = [Any](dictionary.values)
                             
 //                            values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
 //                                var deptoOne = objectOne as [String:Any]
@@ -67,7 +67,7 @@ class GRLinesForSearchService: GRBaseService {
         })
     }
 
-    func buildResponse(_ response:[AnyObject],successBuildBlock:(([String : AnyObject]) -> Void)?) {
+    func buildResponse(_ response:[Any],successBuildBlock:(([String : AnyObject]) -> Void)?) {
 
         printTimestamp("buildResponse GRLinesForSearchService")
         

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol BaseCategoryViewControllerDataSource {
-    func loadDepartments() ->  [AnyObject]?
+    func loadDepartments() ->  [Any]?
 }
 
 protocol BaseCategoryViewControllerDelegate {
@@ -25,7 +25,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     var delegate : BaseCategoryViewControllerDelegate?
     var datasource : BaseCategoryViewControllerDataSource?
     var currentIndexSelected : IndexPath?
-    var items : [AnyObject]? = []
+    var items : [Any]? = []
     
     
     override func viewDidLoad() {

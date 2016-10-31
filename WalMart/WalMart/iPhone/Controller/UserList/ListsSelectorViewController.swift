@@ -48,7 +48,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var alertView: IPOWMAlertViewController?
     
     var productUpc: String?
-    var list: [AnyObject]?
+    var list: [Any]?
     var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
@@ -287,7 +287,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         let userListsService = GRUserListService()
         userListsService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
-                self.list = result["responseArray"] as? [AnyObject]
+                self.list = result["responseArray"] as? [Any]
                 //println(self.itemsUserList)
                 self.tableView!.reloadData()
             },

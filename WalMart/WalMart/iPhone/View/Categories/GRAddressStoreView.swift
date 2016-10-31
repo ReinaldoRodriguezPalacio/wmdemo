@@ -14,7 +14,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     var saveButton: UIButton?
     var tableStore: UITableView?
     var layerLine: CALayer!
-    var storeArray: [AnyObject]! = []
+    var storeArray: [Any]! = []
     var viewLoad : WMLoadingView!
     var selectedStore: IndexPath?
     var selectedstoreId: String! = ""

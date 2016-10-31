@@ -346,7 +346,7 @@ class IPAUserListViewController: UserListViewController {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    self.itemsUserList = result["responseArray"] as? [Any]
                     self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                         
                         let dicFirst = first as! NSDictionary

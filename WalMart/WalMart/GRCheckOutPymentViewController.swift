@@ -44,7 +44,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     let itemsPayments = [NSLocalizedString("En linea", comment:""), NSLocalizedString("Contra entrega", comment:"")]
     
     //Services
-    var paymentOptionsItems: [AnyObject]?
+    var paymentOptionsItems: [Any]?
     //var paymentOptions: FormFieldView?
     var selectedPaymentType : IndexPath!
    
@@ -656,7 +656,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.totalDiscountsOrder = totalDiscounts!
                 self.promotionsDesc = []
                 
-                if let listSamples = resultCall["listSamples"] as? [AnyObject]{
+                if let listSamples = resultCall["listSamples"] as? [Any]{
                     for promotionln in listSamples {
                         let isAsociate = promotionln["isAssociated"] as! Bool
                         self.isAssociateSend = isAsociate
@@ -665,7 +665,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                     }
                 }
-                if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
+                if let listPromotions = resultCall["listPromotions"] as? [Any]{
                     for promotionln in listPromotions {
                         let promotion = promotionln["idPromotion"] as! Int
                         self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(promotion)", with: "")
@@ -675,7 +675,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     }
                 }
                 
-                if let listFreeshippins = resultCall["listFreeshippins"] as? [AnyObject]{
+                if let listFreeshippins = resultCall["listFreeshippins"] as? [Any]{
                     for freeshippin in listFreeshippins {
                         self.idFreeShepping = freeshippin["idPromotion"] as! Int
                         self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(self.idFreeShepping)", with: "")
@@ -759,7 +759,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
-                self.paymentOptionsItems = result as [AnyObject]
+                self.paymentOptionsItems = result as [Any]
                 //TODO: Borrar despues de validar paypal
                 //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])
                 

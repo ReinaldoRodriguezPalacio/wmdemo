@@ -617,7 +617,7 @@ extension JSON {
         }
     }
     
-    //Optional [AnyObject]
+    //Optional [Any]
     public var arrayObject: [Any]? {
         get {
             switch self.type {

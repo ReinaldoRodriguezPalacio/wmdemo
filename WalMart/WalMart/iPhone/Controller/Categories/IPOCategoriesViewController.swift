@@ -63,9 +63,9 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         self.tabBarFinish()
     }
     
-    func loadDepartments() ->  [AnyObject]? {
+    func loadDepartments() ->  [Any]? {
         let serviceCategory = CategoryService()
-        items = serviceCategory.getCategoriesContent(from: "mg") as [AnyObject]?
+        items = serviceCategory.getCategoriesContent(from: "mg") as [Any]?
         return items
     }
     

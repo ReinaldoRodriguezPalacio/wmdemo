@@ -35,9 +35,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var collection: UICollectionView!
     var colorsView: ProductDetailColorSizeView!
     var sizesView: ProductDetailColorSizeView!
-    var items: [AnyObject]! = []
-    var colors: [AnyObject]? = []
-    var sizes: [AnyObject]? = []
+    var items: [Any]! = []
+    var colors: [Any]? = []
+    var sizes: [Any]? = []
     var imagesRef: [UIImage]! = []
     var promotions:[[String:Any]]! = []
     var pointSection: UIView! = nil
@@ -67,7 +67,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         setup()
     }
     
-    init(frame: CGRect,items:[AnyObject]) {
+    init(frame: CGRect,items:[Any]) {
         super.init(frame: frame)
         self.items = items
         setup()

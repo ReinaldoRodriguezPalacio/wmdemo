@@ -203,11 +203,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         
         self.itemsInCartOrderSection =  []
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [Any]
             let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG! as! Dictionary<String, AnyObject>
-            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren, isShoppingCart: true) as! [AnyObject]
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren, isShoppingCart: true) as! [Any]
             
-             checkoutVC?.itemsInCart = itemsUserCurren["commerceItems"] as! [AnyObject] as NSArray!
+             checkoutVC?.itemsInCart = itemsUserCurren["commerceItems"] as! [Any] as NSArray!
             
             self.arrayItems()
         }
@@ -384,13 +384,13 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                     
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC as [AnyObject]
+                        var arrayUPCS = self.itemsUPC as [Any]
 //                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
 //                            let priceB = before["price"] as! NSString
 //                            let priceA = after["price"] as! NSString
 //                            return priceB.doubleValue < priceA.doubleValue
 //                        })
-                        var resultArray : [AnyObject] = []
+                        var resultArray : [Any] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
@@ -421,7 +421,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInCartOrderSection.count > (indexPath as NSIndexPath).row && !isSelectingProducts  {
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section, row: (indexPath as NSIndexPath).row) as [AnyObject]
+            controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section, row: (indexPath as NSIndexPath).row) as [Any]
             controller.ixSelected = self.itemSelect //indexPath.row
             //self.navigationController!.delegate = nil
             self.navigationController!.pushViewController(controller, animated: true)

@@ -56,9 +56,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var textToSearch: String?
     var originalSearchContext: SearchServiceContextType?
     var searchContext: SearchServiceContextType?
-    var categories: [AnyObject]?
-    var tableElements: [AnyObject]?
-    var tableReset: [AnyObject]?
+    var categories: [Any]?
+    var tableElements: [Any]?
+    var tableReset: [Any]?
     var selectedElements: [Bool]?
     var selectedElementsFacet: [IndexPath:Bool]?
     var selectedOrder: String?
@@ -153,7 +153,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func validateFacetData() {
         if facet != nil {
-            var facetEnd : [AnyObject] = []
+            var facetEnd : [Any] = []
             for facetItemsCount in facet! {
                 let facetitem = facetItemsCount["itemsFacet"] as! [[String:Any]]
                 var newItemsFacet : [[String:Any]] = []
@@ -649,7 +649,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         if itemLevel != 2 {
             var indexes:[IndexPath] = []
-            var filteredElements:[AnyObject] = []
+            var filteredElements:[Any] = []
             for idx in 0 ..< self.tableElements!.count {
                 var element = self.tableElements![idx] as! [String:Any]
                 let elementId = element["id"] as! String
@@ -764,9 +764,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
     }
     
-    func deleteItems(_ items:[AnyObject], atIndexPath indexPath:IndexPath) {
+    func deleteItems(_ items:[Any], atIndexPath indexPath:IndexPath) {
         if items.count > 0 {
-            var indexes:[AnyObject] = []
+            var indexes:[Any] = []
             for idx in 0 ..< items.count {
                 var itemToDelete = items[idx] as! [String:Any]
                 let id = itemToDelete["id"] as! String
@@ -874,11 +874,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         NSLog("self.categories = categories")
         let service = GRLinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!),
-            successBlock: { (categories: [AnyObject]) -> Void in
+            successBlock: { (categories: [Any]) -> Void in
                     NSLog("self.categories = categories")
                     self.categories = categories
-                    NSLog("self.tableElements = [AnyObject](categories)")
-                    self.tableElements = [AnyObject](categories)
+                    NSLog("self.tableElements = [Any](categories)")
+                    self.tableElements = [Any](categories)
                     NSLog("if self.tableElements?.count > 0 {")
                     if self.tableElements?.count > 0 {
                         NSLog("self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)")
@@ -899,7 +899,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     func invokeRetrieveLinesForMG(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         let service = LinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!),
-            successBlock: { (categories:[AnyObject]) -> Void in
+            successBlock: { (categories:[Any]) -> Void in
                 NSLog("Inicia pintado de datos")
                 if self.categories != nil {
                     let array = self.categories! + categories
@@ -928,7 +928,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 //                    }
                 }
                 else {
-                    self.tableElements = [AnyObject](categories)
+                    self.tableElements = [Any](categories)
                     self.tableReset = self.tableElements
                 }
                 

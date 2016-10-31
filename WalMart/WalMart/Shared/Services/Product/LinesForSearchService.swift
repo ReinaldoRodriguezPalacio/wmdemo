@@ -14,7 +14,7 @@ class LinesForSearchService: BaseService {
         return ["id":string as AnyObject]
     }
 
-    func callService(_ params:NSDictionary, successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:NSDictionary, successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //println("PARAMS FOR LinesForSearchService" )
         printTimestamp("servicio LinesForSearchService")
         self.jsonFromObject(params)
@@ -22,10 +22,10 @@ class LinesForSearchService: BaseService {
             success: {(request:URLSessionDataTask!, json:AnyObject!) in
                 self.jsonFromObject(json)
                 self.printTimestamp("success LinesForSearchService")
-                if let response = json["subCategories"] as? [AnyObject] {
+                if let response = json["subCategories"] as? [Any] {
                     DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
-                            let values = [AnyObject](dictionary.values)
+                            let values = [Any](dictionary.values)
                             self.jsonFromObject(values)
                             DispatchQueue.main.async(execute: { () -> Void in
                                 print("")
@@ -59,7 +59,7 @@ class LinesForSearchService: BaseService {
 //            ["id":"l_cuidadopersonal_basculas", "name":"Control de Peso"]
         //]
 //        var dictionary = self.buildResponse(response)
-//        var values = [AnyObject](dictionary.values)
+//        var values = [Any](dictionary.values)
 //        values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
 //            var deptoOne = objectOne as [String:Any]
 //            var deptoTwo = objectTwo as [String:Any]
@@ -74,7 +74,7 @@ class LinesForSearchService: BaseService {
         
     }
     
-    func buildResponse(_ response:[AnyObject],successBuildBlock:(([String:Any]) -> Void)?) {
+    func buildResponse(_ response:[Any],successBuildBlock:(([String:Any]) -> Void)?) {
         
         printTimestamp("buildResponse LinesForSearchService")
         

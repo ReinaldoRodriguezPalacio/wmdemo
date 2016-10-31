@@ -236,7 +236,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if self.categories.count > 0 {
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            //let arrayItemsResult =  arrayItems as! [AnyObject]
+            //let arrayItemsResult =  arrayItems as! [Any]
             return arrayItems.count
         }
         return 0
@@ -267,7 +267,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
                 let catNameFilter = self.categories[selectedIndexCategory]
                 let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-                let arrayItemsResult =  arrayItems as! [AnyObject]
+                let arrayItemsResult =  arrayItems as! [Any]
                 let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:Any]
                
                 var desc = ""
@@ -335,7 +335,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as! [AnyObject]
+            let arrayItemsResult =  arrayItems as! [Any]
             let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:Any]
             var upc = ""
             var desc = ""
@@ -519,7 +519,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
    
     func getCategories() -> [String]{
         
-        //let specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
+        //let specialsCat : [Any] = RecommendedCategory.cagtegories as [Any]
         self.categoryType = [:]
         var categories : [String] = []
         self.recommendCategoryItems = [:]
@@ -546,7 +546,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     }
                     
                     if let catItem : AnyObject = recommendCategoryItems[nameCategory] {
-                        var array = catItem as! [AnyObject]
+                        var array = catItem as! [Any]
                         array.append(itemRec as AnyObject)
                         recommendCategoryItems.updateValue(array as AnyObject, forKey: nameCategory)
                     } else {
@@ -600,11 +600,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as! [AnyObject]
+            let arrayItemsResult =  arrayItems as! [Any]
             
             let catNameFilterNew = self.categories[index]
             let arrayItemsNew : AnyObject = self.recommendCategoryItems[catNameFilterNew]!
-            let arrayItemsResultNew =  arrayItemsNew as! [AnyObject]
+            let arrayItemsResultNew =  arrayItemsNew as! [Any]
             
             for ix in 0...arrayItemsResult.count - 1 {
                 if arrayItemsResultNew.count > ix {

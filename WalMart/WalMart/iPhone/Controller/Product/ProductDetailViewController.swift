@@ -53,7 +53,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
     var viewLoad : WMLoadingView!
-    var msi : NSArray = []
+    var msi : [String] = []
     var sku : NSString = ""
     var upc : NSString = ""
     var name : NSString = ""
@@ -64,11 +64,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var comments : NSString = ""
     var ingredients: String = ""
     var nutrimentalInfo: [String:String] = [:]
-    var imageUrl : [AnyObject] = []
-    var characteristics : [AnyObject] = []
-    var bundleItems : [AnyObject] = []
-    var colorItems : [AnyObject] = []
-    var sizesItems : [AnyObject] = []
+    var imageUrl : [Any] = []
+    var characteristics : [Any] = []
+    var bundleItems : [Any] = []
+    var colorItems : [Any] = []
+    var sizesItems : [Any] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var viewDetail : ProductDetailTextDetailView!
@@ -332,7 +332,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = items as [AnyObject]
+        controller.itemsToShow = items as [Any]
         controller.ixSelected = index
         self.navigationController!.pushViewController(controller, animated: true)
     }
@@ -618,7 +618,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                         let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
                         let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
-                        alert!.setMessage(msgInventory as NSString)
+                        alert!.setMessage(msgInventory)
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                         self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
                     }
@@ -896,12 +896,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.facetsDetails = self.getFacetsDetails()
                     let filteredKeys = self.getFilteredKeys(self.facetsDetails!)
                     if self.facetsDetails?.count > 1 {
-                        if let colors = self.facetsDetails![filteredKeys.first!] as? [AnyObject]{
+                        if let colors = self.facetsDetails![filteredKeys.first!] as? [Any]{
                             self.colorItems = colors
                         }
                      }
                     if self.facetsDetails?.count > 2 {
-                        if let sizes = self.facetsDetails![filteredKeys[1]] as? [AnyObject]{
+                        if let sizes = self.facetsDetails![filteredKeys[1]] as? [Any]{
                             self.sizesItems = sizes
                         }
                     }
@@ -961,7 +961,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 if doubleVaule > 0 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
                     let formated = CurrencyCustomLabel.formatString("\(savingResult)" as NSString)
-                    self.saving = "\(savingStr) \(formated)"
+                    self.saving = "\(savingStr) \(formated)" as NSString
                 }
             }
         }
@@ -971,7 +971,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.listPrice = result["original_listprice"] as? NSString ?? ""
         self.characteristics = []
         if let characteristicsResult = result["characteristics"] as? NSArray {
-            self.characteristics = characteristicsResult as [AnyObject]
+            self.characteristics = characteristicsResult as! [Any]
         }
         
         if let resultNutrimentalInfo = result["nutritional"] as? [String:String] {
@@ -982,7 +982,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.ingredients = result["Ingredients"] as? String ?? ""
         
-        var allCharacteristics : [AnyObject] = []
+        var allCharacteristics : [Any] = []
         
         let strLabel = "UPC"
         //let strValue = self.upc
@@ -1002,7 +1002,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         }
         
-        if let images = parentProduct!["largeImageUrl"] as? [AnyObject] {
+        if let images = parentProduct!["largeImageUrl"] as? [Any] {
             self.imageUrl = images
         }else{
             self.imageUrl = [(parentProduct!["largeImageUrl"] as! String as AnyObject)]
@@ -1027,8 +1027,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.strisPreorderable  = sku["isPreOrderable"] as? String ?? ""
         
         self.isPreorderable = "true" == self.strisPreorderable
-        self.bundleItems = [AnyObject]()
-        if let bndl = sku["bundleLinks"] as?  [AnyObject] {
+        self.bundleItems = [Any]()
+        if let bndl = sku["bundleLinks"] as?  [Any] {
             self.bundleItems = bndl
         }
         
@@ -1421,14 +1421,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
             let selected = productUpc == self.upc as String
-            let details = product["details"] as! [AnyObject]
+            let details = product["details"] as! [[String:Any]]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
             var count = 0
             for detail in details{
                 let label = detail["description"] as! String
                 let unit = detail["unit"] as! String
-                var values = facetsDetails[label] as? [AnyObject]
+                var values = facetsDetails[label] as? [Any]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
                 if !(values! as NSArray).contains(itemToAdd) {
@@ -1441,7 +1441,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.selectedDetailItem![label] = unit
                 }
             }
-            var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
+            var detailsValues = facetsDetails["itemDetails"] as? [Any]
             if detailsValues == nil{ detailsValues = []}
             detailsValues!.append(itemDetail as AnyObject)
             facetsDetails["itemDetails"] = detailsValues as AnyObject?
@@ -1462,7 +1462,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         // Primer elemento
         let itemsFirst: [[String:Any]] = facetsDetails[filteredKeys.first!] as! [[String:Any]]
         let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
-        var values: [AnyObject] = []
+        var values: [Any] = []
         for item in itemsFirst{
             let label = item["type"] as! String
             let unit = item["value"] as! String
@@ -1474,7 +1474,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
             let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
             
-            let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
+            let itemDetails = facetsDetails["itemDetails"] as? [[String:Any]]
             var findObj: [String] = []
             for item in itemDetails!{
                 if(item[filteredKeys.first!] as! String == selecteFirst)
@@ -1483,7 +1483,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 }
             }
             
-            var valuesSecond: [AnyObject] = []
+            var valuesSecond: [Any] = []
             for item in itemsSecond{
                 let label = item["type"] as! String
                 let unit = item["value"] as! String
@@ -1529,7 +1529,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     {
         var upc = ""
         var isSelected = false
-        let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        let details = self.facetsDetails!["itemDetails"] as? [[String:Any]]
         for item in details! {
             isSelected = false
             for selectItem in itemsSelected{
@@ -1574,7 +1574,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - returns: array of sting with details
      */
     func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
-        let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        let itemDetails = self.facetsDetails!["itemDetails"] as? [[String:Any]]
         var findObj: [String] = []
         for item in itemDetails!{
             if(item[key] as! String == value)

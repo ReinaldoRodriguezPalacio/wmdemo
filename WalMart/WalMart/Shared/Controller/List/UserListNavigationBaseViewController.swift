@@ -12,17 +12,17 @@ import Foundation
 class UserListNavigationBaseViewController :  NavigationViewController {
     
     
-    var itemsUserList: [AnyObject]? = []
+    var itemsUserList: [Any]? = []
     var alertView: IPOWMAlertViewController?
     
-    func invokeSaveListToDuplicateService(forListId products:[AnyObject], andName listName:String,successDuplicateList:@escaping (() -> Void)) {
+    func invokeSaveListToDuplicateService(forListId products:[Any], andName listName:String,successDuplicateList:@escaping (() -> Void)) {
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         
         
                 let service = GRSaveUserListService()
                 let serviceAdd = GRAddItemListService()
-                var items: [AnyObject] = []
+                var items: [Any] = []
                 //if let products = result["items"] as? NSArray {
                     for idx in 0 ..< products.count {
                         var product = products[idx] as! [String:Any]

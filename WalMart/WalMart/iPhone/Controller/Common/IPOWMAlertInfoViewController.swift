@@ -124,7 +124,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         controller.view.addSubview(newAlert.view)
         newAlert.view.frame = controller.view.bounds
         newAlert.titleLabel.text = title
-        newAlert.setMessage(message as NSString)
+        newAlert.setMessage(message)
         return newAlert
         
     }

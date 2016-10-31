@@ -13,7 +13,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     
     
     var tableView: UITableView?
-    var itemsLists : [AnyObject] =  []
+    var itemsLists : [Any] =  []
     var viewLoad: WMLoadingView?
     
     

@@ -330,7 +330,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         let service = GRProductByTicket()
         service.callService(service.buildParams(barcodeValue),
             successBlock: { (result: NSDictionary) -> Void in
-                if let items = result["items"] as? [AnyObject] {
+                if let items = result["items"] as? [Any] {
                     
                     if items.count == 0 {
                         alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
@@ -342,7 +342,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     
                     alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
                     
-                    var products:[AnyObject] = []
+                    var products:[Any] = []
                     for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String

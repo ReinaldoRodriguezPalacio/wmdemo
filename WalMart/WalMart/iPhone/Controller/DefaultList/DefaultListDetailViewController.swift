@@ -190,7 +190,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = ProductDetailPageViewController()
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
@@ -411,7 +411,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         }
         
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
                 var params: [String:Any] = [:]
@@ -548,7 +548,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             
             service.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 
-                let  itemsUserList = result["responseArray"] as? [AnyObject]
+                let  itemsUserList = result["responseArray"] as? [Any]
                 self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
                 
                 
@@ -574,9 +574,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     
     
-    func copyList(_ listName:String,itemsUserList:[AnyObject]?,successDuplicateList:@escaping (() -> Void)) {
+    func copyList(_ listName:String,itemsUserList:[Any]?,successDuplicateList:@escaping (() -> Void)) {
         let service = GRSaveUserListService()
-        var items: [AnyObject] = []
+        var items: [Any] = []
         if self.detailItems != nil {
             for idx in 0 ..< self.detailItems!.count {
                 var product = self.detailItems![idx]
@@ -613,7 +613,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         )
     }
     
-    func buildDuplicateNameList(_ theName:String, forListId listId:String?,itemsUserList:[AnyObject]?) -> String {
+    func buildDuplicateNameList(_ theName:String, forListId listId:String?,itemsUserList:[Any]?) -> String {
      
         
         var listName = "\(theName)" //Se crea una nueva instancia

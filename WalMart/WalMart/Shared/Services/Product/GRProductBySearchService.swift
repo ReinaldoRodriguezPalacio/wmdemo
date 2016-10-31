@@ -93,7 +93,7 @@ class GRProductBySearchService: GRBaseService {
                 //Search service Text
                 if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? NSDictionary {
                     //Array facet
-                    if let itemsFacets = responseObject["facet"] as? [AnyObject] {
+                    if let itemsFacets = responseObject["facet"] as? [Any] {
                         facets = itemsFacets
                     }
                     //Array items

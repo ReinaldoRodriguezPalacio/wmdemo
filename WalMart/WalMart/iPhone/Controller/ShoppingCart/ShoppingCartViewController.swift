@@ -38,8 +38,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var viewLoad : WMLoadingView!
     
-    var itemsInShoppingCart : [AnyObject]! = []
-    var itemsInCartOrderSection : [AnyObject]! = []
+    var itemsInShoppingCart : [Any]! = []
+    var itemsInCartOrderSection : [Any]! = []
     var subtotal : NSNumber!
     var ivaprod : NSNumber!
     var totalest : NSNumber!
@@ -277,9 +277,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.itemsInCartOrderSection = []
         
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG! as! Dictionary<String, AnyObject>//["order"] as? NSDictionary as? [AnyObject]
-            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren,isShoppingCart: true) as! [AnyObject]
+            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [Any]
+            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG! as! Dictionary<String, AnyObject>//["order"] as? NSDictionary as? [Any]
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren,isShoppingCart: true) as! [Any]
             self.arrayItems()
         }
         
@@ -377,7 +377,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         for itemSection in self.itemsInCartOrderSection {
             listObj = itemSection as! NSDictionary
-            productObje = listObj["products"] as! [AnyObject] as NSArray!
+            productObje = listObj["products"] as! [Any] as NSArray!
                 
             for prodSection in productObje {
                 self.itemsInShoppingCart.insert(prodSection as AnyObject, at: ind)//as! NSArray
@@ -618,7 +618,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         if itemsInShoppingCart.count > (indexPath as NSIndexPath).row && !isSelectingProducts  {
             let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section - 1, row: (indexPath as NSIndexPath).row) as [AnyObject]
+            controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section - 1, row: (indexPath as NSIndexPath).row) as [Any]
             controller.ixSelected = self.itemSelect//indexPath.row
             
             let item = productObje[(indexPath as NSIndexPath).row] as! [String:Any]
@@ -926,9 +926,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.itemsInCartOrderSection = []
 
             if UserCurrentSession.sharedInstance().itemsMG != nil {
-                //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
-                let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["commerceItems"] as! NSArray as [AnyObject]
-                self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject], isShoppingCart: true) as! [AnyObject]
+                //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [Any]
+                let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["commerceItems"] as! NSArray as [Any]
+                self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [Any], isShoppingCart: true) as! [Any]
                 self.arrayItems()
             }
             
@@ -1118,7 +1118,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      */
     func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = items as [AnyObject]
+        controller.itemsToShow = items as [Any]
         controller.ixSelected = index
         self.navigationController!.pushViewController(controller, animated: true)
     }
@@ -1430,8 +1430,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC as [AnyObject]
-                        var resultArray : [AnyObject] = []
+                        var arrayUPCS = self.itemsUPC as [Any]
+                        var resultArray : [Any] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
@@ -1648,7 +1648,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
         let service = GRAddItemListService()
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemsInShoppingCart.count {
             let item = self.itemsInShoppingCart[idx] as! [String:Any]
             
@@ -1807,7 +1807,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         let service = GRSaveUserListService()
         
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemsInShoppingCart.count {
             let item = self.itemsInShoppingCart[idx] as! [String:Any]
             

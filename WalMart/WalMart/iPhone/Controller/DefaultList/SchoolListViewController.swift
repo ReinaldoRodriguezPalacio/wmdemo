@@ -188,7 +188,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         
         let controller = ProductDetailPageViewController()
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
@@ -429,7 +429,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
                 var params: [String:Any] = [:]

@@ -22,12 +22,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var errorView : FormFieldErrorView? = nil
     var address: FormFieldView?
     var addressInvoice: FormFieldView?
-    var addressItems: [AnyObject]?
+    var addressItems: [Any]?
     var addressDesccription: String? = nil
     var selectedAddress: String? = nil
     var selectedAddressHasStore: Bool = true
     var selectedAddressIx : IndexPath!
-    var addressInvoiceItems: [AnyObject]?
+    var addressInvoiceItems: [Any]?
     var addressInvoiceDesccription: String? = nil
     var selectedAddressInvoice: String? = nil
     var selectedAddressInvoiceIx : IndexPath!
@@ -496,7 +496,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {
-                    self.addressItems = items as [AnyObject]
+                    self.addressItems = items as [Any]
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
@@ -546,7 +546,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             self.addressInvoiceItems = []
             
-            if let fiscalAddress = resultCall["responseArray"] as? [AnyObject] {
+            if let fiscalAddress = resultCall["responseArray"] as? [Any] {
                 self.addressInvoiceItems = fiscalAddress
             }
             self.removeViewLoad()

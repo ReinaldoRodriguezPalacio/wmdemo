@@ -282,7 +282,7 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
     
     open func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         var barcodeObjects : Array<AVMetadataMachineReadableCodeObject> = []
-        var cornersArray : Array<[AnyObject]> = []
+        var cornersArray : Array<[Any]> = []
         for metadataObject : AnyObject in metadataObjects {
             if let l = self.videoPreviewLayer {
                 let transformedMetadataObject = l.transformedMetadataObject(for: metadataObject as! AVMetadataObject)

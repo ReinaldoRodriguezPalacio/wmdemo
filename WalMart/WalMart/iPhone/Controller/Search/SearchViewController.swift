@@ -38,9 +38,9 @@ protocol SearchViewControllerDelegate {
 
 class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
-    var elements: [AnyObject]?
+    var elements: [Any]?
     var upcItems: [String]?
-    var elementsCategories: [AnyObject]?
+    var elementsCategories: [Any]?
     var currentKey: String?
     var header: UIView?
     var field: UITextField?

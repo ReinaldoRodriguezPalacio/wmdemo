@@ -12,7 +12,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
     var scrollForm: TPKeyboardAvoidingScrollView?
     var layerLine: CALayer!
     var sAddredssForm: GRFormSuperAddressView?
-    var addressArray: [AnyObject]?
+    var addressArray: [Any]?
     var saveButton: UIButton?
     var alertView: IPOWMAlertViewController?
     var onClose: (() -> Void)?

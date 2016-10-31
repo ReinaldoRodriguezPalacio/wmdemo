@@ -55,11 +55,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var deliveryDatePicker: UIDatePicker?
     var confirmationPicker: UIPickerView?
     
-    var paymentOptionsItems: [AnyObject]?
-    var addressItems: [AnyObject]?
-    var shipmentItems: [AnyObject]?
-    var slotsItems: [AnyObject]?
-    var orderOptionsItems: [AnyObject]?
+    var paymentOptionsItems: [Any]?
+    var addressItems: [Any]?
+    var shipmentItems: [Any]?
+    var slotsItems: [Any]?
+    var orderOptionsItems: [Any]?
 
     var totalItems: String?
     var selectedAddress: String? = nil
@@ -355,7 +355,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         
         //Fill orders
-        self.orderOptionsItems = self.optionsConfirmOrder() as [AnyObject]?
+        self.orderOptionsItems = self.optionsConfirmOrder() as [Any]?
         
         if  self.orderOptionsItems?.count > 0 {
             self.selectedConfirmation  = IndexPath(row: 0, section: 0)
@@ -728,7 +728,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
-                self.paymentOptionsItems = result as [AnyObject]
+                self.paymentOptionsItems = result as [Any]
                 if result.count > 0 {
                     let option = result[0] as! NSDictionary
                     if let text = option["paymentType"] as? String {
@@ -797,7 +797,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.totalDiscountsOrder = totalDiscounts!
                     self.promotionsDesc = []
                     
-                    if let listSamples = resultCall["listSamples"] as? [AnyObject]{
+                    if let listSamples = resultCall["listSamples"] as? [Any]{
                         for promotionln in listSamples {
                             let isAsociate = promotionln["isAssociated"] as! Bool
                             self.isAssociateSend = isAsociate
@@ -806,7 +806,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                         }
                     }
-                    if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
+                    if let listPromotions = resultCall["listPromotions"] as? [Any]{
                         for promotionln in listPromotions {
                             let promotion = promotionln["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(promotion)", with: "")
@@ -816,7 +816,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                     
-                    if let listFreeshippins = resultCall["listFreeshippins"] as? [AnyObject]{
+                    if let listFreeshippins = resultCall["listFreeshippins"] as? [Any]{
                         for freeshippin in listFreeshippins {
                              self.idFreeShepping = freeshippin["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(self.idFreeShepping)", with: "")
@@ -976,7 +976,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {
-                    self.addressItems = items as [AnyObject]
+                    self.addressItems = items as [Any]
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
@@ -1207,7 +1207,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                 }
             }
-            self.slotsItems = result["slots"] as! NSArray as [AnyObject]
+            self.slotsItems = result["slots"] as! NSArray as [Any]
             //--self.addViewLoad()
             endCallTypeService()
         }) { (error:NSError) -> Void in

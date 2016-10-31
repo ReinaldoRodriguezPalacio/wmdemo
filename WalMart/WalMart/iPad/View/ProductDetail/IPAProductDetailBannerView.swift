@@ -34,7 +34,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     
     var delegate : ProductDetailBannerCollectionViewDelegate!
     var collection: UICollectionView!
-    var items: [AnyObject]! = []
+    var items: [Any]! = []
     var pointSection: UIView? = nil
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
@@ -43,7 +43,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     let contentModeOrig = UIViewContentMode.scaleAspectFit
     var presale : UILabel!
     var widthPresale : CGFloat = 56
-    var promotions: [AnyObject]! = []
+    var promotions: [Any]! = []
     var showPromotions: Bool = true
     //var imageLastPieces : UIImageView!
     

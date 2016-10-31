@@ -11,7 +11,7 @@ import UIKit
 class OrderViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate {
     
     var tableOrders : UITableView!
-    var items : [AnyObject] = []
+    var items : [Any] = []
     var viewLoad : WMLoadingView!
     var emptyView : IPOOrderEmptyView!
     var facturasToolBar : UIView!

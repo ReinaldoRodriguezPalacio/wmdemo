@@ -105,7 +105,7 @@ class UserCurrentSession : NSObject {
         request.sortDescriptors = [sorter]
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -267,7 +267,7 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -302,7 +302,7 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate!
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -336,7 +336,7 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate!
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -368,7 +368,7 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -401,7 +401,7 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -436,7 +436,7 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -475,7 +475,7 @@ class UserCurrentSession : NSObject {
         }
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -647,7 +647,7 @@ class UserCurrentSession : NSObject {
     func numberOfArticlesGR() -> Int {
         let countItems = 0
         /*if self.itemsGR != nil {
-            let arrayCart = self.itemsGR!["items"] as? [AnyObject]
+            let arrayCart = self.itemsGR!["items"] as? [Any]
             countItems = arrayCart!.count
         }else{
            let arrayCart : [Cart]? = self.userCartByType()//ResultObjectType.Groceries.rawValue
@@ -689,7 +689,7 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -725,7 +725,7 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -801,7 +801,7 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate!
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -846,7 +846,7 @@ class UserCurrentSession : NSObject {
         var dicReturn : NSDictionary = [:]
         var promoDescription = "" //2x$21 or Ahorra $23
         
-        var plpArray: [AnyObject] = []
+        var plpArray: [Any] = []
         
         //PriceEvent
         var flagAhorra = false

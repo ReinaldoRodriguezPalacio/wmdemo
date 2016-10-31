@@ -38,7 +38,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
     var currentItem: Int? = nil
-    var imagesToDisplay: [AnyObject]?
+    var imagesToDisplay: [Any]?
     var index : Int = 0
     var header: UIView? = nil
     var titleLabel: UILabel? = nil
