@@ -48,7 +48,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         self.isUserInteractionEnabled = true
     }
     
-    func setValues(_ values:NSArray){
+    func setValues(_ values:[[String:Any]]){
         var currentY = 40.0 as CGFloat
         var index = 0
         
@@ -56,32 +56,28 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
             subview.removeFromSuperview()
         }
         setup()
-        for dicValue in values {
-            //var valuesValues = NSMutableDictionary()
-            if let dicVal = dicValue as? NSDictionary {
-                let strLabel = dicVal["label"] as! String
-                let strValue = dicVal["value"] as! String
-                
-                let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.reg_gray, colorValue:WMColor.dark_gray, size: 14)
-                let rectSize = attrString.boundingRect(with: CGSize(width: self.frame.width - 32, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-                let bgView = UIView(frame: CGRect(x: 0, y: currentY, width: self.frame.width, height: rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
-                let labelCharacteristic = WMTCopyLable(frame: CGRect(x: 16, y: 5, width: self.frame.width-32, height: rectSize.height))
-                labelCharacteristic.stringCopy = strValue
-                labelCharacteristic.attributedText = attrString
-                labelCharacteristic.numberOfLines = 0
-                index += 1
-                if index % 2 == 0 {
-                    bgView.backgroundColor = UIColor.white
-                }else{
-                    bgView.backgroundColor = WMColor.light_light_gray
-                }
-                bgView.addSubview(labelCharacteristic)
-                bgView.isUserInteractionEnabled = true
-                descLabel.isUserInteractionEnabled = true
-                self.superview?.isUserInteractionEnabled = true
-                descLabel.addSubview(bgView)
-                currentY += rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()
+        for dicVal in values {
+            let strLabel = dicVal["label"] as! String
+            let strValue = dicVal["value"] as! String
+            let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.reg_gray, colorValue:WMColor.dark_gray, size: 14)
+            let rectSize = attrString.boundingRect(with: CGSize(width: self.frame.width - 32, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+            let bgView = UIView(frame: CGRect(x: 0, y: currentY, width: self.frame.width, height: rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
+            let labelCharacteristic = WMTCopyLable(frame: CGRect(x: 16, y: 5, width: self.frame.width-32, height: rectSize.height))
+            labelCharacteristic.stringCopy = strValue
+            labelCharacteristic.attributedText = attrString
+            labelCharacteristic.numberOfLines = 0
+            index += 1
+            if index % 2 == 0 {
+                bgView.backgroundColor = UIColor.white
+            }else{
+                bgView.backgroundColor = WMColor.light_light_gray
             }
+            bgView.addSubview(labelCharacteristic)
+            bgView.isUserInteractionEnabled = true
+            descLabel.isUserInteractionEnabled = true
+            self.superview?.isUserInteractionEnabled = true
+            descLabel.addSubview(bgView)
+            currentY += rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()
         }
         descLabel.frame = CGRect(x: 0, y: 0,  width: self.frame.width, height: currentY)
         downBorder.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth())

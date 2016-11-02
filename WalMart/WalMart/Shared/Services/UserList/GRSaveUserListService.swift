@@ -79,7 +79,7 @@ class GRSaveUserListService : GRBaseService {
                 cleaned["items"] = cleanedItems as AnyObject?
             }
             
-            self.jsonFromObject(cleaned)
+            self.jsonFromObject(cleaned as AnyObject!)
             self.callPOSTService(cleaned,
                 successBlock: { (resultCall:NSDictionary) -> Void in
                    
@@ -227,7 +227,7 @@ class GRSaveUserListService : GRBaseService {
     }
 
     func retrieveListNotSync(name:String, inContext context:NSManagedObjectContext) -> List? {
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
         if UserCurrentSession.hasLoggedUser() {
             fetchRequest.predicate = NSPredicate(format: "name == %@ ", name)

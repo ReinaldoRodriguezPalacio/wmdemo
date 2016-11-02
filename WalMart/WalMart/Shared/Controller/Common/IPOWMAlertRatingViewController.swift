@@ -86,9 +86,9 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
      - parameter centerText:   description button center
      - parameter centerAction: block action center
      */
-    func addActionButtonsWithCustomTextRating(_ leftText:String,leftAction: (() -> Void),rightText:String,rightAction:(() -> Void),centerText:String,centerAction:@escaping (() -> Void)) {
+    func addActionButtonsWithCustomTextRating(_ leftText:String,leftAction:((Void) -> Void),rightText:String,rightAction:((Void) -> Void),centerText:String,centerAction:@escaping (() -> Void)) {
     
-        self.addActionButtonsWithCustomText(leftText, leftAction: leftAction, rightText: rightText, rightAction: rightAction, isNewFrame: false)
+        self.addActionButtonsWithCustomText(leftText, leftAction:leftAction, rightText: rightText, rightAction: rightAction, isNewFrame: false)
         
         
         centerButton = UIButton(frame:CGRect(x: 16, y: self.titleLabel.frame.maxY + 29, width: 288,height: 40))

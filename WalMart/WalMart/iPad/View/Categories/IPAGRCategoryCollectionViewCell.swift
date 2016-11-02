@@ -110,7 +110,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         }
         
         let svcUrlCar = serviceUrl("WalmartMG.GRHeaderCategoryIpad")
-        let imageBackgroundURL = "\((categoryId as NSString).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercased()).jpg"
+        let imageBackgroundURL = "\(categoryId.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).lowercased()).jpg"
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
         imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in

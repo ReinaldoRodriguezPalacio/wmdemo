@@ -65,7 +65,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var ingredients: String = ""
     var nutrimentalInfo: [String:String] = [:]
     var imageUrl : [Any] = []
-    var characteristics : [Any] = []
+    var characteristics : [[String:Any]] = []
     var bundleItems : [Any] = []
     var colorItems : [Any] = []
     var sizesItems : [Any] = []
@@ -971,7 +971,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.listPrice = result["original_listprice"] as? NSString ?? ""
         self.characteristics = []
         if let characteristicsResult = result["characteristics"] as? NSArray {
-            self.characteristics = characteristicsResult as! [Any]
+            self.characteristics = characteristicsResult as! [[String:Any]]
         }
         
         if let resultNutrimentalInfo = result["nutritional"] as? [String:String] {
@@ -982,7 +982,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.ingredients = result["Ingredients"] as? String ?? ""
         
-        var allCharacteristics : [Any] = []
+        var allCharacteristics : [[String:Any]] = []
         
         let strLabel = "UPC"
         //let strValue = self.upc
@@ -1696,7 +1696,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if Int(quantity) <= 20000 {
                 
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:"") as NSString)
+                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
                 
                 let service = GRAddItemListService()
                 let pesable = self.isPesable ? "1" : "0"
@@ -1704,7 +1704,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                let productObject =  service.buildItemMustang(self.upc as String, sku: self.sku as String, quantity: Int(quantity)!)
                 service.callService(service.buildItemMustangObject(idList: listId, upcs: [productObject]),
                                     successBlock: { (result:NSDictionary) -> Void in
-                                        self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:"") as NSString)
+                                        self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
                                         
                                         self.alertView!.showDoneIcon()
@@ -1713,7 +1713,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                         }
                     }, errorBlock: { (error:NSError) -> Void in
                         print("Error at add product to list: \(error.localizedDescription)")
-                        self.alertView!.setMessage(error.localizedDescription as NSString)
+                        self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.alertView!.afterRemove = {
                             self.removeListSelector(action: nil)
@@ -1727,7 +1727,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                 let secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
                 let msgInventory = "\(firstMessage) 20000 \(secondMessage)"
-                alert!.setMessage(msgInventory as NSString)
+                alert!.setMessage(msgInventory)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
             
@@ -1750,7 +1750,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func listSelectorDidDeleteProduct(inList listId:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:"") as NSString)
+        self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
         //TODO llamar al servicio que trae las LISTAS
 //        let detailService = UserListDetailService()
 //        detailService.buildParams(listId)

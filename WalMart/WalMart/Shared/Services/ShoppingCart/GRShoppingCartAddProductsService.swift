@@ -150,7 +150,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        for product in params as! NSArray {
+        for product in params as! [[String:Any]] {
             
             var cartProduct : Cart
             var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! NSString)
@@ -171,11 +171,11 @@ class GRShoppingCartAddProductsService : GRBaseService {
             print("Product in shopping cart: \(product)")
 
             var pesable : NSString = "0"
-            if let pesableP = product["pesable"] as? String {
+            if let pesableP = product["pesable"] as? NSString {
                 pesable = pesableP
             }
             cartProduct.product.upc = product["upc"] as! String
-            cartProduct.product.price = product["price"] as! String
+            cartProduct.product.price = product["price"] as! NSString
             cartProduct.product.desc = product["desc"] as! String
             cartProduct.product.img = product["imageURL"] as! String
             cartProduct.product.onHandInventory = product["onHandInventory"] as! String

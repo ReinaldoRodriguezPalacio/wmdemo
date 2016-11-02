@@ -197,7 +197,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         peferences.getLocalPreferences({ (result:NSDictionary) in
             
             self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
-            let categories = result["categories"] as! NSArray
+            let categories = result["categories"] as! [[String:Any]]
             let userPreferencesCategories = result["userPreferences"] as! NSArray
             
             self.selectedInterestCategories = [String]()
@@ -223,12 +223,12 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
             self.tableCategories.reloadData()
             self.removeViewLoad()
             
-            self.alertView?.setMessage(NSLocalizedString("preferences.message.saved", comment:"") as NSString)
+            self.alertView?.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
             self.alertView?.showDoneIcon()
             
         }, errorBlock: { (error:NSError) in
             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone:UIImage(named:"alert_ups"),imageError:UIImage(named:"alert_ups"))
-            alertView!.setMessage(NSLocalizedString("preferences.message.errorLoad", comment:"") as NSString)
+            alertView!.setMessage(NSLocalizedString("preferences.message.errorLoad", comment:""))
             alertView!.showErrorIcon("Ok")
             self.removeViewLoad()
             print("Error invokePreferenceService \(error.localizedDescription)")
@@ -245,7 +245,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         peferencesService.jsonFromObject(params)
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
-        self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:"") as NSString)
+        self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
             
         peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
             print("Preferencias Guardadas")
