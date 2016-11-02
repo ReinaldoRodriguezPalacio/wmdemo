@@ -116,7 +116,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         quantityString.attributedText = valuesDescItemQ
         
-        let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+        let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         
         if isActive == false  {
             btnShoppingCart.isEnabled = false
@@ -136,7 +136,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
     
     
     func addToShoppingCart() {
-        let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+        let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         if !hasUPC {
             
             if type == ResultObjectType.Mg {

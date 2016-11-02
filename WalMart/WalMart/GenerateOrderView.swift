@@ -86,7 +86,7 @@ protocol GenerateOrderViewDelegate {
         let lblNumberItems = labelTitle(CGRect(x: marginViews, y: titleLabel.frame.maxY + 14, width: self.viewContent.frame.width - 32, height: 14))
         lblNumberItems.textColor = WMColor.blue
         lblNumberItems.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        lblNumberItems.text = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR()) \(NSLocalizedString("artículos", comment: ""))"
+        lblNumberItems.text = "\(UserCurrentSession.sharedInstance.numberOfArticlesGR()) \(NSLocalizedString("artículos", comment: ""))"
         
         
         //right

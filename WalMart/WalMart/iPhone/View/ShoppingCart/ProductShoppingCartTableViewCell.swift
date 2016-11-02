@@ -27,10 +27,10 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var productId : String!
     var delegateProduct : ProductShoppingCartTableViewCellDelegate!
     var desc : String!
-    var price : NSString = ""
+    var price : String = ""
     var imageurl : String!
     var separatorView : UIView!
-    var onHandInventory : NSString = ""
+    var onHandInventory : String = ""
     var isPreorderable : String = ""
     var imagePresale : UIImageView!
     var productDeparment: String = ""
@@ -108,9 +108,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }
     }
     
-    func setValues(_ skuid:String?,productId:String?,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool,commerceItemId:String,comments:NSString) {
+    func setValues(_ skuid:String?,productId:String?,productImageURL:String,productShortDescription:String,productPrice:String,saving:String,quantity:Int,onHandInventory:String,isPreorderable:String, category: String, promotionDescription: String?, productPriceThrough:String, isMoreArts:Bool,commerceItemId:String,comments:String) {
         imagePresale.isHidden = isPreorderable == "true" ? false : true
-        self.priceProduct = productPrice.doubleValue
+        self.priceProduct = (productPrice as NSString).doubleValue
         self.skuId = skuid
         self.productId = productId
         self.commerceIds = commerceItemId
@@ -127,7 +127,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         //priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
         priceSelector.setValues(self.productId, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
         
-        let totalInProducts = productPrice.doubleValue * Double(quantity)
+        let totalInProducts = (productPrice as NSString).doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
@@ -141,7 +141,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue
                 if doubleVaule > 0.1 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
-                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
+                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)" as NSString)
                     savingPrice = "\(savingStr) \(formated)"
                 }
             } else {
@@ -214,7 +214,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     }*/
     
     func addProductQuantity(_ quantity:Int) {
-        let maxProduct = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
+        let maxProduct = ((self.onHandInventory as NSString).integerValue <= 5 || self.productDeparment == "d-papeleria") ?(self.onHandInventory as NSString).integerValue : 5
         if maxProduct < quantity {
             priceSelector.setValues(self.productId, quantity: quantity, hasNote: false, aviable: true, pesable: false)
             
@@ -230,7 +230,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
             updateService.isInCart = true
-            updateService.callCoreDataService(skuId,upc:productId, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment,pesable:String(self.pesable),successBlock: { (result:NSDictionary) -> Void in
+            updateService.callCoreDataService(skuId,upc:productId, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory as NSString,isPreorderable:isPreorderable,category:self.productDeparment,pesable:String(self.pesable) as NSString,successBlock: { (result:NSDictionary) -> Void in
                 
                 let totalInProducts = self.priceProduct * Double(quantity)
                 let totalPrice = NSString(format: "%.2f", totalInProducts)

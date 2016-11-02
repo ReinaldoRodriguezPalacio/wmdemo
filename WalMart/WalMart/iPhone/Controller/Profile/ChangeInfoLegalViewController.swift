@@ -122,8 +122,8 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.saveButton!.addTarget(self, action: #selector(ChangeInfoLegalViewController.save(_:)), for: UIControlEvents.touchUpInside)
         self.view.addSubview(saveButton!)
        
-        let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
-        let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
+        let allowMarketing =  UserCurrentSession.sharedInstance.userSigned?.profile.allowMarketingEmail
+        let allowTransfer = UserCurrentSession.sharedInstance.userSigned?.profile.allowTransfer
         
         self.promoAccept?.isSelected = allowMarketing!.uppercased == "TRUE"
         self.acceptSharePersonal?.isSelected = allowTransfer!.uppercased == "TRUE"

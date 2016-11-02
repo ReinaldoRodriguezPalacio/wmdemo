@@ -20,9 +20,9 @@ class GRUpdateListService: GRBaseService {
     func callService(_ params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print(params)
         self.callPOSTService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
-                successBlock?(resultCall)
+                successBlock?(resultCall as NSDictionary)
                 return
             },
             errorBlock: { (error:NSError) -> Void in

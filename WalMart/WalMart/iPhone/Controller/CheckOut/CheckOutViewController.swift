@@ -253,8 +253,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             
             
             let loginService = LoginWithIdService()
-            let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-            //let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+            let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
+            //let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
             loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
                 print(response)
                 }, errorBlock: { (error:NSError) -> Void in
@@ -289,7 +289,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         let showRating = CustomBarViewController.retrieveRateParam(self.KEY_RATING)
         let velue = showRating == nil ? "" :showRating?.value
         
-        if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
+        if UserCurrentSession.sharedInstance.isReviewActive && (velue == "" ||  velue == "true") {
             let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
             alert!.isCustomAlert = true
             alert!.spinImage.isHidden =  true

@@ -442,7 +442,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == NSLocalizedString("profile.default.store", comment: "") && UserCurrentSession.sharedInstance().addressId == nil {
+        if titleLabel!.text! == NSLocalizedString("profile.default.store", comment: "") && UserCurrentSession.sharedInstance.addressId == nil {
             let noAddressView = AddressNoStoreView(frame: CGRect(x: 0,y: 0,width: 288,height: 210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRect(x: 0,y: 49,width: 288,height: self.view.frame.height - 90))
@@ -495,13 +495,13 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().storeName != nil {
+        if UserCurrentSession.sharedInstance.storeName != nil {
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
-            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalized)  ", attributes:attrs)
-            if UserCurrentSession.sharedInstance().storeName == "" {
+            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance.storeName!.capitalized)  ", attributes:attrs)
+            if UserCurrentSession.sharedInstance.storeName == "" {
                  boldString = NSMutableAttributedString(string:NSLocalizedString("profile.default.store", comment: ""), attributes:attrs)
             }
             boldString.append(attachmentString)

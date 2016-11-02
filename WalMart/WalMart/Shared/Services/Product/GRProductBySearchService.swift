@@ -55,15 +55,15 @@ class GRProductBySearchService: GRBaseService {
         ] as [String:Any]
     }
 
-    func callService(_ params:NSDictionary, successBlock:((NSArray,_ facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([AnyObject],_ facet:[AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
-        self.jsonFromObject(params)
+        self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
-            successBlock: { (resultJSON:NSDictionary) -> Void in
+                             successBlock: { (resultJSON:[String:Any]) -> Void in
                 //print("RESULT FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
-                self.jsonFromObject(resultJSON)
+                self.jsonFromObject(resultJSON as AnyObject!)
                 
-                if let error = self.validateCodeMessage(resultJSON) {
+                if let error = self.validateCodeMessage(resultJSON as NSDictionary) {
                     errorBlock?(error)
                     return
                 }
@@ -75,7 +75,7 @@ class GRProductBySearchService: GRBaseService {
                     self.saveKeywords(items) //Creating keywords
                     
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
-                    var newItemsArray = Array<AnyObject>()
+                    var newItemsArray: [AnyObject] = []
                     for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:Any]
                         if let promodesc = item["promoDescription"] as? String{
@@ -93,7 +93,7 @@ class GRProductBySearchService: GRBaseService {
                 //Search service Text
                 if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? NSDictionary {
                     //Array facet
-                    if let itemsFacets = responseObject["facet"] as? [Any] {
+                    if let itemsFacets = responseObject["facet"] as? [AnyObject] {
                         facets = itemsFacets
                     }
                     //Array items

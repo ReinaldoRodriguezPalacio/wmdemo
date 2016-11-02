@@ -214,7 +214,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         }
         else {
             let cellText = tableProductsCheckout.dequeueReusableCell(withIdentifier: "productShippingCell", for: indexPath) as! CheckOutShippingCell
-            let items =  self.orderDictionary?.object(forKey: "commerceItems") as! NSArray
+            let items =  self.orderDictionary?.object(forKey: "commerceItems") as! [[String:Any]]
             cellText.setValues(items[(indexPath as NSIndexPath).row - (configshiping ? 2 : 1)]["productDisplayName"] as? String ?? "", quanty: items[(indexPath as NSIndexPath).row - (configshiping ? 2 : 1)]["quantity"] as? NSNumber ?? 0)
             cellText.cartButton?.isHidden = true
             cellText.separator?.isHidden = true

@@ -32,11 +32,11 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         imageBackground.contentMode = UIViewContentMode.scaleAspectFill
         imageBackground.clipsToBounds = true
         
-        self.imageBackground.setImageWith(URL(string: "http://\(urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
-            self.imageBackground.image = image
-        }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
-            print("Error al presentar imagen")
-        }
+        self.imageBackground.setImageWith(URL(string: "http://\(urlTicer)"),placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+            self.imageBackground.image = image!
+            }, failure: { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
+                print("Error al presentar imagen")
+        })
         
         buttonClose = UIButton()
         buttonClose.setImage(UIImage(named: "close"), for: UIControlState())

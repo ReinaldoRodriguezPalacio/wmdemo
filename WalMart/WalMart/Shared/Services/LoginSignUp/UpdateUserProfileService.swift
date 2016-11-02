@@ -16,8 +16,8 @@ class UpdateUserProfileService : BaseService {
         return ["profileId":profileId,"firstName":name,"lastName":lastName,"email":email,"gender":gender,"occupation":ocupation,"phoneNumber":phoneNumber,"phoneExtension":phoneExtension,"mobileNumber":mobileNumber,"associateCheckBox":updateAssociate ? "true" : "false","associateNumber":associateNumber,"associateStore":associateStore,"joinDate":joinDate,"passwordCheckBox":updatePassword ? "true" : "false","oldPassword":oldPassword,"newPassword":newPassword]
     }
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {
@@ -35,8 +35,8 @@ class UpdateUserProfileService : BaseService {
                         
                         //let resultProfileJSON = params["profile"] as! NSDictionary
                         
-                        usr.profile.name = params["firstName"] as! String
-                        usr.profile.lastName = params["lastName"] as! String
+                        usr.profile.name = params["firstName"] as! NSString
+                        usr.profile.lastName = params["lastName"] as! NSString
                         do {
                             try context.save()
                         } catch let error1 as NSError {
@@ -44,7 +44,7 @@ class UpdateUserProfileService : BaseService {
                         } catch {
                             fatalError()
                         }
-                        UserCurrentSession.sharedInstance().userSigned = usr
+                        UserCurrentSession.sharedInstance.userSigned = usr
                         successBlock!(resultCall)
                     }
                 }

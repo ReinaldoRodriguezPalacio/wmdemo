@@ -17,15 +17,15 @@ class LoginService : BaseService {
         return ["email":lowCaseUser,"password":password,"identifierDevice":idDevice]
     }
 
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:NSDictionary,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {
                     let resultLogin = resultCall
                     let idUser = resultLogin["idUser"] as! String
                     let profileService = UserProfileService()
-                    profileService.callService(profileService.buildParams(idUser), successBlock: { (resultCall:NSDictionary) -> Void in
-                         UserCurrentSession.sharedInstance().createUpdateUser(resultLogin, profileResult: resultCall)
+                    profileService.callService(profileService.buildParams(idUser), successBlock: { (resultCall:[String:Any]) -> Void in
+                         UserCurrentSession.sharedInstance.createUpdateUser(resultLogin, profileResult: resultCall)
                         successBlock!(resultCall)
                         }, errorBlock: { (errorGR:NSError) -> Void in
                             errorBlock!(errorGR)

@@ -24,7 +24,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:Any]] = []
             var upcSend = ""
-            for itemSvc in params as! NSArray {
+            for itemSvc in params as! [[String:Any]] {
                 let upc = itemSvc["productId"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
@@ -32,7 +32,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
                 //Add skuId
                 itemsSvc.append(builParamSvc("",upc:upcSend,quantity:quantity,comments:comments) as! [String : AnyObject])
             }
-            self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+            self.callPOSTService(itemsSvc, successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 if updateSC {
                     let shoppingService = ShoppingCartProductsService()

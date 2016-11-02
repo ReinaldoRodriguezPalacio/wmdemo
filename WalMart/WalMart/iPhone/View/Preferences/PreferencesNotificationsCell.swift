@@ -118,9 +118,9 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     
     
     //MARK:CMSwitchViewDelegate
-    func switchValueChanged(_ sender: AnyObject!, andNewValue value: Bool) {
+    func switchValueChanged(_ sender: Any!, andNewValue value: Bool) {
         switchBlock!.borderColor = value ? WMColor.green :  WMColor.reg_gray
-        if sender.tag == 2 {
+        if (sender as! AnyObject).tag == 2 {
             self.phoneField!.isRequired = value
             self.phoneField?.isHidden =  !value
             if !value {
@@ -135,7 +135,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
         }
         switchBlock!.drawSelected(value)
         
-        self.delegate.changeStatus(sender.tag, value: value)
+        self.delegate.changeStatus((sender as AnyObject).tag, value: value)
     }
     
     func validate(_ cell:PreferencesNotificationsCell) -> Bool{

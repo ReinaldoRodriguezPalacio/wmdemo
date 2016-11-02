@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
-        //UserCurrentSession.sharedInstance().searchForCurrentUser()
+        //UserCurrentSession.sharedInstance.searchForCurrentUser()
         // Optional: automatically send uncaught exceptions to Google Analytics.
         GAI.sharedInstance().trackUncaughtExceptions = true
         // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
@@ -306,7 +306,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         NSLog("Device token: \(deviceTokenString)")
         print("Device token: \(deviceTokenString)")
         
-        UserCurrentSession.sharedInstance().deviceToken = deviceTokenString
+        UserCurrentSession.sharedInstance.deviceToken = deviceTokenString
         
         
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
@@ -317,7 +317,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
         print(notService.jsonFromObject(params))
-        if UserCurrentSession.sharedInstance().finishConfig {
+        if UserCurrentSession.sharedInstance.finishConfig {
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 //println( "Registrado para notificaciones")
                 CustomBarViewController.addOrUpdateParam("showNotification", value: "true",forUser: false)

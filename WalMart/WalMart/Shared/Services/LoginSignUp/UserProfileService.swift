@@ -11,12 +11,12 @@ import CoreData
 
 class UserProfileService : BaseService {
     
-    func buildParams(_ idProfile:String) -> NSDictionary {
+    func buildParams(_ idProfile:String) -> [String:Any] {
         return ["profileId":idProfile]
     }
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService([], successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callGETService([], successBlock: { (resultCall:[String:Any]) -> Void in
             
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {

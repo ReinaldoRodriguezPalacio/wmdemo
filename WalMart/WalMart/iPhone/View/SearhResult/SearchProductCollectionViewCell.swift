@@ -126,7 +126,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         imagePresale.isHidden = !isPreorderable
         imagePresale.frame = CGRect(x: -1, y: 0, width: imagePresale.frame.width, height: imagePresale.frame.height)
         
-        let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
+        let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
 
         var savingPrice = ""
@@ -136,7 +136,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue
                 if doubleVaule > 0.1 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
-                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
+                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)" as NSString)
                     savingPrice = "\(savingStr) \(formated)"
                 }
             } else {
@@ -190,7 +190,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     func addProductToShoping(){
         if !isDisabled {
-            var hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            var hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if serachFromList {
                 hasUPC =  false
             }

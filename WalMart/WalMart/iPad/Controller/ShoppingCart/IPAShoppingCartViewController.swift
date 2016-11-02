@@ -65,7 +65,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.presentAddressFullScreen = true
         self.updateTotalItemsRow()
         
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.sharedInstance.userSigned != nil {
             self.addchekout()
             self.showAlertAddress()
         }
@@ -202,9 +202,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         idexesPath = []
         
         self.itemsInCartOrderSection =  []
-        if UserCurrentSession.sharedInstance().itemsMG != nil {
-            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [Any]
-            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG! as! Dictionary<String, AnyObject>
+        if UserCurrentSession.sharedInstance.itemsMG != nil {
+            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! NSArray as [Any]
+            let itemsUserCurren = UserCurrentSession.sharedInstance.itemsMG! as! Dictionary<String, AnyObject>
             self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren, isShoppingCart: true) as! [Any]
             
              checkoutVC?.itemsInCart = itemsUserCurren["commerceItems"] as! [Any] as NSArray!
@@ -221,10 +221,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            //let priceInfo = UserCurrentSession.sharedInstance().itemsMG!["priceInfo"] as! NSDictionary
-            self.subtotal = Int(UserCurrentSession.sharedInstance().itemsMG!["rawSubtotal"] as? String ?? "0") as NSNumber!//subtotal
-            self.ivaprod = Int(UserCurrentSession.sharedInstance().itemsMG!["amount"] as? String ?? "0") as NSNumber!//ivaSubtotal
-            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["total"] as! NSNumber//totalEstimado
+            //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["priceInfo"] as! NSDictionary
+            self.subtotal = Int(UserCurrentSession.sharedInstance.itemsMG!["rawSubtotal"] as? String ?? "0") as NSNumber!//subtotal
+            self.ivaprod = Int(UserCurrentSession.sharedInstance.itemsMG!["amount"] as? String ?? "0") as NSNumber!//ivaSubtotal
+            self.totalest = UserCurrentSession.sharedInstance.itemsMG!["total"] as! NSNumber//totalEstimado
         }else{
             self.subtotal = NSNumber(value: 0 as Int32)
             self.ivaprod = NSNumber(value: 0 as Int32)
@@ -316,14 +316,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         if UserCurrentSession.hasLoggedUser() {
             cont!.noAccount?.isHidden = true
             cont!.registryButton?.isHidden = true
-            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
+            cont!.valueEmail = UserCurrentSession.sharedInstance.userSigned!.email as String
+            cont!.email?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
             cont!.email!.isEnabled = false
-            user = UserCurrentSession.sharedInstance().userSigned!.email as String
+            user = UserCurrentSession.sharedInstance.userSigned!.email as String
         }
         cont!.successCallBack = {() in
             if UserCurrentSession.hasLoggedUser() {
-                if user !=  UserCurrentSession.sharedInstance().userSigned!.email as String {
+                if user !=  UserCurrentSession.sharedInstance.userSigned!.email as String {
                      NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
                     self.reloadShoppingCart()
                 }

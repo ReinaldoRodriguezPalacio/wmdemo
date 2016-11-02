@@ -22,14 +22,14 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:Any]] = []
             var upcSend = ""
-            for itemSvc in params as! NSArray {
+            for itemSvc in params as! [[String:Any]] {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 let comments = itemSvc["comments"] as! String
                 itemsSvc.append(builParamSvc(upcSend,quantity:quantity,comments:comments))
             }
-            self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+            self.callPOSTService(itemsSvc, successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 /*if updateSC {
                     let shoppingService = GRShoppingCartProductsService()

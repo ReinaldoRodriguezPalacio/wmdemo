@@ -570,7 +570,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton!.isActive = self.strisActive as String
             productDetailButton!.isPreorderable = self.strisPreorderable as String
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
             productDetailButton!.idListSelect =  self.idListSelected
             var imageUrl = ""
             if self.imageUrl.count > 0 {
@@ -903,7 +903,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.isShowProductDetail = false
                     self.productDetailButton!.deltailButton.isSelected = false
                     self.tabledetail.isScrollEnabled = true
-                    self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+                    self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                     self.listSelectorController = nil
                     self.listSelectorBackgroundView = nil
                     completeClose()
@@ -1296,10 +1296,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
         if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Encontré un producto que te puede interesar en www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) encontró un producto que te puede interesar en www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) encontró un producto que te puede interesar en www.walmart.com.mx"
             }
         }
         return ""

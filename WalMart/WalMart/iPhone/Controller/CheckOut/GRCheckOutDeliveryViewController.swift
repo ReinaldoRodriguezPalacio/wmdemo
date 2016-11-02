@@ -243,7 +243,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         var itemsAddress : [String] = []
         var ixSelected = 0
         if self.addressItems != nil {
-            for option in self.addressItems! {
+            for option in self.addressItems as! [[String:Any]] {
                 if let text = option["name"] as? String {
                     itemsAddress.append(text)
                     if let id = option["addressId"] as? String {

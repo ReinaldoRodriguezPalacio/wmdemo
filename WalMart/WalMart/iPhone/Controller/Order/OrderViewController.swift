@@ -99,7 +99,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
             let countItems = item["countItems"] as! NSNumber
-            cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr, countsItem: String(countItems))
+            cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr, countsItem: String(describing: countItems))
         }
         
         return cell

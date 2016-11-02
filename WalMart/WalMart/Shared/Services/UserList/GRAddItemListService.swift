@@ -72,7 +72,7 @@ class GRAddItemListService: GRBaseService {
         
         if  let listId = list["id"] as? String {
             
-            let user = UserCurrentSession.sharedInstance().userSigned
+            let user = UserCurrentSession.sharedInstance.userSigned
             var entity : List?  = nil
             if user!.lists != nil {
                 let userLists : [List] = user!.lists!.allObjects as! [List]
@@ -87,7 +87,7 @@ class GRAddItemListService: GRBaseService {
             if entity == nil {
                 entity = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List
                 entity!.idList = listId
-                entity!.user = UserCurrentSession.sharedInstance().userSigned!
+                entity!.user = UserCurrentSession.sharedInstance.userSigned!
                 entity!.registryDate = Date()
                 entity!.name = list["name"] as! String
                 //println("Creating user list \(listId)")

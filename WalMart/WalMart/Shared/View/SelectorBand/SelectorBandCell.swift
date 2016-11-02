@@ -31,7 +31,7 @@ class SelectorBandCell: UICollectionViewCell {
         self.contentView.addSubview(self.label!)
     }
     
-    func setText(_ text:NSString, selected:Bool) {
+    func setText(_ text:String, selected:Bool) {
         self.label!.text = text as String
         if selected {
             self.label!.font = WMFont.fontMyriadProBlackOfSize(14)

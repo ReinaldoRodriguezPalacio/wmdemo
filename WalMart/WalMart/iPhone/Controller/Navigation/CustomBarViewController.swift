@@ -247,9 +247,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      */
     func checkPrivaceNotice(){
         
-        let sinceDate : Date = UserCurrentSession.sharedInstance().dateStart as Date
-        let untilDate : Date = UserCurrentSession.sharedInstance().dateEnd as Date
-        let version = UserCurrentSession.sharedInstance().version as String
+        let sinceDate : Date = UserCurrentSession.sharedInstance.dateStart as Date
+        let untilDate : Date = UserCurrentSession.sharedInstance.dateEnd as Date
+        let version = UserCurrentSession.sharedInstance.version as String
         
         let date = Date()
         let dateFormatter = DateFormatter()
@@ -303,8 +303,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let user = UserCurrentSession.sharedInstance().userSigned
-        let fetchRequest = NSFetchRequest()
+        let user = UserCurrentSession.sharedInstance.userSigned
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
         if user != nil && forUser {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
@@ -347,7 +347,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         else {
             let param = NSEntityDescription.insertNewObject(forEntityName: "Param", into: context) as? Param
-            if let user = UserCurrentSession.sharedInstance().userSigned {
+            if let user = UserCurrentSession.sharedInstance.userSigned {
                 if forUser {
                     param!.user = user
                 }
@@ -381,9 +381,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         
-        let user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance.userSigned
         
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
         if user != nil {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && idUser == %@", key, user!.idUser)
@@ -418,7 +418,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         else {
             let param = NSEntityDescription.insertNewObject(forEntityName: "Param", into: context) as? Param
-            if let user = UserCurrentSession.sharedInstance().userSigned {
+            if let user = UserCurrentSession.sharedInstance.userSigned {
                 param!.user = user
                 param!.idUser = user.idUser as String
             }
@@ -581,7 +581,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let storyboard = self.loadStoryboardDefinition()
         
         //var   = "loginVC-profileItemVC" as String
-       // if UserCurrentSession.sharedInstance().userSigned != nil{
+       // if UserCurrentSession.sharedInstance.userSigned != nil{
             //controllerProfile = "profileVC"
         //}
         
@@ -1035,7 +1035,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     
                     if upcDesc.length < 14 {
                         let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
-                        paddedUPC = "\(toFill)\(upcDesc)"
+                        paddedUPC = "\(toFill)\(upcDesc)" as NSString
                     }
                     
                     controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
@@ -1370,8 +1370,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func userLogOut(_ not:Notification) {
         self.removeAllCookies()
         
-        UserCurrentSession.sharedInstance().phoneNumber = ""
-        UserCurrentSession.sharedInstance().cellPhone = ""
+        UserCurrentSession.sharedInstance.phoneNumber = ""
+        UserCurrentSession.sharedInstance.cellPhone = ""
         
         self.viewControllers.removeSubrange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()

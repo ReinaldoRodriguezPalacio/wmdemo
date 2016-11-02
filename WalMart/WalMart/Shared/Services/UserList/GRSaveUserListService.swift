@@ -61,7 +61,7 @@ class GRSaveUserListService : GRBaseService {
         return base
     }
 
-    func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if  UserCurrentSession.hasLoggedUser() {
             print(params["name"] as! String)
             var cleaned:[String:Any] = ["name":(params["name"] as! String as AnyObject)]
@@ -81,7 +81,7 @@ class GRSaveUserListService : GRBaseService {
             
             self.jsonFromObject(cleaned as AnyObject!)
             self.callPOSTService(cleaned,
-                successBlock: { (resultCall:NSDictionary) -> Void in
+                successBlock: { (resultCall:[String:Any]) -> Void in
                    
                     //self.manageListData(resultCall)//TODO aun no regresan id de la lista creada -  mustang
                     successBlock?(resultCall)
@@ -95,7 +95,7 @@ class GRSaveUserListService : GRBaseService {
         }
         else {
             print("Saving list without user")
-            if !self.includeListInDB(params as! [String:Any]) {
+            if !self.includeListInDB(params) {
                 successBlock?([:])
             } else {
                 let message = NSLocalizedString("gr.list.samename",  comment: "")
@@ -107,20 +107,20 @@ class GRSaveUserListService : GRBaseService {
     
     func manageListData(_ list:NSDictionary)  {
         
-        if  UserCurrentSession.sharedInstance().userSigned == nil {
+        if  UserCurrentSession.sharedInstance.userSigned == nil {
             return
         }
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        //let user = UserCurrentSession.sharedInstance().userSigned
+        //let user = UserCurrentSession.sharedInstance.userSigned
         let listId = list["id"] as! String
         
         let entity = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List
         entity!.registryDate = Date()
         entity!.idList = listId
-        entity!.user = UserCurrentSession.sharedInstance().userSigned!
+        entity!.user = UserCurrentSession.sharedInstance.userSigned!
         entity!.name = list["name"] as! String
         entity!.countItem = NSNumber(value: 0 as Int)
         

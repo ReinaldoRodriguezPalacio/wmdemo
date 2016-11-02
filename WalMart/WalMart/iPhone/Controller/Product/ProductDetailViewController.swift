@@ -277,7 +277,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.isPreorderable = self.strisPreorderable
             productDetailButton!.productDepartment = self.productDeparment
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
@@ -515,7 +515,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                                     self.listSelectorContainer = nil
                                                     
                                                     //self.productDetailButton!.listButton.selected = false
-                                                    self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+                                                    self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                                                     
                                                     action?()
                                                     self.detailCollectionView.isScrollEnabled = true
@@ -589,7 +589,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.detailCollectionView.isScrollEnabled = true
                         self.isShowShoppingCart = false
                         
-                        if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(String(self.upc)) {
+                        if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(String(self.upc)) {
                             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
                         } else {
                             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: self.name as String)
@@ -671,7 +671,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }, completeClose: { () -> Void in
                 self.isShowShoppingCart = false
                 
-                UserCurrentSession.sharedInstance().loadMGShoppingCart
+                UserCurrentSession.sharedInstance.loadMGShoppingCart
                     { () -> Void in
                         self.productDetailButton?.reloadShoppinhgButton()
                 }
@@ -683,7 +683,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         })
         }
         else {
-            UserCurrentSession.sharedInstance().loadMGShoppingCart
+            UserCurrentSession.sharedInstance.loadMGShoppingCart
                 { () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
             }
@@ -1166,7 +1166,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.idListSelect =  self.idListFromlistFind
             
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
@@ -1212,7 +1212,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     class func validateUpcPromotion(_ upc:String) -> Bool{
-        let upcs =  UserCurrentSession.sharedInstance().upcSearch
+        let upcs =  UserCurrentSession.sharedInstance.upcSearch
         return upcs!.contains(upc)
     }
     
@@ -1392,10 +1392,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
         if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                   return "Encontré un producto que te puede interesar en www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) encontró un producto que te puede interesar en www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) encontró un producto que te puede interesar en www.walmart.com.mx"
             }
         }
         return ""
@@ -1842,7 +1842,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             //TODO: Add message
             self.showMessageWishList("Se agregó a la lista")
             
-            self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+            self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
             
             
         }

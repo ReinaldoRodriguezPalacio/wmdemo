@@ -199,7 +199,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         default :
             print("option don't exist")
         }
-         if UserCurrentSession.sharedInstance().userSigned == nil && ((indexPath as NSIndexPath).section == 0 || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && self.showCamfind)) {
+         if UserCurrentSession.sharedInstance.userSigned == nil && ((indexPath as NSIndexPath).section == 0 || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && self.showCamfind)) {
             switch (OptionsController(rawValue: srtOption)!) {
             case .Profile : image = "Profile-disable-icon"
             case .Recents : image = "Recents-disable-icon"
@@ -216,7 +216,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         } else  {
             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
             
-            if UserCurrentSession.sharedInstance().userSigned == nil && !self.showCamfind && (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1   {
+            if UserCurrentSession.sharedInstance.userSigned == nil && !self.showCamfind && (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1   {
                 image = "menu_scanTicket_disable"
                 cell.setValues(srtOption, image: image, size:16, colorText: WMColor.reg_gray, colorSeparate: WMColor.light_gray)
             }
@@ -229,12 +229,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if UserCurrentSession.sharedInstance().userSigned == nil && ((indexPath as NSIndexPath).section == 0 || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && self.showCamfind)) {
+        if UserCurrentSession.sharedInstance.userSigned == nil && ((indexPath as NSIndexPath).section == 0 || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && self.showCamfind)) {
             //CAMBIO
             self.openLoginOrProfile()
             return
         }
-        else if UserCurrentSession.sharedInstance().userSigned == nil &&  !self.showCamfind && (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1{
+        else if UserCurrentSession.sharedInstance.userSigned == nil &&  !self.showCamfind && (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1{
             self.openLoginOrProfile()
             return
         }
@@ -354,7 +354,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func openLoginOrProfile() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
-        if UserCurrentSession.sharedInstance().userSigned == nil{
+        if UserCurrentSession.sharedInstance.userSigned == nil{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
             let cont = LoginController.showLogin()
             cont!.successCallBack = {() in
@@ -388,9 +388,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         let shoppingCartUpdateBg = ShoppingCartProductsService()
         shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            if  UserCurrentSession.sharedInstance().userSigned != nil {
-                UserCurrentSession.sharedInstance().userSigned = nil
-                UserCurrentSession.sharedInstance().deleteAllUsers()
+            if  UserCurrentSession.sharedInstance.userSigned != nil {
+                UserCurrentSession.sharedInstance.userSigned = nil
+                UserCurrentSession.sharedInstance.deleteAllUsers()
                 self.reloadButtonSession()
                 let shoppingService = ShoppingCartProductsService()
                 shoppingService.callCoreDataService([:], successBlock: { (result:NSDictionary) -> Void in
@@ -435,7 +435,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
      change state butons in menu options, when user is login
      */
     func reloadButtonSession() {
-        if UserCurrentSession.sharedInstance().userSigned == nil {
+        if UserCurrentSession.sharedInstance.userSigned == nil {
             self.editProfileButton.alpha = 0
             self.emailLabel?.alpha = 0
             self.passwordLabel?.alpha = 0
@@ -446,9 +446,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             self.editProfileButton.alpha = 1
             self.emailLabel?.alpha = 1
             self.passwordLabel?.alpha = 1
-            let userNameStr = UserCurrentSession.sharedInstance().userSigned?.profile.name as? String
-            let userLastNameStr = UserCurrentSession.sharedInstance().userSigned?.profile.lastName as? String
-            let emailStr = UserCurrentSession.sharedInstance().userSigned?.email as? String
+            let userNameStr = UserCurrentSession.sharedInstance.userSigned?.profile.name as? String
+            let userLastNameStr = UserCurrentSession.sharedInstance.userSigned?.profile.lastName as? String
+            let emailStr = UserCurrentSession.sharedInstance.userSigned?.email as? String
             userName?.text = "\(userNameStr!) \(userLastNameStr!)"
             
             emailLabel?.text = emailStr

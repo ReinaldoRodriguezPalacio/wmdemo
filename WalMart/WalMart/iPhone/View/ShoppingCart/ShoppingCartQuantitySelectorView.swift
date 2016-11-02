@@ -79,7 +79,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         var rectSize = CGRect.zero
         
-        if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
+        if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(self.upcProduct) {
             btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
             let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)

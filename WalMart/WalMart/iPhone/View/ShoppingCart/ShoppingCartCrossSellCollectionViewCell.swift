@@ -38,7 +38,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let price = itemUPC["price"] as? String ?? ""
         let imageUrl = itemUPC["smallImageUrl"] as! String
 
-        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc))
+        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
         
         return cell
     }
@@ -48,7 +48,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
         let upc = itemUPC["upc"] as! String
         
-        let shoppingCartItems  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
+        let shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? NSArray
        
         /*for itemInCart in shoppingCartItems! {
             if let dictItem = itemInCart as? [String:Any] {
@@ -75,7 +75,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         
         //
-        if (!UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)) {
+        if (!UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)) {
             //let itemUPC = itemsUPC[indexPath.row] as NSDictionary
             let upc = itemUPC["upc"] as! String
             let desc = itemUPC["description"] as! String

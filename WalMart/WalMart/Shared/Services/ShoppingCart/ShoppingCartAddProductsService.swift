@@ -102,8 +102,8 @@ class ShoppingCartAddProductsService : BaseService {
                     
                     
                     if self.updateShoppingCart() {
-                        UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
-                            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                        UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                             successBlock!(resultCall)
                         })
                     }else{
@@ -115,7 +115,7 @@ class ShoppingCartAddProductsService : BaseService {
                 }
             } else {
             
-                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
+                let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upcSend)
                 if !hasUPC {
                     var send  : AnyObject?
                     if useSignals  && self.parameterSend != nil{
@@ -129,16 +129,16 @@ class ShoppingCartAddProductsService : BaseService {
                         
                         
                         if self.updateShoppingCart() {
-                            UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
-                                UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                                 successBlock!([:])
                             })
                         }else{
                             successBlock!([:])
                         }
                         }) { (error:NSError) -> Void in
-                            if (UserCurrentSession.sharedInstance().hasPreorderable()) {// is preorderable
-                                //let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
+                            if (UserCurrentSession.sharedInstance.hasPreorderable()) {// is preorderable
+                                //let items  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? NSArray
                                 let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
                                 let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
                                 errorBlock?(error)
@@ -146,7 +146,7 @@ class ShoppingCartAddProductsService : BaseService {
                             } else {
                                 for product in params as! NSArray {
                                     if let preorderable = product["isPreorderable"] as? String {
-                                        if preorderable == "true" && !UserCurrentSession.sharedInstance().isEmptyMG() {
+                                        if preorderable == "true" && !UserCurrentSession.sharedInstance.isEmptyMG() {
                                             let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
                                             let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
                                             errorBlock?(error)
@@ -169,8 +169,8 @@ class ShoppingCartAddProductsService : BaseService {
     
     func callCoreDataService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !self.isInCart {
-            if (UserCurrentSession.sharedInstance().hasPreorderable()) {// is preorderable
-                //let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
+            if (UserCurrentSession.sharedInstance.hasPreorderable()) {// is preorderable
+                //let items  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? NSArray
                 let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
                 let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
                 errorBlock?(error)
@@ -178,7 +178,7 @@ class ShoppingCartAddProductsService : BaseService {
             } else {
                 for product in params as! NSArray {
                     if let preorderable = product["isPreorderable"] as? String {
-                        if preorderable == "true" && !UserCurrentSession.sharedInstance().isEmptyMG() {
+                        if preorderable == "true" && !UserCurrentSession.sharedInstance.isEmptyMG() {
                             let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
                             let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
                             errorBlock?(error)
@@ -197,7 +197,7 @@ class ShoppingCartAddProductsService : BaseService {
             var cartProduct : Cart
             var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! String)
             if UserCurrentSession.hasLoggedUser() {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! String,UserCurrentSession.sharedInstance().userSigned!)
+                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! String,UserCurrentSession.sharedInstance.userSigned!)
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
@@ -248,7 +248,7 @@ class ShoppingCartAddProductsService : BaseService {
             }
 
             if UserCurrentSession.hasLoggedUser() {
-                cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
+                cartProduct.user  = UserCurrentSession.sharedInstance.userSigned!
             }
         }
         do {

@@ -56,13 +56,13 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         totalView = TotalView(frame:CGRect(x: 0, y: self.addressInvoice!.frame.maxY + 10, width: self.view.frame.width, height: 60))
         totalView.backgroundColor = WMColor.light_light_gray
-        totalView.setValues(articles: "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
+        totalView.setValues(articles: "\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
             shippingCost: "",
             iva:"",
-            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())",
-            total: "\(UserCurrentSession.sharedInstance().estimateTotalGR())")
-        self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
+            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())",
+            total: "\(UserCurrentSession.sharedInstance.estimateTotalGR())")
+        self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR()-UserCurrentSession.sharedInstance.estimateSavingGR())")
         self.view.addSubview(totalView)
         self.view.addSubview(footer!)
         
@@ -184,7 +184,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         let service = GRAddItemListService()
         var products: [Any] = []
-        let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [Any]
+        let itemsCart =  UserCurrentSession.sharedInstance.itemsGR!["items"] as! [Any]
         for idx in 0 ..< itemsCart.count {
             let item = itemsCart[idx] as! [String:Any]
             
@@ -407,8 +407,8 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             products.append(serviceItem as AnyObject)
         }
         
-        service.callService(service.buildParams(name, items: products) as NSDictionary,
-            successBlock: { (result:NSDictionary) -> Void in
+        service.callService(service.buildParams(name, items: products),
+                            successBlock: { (result:[String:Any]) -> Void in
                 self.listSelectorController!.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()

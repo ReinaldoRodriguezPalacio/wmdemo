@@ -100,7 +100,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 itemsSvc.append(buildProductObject(upc: upc,quantity:quantity,comments:comments))
             }
             
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
+            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upcSend)
             if !hasUPC {
               
                 
@@ -111,13 +111,13 @@ class GRShoppingCartAddProductsService : GRBaseService {
                     send = itemsSvc as AnyObject?
                 }
                 //self.jsonFromObject(send!)
-                self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
+                self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
                     
                     if self.updateShoppingCart() {
 //                        let shoppingService = GRShoppingCartProductsService()
 //                        shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
-                           UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
-                            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                           UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                             successBlock!([:])
                         })
                     }else{
@@ -131,8 +131,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 let svcUpdateShoppingCart = GRShoppingCartUpdateProductsService()
                 svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
 
-//                UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
-//                    UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+//                UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+//                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
 //                    successBlock!([:])
 //                })
             }
@@ -155,7 +155,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             var cartProduct : Cart
             var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! NSString)
             if UserCurrentSession.hasLoggedUser() {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance().userSigned!)
+                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance.userSigned!)
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
@@ -181,7 +181,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             cartProduct.product.onHandInventory = product["onHandInventory"] as! String
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
-            cartProduct.product.type = NSNumber(pesable.integerValue)
+            cartProduct.product.type = NSNumber(value: pesable.integerValue)
             cartProduct.status = NSNumber(value: statusForProduct() as Int)
             cartProduct.type = ResultObjectType.Groceries.rawValue
             
@@ -190,7 +190,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             }
             
             if UserCurrentSession.hasLoggedUser() {
-                cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
+                cartProduct.user  = UserCurrentSession.sharedInstance.userSigned!
             }
         }
         do {

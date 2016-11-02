@@ -85,11 +85,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.setValues), name: NSNotification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_EDITPROFILE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [AnyHashable: Any])
-        }
-        
         self.dateFmt = DateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
 
@@ -374,7 +369,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.view.addSubview(saveButton!)
     
         
-        let attrs = [
+        let attrs: [String:Any] = [
             NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14),
             NSForegroundColorAttributeName : WMColor.light_blue,
             NSUnderlineStyleAttributeName : 1]
@@ -410,7 +405,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.picker!.selected = self.selectedGender
             self.picker!.sender = self.gender!
             self.picker!.selectOptionDelegate = self
-            self.picker!.setValues(NSLocalizedString("profile.gender",comment:""), values: [NSLocalizedString("profile.gender.female",comment:""),NSLocalizedString("profile.gender.male",comment:"")])
+            self.picker!.setValues(NSLocalizedString("profile.gender",comment:"") as NSString, values: [NSLocalizedString("profile.gender.female",comment:""),NSLocalizedString("profile.gender.male",comment:"")])
             self.picker!.cellType = TypeField.check
             self.picker!.showPicker()
             self.view.endEditing(true)
@@ -418,10 +413,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.ocupation?.onBecomeFirstResponder = { () in
             self.picker.contentHeight = 316
-            self.picker!.selected = self.selectedOccupation as NSIndexPath?? ?? IndexPath(row: 0, section: 0)
+            self.picker!.selected = self.selectedOccupation as IndexPath?? ?? IndexPath(row: 0, section: 0)
             self.picker!.sender = self.ocupation!
             self.picker!.selectOptionDelegate = self
-            self.picker!.setValues(NSLocalizedString("profile.edit.ocupation",comment:""), values: self.occupationList!)
+            self.picker!.setValues(NSLocalizedString("profile.edit.ocupation",comment:"") as NSString, values: self.occupationList!)
             self.picker!.cellType = TypeField.check
             self.picker!.showPicker()
             self.view.endEditing(true)
@@ -514,7 +509,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      Set the user profile values
      */
     func setValues() {
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if let user = UserCurrentSession.sharedInstance.userSigned {
             self.name!.text = user.profile.name as String
             self.email!.text = user.email as String
             self.lastName!.text = user.profile.lastName as String
@@ -704,7 +699,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     func saveProfileService() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
         let service = UpdateUserProfileService()
-        let profileId = UserCurrentSession.sharedInstance().userSigned?.profile.idProfile as! String
+        let profileId = UserCurrentSession.sharedInstance.userSigned?.profile.idProfile as! String
         let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.dateBriday , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
             
         if self.passworCurrent != nil{
@@ -715,7 +710,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             
         self.view.endEditing(true)
         self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-        service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+        service.callService(params as! [String : Any],  successBlock:{ (resultCall:[String : Any]?) in
             if let message = resultCall!["message"] as? String {
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()

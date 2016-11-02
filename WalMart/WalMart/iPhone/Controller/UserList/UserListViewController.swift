@@ -333,7 +333,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      - parameter failure: faild block return
      */
     func reloadList(success:(()->Void)?, failure:((_ error:NSError)->Void)?){
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if let _ = UserCurrentSession.sharedInstance.userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -428,7 +428,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      - parameter failure: faild block return
      */
     func reloadWithoutTableReload(success:(()->Void)?, failure:((_ error:NSError)->Void)?){
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if let _ = UserCurrentSession.sharedInstance.userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -526,7 +526,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
                     
-                    if let _ = UserCurrentSession.sharedInstance().userSigned {
+                    if let _ = UserCurrentSession.sharedInstance.userSigned {
                         self.alertView = nil
                         self.invokeUpdateListService()
                     }
@@ -1143,7 +1143,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         
-        if requiredHelp && UserCurrentSession.sharedInstance().userSigned != nil {
+        if requiredHelp && UserCurrentSession.sharedInstance.userSigned != nil {
             self.helpView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
             self.helpView!.backgroundColor = UIColor.black.withAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
@@ -1763,7 +1763,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     //MARK: - DB
     
     func retrieveParam(_ key:String) -> Param? {
-        let user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance.userSigned
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: self.managedContext!)
         if user != nil {
@@ -1792,7 +1792,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
         else {
             let param = NSEntityDescription.insertNewObject(forEntityName: "Param", into: self.managedContext!) as? Param
-            if let user = UserCurrentSession.sharedInstance().userSigned {
+            if let user = UserCurrentSession.sharedInstance.userSigned {
                 param!.user = user
             }
             param!.key = key

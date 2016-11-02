@@ -121,7 +121,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //        }
 //        if UserCurrentSession.hasLoggedUser() || indexPath.section != 0 {
 //            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
-//        } else if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
+//        } else if UserCurrentSession.sharedInstance.userSigned == nil && indexPath.section == 0 {
 //            switch (OptionsController(rawValue: srtOption)!) {
 //            case .Profile : image = "Profile-disable-icon"
 //            case .Recents : image = "Recents-disable-icon"
@@ -153,12 +153,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = self.tableView?.cellForRow(at: self.selected!)
         cell?.isSelected = false
-        if UserCurrentSession.sharedInstance().userSigned == nil && ((indexPath as NSIndexPath).section == 0 || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && self.showCamfind)) {
+        if UserCurrentSession.sharedInstance.userSigned == nil && ((indexPath as NSIndexPath).section == 0 || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && self.showCamfind)) {
             self.openLoginOrProfile()
             self.selected = IndexPath(row: 0, section: 2)
             self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .bottom)
             return
-        } else if UserCurrentSession.sharedInstance().userSigned == nil && (((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && !self.showCamfind)) {
+        } else if UserCurrentSession.sharedInstance.userSigned == nil && (((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && !self.showCamfind)) {
             self.openLoginOrProfile()
             self.selected = IndexPath(row: 0, section: 2)
             self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .bottom)
@@ -217,7 +217,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     }
     
     override func openLoginOrProfile() {
-        if UserCurrentSession.sharedInstance().userSigned == nil{
+        if UserCurrentSession.sharedInstance.userSigned == nil{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
             let cont = LoginController.showLogin()
             cont!.successCallBack = {() in

@@ -119,7 +119,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         if !isDisabled {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue , label:"\(self.desc)\(self.upc)")
             
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
                 
                 var quanty = "1"
@@ -158,7 +158,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         self.isPreorderable = "\(isPreorderable)"
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
-        let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
+        let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         isDisabled = false
@@ -181,7 +181,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
                 let doubleVaule = NSString(string: saving).doubleValue
                 if doubleVaule > 0.1 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
-                    let formated = CurrencyCustomLabel.formatString("\(saving)")
+                    let formated = CurrencyCustomLabel.formatString("\(saving)" as NSString)
                     savingPrice = "\(savingStr) \(formated)"
                 }
             } else {

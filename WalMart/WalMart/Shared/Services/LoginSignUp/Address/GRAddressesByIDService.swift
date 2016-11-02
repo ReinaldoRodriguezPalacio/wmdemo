@@ -19,7 +19,9 @@ class GRAddressesByIDService : GRBaseService {
 
     
     func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
+       
+        let params: NSDictionary = [:]
+        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
                 successBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 successBlock!([:])

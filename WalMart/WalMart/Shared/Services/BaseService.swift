@@ -140,7 +140,7 @@ class BaseService : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    =  NSFetchRequest(entityName: entityName as NSString as String)
+        let request    =  NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
@@ -169,22 +169,22 @@ class BaseService : NSObject {
     }
 
     
-    func callPOSTService(_ params:Any,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) -> URLSessionDataTask {
+    func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) -> URLSessionDataTask {
         let afManager = getManager()
         let url = serviceUrl()
    
-        let task = afManager.post(url, parameters: params, success: {(request:URLSessionDataTask!, json:AnyObject!) in
+        let task = afManager.post(url, parameters: params, success: {(request:URLSessionDataTask!, json:Any!) in
             let resultJSON = json as! NSDictionary
             self.jsonFromObject(resultJSON)
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithIdService()
-                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
+                        let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
                         loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
-                                UserCurrentSession.sharedInstance().userSigned = nil
+                                UserCurrentSession.sharedInstance.userSigned = nil
                              NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                         })
                     }
@@ -230,12 +230,12 @@ class BaseService : NSObject {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithIdService()
-                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
+                        let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
                         loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
                             //TODO:QUITAR IMPORTANTE DESCOMENTAR
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
-                                UserCurrentSession.sharedInstance().userSigned = nil
+                                UserCurrentSession.sharedInstance.userSigned = nil
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                         })
                         return
@@ -406,7 +406,7 @@ class BaseService : NSObject {
 
     func loadKeyFieldCategories( _ items:AnyObject!, type:String ) {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in (items as? [Any])! {
                     let name = item["DepartmentName"] as? String ?? ""
@@ -481,11 +481,11 @@ class BaseService : NSObject {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
                             let loginService = LoginWithIdService()
-                            let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
+                            let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
                             loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
-                                    UserCurrentSession.sharedInstance().userSigned = nil
+                                    UserCurrentSession.sharedInstance.userSigned = nil
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                             })
                         }

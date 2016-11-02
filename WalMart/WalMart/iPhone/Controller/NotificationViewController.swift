@@ -11,7 +11,7 @@ import Foundation
 class NotificationViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate, CMSwitchViewDelegate {
     
     var notification: UITableView!
-    var allNotifications = []
+    var allNotifications: [Any] = []
     var selectable = true
     var emptyView : IPOEmptyNotificationView?
     var receiveNotificationButton: CMSwitchView?
@@ -192,8 +192,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
      */
     func getNotificationsForDevice(_ dict: NSDictionary) -> [Any]{
         var showNotifications: [Any] = []
-        if let notifications = dict["notifications"] as? [Any]{
-            for notif in notifications{
+        if let notifications = dict["notifications"] as? [[String:Any]]{
+            for notif in notifications {
                 let device = notif["device"] as! String
                 if IS_IPHONE && device == "iphone" {
                     showNotifications.append(notif)
@@ -219,13 +219,13 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     //MARK: CMSwitchViewDelegate
     
-    func switchValueChanged(_ sender: AnyObject!, andNewValue value: Bool) {
+    func switchValueChanged(_ sender: Any!, andNewValue value: Bool) {
         self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.reg_gray
 
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
         let notService = NotificationService()
-        if  UserCurrentSession.sharedInstance().deviceToken != "" {
-            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: !value)
+        if  UserCurrentSession.sharedInstance.deviceToken != "" {
+            let params = notService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !value)
             notService.jsonFromObject(params)
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)

@@ -502,7 +502,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
-    override func invokeDeleteProductFromListService(repositoryId: String, succesDelete: (() -> Void)) {
+    override func invokeDeleteProductFromListService(repositoryId: String, succesDelete: @escaping (() -> Void)) {
         super.invokeDeleteProductFromListService(repositoryId: repositoryId) { () -> Void in
             self.delegate!.reloadTableListUser()
         }
@@ -581,7 +581,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
       
     }
     
-    override func invokeAddproductTolist(_ response:NSDictionary?,products:[Any]?,succesBlock:(() -> Void)){
+    override func invokeAddproductTolist(_ response:NSDictionary?,products:[Any]?,succesBlock:@escaping (() -> Void)){
         super.invokeAddproductTolist(response, products: products) { () -> Void in
             self.reloadTableListUser()
         }

@@ -32,18 +32,14 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class UserCurrentSession : NSObject {
     
-    private static var __once: () = {
-            Static.instance = self.init()
-        }()
-    
     var userSigned : User? = nil
     var userSignedOnService  = false
     var phoneNumber : String! = ""
     var cellPhone : String! = ""
     var mustUpdatePhone : Bool = false
     
-    var itemsMG : NSDictionary? = nil
-    var itemsGR : NSDictionary? = nil
+    var itemsMG : [String:Any]? = nil
+    var itemsGR : [String:Any]? = nil
     
     var dateStart : Date! = Date()
     var dateEnd : Date! = Date()
@@ -64,23 +60,12 @@ class UserCurrentSession : NSObject {
 
     
     //Singleton init
-    class func sharedInstance()-> UserCurrentSession! {
-        struct Static {
-            static var instance : UserCurrentSession? = nil
-            static var onceToken : Int = 0
-        }
-        
-        _ = UserCurrentSession.__once
-        
-        return Static.instance!
-    }
+    static let sharedInstance = UserCurrentSession()
+    private override init() {}
     
-    required override init() {
-        
-    }
     
     class func hasLoggedUser() -> Bool{
-        return !(UserCurrentSession.sharedInstance().userSigned == nil)
+        return !(UserCurrentSession.sharedInstance.userSigned == nil)
     }
 
     class func currentDevice() -> String{
@@ -97,7 +82,7 @@ class UserCurrentSession : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "User" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         
         request.returnsObjectsAsFaults = false
         
@@ -122,8 +107,8 @@ class UserCurrentSession : NSObject {
                 
                 let cadUserId : NSString? = userSigned.idUser
                 if cadUserId == nil || cadUserId == "" || cadUserId?.length == 0 {
-                    UserCurrentSession.sharedInstance().userSigned = nil
-                    UserCurrentSession.sharedInstance().deleteAllUsers()
+                    UserCurrentSession.sharedInstance.userSigned = nil
+                    UserCurrentSession.sharedInstance.deleteAllUsers()
                     return
                 }
                 
@@ -131,8 +116,8 @@ class UserCurrentSession : NSObject {
                 
                 
                 let loginService = LoginWithIdService()
-                let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-                let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
+                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
                 
                 loginService.callService(["profileId":idUser], successBlock: { (result:NSDictionary) -> Void in
                     print("User signed")
@@ -144,10 +129,10 @@ class UserCurrentSession : NSObject {
     }
     
   
-    func createUpdateUser(_ loginResult:NSDictionary, profileResult:NSDictionary) {
+    func createUpdateUser(_ loginResult:[String:Any], profileResult:[String:Any]) {
         
-        let loginProfile = loginResult["profile"] as! NSDictionary
-        let userProfile = loginResult["profile"] as! NSDictionary
+        let loginProfile = loginResult["profile"] as! [String:Any]
+        let userProfile = loginResult["profile"] as! [String:Any]
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -174,7 +159,7 @@ class UserCurrentSession : NSObject {
         usr.idUser = loginResult["idUser"] as! String as NSString
         usr.cartId = loginResult["cartId"] as! String as NSString
     
-        if let addressArray = profileResult["address"] as? NSArray {
+        if let addressArray = profileResult["address"] as? [[String:Any]] {
             for address in addressArray{
                 let prefered = address["preferred"] as! String
                 if prefered == "true"{
@@ -195,7 +180,7 @@ class UserCurrentSession : NSObject {
         }
         
         if let minimumAmount = loginProfile["minimumAmount"] as? Double{
-            profile.minimumAmount = NSNumber(minimumAmount)
+            profile.minimumAmount = NSNumber(value: minimumAmount)
         }
         
         profile.name = loginProfile["name"] as! String as NSString
@@ -236,8 +221,8 @@ class UserCurrentSession : NSObject {
         updatePhoneProfile(true)
 
         //TODO No llega en servicio de mustang  de registro
-        //UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
-        //UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
+        //UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
+        //UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
         
 //        self.loadShoppingCarts { () -> Void in
 //            self.invokeGroceriesUserListService()
@@ -263,7 +248,7 @@ class UserCurrentSession : NSObject {
     func deleteAllObjectsNamed(_ namedb:String) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: namedb as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: namedb)
         
         
         var error: NSError? = nil
@@ -298,7 +283,7 @@ class UserCurrentSession : NSObject {
         }
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Wishlist")
         request.predicate = predicate!
         
         var error: NSError? = nil
@@ -332,7 +317,7 @@ class UserCurrentSession : NSObject {
         }
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "List" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "List")
         request.predicate = predicate!
         
         var error: NSError? = nil
@@ -363,7 +348,7 @@ class UserCurrentSession : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Cart")
         request.predicate = predicate
         
         
@@ -396,7 +381,7 @@ class UserCurrentSession : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Cart")
         request.predicate = predicate
         
         
@@ -432,7 +417,7 @@ class UserCurrentSession : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Wishlist")
         request.predicate = predicate
         
         var error: NSError? = nil
@@ -460,7 +445,7 @@ class UserCurrentSession : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    =  NSFetchRequest(entityName: entityName as NSString as String)
+        let request    =  NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
@@ -525,7 +510,7 @@ class UserCurrentSession : NSObject {
         let service = ShoppingCartProductsService()
         service.callService([:], successBlock: { (result:NSDictionary) -> Void in
             print(result)
-            self.itemsMG = result
+            self.itemsMG = result as! [String : Any]
             endLoadSC()
             }) { (error:NSError) -> Void in
                 if error.code != -100 {
@@ -620,7 +605,7 @@ class UserCurrentSession : NSObject {
         let arrayCart : [Cart]? = self.userCartByType()//ResultObjectType.Groceries.rawValue
         if arrayCart != nil {
             for prodCart in arrayCart! {
-                if  prodCart.product.type == "false" {
+                if  prodCart.product.type == 0 {
                     totalGR += prodCart.quantity.doubleValue * prodCart.product.price.doubleValue
                 } else {
                     totalGR += (prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
@@ -684,7 +669,7 @@ class UserCurrentSession : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Cart")
         request.predicate = predicate
         
         
@@ -720,7 +705,7 @@ class UserCurrentSession : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Cart")
         request.predicate = predicate
         
         
@@ -759,15 +744,15 @@ class UserCurrentSession : NSObject {
         if self.mustUpdatePhone {
             //TODO: Meter los datos del update
             let svcProfile = UpdateUserProfileService()
-            let profileParams = [:]
-            svcProfile.callService(profileParams, successBlock: { (result:NSDictionary) -> Void in
+            let profileParams: [String:Any] = [:]
+            svcProfile.callService(profileParams, successBlock: { (result:[String:Any]) -> Void in
                 print("Se actualizo el perfil")
                 
                 
                 //if !newProfile {
                     if UserCurrentSession.hasLoggedUser() {
-                        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = self.cellPhone
-                        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber
+                        UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = self.cellPhone as NSString
+                        UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = self.phoneNumber as NSString
                     }
                 //}
                 }, errorBlock: { (error:NSError) -> Void in
@@ -797,7 +782,7 @@ class UserCurrentSession : NSObject {
         }
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Cart")
         request.predicate = predicate!
         
         var error: NSError? = nil
@@ -840,10 +825,10 @@ class UserCurrentSession : NSObject {
     }
     
     
-    func getArrayPLP(_ Item: NSDictionary) ->  NSDictionary{
+    func getArrayPLP(_ Item: [String:Any]) ->  NSDictionary{
         //Add priceEvent, promotion, characteristics
-        var plpShow : NSDictionary = [:]
-        var dicReturn : NSDictionary = [:]
+        var plpShow : [String:Any] = [:]
+        var dicReturn : [String:Any] = [:]
         var promoDescription = "" //2x$21 or Ahorra $23
         
         var plpArray: [Any] = []
@@ -851,7 +836,7 @@ class UserCurrentSession : NSObject {
         //PriceEvent
         var flagAhorra = false
         var isMoreSave = false
-        if let priceEvent = Item["priceEvent"] as? NSDictionary {
+        if let priceEvent = Item["priceEvent"] as? [String:Any] {
             if priceEvent["isPriceStrike"] as? Bool == true {
                 flagAhorra = true
                 isMoreSave = true
@@ -892,7 +877,7 @@ class UserCurrentSession : NSObject {
             let lenght = (Item["promotion"]! as AnyObject).count
             let promotion = Item["promotion"] as? NSArray
             
-            for idx in 0 ..< lenght{
+            for idx in 0 ..< lenght!{
                 
                 plpShow = [:]
                 let description = promotion![idx] as! NSDictionary
@@ -975,7 +960,7 @@ class UserCurrentSession : NSObject {
         
         dicReturn = ["arrayItems":plpArray, "promo": promoDescription, "isMore": isMoreSave]
         
-        return dicReturn
+        return dicReturn as NSDictionary
     }
     
 }

@@ -166,7 +166,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
    
     func addProductToWishlist() {
         
-        self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
+        self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
         //event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
@@ -176,14 +176,14 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         }else{
             
             self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
-                self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+                self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc)
             })
         }
         
     }
     
     func validateIsInList(_ upc:String) {
-        self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
+        self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
     }
     
     func addDirectToListId(){
@@ -198,7 +198,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
                             successBlock: { (result:NSDictionary) -> Void in
-                                self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+                                self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc)
                                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                 alertView!.showDoneIcon()
                                 

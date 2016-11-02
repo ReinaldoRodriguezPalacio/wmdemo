@@ -343,8 +343,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: self, userInfo: nil)
                         
-                            UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
-                                UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                             })
                         
                         
@@ -391,8 +391,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
                  NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
                 
-                 UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
-                    UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                 UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                  })
                 
                 }) { (error:NSError) -> Void in

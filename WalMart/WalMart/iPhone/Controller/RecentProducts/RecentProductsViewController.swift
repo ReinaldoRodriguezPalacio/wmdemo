@@ -14,7 +14,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     //@IBOutlet var recentProducts : UITableView!
     var recentProducts : UITableView!
-    var recentProductItems : [Any] = []
+    var recentProductItems : [[String:Any]] = []
     
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
@@ -82,7 +82,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         service.callService({ (resultado:NSDictionary) -> Void in
             self.contResult(resultado)
             // TODO : Servicios En walmart validar con servicio
-            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]! , isShoppingCart: false) as! [Any]
+            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]! as AnyObject , isShoppingCart: false) as! [[String : Any]]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -111,7 +111,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
      
      - parameter resultDictionary: NSDictionary recent products service
      */
-    class func adjustDictionary(_ resultDictionary: AnyObject, isShoppingCart:Bool) -> AnyObject {
+    class func adjustDictionary(_ resultDictionary: AnyObject, isShoppingCart:Bool) -> [[String:Any]] {
         var recentLineItems : [Any] = []
         
         var productItemsOriginal:[Any] = []
@@ -122,20 +122,20 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
            productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [Any] : resultDictionary  as! [[String:Any]] //["responseArray"] as! [Any]
         }
         
-        var objectsFinal : [NSDictionary] = []
+        var objectsFinal : [[String:Any]] = []
         var indi = 0
     
         //search different lines and add in NSDictionary
         if productItemsOriginal.count > 0 {
             var flagOther = false
-            for objProduct in productItemsOriginal {
+            for objProduct in productItemsOriginal as! [[String:Any]] {
                 if (objProduct["familyName"] as? String) != nil {
                     var lineObj :  NSDictionary = [:]
                     lineObj = objProduct as! NSDictionary
                     
                     if lineObj.count > 0 {
                         if indi == 0 {
-                            recentLineItems.append(lineObj["fineLineName"] as! String == "" ? "Otros" : lineObj["fineLineName"] as! String as AnyObject)
+                            recentLineItems.append(lineObj["fineLineName"] as! String == "" ? "Otros" : lineObj["fineLineName"] as! String)
                             indi = indi + 1
                             flagOther = false
                         } else {
@@ -165,7 +165,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
             
             //Order Ascending array final
-            let sortedArray = recentLineItems.sorted {$0.localizedCaseInsensitiveCompare($1 as! String) == ComparisonResult.orderedAscending }
+            let sortedArray = recentLineItems.sorted {($0 as AnyObject).localizedCaseInsensitiveCompare($1 as! String) == ComparisonResult.orderedAscending }
             recentLineItems = sortedArray
             
             if flagOther{
@@ -231,11 +231,11 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         //Add Dictionay final in self.recentProductItems
         //self.recentProductItems = objectsFinal
-        return objectsFinal as AnyObject
+        return objectsFinal 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let listObj = self.recentProductItems[section] as! NSDictionary
+        let listObj = self.recentProductItems[section] as NSDictionary
         let prodObj = listObj["products"]
         return (prodObj! as AnyObject).count
     }
@@ -254,7 +254,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         headerView.backgroundColor = UIColor.white
         let titleLabel = UILabel(frame: CGRect(x: 15.0, y: 0.0, width: self.view.frame.width, height: heightHeaderTable))
         
-        let listObj = self.recentProductItems[section] as! NSDictionary
+        let listObj = self.recentProductItems[section] as NSDictionary
         titleLabel.text = listObj["name"] as? String
         titleLabel.textColor = WMColor.light_blue
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
@@ -266,11 +266,11 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
         
-        let listObj = self.recentProductItems[(indexPath as NSIndexPath).section] as! NSDictionary
+        let listObj = self.recentProductItems[(indexPath as NSIndexPath).section] as NSDictionary
         let prodObj = listObj["products"] as! NSArray
-        let objProduct = prodObj[(indexPath as NSIndexPath).row] as! NSDictionary
+        let objProduct = prodObj[(indexPath as NSIndexPath).row] as! [String:Any]
         //image
-        let parentProd = objProduct["parentProducts"] as! NSArray
+        let parentProd = objProduct["parentProducts"] as! [[String:Any]]
         
         let img = parentProd[0]["thumbnailImageUrl"] as! String
         
@@ -291,13 +291,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         if let active = objProduct["stock"] as? Bool {
             isActive = active
         }
-        let plpArray = UserCurrentSession.sharedInstance().getArrayPLP(objProduct)
+        let plpArray = UserCurrentSession.sharedInstance.getArrayPLP(objProduct)
         //Falta priceEvent
-        promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! String
+        promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! NSString
         
         cellRecentProducts.selectionStyle = .none
         cellRecentProducts.delegateProduct = self
-        cellRecentProducts.setValues(skuid!, upc:upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
+        cellRecentProducts.setValues(skuid!, upc:upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc),pesable:pesable as NSString)
 
         let controller = self.view.window!.rootViewController
         cellRecentProducts.viewIpad = controller!.view
@@ -313,7 +313,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let line = self.recentProductItems[(indexPath as NSIndexPath).section]
-        let productsline = line["products"]
+        let productsline = line["products"] as? [[String:Any]]
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![(indexPath as NSIndexPath).row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
@@ -328,13 +328,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         //Get UPC of All items
         for sect in 0 ..< self.recentProductItems.count {
             let lineItems = self.recentProductItems[sect]
-            let productsline = lineItems["products"]
-            for idx in 0 ..< productsline!.count {
+            let productsline = lineItems["products"] as! [[String:Any]]
+            for idx in 0 ..< productsline.count {
                 if section == sect && row == idx {
                     self.itemSelect = countItems
                 }
-                let upc = productsline![idx]["upc"] as! String
-                let desc = productsline![idx]["description"] as! String
+                let upc = productsline[idx]["upc"] as! String
+                let desc = productsline[idx]["description"] as! String
                 upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Groceries.rawValue])
                 countItems = countItems + 1
             }

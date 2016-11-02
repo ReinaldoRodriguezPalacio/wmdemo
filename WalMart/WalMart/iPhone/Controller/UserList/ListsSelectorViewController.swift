@@ -129,9 +129,9 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
     
     func loadLocalList() {
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if let user = UserCurrentSession.sharedInstance.userSigned {
             self.list = self.retrieveItems(forUser: user)
-            self.list =  self.list?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.list =  self.list?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -142,7 +142,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         else {
             let service = GRUserListService()
             self.list = service.retrieveNotSyncList()
-            self.list =  self.list?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.list =  self.list?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -275,7 +275,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     // MARK: - DB
     
     func retrieveItems(forUser user:User) -> [List]? {
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "user == %@", user)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "registryDate", ascending: false)]
@@ -305,7 +305,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func retrieveProductInList(forProduct upc:String?, inListWithId listId:String) -> Product? {
         var detail: Product? = nil
         if upc != nil {
-            let fetchRequest = NSFetchRequest()
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list.idList == %@", upc!, listId)
             var result: [Product] = (try! self.managedContext!.fetch(fetchRequest)) as! [Product]
@@ -325,7 +325,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func retrieveProductInList(forProduct upc:String?, inList entity:List) -> Product? {
         var detail: Product? = nil
         if upc != nil {
-            let fetchRequest = NSFetchRequest()
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list == %@", upc!, entity)
             var result: [Product] = (try! self.managedContext!.fetch(fetchRequest)) as! [Product]
@@ -393,7 +393,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
             let svcList = GRSaveUserListService()
             svcList.callService(svcList.buildParams(value),
-                successBlock: { (result:NSDictionary) -> Void in
+                                successBlock: { (result:[String:Any]) -> Void in
                 
                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
                 

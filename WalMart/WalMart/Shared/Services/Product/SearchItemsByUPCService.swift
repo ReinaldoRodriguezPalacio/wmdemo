@@ -16,11 +16,11 @@ class SearchItemsByUPCService : BaseService {
     }
     
     func callService(_ upcs:[String],successJSONBlock:((JSON) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.jsonFromObject(buildParams(upcs))
-        callPOSTService(buildParams(upcs), successBlock: { (result:NSDictionary) -> Void in
+        self.jsonFromObject(buildParams(upcs) as AnyObject!)
+        callPOSTService(buildParams(upcs), successBlock: { (result:[String:Any]) -> Void in
             
             
-            var newItemsArray = Array<AnyObject>()
+            var newItemsArray: [[String:Any]] = []
             if let items = result["responseArray"] as? NSArray {
                 //println(items)
                 self.saveKeywords(items) //Creating keywords

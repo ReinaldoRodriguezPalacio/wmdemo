@@ -108,7 +108,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                 }
-                UserCurrentSession.sharedInstance().getStoreByAddress(address)
+                UserCurrentSession.sharedInstance.getStoreByAddress(address)
                 self.alertView!.showDoneIcon()
                 self.onClose?()
                 }) { (error:NSError) -> Void in

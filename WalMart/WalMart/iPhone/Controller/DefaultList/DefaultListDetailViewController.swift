@@ -171,7 +171,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let controller = self.view.window!.rootViewController
         listCell.viewIpad = controller!.view
         var plpArray : NSDictionary = [:]
-        plpArray = UserCurrentSession.sharedInstance().getArrayPLP((self.detailItems![(indexPath as NSIndexPath).row] as NSDictionary))
+        plpArray = UserCurrentSession.sharedInstance.getArrayPLP((self.detailItems![(indexPath as NSIndexPath).row]))
         
         var through: NSString! = ""
         through = plpArray["promo"] as! String as NSString!
@@ -358,10 +358,10 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
         if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Encontré estos productos te pueden interesar en www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) encontró unos productos que te pueden interesar en www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) encontró unos productos que te pueden interesar en www.walmart.com.mx"
             }
         }
         return ""
@@ -466,7 +466,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             total = self.calculateTotalAmount()
         }
         
-        let fmtTotal = CurrencyCustomLabel.formatString("\(total)")
+        let fmtTotal = CurrencyCustomLabel.formatString("\(total)" as NSString)
         let amount = String(format: NSLocalizedString("list.detail.buy",comment:""), fmtTotal)
         self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
@@ -544,7 +544,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         let service = GRUserListService()
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.sharedInstance.userSigned != nil {
             
             service.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 
@@ -602,7 +602,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             copyName = (copyName as NSString).substring(to: 24)
         }
         service.callService(service.buildParams(copyName, items: items),
-            successBlock: { (result:NSDictionary) -> Void in
+                            successBlock: { (result:[String:Any]) -> Void in
                 successDuplicateList()
             },
             errorBlock: { (error:NSError) -> Void in

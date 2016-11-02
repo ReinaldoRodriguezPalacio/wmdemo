@@ -57,7 +57,7 @@ class CheckOutShippingSelectionCell: CheckOutShippingDetailCell {
     }
     
     func setCostDelivery(_ cost:String){
-        delivaryCost!.updateMount( CurrencyCustomLabel.formatString(cost), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
+        delivaryCost!.updateMount( CurrencyCustomLabel.formatString(cost as NSString), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
     }
     
     
