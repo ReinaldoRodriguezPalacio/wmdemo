@@ -164,8 +164,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         //TAGManager
         let GTM = TAGManager.instance()
         GTM.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
+       
         
-        TAGContainerOpener.openContainerWithId("GTM-TCGRR6",  // change the container ID "GTM-PT3L9Z" to yours
+        TAGContainerOpener.openContainerWithId("GTM-TCGRR6", 
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)

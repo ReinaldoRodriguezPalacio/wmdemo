@@ -920,9 +920,11 @@ class UserCurrentSession : NSObject {
                 for dic in  storesDic {
                     let name = dic["name"] as! String!
                     let idStore = dic["id"] as! String!
-                    if idStore == self.storeId! {
-                        self.storeName = name
-                        break
+                    if self.storeId != nil{
+                        if idStore == self.storeId! {
+                            self.storeName = name
+                            break
+                        }
                     }
                 }
                 }, errorBlock: { (error:NSError) -> Void in
