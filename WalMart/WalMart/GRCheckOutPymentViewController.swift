@@ -450,7 +450,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             let shipmentAmount = self.paramsToConfirm!["shipmentAmount"] as! String
             
             
-           BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "", revenue: String(total), tax: "", shipping: shipmentAmount, coupon: "")
+           BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "Groceries", revenue: String(total), tax: "", shipping: shipmentAmount, coupon: "")
             
             //PayPal
             if self.paymentId == "-1"{
