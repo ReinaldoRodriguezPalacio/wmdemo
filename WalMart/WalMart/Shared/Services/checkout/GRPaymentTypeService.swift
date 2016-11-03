@@ -16,8 +16,8 @@ class GRPaymentTypeService: GRBaseService {
         self.callService(requestParams: ["payment":payment,"isPaypalOn":true], successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(requestParams params:AnyObject, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(requestParams params:[String:Any], successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             let arrayCall = resultCall["responseArray"] as! NSArray
             successBlock!(arrayCall)
         }) { (error:NSError) -> Void in

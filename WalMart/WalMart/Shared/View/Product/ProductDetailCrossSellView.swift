@@ -131,7 +131,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var upcItems : [[String:String]] = []
         let cell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell
-        for upcStr in itemsUPC {
+        for upcStr in itemsUPC as! [[String:Any]] {
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String
    
