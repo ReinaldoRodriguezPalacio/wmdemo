@@ -48,6 +48,16 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let valueScreenName = self.getScreenGAIName()
+        if !valueScreenName.isEmpty {
+            let delay = 2.0 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue(), {
+                let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+                dataLayer.push(["event": "openScreen", "screenName": valueScreenName])
+            })
+        }
+        
         collection.registerClass(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
         collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
         collection.registerClass(ProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "productHome")
@@ -92,7 +102,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 banners.append(banner)
                 position += 1
             }
-            BaseController.sendAnalyticsBanners(banners)
+            
+            let delay = 2.0 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue(), {
+                BaseController.sendAnalyticsBanners(self.banners)
+            })
+            
+           
         }
                 
     }
