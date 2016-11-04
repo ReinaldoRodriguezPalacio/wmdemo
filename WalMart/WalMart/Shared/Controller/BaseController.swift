@@ -279,7 +279,7 @@ extension BaseController {
             
             let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
             
-            let product = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+            let product = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.variant ? "1" : newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
             
             productsAdd.append(product)
             
@@ -338,7 +338,7 @@ extension BaseController {
               let newItem = self.itemsToTag(item as! NSDictionary)
                 
                 
-                let products = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":"","variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+                let products = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":"","variant":newItem.variant ? "gramos" : "pieza","quantity": newItem.variant ? "1" :newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
                 
                 productsAdd.append(products)
                 
@@ -419,7 +419,7 @@ extension BaseController {
             self.sendAnalyticsPush(["event":event,"detailError":detailError])
             break
         case "ErrorEventBusiness":
-            self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
+            //self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
             break
         default:
             break
