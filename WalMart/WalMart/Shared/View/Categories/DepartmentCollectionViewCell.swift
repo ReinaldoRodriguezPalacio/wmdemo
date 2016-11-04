@@ -42,6 +42,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         imageIcon = UIImageView()
         
         titleLabel = UILabel()
+        titleLabel.numberOfLines = 0
         titleLabel.font  = WMFont.fontMyriadProRegularOfSize(25)
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.textAlignment = .Center
@@ -154,6 +155,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
                 self.buttonClose.frame = CGRectMake(0, 0, 40, 40)
                 self.buttonClose.alpha = 1
             }) { (complete:Bool) -> Void in
+                self.titleLabel.frame = CGRectMake(0, self.titleLabel.frame.minY, widthEnd, self.titleLabel.frame.height)
                 if endAnumating != nil {
                     endAnumating!()
                 }

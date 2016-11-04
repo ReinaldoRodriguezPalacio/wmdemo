@@ -16,7 +16,7 @@ class IPODepartmentCollectionViewCell : DepartmentCollectionViewCell {
         titleLabel.font  = WMFont.fontMyriadProRegularOfSize(16)
         
         imageBackground.frame = self.bounds
-        titleLabel.frame = CGRectMake(0, 66, self.frame.width , 16)
+        titleLabel.frame = CGRectMake(0, 58, self.frame.width , 32)
         imageIcon.frame = CGRectMake((self.frame.width / 2) - 14, 22 , 28, 28)
         buttonClose.frame = CGRectMake(0, 0, 40, 40)
         
@@ -26,7 +26,7 @@ class IPODepartmentCollectionViewCell : DepartmentCollectionViewCell {
         super.layoutSubviews()
         if isOpen == false {
             imageBackground.frame = self.bounds
-            titleLabel.frame = CGRectMake(0, 66, self.frame.width , 16)
+            titleLabel.frame = CGRectMake(0, 58, self.frame.width , 32)
             imageIcon.frame = CGRectMake((self.frame.width / 2) - 14, 22 , 28, 28)
             buttonClose.frame = CGRectMake(0, 0, 40, 40)
         }
