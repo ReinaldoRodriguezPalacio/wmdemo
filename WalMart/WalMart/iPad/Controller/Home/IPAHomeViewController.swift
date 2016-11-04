@@ -104,7 +104,7 @@ class IPAHomeViewController : HomeViewController {
             let paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = indexPath.row
             paginatedProductDetail.itemsToShow = []
-            paginatedProductDetail.detailOf =  catNameFilter
+            paginatedProductDetail.detailOf = "Especiales \(catNameFilter)"
             for productRecomm  in arrayItemsResult {
                 let upc = productRecomm["upc"] as! String
                 var desc = ""
@@ -115,10 +115,6 @@ class IPAHomeViewController : HomeViewController {
                 let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
 
                 paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])
-                
-                if type == "groceries" {
-                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(desc) - \(upc)")
-                }
                 
             }
             
@@ -191,7 +187,7 @@ class IPAHomeViewController : HomeViewController {
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
-    override func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){
+    override func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String, bannerName: String){
         let controller = IPASearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .WithCategoryForMG
@@ -202,6 +198,7 @@ class IPAHomeViewController : HomeViewController {
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line
         controller.titleHeader = "Recomendados"
+        controller.eventCode = bannerName
         self.navigationController!.pushViewController(controller, animated: true)
     }
     

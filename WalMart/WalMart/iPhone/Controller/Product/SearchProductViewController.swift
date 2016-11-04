@@ -62,6 +62,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var upcsToShow : [String]? = []
     var upcsToShowApply : [String]? = []
     var flagtest = true
+    var eventCode: String?
     
     var titleHeader: String?
     var originalSort: String?
@@ -750,7 +751,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
-            controller.detailOf = self.textToSearch != nil ? "Search Results" : self.titleHeader!
+            controller.detailOf = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
             
             self.navigationController!.pushViewController(controller, animated: true)
         }
@@ -976,11 +977,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.position += 1
                             positionArray.append(self.position)
                         }
-                        UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : self.titleHeader!
+                        UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                         
-                        let listName = self.textToSearch != nil ? "Search Results" : self.titleHeader
-                        let subCategory = self.idFamily != nil ? self.idFamily! : ""
-                        let subSubCategory = self.idLine != nil ? self.idLine! : ""
+                        let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
+                        let subCategory = self.idFamily != nil ? self.idFamily!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
+                        let subSubCategory = self.idLine != nil ? self.idLine!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
                         BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
                     }
                 }
@@ -1070,11 +1071,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.position += 1
                         positionArray.append(self.position)
                     }
-                    UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : self.titleHeader!
+                    UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                     
-                    let listName = self.textToSearch != nil ? "Search Results" : self.titleHeader
-                    let subCategory = self.idFamily != nil ? self.idFamily! : ""
-                    let subSubCategory = self.idLine != nil ? self.idLine! : ""
+                    let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
+                    let subCategory = self.idFamily != nil ? self.idFamily!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
+                    let subSubCategory = self.idLine != nil ? self.idLine!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
                     BaseController.sendAnalyticsTagImpressions(grArrayProducts, positionArray: positionArray, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
                 }
             }

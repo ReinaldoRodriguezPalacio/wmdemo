@@ -394,7 +394,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
             
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
-            controller.detailOf = catNameFilter
+            controller.detailOf = "Especiales \(catNameFilter)"
             self.navigationController!.pushViewController(controller, animated: true)
         }
     }
@@ -407,7 +407,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         return 0
     }
     
-    func bannerDidSelect(queryBanner:String,type:String,urlTteaser:String?) {
+    func bannerDidSelect(queryBanner:String,type:String,urlTteaser:String?, bannerName: String) {
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Banner.rawValue
         
@@ -429,10 +429,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         switch components[0] {
         case "f":
             let val = bannerStr.substringFromIndex(2)
-            showProducts(forDepartmentId: nil, andFamilyId: val, andLineId: nil,type:type)
+            showProducts(forDepartmentId: nil, andFamilyId: val, andLineId: nil,type:type, bannerName: bannerName)
         case "c":
             let val = bannerStr.substringFromIndex(2)
-            showProducts(forDepartmentId: val, andFamilyId: nil, andLineId: nil,type:type)
+            showProducts(forDepartmentId: val, andFamilyId: nil, andLineId: nil,type:type, bannerName: bannerName)
         case "l":
             let val = bannerStr.substringFromIndex(2)
             if type == ResultObjectType.Mg.rawValue  {
@@ -440,7 +440,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             } else {
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_LINE.rawValue , label: "\(val)")
             }
-            showProducts(forDepartmentId: nil, andFamilyId: nil, andLineId: val,type:type)
+            showProducts(forDepartmentId: nil, andFamilyId: nil, andLineId: val,type:type, bannerName: bannerName)
         case "UPC":
             let val = bannerStr.substringFromIndex(4)
             if type == ResultObjectType.Mg.rawValue  {
@@ -519,7 +519,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     }
     
-    func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){
+    func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String, bannerName: String){
         let controller = SearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .WithCategoryForMG
@@ -530,6 +530,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line
         controller.titleHeader = "Recomendados"
+        controller.eventCode = bannerName
         self.navigationController!.pushViewController(controller, animated: true)
     }
 
