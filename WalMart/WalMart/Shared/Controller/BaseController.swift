@@ -279,7 +279,7 @@ extension BaseController {
             
             let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
             
-            let product = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+            let product = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.variant ? "1" : newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
             
             productsAdd.append(product)
             
@@ -338,7 +338,7 @@ extension BaseController {
               let newItem = self.itemsToTag(item as! NSDictionary)
                 
                 
-                let products = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":"","variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":""]
+                let products = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":"","variant":newItem.variant ? "gramos" : "pieza","quantity": newItem.variant ? "1" :newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
                 
                 productsAdd.append(products)
                 
@@ -391,6 +391,8 @@ extension BaseController {
         
         if let quantityItem =  item["quantity"] as? String {
             itemsTag.quantity = quantityItem != "0" ? quantityItem : "1"
+        }else if let quantityItem =  item["quantity"] as? Int {
+         itemsTag.quantity = "\(quantityItem)"
         }
         
         if let price = item["price"] as? String {
@@ -404,7 +406,7 @@ extension BaseController {
         }else if let isPesable = item["pesable"] as? NSNumber {
              itemsTag.variant = (isPesable == 1)
         }else if let isPesable = item["pesable"] as? String {
-             itemsTag.variant = (isPesable == "1")
+             itemsTag.variant = (isPesable == "true" || isPesable == "1" )
         }
         
         return itemsTag 
@@ -419,7 +421,7 @@ extension BaseController {
             self.sendAnalyticsPush(["event":event,"detailError":detailError])
             break
         case "ErrorEventBusiness":
-            self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
+            //self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
             break
         default:
             break
