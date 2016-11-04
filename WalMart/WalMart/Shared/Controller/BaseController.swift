@@ -391,6 +391,8 @@ extension BaseController {
         
         if let quantityItem =  item["quantity"] as? String {
             itemsTag.quantity = quantityItem != "0" ? quantityItem : "1"
+        }else if let quantityItem =  item["quantity"] as? Int {
+         itemsTag.quantity = "\(quantityItem)"
         }
         
         if let price = item["price"] as? String {
@@ -404,7 +406,7 @@ extension BaseController {
         }else if let isPesable = item["pesable"] as? NSNumber {
              itemsTag.variant = (isPesable == 1)
         }else if let isPesable = item["pesable"] as? String {
-             itemsTag.variant = (isPesable == "1")
+             itemsTag.variant = (isPesable == "true" || isPesable == "1" )
         }
         
         return itemsTag 
