@@ -186,7 +186,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         return
     }
     
-    
+
     override func setAlertViewValues(resultDic: [String:AnyObject]){
         
         if resultDic.count == 0 {
@@ -216,14 +216,18 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 }else{
                     self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 20, 320, 28)
                 }
+                
                 self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
+                
+                let startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+                self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+                
             }else {
                 self.searchAlertView!.alpha = 0
                 self.viewBgSelectorBtn.alpha = 0
             }
             
-            let startPoint = self.viewBgSelectorBtn.frame.maxY + 20
-            self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+            
             }, completion: nil)
         }
     }
