@@ -102,9 +102,8 @@ class DetailListViewCell: ProductTableViewCell {
     func setValuesDictionary(product:[String:AnyObject], disabled:Bool) {
         let imageUrl = product["imageUrl"] as! String
         
-        self.productImage!.image = nil
-        self.productImage!.contentMode = self.contentModeOrig
-        self.productImage!.image = UIImage(named: "img_default_table")
+        self.productImage!.contentMode = UIViewContentMode.Center
+        self.imageNormal = nil
         
         self.productImage!.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: imageUrl)!),
             placeholderImage: UIImage(named:"img_default_table"),
@@ -207,9 +206,8 @@ class DetailListViewCell: ProductTableViewCell {
         let imageUrl = product.img
         let description = product.desc
         
-        self.productImage!.image = nil
-        self.productImage!.contentMode = self.contentModeOrig
-        self.productImage!.image = UIImage(named: "img_default_table")
+        self.productImage!.contentMode = UIViewContentMode.Center
+        self.imageNormal = nil
         
         self.productImage!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageUrl)!),
             placeholderImage: UIImage(named:"img_default_table"),
@@ -377,7 +375,13 @@ class DetailListViewCell: ProductTableViewCell {
         } else {
             self.productShortDescriptionLabel!.textColor = WMColor.gray
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
-            self.productImage!.image = imageNormal
+            
+            if imageNormal != nil {
+                self.productImage!.image = imageNormal
+            } else {
+                self.productImage!.image = UIImage(named:"img_default_table")
+            }
+             
             self.quantityIndicator!.backgroundColor = self.hasStock ? WMColor.yellow : WMColor.light_gray
             self.promoDescription?.textColor = WMColor.green
         }
