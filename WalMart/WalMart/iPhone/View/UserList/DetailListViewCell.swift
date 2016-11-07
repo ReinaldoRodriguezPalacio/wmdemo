@@ -99,9 +99,13 @@ class DetailListViewCell: ProductTableViewCell {
      - parameter product:  array products
      - parameter disabled: validate if row is active
      */
-    func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
+    func setValuesDictionary(product:[String:AnyObject], disabled:Bool) {
         let imageUrl = product["imageUrl"] as! String
-        self.productImage!.contentMode = UIViewContentMode.Center
+        
+        self.productImage!.image = nil
+        self.productImage!.contentMode = self.contentModeOrig
+        self.productImage!.image = UIImage(named: "img_default_table")
+        
         self.productImage!.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: imageUrl)!),
             placeholderImage: UIImage(named:"img_default_table"),
             success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
@@ -203,7 +207,10 @@ class DetailListViewCell: ProductTableViewCell {
         let imageUrl = product.img
         let description = product.desc
         
-        self.productImage!.contentMode = UIViewContentMode.Center
+        self.productImage!.image = nil
+        self.productImage!.contentMode = self.contentModeOrig
+        self.productImage!.image = UIImage(named: "img_default_table")
+        
         self.productImage!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageUrl)!),
             placeholderImage: UIImage(named:"img_default_table"),
             success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
