@@ -1126,32 +1126,56 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if (self.isTextSearch || self.isOriginalTextSearch) && (!self.firstOpen || self.showAlertView) {
             
-        UIView.animateWithDuration(0.3, animations: {
-            if self.isTextSearch || self.isOriginalTextSearch{
-                if self.showAlertView {
-                    self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
-                    self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
-                }else{
-                    self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+            UIView.animateWithDuration(0.3, animations: {
+                if self.isTextSearch || self.isOriginalTextSearch{
+                    if self.showAlertView {
+                        self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
+                        self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.searchAlertView!.frame.maxY + 20, 288, 28)
+                    }else{
+                        self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+                    }
+                    self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
+                }else {
+                    self.searchAlertView!.alpha = 0
+                    self.viewBgSelectorBtn.alpha = 0
                 }
-                self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
-            }else {
-                self.searchAlertView!.alpha = 0
-               self.viewBgSelectorBtn.alpha = 0
-            }
+                
+                var startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+                
+                if self.idListFromSearch != "" {
+                    if  self.showAlertView {
+                        startPoint = self.header!.frame.maxY + 46
+                    }else{
+                        startPoint = self.header!.frame.maxY
+                    }
+                }
+                
+                self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+                
+            }, completion: nil)
             
-            var startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+        } else if !self.showAlertView && self.searchAlertView != nil {
             
-            if self.idListFromSearch != "" {
-                if  self.showAlertView {
-                    startPoint = self.header!.frame.maxY + 46
-                }else{
+            UIView.animateWithDuration(0.3, animations: {
+                
+                if self.isTextSearch || self.isOriginalTextSearch{
+                    self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+                    self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
+                }else {
+                    self.searchAlertView!.alpha = 0
+                    self.viewBgSelectorBtn.alpha = 0
+                }
+                
+                var startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+                
+                if self.idListFromSearch != "" {
                     startPoint = self.header!.frame.maxY
                 }
-            }
-            
-            self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+                
+                self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+                
             }, completion: nil)
+            
         }
         
     }
