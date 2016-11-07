@@ -367,7 +367,7 @@ extension BaseController {
         
         for item in items! {
             let newItem = self.itemsToTag(item as! NSDictionary)
-            let products = ["name": newItem.name , "id": newItem.upc, "price": newItem.price, "brand": "", "category": "", "variant": newItem.variant ? "gramos" : "pieza", "quantity": newItem.quantity, "coupon": ""]
+            let products = ["name": newItem.name , "id": newItem.upc, "price": newItem.price, "brand": "", "category": "", "variant": newItem.variant ? "gramos" : "pieza", "quantity": newItem.variant ? "1" :newItem.quantity, "coupon": "","metric1":newItem.variant ? newItem.quantity : ""]
             productsAdd.append(products)
         }
         
