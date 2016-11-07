@@ -368,10 +368,12 @@ extension BaseController {
         for item in items! {
             let newItem = self.itemsToTag(item as! NSDictionary)
             let products = ["name": newItem.name , "id": newItem.upc, "price": newItem.price, "brand": "", "category": "", "variant": newItem.variant ? "gramos" : "pieza", "quantity": newItem.variant ? "1" :newItem.quantity, "coupon": "","metric1":newItem.variant ? newItem.quantity : ""]
+            
+            print(products)
             productsAdd.append(products)
         }
         
-        let ecomerce =  ["event": "ecommerce", "ecommerce":["purchase":["sucursal": sucursal, "formaPago": paymentType, "tipoEntrega": deliveryType, "fechaEntrega": deliveryDate, "horaEntrega": deliveryHour, "numeroCompraClientes": "1", "tipoTarjeta": "", "banco": "", "MSI": "", "carrier": "", "codigoPostalEntrega": "", "ciudadEntrega": "", "estadoEntrega": "", "actionField": ["id": purchaseId, "affiliation": affiliation, "revenue": revenue, "tax": tax, "shipping": shipping,"coupon": coupon, "products": productsAdd]]]]
+        let ecomerce =  ["event": "ecommerce", "ecommerce":["purchase":["sucursal": sucursal, "formaPago": paymentType, "tipoEntrega": deliveryType, "fechaEntrega": deliveryDate, "horaEntrega": deliveryHour, "numeroCompraClientes": "1", "tipoTarjeta": "", "banco": "", "MSI": "", "carrier": "", "codigoPostalEntrega": "", "ciudadEntrega": "", "estadoEntrega": "", "actionField": ["id": purchaseId, "affiliation": affiliation, "revenue": revenue, "tax": tax, "shipping": shipping,"coupon": coupon], "products": productsAdd]]]
         
         dataLayer.push(ecomerce)
         print("sendAnalyticsPreviewCart")
