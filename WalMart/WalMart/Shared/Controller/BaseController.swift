@@ -279,7 +279,7 @@ extension BaseController {
             
             let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
             
-            let product = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.variant ? "1" : newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
+            let product = ["name":newItem.name , "price": newItem.price, "id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.variant ? "1" : newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
             
             productsAdd.append(product)
             

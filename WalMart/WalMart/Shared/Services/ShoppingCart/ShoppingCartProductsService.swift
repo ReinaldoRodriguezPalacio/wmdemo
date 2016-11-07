@@ -35,11 +35,12 @@ class ShoppingCartProductsService : BaseService {
                     let user = UserCurrentSession.sharedInstance().userSigned
                     
                     var currentQuantity = 0
-                    
+                    if user != nil {
                     let predicate = NSPredicate(format: "user == %@  AND type == %@", user!,ResultObjectType.Mg.rawValue)
                     let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                     for cart in array {
                         context.deleteObject(cart)
+                        }
                     }
 
                     do {
