@@ -1335,7 +1335,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         let listName = "Antes de irte"
                         let subCategory = ""
                         let subSubCategory = ""
-                        BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                        BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                         self.beforeShopTag = true
                     }
                     

@@ -58,7 +58,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             let listName = self.defaultListName!
             let subCategory = ""
             let subSubCategory = ""
-            BaseController.sendAnalyticsTagImpressions(self.detailItems!, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+            BaseController.sendAnalyticsTagImpressions(self.detailItems!, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
         }
         
         BaseController.setOpenScreenTagManager(titleScreen: self.defaultListName!, screenName: self.getScreenGAIName())

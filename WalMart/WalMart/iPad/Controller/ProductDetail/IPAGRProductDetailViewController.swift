@@ -291,7 +291,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     let listName = "CrossSell"
                     let subCategory = ""
                     let subSubCategory = ""
-                    BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                    BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                     
                 }
                 

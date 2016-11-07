@@ -213,7 +213,7 @@ extension BaseController {
         dataLayer.push(impression)
     }
     
-    class func sendAnalyticsTagImpressions(products:NSArray, positionArray:[Int], listName: String, subCategory: String, subSubCategory: String) {
+    class func sendAnalyticsTagImpressions(products:NSArray, positionArray:[Int], listName: String, mainCategory: String, subCategory: String, subSubCategory: String) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
@@ -233,6 +233,8 @@ extension BaseController {
             var category = ""
             if let parsedCategory = product["category"] as? String {
                 category = parsedCategory
+            } else {
+                category = mainCategory
             }
             
             let brand = ""

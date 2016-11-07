@@ -238,7 +238,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             let listName = "Wishlist"
             let subCategory = ""
             let subSubCategory = ""
-            BaseController.sendAnalyticsTagImpressions(self.items, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+            BaseController.sendAnalyticsTagImpressions(self.items, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
             
             
             }, errorBlock: { (error:NSError) -> Void in

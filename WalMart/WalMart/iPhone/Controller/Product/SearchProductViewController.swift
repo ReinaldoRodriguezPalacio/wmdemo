@@ -980,9 +980,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                         
                         let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
+                        let category = self.eventCode != nil ? "banner" : ""
                         let subCategory = self.idFamily != nil ? self.idFamily!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
                         let subSubCategory = self.idLine != nil ? self.idLine!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
-                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
+                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName!, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
                     }
                 }
                 
@@ -1074,9 +1075,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                     
                     let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
+                    let category = self.eventCode != nil ? "banner" : ""
                     let subCategory = self.idFamily != nil ? self.idFamily!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
                     let subSubCategory = self.idLine != nil ? self.idLine!.stringByReplacingOccurrencesOfString("_", withString: "") : ""
-                    BaseController.sendAnalyticsTagImpressions(grArrayProducts, positionArray: positionArray, listName: listName!, subCategory: subCategory, subSubCategory: subSubCategory)
+                    BaseController.sendAnalyticsTagImpressions(grArrayProducts, positionArray: positionArray, listName: listName!, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
                 }
             }
             

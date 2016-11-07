@@ -206,7 +206,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let listName = "CrossSell"
                 let subCategory = ""
                 let subSubCategory = ""
-                BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                 
             }
             }, errorBlock: { (error:NSError) -> Void in

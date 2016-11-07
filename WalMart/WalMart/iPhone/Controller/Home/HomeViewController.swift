@@ -713,7 +713,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     positionArray.append(position)
                 }
                 
-                BaseController.sendAnalyticsTagImpressions(upcs, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                BaseController.sendAnalyticsTagImpressions(upcs, positionArray: positionArray, listName: listName, mainCategory: "carrusel", subCategory: subCategory, subSubCategory: subSubCategory)
             }
             
         }

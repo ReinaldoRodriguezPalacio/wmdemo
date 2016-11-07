@@ -234,7 +234,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let listName = self.listName!
             let subCategory = ""
             let subSubCategory = ""
-            BaseController.sendAnalyticsTagImpressions(productsArray, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+            BaseController.sendAnalyticsTagImpressions(productsArray, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
             analyticsSent = true
         }
         
@@ -1063,7 +1063,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     let listName = self.listName!
                     let subCategory = ""
                     let subSubCategory = ""
-                    BaseController.sendAnalyticsTagImpressions(self.products!, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                    BaseController.sendAnalyticsTagImpressions(self.products!, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                     self.analyticsSent = true
                 }
                 

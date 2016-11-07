@@ -923,7 +923,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 let listName = "Wishlist"
                 let subCategory = ""
                 let subSubCategory = ""
-                BaseController.sendAnalyticsTagImpressions(self.items, positionArray: positionArray, listName: listName, subCategory: subCategory, subSubCategory: subSubCategory)
+                BaseController.sendAnalyticsTagImpressions(self.items, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                 
                 self.updateShopButton()
                 self.updateEditButton()
