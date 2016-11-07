@@ -11,7 +11,7 @@ import UIKit
 class OrderViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate {
     
     var tableOrders : UITableView!
-    var items : [Any] = []
+    var items : [[String:Any]] = []
     var viewLoad : WMLoadingView!
     var emptyView : IPOOrderEmptyView!
     var facturasToolBar : UIView!
@@ -139,16 +139,16 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let servicePrev = PreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
-                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                var dictMGOrder =  orderPrev as! [String:Any]
                 dictMGOrder["type"] =  ""
                 self.items.append(dictMGOrder)
             }
             
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "dd/MM/yyyy"
-            self.items.sort(by: {
-                let firstDate = $0["placedDate"] as! String
-                let secondDate = $1["placedDate"] as! String
+            self.items.sort(by: { (uno:[String:Any], dos: [String:Any]) -> Bool in
+                let firstDate = uno["placedDate"] as! String
+                let secondDate = dos["placedDate"] as! String
                 let dateOne = dateFormat.date(from: firstDate)!
                 let dateTwo = dateFormat.date(from: secondDate)!
                 return dateOne.compare(dateTwo) == ComparisonResult.orderedDescending

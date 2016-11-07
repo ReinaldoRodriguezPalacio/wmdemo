@@ -107,7 +107,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
      */
     func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
-        service.callService(requestParams: ["id":self.departmentId as AnyObject], successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: ["id":self.departmentId as AnyObject], successBlock: { (response:[String:Any]) -> Void in
             let schools  =  response["responseArray"] as! NSArray
             self.schoolsList = schools as? [[String : AnyObject]]
             self.filterList = self.schoolsList
