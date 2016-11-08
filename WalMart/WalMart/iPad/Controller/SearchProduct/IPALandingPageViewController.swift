@@ -8,7 +8,15 @@
 
 import Foundation
 
-class IPALandingPageViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate,IPAFamilyViewControllerDelegate,UIPopoverControllerDelegate,IPASectionHeaderSearchReusableDelegate {
+class IPALandingPageViewController: NavigationViewController, UIPopoverControllerDelegate, IPAFamilyViewControllerDelegate, IPASectionHeaderSearchReusableDelegate {
+    
+    var filterController: FilterProductsViewController?
+    var sharePopover: UIPopoverController?
+    var filterButton: UIButton?
+    var idSort:String?
+    var isOriginalTextSearch: Bool = false
+    var originalSearchContextType: SearchServiceContextType?
+    
     var urlImage: String?
     var imageBackground:UIImageView?
     var loading: WMLoadingView?
@@ -21,7 +29,6 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     var itemsCategory: [[String:AnyObject]]?
     var familyController : IPAFamilyViewController!
     var popover : UIPopoverController?
-    var idSort: String = ""
     let maxResult = 20
     
     override func getScreenGAIName() -> String {
@@ -85,6 +92,18 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         self.collection?.registerClass(IPASectionHeaderSearchReusable.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         self.collection?.registerClass(IPACatHeaderSearchReusable.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
         
+        self.filterButton = UIButton(type: .Custom)
+        self.filterButton!.addTarget(self, action: #selector(IPALandingPageViewController.filter(_:)), forControlEvents: .TouchUpInside)
+        self.filterButton!.tintColor = UIColor.whiteColor()
+        self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
+        self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
+        self.filterButton!.backgroundColor = WMColor.light_blue
+        self.filterButton!.layer.cornerRadius = 11.0
+        
+        self.filterButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
+        
+        
         self.view.addSubview(self.header!)
         self.view.addSubview(self.headerView!)
         self.view.addSubview(self.collection!)
@@ -95,22 +114,210 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
+        
+        if self.originalSearchContextType == nil{
+            self.originalSearchContextType = SearchServiceContextType.WithCategoryForMG
+        }
+        
     }
-    
     
     override func viewWillLayoutSubviews() {
         self.headerView!.frame = CGRectMake(0, 0, 1024, 46)
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
+        self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
         self.backButton!.frame = CGRectMake(0, 0  ,46,46)
         self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
         self.collection!.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
     }
     
+    override func back() {
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func getCollectionView() -> UICollectionView {
+        let customlayout = CSStickyHeaderFlowLayout()
+        customlayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 216)
+        customlayout.parallaxHeaderReferenceSize = CGSizeMake(1024, 216)
+        customlayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(1024, 216)
+        customlayout.disableStickyHeaders = false
+        //customlayout.parallaxHeaderAlwaysOnTop = true
+        let collectionView = UICollectionView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY), collectionViewLayout: customlayout)
+        return collectionView
+    }
+    
+    func showLoadingIfNeeded(hidden: Bool ) {
+        if hidden {
+            self.loading!.stopAnnimating()
+        } else {
+//              self.viewHeader?.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
+            self.loading = WMLoadingView(frame: CGRectMake(0, 320, self.view.bounds.width, self.view.bounds.height - 320))
+            
+            self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(false)
+        }
+    }
+    
+    func editSearch(){
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
+    }
+    
+    func loadDepartments() ->  [AnyObject]? {
+        let serviceCategory = CategoryService()
+        self.itemsCategory = serviceCategory.getCategoriesContent()
+        return self.itemsCategory
+    }
+    
+    func setValuesFamily(){
+        
+        for item in self.itemsCategory! {
+            if item["idDepto"] as? String == departmentId {
+                let famArray : AnyObject = item["family"] as AnyObject!
+                let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+                
+                self.familyController.departmentId = item["idDepto"] as! String
+                self.familyController.families = itemsFam
+                self.familyController.selectedFamily = nil
+                self.addPopover()
+                break
+            }
+        }
+        
+        self.populateDefaultData(0)
+        
+    }
+    
+    func populateDefaultData(section: Int) {
+        
+        if self.familyController.families.count > section {
+            let selectedSection = self.familyController.families[section]
+            let linesArr = selectedSection["line"] as! NSArray
+            
+            if linesArr.count > 0 {
+                if let itemLine = linesArr[0] as? NSDictionary {
+                    let name = itemLine["name"] as! String
+                    self.invokeSearchService(self.familyController.departmentId , family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
+                }
+            } else {
+                let nextSection: Int = section + 1
+                populateDefaultData(nextSection)
+            }
+            
+        }
+        
+    }
+    
+    func addPopover(){
+        //familyController.delegate = self
+        if #available(iOS 8.0, *) {
+            familyController.modalPresentationStyle = .Popover
+        } else {
+            familyController.modalPresentationStyle = .FormSheet
+        }
+        familyController.preferredContentSize = CGSizeMake(320, 322)
+        
+        if popover ==  nil {
+            popover = UIPopoverController(contentViewController: familyController)
+            popover!.delegate = self
+        }
+        //popover!.delegate = self
+        popover!.presentPopoverFromRect(CGRectMake(self.headerView!.frame.width / 2, self.headerView!.frame.height - 10, 0, 0), inView: self.headerView!, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        
+        if familyController.familyTable != nil {
+            familyController.familyTable.reloadData()
+        }
+        
+    }
+    
+    func filter(sender:UIButton){
+        
+        if self.filterController == nil {
+            self.filterController = FilterProductsViewController()
+            self.filterController!.hiddenBack = true
+            self.filterController!.selectedOrder = self.idSort!
+            self.filterController!.textToSearch = ""
+            self.filterController!.originalSearchContext = self.originalSearchContextType
+            self.filterController!.delegate = self
+            self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
+            self.filterController!.view.backgroundColor = UIColor.clearColor()
+            self.filterController!.successCallBack  = { () in
+                self.sharePopover?.dismissPopoverAnimated(true)
+                return
+            }
+        }
+        
+        let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)
+        
+        //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()
+        let controller = UIViewController()
+        controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
+        controller.view.addSubview(self.filterController!.view)
+        controller.view.backgroundColor = UIColor.clearColor()
+        
+        self.sharePopover = UIPopoverController(contentViewController: controller)
+        self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 390.0)
+        self.sharePopover!.delegate = self
+        self.sharePopover!.backgroundColor = UIColor.whiteColor()
+        //var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)//
+        
+        self.sharePopover!.presentPopoverFromRect(CGRectMake(self.filterButton!.frame.minX , pointPop.y , 0, 0), inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+    }
+    
+    func invokeSearchService(department:String,family:String,line:String, name:String) {
+        print("Invoking MG Search")
+        let startOffSet = self.allProducts!.count
+        self.showLoadingIfNeeded(false)
+        //TODO: Signals
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let service = ProductbySearchService(dictionary:signalsDictionary)
+        let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
+        service.callService(params,
+                            successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
+                                
+            self.allProducts = arrayProduct as? [AnyObject]
+            self.collection?.reloadData()
+            NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
+            self.showLoadingIfNeeded(true)
+                                
+            }, errorBlock: {(error: NSError) in
+                print("MG Search ERROR!!!")
+                print(error)
+                self.showLoadingIfNeeded(true)
+            }
+        )
+    }
+    
+    //MARK: IPAFamilyViewControllerDelegate
+    func didSelectLine(department:String,family:String,line:String, name:String) {
+        self.popover?.dismissPopoverAnimated(true)
+        self.invokeSearchService(department,family: family, line: line, name:name)
+        if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
+            view.dismissPopover()
+        }
+    }
+    
+    //MARK: UIPopoverController
+    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+        if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
+            view.dismissPopover()
+        }
+    }
+
+    //MARK: IPASectionHeaderSearchReusableDelegate
+    func showFamilyController() {
+        self.addPopover()
+    }
+    
+}
+
+extension IPALandingPageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSizeMake(self.view.frame.width, 54)
     }
     
-     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         let reusableView : UICollectionReusableView? = nil
         
@@ -133,6 +340,7 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
             view.delegate = self
             view.setSelected()
             viewHeader = view
+            viewHeader?.addSubview(self.filterButton!)
             return view
         }
         return reusableView!
@@ -249,28 +457,11 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         return cell
     }
     
-    
-    func getCollectionView() -> UICollectionView {
-        let customlayout = CSStickyHeaderFlowLayout()
-        customlayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 216)
-        customlayout.parallaxHeaderReferenceSize = CGSizeMake(1024, 216)
-        customlayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(1024, 216)
-        customlayout.disableStickyHeaders = false
-        //customlayout.parallaxHeaderAlwaysOnTop = true
-        let collectionView = UICollectionView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY), collectionViewLayout: customlayout)
-        return collectionView
-    }
-    
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake(self.view.bounds.width / 3, 254);
     }
     
-    // override func returnBack() {
-    //    viewHeader.dismissPopover()
-    // }
-    
-     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print("Articulo seleccionado \(indexPath.row)")
         
         let cell = self.collection?.cellForItemAtIndexPath(indexPath)
@@ -317,146 +508,38 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.allProducts!.count
     }
-
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 0
     }
-    
-    func showLoadingIfNeeded(hidden: Bool ) {
-        if hidden {
-            self.loading!.stopAnnimating()
-        } else {
-//              self.viewHeader?.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
-            self.loading = WMLoadingView(frame: CGRectMake(0, 320, self.view.bounds.width, self.view.bounds.height - 320))
-            
-            self.view.addSubview(self.loading!)
-            self.loading!.startAnnimating(false)
-        }
-    }
-    
-    func editSearch(){
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
-    }
-    
-    override func back() {
-        self.navigationController?.popToRootViewControllerAnimated(true)
-    }
-    
-    func loadDepartments() ->  [AnyObject]? {
-        let serviceCategory = CategoryService()
-        self.itemsCategory = serviceCategory.getCategoriesContent()
-        return self.itemsCategory
-    }
-    
-    func setValuesFamily(){
-        
-        for item in self.itemsCategory! {
-            if item["idDepto"] as? String == departmentId {
-                let famArray : AnyObject = item["family"] as AnyObject!
-                let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
-                
-                self.familyController.departmentId = item["idDepto"] as! String
-                self.familyController.families = itemsFam
-                self.familyController.selectedFamily = nil
-                self.addPopover()
-                break
-            }
-        }
-        
-        self.populateDefaultData(0)
-        
-    }
-    
-    func populateDefaultData(section: Int) {
-        
-        if self.familyController.families.count > section {
-            let selectedSection = self.familyController.families[section]
-            let linesArr = selectedSection["line"] as! NSArray
-            
-            if linesArr.count > 0 {
-                if let itemLine = linesArr[0] as? NSDictionary {
-                    let name = itemLine["name"] as! String
-                    self.invokeSearchService(self.familyController.departmentId , family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
-                }
-            } else {
-                let nextSection: Int = section + 1
-                populateDefaultData(nextSection)
-            }
-            
-        }
-        
-    }
-    
-    func addPopover(){
-        //familyController.delegate = self
-        if #available(iOS 8.0, *) {
-            familyController.modalPresentationStyle = .Popover
-        } else {
-            familyController.modalPresentationStyle = .FormSheet
-        }
-        familyController.preferredContentSize = CGSizeMake(320, 322)
-        
-        if popover ==  nil {
-            popover = UIPopoverController(contentViewController: familyController)
-            popover!.delegate = self
-        }
-        //popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.headerView!.frame.width / 2, self.headerView!.frame.height - 10, 0, 0), inView: self.headerView!, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
-        
-        if familyController.familyTable != nil {
-            familyController.familyTable.reloadData()
-        }
-        
-    }
-    
-    func invokeSearchService(department:String,family:String,line:String, name:String) {
-        print("Invoking MG Search")
-        let startOffSet = self.allProducts!.count
-        self.showLoadingIfNeeded(false)
-        //TODO: Signals
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
-        let service = ProductbySearchService(dictionary:signalsDictionary)
-        let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
-        service.callService(params,
-                            successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
-                                
-            self.allProducts = arrayProduct as? [AnyObject]
-            self.collection?.reloadData()
-            NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
-            self.showLoadingIfNeeded(true)
-                                
-            }, errorBlock: {(error: NSError) in
-                print("MG Search ERROR!!!")
-                print(error)
-                self.showLoadingIfNeeded(true)
-            }
-        )
-    }
-    
-    //MARK: IPAFamilyViewControllerDelegate
-    func didSelectLine(department:String,family:String,line:String, name:String) {
-        self.popover?.dismissPopoverAnimated(true)
-        self.invokeSearchService(department,family: family, line: line, name:name)
-        if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
-            view.dismissPopover()
-        }
-    }
-    
-    //MARK: UIPopoverController
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
-        if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
-            view.dismissPopover()
-        }
-    }
 
-    //MARK: IPASectionHeaderSearchReusableDelegate
-    func showFamilyController() {
-        self.addPopover()
+}
+
+extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
+    
+    func apply(order: String, filters: [String:AnyObject]?, isForGroceries flag: Bool) {
+        
+    }
+    
+    func sendBrandFilter(brandFilter: String) {
+        
+    }
+    
+    func apply(order:String, upcs: [String]) {
+        
+    }
+    
+    func removeSelectedFilters(){
+        
+    }
+    
+    func removeFilters() {
+        
     }
     
 }
+
