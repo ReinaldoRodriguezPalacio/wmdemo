@@ -331,8 +331,8 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
         if hidden {
             self.loading!.stopAnnimating()
         } else {
-            self.viewHeader!.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
-            self.loading = WMLoadingView(frame: CGRectMake(0, 216, self.view.bounds.width, self.view.bounds.height - 216))
+//              self.viewHeader?.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
+            self.loading = WMLoadingView(frame: CGRectMake(0, 320, self.view.bounds.width, self.view.bounds.height - 320))
             
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(false)
@@ -367,6 +367,29 @@ class IPALandingPageViewController: NavigationViewController, UICollectionViewDa
                 break
             }
         }
+        
+        self.populateDefaultData(0)
+        
+    }
+    
+    func populateDefaultData(section: Int) {
+        
+        if self.familyController.families.count > section {
+            let selectedSection = self.familyController.families[section]
+            let linesArr = selectedSection["line"] as! NSArray
+            
+            if linesArr.count > 0 {
+                if let itemLine = linesArr[0] as? NSDictionary {
+                    let name = itemLine["name"] as! String
+                    self.invokeSearchService(self.familyController.departmentId , family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
+                }
+            } else {
+                let nextSection: Int = section + 1
+                populateDefaultData(nextSection)
+            }
+            
+        }
+        
     }
     
     func addPopover(){
