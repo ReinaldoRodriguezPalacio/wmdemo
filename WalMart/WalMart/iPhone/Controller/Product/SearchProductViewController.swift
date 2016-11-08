@@ -954,7 +954,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                     //Gogle 360 falta departamento
                     if self.textToSearch != nil {
-                        BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter_IOS", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults]) //TODO quitar:_IOS
+                        BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults]) //TODO quitar:_IOS
                     }
                 }
                 else {
@@ -1053,7 +1053,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 //Gogle 360 falta departamento
                 if self.textToSearch != nil {
-                    BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter_IOS", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.grResults!.totalResults]) //TODO quitar:_IOS
+                    BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.grResults!.totalResults]) //TODO quitar:_IOS
                 }
             }
             else {

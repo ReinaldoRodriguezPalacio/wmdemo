@@ -194,7 +194,7 @@ extension BaseController {
            var promotions: [[String : String]] = []
         
         for banner in banners {
-            let banner = ["id": banner.id + "_ios", "name": banner.name +  "_ios", "creative": banner.creative, "position": banner.position]
+            let banner = ["id": banner.id, "name": banner.name , "creative": banner.creative, "position": banner.position]
             promotions.append(banner)
         }
         
