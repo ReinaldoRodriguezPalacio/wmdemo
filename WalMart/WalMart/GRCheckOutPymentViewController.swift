@@ -146,7 +146,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
             self.picker!.delegate = self
             self.picker!.selected = self.selectedConfirmation
-            self.picker!.setValues(self.discountAssociate!.nameField, values: discountAssociateItems)
+            self.picker!.setValues(self.discountAssociate!.nameField as NSString, values: discountAssociateItems)
             self.picker!.cellType = TypeField.alphanumeric
             self.picker!.showPicker()
             
@@ -426,9 +426,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             if self.idFreeShepping != 0 || self.idReferido != 0{
                 deliveryAmount =  0.0
             }
-            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
-            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
-            let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
+            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue as NSString)
+            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
+            let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)" as NSString)
             let formattedDate = deliveryDate.substring(to: 10)
             let slot = purchaseOrder["slot"] as! NSDictionary
             
@@ -759,7 +759,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
-                self.paymentOptionsItems = result as [Any]
+                self.paymentOptionsItems = result as! [Any]
                 //TODO: Borrar despues de validar paypal
                 //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])
                 

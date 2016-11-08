@@ -104,7 +104,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
         for msiVal in msi {
             
             let payDetailPrice = NSNumber(value: (priceProduct.doubleValue/(msiVal as AnyObject).doubleValue) as Double).stringValue
-            let formattedStr = CurrencyCustomLabel.formatString(payDetailPrice)
+            let formattedStr = CurrencyCustomLabel.formatString(payDetailPrice as NSString)
             
             let lblPay = UILabel(frame: CGRect(x: 40, y: currntY, width: 55, height: 14))
             lblPay.textAlignment = NSTextAlignment.left

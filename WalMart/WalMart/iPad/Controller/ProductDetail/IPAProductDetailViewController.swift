@@ -375,8 +375,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     let doubleVaule = self.saving.doubleValue
                     if doubleVaule > 0 {
                         let savingStr = NSLocalizedString("price.saving",comment:"")
-                        let formated = CurrencyCustomLabel.formatString("\(savingSend)")
-                        savingSend = "\(savingStr) \(formated)"
+                        let formated = CurrencyCustomLabel.formatString("\(savingSend)" as NSString)
+                        savingSend = "\(savingStr) \(formated)" as NSString
                     }
                     
                     cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
@@ -440,7 +440,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if characteristics.count != 0 {
                 let cellCharacteristics = tabledetail.dequeueReusableCell(withIdentifier: "cellCharacteristics", for: indexPath) as? ProductDetailCharacteristicsTableViewCell
                 //self.clearView(cellCharacteristics!)
-                cellCharacteristics!.setValues(characteristics)
+                cellCharacteristics!.setValues(characteristics as NSArray)
                 cell = cellCharacteristics
             }else{
                 return nil
@@ -541,7 +541,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             return sizeForIndexPath ((indexPath.section,6),indexPath: indexPath)
         case (1,4) :
             if characteristics.count != 0 {
-                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics)
+                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics as NSArray)
                 return size + 126
             }
             return sizeForIndexPath ((indexPath.section,7),indexPath: indexPath)
@@ -1055,7 +1055,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             
             }) { (error:NSError) -> Void in
                 let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.headerView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.headerView.frame.maxY))
-                self.name = NSLocalizedString("empty.productdetail.title",comment:"")
+                self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
                     print("Return Button")
                     self.backButton()
@@ -1536,13 +1536,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         if colorItems.count != 0 || sizeItems.count != 0{
             if colorItems.count != 0 && sizeItems.count != 0{
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView?.items = self.colorItems as! [[String:Any]]
+                self.colorsView?.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
                 self.colorsView!.buildItemsView()
                 self.colorsView?.delegate = self
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems as! [[String:Any]]
+                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRect(x: 0,y: 40,width: width, height: 40.0)
                 self.sizesView!.buildItemsView()
@@ -1555,7 +1555,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count != 0 && sizeItems.count == 0{
                 self.sizesView?.alpha = 0
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView!.items = self.colorItems as! [[String:Any]]
+                self.colorsView!.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
                 self.colorsView!.buildItemsView()
@@ -1566,7 +1566,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count == 0 && sizeItems.count != 0{
                 self.colorsView?.alpha = 0
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems as! [[String:Any]]
+                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRect(x: 0,y: 0,width: width, height: 40.0)
                 self.sizesView!.buildItemsView()
@@ -1647,7 +1647,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let service = GRAddItemListService()
             let pesable =  self.isPesable ? "1" : "0"
             let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
-            service.callService(service.buildParams(idList: listId, upcs: [productObject]),
+            service.callService(service.buildParams(idList: listId, upcs: [productObject]) as NSDictionary,
                                 successBlock: { (result:NSDictionary) -> Void in
                                     self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                     self.alertView!.showDoneIcon()

@@ -152,8 +152,8 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         //self.picker!.selected = self.selectedType
         self.pikerBtn!.delegate = self
-        self.pikerBtn!.setValues(NSLocalizedString("Support.label.write.to", comment:""), values: self.stores)
-        self.pikerBtn.setNameBtn(NSLocalizedString("Support.label.super", comment:""), titleBtnDown:NSLocalizedString("Support.label.home.more", comment:"") )
+        self.pikerBtn!.setValues(NSLocalizedString("Support.label.write.to", comment:"") as NSString, values: self.stores)
+        self.pikerBtn.setNameBtn(NSLocalizedString("Support.label.super", comment:"") as NSString, titleBtnDown:NSLocalizedString("Support.label.home.more", comment:"") as NSString )
         
     
     }

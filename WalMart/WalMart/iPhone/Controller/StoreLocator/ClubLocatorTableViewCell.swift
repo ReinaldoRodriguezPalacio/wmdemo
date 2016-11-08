@@ -189,7 +189,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         height += 16.0
         if let address = store.address {
             let text = "\(address) CP: \(store.zipCode!)"
-            let addressSize = ClubLocatorTableViewCell.size(forText: text as NSString, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSize(width: width_, height: CGFloat.max))
+            let addressSize = ClubLocatorTableViewCell.size(forText: text as NSString, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSize(width: width_, height: CGFloat.greatestFiniteMagnitude))
             height += addressSize.height
         }
         height += 16.0

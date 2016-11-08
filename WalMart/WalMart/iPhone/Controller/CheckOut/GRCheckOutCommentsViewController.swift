@@ -549,7 +549,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func invokePreferenceService(){
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:NSDictionary) in
-                self.userPreferences.addEntries(from: result as [AnyHashable: Any])
+                self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
             
         }, errorBlock: { (error:NSError) in
                 print("Error invokePreferenceService \(error.localizedDescription)")
@@ -608,7 +608,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         alert?.setMessage("Guardando comentario ...")
         let updateCommentService = UpdateCommentsService()
         let updateCommentParams = updateCommentService.buildParameterOrder(self.comments!.text)
-        updateCommentService.callService(requestParams: updateCommentParams, succesBlock: {(result) -> Void in
+        updateCommentService.callService(requestParams: updateCommentParams as AnyObject, succesBlock: {(result) -> Void in
             let codeMessage = result["codeMessage"] as! NSNumber
             if codeMessage.int32Value == 0 {
                 alert?.setMessage("Guardado")

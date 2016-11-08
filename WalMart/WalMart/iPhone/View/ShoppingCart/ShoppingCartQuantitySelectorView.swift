@@ -70,7 +70,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnOkAdd = UIButton(frame: CGRect(x: (self.frame.width / 2) - 65, y: self.keyboardView.frame.maxY + 15 , width: 130, height: 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
-        let strPrice = CurrencyCustomLabel.formatString(priceProduct.stringValue)
+        let strPrice = CurrencyCustomLabel.formatString(priceProduct.stringValue as NSString)
         
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
@@ -214,7 +214,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func updateQuantityBtn(){
         let intQuantity = Int(lblQuantity.text!)
         let result = priceProduct.doubleValue * Double(intQuantity!)
-        let strPrice = CurrencyCustomLabel.formatString("\(result)")
+        let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
         

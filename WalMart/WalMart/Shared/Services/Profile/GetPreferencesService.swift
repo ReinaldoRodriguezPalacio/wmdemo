@@ -25,7 +25,7 @@ class GetPreferencesService : BaseService  {
     
     func getLocalPreferences(_ successBlock:((NSDictionary) -> Void)?,errorBlock:((NSError) -> Void)?){
         
-        let values = self.getDataFromFile(fileName)
+        let values = self.getDataFromFile(fileName as NSString)
         if values != nil {
                successBlock!(values!)
         }else{

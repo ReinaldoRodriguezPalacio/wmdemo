@@ -250,23 +250,23 @@ protocol GenerateOrderViewDelegate {
     func showGenerateOrder(_ paramsToOrder:NSDictionary) {
         //right
         
-        var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String)
+        var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String as NSString)
         lblValueSubtotal.text = stringValue
         lblValueSubtotal.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueSubtotal.textColor = WMColor.dark_gray
         lblValueSubtotal.text = stringValue
         
-        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! String as NSString)
         lblValueTotal.text = stringValue
         lblValueTotal.font = WMFont.fontMyriadProSemiboldOfSize(14)
         lblValueTotal.textColor = WMColor.blue
         
-        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! String as NSString)
         lblValueDeliveryAmount.text = self.isFreshepping ? "sin costo" :  stringValue
         lblValueDeliveryAmount.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueDeliveryAmount.textColor = WMColor.dark_gray
 
-        stringValue =  CurrencyCustomLabel.formatNegativeString(paramsToOrder["Discounts"] as! String)
+        stringValue =  CurrencyCustomLabel.formatNegativeString(paramsToOrder["Discounts"] as! String as NSString)
         lblValueDiscounts.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueDiscounts.textAlignment = .right
         lblValueDiscounts.textColor = WMColor.dark_gray

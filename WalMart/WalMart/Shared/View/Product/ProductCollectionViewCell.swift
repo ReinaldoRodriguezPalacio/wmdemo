@@ -72,7 +72,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         
         //upcProduct = productShortDescription
         
-        let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)")
+        let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)" as NSString)
 
         self.productImage!.contentMode = UIViewContentMode.center
         self.productImage!.setImageWith(URL(string: productImageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in

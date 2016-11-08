@@ -324,9 +324,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         tblShoppingCell.delegate = self
         
         if typeProdVal != 1 {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr, saving: saving, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece)
         } else {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr, saving: saving, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece)
         }
         
         
@@ -511,7 +511,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             buttonShop.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(total as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
@@ -744,7 +744,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
         fetchRequest.predicate = predicate
         

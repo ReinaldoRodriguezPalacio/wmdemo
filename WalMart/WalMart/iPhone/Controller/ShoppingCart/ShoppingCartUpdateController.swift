@@ -269,8 +269,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                })*/
             //}else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
-                serviceAddProductMG.jsonFromObject(paramsitems)
-                serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in
+                serviceAddProductMG.jsonFromObject(paramsitems as AnyObject!)
+                serviceAddProductMG.callService(paramsitems as AnyObject, successBlock: { (result:NSDictionary) -> Void in
                     self.finishCall = true
                     
                     if self.timmer == nil {
@@ -367,7 +367,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }*/
             
             typeProduct = ResultObjectType.Mg
-            serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString as String,parameter: params["parameter"] as? [String:Any], successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:(params["pesable"] as! NSString) as String as String,parameter: params["parameter"] as? [String:Any], successBlock: { (result:NSDictionary) -> Void in
                 
                 let responceObject = result["responseObject"] as! [String: AnyObject]
                 let order = responceObject["order"] as! [String: AnyObject]
@@ -447,7 +447,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
             
             let serviceAddProduct = ShoppingCartAddProductsService()
-            serviceAddProduct.callCoreDataService(params["skuId"] as! NSString as String, upc:params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category, pesable:params["pesable"] as! NSString as String, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callCoreDataService(params["skuId"] as! NSString as String, upc:params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category, pesable:(params["pesable"] as! NSString) as String as String, successBlock: { (result:NSDictionary) -> Void in
                 self.currentIndex += 1
                 self.callItemsService()
                 }) { (error:NSError) -> Void in
@@ -616,7 +616,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 let updateCommentService = UpdateCommentsService()
                 let updateCommentParams = updateCommentService.buildParameterItem(self.commentTextView!.field!.text!.trim(), itemId: self.params["commerceItemId"] as! String)
                 
-                updateCommentService.callService(requestParams: updateCommentParams, succesBlock: {(result) -> Void in
+                updateCommentService.callService(requestParams: updateCommentParams as AnyObject, succesBlock: {(result) -> Void in
                     let codeMessage = result["codeMessage"] as! NSNumber
                     if codeMessage.int32Value == 0 {
                         self.finishCall = true

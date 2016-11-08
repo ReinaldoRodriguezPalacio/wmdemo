@@ -144,7 +144,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
                 self.picker!.selected = self.selectedNeighborhood as NSIndexPath?? ?? IndexPath(row: 0, section: 0)
                 self.picker!.sender = self.suburbField!
                 self.picker!.selectOptionDelegate = self
-                self.picker!.setValues(self.suburbField!.nameField, values: self.neighbourhoods)
+                self.picker!.setValues(self.suburbField!.nameField as NSString, values: self.neighbourhoods)
                 self.picker!.showPicker()
             }
         }
@@ -155,7 +155,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
                 self.picker!.selected = self.selectedStore as NSIndexPath?? ?? IndexPath(row: 0, section: 0)
                 self.picker!.sender = self.storeField!
                 self.picker!.selectOptionDelegate = self
-                self.picker!.setValues(self.storeField!.nameField, values: self.stores)
+                self.picker!.setValues(self.storeField!.nameField as NSString, values: self.stores)
                 self.picker!.showPicker()
             }
         }
@@ -264,7 +264,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
                     if self.errorView == nil{
                         self.errorView = FormFieldErrorView()
                     }
-                    let stringToShow : NSString = error.localizedDescription
+                    let stringToShow : NSString = error.localizedDescription as NSString
                     let withoutName = stringToShow.replacingOccurrences(of: self.zipCodeField!.nameField, with: "")
                     SignUpViewController.presentMessage(self.zipCodeField!, nameField:self.zipCodeField!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
                 }

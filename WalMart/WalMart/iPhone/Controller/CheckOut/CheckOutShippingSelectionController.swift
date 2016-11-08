@@ -91,7 +91,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
         arrayTypeSelect?.add(shippingExpress)
      
         if rowSelected >= 0 {
-            var indexPath = IndexPath(item: rowSelected!, section: 0)
+            let indexPath = IndexPath(item: rowSelected!, section: 0)
             tableShippingSelection.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         }
         

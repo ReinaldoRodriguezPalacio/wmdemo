@@ -48,7 +48,7 @@ class FormFieldErrorView: UIView {
 
     func setValues (_ width:CGFloat, strLabel:String, strValue: String ){
         let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:UIColor.white, colorValue:UIColor.white, size: 12)
-        let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.max), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         
         self.bounds = CGRect(x: 10, y: 0, width: rectSize.width + 20 , height: rectSize.height + 10 )
         

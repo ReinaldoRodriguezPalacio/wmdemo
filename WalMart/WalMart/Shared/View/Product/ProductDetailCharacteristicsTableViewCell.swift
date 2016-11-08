@@ -47,7 +47,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 let strValue = dicVal["value"] as! String
                 
                 let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.reg_gray, colorValue:WMColor.dark_gray, size: 14)
-                let rectSize = attrString.boundingRect(with: CGSize(width: self.frame.width - 32, height: CGFloat.max), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+                let rectSize = attrString.boundingRect(with: CGSize(width: self.frame.width - 32, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
                 let bgView = UIView(frame: CGRect(x: 0, y: currentY, width: self.frame.width, height: rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
                 let labelCharacteristic = WMTCopyLable(frame: CGRect(x: 16, y: 5, width: self.frame.width-32, height: rectSize.height))
                 labelCharacteristic.attributedText = attrString

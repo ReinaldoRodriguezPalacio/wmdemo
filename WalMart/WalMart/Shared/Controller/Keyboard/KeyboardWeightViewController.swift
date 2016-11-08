@@ -124,7 +124,7 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
     
     func updateShoppButton(){
         let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
-        let strPrice = CurrencyCustomLabel.formatString("\(result)")
+        let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         addButton.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
     }

@@ -158,7 +158,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         
         let service = AddPreferedAddress()
         service.buildParams(addressID)
-        service.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
+        service.callService(NSDictionary() as! [String : Any],  successBlock:{ (resultCall:NSDictionary?) in
             print("success")
             self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.\n\n Únicamente se mostrarán los productos disponibles de esta tienda.")
             self.alertView?.showDoneIconWithoutClose()

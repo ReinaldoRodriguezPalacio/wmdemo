@@ -38,7 +38,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var listId: String?
     var listName: String?
     var listEntity: List?
-    var products: [Any]?
+    var products: [[String:Any]]?
     var isEdditing = false
     var enableScrollUpdateByTabBar = true
 
@@ -754,7 +754,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             total = self.calculateTotalAmount()
         }
         
-        let fmtTotal = CurrencyCustomLabel.formatString("\(total)")
+        let fmtTotal = CurrencyCustomLabel.formatString("\(total)" as NSString)
         let amount = String(format: NSLocalizedString("list.detail.buy",comment:""), fmtTotal)
         self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
@@ -1005,7 +1005,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
                 
                 if UserCurrentSession.hasLoggedUser() {
-                listCell.setValuesDictionary(items as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
+                listCell.setValuesDictionary(items as [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
                 }else{
                     //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
                     let product =  items as! Product
@@ -1039,7 +1039,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let controller = ProductDetailPageViewController()
             var productsToShow:[Any] = []
             for idx in 0 ..< self.products!.count {
-                if let product = self.products![idx] as? [String:Any] {
+                if let product = self.products![idx] {
                     
                     if let sku = product["sku"] as? NSDictionary {
                         if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
@@ -1076,7 +1076,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         case 0:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
             if let indexPath = self.tableView!.indexPath(for: cell) {
-                if let item = self.products![(indexPath as NSIndexPath).row] as? NSDictionary {
+                if let item = self.products![(indexPath as NSIndexPath).row] {
                     
                     //Event
                     if self.selectedItems!.contains((indexPath as NSIndexPath).row) {
@@ -1238,7 +1238,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         detailService.callService(detailService.buildParams(self.listId!),
                                   successBlock: { (result:NSDictionary) -> Void in
                                     
-                                    self.products = result["giftlistItems"] as? [Any]
+                                    self.products = result["giftlistItems"] as? [[String:Any]]
                                     self.titleLabel?.text = result["name"] as? String
                                     
                                     if self.products == nil || self.products!.count == 0  {
@@ -1344,7 +1344,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInList", comment:""))
         let service = GRDeleteItemListService()
-        service.callService(service.buildParamsArray(upcs),
+        service.callService(service.buildParamsArray(upcs) as NSDictionary,
             successBlock: { (result:NSDictionary) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInListDone", comment:""))
                 self.alertView!.showDoneIcon()
@@ -1417,7 +1417,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.listEntity != nil  {//&& self.listEntity!.idList != nil
             
             print("name listEntity:: \(self.listEntity?.name)")
-            let fetchRequest = NSFetchRequest()
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "list == %@", self.listEntity!)
             do{
@@ -1426,7 +1426,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             catch{
                 print("Error retrieveProductsLocally")
             }
-            self.products = products
+            self.products = products as! [[String : Any]]?
             self.titleLabel?.text = self.listEntity?.name
              
             //self.layoutTitleLabel()
@@ -1722,7 +1722,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.addProductsView?.changeFrame = false
                 return
             }
-            self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .withText,searchServiceFromContext:.fromSearchText )
+            self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .WithText,searchServiceFromContext:.FromSearchText )
         }
         
     }
@@ -1730,7 +1730,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     //MARK: BarCodeViewControllerDelegate
     func barcodeCaptured(_ value: String?) {
-        print(value)
+        print(value ?? "")
     }
     
     func barcodeCapturedWithType(_ value: String?, isUpcSearch: Bool) {
@@ -1838,7 +1838,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView!.setMessage(NSLocalizedString("list.message.add.products.to.list", comment:""))
         
         let service = GRProductByTicket()
-        service.callService(service.buildParams(ticket),
+        service.callService(service.buildParams(ticket) as AnyObject,
             successBlock: { (result: NSDictionary) -> Void in
                 
                 

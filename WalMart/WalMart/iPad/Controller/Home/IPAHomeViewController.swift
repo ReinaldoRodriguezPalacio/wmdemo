@@ -98,7 +98,7 @@ class IPAHomeViewController : HomeViewController {
         if (indexPath as NSIndexPath).section == 1 {
             
             let catNameFilter = self.categories[selectedIndexCategory]
-            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
+            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
             let arrayItemsResult =  arrayItems as! [Any]
           
             let paginatedProductDetail = IPAProductDetailPageViewController()

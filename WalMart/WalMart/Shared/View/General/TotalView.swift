@@ -123,18 +123,18 @@ class TotalView: UIView {
         
         articlesTitle.text  = "\(articles) \(NSLocalizedString("artículos",comment:""))"
         
-        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-        let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost)
-        let formatedIVA = CurrencyCustomLabel.formatString(iva)
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
+        let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost as NSString)
+        let formatedIVA = CurrencyCustomLabel.formatString(iva as NSString)
 
         valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         valueShippingCost.updateMount(formatedShippingCost, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         
-        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving as NSString)
         valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
         
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
         valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
         
     }

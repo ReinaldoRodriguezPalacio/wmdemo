@@ -49,7 +49,7 @@ class BannerService : BaseService {
     func getBannerContent() -> [[String:String]] {
         var bannerItems : [[String:String]] = []
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return bannerItems
         }
@@ -122,7 +122,7 @@ class BannerService : BaseService {
     
     func getLanding() -> [[String:String]]? {
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return nil
         }
@@ -134,7 +134,7 @@ class BannerService : BaseService {
     
     func getPleca() -> NSDictionary? {
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return nil
         }

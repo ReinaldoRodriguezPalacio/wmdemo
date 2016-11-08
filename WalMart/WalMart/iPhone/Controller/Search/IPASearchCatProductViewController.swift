@@ -128,7 +128,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
 //        return CGSizeMake(self.view.bounds.width / 3, 254);
 //    }
     
-    override func showLoadingIfNeeded(_ hidden: Bool ) {
+    override func showLoadingIfNeeded(hidden: Bool ) {
         if hidden {
             self.loading!.stopAnnimating()
         } else {

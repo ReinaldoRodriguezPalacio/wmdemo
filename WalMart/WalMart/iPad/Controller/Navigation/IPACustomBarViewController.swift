@@ -219,7 +219,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                 }, errorBlock: { (error:NSError) -> Void in
                     if upcDesc.length < 14 {
                         let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
-                        paddedUPC = "\(toFill)\(upcDesc)"
+                        paddedUPC = "\(toFill)\(upcDesc)" as NSString
                     }
                     contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
                     let controllernav = self.currentController as? UINavigationController

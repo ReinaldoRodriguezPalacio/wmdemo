@@ -42,7 +42,7 @@ class CarouselService : BaseService {
     func getCarouselContent() -> [[String:Any]] {
         var carouselItems : [[String:Any]] = []
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return carouselItems
         }

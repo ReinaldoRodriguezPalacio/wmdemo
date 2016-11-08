@@ -300,7 +300,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.addressController = AddressViewController()
         }
         var item: NSDictionary!
-        let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [Any])
+        let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as! [Any])
         self.addressController!.allAddress =  allArray as NSArray!
         
         if (indexPath as NSIndexPath).section == 0{
@@ -337,7 +337,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.addressController!.defaultPrefered = true
         }
             
-        let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [Any])
+        let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as! [Any])
         self.addressController!.allAddress =  allArray as NSArray!
         self.addressController!.typeAddress = TypeAddress.shiping
         self.addressController!.addressFiscalCount = self.arrayAddressFiscal.count

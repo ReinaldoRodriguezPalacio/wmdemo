@@ -165,8 +165,8 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             serviceZip.buildParams(zipCode!)
             let parameters: NSDictionary = [:]
             serviceZip.callService(parameters, successBlock: { (result:NSDictionary) -> Void in
-                var stores = result["stores"] as! [NSDictionary]
-                self.addressSelected?(idAddress!,addressName!, storeID!, stores as! [NSDictionary])
+                let stores = result["stores"] as! [NSDictionary]
+                self.addressSelected?(idAddress!,addressName!, storeID!, stores )
                 self.viewLoad.stopAnnimating()
                 }, errorBlock: { (error:NSError) -> Void in
                     print("error:: \(error)")

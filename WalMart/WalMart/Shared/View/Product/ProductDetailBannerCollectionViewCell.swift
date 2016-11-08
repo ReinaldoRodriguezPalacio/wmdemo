@@ -138,7 +138,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             self.price.isHidden = true
         } else {
             self.price.isHidden = false
-            let formatedValue = "\(CurrencyCustomLabel.formatString(price))"
+            let formatedValue = "\(CurrencyCustomLabel.formatString(price as NSString))"
             self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         }
         
@@ -146,7 +146,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             priceBefore.isHidden = true
         } else {
             priceBefore.isHidden = false
-            let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice))"
+            let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice as NSString))"
             self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
         }
         
@@ -154,7 +154,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             self.saving.isHidden = true
         } else {
             self.saving.isHidden = false
-            let formatedValue = "\(CurrencyCustomLabel.formatString(saving))"
+            let formatedValue = "\(CurrencyCustomLabel.formatString(saving as NSString))"
             self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.green, interLine: false)
         }
         
@@ -341,21 +341,21 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func buildColorsAndSizesView(){
         if colors?.count != 0 || sizes?.count != 0{
             if colors?.count != 0 && sizes?.count != 0{
-                self.colorsView.items = self.colors as! [[String:Any]]
+                self.colorsView.items = self.colors as! [[String:Any]] as [[String : AnyObject]]!
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 160)
                 self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 174, width: self.bounds.width, height: 20)
                 self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - 154, width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
-                self.sizesView.items = self.sizes as! [[String:Any]]
+                self.sizesView.items = self.sizes as! [[String:Any]] as [[String : AnyObject]]!
                 self.sizesView.alpha = 1.0
                 self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
                 self.sizesView.buildItemsView()
                 self.sizesView.deleteTopBorder()
             }else if colors?.count != 0 && sizes?.count == 0{
                 self.sizesView.alpha = 0
-                self.colorsView.items = self.colors as! [[String:Any]]
+                self.colorsView.items = self.colors as! [[String:Any]] as [[String : AnyObject]]!
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)
@@ -364,7 +364,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.buildItemsView()
             }else if colors?.count == 0 && sizes?.count != 0{
                 self.colorsView.alpha = 0
-                self.sizesView.items = self.sizes as! [[String:Any]]
+                self.sizesView.items = self.sizes as! [[String:Any]] as [[String : AnyObject]]!
                 self.sizesView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)

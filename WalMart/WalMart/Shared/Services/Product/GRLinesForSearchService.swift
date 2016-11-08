@@ -88,7 +88,7 @@ class GRLinesForSearchService: GRBaseService {
          var dictionary: [String:Any] = [:]
         
         if strInLines == "" {
-            return  successBuildBlock!(dictionary)
+            return  successBuildBlock!(dictionary as [String : AnyObject])
         }
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in

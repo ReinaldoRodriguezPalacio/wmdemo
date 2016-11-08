@@ -356,7 +356,7 @@ class IPAUserListViewController: UserListViewController {
                         
                         return stringFirst < stringSecond
                         
-                    })
+                    } as! (Any, Any) -> Bool)
                     
                     self.isShowingSuperlists = !self.isEditingUserList
                     self.checkEditBtn()
@@ -399,7 +399,7 @@ class IPAUserListViewController: UserListViewController {
                 errorBlock: { (error:NSError) -> Void in
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
                     self.changeFrameEditBtn(true, side: "left")
-                    failure?(error: error)
+                    failure?(error)
                     return
                 }
             )
@@ -413,7 +413,7 @@ class IPAUserListViewController: UserListViewController {
                 let secondString = second as! List
                 return firstString.name < secondString.name
                 
-            })
+            } as! (Any, Any) -> Bool)
             //println(self.itemsUserList)
             self.isShowingSuperlists = !self.isEditingUserList
 

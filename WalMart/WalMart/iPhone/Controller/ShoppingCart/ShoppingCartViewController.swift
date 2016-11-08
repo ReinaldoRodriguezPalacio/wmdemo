@@ -414,7 +414,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             return 1
         }
         
-        listObj = self.itemsInCartOrderSection[section - 1] as! [String:Any]
+        listObj = self.itemsInCartOrderSection[section - 1] 
             productObje = listObj["products"] as! [[String:Any]]
             
         if section == (self.itemsInCartOrderSection.count) {
@@ -438,7 +438,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         headerView.backgroundColor = UIColor.white
         let titleLabel = UILabel(frame: CGRect(x: 15.0, y: 0.0, width: self.view.frame.width, height: heightHeaderTable))
         
-        listObj = self.itemsInCartOrderSection[section - 1] as! [String:Any]
+        listObj = self.itemsInCartOrderSection[section - 1] 
         titleLabel.text = listObj["name"] as? String
         titleLabel.textColor = WMColor.light_blue
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
@@ -542,7 +542,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             
             var through: NSString! = ""
-            let plpArray = UserCurrentSession.sharedInstance.getArrayPLP(shoppingCartProduct as! [String:Any])
+            let plpArray = UserCurrentSession.sharedInstance.getArrayPLP(shoppingCartProduct )
            
             
             if let priceThr = shoppingCartProduct["saving"] as? NSString {
@@ -609,7 +609,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             return
         }
         
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section-1] as! NSDictionary
+        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section-1] as NSDictionary
         productObje = listObj["products"] as! NSArray
 
         if (indexPath as NSIndexPath).section == (itemsInCartOrderSection.count) {
@@ -623,7 +623,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section - 1, row: (indexPath as NSIndexPath).row) as [Any]
             controller.ixSelected = self.itemSelect//indexPath.row
             
-            let item = productObje[(indexPath as NSIndexPath).row] as! [String:Any]
+            let item = productObje[(indexPath as NSIndexPath).row] 
             let  name = item["productDisplayName"] as! String
             let upc = item["productId"] as! String
             //EVENT
@@ -641,7 +641,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             return 46
         }
         
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as! NSDictionary
+        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as NSDictionary
             productObje = listObj["products"] as! NSArray
 
         var flagSectionCel = false
@@ -919,9 +919,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
         //getUPCItems
         self.showLoadingView()
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as! NSDictionary
+        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as NSDictionary
         productObje = listObj["products"] as! NSArray
-        let itemWishlist = productObje[(indexPath as NSIndexPath).row] as! [String:Any]
+        let itemWishlist = productObje[(indexPath as NSIndexPath).row] 
         let upc = itemWishlist["commerceItemId"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
@@ -967,7 +967,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var showIva = true
         
         for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
+            let dictShoppingCartProduct = shoppingCartProduct 
             
             var price : NSString = ""
             
@@ -1652,7 +1652,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let service = GRAddItemListService()
         var products: [Any] = []
         for idx in 0 ..< self.itemsInShoppingCart.count {
-            let item = self.itemsInShoppingCart[idx] as! [String:Any]
+            let item = self.itemsInShoppingCart[idx] 
             
             let upc = item["productId"] as! String
             var quantity: Int = 0
@@ -1701,7 +1701,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         for idx in 0 ..< self.itemsInShoppingCart.count {
-            let item = self.itemsInShoppingCart[idx] as! [String:Any]
+            let item = self.itemsInShoppingCart[idx] 
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -1811,7 +1811,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         var products: [Any] = []
         for idx in 0 ..< self.itemsInShoppingCart.count {
-            let item = self.itemsInShoppingCart[idx] as! [String:Any]
+            let item = self.itemsInShoppingCart[idx] 
             
             let upc = item["productId"] as! String
             var quantity: Int = 0

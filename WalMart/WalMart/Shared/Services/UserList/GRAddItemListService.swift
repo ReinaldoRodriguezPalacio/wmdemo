@@ -36,7 +36,7 @@ class GRAddItemListService: GRBaseService {
     }
     
     
-    func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:NSDictionary, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         /*var toSneditem : [String:Any] = [:]
         let arrayItems = params["itemArrImp"] as! NSArray
         var arrayToSend : [[String:Any]] = []
@@ -51,7 +51,7 @@ class GRAddItemListService: GRBaseService {
         toSneditem["itemArrImp"] = arrayToSend*/
         self.jsonFromObject(params)
         self.callPOSTService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+                             successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 self.manageList(resultCall)
                 successBlock?(resultCall)
@@ -66,7 +66,7 @@ class GRAddItemListService: GRBaseService {
         
     }
     
-    func manageList(_ list:NSDictionary) {
+    func manageList(_ list:[String:Any]) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
@@ -103,7 +103,7 @@ class GRAddItemListService: GRBaseService {
                 }
             }
             else {
-                let fetchRequest = NSFetchRequest()
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
                 fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: context)
                 fetchRequest.predicate = NSPredicate(format: "list == %@", entity!)
                 let result: [Product] = (try! context.fetch(fetchRequest)) as! [Product]

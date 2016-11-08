@@ -517,7 +517,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Store", in: context)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let result: [Store] = (try! context.fetch(fetchRequest)) as! [Store]
@@ -708,7 +708,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     func searchForItems(_ textUpdate:String) -> [Store]? {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Store", in: context)
         if textUpdate != "" && "walmart ".lowercased().range(of: textUpdate) == nil {
             var textToSearch = textUpdate.lowercased()

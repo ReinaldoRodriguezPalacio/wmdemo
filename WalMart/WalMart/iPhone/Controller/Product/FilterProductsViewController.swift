@@ -771,7 +771,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 var itemToDelete = items[idx] as! [String:Any]
                 let id = itemToDelete["id"] as! String
                 for idxe in 0 ..< self.tableElements!.count {
-                    let innerElement:AnyObject = self.tableElements![idxe]
+                    let innerElement:AnyObject = self.tableElements![idxe] as AnyObject
                     let innerId = innerElement["id"] as! String
                     if id == innerId {
                         self.tableElements!.remove(at: idxe)
@@ -873,7 +873,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     func invokeRetrieveLinesForGroceries(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         NSLog("self.categories = categories")
         let service = GRLinesForSearchService()
-        service.callService(service.buildParams(self.textToSearch!),
+        service.callService(service.buildParams(self.textToSearch!) as NSDictionary,
             successBlock: { (categories: [Any]) -> Void in
                     NSLog("self.categories = categories")
                     self.categories = categories
@@ -898,7 +898,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func invokeRetrieveLinesForMG(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         let service = LinesForSearchService()
-        service.callService(service.buildParams(self.textToSearch!),
+        service.callService(service.buildParams(self.textToSearch!) as NSDictionary,
             successBlock: { (categories:[Any]) -> Void in
                 NSLog("Inicia pintado de datos")
                 if self.categories != nil {

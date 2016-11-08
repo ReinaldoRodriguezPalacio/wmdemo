@@ -94,16 +94,16 @@ class PreviousDetailTableViewCell : ProductDetailCharacteristicsTableViewCell {
         let address = values["deliveryAddress"] as? String
         let typePaymen = values["paymentType"] as? String
         
-        var rectSize = size(forText: name! as NSString, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.max))
+        var rectSize = size(forText: name! as NSString, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.greatestFiniteMagnitude))
         heigth += rectSize.height + 8.0
         
-        rectSize = size(forText: type!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.max))
+        rectSize = size(forText: type! as NSString, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.greatestFiniteMagnitude))
         heigth += rectSize.height + 8.0
         
-        rectSize = size(forText: address!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.max))
+        rectSize = size(forText: address! as NSString, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.greatestFiniteMagnitude))
         heigth += rectSize.height + 8.0
         
-        rectSize = size(forText: typePaymen!, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.max))
+        rectSize = size(forText: typePaymen! as NSString, withFont:WMFont.fontMyriadProRegularOfSize(14), andSize: CGSize(width: self.frame.width - 16.0, height: CGFloat.greatestFiniteMagnitude))
         heigth += rectSize.height + 32.0
         
         return heigth

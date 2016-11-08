@@ -12,7 +12,7 @@ class GRRecentProductsService : GRBaseService  {
     
     
     func callService(_ successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
-        self.callGETService([:] as! AnyObject, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService([:] as AnyObject, successBlock: { (resultCall:NSDictionary) -> Void in
             self.jsonFromObject(resultCall)
             successBlock!(resultCall)
            

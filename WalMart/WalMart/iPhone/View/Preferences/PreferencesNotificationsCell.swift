@@ -120,7 +120,7 @@ class PreferencesNotificationsCell: UITableViewCell,CMSwitchViewDelegate,UITextF
     //MARK:CMSwitchViewDelegate
     func switchValueChanged(_ sender: Any!, andNewValue value: Bool) {
         switchBlock!.borderColor = value ? WMColor.green :  WMColor.reg_gray
-        if (sender as! AnyObject).tag == 2 {
+        if (sender as AnyObject).tag == 2 {
             self.phoneField!.isRequired = value
             self.phoneField?.isHidden =  !value
             if !value {

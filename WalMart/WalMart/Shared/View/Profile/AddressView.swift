@@ -296,7 +296,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                             self.picker!.selected = self.selectedStore
                             self.picker!.sender = self.store!
                             self.picker!.delegate = self
-                            self.picker!.setValues(self.store!.nameField, values: self.stores)
+                            self.picker!.setValues(self.store!.nameField as NSString, values: self.stores)
                             self.picker!.showPicker()
                         }else{
                             self.popupTableSelected = self.selectedStore
@@ -317,7 +317,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                     self.picker!.selected = self.selectedNeighborhood
                     self.picker!.sender = self.suburb!
                     self.picker!.delegate = self
-                    self.picker!.setValues(self.suburb!.nameField, values: self.neighborhoods)
+                    self.picker!.setValues(self.suburb!.nameField as NSString, values: self.neighborhoods)
                     self.picker!.showPicker()
                 }else{
                     self.endEditing(true)
@@ -554,7 +554,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                     if self.errorView == nil{
                         self.errorView = FormFieldErrorView()
                     }
-                    let stringToShow : NSString = error.localizedDescription
+                    let stringToShow : NSString = error.localizedDescription as NSString
                     let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
                     SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
                 }

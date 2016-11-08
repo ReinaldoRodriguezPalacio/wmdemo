@@ -229,7 +229,7 @@ class GRUserListService : GRBaseService {
             
             if(updateDetailList) {
                 
-                let fetchRequest = NSFetchRequest()
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
                 fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
                 fetchRequest.predicate = NSPredicate(format: "list == %@", toUseList!)
                 let result: [Product] = (try! self.managedContext!.fetch(fetchRequest)) as! [Product]
@@ -315,7 +315,7 @@ class GRUserListService : GRBaseService {
      */
     func deleteItemInDB(_ toUseList:String){
         
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "list == %@", toUseList)
         let result: [Product] = (try! self.managedContext!.fetch(fetchRequest)) as! [Product]
@@ -340,7 +340,7 @@ class GRUserListService : GRBaseService {
     
     func retrieveUserList() -> [List]? {
         var userList: [List]?
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: self.managedContext!)
         //fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
         do{
@@ -352,7 +352,7 @@ class GRUserListService : GRBaseService {
     }
     
     func findListById(_ listId:String) -> List? {
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List" as NSString as String, in: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == %@", listId)
         var result: [List] = (try! self.managedContext!.fetch(fetchRequest)) as! [List]
@@ -364,7 +364,7 @@ class GRUserListService : GRBaseService {
     }
 
     func retrieveNotSyncList() -> [List]? {
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
         var result: [List]? = nil

@@ -39,7 +39,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
                 let doubleVaule = NSString(string: productPriceThrough).doubleValue
                 if doubleVaule > 0.1 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
-                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)")
+                    let formated = CurrencyCustomLabel.formatString("\(productPriceThrough)" as NSString)
                     savingPrice = "\(savingStr) \(formated)"
                 }
             } else {
@@ -93,7 +93,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
         }
         total = (quantity * price.doubleValue)
         self.quantityIndicator!.setTitle(text!, for: UIControlState())
-        let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
+        let formatedPrice = CurrencyCustomLabel.formatString("\(total)" as NSString)
         self.total = formatedPrice
     
         self.productShortDescriptionLabel!.text = product["description"] as? String

@@ -348,7 +348,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         
                         return stringFirst < stringSecond
                         
-                    })
+                    } as! (Any, Any) -> Bool)
                     
                     self.tableuserlist?.reloadData()
                     self.checkEditBtn()
@@ -379,7 +379,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 errorBlock: { (error:NSError) -> Void in
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
                     self.changeFrameEditBtn(true, side: "left")
-                    failure?(error: error)
+                    failure?(error)
                     return
                 }
             )
@@ -393,7 +393,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 let secondString = second as! List
                 return firstString.name < secondString.name
             
-           })
+           } as! (Any, Any) -> Bool)
             
             self.tableuserlist!.reloadData()
             self.tableuserlist!.selectRow(at: self.listSelectedDuplicate, animated: false, scrollPosition: .none)
@@ -445,7 +445,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 },
                 errorBlock: { (error:NSError) -> Void in
                     //                    self.editBtn!.hidden = true
-                    failure?(error: error)
+                    failure?(error)
                     return
                 }
             )
@@ -876,7 +876,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     clist!.registryDate = Date()
                     clist!.countItem = NSNumber(value: 0 as Int)
                     
-                    let fetchRequest = NSFetchRequest()
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
                     fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
                     fetchRequest.predicate = NSPredicate(format: "list == %@", listItem)
                      var result: [Product]? = nil
@@ -1015,7 +1015,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
         fetchRequest.predicate = NSPredicate(format: "idList == %@", idList)
         
@@ -1455,7 +1455,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             let service = GRDeleteUserListService()
            
-            service.callService(service.buildParams(listId),
+            service.callService(service.buildParams(listId) as NSDictionary?,
                 successBlock:{ (result:NSDictionary) -> Void in
                     self.reloadList(
                         success: { () -> Void in
@@ -1619,7 +1619,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
         let service = GRProductByTicket()
-        service.callService(service.buildParams(value!),
+        service.callService(service.buildParams(value!) as AnyObject,
             successBlock: { (result: NSDictionary) -> Void in
                 if let items = result["items"] as? [Any] {
                     
@@ -1764,7 +1764,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func retrieveParam(_ key:String) -> Param? {
         let user = UserCurrentSession.sharedInstance.userSigned
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: self.managedContext!)
         if user != nil {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
@@ -1816,7 +1816,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func searchForItems(_ textUpdate:String) -> [List]? {
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: self.managedContext!)
         if textUpdate != "" {
             fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)",textUpdate,textUpdate)

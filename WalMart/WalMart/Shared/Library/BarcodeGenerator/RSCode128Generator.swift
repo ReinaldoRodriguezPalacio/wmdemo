@@ -129,7 +129,7 @@ open class RSCode128Generator: RSAbstractCodeGenerator, RSCheckDigitGenerator {
             let CODE128_ALPHABET_STRING_A = CODE128_ALPHABET_STRING.substring(0, length: 64)
             
             for i in 0..<contents.length() {
-                if CODE128_ALPHABET_STRING_A.location(contents[i]) == NSNotFound
+                if CODE128_ALPHABET_STRING_A?.location(contents[i]) == NSNotFound
                     && defaultCodeTable == .a {
                         defaultCodeTable = .b
                         break
@@ -140,12 +140,12 @@ open class RSCode128Generator: RSAbstractCodeGenerator, RSCheckDigitGenerator {
             for i in 0..<contents.length() {
                 let character = contents[i]
                 var continousDigitsRange:CountableRange<Int> = 0..<0
-                if DIGITS_STRING.location(character) == NSNotFound {
+                if DIGITS_STRING.location(character!) == NSNotFound {
                     // Non digit found
                     if continousDigitsStartIndex != NSNotFound {
                         continousDigitsRange = continousDigitsStartIndex ..< i
                     } else {
-                        let characterValue = CODE128_ALPHABET_STRING.location(character)
+                        let characterValue = CODE128_ALPHABET_STRING.location(character!)
                         self.autoCodeTable.sequence.append(characterValue)
                     }
                 } else {
@@ -203,7 +203,7 @@ open class RSCode128Generator: RSAbstractCodeGenerator, RSCheckDigitGenerator {
             case .a:
                 let CODE128_ALPHABET_STRING_A = CODE128_ALPHABET_STRING.substring(0, length: 64)
                 for i in 0..<contents.length() {
-                    if CODE128_ALPHABET_STRING_A.location(contents[i]) == NSNotFound {
+                    if CODE128_ALPHABET_STRING_A?.location(contents[i]) == NSNotFound {
                         return false
                     }
                 }

@@ -65,7 +65,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     func retrieveProductInCar() -> Cart? {
         var detail: Cart? = nil
         if self.upc != nil {
-            let fetchRequest = NSFetchRequest()
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Cart", in: self.managedContext!)
             
             let predicate = NSPredicate(format: "product.upc == %@ && status != %@", self.upc as NSString,NSNumber(value: CartStatus.deleted.rawValue as Int))
@@ -196,7 +196,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.isActive =  self.isActive == "" ?  "true" : self.isActive
         let productObject = [service.buildProductObject(upc:self.upc, quantity:1,pesable:"\(self.isPesable.hashValue)",active:self.isActive == "true" ? true : false)]//isActive
         
-        service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
+        service.callService(service.buildParams(idList: idListSelect, upcs: productObject) as NSDictionary,
                             successBlock: { (result:NSDictionary) -> Void in
                                 self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc)
                                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))

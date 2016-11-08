@@ -76,7 +76,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.selectedOption = quantity
         self.button!.setTitle("\(quantity)", for: UIControlState())
         let calculated: Double = value * Double(quantity)
-        let resultStr = CurrencyCustomLabel.formatString(NSNumber(value: calculated as Double).stringValue)
+        let resultStr = CurrencyCustomLabel.formatString(NSNumber(value: calculated as Double).stringValue as NSString)
         self.totalString = resultStr
         //var title = "Añadir \(resultStr)"
         /*self.price!.updateMount(title, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)

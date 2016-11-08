@@ -108,7 +108,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
             }
         }
             
-        let cellFormatedTotal = CurrencyCustomLabel.formatString("\(totalInList)")
+        let cellFormatedTotal = CurrencyCustomLabel.formatString("\(totalInList)" as NSString)
         cellreturn.setValues(listName!, numberItems: "\(items!.count)",total:cellFormatedTotal)
 
         return cellreturn

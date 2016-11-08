@@ -192,9 +192,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         let iva = totalsItems["iva"] as String!
         let total = totalsItems["total"] as String!
         let totalSaving = totalsItems["totalSaving"] as String!
-        self.updateShopButton(total)
+        self.updateShopButton(total!)
         
-        totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
+        totalsView.setValues(subTotalText!, iva: iva!, total:total!,totalSaving:totalSaving!)
     }
     
     override func loadShoppingCartService() {
@@ -204,8 +204,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         self.itemsInCartOrderSection =  []
         if UserCurrentSession.sharedInstance.itemsMG != nil {
             //self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! NSArray as [Any]
-            let itemsUserCurren = UserCurrentSession.sharedInstance.itemsMG! as! Dictionary<String, AnyObject>
-            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren, isShoppingCart: true) as! [Any]
+            let itemsUserCurren = UserCurrentSession.sharedInstance.itemsMG! as Dictionary<String, AnyObject>
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as AnyObject, isShoppingCart: true) as! [Any]
             
              checkoutVC?.itemsInCart = itemsUserCurren["commerceItems"] as! [Any] as NSArray!
             
@@ -238,10 +238,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         let subTotalText = totalsItems["subtotal"] as String!
         let iva = totalsItems["iva"] as String!
         
-        self.updateShopButton(total)
+        self.updateShopButton(total!)
         
         if self.totalsView != nil {
-            self.totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
+            self.totalsView.setValues(subTotalText!, iva: iva!, total:total!,totalSaving:totalSaving!)
         }
         
         self.viewShoppingCart.delegate = self
@@ -271,7 +271,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             return 1
         }
         
-        listObj = self.itemsInCartOrderSection[section - 1] as! NSDictionary
+        listObj = self.itemsInCartOrderSection[section - 1] as NSDictionary
         productObje = listObj["products"] as! NSArray
         
         if section == (self.itemsInCartOrderSection.count) {
@@ -370,7 +370,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
 
    override func loadCrossSell() {
     for itemSection in 0 ..< itemsInShoppingCart.count {
-        let listObj = self.itemsInShoppingCart[itemSection] as! NSDictionary
+        let listObj = self.itemsInShoppingCart[itemSection] as NSDictionary
         if listObj.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
@@ -382,7 +382,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                         isShowingBeforeLeave = true
                     }
                     
-                    self.itemsUPC = result!
+                    self.itemsUPC = result! as! [Any]
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [Any]
 //                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
@@ -394,12 +394,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
-                        self.itemsUPC = NSArray(array:resultArray)
+                        self.itemsUPC = NSArray(array:resultArray) as! [Any]
                         
                     }
                     if self.itemsInShoppingCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.beforeLeave.itemsUPC = self.itemsUPC
+                            self.beforeLeave.itemsUPC = self.itemsUPC as NSArray
                             self.beforeLeave.collection.reloadData()
                         }else{
                             
@@ -479,7 +479,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                     self.selectQuantity?.closeAction()
                     let updateOrderService = UpdateItemToOrderService()
                     let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
-                    updateOrderService.callService(requestParams: params, succesBlock: {(result) in
+                    updateOrderService.callService(requestParams: params as AnyObject, succesBlock: {(result) in
                         self.reloadShoppingCart()
                         }, errorBlock: {(error) in
                          self.reloadShoppingCart()
@@ -594,7 +594,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
 
         
-        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
+        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs) as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
             print("Error not done")
             
             if self.viewLoad != nil {
@@ -602,7 +602,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                 self.viewLoad = nil
             }
             
-            self.onClose?(isClose:true)
+            self.onClose?(true)
             self.navigationController?.popViewController(animated: true)
             //self.navigationController!.popToRootViewControllerAnimated(true)
             }) { (error:NSError) -> Void in

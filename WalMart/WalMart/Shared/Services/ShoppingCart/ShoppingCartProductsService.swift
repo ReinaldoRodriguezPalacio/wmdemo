@@ -87,7 +87,7 @@ class ShoppingCartProductsService : BaseService {
             
             //let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory]
             
-            let dictItem = ["productId":itemSC.product.upc,"productDisplayName":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department, "currencyCode" :"MXN" ,"orderedQtyWeight":itemSC.product.orderedQtyWeight, "isWeighable":itemSC.product.isWeighable, "commerceItemId": itemSC.product.commerceItemId, "catalogRefId": itemSC.product.catalogRefId]
+            let dictItem = ["productId":itemSC.product.upc,"productDisplayName":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department, "currencyCode" :"MXN" ,"orderedQtyWeight":itemSC.product.orderedQtyWeight, "isWeighable":itemSC.product.isWeighable, "commerceItemId": itemSC.product.commerceItemId, "catalogRefId": itemSC.product.catalogRefId] as [String : Any]
             
             let price = itemSC.product.price as NSString
             let ivaprod = itemSC.product.iva as NSString
@@ -311,7 +311,7 @@ class ShoppingCartProductsService : BaseService {
             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             for itemDeleted in deteted {
-                itemDeleted.status = CartStatus.synchronized.rawValue
+                itemDeleted.status = NSNumber(CartStatus.synchronized.rawValue)
                 do {
                     try context.save()
                 } catch let error as NSError {
@@ -321,7 +321,7 @@ class ShoppingCartProductsService : BaseService {
             }
             
             let dic = serviceDelete.builParamsMultiple(arratUpcsDelete)
-            serviceDelete.callService(dic, successBlock: { (result:NSDictionary) -> Void in
+            serviceDelete.callService(dic as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
@@ -343,7 +343,7 @@ class ShoppingCartProductsService : BaseService {
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
             }
-            serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:NSDictionary) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                     if error.code != -100 {
@@ -368,7 +368,7 @@ class ShoppingCartProductsService : BaseService {
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
-                itemUpdated.status = CartStatus.synchronized.rawValue
+                itemUpdated.status = NSNumber(CartStatus.synchronized.rawValue)
             }
             do {
                 try context.save()
@@ -376,7 +376,7 @@ class ShoppingCartProductsService : BaseService {
                 print(error.localizedDescription)
             }
             
-            serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:NSDictionary) -> Void in
                 ShoppingCartService.isSynchronizing = false
                 successBlock()
                 

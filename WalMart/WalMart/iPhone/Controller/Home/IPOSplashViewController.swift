@@ -95,7 +95,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let user = UserCurrentSession.sharedInstance.userSigned
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
         if user != nil {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
@@ -248,7 +248,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     class func callUpdateServices() {
                 
         let categoryService = CategoryService()
-        categoryService.callService(Dictionary<String, String>(),
+        categoryService.callService(Dictionary<String, String>() as NSDictionary,
             successBlock: { (response:NSDictionary) -> Void in print("Call service CategoryService success") },
             errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
         )
@@ -273,7 +273,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
-        caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
+        caroService.callService(caroparams as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
             print("Call service caroService success")
             }) { (error:NSError) -> Void in
                 print("Call service caroService error \(error)")
@@ -305,7 +305,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         let banService = BannerService()
         let params = Dictionary<String, String>()
-        banService.callService(params, successBlock: { (result:NSDictionary) -> Void in
+        banService.callService(params as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
             
             }) { (error:NSError) -> Void in
                 print("Call service BannerService error \(error)")
@@ -314,7 +314,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         if invokeService {
             let caroService = CarouselService()
             let caroparams = Dictionary<String, String>()
-            caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
+            caroService.callService(caroparams as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
                 print("Call service BannerService success")
                 }) { (error:NSError) -> Void in
                     print("Call service BannerService error \(error)")
@@ -343,9 +343,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 if let privateNot = result["privaceNotice"] as? NSArray {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy"
-                    let sinceDate = dateFormatter.date(from: privateNot.object(at: 0).object(forKey: "sinceDate") as! String)!
-                    let untilDate = dateFormatter.date(from: privateNot.object(at: 0).object(forKey: "untilDate") as! String)!
-                    let version = privateNot.object(at: 0).object(forKey: "version") as! NSNumber
+                    let sinceDate = dateFormatter.date(from: (privateNot.object(at: 0) as AnyObject).object(forKey: "sinceDate") as! String)!
+                    let untilDate = dateFormatter.date(from: (privateNot.object(at: 0) as AnyObject).object(forKey: "untilDate") as! String)!
+                    let version = (privateNot.object(at: 0) as AnyObject).object(forKey: "version") as! NSNumber
                     let versionAP = "AP\(version)" as String!
                     var isReviewActive : NSString = "false"
                     
@@ -360,13 +360,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     UserCurrentSession.sharedInstance.isReviewActive = isReviewActive.boolValue
                     
                     if let commensChck = result["alertComment"] as? NSArray {
-                        if let active = commensChck[0].object(forKey: "isActive") as? Bool {
+                        if let active = (commensChck[0] as AnyObject).object(forKey: "isActive") as? Bool {
                             UserCurrentSession.sharedInstance.activeCommens = active
                         }
-                        if let message = commensChck[0].object(forKey: "message") as? String {
+                        if let message = (commensChck[0] as AnyObject).object(forKey: "message") as? String {
                             UserCurrentSession.sharedInstance.messageInCommens = message
                         }
-                        if let upcs = commensChck[0].object(forKey: "upcs") as? NSArray {
+                        if let upcs = (commensChck[0] as AnyObject).object(forKey: "upcs") as? NSArray {
                              UserCurrentSession.sharedInstance.upcSearch = upcs
                         }
                  
@@ -374,7 +374,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     
                     
                     var requiredAP = true
-                    if let param = self.retrieveParam(versionAP) {
+                    if let param = self.retrieveParam(versionAP!) {
                         requiredAP = !(param.value == "false")
                     }
                     
@@ -393,7 +393,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                             }
                         }
                         
-                        let url = result["privaceNotice"]?.object(at: 0).object(forKey: "url") as! String
+                        let url = ((result["privaceNotice"] as AnyObject).object(at: 0) as AnyObject).object(forKey: "url") as! String
                         let request = URLRequest(url: URL(string:url)!)
                         let configuration = URLSessionConfiguration.default
                         let manager = AFURLSessionManager(sessionConfiguration: configuration)

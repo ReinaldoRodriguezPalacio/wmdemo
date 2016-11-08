@@ -70,7 +70,7 @@ class StoreLocatorService: BaseService {
         var store: Store? = nil
         if storeId != nil {
             self.loadContext()
-            let fetchRequest = NSFetchRequest()
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Store", in: self.managedObjectContext!)
             fetchRequest.predicate = NSPredicate(format: "storeID == %@", storeId!)
             var result: [Store] = (try! self.managedObjectContext!.fetch(fetchRequest)) as! [Store]

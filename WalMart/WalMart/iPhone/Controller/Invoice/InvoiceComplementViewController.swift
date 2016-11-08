@@ -185,7 +185,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
             self.picker!.titleHeader = "Direcciones"
             self.picker!.delegate = self
             //self.picker!.selected = self.selectedConfirmation
-            self.picker!.setValues(self.address!.nameField, values: self.arrayAddressFiscalNames!)
+            self.picker!.setValues(self.address!.nameField as NSString, values: self.arrayAddressFiscalNames!)
             self.picker!.cellType = TypeField.check
             self.picker!.showPicker()
         }

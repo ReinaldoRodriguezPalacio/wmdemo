@@ -235,7 +235,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         if self.categories.count > 0 {
             let catNameFilter = self.categories[selectedIndexCategory]
-            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
+            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
             //let arrayItemsResult =  arrayItems as! [Any]
             return arrayItems.count
         }
@@ -266,7 +266,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: indexPath) as! ProductHomeCollectionViewCell
                 
                 let catNameFilter = self.categories[selectedIndexCategory]
-                let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
+                let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
                 let arrayItemsResult =  arrayItems as! [Any]
                 let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:Any]
                
@@ -334,7 +334,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let controller = ProductDetailPageViewController()
             
             let catNameFilter = self.categories[selectedIndexCategory]
-            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
+            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
             let arrayItemsResult =  arrayItems as! [Any]
             let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:Any]
             var upc = ""
@@ -599,11 +599,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             var indexesPathsInsert : [IndexPath] = []
             
             let catNameFilter = self.categories[selectedIndexCategory]
-            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
+            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
             let arrayItemsResult =  arrayItems as! [Any]
             
             let catNameFilterNew = self.categories[index]
-            let arrayItemsNew : AnyObject = self.recommendCategoryItems[catNameFilterNew]!
+            let arrayItemsNew : AnyObject = self.recommendCategoryItems[catNameFilterNew]! as AnyObject
             let arrayItemsResultNew =  arrayItemsNew as! [Any]
             
             for ix in 0...arrayItemsResult.count - 1 {

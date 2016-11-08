@@ -316,7 +316,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.picker!.selected = self.selectedPaymentType
                         self.picker!.sender = self.paymentOptions!
                         self.picker!.delegate = self
-                        self.picker!.setValues(self.paymentOptions!.nameField, values: itemsPayments)
+                        self.picker!.setValues(self.paymentOptions!.nameField as NSString, values: itemsPayments)
                         self.picker!.cellType = TypeField.check
                         self.picker!.showPicker()
                         
@@ -330,7 +330,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
                     self.picker!.delegate = self
                     self.picker!.selected = self.selectedConfirmation
-                    self.picker!.setValues(self.discountAssociate!.nameField, values: discountAssociateItems)
+                    self.picker!.setValues(self.discountAssociate!.nameField as NSString, values: discountAssociateItems)
                     self.picker!.cellType = TypeField.alphanumeric
                     self.picker!.showPicker()
                     
@@ -382,7 +382,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.selected = self.selectedConfirmation
                 self.picker!.sender = self.confirmation!
                 self.picker!.delegate = self
-                self.picker!.setValues(self.confirmation!.nameField, values: itemsOrderOptions)
+                self.picker!.setValues(self.confirmation!.nameField as NSString, values: itemsOrderOptions)
                 self.picker!.cellType = TypeField.check
                 self.picker!.showPicker()
                 
@@ -708,7 +708,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.selected = self.selectedTimeSlotTypeIx
                 self.picker!.sender = self.deliverySchedule!
                 self.picker!.delegate = self
-                self.picker!.setValues(self.deliverySchedule!.nameField, values: itemsSlots)
+                self.picker!.setValues(self.deliverySchedule!.nameField as NSString, values: itemsSlots)
                 self.picker!.cellType = TypeField.check
                 self.picker!.showPicker()
             }
@@ -728,7 +728,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
-                self.paymentOptionsItems = result as [Any]
+                self.paymentOptionsItems = result as! [Any]
                 if result.count > 0 {
                     let option = result[0] as! NSDictionary
                     if let text = option["paymentType"] as? String {
@@ -976,7 +976,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {
-                    self.addressItems = items as [Any]
+                    self.addressItems = items as! [Any]
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
@@ -1040,7 +1040,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.picker!.selected = self.selectedShipmentTypeIx
                         self.picker!.sender = self.shipmentType!
                         self.picker!.delegate = self
-                        self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
+                        self.picker!.setValues(self.shipmentType!.nameField as NSString, values: itemsShipment)
                         self.picker!.cellType = TypeField.check
                         self.picker!.showPicker()
                     }
@@ -1207,7 +1207,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                 }
             }
-            self.slotsItems = result["slots"] as! NSArray as [Any]
+            self.slotsItems = result["slots"] as! NSArray as! [Any]
             //--self.addViewLoad()
             endCallTypeService()
         }) { (error:NSError) -> Void in
@@ -1234,7 +1234,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.addViewLoad()//--ok
                 self.paymentOptions!.text = selectedStr
                 self.selectedPaymentType = indexPath
-                let paymentType: AnyObject = self.paymentOptionsItems![(indexPath as NSIndexPath).row]
+                let paymentType: AnyObject = self.paymentOptionsItems![(indexPath as NSIndexPath).row] as AnyObject
                 let paymentId = paymentType["id"] as! String
                 if paymentId == "-1"{
                     self.showPayPalFuturePayment = true
@@ -1283,7 +1283,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                   BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
-                let shipment: AnyObject = self.shipmentItems![(indexPath as NSIndexPath).row]
+                let shipment: AnyObject = self.shipmentItems![(indexPath as NSIndexPath).row] as AnyObject
                 self.shipmentAmount = shipment["cost"] as! Double
             }
             if formFieldObj ==  self.deliverySchedule! {
@@ -1366,7 +1366,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.sAddredssForm.street.text = result["street"] as! String!
                 let neighborhoodID = result["neighborhoodID"] as! String!
                 let storeID = result["storeID"] as! String!
-                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
                 self.sAddredssForm.idAddress = result["addressID"] as! String!
                 }) { (error:NSError) -> Void in
             }
@@ -1454,7 +1454,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             buttonShop!.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(total as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
@@ -1573,9 +1573,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if self.idFreeShepping != 0 || self.idReferido != 0{
                     deliveryAmount =  0.0
                 }
-                let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
-                let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
-                let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
+                let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue as NSString)
+                let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
+                let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)" as NSString)
                 let formattedDate = deliveryDate.substring(to: 10)
                 let slot = purchaseOrder["slot"] as! NSDictionary
                 
@@ -1636,7 +1636,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.picker!.sender = self.address!
         self.picker!.delegate = self
             
-        self.picker!.setValues(self.address!.nameField, values: itemsAddress)
+        self.picker!.setValues(self.address!.nameField as NSString, values: itemsAddress)
         self.picker!.cellType = TypeField.check
         if !self.selectedAddressHasStore {
             self.picker!.onClosePicker = {

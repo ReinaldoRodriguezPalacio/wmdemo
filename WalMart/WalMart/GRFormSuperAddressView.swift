@@ -327,7 +327,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                         if self.errorView == nil{
                             self.errorView = FormFieldErrorView()
                         }
-                        let stringToShow : NSString = error.localizedDescription
+                        let stringToShow : NSString = error.localizedDescription as NSString
                         let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
                         SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false)
                         

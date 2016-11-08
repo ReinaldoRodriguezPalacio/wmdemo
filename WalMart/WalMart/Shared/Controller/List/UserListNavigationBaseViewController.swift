@@ -51,7 +51,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 print("duplicate::List")
         //saveService.buildParamsMustang(name)
         //service.buildParams(copyName, items: items)
-                print(service.jsonFromObject(service.buildParamsMustang(copyName)))//invocar servicios como en tiket
+                print(service.jsonFromObject(service.buildParamsMustang(copyName) as AnyObject!))//invocar servicios como en tiket
         
         
                 service.callService(service.buildParamsMustang(copyName),

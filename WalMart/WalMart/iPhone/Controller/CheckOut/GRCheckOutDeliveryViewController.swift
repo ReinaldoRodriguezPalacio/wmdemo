@@ -219,7 +219,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.picker!.sender = self.address!
         self.picker!.delegate = self
         
-        self.picker!.setValues(self.address!.nameField, values: itemsAddress)
+        self.picker!.setValues(self.address!.nameField as NSString, values: itemsAddress)
         self.picker!.cellType = TypeField.check
         self.picker!.showDisclosure = true
         self.picker!.showPrefered = true
@@ -421,7 +421,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     addAddressView.sAddredssForm!.street.text = result["street"] as! String!
                     let neighborhoodID = result["neighborhoodID"] as! String!
                     let storeID = result["storeID"] as! String!
-                    addAddressView.sAddredssForm!.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+                    addAddressView.sAddredssForm!.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
                     addAddressView.sAddredssForm!.idAddress = result["addressID"] as! String!
                     }) { (error:NSError) -> Void in
                 }
@@ -455,7 +455,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.picker!.selected = self.selectedAddressInvoiceIx
                     self.picker!.sender = self.addressInvoice!
                     self.picker!.delegate = self
-                    self.picker!.setValues(self.addressInvoice!.nameField, values: itemsAddress)
+                    self.picker!.setValues(self.addressInvoice!.nameField as NSString, values: itemsAddress)
                     self.picker!.cellType = TypeField.check
                     self.picker!.showDisclosure = true
                     self.picker!.showPrefered = true
@@ -496,7 +496,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {
-                    self.addressItems = items as [Any]
+                    self.addressItems = items as! [Any]
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {

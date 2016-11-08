@@ -76,7 +76,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 
                                 carProductItem.upc = upc
                                 carProductItem.desc = desc
-                                carProductItem.price = price
+                                carProductItem.price = price as NSString
                                 carProductItem.baseprice = baseprice
                                 carProductItem.img = imageUrl
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
@@ -192,7 +192,7 @@ class GRShoppingCartProductsService : GRBaseService {
             for itemDeleted in deteted {
                 currentItem += 1
                 
-                itemDeleted.status = CartStatus.synchronized.rawValue
+                itemDeleted.status = NSNumber(CartStatus.synchronized.rawValue)
                 do {
                     try context.save()
                 } catch let error1 as NSError {
@@ -265,7 +265,7 @@ class GRShoppingCartProductsService : GRBaseService {
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
             for itemUpdated in updated {
-                itemUpdated.status = CartStatus.synchronized.rawValue
+                itemUpdated.status = NSNumber(CartStatus.synchronized.rawValue)
             }
             do {
                 try context.save()

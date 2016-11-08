@@ -94,7 +94,7 @@ class SelectItemTableViewCell : UITableViewCell {
     
     class func sizeText(_ text:String,width:CGFloat) -> CGFloat {
         let attrString = NSAttributedString(string:text, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)])
-        let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.max), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         return rectSize.height + 32
 
     }

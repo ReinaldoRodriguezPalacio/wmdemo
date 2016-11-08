@@ -69,10 +69,10 @@ class OrderShippingTotalTableViewCell  : UITableViewCell {
     
     func setValues(_ total: String,totalSaving:String){
         
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
         valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
         
-        let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving as NSString)
         valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
     }
     

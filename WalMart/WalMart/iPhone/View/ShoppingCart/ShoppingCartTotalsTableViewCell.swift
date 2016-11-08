@@ -133,13 +133,13 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         
         articlesTitle!?.text  = "\(articles) \(NSLocalizedString("artículos",comment:""))"
 
-        let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost)
+        let formatedShippingCost = CurrencyCustomLabel.formatString(shippingCost as NSString)
         valueShippingCost!.updateMount(formatedShippingCost, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         
-        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-        let formatedIVA = CurrencyCustomLabel.formatString(iva)
-        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
+        let formatedIVA = CurrencyCustomLabel.formatString(iva as NSString)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving as NSString)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
         
         valueSubtotal!.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         valueIva!.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
@@ -160,8 +160,8 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         valueIva!.isHidden = true
         
         savingTitle!.text = NSLocalizedString("previousorder.saving",comment:"")
-        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving as NSString)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
         
         valueTotalSaving!.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(14), color:  WMColor.green, interLine: false)
         valueTotal!.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
@@ -197,8 +197,8 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         valueTotalSaving!.isHidden = true
         
         articlesTitle!?.text  = "\(articles) \(NSLocalizedString("artículos",comment:""))"
-        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
         
         valueSubtotal!.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         valueTotal!.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.orange, interLine: false)
@@ -228,10 +228,10 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         shippingCostTitle!.isHidden = true
         valueShippingCost!.isHidden = true
         
-        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-        let formatedIVA = CurrencyCustomLabel.formatString(iva)
-        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving)
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
+        let formatedIVA = CurrencyCustomLabel.formatString(iva as NSString)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(saving as NSString)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
         
         valueSubtotal!.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)
         valueIva!.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.reg_gray, interLine: false)

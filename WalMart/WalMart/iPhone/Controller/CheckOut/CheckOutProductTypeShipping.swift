@@ -248,7 +248,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                 self.picker!.selected = self.selectedDateIdx
                 self.picker!.sender = self.dateForm
                 self.picker!.selectOptionDelegate = self
-                self.picker!.setValues(NSLocalizedString("dates.delivery.aviables",comment:""), values:self.dateSlot )
+                self.picker!.setValues(NSLocalizedString("dates.delivery.aviables",comment:"") as NSString, values:self.dateSlot )
                 self.picker!.cellType = TypeField.check
                 self.picker!.showPicker()
                 self.view.endEditing(true)
@@ -269,7 +269,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                 self.picker!.selected = self.selectedSlotIdx
                 self.picker!.sender = self.timeForm
                 self.picker!.selectOptionDelegate = self
-                self.picker!.setValues(NSLocalizedString("times.aviables",comment:""), values:self.timeSelect )
+                self.picker!.setValues(NSLocalizedString("times.aviables",comment:"") as NSString, values:self.timeSelect )
                 self.picker!.cellType = TypeField.check
                 self.picker!.showPicker()
                 self.textFieldSelected = "Time"

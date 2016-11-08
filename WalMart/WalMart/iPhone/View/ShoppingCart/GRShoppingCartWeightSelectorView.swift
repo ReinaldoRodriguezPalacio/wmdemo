@@ -581,7 +581,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     func updateShoppButton(){
         
         let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
-        let strPrice = CurrencyCustomLabel.formatString("\(result)")
+        let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
         
@@ -611,7 +611,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     func updateShoppButtonN(){
         
         let result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
-        let strPrice = CurrencyCustomLabel.formatString("\(result)")
+        let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
         

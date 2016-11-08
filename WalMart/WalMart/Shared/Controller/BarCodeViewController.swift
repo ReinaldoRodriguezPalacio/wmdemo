@@ -328,7 +328,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
         let service = GRProductByTicket()
-        service.callService(service.buildParams(barcodeValue),
+        service.callService(service.buildParams(barcodeValue) as AnyObject,
             successBlock: { (result: NSDictionary) -> Void in
                 if let items = result["items"] as? [Any] {
                     
@@ -357,7 +357,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     
                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    let fetchRequest = NSFetchRequest()
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
                     fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
                     fetchRequest.predicate = NSPredicate(format:"idList != nil")
                     

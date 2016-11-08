@@ -137,10 +137,10 @@ class SliderTableViewCell: UITableViewCell {
     
     func setAmountLabels(forMinAmount min:Double, andMaxAmount max:Double) {
         self.minLabel!.updateMount(self.currencyFmt!.string(from: NSNumber(value: min as Double))!,
-            fontInt:self.numFont, colorInt:self.labelColor, fontDecimal:self.centFont, colorDecimal:self.labelColor)
+            fontInt:self.numFont!, colorInt:self.labelColor, fontDecimal:self.centFont!, colorDecimal:self.labelColor)
         
         self.maxLabel!.updateMount(self.currencyFmt!.string(from: NSNumber(value: max as Double))!,
-            fontInt:self.numFont, colorInt:self.labelColor, fontDecimal:self.centFont, colorDecimal:self.labelColor)
+            fontInt:self.numFont!, colorInt:self.labelColor, fontDecimal:self.centFont!, colorDecimal:self.labelColor)
     }
     
     func report(_ slide: NMRangeSlider){

@@ -3307,7 +3307,7 @@
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = E896UUML7L;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
