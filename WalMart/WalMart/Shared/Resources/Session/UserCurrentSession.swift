@@ -559,10 +559,9 @@ class UserCurrentSession : NSObject {
         self.loadMGShoppingCart { () -> Void in
             self.loadGRShoppingCart({ () -> Void in
                 //TODO: Decide shop preShopping Cart, Empty or cart
-                
-                
+              NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
+                UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
               result()
-                
             })
         }
     }
