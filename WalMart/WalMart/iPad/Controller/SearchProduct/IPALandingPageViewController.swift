@@ -17,6 +17,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var isOriginalTextSearch: Bool = false
     var originalSearchContextType: SearchServiceContextType?
     
+    var isFirstLoad: Bool = true
     var urlImage: String?
     var imageBackground:UIImageView?
     var loading: WMLoadingView?
@@ -152,8 +153,8 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             self.loading!.stopAnnimating()
         } else {
 //              self.viewHeader?.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
-            self.loading = WMLoadingView(frame: CGRectMake(0, 320, self.view.bounds.width, self.view.bounds.height - 320))
-            
+            self.loading = WMLoadingView(frame: CGRectMake(0, 320, self.view.bounds.width, self.view.bounds.height - (isFirstLoad ? 428 : 320)))
+            self.isFirstLoad = false
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(false)
         }
