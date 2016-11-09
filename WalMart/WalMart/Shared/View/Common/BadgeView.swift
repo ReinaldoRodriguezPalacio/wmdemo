@@ -82,25 +82,28 @@ class BadgeView : UIView {
     
     func updateTitle(numProducts:Int){
        
-
             if numProducts > 0 {
-                self.hidden = false
-                self.title.text = String(numProducts)
-                UIView.animateKeyframesWithDuration(0.9, delay:  0.0, options: UIViewKeyframeAnimationOptions.AllowUserInteraction, animations: { () -> Void in
-                    UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.3) { () -> Void in
-                        self.transform = CGAffineTransformMakeScale(1.4, 1.4)
-                    }
-                    UIView.addKeyframeWithRelativeStartTime(0.3, relativeDuration: 0.3) { () -> Void in
-                        self.transform = CGAffineTransformMakeScale(0.8, 0.8)
-                    }
-                    UIView.addKeyframeWithRelativeStartTime(0.6, relativeDuration: 0.3) { () -> Void in
-                        self.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                    }
-                    }, completion: { (complete:Bool) -> Void in
-                        
-                })
-            }else{
                 
+                self.title.text = String(numProducts)
+                
+                if hidden {
+                    self.hidden = false
+                    UIView.animateKeyframesWithDuration(0.9, delay:  0.0, options: UIViewKeyframeAnimationOptions.AllowUserInteraction, animations: { () -> Void in
+                        UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.3) { () -> Void in
+                            self.transform = CGAffineTransformMakeScale(1.4, 1.4)
+                        }
+                        UIView.addKeyframeWithRelativeStartTime(0.3, relativeDuration: 0.3) { () -> Void in
+                            self.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                        }
+                        UIView.addKeyframeWithRelativeStartTime(0.6, relativeDuration: 0.3) { () -> Void in
+                            self.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                        }
+                        }, completion: { (complete:Bool) -> Void in
+                            
+                    })
+                }
+                
+            }else{
                 self.title.text = String(numProducts)
                 self.hidden = true
             }
