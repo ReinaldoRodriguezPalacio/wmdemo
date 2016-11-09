@@ -74,10 +74,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         return CGSizeMake(self.view.bounds.width / 3, 254);
     }
     
-   // override func returnBack() {
-   //    viewHeader.dismissPopover()
-   // }
-    
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
        print("Articulo seleccionado \(indexPath.row)")
         
@@ -168,14 +164,14 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.sharePopover!.presentPopoverFromRect(CGRectMake(self.filterButton!.frame.minX , pointPop.y , 0, 0), inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
     }
 
-    
     //MARK: - UIPopoverControllerDelegate
+    
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         self.sharePopover = nil
         //self.filterController = nil
     }
     
-   override func showLandingPage(){
+    override func showLandingPage(){
         if self.landingController == nil {
             self.landingController =  IPALandingPageViewController()
             self.landingController!.urlImage = self.landingPageMG!["imgipad"] as? String
@@ -186,7 +182,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         return
     }
     
-
     override func setAlertViewValues(resultDic: [String:AnyObject]){
         
         if resultDic.count == 0 {
@@ -231,117 +226,10 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             }, completion: nil)
         }
     }
-
-    
-
-    //TODO: VERIFICAR LA VISUALIZACION DE FILTROS EN IPAD - ANAH
-    /*
-    override func filter(sender:UIButton){
-        let widthFilter : CGFloat =  320
-        var minFilter = self.header!.frame.maxX - widthFilter
-        var frameLabelTo = self.titleLabel!.frame
-        var minLabel = frameTitle.minX
-        
-        if filterView==nil{
-            self.filterView = HeaderFilterView (frame: CGRectMake(self.header!.frame.maxX - 16, 0 , widthFilter, self.header!.frame.height))
-            self.filterView?.delegate = self
-        }//if filterView==nil{
-        
-        self.header?.addSubview(filterView!)
-        var view = UIView(frame:CGRectMake(self.header!.frame.maxX - 16, 0, 16, 46))
-        view.backgroundColor = WMColor.light_light_gray
-        self.header?.addSubview(view)
-        
-        self.viewAnimated = true
-        
-        if  self.frameTitle.maxX > minFilter {
-            minLabel =   frameTitle.minX - (self.frameTitle.maxX  - minFilter)
-            if minLabel > 46 {
-                frameLabelTo = CGRectMake(minLabel , 0 , self.titleLabel!.frame.width, self.titleLabel!.frame.height )
-            }else{
-                 frameLabelTo = CGRectMake(46 , 0 ,  minFilter - 46 , self.titleLabel!.frame.height )
-            }
-            
-            var headerFrame = self.header!.frame
-            
-            UIView.animateWithDuration(0.25, animations: {
-                self.filterView!.frame = CGRectMake(self.titleLabel!.frame.maxX, headerFrame.minY , 313, headerFrame.height)
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        UIView.animateWithDuration(0.25, animations: {
-                            self.filterView!.frame = CGRectMake(minFilter, headerFrame.minY , 313, headerFrame.height)
-                            self.titleLabel!.frame  = frameLabelTo
-                            }, completion: {(bool : Bool) in
-                                if bool {
-                                    view.removeFromSuperview()
-                                     self.viewAnimated = false
-                                }
-                        })
-                    }
-            })
-            
-        }
-        else {
-            var headerFrame = self.header!.frame
-            UIView.animateWithDuration(0.5, animations: {
-                self.filterView!.frame = CGRectMake(minFilter, headerFrame.minY , 313, headerFrame.height)
-                self.titleLabel!.frame  = frameLabelTo
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        view.removeFromSuperview()
-                        self.viewAnimated = false
-                    }
-            })
-        }
-    }
-
-    override func removeFilter(){
-        var view = UIView(frame:CGRectMake(self.header!.frame.maxX - 16, 0, 16, 46))
-        view.backgroundColor = WMColor.light_light_gray
-        self.header?.addSubview(view)
-        self.viewAnimated = true
-        
-        if  self.frameTitle.width > self.titleLabel!.frame.width{
-            UIView.animateWithDuration(0.25, animations: {
-                    self.filterView!.frame = CGRectMake(self.frameTitle.maxX, 0 , 320, self.header!.frame.height)
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        UIView.animateWithDuration(0.25, animations: {
-                            self.filterView!.frame = CGRectMake(self.header!.frame.maxX - 16, 0 , 320, self.header!.frame.height)
-                             self.titleLabel!.frame = self.frameTitle
-                            }, completion: {(bool : Bool) in
-                                if bool {
-                                    view.removeFromSuperview()
-                                    self.filterView!.removeFromSuperview()
-                                    self.viewAnimated = false
-                                }
-                        })
-                    }
-            })
-        }
-        else {
-            UIView.animateWithDuration(0.5, animations: {
-                self.titleLabel!.frame = self.frameTitle
-                self.filterView!.frame = CGRectMake(self.header!.frame.maxX - 16, 0 , 320
-                , self.header!.frame.height)
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        view.removeFromSuperview()
-                        self.filterView!.removeFromSuperview()
-                        self.viewAnimated = false
-                    }
-            })
-        }
-        
-    }
-    */
-    
-    
     
     override func productCellIdentifier() -> String {
         return "iPAProductSearch"
     }
-    
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && self.titleHeader ==  "Recomendados"  {
@@ -390,6 +278,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }
     
     //MARK: SearchProductCollectionViewCellDelegate
+    
     override func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
         let frameDetail = CGRectMake(0,0,320,394)
         self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
@@ -523,4 +412,5 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.returnBack()
         
     }
+    
 }
