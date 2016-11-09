@@ -192,8 +192,10 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //        default:
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCategoriesViewCell
         if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
-            let item = self.elementsCategories![indexPath.row] as? NSDictionary
-            cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:searchText, andDepartament:item!["departament"] as! String  )
+            if self.elementsCategories?.count > indexPath.row {
+                let item = self.elementsCategories![indexPath.row] as? NSDictionary
+                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:searchText, andDepartament:item!["departament"] as! String  )
+            }
         }
         
         return cell

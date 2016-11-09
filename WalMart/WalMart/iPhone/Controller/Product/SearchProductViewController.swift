@@ -1173,8 +1173,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if self.idListFromSearch != "" {
                     startPoint = self.header!.frame.maxY
                 }
-                
-                self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+                if (resultDic["suggestion"] as! String) != "" {
+                 self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+                }
                 
             }, completion: nil)
             
@@ -1603,6 +1604,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
     func apply(order:String, upcs: [String]) {
 
+        
         if IS_IPHONE {
             self.isLoading = true
         } else {
