@@ -242,7 +242,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, IS_IPAD ? 680 : self.view.bounds.width, self.view.bounds.height))
         self.viewLoad!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
