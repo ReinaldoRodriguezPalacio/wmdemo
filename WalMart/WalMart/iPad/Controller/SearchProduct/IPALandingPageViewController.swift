@@ -31,6 +31,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var familyController : IPAFamilyViewController!
     var popover : UIPopoverController?
     let maxResult = 20
+    var facet : [[String:AnyObject]]!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_LANDINGPAGE.rawValue
@@ -188,6 +189,9 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.populateDefaultData(0)
         
     }
+    var familySelected = ""
+    var lineSelected = ""
+    var nameSelected = ""
     
     func populateDefaultData(section: Int) {
         
@@ -238,6 +242,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             self.filterController!.hiddenBack = true
             self.filterController!.selectedOrder = self.idSort!
             self.filterController!.textToSearch = ""
+            self.filterController!.facet = self.facet
             self.filterController!.originalSearchContext = self.originalSearchContextType
             self.filterController!.delegate = self
             self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
@@ -274,6 +279,9 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = ProductbySearchService(dictionary:signalsDictionary)
+        self.familySelected = family
+        self.lineSelected = line
+        self.nameSelected = name
         let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
                             successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
@@ -282,6 +290,22 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
                 self.collection?.reloadData()
             NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
             self.showLoadingIfNeeded(true)
+                                
+                                if var sortFacet = facet as? [[String:AnyObject]] {
+                                    sortFacet.sortInPlace { (item, seconditem) -> Bool in
+                                        var firstOrder = "0"
+                                        if let firstOrderVal = item["order"] as? String {
+                                            firstOrder = firstOrderVal
+                                        }
+                                        var secondOrder = "0"
+                                        if let secondOrderVal = seconditem["order"] as? String {
+                                            secondOrder = secondOrderVal
+                                        }
+                                        return Int(firstOrder) < Int(secondOrder)
+                                    }
+                                    self.facet = sortFacet
+                                }//
+                                
                                 
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")
@@ -527,6 +551,10 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
     
     func apply(order: String, filters: [String:AnyObject]?, isForGroceries flag: Bool) {
         print("apply")
+        self.idSort = order
+        
+        self.allProducts = []
+        self.invokeSearchService(self.familyController.departmentId, family: self.familySelected, line: self.lineSelected, name: self.nameSelected)
         
     }
     
@@ -537,23 +565,16 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
     
     func apply(order:String, upcs: [String]) {
         print("apply - upcs ")
-        if IS_IPHONE {
-           // self.isLoading = true
-        } else {
-            showLoadingIfNeeded(false)
-        }
+       
+        showLoadingIfNeeded(false)
         
         self.collection?.alpha = 100
         if upcs.count == 0 {
             self.allProducts = []
-           // self.mgResults?.totalResults = 0
+            //self.mgResults?.totalResults = 0
             self.collection?.reloadData()
             self.collection?.alpha = 0
         
-        } else {
-//            if self.empty != nil {
-//                self.removeEmptyView()
-//            }
         }
         
         
@@ -612,7 +633,6 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
             }
             
             
-           // self.finsihService =  true
             self.collection?.reloadData()
             self.showLoadingIfNeeded(true)
         }) { (error:NSError) -> Void in
