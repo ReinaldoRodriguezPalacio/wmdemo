@@ -1172,6 +1172,12 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
 	</dict>
+	<key>cpwrUEM.startup.agentPath</key>
+	<string>https://www.walmartmobile.com.mx/walmartmg/</string>
+	<key>cpwrUEM_logging.level</key>
+	<string>ALL</string>
+	<key>cpwrUEM_startup.useAnyCert</key>
+	<false/>
 	<key>showCamFind</key>
 	<true/>
 	<key>useSignalsServices</key>

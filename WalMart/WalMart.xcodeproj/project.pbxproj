@@ -78,6 +78,10 @@
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
 		4AE7FA941C802805007C43B3 /* IPALinesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA931C802805007C43B3 /* IPALinesListViewController.swift */; };
 		4AEBFBB41C9B082C00A47C5B /* GRCheckOutPymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBFBB31C9B082C00A47C5B /* GRCheckOutPymentViewController.swift */; };
+		5512FEDF1DD2936800411BF6 /* libDynatraceUEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5512FEDE1DD2936800411BF6 /* libDynatraceUEM.a */; };
+		5512FEE11DD2945300411BF6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5512FEE01DD2945300411BF6 /* libsqlite3.dylib */; };
+		5512FEE31DD2948100411BF6 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5512FEE21DD2948100411BF6 /* libz.1.dylib */; };
+		5512FEE51DD294B700411BF6 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5512FEE41DD294B700411BF6 /* libc++.1.dylib */; };
 		5601716B1A9549590029786B /* GRSendOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716A1A9549590029786B /* GRSendOrderService.swift */; };
 		5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */; };
 		56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56054B861B20A7BB003F8536 /* BannerTermsView.swift */; };
@@ -658,6 +662,12 @@
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
 		4AE7FA931C802805007C43B3 /* IPALinesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesListViewController.swift; sourceTree = "<group>"; };
 		4AEBFBB31C9B082C00A47C5B /* GRCheckOutPymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRCheckOutPymentViewController.swift; sourceTree = "<group>"; };
+		5512FEDC1DD2936800411BF6 /* CompuwareUEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompuwareUEM.h; sourceTree = "<group>"; };
+		5512FEDD1DD2936800411BF6 /* DynatraceUEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynatraceUEM.h; sourceTree = "<group>"; };
+		5512FEDE1DD2936800411BF6 /* libDynatraceUEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDynatraceUEM.a; sourceTree = "<group>"; };
+		5512FEE01DD2945300411BF6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
+		5512FEE21DD2948100411BF6 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
+		5512FEE41DD294B700411BF6 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		5601716A1A9549590029786B /* GRSendOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRSendOrderService.swift; path = Shared/Services/checkout/GRSendOrderService.swift; sourceTree = "<group>"; };
 		5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutConfirmViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutConfirmViewController.swift; sourceTree = "<group>"; };
 		56054B861B20A7BB003F8536 /* BannerTermsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerTermsView.swift; path = Shared/View/Banner/BannerTermsView.swift; sourceTree = "<group>"; };
@@ -1208,13 +1218,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
+				5512FEE51DD294B700411BF6 /* libc++.1.dylib in Frameworks */,
+				5512FEE31DD2948100411BF6 /* libz.1.dylib in Frameworks */,
+				5512FEE11DD2945300411BF6 /* libsqlite3.dylib in Frameworks */,
 				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
 				ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */,
 				ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */,
 				ACF20CA81C063A51009709B5 /* libsqlite3.0.tbd in Frameworks */,
 				ACC8914C1BFE84D700EB98DE /* CoreTelephony.framework in Frameworks */,
 				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
-				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
 				6C3180951B87C9E80015FC2E /* CoreLocation.framework in Frameworks */,
 				04D2A3981A2FD4FF008DAE37 /* MapKit.framework in Frameworks */,
 				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
@@ -1225,6 +1238,7 @@
 				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
 				6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */,
 				6C3180911B87C9C10015FC2E /* AudioToolbox.framework in Frameworks */,
+				5512FEDF1DD2936800411BF6 /* libDynatraceUEM.a in Frameworks */,
 				6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */,
 				6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */,
 				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
@@ -1385,6 +1399,17 @@
 			);
 			name = CalendarPicker;
 			path = ABCalendarPicker;
+			sourceTree = "<group>";
+		};
+		5512FEDB1DD2936800411BF6 /* Dynatrace */ = {
+			isa = PBXGroup;
+			children = (
+				5512FEDC1DD2936800411BF6 /* CompuwareUEM.h */,
+				5512FEDD1DD2936800411BF6 /* DynatraceUEM.h */,
+				5512FEDE1DD2936800411BF6 /* libDynatraceUEM.a */,
+			);
+			name = Dynatrace;
+			path = Lib/Dynatrace;
 			sourceTree = "<group>";
 		};
 		56054B8A1B2118AE003F8536 /* Keyboard */ = {
@@ -3019,6 +3044,7 @@
 		AC5F646F19BF52810098BE43 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				5512FEDB1DD2936800411BF6 /* Dynatrace */,
 				6C7E3FC61D11B73300E814AC /* CMSwitchView */,
 				4A5A9D271C84A99B00A2A7F4 /* CalendarPicker */,
 				AC59116119DE08BE00EB095C /* GAnalitics */,
@@ -3173,6 +3199,9 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5512FEE41DD294B700411BF6 /* libc++.1.dylib */,
+				5512FEE21DD2948100411BF6 /* libz.1.dylib */,
+				5512FEE01DD2945300411BF6 /* libsqlite3.dylib */,
 				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
 				ACF20CAB1C063A74009709B5 /* libz.tbd */,
 				ACF20CA91C063A64009709B5 /* libc++.tbd */,
@@ -4005,6 +4034,7 @@
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
 					"$(DT_LIBRARY_PATH)",
+					"$(PROJECT_DIR)/WalMart/Lib/Dynatrace",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -4061,6 +4091,7 @@
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
 					"$(DT_LIBRARY_PATH)",
+					"$(PROJECT_DIR)/WalMart/Lib/Dynatrace",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

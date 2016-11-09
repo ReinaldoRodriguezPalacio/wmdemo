@@ -76,6 +76,10 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <Bolts/Bolts.h>
 
+//Dynatrace
+//#import "CompuwareUEM.h"
+#import "DynatraceUEM.h"
+
 
 #ifndef BridgingHeader_h
 #define BridgingHeader_h
@@ -85,5 +89,6 @@
 #import <GoogleTagManager/TAGContainerOpener.h>
 #import <GoogleTagManager/TAGDataLayer.h>
 #import <GoogleTagManager/TAGLogger.h>
+
 
 #endif /* BridgingHeader_h */
