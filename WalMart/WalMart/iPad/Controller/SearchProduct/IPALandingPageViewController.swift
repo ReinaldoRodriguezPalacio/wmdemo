@@ -293,6 +293,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     //MARK: IPAFamilyViewControllerDelegate
     func didSelectLine(department:String,family:String,line:String, name:String) {
         self.popover?.dismissPopoverAnimated(true)
+        self.titleHeader = name
         self.invokeSearchService(department,family: family, line: line, name:name)
         if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
             view.dismissPopover()
@@ -316,7 +317,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
 extension IPALandingPageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSizeMake(self.view.frame.width, 54)
+        return CGSizeMake(self.view.frame.width, 46)
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
