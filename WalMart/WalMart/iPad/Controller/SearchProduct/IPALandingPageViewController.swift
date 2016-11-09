@@ -17,6 +17,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var isOriginalTextSearch: Bool = false
     var originalSearchContextType: SearchServiceContextType?
     
+    var currentCellSelected : NSIndexPath!
     var isFirstLoad: Bool = true
     var urlImage: String?
     var imageBackground:UIImageView?
@@ -32,6 +33,10 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var popover : UIPopoverController?
     let maxResult = 20
     var facet : [[String:AnyObject]]!
+    
+    var familySelected = ""
+    var lineSelected = ""
+    var nameSelected = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_LANDINGPAGE.rawValue
@@ -114,6 +119,14 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.setValuesFamily()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if currentCellSelected != nil {
+            self.reloadSelectedCell()
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -189,11 +202,13 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.populateDefaultData(0)
         
     }
-    var familySelected = ""
-    var lineSelected = ""
-    var nameSelected = ""
     
     func populateDefaultData(section: Int) {
+        
+        func nextSection() {
+            let nextSection: Int = section + 1
+            populateDefaultData(nextSection)
+        }
         
         if self.familyController.families.count > section {
             let selectedSection = self.familyController.families[section]
@@ -203,10 +218,11 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
                 if let itemLine = linesArr[0] as? NSDictionary {
                     let name = itemLine["name"] as! String
                     self.invokeSearchService(self.familyController.departmentId , family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
+                } else {
+                    nextSection()
                 }
             } else {
-                let nextSection: Int = section + 1
-                populateDefaultData(nextSection)
+                nextSection()
             }
             
         }
@@ -269,6 +285,14 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         //var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)//
         
         self.sharePopover!.presentPopoverFromRect(CGRectMake(self.filterButton!.frame.minX , pointPop.y , 0, 0), inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+    }
+    
+    func reloadSelectedCell() {
+        let currentCell = collection!.cellForItemAtIndexPath(currentCellSelected) as! IPASearchProductCollectionViewCell!
+        if currentCell != nil{
+            currentCell.showImageView()
+        }
+        self.collection?.reloadData()
     }
     
     func invokeSearchService(department:String,family:String,line:String, name:String) {
@@ -520,6 +544,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                 let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
                 //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
                 //paginatedProductDetail.isForSeach = (self.textToSearch != nil && self.textToSearch != "")
+                currentCellSelected = indexPath
                 paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
                 paginatedProductDetail.animationController.originPoint =  pontInView
                 paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
