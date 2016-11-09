@@ -257,6 +257,7 @@ class BaseService : NSObject {
                 
                 if error.code == -1005 {
                     print("Response Error : \(error) \n Response \(request.response)")
+                    BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
                     self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }

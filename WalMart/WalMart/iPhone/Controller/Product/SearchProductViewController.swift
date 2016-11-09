@@ -123,6 +123,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var grResponceDic: [String:AnyObject] = [:]
     var position = 0
     
+    var changebtns  =  false
+    
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
             switch self.searchContextType! {
@@ -1173,17 +1175,33 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if self.idListFromSearch != "" {
                     startPoint = self.header!.frame.maxY
                 }
-                if (resultDic["suggestion"] as! String) != "" {
+                //if (resultDic["suggestion"] as! String) != "" {
                  self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
-                }
+                //}
                 
             }, completion: nil)
             
         }
         
     }
+    func validateSeletctedTap(){
+        
+        let  grTotalResults =  self.grResults!.products != nil ? self.grResults!.products!.count : 0
+        let  mgTotalResults =  self.mgResults!.products != nil ? self.mgResults!.products!.count : 0
+        if !changebtns {
+            if grTotalResults > mgTotalResults || grTotalResults == mgTotalResults {
+                btnSuper.selected  =  true
+                btnTech.selected =  false
+            }else {
+                btnSuper.selected  =  false
+                btnTech.selected =  true
+            }
+        }
+        
+    }
     
     func updateViewAfterInvokeService(resetTable resetTable:Bool) {
+        self.validateSeletctedTap()
         if  self.searchContextType == .WithCategoryForGR {
             if self.idDepartment !=  nil {
                 self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
@@ -1760,8 +1778,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
     
+    
     //MARK: Filter Super Tecnologia
     func changeSuperTech(sender:UIButton) {
+        changebtns =  true
         //self.collection?.contentOffset = CGPointZero
         if sender == btnSuper &&  !sender.selected {
             sender.selected = true

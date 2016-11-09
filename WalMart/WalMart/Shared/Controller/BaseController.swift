@@ -23,8 +23,12 @@ struct ItemTag {
     var upc : String = ""
     var variant : Bool =  false
 }
-
+   var messageError:String  = ""
 class BaseController : UIViewController {
+    
+ 
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,6 +148,7 @@ class BaseController : UIViewController {
 
 // MARK: - Analytics 360
 extension BaseController {
+    
     
     
     class func sendAnalytics(category:String, action: String, label:String){
@@ -418,6 +423,7 @@ extension BaseController {
     
     
     //MARK: Tag de Errores
+   
     
     class func sendTagManagerErrors(event:String,detailError:String){
         switch event {
@@ -425,7 +431,11 @@ extension BaseController {
             self.sendAnalyticsPush(["event":event,"detailError":detailError])
             break
         case "ErrorEventBusiness":
-            //self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
+         
+            if  messageError != detailError {
+                self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
+            }
+            messageError = detailError
             break
         default:
             break
