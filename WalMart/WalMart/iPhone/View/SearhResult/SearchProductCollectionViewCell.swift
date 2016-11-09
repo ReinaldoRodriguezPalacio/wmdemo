@@ -40,8 +40,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     override func setup() {
         super.setup()
-        
-        
         //presale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
@@ -98,7 +96,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         self.positionSelected = position
         imagePresale.hidden = !isPreorderable
-        imagePresale.frame = CGRectMake(-1, 0, imagePresale.frame.width, imagePresale.frame.height)
+        imagePresale.frame = CGRectMake(0, 0, imagePresale.frame.width, imagePresale.frame.height)
         
         if isLowStock {
             self.lowStock?.frame = CGRectMake(8, 0 ,self.frame.width - 16 , 14)

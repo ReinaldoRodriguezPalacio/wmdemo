@@ -23,7 +23,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var collection: UICollectionView?
     var titleHeader: String?
     var viewHeader: UIView?
-    var allProducts: [AnyObject]! = []
+    var allProducts: NSMutableArray? = []
     var departmentId: String?
     var headerView: UIView?
     var itemsCategory: [[String:AnyObject]]?
@@ -241,6 +241,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             self.filterController!.delegate = self
             self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
             self.filterController!.view.backgroundColor = UIColor.clearColor()
+            self.filterController!.searchContext =  .WithCategoryForMG
             self.filterController!.successCallBack  = { () in
                 self.sharePopover?.dismissPopoverAnimated(true)
                 return
@@ -266,17 +267,18 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     
     func invokeSearchService(department:String,family:String,line:String, name:String) {
         print("Invoking MG Search")
-        let startOffSet = self.allProducts!.count
+        let startOffSet =  self.allProducts != nil ? self.allProducts!.count : 0
         self.showLoadingIfNeeded(false)
         //TODO: Signals
+        
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
                             successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
-                                
-            self.allProducts = arrayProduct as? [AnyObject]
-            self.collection?.reloadData()
+            self.allProducts =  []
+            self.allProducts!.addObjectsFromArray(arrayProduct! as [AnyObject])
+                self.collection?.reloadData()
             NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
             self.showLoadingIfNeeded(true)
                                 
@@ -506,7 +508,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.allProducts!.count
+        return  (self.allProducts != nil ? self.allProducts!.count : 0)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -522,23 +524,122 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
 extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
     
     func apply(order: String, filters: [String:AnyObject]?, isForGroceries flag: Bool) {
+        print("apply")
         
     }
     
     func sendBrandFilter(brandFilter: String) {
+        print("sendBrandFilter")
         
     }
     
     func apply(order:String, upcs: [String]) {
+        print("apply - upcs ")
+        if IS_IPHONE {
+           // self.isLoading = true
+        } else {
+            showLoadingIfNeeded(false)
+        }
+        
+        self.collection?.alpha = 100
+        if upcs.count == 0 {
+            self.allProducts = []
+           // self.mgResults?.totalResults = 0
+            self.collection?.reloadData()
+            self.collection?.alpha = 0
+        
+        } else {
+//            if self.empty != nil {
+//                self.removeEmptyView()
+//            }
+        }
+        
+        
+        let svcSearch = SearchItemsByUPCService()
+        svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
+            if self.originalSearchContextType != .WithTextForCamFind {
+                self.allProducts? = []
+            }
+            self.allProducts?.addObjectsFromArray(result.arrayObject!)
+           // self.mgResults?.totalResults = self.allProducts!.count
+            self.idSort = order
+            switch (FilterType(rawValue: self.idSort!)!) {
+            case .descriptionAsc :
+                //println("descriptionAsc")
+                self.allProducts!.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
+            case .descriptionDesc :
+                //println("descriptionDesc")
+                self.allProducts!.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
+            case .priceAsc :
+                //println("priceAsc")
+                self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                    
+                    if priceOne < priceTwo {
+                        return NSComparisonResult.OrderedAscending
+                    }
+                    else if (priceOne > priceTwo) {
+                        return NSComparisonResult.OrderedDescending
+                    }
+                    else {
+                        return NSComparisonResult.OrderedSame
+                    }
+                    
+                })
+            case .none : print("Not sorted")
+            case .priceDesc :
+                //println("priceDesc")
+                self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                    
+                    if priceOne > priceTwo {
+                        return NSComparisonResult.OrderedAscending
+                    }
+                    else if (priceOne < priceTwo) {
+                        return NSComparisonResult.OrderedDescending
+                    }
+                    else {
+                        return NSComparisonResult.OrderedSame
+                    }
+                    
+                })
+            default :
+                print("default")
+            }
+            
+            
+           // self.finsihService =  true
+            self.collection?.reloadData()
+            self.showLoadingIfNeeded(true)
+        }) { (error:NSError) -> Void in
+            print(error)
+        }
         
     }
     
     func removeSelectedFilters(){
+        print("removeSelectedFilters")
         
     }
     
     func removeFilters() {
+        print("removeFilters")
         
+    }
+    
+    func priceValueFrom(dictionary:NSDictionary) -> Double {
+        var price:Double = 0.0
+        
+        if let priceTxt = dictionary["price"] as? NSString {
+            price = priceTxt.doubleValue
+        }
+        else if let pricenum = dictionary["price"] as? NSNumber {
+            price = pricenum.doubleValue
+        }
+        
+        return price
     }
     
 }
