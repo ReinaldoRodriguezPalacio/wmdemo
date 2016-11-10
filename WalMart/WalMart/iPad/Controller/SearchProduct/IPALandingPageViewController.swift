@@ -40,6 +40,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var lineSelected = ""
     var nameSelected = ""
     var selectQuantityPopover:  UIPopoverController?
+    var startOffSet = 0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_LANDINGPAGE.rawValue
@@ -246,6 +247,11 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             popover!.delegate = self
         }
         //popover!.delegate = self
+        
+        if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
+            view.setSelected()
+        }
+        
         popover!.presentPopoverFromRect(CGRectMake(self.headerView!.frame.width / 2, self.headerView!.frame.height - 10, 0, 0), inView: self.headerView!, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         
         if familyController.familyTable != nil {
@@ -297,7 +303,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         }
         self.collection?.reloadData()
     }
-    var startOffSet = 0
+    
     func invokeSearchService(department:String,family:String,line:String, name:String) {
         print("Invoking MG Search")
         let resultsInResponse = self.allProducts?.count > 0 ? self.allProducts![0]["resultsInResponse"] as! NSString : "0"
@@ -392,6 +398,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
         }
         if kind == UICollectionElementKindSectionHeader {
             let view = collection?.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! IPASectionHeaderSearchReusable
+            let setSelected = viewHeader == nil && popover != nil
             self.headerView!.frame = CGRectMake(0, 0, 1024, 46)
             view.addSubview(self.headerView!)
             view.sendSubviewToBack(self.headerView!)
@@ -401,8 +408,10 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
             let wTitleSize = rectSize.width + 48
             view.title!.frame = CGRectMake((1024 / 2) -  (wTitleSize / 2), (self.headerView!.frame.height / 2) - 12, wTitleSize, 24)
             view.delegate = self
-            view.setSelected()
             viewHeader = view
+            if setSelected {
+                view.setSelected()
+            }
             viewHeader?.addSubview(self.filterButton!)
             return view
         }
