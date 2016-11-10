@@ -42,7 +42,7 @@ class SignUpMGViewController: SignUpViewController {
             self.addressMgView.backButton?.hidden =  true
             self.addressMgView.showSaveAlert = false
             self.addressMgView.successCallBackRegistry = {() in
-//erick
+
                 self.aAddredssForm = GRFormSuperAddressView()
                 
                 let aPhoneHomeNumber =  self.aAddredssForm.getPhoneHomeNumber()

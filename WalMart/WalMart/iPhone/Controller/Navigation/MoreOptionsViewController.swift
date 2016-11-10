@@ -71,7 +71,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.signInOrClose = WMRoundButton()
         let sizeImage = CGSizeMake(90, 24)
         self.signInOrClose?.setFontTitle(WMFont.fontMyriadProRegularOfSize(12))
-//erick
         self.signInOrClose?.setBackgroundColor(WMColor.blue, size: sizeImage, forUIControlState: UIControlState.Selected)
         self.signInOrClose?.setTitle("cerrar sesión", forState: UIControlState.Selected)
         self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState.Normal)
@@ -364,7 +363,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         else {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
-//erick
             self.signOut(nil)
         }
     }

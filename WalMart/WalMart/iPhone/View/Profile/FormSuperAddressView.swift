@@ -204,7 +204,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneHomeNumber!.delegate =  self
         
         self.phoneWorkNumber = FormFieldView()
-//erick
         self.phoneWorkNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
         self.phoneWorkNumber!.typeField = TypeField.Number
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
@@ -793,9 +792,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         }
         return true
     }
-    
-//erick
-    
     
     func getPhoneHomeNumber()-> String {
         

@@ -52,6 +52,10 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     
     var sAddredssForm : FormSuperAddressView!
 
+    var aPhoneHomeNumber:String = ""
+    var aPhoneWorkNumber:String = ""
+    var aCellPhone:String = ""
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SIGNUP.rawValue
     }
@@ -400,7 +404,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             let gender = femaleButton!.selected ? "Female" : "Male"
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
-//erick 2
+
             if alertAddress == nil {
                 alertAddress = GRFormAddressAlertView.initAddressAlert()!
             }
@@ -414,11 +418,12 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
 
-                let aPhoneHomeNumber =  self.alertAddress!.sAddredssForm.getPhoneHomeNumber()
-                let aPhoneWorkNumber =  self.alertAddress!.sAddredssForm.getPhoneWorkNumber()
-                let aCellPhone       =  self.alertAddress!.sAddredssForm.getCellPhone()
                 
-                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
+                self.aPhoneHomeNumber =  self.alertAddress!.sAddredssForm.getPhoneHomeNumber()
+                self.aPhoneWorkNumber =  self.alertAddress!.sAddredssForm.getPhoneWorkNumber()
+                self.aCellPhone       =  self.alertAddress!.sAddredssForm.getCellPhone()
+                
+                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
 
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                    

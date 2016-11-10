@@ -85,7 +85,6 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         self.buttonRight = WMRoundButton()
         self.buttonRight!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
-//erick
         self.buttonRight.titleLabel?.textColor = UIColor.whiteColor()
         self.buttonRight!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.buttonRight!.setTitleColor(UIColor.whiteColor(), forState: .Normal)

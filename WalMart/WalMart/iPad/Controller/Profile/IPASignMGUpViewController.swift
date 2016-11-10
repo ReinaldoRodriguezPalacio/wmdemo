@@ -39,9 +39,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
             self.addressMGView.backButton?.hidden =  true
             self.addressMGView.saveButton?.titleLabel?.textAlignment = .Center
             self.addressMGView.successCallBackRegistry = {() in
-//erick
-                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:"",phoneWorkNumber:"",cellPhone:"")
-                
+                let params = service.buildParamsWithMembership(self.email!.text!,password:  self.password!.text!,name: self.name!.text!,lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
