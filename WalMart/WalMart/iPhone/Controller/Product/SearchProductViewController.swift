@@ -246,53 +246,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     }
     
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.selectQuantity?.closeAction()
         self.selectQuantityGR?.closeAction()
     }
-
-    /**
-     Change titlte tiltle
-     
-     - returns: new title label
-     */
-    func setTitleWithEdit() -> UILabel {
-        
-        let titleLabelEdit = UILabel()
-        var titleText = titleHeader!
-        if titleText.length() > 47
-        {
-            titleText = titleText.substring(0, length: 44) + "..."
-        }
-        
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "search_edit")
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let myString = NSMutableAttributedString(string: "\(titleText) ")
-        myString.appendAttributedString(attachmentString)
-        titleLabelEdit.numberOfLines = 2
-        titleLabelEdit.attributedText = myString
-        titleLabelEdit.userInteractionEnabled = true
-        titleLabelEdit.textColor =  WMColor.light_blue
-        titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleLabelEdit.numberOfLines = 2
-        titleLabelEdit.textAlignment = .Center
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductViewController.editSearch))
-        titleLabelEdit.addGestureRecognizer(tapGesture)
-        
-        return titleLabelEdit
-        
-    }
-    
-    func editSearch(){
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
-  
-    }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -345,6 +304,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
+    
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.viewEmptyImage =  true
@@ -377,15 +337,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    
-    func reloadUISearch() {
-        self.collection!.reloadData()
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    // aqui esta el otro
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if loading == nil {
@@ -457,7 +412,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         return 1
     }
     
-    
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! SectionHeaderSearchHeader
@@ -479,7 +433,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         return UICollectionReusableView(frame: CGRectZero)
     }
     
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
             return CGSizeZero
@@ -487,7 +440,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         return CGSizeMake(self.view.frame.width, 44)
     }
-    
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //Camfind results
@@ -680,8 +632,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         return detail
     }
     
-    
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake(self.view.bounds.maxX/2, 190)
      }
@@ -693,6 +643,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
+    
     //MARK: - UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -860,7 +811,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             actionSuccess?()
         }
     }
-    
     
     func invokeSearchproductsInMG(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
@@ -1162,7 +1112,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             
             UIView.animateWithDuration(0.3, animations: {
                 
-                if self.isTextSearch || self.isOriginalTextSearch{
+                if self.isTextSearch || self.isOriginalTextSearch {
                     self.viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
                     self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
                 }else {
@@ -1170,11 +1120,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.viewBgSelectorBtn.alpha = 0
                 }
                 
-                var startPoint = self.viewBgSelectorBtn.frame.maxY + 20
+                var startPoint = self.header!.frame.maxY
                 
-                if self.idListFromSearch != "" {
-                    startPoint = self.header!.frame.maxY
+                if self.isTextSearch {
+                    startPoint = self.viewBgSelectorBtn.frame.maxY + 20
                 }
+                
                 //if (resultDic["suggestion"] as! String) != "" {
                  self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
                 //}
@@ -1184,6 +1135,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
     }
+    
     func validateSeletctedTap(){
         
         let  grTotalResults =  self.grResults!.products != nil ? self.grResults!.products!.count : 0
@@ -1514,6 +1466,49 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
+    /**
+     Change titlte tiltle
+     
+     - returns: new title label
+     */
+    func setTitleWithEdit() -> UILabel {
+        
+        let titleLabelEdit = UILabel()
+        var titleText = titleHeader!
+        if titleText.length() > 47
+        {
+            titleText = titleText.substring(0, length: 44) + "..."
+        }
+        
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(named: "search_edit")
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let myString = NSMutableAttributedString(string: "\(titleText) ")
+        myString.appendAttributedString(attachmentString)
+        titleLabelEdit.numberOfLines = 2
+        titleLabelEdit.attributedText = myString
+        titleLabelEdit.userInteractionEnabled = true
+        titleLabelEdit.textColor =  WMColor.light_blue
+        titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabelEdit.numberOfLines = 2
+        titleLabelEdit.textAlignment = .Center
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductViewController.editSearch))
+        titleLabelEdit.addGestureRecognizer(tapGesture)
+        
+        return titleLabelEdit
+        
+    }
+    
+    func editSearch(){
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
+        
+    }
+    
+    func reloadUISearch() {
+        self.collection!.reloadData()
+    }
+    
     //MARK: - Filters
     
     func filter(sender:UIButton){
@@ -1557,9 +1552,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         
     }
-    
-  
-
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         
@@ -1780,6 +1772,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     //MARK: Filter Super Tecnologia
+    
     func changeSuperTech(sender:UIButton) {
         changebtns =  true
         //self.collection?.contentOffset = CGPointZero
@@ -1800,6 +1793,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     //MARK: SearchProductCollectionViewCellDelegate
+    
     func buildGRSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
         var prodQuantity = "1"
         if cell.pesable! {
@@ -1931,6 +1925,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     //reload after update
+    
     func afterAddToSC() {
         self.collection?.reloadData()
     }
@@ -2050,7 +2045,5 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             })
         }
     }
-    
-    
     
 }
