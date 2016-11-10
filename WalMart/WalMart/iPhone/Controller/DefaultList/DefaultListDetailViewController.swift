@@ -329,7 +329,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
         var dominio = "https://www.walmart.com.mx"
         if environment != "PRODUCTION"{
-            dominio = "http://192.168.43.192:8085"
+//            dominio = "http://192.168.43.192:8085"
+            dominio = "http://192.168.43.192:8095"
         }
         var urlss  = ""
         if self.lineId != nil {

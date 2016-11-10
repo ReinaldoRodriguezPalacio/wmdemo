@@ -55,6 +55,10 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var idAddress : String!
     var isSignUp = false
     
+    var gPhoneHome  = "";
+    var gPhoneWork  = "";
+    var gCellPhone       = "";
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -200,6 +204,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneHomeNumber!.delegate =  self
         
         self.phoneWorkNumber = FormFieldView()
+//erick
         self.phoneWorkNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
         self.phoneWorkNumber!.typeField = TypeField.Phone
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
@@ -564,6 +569,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     self.viewError(self.phoneWorkNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
                     return nil
             }
+            
+            gPhoneWork = self.phoneWorkNumber.text!
+            
         }
         if self.phoneHomeNumber.text != ""   && !delete {
             let toValidate : NSString = self.phoneHomeNumber.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -574,6 +582,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.viewError(self.phoneHomeNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
                 return nil
             }
+            
+            self.gPhoneHome = self.phoneHomeNumber.text!
+
         }
         if self.cellPhone.text != "" {
             let toValidate : NSString = self.cellPhone.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -584,6 +595,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.viewError(self.cellPhone, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
                 return nil
             }
+            
+            gCellPhone = self.cellPhone.text!
+
         }
         
         UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text!, work: self.phoneWorkNumber.text!, cellPhone: self.cellPhone.text!)
@@ -779,4 +793,23 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         }
         return true
     }
+    
+//erick
+    
+    
+    func getPhoneHomeNumber()-> String {
+        
+        return self.gPhoneHome
+    }
+    
+    func getPhoneWorkNumber()-> String {
+        
+        return self.gPhoneWork
+    }
+    
+    func getCellPhone()-> String {
+        
+        return self.gCellPhone
+    }
+    
 }
