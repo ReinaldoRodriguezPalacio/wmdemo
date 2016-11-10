@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPALandingPageViewController: NavigationViewController, UIPopoverControllerDelegate, IPAFamilyViewControllerDelegate, IPASectionHeaderSearchReusableDelegate {
+class IPALandingPageViewController: NavigationViewController, UIPopoverControllerDelegate, IPAFamilyViewControllerDelegate, IPASectionHeaderSearchReusableDelegate,SearchProductCollectionViewCellDelegate {
     
     var filterController: FilterProductsViewController?
     var sharePopover: UIPopoverController?
@@ -16,6 +16,8 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var idSort:String?
     var isOriginalTextSearch: Bool = false
     var originalSearchContextType: SearchServiceContextType?
+    
+    var selectQuantity : ShoppingCartQuantitySelectorView!
     
     var currentCellSelected : NSIndexPath!
     var isFirstLoad: Bool = true
@@ -37,6 +39,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var familySelected = ""
     var lineSelected = ""
     var nameSelected = ""
+    var selectQuantityPopover:  UIPopoverController?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_LANDINGPAGE.rawValue
@@ -530,7 +533,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                        equivalenceByPiece: equivalenceByPiece,
                        position:"\(indexPath.row)"
         )
-        //cell.delegate = self
+        cell.delegate = self
         return cell
     }
     
@@ -594,6 +597,115 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 0
     }
+    
+    func buildMGSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
+        selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
+        selectQuantity!.closeAction = { () in
+            self.selectQuantity.removeFromSuperview()
+        }
+        //selectQuantity!.generateBlurImage(self.view,frame:selectQuantity.bounds)
+        
+        //Event
+        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(cell.desc) - \(cell.upc)")
+        
+        selectQuantity!.addToCartAction =
+            { (quantity:String) in
+                //let quantity : Int = quantity.toInt()!
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
+                if maxProducts >= Int(quantity) {
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position: cell.positionSelected)//
+                    
+                    ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
+                    
+                    UIView.animateWithDuration(0.2,
+                                               animations: { () -> Void in
+                                                self.selectQuantity!.closeAction()
+                        },
+                                               completion: { (animated:Bool) -> Void in
+                                                self.selectQuantity = nil
+                                                //CAMBIA IMAGEN CARRO SELECCIONADO
+                                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                        }
+                    )
+                }
+                else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                    self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                }
+        }
+    }
+    
+    func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRectMake(0,0,320,394)
+        self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
+        
+        selectQuantity?.closeAction = { () in
+            self.selectQuantityPopover!.dismissPopoverAnimated(true)
+            
+        }
+        
+        selectQuantity!.addToCartAction =
+            { (quantity:String) in
+                //let quantity : Int = quantity.toInt()!
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
+                if maxProducts >= Int(quantity) {
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position:cell.positionSelected)//position
+                    
+                    ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
+                    
+                    UIView.animateWithDuration(0.2,
+                                               animations: { () -> Void in
+                                                self.selectQuantity!.closeAction()
+                        },
+                                               completion: { (animated:Bool) -> Void in
+                                                self.selectQuantity = nil
+                                                //CAMBIA IMAGEN CARRO SELECCIONADO
+                                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                                                dispatch_async(dispatch_get_main_queue()) {
+                                                    cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
+                                                    self.collection!.reloadData()
+                                                }
+                        }
+                    )
+                }
+                else {
+                    self.selectQuantity!.closeAction()
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                    self.selectQuantity?.lblQuantity?.text = "0\(maxProducts)"
+                }
+        }
+        
+        let viewController = UIViewController()
+        viewController.view = selectQuantity
+        viewController.view.frame = frameDetail
+        selectQuantityPopover = UIPopoverController(contentViewController: viewController)
+        selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
+        selectQuantityPopover!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
+        selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+    }
+    func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
+
+    }
+    
+    func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
+        let pesable = cell.pesable! ? "1" : "0"
+    
+            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment]
+        
+    }
+
 
 }
 
