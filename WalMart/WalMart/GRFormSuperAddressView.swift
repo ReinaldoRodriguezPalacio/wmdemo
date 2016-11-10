@@ -167,9 +167,9 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         
         self.phoneWorkNumber = FormFieldView()
         self.phoneWorkNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
-        self.phoneWorkNumber!.typeField = TypeField.Phone
+        self.phoneWorkNumber!.typeField = TypeField.Number
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
-        self.phoneWorkNumber!.minLength = 10
+        self.phoneWorkNumber!.minLength = 0
         self.phoneWorkNumber!.maxLength = 10
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneWorkNumber!.inputAccessoryView = viewAccess
