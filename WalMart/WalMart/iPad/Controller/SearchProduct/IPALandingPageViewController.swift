@@ -170,8 +170,10 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         if hidden {
             self.loading!.stopAnnimating()
         } else {
-//              self.viewHeader?.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
-            self.loading = WMLoadingView(frame: CGRectMake(0, 320, self.view.bounds.width, self.view.bounds.height - (isFirstLoad ? 428 : 320)))
+            //let boundsCenter:CGPoint =  self.viewHeader == nil ? CGPoint(x:0 , y: 320)  : self.viewHeader!.convertRect(self.viewHeader!.frame, toView:self.view.superview)
+            let boundsCenter : CGPoint = self.viewHeader == nil ? CGPoint(x:0 , y: 320)  : self.viewHeader!.superview!.convertPoint(CGPoint(x: self.viewHeader!.frame.maxX,y:self.viewHeader!.frame.maxY), toView: self.view)
+            
+            self.loading = WMLoadingView(frame: CGRectMake(0, boundsCenter.y, self.view.bounds.width, self.view.bounds.height - boundsCenter.y ))
             self.isFirstLoad = false
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(false)
@@ -221,7 +223,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             if linesArr.count > 0 {
                 if let itemLine = linesArr[0] as? NSDictionary {
                     let name = itemLine["name"] as! String
-                    self.invokeSearchService(self.familyController.departmentId , family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
+                    self.invokeSearchService(self.familyController.departmentId , family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name,fromFilter: false)
                 } else {
                     nextSection()
                 }
@@ -303,8 +305,8 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         }
         self.collection?.reloadData()
     }
-    
-    func invokeSearchService(department:String,family:String,line:String, name:String) {
+
+    func invokeSearchService(department:String,family:String,line:String, name:String,fromFilter:Bool) {
         print("Invoking MG Search")
         let resultsInResponse = self.allProducts?.count > 0 ? self.allProducts![0]["resultsInResponse"] as! NSString : "0"
         startOffSet +=  self.allProducts != nil ? Int(resultsInResponse as String)! : 0
@@ -313,7 +315,8 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         let totalResults = self.allProducts?.count > 0 ? self.allProducts![0]["totalResults"] as! NSString : "1"
         commonTotal = ( Int(totalResults as String)  == -1 ? 0 : Int(totalResults as String)! )
         //TODO: Signals
-        if startOffSet >= commonTotal {
+        
+        if startOffSet >= commonTotal && !fromFilter{
             self.loading!.stopAnnimating()
             return
         }
@@ -360,7 +363,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     func didSelectLine(department:String,family:String,line:String, name:String) {
         self.popover?.dismissPopoverAnimated(true)
         self.titleHeader = name
-        self.invokeSearchService(department,family: family, line: line, name:name)
+        self.invokeSearchService(department,family: family, line: line, name:name,fromFilter: false)
         if let view =  self.viewHeader as?  IPASectionHeaderSearchReusable {
             view.dismissPopover()
         }
@@ -430,7 +433,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
             let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath)
             //self.invokeServiceInError =  true
             //self.getServiceProduct(resetTable: false) //Invoke service
-            self.invokeSearchService(self.familyController.departmentId, family: self.familySelected, line: self.lineSelected, name: self.nameSelected)
+            self.invokeSearchService(self.familyController.departmentId, family: self.familySelected, line: self.lineSelected, name: self.nameSelected,fromFilter: false)
              self.showLoadingIfNeeded(true)
             return loadCell
         }
@@ -725,7 +728,7 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
         self.idSort = order
         
         self.allProducts = []
-        self.invokeSearchService(self.familyController.departmentId, family: self.familySelected, line: self.lineSelected, name: self.nameSelected)
+        self.invokeSearchService(self.familyController.departmentId, family: self.familySelected, line: self.lineSelected, name: self.nameSelected,fromFilter: true)
         
     }
     
