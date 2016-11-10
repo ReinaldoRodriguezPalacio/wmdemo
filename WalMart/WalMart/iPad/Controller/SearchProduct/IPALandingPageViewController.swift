@@ -294,12 +294,20 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         }
         self.collection?.reloadData()
     }
-    
+    var startOffSet = 0
     func invokeSearchService(department:String,family:String,line:String, name:String) {
         print("Invoking MG Search")
-        let startOffSet =  self.allProducts != nil ? self.allProducts!.count : 0
+        let resultsInResponse = self.allProducts?.count > 0 ? self.allProducts![0]["resultsInResponse"] as! NSString : "0"
+        startOffSet +=  self.allProducts != nil ? Int(resultsInResponse as String)! : 0
         self.showLoadingIfNeeded(false)
+        var commonTotal = 0
+        let totalResults = self.allProducts?.count > 0 ? self.allProducts![0]["totalResults"] as! NSString : "1"
+        commonTotal = ( Int(totalResults as String)  == -1 ? 0 : Int(totalResults as String)! )
         //TODO: Signals
+        if startOffSet >= commonTotal {
+            self.loading!.stopAnnimating()
+            return
+        }
         
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = ProductbySearchService(dictionary:signalsDictionary)
@@ -309,7 +317,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
                             successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:AnyObject]) in
-            self.allProducts =  []
+            //self.allProducts =  []
             self.allProducts!.addObjectsFromArray(arrayProduct! as [AnyObject])
                 self.collection?.reloadData()
             NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
@@ -399,6 +407,23 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        
+        var commonTotal = 0
+        let totalResults = self.allProducts![0]["totalResults"] as! NSString
+        commonTotal = ( Int(totalResults as String)!  == -1 ? 0 : Int(totalResults as String)! )
+        print(commonTotal)
+        
+        if indexPath.row == (self.allProducts?.count)! - 1  && self.allProducts?.count <= commonTotal  {
+            let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath)
+            //self.invokeServiceInError =  true
+            //self.getServiceProduct(resetTable: false) //Invoke service
+            self.invokeSearchService(self.familyController.departmentId, family: self.familySelected, line: self.lineSelected, name: self.nameSelected)
+             self.showLoadingIfNeeded(true)
+            return loadCell
+        }
+        
+
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("iPAProductSearch", forIndexPath: indexPath) as! SearchProductCollectionViewCell
         if self.allProducts?.count <= indexPath.item {
