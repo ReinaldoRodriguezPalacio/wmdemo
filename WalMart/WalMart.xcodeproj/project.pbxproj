@@ -82,6 +82,7 @@
 		5512FEE11DD2945300411BF6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5512FEE01DD2945300411BF6 /* libsqlite3.dylib */; };
 		5512FEE31DD2948100411BF6 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5512FEE21DD2948100411BF6 /* libz.1.dylib */; };
 		5512FEE51DD294B700411BF6 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5512FEE41DD294B700411BF6 /* libc++.1.dylib */; };
+		55D5BAED1DD3E48100C66417 /* LogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D5BAEC1DD3E48100C66417 /* LogoutService.swift */; };
 		5601716B1A9549590029786B /* GRSendOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716A1A9549590029786B /* GRSendOrderService.swift */; };
 		5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */; };
 		56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56054B861B20A7BB003F8536 /* BannerTermsView.swift */; };
@@ -668,6 +669,7 @@
 		5512FEE01DD2945300411BF6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
 		5512FEE21DD2948100411BF6 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
 		5512FEE41DD294B700411BF6 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
+		55D5BAEC1DD3E48100C66417 /* LogoutService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogoutService.swift; path = Shared/Services/Home/LogoutService.swift; sourceTree = "<group>"; };
 		5601716A1A9549590029786B /* GRSendOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRSendOrderService.swift; path = Shared/Services/checkout/GRSendOrderService.swift; sourceTree = "<group>"; };
 		5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutConfirmViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutConfirmViewController.swift; sourceTree = "<group>"; };
 		56054B861B20A7BB003F8536 /* BannerTermsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerTermsView.swift; path = Shared/View/Banner/BannerTermsView.swift; sourceTree = "<group>"; };
@@ -2418,6 +2420,7 @@
 				5A5E5EE41C8773E100E519AD /* CarouselService.swift */,
 				56AED5E919C36F69004CAECA /* CategoryService.swift */,
 				4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */,
+				55D5BAEC1DD3E48100C66417 /* LogoutService.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -3271,7 +3274,7 @@
 				TargetAttributes = {
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = E896UUML7L;
+						DevelopmentTeam = UDPJ785EBR;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -3612,6 +3615,7 @@
 				AC37F6AD19B9008F000BB80D /* ProductDetailService.swift in Sources */,
 				5673D1351A9D500400DCD20B /* RSCode39Generator.swift in Sources */,
 				56EF81371A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift in Sources */,
+				55D5BAED1DD3E48100C66417 /* LogoutService.swift in Sources */,
 				56C5B22519AE879600BB81DE /* BaseService.swift in Sources */,
 				5681998219E3460A00362D3C /* WishlistAddProductStatus.swift in Sources */,
 				4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */,
@@ -4003,8 +4007,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4042,9 +4046,9 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "64b2685c-f81f-4186-8079-886a37c1f144";
+				PROVISIONING_PROFILE = "6bf26c80-fb94-413b-80b9-5b8e4ab25b17";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -4060,8 +4064,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4099,9 +4103,9 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "64b2685c-f81f-4186-8079-886a37c1f144";
+				PROVISIONING_PROFILE = "6bf26c80-fb94-413b-80b9-5b8e4ab25b17";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
