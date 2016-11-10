@@ -267,8 +267,8 @@
 "profile.address.city" = "Ciudad";
 "profile.address.state" = "Estado";
 "profile.address.field.telephone" = "Teléfono";
-"profile.address.field.telephone.house" = "Teléfono de casa";
-"profile.address.field.telephone.office" = "Teléfono de oficina";
+"profile.address.field.telephone.house" = "Teléfono";
+"profile.address.field.telephone.office" = "Extensión";
 "profile.address.field.telephone.cell" = "Teléfono celular";
 "profile.address.telephone" = "Teléfono";
 "profile.address.shiping.name" =  "Nombre";

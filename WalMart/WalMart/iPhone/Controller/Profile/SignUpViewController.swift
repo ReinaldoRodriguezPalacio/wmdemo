@@ -48,12 +48,18 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     var dateVal : NSDate? = nil
     var closeModal : (() -> Void)? = nil
     
+    var gPhoneNumber = "";
+    
+    var sAddredssForm : FormSuperAddressView!
+
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SIGNUP.rawValue
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.sAddredssForm = GRFormSuperAddressView()
         
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
@@ -379,6 +385,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     }
     
     func registryUser() {
+        
         self.view.endEditing(true)
         if validateTerms() {
             
@@ -393,9 +400,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             let gender = femaleButton!.selected ? "Female" : "Male"
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
-            
-            let params = service.buildParamsWithMembership(email!.text!, password:  password!.text!, name: name!.text!, lastName: lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
-            
+//erick 2
             if alertAddress == nil {
                 alertAddress = GRFormAddressAlertView.initAddressAlert()!
             }
@@ -408,6 +413,12 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+
+                let aPhoneHomeNumber =  self.alertAddress!.sAddredssForm.getPhoneHomeNumber()
+                let aPhoneWorkNumber =  self.alertAddress!.sAddredssForm.getPhoneWorkNumber()
+                let aCellPhone       =  self.alertAddress!.sAddredssForm.getCellPhone()
+                
+                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
 
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                    

@@ -16,6 +16,7 @@ class SignUpMGViewController: SignUpViewController {
     var canceledAction : Bool = false
     var addressMgView:AddressViewController!
     
+    var aAddredssForm : FormSuperAddressView!
     
     /**
      Fucntion to registry user from cart MG, call login service and SignUpService
@@ -41,8 +42,14 @@ class SignUpMGViewController: SignUpViewController {
             self.addressMgView.backButton?.hidden =  true
             self.addressMgView.showSaveAlert = false
             self.addressMgView.successCallBackRegistry = {() in
+//erick
+                self.aAddredssForm = GRFormSuperAddressView()
                 
-            let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
+                let aPhoneHomeNumber =  self.aAddredssForm.getPhoneHomeNumber()
+                let aPhoneWorkNumber =  self.aAddredssForm.getPhoneWorkNumber()
+                let aCellPhone       =  self.aAddredssForm.getCellPhone()
+                
+                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
                 
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
