@@ -132,23 +132,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewFooter = UIView()
         viewFooter.backgroundColor = UIColor.whiteColor()
         
-        var x:CGFloat = 16
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
-                buttonAsociate = UIButton(frame: CGRectMake(16, 16, 40, 40))
-                buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
-                buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
-                buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), forControlEvents: UIControlEvents.TouchUpInside)
-                viewFooter.addSubview(buttonAsociate)
-                x =  buttonAsociate.frame.maxX + 16
-            }
-        }
         
-        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
-        buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
-        buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
-        viewFooter.addSubview(buttonWishlist)
-        buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
+        //--
+        self.showDiscountAsociate()
+        
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.layer.cornerRadius = 17
@@ -235,6 +222,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: nil)
+        self.showDiscountAsociate()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -267,6 +255,41 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
     
+    func showDiscountAsociate(){
+        var x:CGFloat = 16
+        self.loadShoppingCartService()
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.sharedInstance().isAssociated == 1{
+                if buttonAsociate == nil {
+                    buttonAsociate = UIButton(frame: CGRectMake(16, 16, 34, 34))
+                }else{
+                    buttonAsociate.frame = CGRectMake(16, 16, 34, 34)
+                }
+                
+                buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
+                buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
+                buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), forControlEvents: UIControlEvents.TouchUpInside)
+                viewFooter.addSubview(buttonAsociate)
+                x =  buttonAsociate.frame.maxX + 16
+            }
+        }
+        if buttonWishlist ==  nil {
+            buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
+        }else{
+            buttonWishlist.frame = CGRectMake(x, 16, 34, 34)
+        }
+        buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
+        buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
+        viewFooter.addSubview(buttonWishlist)
+        if buttonShop == nil {
+            buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
+        }else {
+            buttonShop.frame = CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34)
+        }
+
+    
+    }
+    
     /**
      Load items in shopping cart, anda create cell width totals, 
      if no containt items back to shopping cart
@@ -297,13 +320,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         let totalsItems = self.totalItems()
         let total = totalsItems["total"] as String!
-        
-        self.updateShopButton(total)
+        if self.buttonShop != nil {
+            self.updateShopButton(total)
+        }
         
         self.viewShoppingCart.delegate = self
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
-        
         
         
         self.loadCrossSell()
@@ -1258,6 +1281,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             buttonShop.addSubview(customlabel)
             buttonShop.sendSubviewToBack(customlabel)
         }
+        customlabel.frame = self.buttonShop.bounds
         var newTotal  = total
         if self.isEmployeeDiscount {
             newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
