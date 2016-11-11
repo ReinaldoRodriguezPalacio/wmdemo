@@ -494,11 +494,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
         }
         
+        if self.allProducts?.count > 0{
         if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
             let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath)
             self.invokeServiceInError =  true
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
+            }
         }
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(productCellIdentifier(), forIndexPath: indexPath) as! SearchProductCollectionViewCell
