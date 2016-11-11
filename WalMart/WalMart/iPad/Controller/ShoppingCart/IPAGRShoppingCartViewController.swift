@@ -323,7 +323,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         if itemsInCart.count > indexPath.row   {
             let controller = IPAProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
-            
+            controller.detailOf = "Shopping Cart"
             controller.ixSelected = indexPath.row
             self.navigationController!.delegate = nil
             self.navigationController!.pushViewController(controller, animated: true)

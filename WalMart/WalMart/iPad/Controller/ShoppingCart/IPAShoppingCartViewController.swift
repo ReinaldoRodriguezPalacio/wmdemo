@@ -160,8 +160,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let totalSaving = totalsItems["totalSaving"] as String!
         let subTotalText = totalsItems["subtotal"] as String!
         let iva = totalsItems["iva"] as String!
-        
-        self.updateShopButton(total)
+        if self.buttonShop != nil {
+            self.updateShopButton(total)
+        }
         
         if self.totalsView != nil {
             self.totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)

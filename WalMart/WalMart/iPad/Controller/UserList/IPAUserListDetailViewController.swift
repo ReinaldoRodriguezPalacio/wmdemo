@@ -9,7 +9,7 @@
 import UIKit
 
 protocol IPAUserListDetailDelegate {
-    func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int)
+    func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int,listName:String)
     func reloadTableListUser()
     func closeUserListDetail()
     func reloadTableListUserSelectedRow()
@@ -295,7 +295,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                     productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
             }
-            self.delegate?.showProductListDetail(fromProducts: productsToShow, indexSelected: indexPath.row)
+            self.delegate?.showProductListDetail(fromProducts: productsToShow, indexSelected: indexPath.row,listName: self.listName!)
         }
         
     }

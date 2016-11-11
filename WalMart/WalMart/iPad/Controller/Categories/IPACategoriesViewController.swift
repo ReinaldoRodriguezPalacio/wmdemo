@@ -220,7 +220,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     }
     
     func reloadSelectedCell() {
-        if controllerAnimateView != nil {
+        if controllerAnimateView != nil  && controllerAnimateView.searchProduct.currentCellSelected != nil{
             let currentCell = controllerAnimateView.searchProduct.collection!.cellForItemAtIndexPath(controllerAnimateView.searchProduct.currentCellSelected) as! IPASearchProductCollectionViewCell!
             if currentCell != nil {
                 currentCell.showImageView()

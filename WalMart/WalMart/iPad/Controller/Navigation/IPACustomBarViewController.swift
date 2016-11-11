@@ -229,6 +229,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position:"")//position
             svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
+                contDetail.detailOf = "Search results"
                 let controllernav = self.currentController as? UINavigationController
                 if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
                     controllernav?.delegate = contDetail
