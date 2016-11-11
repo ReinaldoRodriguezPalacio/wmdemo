@@ -1715,15 +1715,22 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func removeSelectedFilters(){
+        
         //Quitamos los filtros despues de la busqueda.
         //self.idSort = self.originalSort
         
         self.searchContextType = self.originalSearchContextType
+        
+        /* Removed, causing results > 20 to reset filter
+         
         if self.originalSearchContextType != nil && self.isTextSearch {
             self.idDepartment = nil
             self.idFamily = nil
             self.idLine = nil
         }
+         
+        */
+        
         self.allProducts = []
         self.mgResults!.resetResult()
         self.grResults!.resetResult()

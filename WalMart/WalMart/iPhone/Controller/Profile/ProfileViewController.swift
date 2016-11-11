@@ -193,8 +193,8 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue,action: WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label: "")
 
         signOutButton?.enabled = false
-        let shoppingCartUpdateBg = ShoppingCartProductsService()
-        shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        
+        delay(0.3) {
             if  UserCurrentSession.hasLoggedUser() {
                 UserCurrentSession.sharedInstance().userSigned = nil
                 UserCurrentSession.sharedInstance().deleteAllUsers()
@@ -208,24 +208,16 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                     
                     }
                     , errorBlock: { (error:NSError) -> Void in
-                    print("")
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
-                    self.signOutButton?.enabled = true
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                        print("")
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon("Ok")
+                        self.signOutButton?.enabled = true
+                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                 })
             }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.signOutButton?.enabled = true
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
-        })
+        }
+        
     }
-
-    
-
     
     func editProfile(sender:UIButton) {
                 
