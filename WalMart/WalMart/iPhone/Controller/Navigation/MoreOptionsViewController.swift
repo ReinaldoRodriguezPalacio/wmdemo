@@ -378,11 +378,13 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
 
         
-        let shoppingCartUpdateBg = ShoppingCartProductsService()
-        shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        delay(0.3) { 
+            
             if  UserCurrentSession.sharedInstance().userSigned != nil {
+                
                 UserCurrentSession.sharedInstance().userSigned = nil
                 UserCurrentSession.sharedInstance().deleteAllUsers()
+                
                 self.reloadButtonSession()
                 let shoppingService = ShoppingCartProductsService()
                 shoppingService.callCoreDataService([:], successBlock: { (result:NSDictionary) -> Void in
@@ -391,20 +393,16 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     self.alertView!.showDoneIcon()
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                     
-                    }
-                    , errorBlock: { (error:NSError) -> Void in
+                    } , errorBlock: { (error:NSError) -> Void in
                         print("")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                 })
+                
             }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
-        })
+            
+        }
         
         let logoutService = LogoutService()
         logoutService.callService(Dictionary<String, String>(),
