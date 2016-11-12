@@ -1310,8 +1310,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         
                     })
                    
-                //case .none :
-                //    print("Not sorted")
+                case .none :
+                    print("Not sorted")
                 default :
                     //println("priceDesc")
                     self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
