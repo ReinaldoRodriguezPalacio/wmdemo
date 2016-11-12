@@ -79,7 +79,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         var wShop : CGFloat =  341 - 82
         if UserCurrentSession.sharedInstance().userSigned != nil {
             if UserCurrentSession.sharedInstance().isAssociated == 1{
-                buttonAsociate.frame =  CGRectMake(16, 16, 40, 40)
+                if buttonAsociate ==  nil {
+                    buttonAsociate = UIButton(frame: CGRectMake(16, 16, 34, 34))
+                }else{
+                    buttonAsociate.frame =  CGRectMake(16, 16, 40, 40)
+                }
                 x = buttonAsociate.frame.maxX + 16
                 wShop = 341 - 135
             }
