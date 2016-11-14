@@ -394,10 +394,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.reminderImage?.alpha = 1.0
                     self.footerSection!.alpha = 1
                     self.addProductsView?.alpha = 1
-                    
             })
-            
-           
          
         }
         
@@ -880,7 +877,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             listCell.setValues(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
         }
         if self.isEdditing {
+            listCell.rightUtilityButtons = nil
             listCell.showLeftUtilityButtonsAnimated(false)
+        } else {
+            if listCell.rightUtilityButtons == nil {
+                delay(0.5, completion: {
+                    listCell.setDeleteButton()
+                })
+            }
         }
 
         return listCell

@@ -258,6 +258,14 @@ class DetailListViewCell: ProductTableViewCell {
         checkDisabled(disabled)
     }
     
+    func setDeleteButton() {
+        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
+        buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        buttonDelete.backgroundColor = WMColor.red
+        self.rightUtilityButtons = [buttonDelete]
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         let bounds = self.frame.size
