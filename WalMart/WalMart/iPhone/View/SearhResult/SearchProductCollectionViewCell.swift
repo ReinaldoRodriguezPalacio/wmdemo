@@ -105,7 +105,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.promotiosView?.frame = CGRect(x: 0.0, y: 8.0, width: 30, height: 140)
     }
     
-    func setValueArray(_ plpArray:NSArray){
+    func setValueArray(_ plpArray:[[String:Any]]){
         if plpArray.count > 0 {
             if self.promotiosView != nil {
                 for subview in self.promotiosView!.subviews {

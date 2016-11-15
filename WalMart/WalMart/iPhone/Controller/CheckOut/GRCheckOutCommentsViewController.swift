@@ -662,8 +662,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      */
     func findproductInCar(){
       let products =  UserCurrentSession.sharedInstance.itemsGR
-        let upcsIncart : NSMutableArray =  []
-        let itemsInShoppingCart = products!["items"] as? NSArray
+        var upcsIncart : [[String:Any]] =  []
+        let itemsInShoppingCart = products!["items"] as? [[String:Any]]
         for items in itemsInShoppingCart! {
             upcsIncart.add(items["upc"] as! String)
         }

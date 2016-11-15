@@ -40,8 +40,8 @@ open class RSCornersLayer: CALayer {
                 }
                 let dict = corners[idx] as! [String:Any]
                 
-                let x = CGFloat((dict.object(forKey: "X") as! NSNumber).floatValue)
-                let y = CGFloat((dict.object(forKey: "Y") as! NSNumber).floatValue)
+                let x = CGFloat((dict["X"] as! NSNumber).floatValue)
+                let y = CGFloat((dict["Y"] as! NSNumber).floatValue)
                 if i == 0 {
                     ctx.move(to: CGPoint(x: x, y: y))
                 } else {

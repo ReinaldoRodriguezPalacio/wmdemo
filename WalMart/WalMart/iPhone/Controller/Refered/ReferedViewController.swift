@@ -310,7 +310,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         let addReferedService = AddReferedCustumerService()
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         self.alertView!.view.alpha = 0.96
-        addReferedService.callService(requestParams: addReferedService.buildParamsRefered(mail, nameRef: name, isReferedAutorized: true),
+        addReferedService.callService(requestParams: addReferedService.buildParamsRefered(mail, nameRef: name, isReferedAutorized: true) as AnyObject,
             successBlock: {(result:[String:Any]) -> Void in
                 //codeMessage 0 == OK; codeMessage -1 == NOOK
                 let codeMessage = result["codeMessage"] as! Int

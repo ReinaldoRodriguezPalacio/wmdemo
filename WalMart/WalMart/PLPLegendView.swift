@@ -10,7 +10,7 @@ import Foundation
 
 class PLPLegendView: UIView, UIGestureRecognizerDelegate {
     
-    var arrayPlp : NSArray? = []
+    var arrayPlp : [[String:Any]]? = []
     var isVertical : Bool = true
     var countPromotion: Int = 0
     var legendView : LegendView?
@@ -22,7 +22,7 @@ class PLPLegendView: UIView, UIGestureRecognizerDelegate {
         setup()
     }
     
-    init(isvertical : Bool, PLPArray: NSArray, viewPresentLegend:UIView) {
+    init(isvertical : Bool, PLPArray: [[String:Any]], viewPresentLegend:UIView) {
         super.init(frame: CGRect.zero)
         
         self.arrayPlp = PLPArray

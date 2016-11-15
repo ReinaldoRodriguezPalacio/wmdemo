@@ -678,15 +678,15 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         return false
     }
     
-    func getParams() -> [String:Any] {//"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser,
-           let paramsAdd : NSMutableDictionary? = [:]
+    func getParams() -> [AnyHashable:Any] {//"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser,
+        var paramsAdd : [String:Any]? = [:]
         let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!]
         if idAddress != nil{
            paramsAdd?.addEntries(from: paramsAddress)
             paramsAdd?.addEntries(from: ["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser])
             return  paramsAdd!
         }
-        return paramsAddress as [String:Any]
+        return paramsAddress as [AnyHashable:Any]
         
     }
     

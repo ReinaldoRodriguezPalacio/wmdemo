@@ -471,7 +471,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
             successBlock: { (response: [String:Any]) -> Void in
-                self.checkPhotoStatus(response.object(forKey: "token") as! String, idSearch: searchId)
+                self.checkPhotoStatus(response["token"] as! String, idSearch: searchId)
             }, errorBlock: { (error:NSError) -> Void in
                 //ERROR
         })

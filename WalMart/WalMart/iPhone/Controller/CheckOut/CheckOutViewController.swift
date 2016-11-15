@@ -438,7 +438,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         UIGraphicsEndImageContext()
         
         let library =  ALAssetsLibrary()
-        library.save(image, toAlbum: "Walmart", completion: { (url:URL!, error:NSError!) -> Void in
+        library.save(image, toAlbum: "Walmart", completion: { (url:URL?, error:Error?) -> Void in
             print("saved image")
             }) { (error:NSError!) -> Void in
                 print("Error saving image")

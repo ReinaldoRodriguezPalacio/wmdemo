@@ -54,6 +54,6 @@ class CamFindService : BaseService {
     
     func getCamFindAPIKey() -> String{
         let apiParemeters = self.getCamFindAPIParameters()
-        return  apiParemeters.object(forKey: "CamFindAPIKey") as! String
+        return  apiParemeters["CamFindAPIKey"] as! String
     }
 }

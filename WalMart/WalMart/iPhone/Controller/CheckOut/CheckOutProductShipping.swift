@@ -265,11 +265,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             return
         }
         
-        let priceInfo  =  self.orderDictionary?.object(forKey: "priceInfo") as! [String:Any]
+        let priceInfo  =  self.orderDictionary?["priceInfo"] as! [String:Any]
         
         let nextController = GRCheckOutCommentsViewController()
         self.paramsToOrder?.setValue(self.shippingsToOrder, forKey: "shipping")
-        self.paramsToOrder?.addEntries(from: ["subtotal":priceInfo["rawSubtotal"]!,"shippingCost":priceInfo["shipping"]!,"iva":"","discount":"","total":priceInfo["total"]!,"countItems":self.orderDictionary!.object(forKey: "totalCommerceItemCount")! ])
+        self.paramsToOrder?.addEntries(from: ["subtotal":priceInfo["rawSubtotal"]!,"shippingCost":priceInfo["shipping"]!,"iva":"","discount":"","total":priceInfo["total"]!,"countItems":self.orderDictionary!["totalCommerceItemCount"]!])
         
         nextController.paramsToOrder =  self.paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
@@ -284,7 +284,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             let response  =  result["responseObject"]  as! [String:Any]
             
             self.orderDictionary = response["order"] as? [String:Any]
-            self.shippingAll = self.orderDictionary!.object(forKey: "shippingGroups") as! NSArray
+            self.shippingAll = self.orderDictionary!["shippingGroups"] as! NSArray
             
             self.tableProductsCheckout.reloadData()
             self.removeViewLoad()
@@ -316,7 +316,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             self.navigationController?.pushViewController(controller, animated: true)
         }else{
-            let paymentGroups = self.orderDictionary?.object(forKey: "paymentGroups") as! NSArray
+            let paymentGroups = self.orderDictionary?["paymentGroups"] as! NSArray
            
             let controller = CheckOutProductTypeShipping()
             controller.delegate = self

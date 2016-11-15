@@ -532,7 +532,7 @@
             position:self.isAplyFilter ? "" : "\(indexPath.row)"
         )
         
-        cell.setValueArray(plpArray["arrayItems"] as! NSArray)
+        cell.setValueArray(plpArray["arrayItems"] as! [[String:Any]])
         //        self.plpView = PLPLegendView(isvertical: true, PLPArray: plpArray["arrayItems"] as! NSArray, viewPresentLegend: self.view, viewContent: cell.picturesView!)
         //        cell.addSubview(self.plpView!)
         cell.delegate = self
@@ -754,20 +754,20 @@
             self.allProducts = []
             if self.results?.products != nil {
                 if (self.itemsUPC?.count)! > 0 {
-                    self.allProducts?.append(self.itemsUPC)
-                    var filtredProducts : [AnyObject] = []
+                    self.allProducts = self.appendArray(array1: self.allProducts!, array2: self.itemsUPC!)
+                    var filtredProducts : [[String:Any]]? = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:AnyObject]
                         if let productUPC =  productDict["upc"] as? String {
                             if !self.itemsUPC!.contains(where: productUPC) {
-                                filtredProducts.append(productDict as AnyObject)
+                                filtredProducts = self.appendArray(array1: filtredProducts!, array2: productDict)
                             }
                         }
                     }
-                    self.allProducts += filtredProducts
+                     self.allProducts = self.appendArray(array1: self.allProducts!,array2: filtredProducts!)
                 } else {
                     if self.results!.products != nil{
-                        self.allProducts?.append(contentsOf: self.results!.products as! [AnyObject])
+                         self.allProducts = self.appendArray(array1: self.allProducts!, array2: self.results!.products!)
                     }
                 }
             }
@@ -776,20 +776,20 @@
             self.allProducts = []
             if self.results?.products != nil {
                 if (self.itemsUPC?.count)! > 0 {
-                    self.allProducts?.append(contentsOf: self.itemsUPC as! [AnyObject])
-                    var filtredProducts : [AnyObject] = []
+                    self.allProducts = self.appendArray(array1:self.allProducts!, array2: self.itemsUPC!)
+                    var filtredProducts : [[String:Any]] = []
                     for product in self.results!.products! {
-                        let productDict = product as! [String:AnyObject]
+                        let productDict = product as! [String:Any]
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPC!.contains(productUPC) {
-                                filtredProducts.append(productDict as AnyObject)
+                            if !self.itemsUPC!.contains(where: productUPC) {
+                                filtredProducts.append(productDict)
                             }
                         }
                     }
                     
-                    self.allProducts?.append(contentsOf: filtredProducts)
+                   self.allProducts = self.appendArray(array1:self.allProducts!,array2:filtredProducts)
                 } else {
-                    self.allProducts?.append(contentsOf: self.results!.products as! [AnyObject])
+                   self.allProducts = self.appendArray(array1:self.allProducts!, array2: self.results!.products)
                 }
             }
         }
@@ -805,48 +805,48 @@
                 switch (FilterType(rawValue: self.idSort!)!) {
                 case .descriptionAsc :
                     //println("descriptionAsc")
-                    self.allProducts?.sort(by: [NSSortDescriptor(key: "description", ascending: true)])
+                    self.allProducts?.sort(by: { ($0["description"] as! String) > ($1["description"] as! String) })
                 //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
                 case .descriptionDesc :
                     //println("descriptionDesc")
-                    self.allProducts?.sort(by: [NSSortDescriptor(key: "description", ascending: false)])
+                    self.allProducts?.sort(by:{ ($0["description"] as! String) < ($1["description"] as! String)})
                 //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
                 case .priceAsc :
                     //println("priceAsc")
-                    self.allProducts?.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                        let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                    self.allProducts?.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                        let priceOne:Double = self.priceValueFrom(dictionary: dictionary1)
+                        let priceTwo:Double = self.priceValueFrom(dictionary: dictionary2)
                         
                         if priceOne < priceTwo {
-                            return ComparisonResult.orderedAscending
+                            return true
                         }
                         else if (priceOne > priceTwo) {
-                            return ComparisonResult.orderedDescending
+                            return false
                         }
                         else {
-                            return ComparisonResult.orderedSame
+                            return false
                         }
                         
-                    } as! (Any, Any) -> ComparisonResult)
+                    })
                     
                 case .none : print("Not sorted")
                 default :
                     //println("priceDesc")
-                    self.allProducts!.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                        let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                    self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                        let priceOne:Double = self.priceValueFrom(dictionary: dictionary1)
+                        let priceTwo:Double = self.priceValueFrom(dictionary: dictionary2)
                         
                         if priceOne > priceTwo {
-                            return ComparisonResult.orderedAscending
+                            return true
                         }
                         else if (priceOne < priceTwo) {
-                            return ComparisonResult.orderedDescending
+                            return false
                         }
                         else {
-                            return ComparisonResult.orderedSame
+                            return false
                         }
                         
-                    } as! (Any, Any) -> ComparisonResult)
+                    })
                 }
             }
             if self.emptyMGGR != nil {
@@ -1042,51 +1042,51 @@
             if self.originalSearchContextType != .WithTextForCamFind {
                 self.allProducts? = []
             }
-            self.allProducts?.addObjects(from: result.arrayObject!)
+            self.allProducts = self.appendArray(array1: self.allProducts!,array2: result.arrayObject! as! [[String : Any]])
             self.results?.totalResults = self.allProducts!.count
             self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
                 //println("descriptionAsc")
-                self.allProducts!.sort(by: [NSSortDescriptor(key: "description", ascending: true)])
+                self.allProducts!.sort(by: { ($0["description"] as! String) > ($1["description"] as! String) })
             case .descriptionDesc :
                 //println("descriptionDesc")
-                self.allProducts!.sort(by: [NSSortDescriptor(key: "description", ascending: false)])
+                self.allProducts!.sort(by: { ($0["description"] as! String) < ($1["description"] as! String) })
             case .priceAsc :
                 //println("priceAsc")
-                self.allProducts!.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let priceOne:Double = self.priceValueFrom(dictionary: dictionary1)
+                    let priceTwo:Double = self.priceValueFrom(dictionary: dictionary2)
                     
                     if priceOne < priceTwo {
-                        return ComparisonResult.orderedAscending
+                        return false
                     }
                     else if (priceOne > priceTwo) {
-                        return ComparisonResult.orderedDescending
+                        return true
                     }
                     else {
-                        return ComparisonResult.orderedSame
+                        return false
                     }
                     
-                } as! (Any, Any) -> ComparisonResult)
+                })
             case .none : print("Not sorted")
             case .priceDesc :
                 //println("priceDesc")
-                self.allProducts!.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let priceOne:Double = self.priceValueFrom(dictionary: dictionary1)
+                    let priceTwo:Double = self.priceValueFrom(dictionary: dictionary2)
                     
                     if priceOne > priceTwo {
-                        return ComparisonResult.orderedAscending
+                        return false
                     }
                     else if (priceOne < priceTwo) {
-                        return ComparisonResult.orderedDescending
+                        return true
                     }
                     else {
-                        return ComparisonResult.orderedSame
+                        return false
                     }
                     
-                } as! (Any, Any) -> ComparisonResult)
+                })
             default :
                 print("default")
             }
@@ -1309,9 +1309,9 @@
             let serviceUPC = SearchItemsByUPCService()
             serviceUPC.callService(self.findUpcsMg!, successJSONBlock: { (result:JSON) -> Void in
                 //self.itemsUPCMG = result.arrayObject
-                let upcs : NSArray = result.arrayObject! as NSArray
+                let upcs : [[String:Any]] = result.arrayObject! as! [[String:Any]]
                 if upcs.count > 0 {
-                    self.allProducts?.addObjects(from: upcs as [Any])
+                    self.allProducts!.append(contentsOf: upcs)
                     self.finsihService =  true
                     self.invokeServiceUpc =  true
                     self.collection?.reloadData()
@@ -1358,5 +1358,12 @@
     }
     
     
-    
+    func appendArray(array1:[[String:Any]],array2:[[String:Any]]) -> [[String:Any]] {
+        var containerArray = array1
+        
+        for element in array2{
+            containerArray.append(element)
+        }
+        return containerArray
+    }
  }

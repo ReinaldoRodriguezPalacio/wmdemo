@@ -49,7 +49,7 @@ class GRAddItemListService: GRBaseService {
         }
         toSneditem["idList"] = params["idList"] as! String
         toSneditem["itemArrImp"] = arrayToSend*/
-        self.jsonFromObject(params)
+        self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
                              successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)

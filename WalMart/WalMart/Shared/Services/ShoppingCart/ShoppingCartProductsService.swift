@@ -76,7 +76,7 @@ class ShoppingCartProductsService : BaseService {
             predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance.userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Mg.rawValue)
         }
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
-        var returnDictionary = [:]
+        var returnDictionary: [String:Any] = [:]
         var items : [Any] = []
         var subtotal : Double = 0.0
         var iva : Double = 0.0
@@ -109,7 +109,7 @@ class ShoppingCartProductsService : BaseService {
         
         // NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
         if successBlock != nil {
-            successBlock!(returnDictionary as [String:Any])
+            successBlock!(returnDictionary as! [String:Any])
             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
         }
     }
@@ -239,8 +239,8 @@ class ShoppingCartProductsService : BaseService {
                 
                 carProductItem.upc = upc
                 carProductItem.commerceItemId = commerceItemId
-                carProductItem.orderedQtyWeight = NSNumber(orderedQtyWeight)
-                carProductItem.isWeighable = NSNumber(isWeighable)
+                carProductItem.orderedQtyWeight = NSNumber(value: orderedQtyWeight)
+                carProductItem.isWeighable = NSNumber(value:isWeighable)
                 carProductItem.catalogRefId = catalogRefId
                 carProductItem.desc = desc
                 carProductItem.price = price as NSString
@@ -311,7 +311,7 @@ class ShoppingCartProductsService : BaseService {
             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             for itemDeleted in deteted {
-                itemDeleted.status = NSNumber(CartStatus.synchronized.rawValue)
+                itemDeleted.status = NSNumber(value:CartStatus.synchronized.rawValue)
                 do {
                     try context.save()
                 } catch let error as NSError {
@@ -368,7 +368,7 @@ class ShoppingCartProductsService : BaseService {
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
-                itemUpdated.status = NSNumber(CartStatus.synchronized.rawValue)
+                itemUpdated.status = NSNumber(value: CartStatus.synchronized.rawValue)
             }
             do {
                 try context.save()

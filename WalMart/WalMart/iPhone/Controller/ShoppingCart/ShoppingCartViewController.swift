@@ -551,7 +551,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
-            cellProduct.setValues(skuId,productId:productId,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments)
+            cellProduct.setValues(skuId,productId:productId,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:(quantity as NSString).integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments)
             
             cellProduct.setValueArray(plpArray["arrayItems"] as! [[String:Any]])
             

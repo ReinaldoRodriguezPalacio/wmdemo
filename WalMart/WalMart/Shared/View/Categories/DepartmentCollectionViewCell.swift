@@ -70,7 +70,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             loadImagefromUrl = loadImage
         }//self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
         if loadImagefromUrl {
-            self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage:imageIcon, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage:imageIcon, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageIcon.image = image
                 self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon)
                 }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in

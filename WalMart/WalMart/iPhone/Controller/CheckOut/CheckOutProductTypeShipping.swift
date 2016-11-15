@@ -306,7 +306,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         let service =  DisplaySlotsService()
         
-        service.callService(requestParams: service.buildParamsHomeDelivery(type), succesBlock: { (responce:[String:Any]) in
+        service.callService(requestParams: service.buildParamsHomeDelivery(type) as AnyObject, succesBlock: { (responce:[String:Any]) in
             
             let slots =  responce["responseObject"] as! [String:Any]
             let key =  slots.allKeys.sorted(by: { (first, second) -> Bool in

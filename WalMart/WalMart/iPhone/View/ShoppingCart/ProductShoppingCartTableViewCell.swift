@@ -93,7 +93,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.promotiosView?.frame = CGRect(x: self.productShortDescriptionLabel!.frame.minX, y: 90.0, width: self.productShortDescriptionLabel!.frame.width, height: 30)
     }
     
-    func setValueArray(_ plpArray:NSArray){
+    func setValueArray(_ plpArray:[[String:Any]]){
         
         if plpArray.count > 0 {
             if self.promotiosView != nil {

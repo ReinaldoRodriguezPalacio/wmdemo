@@ -20,7 +20,8 @@ class DefaultListService : GRBaseService {
     
     
     func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService([:],
+        let empty : [String:Any] = [:]
+        self.callGETService(empty,
             successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)

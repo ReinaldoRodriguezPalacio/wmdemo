@@ -100,7 +100,7 @@ class RecentProductsTableViewCell : ProductTableViewCell {
         self.promotiosView?.frame = CGRect(x: 112.0, y: 86.0, width: 170,height: 30)
     }
     
-    func setValueArray(_ plpArray:NSArray){
+    func setValueArray(_ plpArray:[[String:Any]]){
         
         if plpArray.count > 0 {
             if self.promotiosView != nil {
