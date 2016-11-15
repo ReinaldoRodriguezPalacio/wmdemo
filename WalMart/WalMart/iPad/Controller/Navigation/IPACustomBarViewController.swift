@@ -122,8 +122,8 @@ class IPACustomBarViewController :  CustomBarViewController {
         let upcs = searchDic["upcs"] as! [String]
         let keyWord = searchDic["keyWord"] as! String
         let controller = IPASearchProductViewController()
-        contextSearch = .withTextForCamFind
-        controller.searchContextType = .withTextForCamFind
+        contextSearch = .WithTextForCamFind
+        controller.searchContextType = .WithTextForCamFind
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
         controller.upcsToShow = upcs
@@ -157,7 +157,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         searchView = IPASearchView(frame: CGRect(x: self.btnSearch!.frame.minX,y: 20,width: 350,height: self.headerView.frame.height - 20))
         searchView!.clipsToBounds = true
         searchView!.delegate = self
-        searchView!.camfine =  contextSearch == SearchServiceContextType.withTextForCamFind ? true : false
+        searchView!.camfine =  contextSearch == SearchServiceContextType.WithTextForCamFind ? true : false
         searchView!.viewContent.clipsToBounds = true
         searchView!.viewContent.frame = CGRect(x: 40,y: searchView!.viewContent.frame.minY,width: searchView!.frame.width - 40,height: self.btnSearch!.frame.height)
         self.headerView.addSubview(searchView!)
@@ -231,7 +231,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         else{
             let controller = IPASearchProductViewController()
-            controller.searchContextType = .withText
+            controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
             let controllernav = self.currentController as? UINavigationController
@@ -490,13 +490,13 @@ class IPACustomBarViewController :  CustomBarViewController {
         case "": self.buttonSelected(self.buttonList[0])
         case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
         case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
-        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG )
-        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
-        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
+        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG )
+        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
+        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[3])
         case "URL": self.openURLNotification(trimValue)
-        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "",andGrade:"", andSearchContextType: .withCategoryForMG)
+        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "",andGrade:"", andSearchContextType: .WithCategoryForMG)
         case "SH":
             if self.splashVC == nil {
                 self.openSearchProduct()

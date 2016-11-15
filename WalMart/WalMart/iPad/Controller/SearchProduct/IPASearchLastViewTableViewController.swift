@@ -291,11 +291,11 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         }
         
         DispatchQueue.main.async(execute: {
-            self.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            self.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 let select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
                 var load = false
                 self.cancelSearch = false
-                if let rs = db.executeQuery(select, withArgumentsIn:nil) {
+                if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
                     var keywords = Array<AnyObject>()
                     while rs.next() {
                         if  self.cancelSearch {
@@ -315,7 +315,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                 if  !self.cancelSearch {
                     let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
                     self.cancelSearch = false
-                    if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
+                    if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
                         var keywords = Array<AnyObject>()
                         
                         while rs.next() {
@@ -360,7 +360,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false )
         //        }else{
         let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? NSDictionary
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? NSString == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
         
         //        }
         //        let item = self.elements![indexPath.row] as? NSDictionary

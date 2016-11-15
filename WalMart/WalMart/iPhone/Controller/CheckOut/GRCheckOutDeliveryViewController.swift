@@ -22,12 +22,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var errorView : FormFieldErrorView? = nil
     var address: FormFieldView?
     var addressInvoice: FormFieldView?
-    var addressItems: [Any]?
+    var addressItems: [[String:Any]]?
     var addressDesccription: String? = nil
     var selectedAddress: String? = nil
     var selectedAddressHasStore: Bool = true
     var selectedAddressIx : IndexPath!
-    var addressInvoiceItems: [Any]?
+    var addressInvoiceItems: [[String:Any]]?
     var addressInvoiceDesccription: String? = nil
     var selectedAddressInvoice: String? = nil
     var selectedAddressInvoiceIx : IndexPath!
@@ -243,7 +243,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         var itemsAddress : [String] = []
         var ixSelected = 0
         if self.addressItems != nil {
-            for option in self.addressItems as! [[String:Any]] {
+            for option in self.addressItems! {
                 if let text = option["name"] as? String {
                     itemsAddress.append(text)
                     if let id = option["addressId"] as? String {
@@ -495,8 +495,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let service = ShippingAddressByUserService()
         service.callService(
             { (result:NSDictionary) -> Void in
-                if let items = result["responseArray"] as? NSArray {
-                    self.addressItems = items as! [Any]
+                if let items = result["responseArray"] as? [[String:Any]] {
+                    self.addressItems = items
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
@@ -546,7 +546,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             self.addressInvoiceItems = []
             
-            if let fiscalAddress = resultCall["responseArray"] as? [Any] {
+            if let fiscalAddress = resultCall["responseArray"] as? [[String:Any]] {
                 self.addressInvoiceItems = fiscalAddress
             }
             self.removeViewLoad()

@@ -74,7 +74,7 @@
     var maxResult: Int = 20
     var brandText: String? = ""
     
-    var facet : [[String:AnyObject]]!
+    var facet : [[String:Any]]!
     
     var controllerFilter : FilterProductsViewController!
     
@@ -82,8 +82,8 @@
     var isLoading  = false
     var hasEmptyView = false
     
-    var itemsUPC: NSArray? = []
-    var itemsUPCBk: NSArray? = []
+    var itemsUPC: [[String:Any]]? = []
+    var itemsUPCBk: [[String:Any]]? = []
     
     var didSelectProduct =  false
     var finsihService =  false
@@ -93,7 +93,7 @@
     var isTextSearch: Bool = false
     var isOriginalTextSearch: Bool = false
     
-    var findUpcsMg: NSArray? = []
+    var findUpcsMg: [String]? = []
     
     var idListFromSearch : String? = ""
     var invokeServiceInError = false
@@ -141,7 +141,7 @@
         self.filterButton = UIButton(type: .custom)
         //self.filterButton!.setImage(iconImage, forState: .Normal)
         //elf.filterButton!.setImage(iconSelected, forState: .Highlighted)
-        self.filterButton!.addTarget(self, action: #selector(SearchProductViewController.filter(_:)), for: .TouchUpInside)
+        self.filterButton!.addTarget(self, action: #selector(SearchProductViewController.filter(sender:)), for: .touchUpInside)
         self.filterButton!.tintColor = UIColor.white
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: .normal)
@@ -342,7 +342,7 @@
     //    }
     
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath as IndexPath) as! SectionHeaderSearchHeader
             
@@ -363,7 +363,7 @@
     }
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
             return CGSize.zero
         }
@@ -408,7 +408,7 @@
         return size
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Show loading cell and invoke service
         var commonTotal = 0
         commonTotal =  (self.results!.totalResults == -1 ? 0:self.results!.totalResults)
@@ -561,20 +561,20 @@
         return detail
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width:self.view.bounds.maxX/2,height: 190)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat{
         return 0
     }
     //MARK: - UICollectionViewDelegate
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         didSelectProduct = true
         let cell = self.collection?.cellForItem(at: indexPath as IndexPath)
         if cell! is SearchProductCollectionViewCell {
@@ -661,9 +661,9 @@
     func invokeSearchUPCGroceries(actionSuccess:(() -> Void)?) {
         if (self.upcsToShow?.count)! > 0 {
             let serviceUPC = GRProductsByUPCService()
-            serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!) as AnyObject, successBlock: { (result:NSDictionary) -> Void in
+            serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!) as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 if result["items"] != nil {
-                    self.itemsUPC = result["items"] as? NSArray
+                    self.itemsUPC = result["items"] as? [[String : Any]]
                 }else {
                     self.itemsUPC = []
                 }
@@ -709,7 +709,7 @@
                                 if arrayProduct != nil && arrayProduct!.count > 0 {
                                     
                                     //All array items
-                                    self.results!.addResults(otherProducts: arrayProduct!)
+                                    self.results!.addResults(otherProducts: arrayProduct! as NSArray)
                                     self.results!.resultsInResponse = arrayProduct!.count
                                     self.results!.totalResults = arrayProduct!.count
                                     
@@ -754,20 +754,20 @@
             self.allProducts = []
             if self.results?.products != nil {
                 if (self.itemsUPC?.count)! > 0 {
-                    self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
+                    self.allProducts?.append(self.itemsUPC)
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:AnyObject]
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPC!.contains(productUPC) {
+                            if !self.itemsUPC!.contains(where: productUPC) {
                                 filtredProducts.append(productDict as AnyObject)
                             }
                         }
                     }
-                    self.allProducts?.addObjects(from: filtredProducts)
+                    self.allProducts += filtredProducts
                 } else {
                     if self.results!.products != nil{
-                        self.allProducts?.addObjects(from: self.results!.products as! [AnyObject])
+                        self.allProducts?.append(contentsOf: self.results!.products as! [AnyObject])
                     }
                 }
             }
@@ -776,7 +776,7 @@
             self.allProducts = []
             if self.results?.products != nil {
                 if (self.itemsUPC?.count)! > 0 {
-                    self.allProducts?.addObjects(from: self.itemsUPC as! [AnyObject])
+                    self.allProducts?.append(contentsOf: self.itemsUPC as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     for product in self.results!.products! {
                         let productDict = product as! [String:AnyObject]
@@ -787,9 +787,9 @@
                         }
                     }
                     
-                    self.allProducts?.addObjects(from: filtredProducts)
+                    self.allProducts?.append(contentsOf: filtredProducts)
                 } else {
-                    self.allProducts?.addObjects(from: self.results!.products as! [AnyObject])
+                    self.allProducts?.append(contentsOf: self.results!.products as! [AnyObject])
                 }
             }
         }
@@ -853,11 +853,11 @@
                 self.emptyMGGR.removeFromSuperview()
             }
             
-            dispatch_get_main_queue().asynchronously(DispatchQueue.main) {
-                self.showLoadingIfNeeded(true)
+            DispatchQueue.main.async {
+                self.showLoadingIfNeeded(hidden: true)
                 self.collection?.reloadData()
                 self.collection?.alpha = 1
-                NotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+                NotificationCenter.default.postNotificationName(NSNotification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
                 self.filterButton?.alpha = 1
             }
         }
@@ -927,7 +927,7 @@
     
     //MARK: - Filters
     
-    func filter(sender:UIButton){
+    func filter(_ sender:UIButton){
         if self.isAplyFilter {
             print("Resetea filtros")
             self.isAplyFilter =  false
@@ -939,7 +939,7 @@
             print("Nuevos filtros")
             if controllerFilter == nil {
                 controllerFilter = FilterProductsViewController()
-                controllerFilter.facet = self.facet as NSArray?
+                controllerFilter.facet = self.facet
                 controllerFilter.textToSearch = self.textToSearch
                 controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort!
                 controllerFilter.delegate = self
@@ -961,14 +961,14 @@
     }
     
     
-    func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
+    func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool) {
         
         self.isAplyFilter =  true
         
         if IS_IPHONE {
             self.isLoading = true
         } else {
-            self.showLoadingIfNeeded(false)
+            self.showLoadingIfNeeded(hidden: false)
         }
         
         self.filterButton!.alpha = 1
@@ -1171,7 +1171,7 @@
             prodQuantity = "50"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(Int(equivalence!)),upcProduct:cell.upc)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: equivalence!),upcProduct:cell.upc)
             
         }else{
             prodQuantity = "1"
@@ -1195,7 +1195,7 @@
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
-                    NotificationCenter.defaultCenter.postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 }else{
                     self.addItemToList(cell: cell, quantity:quantity)
                 }
@@ -1223,7 +1223,7 @@
     
     func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell) {
         let frameDetail = CGRect(x:0,y:0, width:self.view.frame.width,height:self.view.frame.height)
-        self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
+        self.buildGRSelectQuantityView(cell: cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantityGR)
     }
     
@@ -1253,7 +1253,7 @@
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
                                                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.defaultCenter.postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                     }
                     )
                 }
@@ -1272,7 +1272,7 @@
     
     func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell) {
         let frameDetail = CGRect(x:0,y:0, width:self.view.frame.width,height:self.view.frame.height)
-        self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
+        self.buildMGSelectQuantityView(cell: cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantity)
     }
     
@@ -1307,7 +1307,7 @@
         if (self.findUpcsMg?.count)! > 0 {
             self.filterButton?.alpha = 0
             let serviceUPC = SearchItemsByUPCService()
-            serviceUPC.callService(self.findUpcsMg as! [String], successJSONBlock: { (result:JSON) -> Void in
+            serviceUPC.callService(self.findUpcsMg!, successJSONBlock: { (result:JSON) -> Void in
                 //self.itemsUPCMG = result.arrayObject
                 let upcs : NSArray = result.arrayObject! as NSArray
                 if upcs.count > 0 {
@@ -1342,7 +1342,7 @@
         let pesable = cell.pesable! ? "1" : "0"
         let productObject = service.buildProductObject(upc: cell.upc as String, quantity:Int(quantity)!,pesable:pesable,active:true)
         service.callService(service.buildParams(idList: self.idListFromSearch!, upcs: [productObject]) as NSDictionary,
-                            successBlock: { (result:NSDictionary) -> Void in
+                            successBlock: { (result:[String:Any]) -> Void in
                                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                 alertView!.showDoneIcon()
                                 print("Error at add product to list)")

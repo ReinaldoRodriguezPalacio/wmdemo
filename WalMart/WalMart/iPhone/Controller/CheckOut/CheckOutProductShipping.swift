@@ -279,7 +279,8 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     func invokeDetailedService() {
         
         let detailedService = DetailedService()
-        detailedService.callService(requestParams: [], succesBlock: { (result: NSDictionary) in
+        let emptyArray : [AnyObject] = []
+        detailedService.callService(requestParams: emptyArray as AnyObject, succesBlock: { (result: NSDictionary) in
             let response  =  result["responseObject"]  as! NSDictionary
             
             self.orderDictionary = response["order"] as? NSDictionary

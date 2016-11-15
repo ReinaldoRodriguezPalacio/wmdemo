@@ -155,7 +155,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controllerAnimateView.titleStr = cellSelected?.buttonDepartment.titleLabel!.text
         controllerAnimateView.families = itemsFam
         controllerAnimateView.name = nameLineDefault
-        controllerAnimateView.searchContextType = SearchServiceContextType.withCategoryForGR
+        controllerAnimateView.searchContextType = SearchServiceContextType.WithCategoryForGR
         controllerAnimateView.closeAnimated = false
         
         controllerAnimateView.actionClose = {() in
@@ -263,7 +263,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     func didTapLine(_ name:String,department:String,family:String,line:String) {
         let controller = IPASearchProductViewController()
-        controller.searchContextType = SearchServiceContextType.withCategoryForGR
+        controller.searchContextType = SearchServiceContextType.WithCategoryForGR
         controller.idFamily  = family
         controller.idDepartment = department
         controller.idLine = line

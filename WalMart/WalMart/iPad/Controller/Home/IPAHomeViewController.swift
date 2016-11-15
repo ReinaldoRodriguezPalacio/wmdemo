@@ -146,7 +146,7 @@ class IPAHomeViewController : HomeViewController {
         let controller = IPALinesViewController()
         controller.urlTicer = urlTicer
         controller.familyId = idFamily
-        controller.searchContextType =  .withCategoryForMG
+        controller.searchContextType =  .WithCategoryForMG
         controller.frameStart =  CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         controller.frameEnd =  CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         
@@ -157,9 +157,9 @@ class IPAHomeViewController : HomeViewController {
     override func showFindUpc(_ upcs:NSArray,type:String){
         let controller = IPASearchProductViewController()
         if type == "mg" {
-            controller.searchContextType = .withCategoryForMG
+            controller.searchContextType = .WithCategoryForMG
         }else {
-            controller.searchContextType = .withCategoryForGR
+            controller.searchContextType = .WithCategoryForGR
         }
         controller.findUpcsMg = upcs as? [String] as NSArray?
         controller.titleHeader = "Recomendados"
@@ -199,9 +199,9 @@ class IPAHomeViewController : HomeViewController {
     override func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){
         let controller = IPASearchProductViewController()
         if type == "mg" {
-            controller.searchContextType = .withCategoryForMG
+            controller.searchContextType = .WithCategoryForMG
         }else {
-            controller.searchContextType = .withCategoryForGR
+            controller.searchContextType = .WithCategoryForGR
         }
         controller.idFamily  = family == nil ? "_" :  family
         controller.idDepartment = depto == nil ? "_" :  depto

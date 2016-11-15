@@ -1746,7 +1746,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func photoCaptured(_ value: String?, upcs: [String]?, done: (() -> Void)) {
         if value !=  nil {
             if value != "" {
-                self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .withTextForCamFind,searchServiceFromContext: .fromSearchCamFind)
+                self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .WithTextForCamFind,searchServiceFromContext: .fromSearchCamFind)
             }
         }
     }

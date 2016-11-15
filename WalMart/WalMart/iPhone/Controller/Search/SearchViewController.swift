@@ -493,7 +493,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
         //        }else{
         let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? NSDictionary
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? String == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? String == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
         //        }
     }
     

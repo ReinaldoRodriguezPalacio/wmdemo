@@ -76,7 +76,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var brandFacets: [String] = []
     var isTextSearch: Bool = false
     var needsToValidateData = true
-    var facet: NSArray? = nil
+    var facet: [[String:Any]]? = nil
     
     var sliderTableViewCell : SliderTableViewCell?
     var filterOrderViewCell : FilterOrderViewCell?
@@ -138,7 +138,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Solo en el caso de que la busqueda sea con texto o camfind
-        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.withText || self.originalSearchContext! == SearchServiceContextType.withTextForCamFind
+        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
         
         if self.originalSearchContext != nil && self.isTextSearch {
             self.loadLinesForSearch()
@@ -153,7 +153,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func validateFacetData() {
         if facet != nil {
-            var facetEnd : [Any] = []
+            var facetEnd : [[String:Any]] = []
             for facetItemsCount in facet! {
                 let facetitem = facetItemsCount["itemsFacet"] as! [[String:Any]]
                 var newItemsFacet : [[String:Any]] = []
@@ -164,10 +164,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
                 
                 if newItemsFacet.count > 0 {
-                    facetEnd.append(["itemsFacet":newItemsFacet,"type":facetItemsCount["type"],"name":facetItemsCount["name"],"order":facetItemsCount["order"]])
+                    facetEnd.append(["itemsFacet":newItemsFacet,"type":facetItemsCount["type"]!,"name":facetItemsCount["name"]!,"order":facetItemsCount["order"]!])
                 }
             }
-            facet = facetEnd as NSArray?
+            facet = facetEnd
         }
     }
     
@@ -179,7 +179,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         let buttonHeight: CGFloat = 22.0
         self.applyButton!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
         self.removeButton!.frame = CGRect(x: self.applyButton!.frame.minX - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
-        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.withText && self.originalSearchContext != self.searchContext {
+        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
             //self.titleLabel!.frame = CGRectMake(46.0, 0, self.header!.frame.width - (46.0 + (buttonWidth*2) + 32.0), self.header!.frame.maxY)
         }
 
@@ -218,7 +218,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         
         //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
             //self.successCallBack!()
             
             //var intIx = 0
@@ -334,7 +334,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.originalSearchContext != nil && self.isTextSearch {
                  return 2
         }
-        if self.originalSearchContext != nil  && facet != nil && facet?.count > 0  && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
+        if self.originalSearchContext != nil  && facet != nil && facet?.count > 0  && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
             return 1 + facet!.count
         }
         
@@ -351,7 +351,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.originalSearchContext != nil && self.isTextSearch {
             return self.tableElements != nil ? self.tableElements!.count + 1 : 0
         }
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
             let itemFacet = self.facet![section - 1] as! [String:Any]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == "check" {
@@ -417,7 +417,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return listCell
         }
         
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
             let facetInfo = facet![(indexPath as NSIndexPath).section - 1] as! NSDictionary
             
             if  let typeFacet = facetInfo["type"] as? String {
@@ -532,8 +532,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if (indexPath as NSIndexPath).section == 0 {
             return 103.0
         }
-        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG{
-            let itemFacet = self.facet![(indexPath as NSIndexPath).section - 1] as! [String:Any]
+        if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
+            let itemFacet = self.facet![(indexPath as NSIndexPath).section - 1]
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == JSON_SLIDER {
                     return 73.0
@@ -577,7 +577,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
+        if self.originalSearchContext != nil && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
             //self.selectedElements![indexPath.row] = true
             if (indexPath as NSIndexPath).row == 0 {
                 self.selectedElementsFacet = [:]
@@ -730,7 +730,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if self.originalSearchContext != nil && self.isTextSearch {
                 title.text = NSLocalizedString("filter.section.categories", comment:"")
             }
-            if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG {
+            if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
                 let facetName = facet![section - 1] as! NSDictionary
                 let nameTitle =  facetName["name"] as! String
                 title.text = nameTitle.contains("Precios") ? NSLocalizedString("Rango de Precio", comment: "") : nameTitle
@@ -950,7 +950,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func didChangeOrder(_ order:String) {
         var result = order
-        if (self.originalSearchContext! == SearchServiceContextType.withCategoryForGR || self.searchContext! == SearchServiceContextType.withCategoryForGR ) && order == "popularity"{
+        if (self.originalSearchContext! == SearchServiceContextType.WithCategoryForGR || self.searchContext! == SearchServiceContextType.WithCategoryForGR ) && order == "popularity"{
             result = ""
         }
         self.selectedOrder = result

@@ -20,8 +20,8 @@ class GRAddressAddService : GRBaseService {
         return [ "preferred":preferred,  "AddressID": addressID,  "operationType":operationType]
     }
     
-    func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

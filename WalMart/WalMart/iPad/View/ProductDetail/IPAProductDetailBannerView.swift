@@ -43,7 +43,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     let contentModeOrig = UIViewContentMode.scaleAspectFit
     var presale : UILabel!
     var widthPresale : CGFloat = 56
-    var promotions: [Any]! = []
+    var promotions: [[String:Any]]! = []
     var showPromotions: Bool = true
     //var imageLastPieces : UIImageView!
     
@@ -215,7 +215,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         imageURL = imgLarge.replacingOccurrences(of: "s.\(pathExtention)", with: "l.\(pathExtention)")
         
         cell.imageView!.contentMode = UIViewContentMode.center
-        cell.imageView!.setImageWith(URL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+        cell.imageView!.setImageWith(URL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
             cell.imageView!.contentMode = self.contentModeOrig
             cell.imageView!.image = image
             }, failure: nil)

@@ -14,8 +14,8 @@ class UpdatePasswordService : BaseService {
         return ["password":password,"newPassword":newPassword]
     }
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {

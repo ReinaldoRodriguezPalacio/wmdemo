@@ -201,7 +201,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             controllerAnimateView.titleStr = cellSelected.titleLabel.text
             controllerAnimateView.families = itemsFam
             controllerAnimateView.name = name
-            controllerAnimateView.searchContextType = SearchServiceContextType.withCategoryForMG
+            controllerAnimateView.searchContextType = SearchServiceContextType.WithCategoryForMG
             controllerAnimateView.actionClose = {() in
                 self.categories.isScrollEnabled = true
                 self.selectedLine = false

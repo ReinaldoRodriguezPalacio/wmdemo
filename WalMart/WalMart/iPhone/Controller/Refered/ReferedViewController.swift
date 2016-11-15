@@ -22,8 +22,8 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     var viewLoad: WMLoadingView?
     var alertView: IPOWMAlertViewController? = nil
     
-    var confirmRefered: [Any]! = []
-    var pendingRefered: [Any]! = []
+    var confirmRefered: [[String:Any]]! = []
+    var pendingRefered: [[String:Any]]! = []
     var numFreeShipping: Int = 0
     
     override func getScreenGAIName() -> String {
@@ -107,7 +107,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell! = nil
-        var referedArray = []
+        var referedArray: [[String:Any]] = []
         var titleSection = ""
         
         if (indexPath as NSIndexPath).section == 0{
@@ -125,7 +125,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             cell = referedCell
         }else{
            let cellDetail = referedTable.dequeueReusableCell(withIdentifier: "referedDetail", for: indexPath) as! ReferedDetailTableViewCell
-            let refered = referedArray[(indexPath as NSIndexPath).row - 1]
+            let refered = referedArray[(indexPath as NSIndexPath).row - 1] 
             let name = refered["nameRef"] as! String
             let email = refered["emailRef"] as! String
             cellDetail.setValues(name, email: email)
@@ -238,7 +238,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                     self.numFreeShipping = numFreeShippingRef
                 }
                 
-                if let responceArray = result["listEmailsRef"] as? [Any] {
+                if let responceArray = result["listEmailsRef"] as? [[String:Any]] {
                     for refered in responceArray {
                         let status = refered["statusRef"] as! String
                         if status == "No"{

@@ -10,7 +10,7 @@ import Foundation
 
 
 class PreviousDetailTableViewCell : ProductDetailCharacteristicsTableViewCell {
-    var itemShipping = [:]
+    var itemShipping : [AnyHashable:Any] = [:]
     
     var detailView = UIView()
     var nameLabel = UILabel()

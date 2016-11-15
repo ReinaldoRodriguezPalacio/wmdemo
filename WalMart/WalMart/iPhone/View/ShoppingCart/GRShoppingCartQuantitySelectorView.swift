@@ -150,12 +150,12 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             var resultText : NSString = ""
             
             
-            resultText = lblQuantity.text! + btnSender.titleLabel!.text!
+            resultText = "\(lblQuantity.text!)\(btnSender.titleLabel!.text!)" as NSString
             resultText = resultText.substring(from: 1) as NSString
             if resultText.integerValue > 0 && resultText.integerValue <= 10 {
                 lblQuantity.text = resultText as String
             }else {
-                let tmpResult : NSString = "0" + btnSender.titleLabel!.text!
+                let tmpResult : NSString = "0\(btnSender.titleLabel!.text!)" as NSString
                 if tmpResult.integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }
@@ -218,7 +218,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         if first {
             var tmpResult : NSString = value as NSString
-            tmpResult = tmpResult.integerValue < 10 ? "0\(value)" : value
+            tmpResult = tmpResult.integerValue < 10 ? "0\(value)" as NSString : "\(value)" as NSString
             if tmpResult != "00"{
             lblQuantity.text = tmpResult as String
                 first = false
@@ -242,7 +242,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 
     
     func userSelectDelete() {
-        let resultText : NSString = "0" + lblQuantity.text!
+        let resultText : NSString = "0\(lblQuantity.text!)" as NSString
         lblQuantity.text = resultText.substring(to: 2)
         if lblQuantity.text == "00" {
             lblQuantity.text = "01"

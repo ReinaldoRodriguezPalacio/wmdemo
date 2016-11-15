@@ -688,7 +688,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     func getLastImageFromLibrary(){
         let assets = ALAssetsLibrary()
-        assets.getLastImage(fromPhotos: {(image:UIImage!, error:Error!) -> Void in
+        assets.getLastImage(fromPhotos: {(image:UIImage?, error:Error?) -> Void in
             self.allowsLibrary = (image != nil)
             if self.allowsLibrary {
                 self.loadImageButton!.setImage(image, for: UIControlState())

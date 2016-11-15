@@ -1703,7 +1703,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 //let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
                let productObject =  service.buildItemMustang(self.upc as String, sku: self.sku as String, quantity: Int(quantity)!)
                 service.callService(service.buildItemMustangObject(idList: listId, upcs: [productObject]),
-                                    successBlock: { (result:NSDictionary) -> Void in
+                                    successBlock: { (result:[String:Any]) -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
                                         

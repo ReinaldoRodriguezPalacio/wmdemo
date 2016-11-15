@@ -211,7 +211,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products) as NSDictionary,
-            successBlock: { (result:NSDictionary) -> Void in
+                            successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
                 self.alertView!.afterRemove = {

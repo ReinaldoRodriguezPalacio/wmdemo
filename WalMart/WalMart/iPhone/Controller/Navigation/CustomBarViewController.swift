@@ -806,7 +806,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             else{
                 self.clearSearch()
-                self.contextSearch = .withText
+                self.contextSearch = .WithText
                 self.openSearchProduct()
                 
             }
@@ -846,7 +846,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         let controller = SearchProductViewController()
         controller.upcsToShow = upcs
-        controller.searchContextType = .withTextForCamFind
+        controller.searchContextType = .WithTextForCamFind
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
         controllernav?.pushViewController(controller, animated: true)
@@ -1060,7 +1060,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             let controller = SearchProductViewController()
             controller.upcsToShow = upcs
-            controller.searchContextType = .withText
+            controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
             controllernav?.pushViewController(controller, animated: true)
@@ -1481,12 +1481,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "": self.buttonSelected(self.buttonList[0])
         case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
         case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
-        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG )
-        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
-        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
+        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG )
+        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
+        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[3])
-        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: schoolName, andGrade:grade, andSearchContextType: .withCategoryForMG)
+        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: schoolName, andGrade:grade, andSearchContextType: .WithCategoryForMG)
         case "URL": self.openURLNotification(trimValue)
         case "SH":
             if self.splashVC == nil {

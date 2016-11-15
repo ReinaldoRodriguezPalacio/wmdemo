@@ -80,11 +80,11 @@ class LineViewController : FamilyViewController {
 
             let selectedSection = families[(indexPath as NSIndexPath).row]
             let controller = SearchProductViewController()
-            controller.searchContextType = .withCategoryForMG
+            controller.searchContextType = .WithCategoryForMG
             if self.categoriesType != nil {
                 switch self.categoriesType! {
-                case .categoryForGR : controller.searchContextType = .withCategoryForGR
-                case .categoryForMG : controller.searchContextType = .withCategoryForMG
+                case .categoryForGR : controller.searchContextType = .WithCategoryForGR
+                case .categoryForMG : controller.searchContextType = .WithCategoryForMG
                 //default : print("No se ha indicado tipo de categorias.")
                 }
              

@@ -542,7 +542,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         let paramsSend =  service.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" ,storeName: "", operationType:"A" , preferred: true)
         
-            service.callService(requestParams: paramsSend, successBlock: { (resultCall:NSDictionary) -> Void  in
+            service.callService(requestParams: paramsSend, successBlock: { (resultCall:[String:Any]) -> Void  in
             print("Se realizao la direccion")
             
             if let message = resultCall["message"] as? String {
@@ -553,7 +553,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 
                 let service = LoginService()
                 let params  = service.buildParams(userName, password: password)
-                service.callService(params, successBlock: { (result:NSDictionary) -> Void in
+                service.callService(params, successBlock: { (result:[String:Any]) -> Void in
                     self.saveBock(self.saveButton,successBlock:successBlock)
                      successBlock!(true)
                     }, errorBlock: { (error:NSError) -> Void in
@@ -640,7 +640,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 }
                 
-                service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
+                service.callPOSTService(params!, successBlock:{ (resultCall:[String:Any]?) in
                     if let message = resultCall!["message"] as? String {
                          if self.showSaveAlert {
                             let addres  = params!["AddressID"] as? String
@@ -695,7 +695,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-        service!.callService(params, successBlock:{ (resultCall:NSDictionary?) in
+        service!.callService(params, successBlock:{ (resultCall:[String:Any]?) in
             if let message = resultCall!["message"] as? String {
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()

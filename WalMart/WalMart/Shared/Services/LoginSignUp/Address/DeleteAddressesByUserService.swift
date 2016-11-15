@@ -17,8 +17,8 @@ class DeleteAddressesByUserService : BaseService {
         return ["addressId":idAddressParam as AnyObject]
     }
     
-    func callService(_ params:[String:Any],successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

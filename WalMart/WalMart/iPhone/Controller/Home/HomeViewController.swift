@@ -481,9 +481,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func showFindUpc(_ upcs:NSArray,type:String){
         let controller = SearchProductViewController()
         if type == "mg" {
-            controller.searchContextType = .withCategoryForMG
+            controller.searchContextType = .WithCategoryForMG
         }else {
-            controller.searchContextType = .withCategoryForGR
+            controller.searchContextType = .WithCategoryForGR
         }
         controller.findUpcsMg = upcs as? [String] as NSArray?
         controller.titleHeader = "Recomendados"
@@ -495,9 +495,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){
         let controller = SearchProductViewController()
         if type == "mg" {
-            controller.searchContextType = .withCategoryForMG
+            controller.searchContextType = .WithCategoryForMG
         }else {
-            controller.searchContextType = .withCategoryForGR
+            controller.searchContextType = .WithCategoryForGR
         }
         controller.idFamily  = family == nil ? "_" :  family
         controller.idDepartment = depto == nil ? "_" :  depto

@@ -392,7 +392,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func didTapLine(_ name:String,department:String,family:String,line:String) {
         
         let controller = SearchProductViewController()
-        controller.searchContextType = .withCategoryForGR
+        controller.searchContextType = .WithCategoryForGR
         
         controller.titleHeader = name
         controller.idDepartment = department

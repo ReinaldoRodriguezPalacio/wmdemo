@@ -638,7 +638,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 
         let service = UpdatePasswordService()
         let params = service.buildParams(self.passworCurrent!.text!,newPassword:self.password!.text!)
-        service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+        service.callService(params as! [String : Any],  successBlock:{ (resultCall:[String : Any]?) in
             self.alertView!.setMessage("Cambiando contraseña ....")
             self.showPasswordInfo = false
             self.save(self.saveButton!)
