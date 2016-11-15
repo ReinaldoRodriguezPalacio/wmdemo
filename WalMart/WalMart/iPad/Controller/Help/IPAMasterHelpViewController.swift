@@ -217,7 +217,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
      */
     func loadGRServices(_ successBlock:((String) -> Void)?){
         
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
         service.callService(params!, successBlock: { (respose:NSArray, facet: NSArray) in

@@ -23,15 +23,15 @@ class GRDeleteItemListService: GRAddItemListService {
         return ["repositoryId":sku as AnyObject]
     }
     
-    func buildDeleteItemMustangObject(idList:String, upcs:NSDictionary) -> NSDictionary {
+    func buildDeleteItemMustangObject(idList:String, upcs:[String:Any]) -> [String:Any] {
         return ["idList":idList,"items":[upcs]]
     }
     
     
-    override func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    override func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(params)
         self.callPOSTService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 self.manageList(resultCall)
                 successBlock?(resultCall)

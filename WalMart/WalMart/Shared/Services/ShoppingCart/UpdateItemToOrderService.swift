@@ -17,8 +17,8 @@ class UpdateItemToOrderService:GRBaseService {
     }
     
     
-    func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

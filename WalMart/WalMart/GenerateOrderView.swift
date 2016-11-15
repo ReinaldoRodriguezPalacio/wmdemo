@@ -247,7 +247,7 @@ protocol GenerateOrderViewDelegate {
     }
     
     
-    func showGenerateOrder(_ paramsToOrder:NSDictionary) {
+    func showGenerateOrder(_ paramsToOrder:[String:Any]) {
         //right
         
         var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String as NSString)

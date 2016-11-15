@@ -12,7 +12,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
 
     var tableProductsCheckout : UITableView!
     var shippingAll : NSArray! = []
-    var itemDetail : NSDictionary! = [:]
+    var itemDetail : [String:Any]! = [:]
     var shipping : [Int:AnyObject] = [:]
     var cancelButton : UIButton?
     var nextButton : UIButton?
@@ -21,7 +21,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     var shippingsToOrder : NSMutableArray?
     var stepLabel: UILabel!
     var viewHeader :  UIView?
-    var orderDictionary : NSDictionary?
+    var orderDictionary : [String:Any]?
     var alertView: IPOWMAlertViewController?
     var viewLoad : WMLoadingView!
 
@@ -123,11 +123,11 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         var sending = false
-        if let _ = self.shipping[section] as? NSDictionary{
+        if let _ = self.shipping[section] as? [String:Any]{
             sending = true
         }
        
-        let items =   self.orderDictionary?.object(forKey: "commerceItems") as! NSArray
+        let items =   self.orderDictionary?["commerceItems"] as! NSArray
         return items.count + 1 + (sending ? 1 : 0)
     }
     
@@ -142,7 +142,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         let content : UIView = UIView(frame: CGRect(x: 0.0, y: 0.0 , width: self.view.frame.width, height: 56))
         content.backgroundColor = UIColor.white
         var configshiping = false
-        if ((self.shipping[section - 1] as? NSDictionary) != nil){
+        if ((self.shipping[section - 1] as? [String:Any]) != nil){
             configshiping = true
         }
         
@@ -190,10 +190,10 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
 
-        var shippingtype : NSDictionary = [:]
+        var shippingtype : [String:Any] = [:]
         var configshiping = false
         
-        if let shippingDic = self.shipping[(indexPath as NSIndexPath).section] as? NSDictionary{
+        if let shippingDic = self.shipping[(indexPath as NSIndexPath).section] as? [String:Any]{
             shippingtype = shippingDic
             configshiping = true
         }
@@ -214,7 +214,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         }
         else {
             let cellText = tableProductsCheckout.dequeueReusableCell(withIdentifier: "productShippingCell", for: indexPath) as! CheckOutShippingCell
-            let items =  self.orderDictionary?.object(forKey: "commerceItems") as! [[String:Any]]
+            let items =  self.orderDictionary?["commerceItems"] as! [[String:Any]]
             cellText.setValues(items[(indexPath as NSIndexPath).row - (configshiping ? 2 : 1)]["productDisplayName"] as? String ?? "", quanty: items[(indexPath as NSIndexPath).row - (configshiping ? 2 : 1)]["quantity"] as? NSNumber ?? 0)
             cellText.cartButton?.isHidden = true
             cellText.separator?.isHidden = true
@@ -236,14 +236,14 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
             var configshiping = false
-            if let _ = self.shipping[(indexPath as NSIndexPath).section] as? NSDictionary{
+            if let _ = self.shipping[(indexPath as NSIndexPath).section] as? [String:Any]{
                 configshiping = true
             }
             if configshiping && (indexPath as NSIndexPath).row == 0 {
              return 114 / 2
             }
             if (indexPath as NSIndexPath).section ==  shippingAll.count - 1 {
-                let items =   self.orderDictionary?.object(forKey: "commerceItems") as! NSArray
+                let items =   self.orderDictionary?["commerceItems"] as! NSArray
                 if (items.count  + (configshiping ?  1 : 0)) == (indexPath as NSIndexPath).row {
                     return 85
                 }
@@ -265,7 +265,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             return
         }
         
-        let priceInfo  =  self.orderDictionary?.object(forKey: "priceInfo") as! NSDictionary
+        let priceInfo  =  self.orderDictionary?.object(forKey: "priceInfo") as! [String:Any]
         
         let nextController = GRCheckOutCommentsViewController()
         self.paramsToOrder?.setValue(self.shippingsToOrder, forKey: "shipping")
@@ -280,10 +280,10 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
         
         let detailedService = DetailedService()
         let emptyArray : [AnyObject] = []
-        detailedService.callService(requestParams: emptyArray as AnyObject, succesBlock: { (result: NSDictionary) in
-            let response  =  result["responseObject"]  as! NSDictionary
+        detailedService.callService(requestParams: emptyArray as AnyObject, succesBlock: { (result: [String:Any]) in
+            let response  =  result["responseObject"]  as! [String:Any]
             
-            self.orderDictionary = response["order"] as? NSDictionary
+            self.orderDictionary = response["order"] as? [String:Any]
             self.shippingAll = self.orderDictionary!.object(forKey: "shippingGroups") as! NSArray
             
             self.tableProductsCheckout.reloadData()
@@ -306,7 +306,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             let controller =  CheckOutShippingSelectionController()
             itemSelected = selectedItem
             
-            if let dic = self.shipping[itemSelected] as? NSDictionary{
+            if let dic = self.shipping[itemSelected] as? [String:Any]{
                 let selected = dic["rowSelected"] as! Int
                 controller.rowSelected = selected
             }else{
@@ -320,7 +320,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
            
             let controller = CheckOutProductTypeShipping()
             controller.delegate = self
-            controller.paymentSelected =  paymentGroups.object(at: 0) as? NSDictionary
+            controller.paymentSelected =  paymentGroups.object(at: 0) as? [String:Any]
             controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             itemSelected = selectedItem
             self.navigationController?.pushViewController(controller, animated: true)

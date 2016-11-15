@@ -337,7 +337,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             alertAddress = GRFormAddressAlertView.initAddressAlert()!
         }
         alertAddress?.showAddressAlert()
-        alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+        alertAddress?.beforeAddAddress = {(dictSend:[String:Any]?) in
             alertAddress?.registryAddress(dictSend)
             self.alertView!.close()
         }
@@ -408,9 +408,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
      - parameter params:           params to login
      - parameter alertViewService: alert view
      */
-    func callService(_ params:NSDictionary, alertViewService : IPOWMAlertViewController?) {
+    func callService(_ params:[String:Any], alertViewService : IPOWMAlertViewController?) {
         let service = LoginService()
-        service.callService(params, successBlock:{ (resultCall:NSDictionary?) in
+        service.callService(params, successBlock:{ (resultCall:[String:Any]?) in
            self.signInButton!.isEnabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {
@@ -450,7 +450,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
      - parameter params:           params to login
      - parameter alertViewService: alert view
      */
-    func showAddressForm(_ params:NSDictionary,  alertViewService : IPOWMAlertViewController?) {
+    func showAddressForm(_ params:[String:Any],  alertViewService : IPOWMAlertViewController?) {
         let alertAddress = GRFormAddressAlertView.initAddressAlert()!
         alertAddress.showAddressAlert()
         alertAddress.alertSaveSuccess = {() in
@@ -548,7 +548,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.alertView!.setMessage(NSLocalizedString("profile.message.sending",comment:""))
             let service = ForgotPasswordService()
             
-            service.callService(requestParams: service.buildParams(self.email!.text!), successBlock: { (result: NSDictionary) -> Void in
+            service.callService(requestParams: service.buildParams(self.email!.text!), successBlock: { (result: [String:Any]) -> Void in
                 if let message = result["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
@@ -575,7 +575,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func loginWithEmail(_ email:String, firstName: String, lastName: String, gender: String, birthDay: String){
         self.email?.text = email
         let service = LoginWithEmailService()
-        service.callServiceForSocialApps(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
+        service.callServiceForSocialApps(service.buildParams(email, password: ""), successBlock:{ (resultCall:[String:Any]?) in
             
             self.signInButton!.isEnabled = true
             if self.successCallBack == nil {

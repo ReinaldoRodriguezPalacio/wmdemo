@@ -72,7 +72,7 @@ class ListSelectorViewCell: UITableViewCell {
         
     }
     
-    func setListObject(_ object:NSDictionary, productIncluded:Bool) {
+    func setListObject(_ object:[String:Any], productIncluded:Bool) {
         self.indicator!.isSelected = productIncluded
         if let name = object["name"] as? String {
             self.listName!.text = name

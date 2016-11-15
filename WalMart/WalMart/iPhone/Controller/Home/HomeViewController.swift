@@ -39,7 +39,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var alertBank: UIView?
     var viewContents : UIView?
     var titleView : UILabel?
-    var plecaItems :  NSDictionary? = nil
+    var plecaItems :  [String:Any]? = nil
     var detailsButton : UIButton!
     var imageNotification : UIImageView?
     var categoryType :  [String:String]!
@@ -274,9 +274,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 var imageUrl = ""
                 var preorderable = false
                 
-                if let sku = recommendProduct["sku"] as? NSDictionary {
+                if let sku = recommendProduct["sku"] as? [String:Any] {
                     if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                        if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                        if let item =  parentProducts.object(at: 0) as? [String:Any] {
                             desc = item["longDescription"] as? String ?? (item["description"] as? String)!
                             imageUrl = item["largeImageUrl"] as! String
                         }
@@ -341,10 +341,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             var desc = ""
             var skuId =  ""
             
-            if let sku = recommendProduct["sku"] as? NSDictionary {
+            if let sku = recommendProduct["sku"] as? [String:Any] {
                 skuId =  sku.object(forKey: "id") as! String
                 if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                    if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                    if let item =  parentProducts.object(at: 0) as? [String:Any] {
                         upc = item["repositoryId"] as? String ?? item["id"] as! String
                         desc = item["longDescription"] as? String ?? item["description"] as! String
                     }
@@ -558,9 +558,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         categories.sort { (item, seconditem) -> Bool in
             let first = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
             let second = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
-            let firstItem = first[0] as NSDictionary
+            let firstItem = first[0] as [String:Any]
             let firstOrder = firstItem["orden"] as! String
-            let secondItem = second[0] as NSDictionary
+            let secondItem = second[0] as [String:Any]
             let secondOrder = secondItem["orden"] as! String
             return  Int(firstOrder) < Int(secondOrder)
         }

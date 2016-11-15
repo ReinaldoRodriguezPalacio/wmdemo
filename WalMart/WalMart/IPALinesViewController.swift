@@ -51,7 +51,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
         self.invokeServiceLine { () -> Void in
             self.buttonClose?.isHidden = true
-            let lineSelect  = self.linesCamp![0] as NSDictionary
+            let lineSelect  = self.linesCamp![0] as [String:Any]
             self.searchProduct = IPASearchCatProductViewController()
             self.searchProduct.searchContextType = self.searchContextType
             self.searchProduct.delegateImgHeader = self
@@ -116,7 +116,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     func invokeServiceLine(_ succesBlock:@escaping (() -> Void)){
         print("familyId::::\(familyId)")
         let service =  LineService()
-        service.callService(requestParams:familyId as AnyObject, successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams:familyId as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             let listLines  =  response["subCategories"] as! NSArray
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]

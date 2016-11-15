@@ -209,7 +209,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         cell.contentView.backgroundColor = UIColor.clear
         cell.hiddenOpenList = self.hiddenOpenList
         let idx = (indexPath as NSIndexPath).row - 1
-        if let item = self.list![idx] as? NSDictionary {
+        if let item = self.list![idx] as? [String:Any] {
             let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["repositoryId"] as! String)
             cell.setListObject(item, productIncluded: isIncluded)
         }
@@ -232,7 +232,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         }
 
         let idx = (indexPath as NSIndexPath).row - 1
-        if let item = self.list![idx] as? NSDictionary {
+        if let item = self.list![idx] as? [String:Any] {
             let listId = item["repositoryId"] as? String
             let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
             if product != nil {
@@ -286,7 +286,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func retrieveItemsFromService(){
         let userListsService = GRUserListService()
         userListsService.callService([:],
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.list = result["responseArray"] as? [Any]
                 //println(self.itemsUserList)
                 self.tableView!.reloadData()
@@ -356,7 +356,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func didShowListDetail(_ cell: ListSelectorViewCell) {
         if let indexPath = self.tableView!.indexPath(for: cell) {
             let idx = (indexPath as NSIndexPath).row - 1
-            if let item = self.list![idx] as? NSDictionary {
+            if let item = self.list![idx] as? [String:Any] {
                 self.delegate!.listSelectorDidShowList(item["repositoryId"] as! String, andName: item["name"] as! String)
             }
             else if let entity = self.list![idx] as? List {

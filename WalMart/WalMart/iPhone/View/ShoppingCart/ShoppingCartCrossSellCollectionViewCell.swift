@@ -30,7 +30,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "shoppingCartCrossSellCell", for: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         
-        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! [String:Any]
         let upc = itemUPC["upc"] as? String ?? ""
 
         let desc = itemUPC["description"] as! String
@@ -45,7 +45,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! [String:Any]
         let upc = itemUPC["upc"] as! String
         
         let shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? NSArray
@@ -76,7 +76,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         //
         if (!UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)) {
-            //let itemUPC = itemsUPC[indexPath.row] as NSDictionary
+            //let itemUPC = itemsUPC[indexPath.row] as [String:Any]
             let upc = itemUPC["upc"] as! String
             let desc = itemUPC["description"] as! String
             let price = itemUPC["price"] as! String

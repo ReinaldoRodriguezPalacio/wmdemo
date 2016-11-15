@@ -166,7 +166,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.view.addSubview(viewLoad)
         }
             
-        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
+        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
             UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                 
                 self.itemsInCart.removeAtIndex(indexPath.row)

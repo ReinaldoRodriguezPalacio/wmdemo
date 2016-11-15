@@ -34,16 +34,16 @@ class LoginWithEmailService : BaseService {
     var loginIdGR = ""
     
     
-    func buildParams(_ email:String,password: String) -> NSDictionary {
+    func buildParams(_ email:String,password: String) -> [String:Any] {
         let lowCaseUser = email.lowercased()
         return ["email":lowCaseUser]
     }
   
    
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !UserCurrentSession.sharedInstance.userSignedOnService {
             UserCurrentSession.sharedInstance.userSignedOnService = true
-            self.callPOSTService(params, successBlock: { (loginResult:NSDictionary) -> Void in
+            self.callPOSTService(params, successBlock: { (loginResult:[String:Any]) -> Void in
                 self.jsonFromObject(loginResult)
                 if let codeMessage = loginResult["codeMessage"] as? NSNumber {
                     if codeMessage.intValue == 0 &&  UserCurrentSession.hasLoggedUser(){
@@ -52,7 +52,7 @@ class LoginWithEmailService : BaseService {
                             let idUser = loginResult["idUser"] as! String
                             
                             let profileService = UserProfileService()
-                            profileService.callService(profileService.buildParams(idUser), successBlock:{ (resultCall:NSDictionary?) in
+                            profileService.callService(profileService.buildParams(idUser), successBlock:{ (resultCall:[String:Any]?) in
                                 UserCurrentSession.sharedInstance.createUpdateUser(loginResult, profileResult: resultCall!)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance.userSignedOnService = false
@@ -82,14 +82,14 @@ class LoginWithEmailService : BaseService {
     }
 
     
-    func callServiceForSocialApps(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callServiceForSocialApps(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {
                     let resultLogin = resultCall
                      let idUser = resultLogin["idUser"] as! String
                     let profileService = UserProfileService()
-                    profileService.callService(profileService.buildParams(idUser), successBlock:{ (resultCall:NSDictionary?) in
+                    profileService.callService(profileService.buildParams(idUser), successBlock:{ (resultCall:[String:Any]?) in
                         UserCurrentSession.sharedInstance.createUpdateUser(resultLogin, profileResult: resultCall!)
                         successBlock!(resultCall!)
                         UserCurrentSession.sharedInstance.userSignedOnService = false

@@ -204,7 +204,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //        case 0:
         //            let cell = tableView.dequeueReusableCellWithIdentifier("ProductsCell", forIndexPath: indexPath) as SearchSingleViewCell
         //            if self.elements != nil && self.elements!.count > 0 {
-        //                let item = self.elements![indexPath.row] as? NSDictionary
+        //                let item = self.elements![indexPath.row] as? [String:Any]
         //                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:searchText, andPrice:item!["price"] as NSString  )
         //            }
         //
@@ -212,7 +212,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //        default:
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as! SearchCategoriesViewCell
         if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
-            let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? NSDictionary
+            let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? [String:Any]
             cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:searchText, andDepartament:item!["departament"] as! String  )
         }
         
@@ -296,7 +296,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                 var load = false
                 self.cancelSearch = false
                 if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
-                    var keywords = Array<AnyObject>()
+                    var keywords = Array<[String:Any]>()
                     while rs.next() {
                         if  self.cancelSearch {
                             break
@@ -304,7 +304,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                         let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
                         let upc = rs.string(forColumn: "upc")
                         let price = rs.string(forColumn: "price")
-                        keywords.append([KEYWORD_TITLE_COLUMN:keyword , "upc":upc , "price":price  ])
+                        keywords.append([KEYWORD_TITLE_COLUMN:keyword! , "upc":upc! , "price":price!])
                     }
                     rs.close()
                     rs.setParentDB(nil)
@@ -316,7 +316,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                     let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
                     self.cancelSearch = false
                     if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
-                        var keywords = Array<AnyObject>()
+                        var keywords = Array<[String:Any]>()
                         
                         while rs.next() {
                             if self.cancelSearch {
@@ -356,14 +356,14 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        if indexPath.section == 0 {
-        //            let item = self.elements![indexPath.row] as? NSDictionary
+        //            let item = self.elements![indexPath.row] as? [String:Any]
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false )
         //        }else{
-        let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? NSDictionary
+        let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? [String:Any]
         self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
         
         //        }
-        //        let item = self.elements![indexPath.row] as? NSDictionary
+        //        let item = self.elements![indexPath.row] as? [String:Any]
         if afterselect != nil {
             afterselect!()
         }

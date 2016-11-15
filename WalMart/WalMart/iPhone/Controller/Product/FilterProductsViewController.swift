@@ -418,7 +418,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
-            let facetInfo = facet![(indexPath as NSIndexPath).section - 1] as! NSDictionary
+            let facetInfo = facet![(indexPath as NSIndexPath).section - 1] as! [String:Any]
             
             if  let typeFacet = facetInfo["type"] as? String {
                 if typeFacet == "check" {
@@ -502,12 +502,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         return UITableViewCell()
     }
     
-    func processPriceFacet(_ fitem:NSDictionary) {
+    func processPriceFacet(_ fitem:[String:Any]) {
         if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? NSArray {
             var array = Array<Double>()
             var mirror = Array<NSArray>()
             for idx in 0 ..< itemsFacet.count {
-                let item = itemsFacet[idx] as! NSDictionary
+                let item = itemsFacet[idx] as! [String:Any]
                 if let value = item[JSON_KEY_FACET_ITEMNAME] as? NSString {
                     var values = value.components(separatedBy: "-")
                     if idx == itemsFacet.count - 1 {
@@ -731,7 +731,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 title.text = NSLocalizedString("filter.section.categories", comment:"")
             }
             if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
-                let facetName = facet![section - 1] as! NSDictionary
+                let facetName = facet![section - 1] as! [String:Any]
                 let nameTitle =  facetName["name"] as! String
                 title.text = nameTitle.contains("Precios") ? NSLocalizedString("Rango de Precio", comment: "") : nameTitle
                 
@@ -873,7 +873,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     func invokeRetrieveLinesForGroceries(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         NSLog("self.categories = categories")
         let service = GRLinesForSearchService()
-        service.callService(service.buildParams(self.textToSearch!) as NSDictionary,
+        service.callService(service.buildParams(self.textToSearch!) as [String:Any],
             successBlock: { (categories: [Any]) -> Void in
                     NSLog("self.categories = categories")
                     self.categories = categories
@@ -898,7 +898,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func invokeRetrieveLinesForMG(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         let service = LinesForSearchService()
-        service.callService(service.buildParams(self.textToSearch!) as NSDictionary,
+        service.callService(service.buildParams(self.textToSearch!) as [String:Any],
             successBlock: { (categories:[Any]) -> Void in
                 NSLog("Inicia pintado de datos")
                 if self.categories != nil {

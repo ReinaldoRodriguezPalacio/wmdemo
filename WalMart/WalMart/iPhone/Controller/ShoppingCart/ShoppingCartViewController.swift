@@ -290,7 +290,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["commerceItems"] as! NSDictionary
+            //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["commerceItems"] as! [String:Any]
             self.subtotal = Int(UserCurrentSession.sharedInstance.itemsMG!["rawSubtotal"] as? String ?? "0") as NSNumber!//subtotal
             self.ivaprod = Int(UserCurrentSession.sharedInstance.itemsMG!["amount"] as? String ?? "0") as NSNumber!//ivaSubtotal
             self.totalest = UserCurrentSession.sharedInstance.itemsMG!["total"] as! NSNumber//totalEstimado
@@ -477,14 +477,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             cellProduct.delegate = self
             cellProduct.rightUtilityButtons = getRightButtonDelete()
             cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
-            let shoppingCartProduct = productObje[(indexPath as NSIndexPath).row] //as! NSDictionary
+            let shoppingCartProduct = productObje[(indexPath as NSIndexPath).row] //as! [String:Any]
             let skuId = shoppingCartProduct["catalogRefId"] as? String ?? ""
             let productId = shoppingCartProduct["productId"] as? String ?? ""
             let desc = shoppingCartProduct["productDisplayName"] as! String
             var price : String = ""
             let commerceItemId = shoppingCartProduct["commerceItemId"] as! String
             
-            let priceInfo = shoppingCartProduct["priceInfo"] as? NSDictionary
+            let priceInfo = shoppingCartProduct["priceInfo"] as? [String:Any]
             if let priceValue = priceInfo!["amount"] as? NSNumber{
                 price = priceValue.stringValue
             }
@@ -541,19 +541,19 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
             }
             
-            var through: NSString! = ""
+            var through: String! = ""
             let plpArray = UserCurrentSession.sharedInstance.getArrayPLP(shoppingCartProduct )
            
             
             if let priceThr = shoppingCartProduct["saving"] as? NSString {
-                through = priceThr
+                through = priceThr as String!
             }
             
-            through = plpArray["promo"] as! String == "" ? through : plpArray["promo"]
+            through = plpArray["promo"] as! String == "" ? through : plpArray["promo"] as! String
             
             cellProduct.setValues(skuId,productId:productId,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment, promotionDescription: promotionDescription, productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool,commerceItemId: commerceItemId,comments:comments)
             
-            cellProduct.setValueArray(plpArray["arrayItems"] as! NSArray)
+            cellProduct.setValueArray(plpArray["arrayItems"] as! [[String:Any]])
             
             if isEdditing == true {
                 cellProduct.setEditing(true, animated: false)
@@ -609,8 +609,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             return
         }
         
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section-1] as NSDictionary
-        productObje = listObj["products"] as! NSArray
+        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section-1] as [String : Any]
+        productObje = listObj["products"] as! [[String : Any]]
 
         if (indexPath as NSIndexPath).section == (itemsInCartOrderSection.count) {
             if productObje.count <= (indexPath as NSIndexPath).row {
@@ -641,7 +641,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             return 46
         }
         
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as NSDictionary
+        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as [String:Any]
             productObje = listObj["products"] as! NSArray
 
         var flagSectionCel = false
@@ -919,12 +919,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
         //getUPCItems
         self.showLoadingView()
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as NSDictionary
+        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as [String:Any]
         productObje = listObj["products"] as! NSArray
         let itemWishlist = productObje[(indexPath as NSIndexPath).row] 
         let upc = itemWishlist["commerceItemId"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
             self.itemsInCartOrderSection = []
 
             if UserCurrentSession.sharedInstance.itemsMG != nil {
@@ -971,7 +971,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             var price : NSString = ""
             
-            let priceInfo = shoppingCartProduct["priceInfo"] as? NSDictionary
+            let priceInfo = shoppingCartProduct["priceInfo"] as? [String:Any]
             if let priceValue = priceInfo!["amount"] as? NSNumber{
                 price = priceValue.stringValue as NSString
             }
@@ -988,7 +988,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             
             var baseprice : NSString = ""
-            if let priceEvent = shoppingCartProduct["priceEvent"] as? NSDictionary{
+            if let priceEvent = shoppingCartProduct["priceEvent"] as? [String:Any]{
                 
                 if let pricebase = priceEvent["basePrice"] as? NSString {
                     baseprice = pricebase
@@ -1050,7 +1050,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
            for shoppingCartProduct in  itemsInShoppingCart {
             //let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
             var price : NSString = ""
-            let priceInfo = shoppingCartProduct["priceInfo"] as! NSDictionary
+            let priceInfo = shoppingCartProduct["priceInfo"] as! [String:Any]
             
             if let priceValue = priceInfo["amount"] as? NSNumber{
                 price = priceValue.stringValue as NSString
@@ -1193,7 +1193,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func showAlertAddress(){
         //Add alert
-        if UserCurrentSession().addressId != nil {//TODO
+        if UserCurrentSession.sharedInstance.addressId != nil {//TODO
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"tabBar_storeLocator_active"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"tabBar_storeLocator_active"))
             alert?.showicon(UIImage(named:"tabBar_storeLocator_active"))
             alert?.setMessage(NSLocalizedString("alert.checkout.address", comment: ""))
@@ -1210,7 +1210,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         self.alertAddress = GRFormAddressAlertView.initAddressAlert()!
                     }
                     self.alertAddress?.showAddressAlert()
-                    self.alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+                    self.alertAddress?.beforeAddAddress = {(dictSend:[String:Any]?) in
                         self.alertAddress?.registryAddress(dictSend)
                         //alert?.close()
                     }
@@ -1241,7 +1241,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
             let serviceReview = ReviewShoppingCartService()
-            serviceReview.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            serviceReview.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 if !self.canceledAction  {
                     print(UserCurrentSession.sharedInstance.itemsMG)
                     let itemsMG = UserCurrentSession.sharedInstance.itemsMG
@@ -1470,7 +1470,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.showLoadingView()
    
         
-        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs) as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
+        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs) as [String:Any], successBlock: { (result:[String:Any]) -> Void in
             UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                 self.editAction(self.editButton!)
                 self.removeLoadingView()
@@ -1511,7 +1511,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if result == ""{
                 let service = ValidateAssociateService()
                 service.callService(requestParams: service.buildParams(associateNumber!, determinant: determinant!),
-                    succesBlock: { (response:NSDictionary) -> Void in
+                    succesBlock: { (response:[String:Any]) -> Void in
                         print(response)
                         if response["codeMessage"] as? Int == 0 {
                             //Mostrar alerta y continua
@@ -1679,7 +1679,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         service.callService(service.buildItemMustangObject(idList: listId, upcs: products),
-                            successBlock: { (result:NSDictionary) -> Void in
+                            successBlock: { (result:[String:Any]) -> Void in
                                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                                 self.alertView!.showDoneIcon()
                                 self.alertView!.afterRemove = {
@@ -1842,7 +1842,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let type = item["type"] as? String
             
             var  nameLine = ""
-            if let line = item["line"] as? NSDictionary {
+            if let line = item["line"] as? [String:Any] {
                 nameLine = line["name"] as! String
             }
             
@@ -1851,7 +1851,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         service.callService(service.buildParams(name, items: products),
-                            successBlock: { (result:NSDictionary) -> Void in
+                            successBlock: { (result:[String:Any]) -> Void in
                                 self.listSelectorController!.loadLocalList()
                                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                                 self.alertView!.showDoneIcon()

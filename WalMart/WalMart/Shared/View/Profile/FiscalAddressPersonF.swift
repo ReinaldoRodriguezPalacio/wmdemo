@@ -99,7 +99,7 @@ class FiscalAddressPersonF: AddressView {
         self.viewAddress.frame = CGRect(x: 0, y: self.telephone!.frame.maxY + 8, width: self.bounds.width, height: showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
     }
     
-    override func setItemWithDictionary(_ itemValues: NSDictionary) {
+    override func setItemWithDictionary(_ itemValues: [String:Any]) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
             self.name!.text = self.item!["firstName"] as? String
@@ -145,7 +145,7 @@ class FiscalAddressPersonF: AddressView {
         return super.validateAddress()
     }
     
-    override func getParams() -> NSDictionary{
+    override func getParams() -> [String:Any]{
          let paramsAdd : NSMutableDictionary? = [:]
         paramsAdd!.addEntries(from: super.getParams() as! [AnyHashable: Any])
         //let paramsAddress =  super.getParams()

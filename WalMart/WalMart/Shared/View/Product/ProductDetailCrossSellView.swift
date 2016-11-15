@@ -20,7 +20,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     var delegate: ProductDetailCrossSellViewDelegate!
     var itemSize :CGSize! = CGSize(width: 106.66, height: 146)
     var upc: String = ""
-    var itemsUPC: NSArray = []
+    var itemsUPC: [[String : Any]] = []
     var cellClass: AnyClass? = nil
     
     var cellReuseid: String = ""
@@ -63,7 +63,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         self.addSubview(collection)
     }
     
-    func reloadData(_ itemsUPC: NSArray,upc:String){
+    func reloadData(_ itemsUPC: [[String : Any]],upc:String){
         self.itemsUPC = itemsUPC
         self.upc = upc
         collection.reloadData()
@@ -81,7 +81,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: self.cellReuseid, for: indexPath) as! ProductCollectionViewCell
         
-        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! NSDictionary
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as [String:Any]
         
         let desc = itemUPC["description"] as! NSString
         
@@ -131,7 +131,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var upcItems : [[String:String]] = []
         let cell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell
-        for upcStr in itemsUPC as! [[String:Any]] {
+        for upcStr in itemsUPC {
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String
    

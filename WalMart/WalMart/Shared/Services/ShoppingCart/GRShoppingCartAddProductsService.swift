@@ -18,7 +18,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
     
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         self.useSignalsServices = dictionary["signals"] as! Bool
         self.useSignals = self.useSignalsServices
@@ -53,14 +53,14 @@ class GRShoppingCartAddProductsService : GRBaseService {
     
   
     
-    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:Any]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:Any]?,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callService(requestParams: builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable,parameter: parameter) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable,parameter: nil) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
 
-    func callService(_ upc:String,quantity:String,comments:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ upc:String,quantity:String,comments:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callService(requestParams: buildParams(quantity,upc:upc,comments:comments), successBlock: successBlock,errorBlock:errorBlock)
     }
 
@@ -84,7 +84,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     
     
     
-    func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(params)
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [Any] = []
@@ -145,7 +145,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
     
     
-    func callCoreDataService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

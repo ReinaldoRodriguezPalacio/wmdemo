@@ -28,13 +28,13 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                         var product = products[idx] as! [String:Any]
                         let quantity = product["quantityDesired"] as! String
                         var  nameLine = ""
-                        if let line = product["line"] as? NSDictionary {
+                        if let line = product["line"] as? [String:Any] {
                             nameLine = line["name"] as! String
                         }
                         
-                        if let sku = product["sku"] as? NSDictionary {
+                        if let sku = product["sku"] as? [String:Any] {
                             if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                                if let itemParent =  parentProducts.object(at: 0) as? NSDictionary {
+                                if let itemParent =  parentProducts.object(at: 0) as? [String:Any] {
                                     
                                     //let itemAdd = service.buildProductObject(upc: itemParent["repositoryId"] as! String, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
                                     let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku.object(forKey: "id") as! String , quantity: Int(quantity)!)
@@ -55,10 +55,10 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         
         
                 service.callService(service.buildParamsMustang(copyName),
-                    successBlock: { (result:NSDictionary) -> Void in
+                    successBlock: { (result:[String:Any]) -> Void in
                         let idList = result["idList"] as! String
                         
-                        serviceAdd.callService(serviceAdd.buildItemMustangObject(idList: idList, upcs: items), successBlock: { (result:NSDictionary) in
+                        serviceAdd.callService(serviceAdd.buildItemMustangObject(idList: idList, upcs: items), successBlock: { (result:[String:Any]) in
                             
                             successDuplicateList()
                             

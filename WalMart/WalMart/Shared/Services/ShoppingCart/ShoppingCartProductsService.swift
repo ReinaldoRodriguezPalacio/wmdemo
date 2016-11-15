@@ -19,21 +19,21 @@ class ShoppingCartProductsService : BaseService {
     
     let JSON_PRODUCTDETAIL_RESULT = "responseObject"
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !ShoppingCartService.isSynchronizing {
         if UserCurrentSession.hasLoggedUser() {
             synchronizeWebShoppingCartFromCoreData({ () -> Void in
-                self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
+                self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
                     
                    // let itemsInShoppingCart =  resultCall["items"] as! NSArray
                     
                     //println("Items in shoppingCart: \(resultCall)")
-                    //self.saveItemsAndSuccess( resultCall["responseObject"] as! NSDictionary)
+                    //self.saveItemsAndSuccess( resultCall["responseObject"] as! [String:Any])
                     
-                    self.saveItemsAndSuccess([],resultCall: resultCall["responseObject"] as! NSDictionary,successBlock: nil)
+                    self.saveItemsAndSuccess([],resultCall: resultCall["responseObject"] as! [String:Any],successBlock: nil)
 
-                    let responseObj = resultCall["responseObject"] as! NSDictionary
-                    successBlock!(responseObj["order"] as! NSDictionary)
+                    let responseObj = resultCall["responseObject"] as! [String:Any]
+                    successBlock!(responseObj["order"] as! [String:Any])
                     
                     ShoppingCartService.isSynchronizing  = false
                     
@@ -68,7 +68,7 @@ class ShoppingCartProductsService : BaseService {
         }
     }
     
-    func callCoreDataService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Mg.rawValue)
@@ -109,15 +109,15 @@ class ShoppingCartProductsService : BaseService {
         
         // NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
         if successBlock != nil {
-            successBlock!(returnDictionary as NSDictionary)
+            successBlock!(returnDictionary as [String:Any])
             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
         }
     }
     
     
-    func saveItemsAndSuccess(_ params:[[String:String]],resultCall:NSDictionary, successBlock:((NSDictionary) -> Void)?) {
+    func saveItemsAndSuccess(_ params:[[String:String]],resultCall:[String:Any], successBlock:(([String:Any]) -> Void)?) {
        
-        let itemsInShoppingCart = resultCall["order"] as! NSDictionary
+        let itemsInShoppingCart = resultCall["order"] as! [String:Any]
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -153,7 +153,7 @@ class ShoppingCartProductsService : BaseService {
         
         if itemsInShoppingCart.count > 1 {
             for indx in 0 ..< commerceItems.count  {
-            let shoppingCartProduct = commerceItems[indx] as! NSDictionary
+            let shoppingCartProduct = commerceItems[indx] as! [String:Any]
             
             var carProduct : Cart!
             var carProductItem : Product!
@@ -175,7 +175,7 @@ class ShoppingCartProductsService : BaseService {
             
                 var baseprice = ""
                 var iva = ""
-                if let priceInfo = shoppingCartProduct["priceInfo"] as? NSDictionary {
+                if let priceInfo = shoppingCartProduct["priceInfo"] as? [String:Any] {
                     if  let base = priceInfo["amount"] as? String {
                         baseprice = base
                     }
@@ -281,7 +281,7 @@ class ShoppingCartProductsService : BaseService {
             }
         }
             
-        successBlock?(resultServiceCall as NSDictionary)
+        successBlock?(resultServiceCall as [String:Any])
 
     }
     
@@ -321,7 +321,7 @@ class ShoppingCartProductsService : BaseService {
             }
             
             let dic = serviceDelete.builParamsMultiple(arratUpcsDelete)
-            serviceDelete.callService(dic as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
+            serviceDelete.callService(dic as [String:Any], successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                 self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
@@ -343,7 +343,7 @@ class ShoppingCartProductsService : BaseService {
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
             }
-            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                     if error.code != -100 {
@@ -376,7 +376,7 @@ class ShoppingCartProductsService : BaseService {
                 print(error.localizedDescription)
             }
             
-            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 ShoppingCartService.isSynchronizing = false
                 successBlock()
                 

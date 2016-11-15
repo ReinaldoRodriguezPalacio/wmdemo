@@ -14,7 +14,7 @@ class LinesForSearchService: BaseService {
         return ["id":string as AnyObject]
     }
 
-    func callService(_ params:NSDictionary, successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //println("PARAMS FOR LinesForSearchService" )
         printTimestamp("servicio LinesForSearchService")
         self.jsonFromObject(params)

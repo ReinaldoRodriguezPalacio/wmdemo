@@ -137,7 +137,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellText = tableShippingSelection.dequeueReusableCell(withIdentifier: "CheckOutShippingSelection", for: indexPath) as! CheckOutShippingSelectionCell
         
-        let dic = self.arrayTypeSelect![(indexPath as NSIndexPath).row] as? NSDictionary
+        let dic = self.arrayTypeSelect![(indexPath as NSIndexPath).row] as? [String:Any]
         
         let type = dic!["type"] as! String
         let util = dic!["util"] as! String
@@ -174,7 +174,7 @@ class CheckOutShippingSelectionController: NavigationViewController, UITableView
     func save () {
         //Seleccionar un Tipo de envio
         if self.rowSelected! != -1  {
-            let dic = self.arrayTypeSelect![self.rowSelected!] as? NSDictionary
+            let dic = self.arrayTypeSelect![self.rowSelected!] as? [String:Any]
             
             let type = dic!["type"] as! String
             let util = dic!["util"] as! String

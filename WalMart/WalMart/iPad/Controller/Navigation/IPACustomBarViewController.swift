@@ -198,7 +198,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let contDetail = IPAProductDetailPageViewController()
             contDetail.idListSeleted = self.idListSelected
             //contDetail.upc = upc!
-            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let useSignalsService : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let svcValidate = ProductDetailService(dictionary: useSignalsService)
             
             let upcDesc : NSString = upc! as NSString
@@ -209,7 +209,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
             //let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position:"")//position
             let params = svcValidate.buildMustangParams(paddedUPC as String, skuId:paddedUPC as String ) //TODO :Enviar SKU
-            svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
+            svcValidate.callService(requestParams:params, successBlock: { (result:[String:Any]) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
                 if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){

@@ -10,19 +10,19 @@ import UIKit
 
 class GRUpdateListService: GRBaseService {
     
-    func buildParams(_ idList:String,name:String) -> NSDictionary {
+    func buildParams(_ idList:String,name:String) -> [String:Any] {
         //{"newName":"PentonVillet30Mayo2014_Update"}
         //return ["newName":name]
         //{"CualquierOtroNombre"}{    "idList":"gl5510205",    "newName":"Nuevo Nombre"}
         return ["idList":idList,"newName":name]
     }
 
-    func callService(_ params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print(params)
         self.callPOSTService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
-                successBlock?(resultCall as NSDictionary)
+                successBlock?(resultCall as [String:Any])
                 return
             },
             errorBlock: { (error:NSError) -> Void in

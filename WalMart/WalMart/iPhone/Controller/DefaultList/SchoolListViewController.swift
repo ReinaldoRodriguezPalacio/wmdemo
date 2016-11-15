@@ -233,7 +233,7 @@ class SchoolListViewController : DefaultListDetailViewController {
      Get products list
      */
     func getDetailItems(){
-        //let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        //let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = GRProductBySearchService()
         //let params = service.buildParamsForSearch(text: "", family:"f-papeleria-escolar", line: "l-escolar-cuadernos", sort:"rankingASC", departament: "d-papeleria", start: 0, maxResult: 20)
         let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100, brand: nil)
@@ -589,14 +589,14 @@ class SchoolListViewController : DefaultListDetailViewController {
                 
 //                let serviceAdd = AddItemWishlistService()
 //                if ixCount < self.selectedItems!.count {
-//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:[String:Any]) -> Void in
 //                        //let path = NSIndexPath(forRow: , inSection: 0)
 //                        
 //                        
 //                        }, errorBlock: { (error:NSError) -> Void in
 //                    })
 //                }else {
-//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
+//                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:[String:Any]) -> Void in
 //                        self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
 //                        animation.removeFromSuperview()
 //                        }, errorBlock: { (error:NSError) -> Void in

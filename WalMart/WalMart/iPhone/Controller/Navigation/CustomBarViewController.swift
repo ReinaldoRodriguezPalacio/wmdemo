@@ -1009,7 +1009,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             
             let controller = ProductDetailPageViewController()
             controller.idListSeleted  = self.idListSelected
-            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let useSignalsService : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
             let svcValidate = ProductDetailService(dictionary: useSignalsService)
             
             let upcDesc : NSString = upc! as NSString
@@ -1020,7 +1020,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             //let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//
             let params = svcValidate.buildMustangParams(paddedUPC as String, skuId:paddedUPC as String) // TODO: Enviar sku
-            svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
+            svcValidate.callService(requestParams:params as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 
                 let controllernav = self.currentController as? UINavigationController
@@ -1353,7 +1353,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func notificaUpdateBadge(_ notification:Notification){
         if notification.object != nil {
-            let params = notification.object as! NSDictionary
+            let params = notification.object as! [String:Any]
             let number = params["quantity"] as! Int
             updateBadge(number)
             self.endUpdatingShoppingCart(notification as AnyObject)

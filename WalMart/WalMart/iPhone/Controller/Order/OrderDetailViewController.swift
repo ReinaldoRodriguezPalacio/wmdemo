@@ -22,7 +22,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var type : ResultObjectType!
     
     var detailsOrder : [Any]!
-    var detailsOrderGroceries : NSDictionary!
+    var detailsOrderGroceries : [String:Any]!
     
     var alertView: IPOWMAlertViewController?
     var timmer : Timer!
@@ -120,13 +120,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 cellOrderProduct.type = self.type
                 var dictProduct = [:]
                 if showFedexGuide {
-                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row ] as! NSDictionary) as! [AnyHashable : Any]
+                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row ] as! [String:Any]) as! [AnyHashable : Any]
                 } else {
-                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row - 2] as! NSDictionary) as! [AnyHashable : Any]
+                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row - 2] as! [String:Any]) as! [AnyHashable : Any]
                 }
                 
-                let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct as NSDictionary)
-                let valuesItems = itemShow[0] as NSDictionary
+                let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct as [String:Any])
+                let valuesItems = itemShow[0] as [String:Any]
                 
                 //valuesItems["skuId"] as! String
                 let pesableValue = valuesItems["pesable"] as! String == "true" ? true : false
@@ -141,7 +141,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return cell!
     }
     
-    class func prepareValuesItems (_ itemDetail : NSDictionary) -> [[String:String]]  {
+    class func prepareValuesItems (_ itemDetail : [String:Any]) -> [[String:String]]  {
         var upcItems : [[String:String]] = []
         
         let upcProduct = itemDetail["upc"] as! String
@@ -456,7 +456,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
                 self.alertView!.afterRemove = {
@@ -537,7 +537,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             let type = item["type"] as? String
             
             var  nameLine = ""
-            if let line = item["line"] as? NSDictionary {
+            if let line = item["line"] as? [String:Any] {
                 nameLine = line["name"] as! String
             }
             
@@ -547,7 +547,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
         
         service.callService(service.buildParams(name, items: products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.listSelectorController!.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()

@@ -12,8 +12,9 @@ class OccupationsService : BaseService {
     
     
 
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService([], successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        let empty: [String:Any] = [:]
+            self.callGETService(empty as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
         }) { (error:NSError) -> Void in
             errorBlock!(error)

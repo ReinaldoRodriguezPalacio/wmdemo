@@ -372,9 +372,9 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.view.endEditing(true)
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+            service.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
                 let login = LoginService()
-                login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:[String:Any]) -> Void in
                     let message = "\(NSLocalizedString("profile.login.welcome",comment:""))\n\n\(NSLocalizedString("profile.login.addAddress",comment:""))"
                     self.alertView!.setMessage(message)
                     self.alertView!.showDoneIconWithoutClose()
@@ -409,7 +409,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             alertAddress!.titleLabel.text = NSLocalizedString("profile.address.new.title", comment: "")
         }
         alertAddress?.showAddressAlert()
-        alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+        alertAddress?.beforeAddAddress = {(dictSend:[String:Any]?) in
             self.alertAddress?.registryAddress(dictSend)
             self.alertView!.close()
         }

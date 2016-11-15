@@ -64,9 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         GIDSignIn.sharedInstance().clientID = Bundle.main.object(forInfoDictionaryKey: "GoogleClientId") as! String
         
         //Twitter
-        let fabric =  Bundle.main.object(forInfoDictionaryKey: "Fabric") as! NSDictionary
-        let kits = (fabric["Kits"] as! NSArray)[0] as! NSDictionary
-        let kitInfo = kits["KitInfo"] as! NSDictionary
+        let fabric =  Bundle.main.object(forInfoDictionaryKey: "Fabric") as! [String:Any]
+        let kits = (fabric["Kits"] as! NSArray)[0] as! [String:Any]
+        let kitInfo = kits["KitInfo"] as! [String:Any]
         let twitterKey = kitInfo["consumerKey"] as! String
         let twitterSecret = kitInfo["consumerSecret"] as! String
         Twitter.sharedInstance().start(withConsumerKey: twitterKey, consumerSecret: twitterSecret)
@@ -141,14 +141,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         }
         
         //PayPal
-        let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! NSDictionary
+        let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! [String:Any]
         let sandboxClientID = payPalEnvironment.object(forKey: "SandboxClientID") as! String
         let productionClientID =  payPalEnvironment.object(forKey: "ProductionClientID") as! String
         PayPalMobile.initializeWithClientIds(forEnvironments: [PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
 
         
         //Tune.framework
-        //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
+        //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! [String:Any]
         //let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
         //let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
         //Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
@@ -318,7 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         print("AppDelegate")
         print(notService.jsonFromObject(params))
         if UserCurrentSession.sharedInstance.finishConfig {
-            notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
+            notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
                 CustomBarViewController.addOrUpdateParam("showNotification", value: "true",forUser: false)
             }) { (error:NSError) -> Void in
@@ -417,10 +417,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
 
     func handleNotification(_ application: UIApplication,userInfo: [AnyHashable: Any]) {
-        if let notiicationInfo = userInfo["notification"] as? NSDictionary {
+        if let notiicationInfo = userInfo["notification"] as? [String:Any] {
             
-            //let notiicationInfo = userInfo["notification"] as! NSDictionary
-            let notiicationAPS = userInfo["aps"] as! NSDictionary
+            //let notiicationInfo = userInfo["notification"] as! [String:Any]
+            let notiicationAPS = userInfo["aps"] as! [String:Any]
             let type = notiicationInfo["type"] as! String
             let name = notiicationInfo["name"] as! String
             let value = notiicationInfo["value"] as! String

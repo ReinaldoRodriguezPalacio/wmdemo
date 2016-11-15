@@ -197,13 +197,13 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         
         signOutButton?.isEnabled = false
         let shoppingCartUpdateBg = ShoppingCartProductsService()
-        shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        shoppingCartUpdateBg.callService([:], successBlock: { (result:[String:Any]) -> Void in
             if  UserCurrentSession.hasLoggedUser() {
                 UserCurrentSession.sharedInstance.userSigned = nil
                 UserCurrentSession.sharedInstance.deleteAllUsers()
                 self.signOutButton?.isEnabled = true
                 let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: { (result:NSDictionary) -> Void in
+                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
                     
                     self.alertView!.setMessage("Ok")
                     self.alertView!.showDoneIcon()

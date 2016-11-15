@@ -48,7 +48,7 @@ class IPAOrderViewController: OrderViewController {
     /*override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
      
-        let item = self.items[indexPath.row] as! NSDictionary
+        let item = self.items[indexPath.row] as! [String:Any]
         let detailController = IPAOrderDetailViewController()
         
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
@@ -101,7 +101,7 @@ class IPAOrderViewController: OrderViewController {
         let servicePrev = PreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
-                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! [String:Any])
                 dictMGOrder["type"] =  ""
                 self.items.append(dictMGOrder)
             }

@@ -21,7 +21,7 @@ class ShoppingCartAddProductsService : BaseService {
     
     
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         //self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
@@ -50,7 +50,7 @@ class ShoppingCartAddProductsService : BaseService {
         return [["comments":comments as AnyObject,"quantity":quantity as AnyObject,"skuId":skuId as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]]
     }
     
-    func builParamSvc(_ skuId:String,upc:String,quantity:String,comments:String) -> NSDictionary {
+    func builParamSvc(_ skuId:String,upc:String,quantity:String,comments:String) -> [String:Any] {
         //return ["comments":comments,"quantity":quantity,"upc":upc]
         return ["catalogRefIds": skuId, "productId": upc, "quantity": quantity, "orderedUOM": "EA", "itemComment": "EA","orderedQTYWeight": "6"]
     }
@@ -59,7 +59,7 @@ class ShoppingCartAddProductsService : BaseService {
         return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"wishlist":wishlist as AnyObject]
     }
     
-    func buildProductObject(_ upcsParams:NSDictionary) -> AnyObject {
+    func buildProductObject(_ upcsParams:[String:Any]) -> AnyObject {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]
@@ -69,18 +69,18 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
     
-    func callService(_ skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:Any]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,pesable:NSString,parameter:[String:Any]?,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callService(builParams(skuid,upc:upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, pesable:pesable, parameter:parameter) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(_ skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String, pesable:NSString ,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ skuid:String,upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String, pesable:NSString ,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callCoreDataService(builParams(skuid,upc:upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,pesable:pesable,parameter: nil) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             
             //var itemsSvc : [String:Any]
-            var itemsSvc : NSDictionary?
+            var itemsSvc : [String:Any]?
            
            
             var upcSend = ""
@@ -98,7 +98,7 @@ class ShoppingCartAddProductsService : BaseService {
                 
                 print("callPOSTService::")
                 print(self.jsonFromObject(itemsSvc))
-                self.callPOSTService(itemsSvc!, successBlock: { (resultCall:NSDictionary) -> Void in
+                self.callPOSTService(itemsSvc!, successBlock: { (resultCall:[String:Any]) -> Void in
                     
                     
                     if self.updateShoppingCart() {
@@ -125,7 +125,7 @@ class ShoppingCartAddProductsService : BaseService {
                     }
                     print("ShoppingCartAddProductsService::")
                     print(self.jsonFromObject(send!))
-                        self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
+                        self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
                         
                         
                         if self.updateShoppingCart() {
@@ -167,7 +167,7 @@ class ShoppingCartAddProductsService : BaseService {
         }
     }
     
-    func callCoreDataService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !self.isInCart {
             if (UserCurrentSession.sharedInstance.hasPreorderable()) {// is preorderable
                 //let items  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? NSArray
@@ -228,7 +228,7 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.product.stock = true //product["lowStock"] as! String
             //  cartProduct.product.idLine = ""
             var nameLine = "Otros"
-            if let lineObj = product["line"] as? NSDictionary {
+            if let lineObj = product["line"] as? [String:Any] {
                 nameLine = lineObj["name"] as! String
             }
             cartProduct.product.nameLine = nameLine

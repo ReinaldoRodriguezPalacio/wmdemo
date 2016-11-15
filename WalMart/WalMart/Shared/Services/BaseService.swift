@@ -87,8 +87,8 @@ class BaseService : NSObject {
 //            //serviceConfigDictionary =  ConfigServices.ConfigIdMGSignals
 //        }
         
-        let services = Bundle.main.object(forInfoDictionaryKey: serviceConfigDictionary) as! NSDictionary
-        let environmentServices = services.object(forKey: environment) as! NSDictionary
+        let services = Bundle.main.object(forInfoDictionaryKey: serviceConfigDictionary) as! [String:Any]
+        let environmentServices = services.object(forKey: environment) as! [String:Any]
         let serviceURL =  environmentServices.object(forKey: serviceName) as! String
         return serviceURL
     }
@@ -173,15 +173,15 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
    
-        let task = afManager.post(url, parameters: params, success: {(request:URLSessionDataTask!, json:Any!) in
-            let resultJSON = json as! NSDictionary
+        let task = afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
+            let resultJSON = json as! [String:Any]
             self.jsonFromObject(resultJSON)
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithIdService()
                         let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
-                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
+                        loginService.callService(["profileId":idUser], successBlock: { (response:[String:Any]) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance.userSigned = nil
@@ -214,24 +214,24 @@ class BaseService : NSObject {
        return task
     }
     
-    func callGETService(_ params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callGETService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callGETService(serviceUrl(),params:params,successBlock:successBlock, errorBlock:errorBlock)
     }
     
-    func callGETService(_ serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callGETService(_ serviceURL:String,params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         callGETService(afManager,serviceURL:serviceURL,params:params,successBlock:successBlock, errorBlock:errorBlock)
     }
     
-    func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.get(serviceURL, parameters: params, success: {(request:URLSessionDataTask!, json:AnyObject!) in
-            let resultJSON = json as! NSDictionary
+    func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        manager.get(serviceURL, parameters: params, success: {(request:URLSessionDataTask?, json:AnyObject?) in
+            let resultJSON = json as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithIdService()
                         let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
-                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
+                        loginService.callService(["profileId":idUser], successBlock: { (response:[String:Any]) -> Void in
                             //TODO:QUITAR IMPORTANTE DESCOMENTAR
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
@@ -262,7 +262,7 @@ class BaseService : NSObject {
     
     // MARK: - Service code validation
     
-    func validateCodeMessage(_ response:NSDictionary) -> NSError? {
+    func validateCodeMessage(_ response:[String:Any]) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
             var messages =  ""
             if  let message = response["message"] as? NSString{
@@ -288,7 +288,7 @@ class BaseService : NSObject {
     
   
     
-    func saveDictionaryToFile(_ dictionary:NSDictionary,fileName:String) {
+    func saveDictionaryToFile(_ dictionary:[String:Any],fileName:String) {
         let filePath = getFilePath(fileName)
         let data : Data = try! JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
         
@@ -306,7 +306,7 @@ class BaseService : NSObject {
         try? data.write(to: URL(fileURLWithPath: filePath), options: [.atomic])
     }
     
-    func getDataFromFile(_ fileName:NSString) -> NSDictionary? {
+    func getDataFromFile(_ fileName:NSString) -> [String:Any]? {
         let path = self.getFilePath(fileName as String)
         if FileManager.default.fileExists(atPath: path) {
             var jsonData: Data?
@@ -315,7 +315,7 @@ class BaseService : NSObject {
             } catch {
                 jsonData = nil
             }
-            let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSDictionary
+            let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
             return values
         }else {
             if let pathResource = Bundle.main.path(forResource: NSURL(string:fileName.lastPathComponent)!.deletingPathExtension?.absoluteString, ofType:fileName.pathExtension ) {
@@ -325,7 +325,7 @@ class BaseService : NSObject {
                 } catch {
                     jsonData = nil
                 }
-                let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSDictionary
+                let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
                 return values
             }
         }
@@ -337,9 +337,9 @@ class BaseService : NSObject {
     func saveKeywords(_ items:NSArray) {
         //Creating keywords
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 for idx in 0 ..< items.count {
-                    if let item = items[idx] as? NSDictionary {
+                    if let item = items[idx] as? [String:Any] {
                         if let desc = item[JSON_KEY_DESCRIPTION] as? String {
                             let description = desc.trimmingCharacters(in: CharacterSet.whitespaces)
 
@@ -406,12 +406,12 @@ class BaseService : NSObject {
 
     func loadKeyFieldCategories( _ items:AnyObject!, type:String ) {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in (items as? [Any])! {
                     let name = item["DepartmentName"] as? String ?? ""
                     let idDepto = item["idDept"] as! String
-                    let dicItem = item as! NSDictionary
+                    let dicItem = item as! [String:Any]
                     let items :AnyObject? =  dicItem["familyContent"]
                     if  items !=  nil {
                         let famArray : AnyObject = item["familyContent"] as AnyObject!
@@ -422,7 +422,7 @@ class BaseService : NSObject {
                             let idFamily = itemFamily["id"] as? String ?? ""
                             if itemFamily.count > 1 {
                                 
-                                let itemdic = itemFamily as! NSDictionary
+                                let itemdic = itemFamily as! [String:Any]
                                 let itemsContent :AnyObject? =  itemdic["fineContent"]
                                 if  itemsContent !=  nil {
                                     let lineArray : AnyObject = itemFamily["fineContent"] as AnyObject!
@@ -465,9 +465,9 @@ class BaseService : NSObject {
         print("\(message)"  + timestamp)
     }
     
-    func callPOSTServiceCam(_ manager:AFHTTPSessionManager, params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callPOSTServiceCam(_ manager:AFHTTPSessionManager, params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         manager.post(serviceUrl(), parameters: nil,
-            constructingBodyWith: { (formData: AFMultipartFormData!) in
+            constructingBodyWith: { (formData: AFMultipartFormData?) in
                 let imgData = params.object(forKey: "image_request[image]") as! Data
                 let localeStr = params.object(forKey: "image_request[locale]") as! String
                 let langStr = params.object(forKey: "image_request[language]") as! String
@@ -476,13 +476,13 @@ class BaseService : NSObject {
                 formData.appendPart(withForm: langStr.data(using: String.Encoding.utf8), name:"image_request[language]")
             },
             success: {(request:URLSessionDataTask!, json:AnyObject!) in
-                let resultJSON = json as! NSDictionary
+                let resultJSON = json as! [String:Any]
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
                             let loginService = LoginWithIdService()
                             let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
-                            loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
+                            loginService.callService(["profileId":idUser], successBlock: { (response:[String:Any]) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance.userSigned = nil

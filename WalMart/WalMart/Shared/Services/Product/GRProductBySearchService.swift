@@ -16,7 +16,7 @@ class GRProductBySearchService: GRBaseService {
     }
     
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
@@ -63,7 +63,7 @@ class GRProductBySearchService: GRBaseService {
                 //print("RESULT FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
                 self.jsonFromObject(resultJSON as AnyObject!)
                 
-                if let error = self.validateCodeMessage(resultJSON as NSDictionary) {
+                if let error = self.validateCodeMessage(resultJSON as [String:Any]) {
                     errorBlock?(error)
                     return
                 }
@@ -91,7 +91,7 @@ class GRProductBySearchService: GRBaseService {
                 }
                 
                 //Search service Text
-                if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? NSDictionary {
+                if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? [String:Any] {
                     //Array facet
                     if let itemsFacets = responseObject["facet"] as? [AnyObject] {
                         facets = itemsFacets

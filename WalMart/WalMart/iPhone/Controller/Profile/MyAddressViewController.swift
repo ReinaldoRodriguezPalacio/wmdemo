@@ -104,7 +104,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
         
         let addressService = ShippingAddressByUserService()
-        addressService.callService({ (resultCall:NSDictionary) -> Void in
+        addressService.callService({ (resultCall:[String:Any]) -> Void in
             self.arrayAddressShipping = []
             if let shippingAddress = resultCall["responseArray"] as? NSArray {
                 self.arrayAddressShipping = shippingAddress
@@ -117,7 +117,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
   
     func getInvoiceAddress(){
         let addressService = InvoiceAddressByUserService()
-        addressService.callService({ (resultCall:NSDictionary) -> Void in
+        addressService.callService({ (resultCall:[String:Any]) -> Void in
             
             self.arrayAddressFiscal = []
             
@@ -183,12 +183,12 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? AddressViewCell
         var prefered = false
-        var item : NSDictionary
+        var item : [String:Any]
         var isFisicalAddress = false
         if (indexPath as NSIndexPath).section == 0{
-            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item] as! NSDictionary
+            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item] as! [String:Any]
         }else{
-            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item] as! NSDictionary
+            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item] as! [String:Any]
             isFisicalAddress = true
         }
         
@@ -247,12 +247,12 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             let indexPath = self.table.indexPath(for: cell)
             if indexPath != nil {
                 var addressId = ""
-                var item : NSDictionary
+                var item : [String:Any]
                 var isFiscalAddress = false
                     if (indexPath! as NSIndexPath).section == 0{
-                        item = self.arrayAddressShipping![(indexPath! as NSIndexPath).row] as! NSDictionary
+                        item = self.arrayAddressShipping![(indexPath! as NSIndexPath).row] as! [String:Any]
                     }else{
-                        item = self.arrayAddressFiscal![(indexPath! as NSIndexPath).row] as! NSDictionary
+                        item = self.arrayAddressFiscal![(indexPath! as NSIndexPath).row] as! [String:Any]
                         isFiscalAddress = true
                     }
                     if let addId =  item["addressId"] as? String {
@@ -299,17 +299,17 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         if self.addressController == nil {
             self.addressController = AddressViewController()
         }
-        var item: NSDictionary!
+        var item: [String:Any]!
         let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as! [Any])
         self.addressController!.allAddress =  allArray as NSArray!
         
         if (indexPath as NSIndexPath).section == 0{
-            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item] as! NSDictionary
+            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item] as! [String:Any]
             self.addressController!.typeAddress = TypeAddress.shiping
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
         }else{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
-            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item] as! NSDictionary
+            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item] as! [String:Any]
             if let type = item["persona"] as? String{
                 if type == "F" {
                     self.addressController!.typeAddress = TypeAddress.fiscalPerson
@@ -368,7 +368,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
 
        
-        service!.callService(service!.buildParamsInvoice(addressID),  successBlock:{ (resultCall:NSDictionary?) in
+        service!.callService(service!.buildParamsInvoice(addressID),  successBlock:{ (resultCall:[String:Any]?) in
             self.callServiceAddress()
             }, errorBlock: {(error: NSError) in
                 self.viewLoad.stopAnnimating()
@@ -395,7 +395,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-        service!.callService(params, successBlock:{ (resultCall:NSDictionary?) in
+        service!.callService(params, successBlock:{ (resultCall:[String:Any]?) in
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             
             if let message = resultCall!["message"] as? String {

@@ -29,8 +29,8 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
     
     var stores:[String] = []
     var neighbourhoods: [String] = []
-    var neighbourhoodsDict:[NSDictionary] = []
-    var storesDict:[NSDictionary] = []
+    var neighbourhoodsDict:[[String:Any]] = []
+    var storesDict:[[String:Any]] = []
     var idSuburb: String! = ""
     var storeId:String! = ""
     var selectedNeighborhood: IndexPath?
@@ -214,14 +214,14 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
         
         
         
-        service.callService(service.buildParams(padding + zipCode),  successBlock:{ (resultCall:NSDictionary?) in
+        service.callService(service.buildParams(padding + zipCode),  successBlock:{ (resultCall:[String:Any]?) in
             self.viewLoad.stopAnnimating()
             if ((resultCall!["city"] as? String) != nil) {
                 self.zipCodeField!.text = resultCall!["zipCode"] as? String
                 //self.currentZipCode = self.zipcode!.text!
                 
                 if self.suburbField!.text == "" &&  self.neighbourhoods.count == 0  {
-                    for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
+                    for dic in  resultCall!["neighbourhoods"] as! [[String:Any]]{
                         if dic["id"] as? String ==  self.idSuburb{
                             self.suburbField!.text = dic["neighbourhoodName"] as? String
                             //setElement = true
@@ -229,8 +229,8 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
                     }
                 }
                 
-                self.neighbourhoodsDict =  resultCall!["neighbourhoods"] as! [NSDictionary]
-                self.storesDict = resultCall!["stores"] as! [NSDictionary]
+                self.neighbourhoodsDict =  resultCall!["neighbourhoods"] as! [[String:Any]]
+                self.storesDict = resultCall!["stores"] as! [[String:Any]]
                 
                 for neighbourhood in self.neighbourhoodsDict {
                     self.neighbourhoods.append(neighbourhood["neighbourhoodName"] as! String)

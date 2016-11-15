@@ -25,7 +25,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var viewAddress: AddressView? = nil
     var viewAddressFisical: AddressView? = nil
     var viewAddressMoral: AddressView? = nil
-    var item: NSDictionary? = nil
+    var item: [String:Any]? = nil
     var allAddress: NSArray! = []
     var viewTypeAdress: UIView? = nil
     var viewTypeAdressFiscal: UIView? = nil
@@ -528,7 +528,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         return val
     }
     
-    func saveGrAddres(_ params:NSDictionary,successBlock:((Bool) -> Void)?) {
+    func saveGrAddres(_ params:[String:Any],successBlock:((Bool) -> Void)?) {
         
         
         
@@ -579,7 +579,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
  
     func saveBock(_ sender:UIButton?,successBlock:((Bool) -> Void)?) {
-        var params : NSDictionary? = nil
+        var params : [String:Any]? = nil
         var service :  BaseService!
         
             switch (typeAddress) {

@@ -210,7 +210,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:isActive) as AnyObject)
         }
         
-        service.callService(service.buildParams(idList: listId, upcs: products) as NSDictionary,
+        service.callService(service.buildParams(idList: listId, upcs: products) as [String:Any],
                             successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
@@ -398,7 +398,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             let type = item["isWeighable"] as! String
             
             var  nameLine = ""
-            if let line = item["line"] as? NSDictionary {
+            if let line = item["line"] as? [String:Any] {
                 nameLine = line["name"] as! String
             }
             

@@ -19,7 +19,7 @@ class GRLinesForSearchService: GRBaseService {
         return ["storeId":"" as AnyObject,"expression":string as AnyObject,"departmentName":"" as AnyObject,"family":"" as AnyObject] as [String:Any]
     }
     
-    func callService(_ params:NSDictionary, successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params)
         self.getManager().post(serviceUrl(), parameters: params,
@@ -120,7 +120,7 @@ class GRLinesForSearchService: GRBaseService {
                         }
                         
                         let families = cdepto!["families"] as! NSMutableDictionary
-                        var cfamily = families[idFamily] as? NSDictionary
+                        var cfamily = families[idFamily] as? [String:Any]
                         if cfamily == nil {
                             families[idFamily] = [
                                 "id" : idFamily,
@@ -130,7 +130,7 @@ class GRLinesForSearchService: GRBaseService {
                                 "parentId" : idDepto,
                                 "path" : "\(idDepto)|\(idFamily)",
                                 "lines" : NSMutableDictionary()]
-                            cfamily = families[idFamily] as? NSDictionary
+                            cfamily = families[idFamily] as? [String:Any]
                         }
                         
                         let lines = cfamily!["lines"] as! NSMutableDictionary

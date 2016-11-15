@@ -11,7 +11,7 @@ import CoreData
 
 class UpdateUserProfileService : BaseService {
     
-    func buildParamsWithMembership(_ profileId:String,name:String,lastName:String,email:String,gender:String,ocupation:String,phoneNumber:String,phoneExtension:String,mobileNumber:String,updateAssociate:Bool,associateStore:String,joinDate:String,associateNumber:String,updatePassword:Bool,oldPassword:String,newPassword:String) -> NSDictionary {
+    func buildParamsWithMembership(_ profileId:String,name:String,lastName:String,email:String,gender:String,ocupation:String,phoneNumber:String,phoneExtension:String,mobileNumber:String,updateAssociate:Bool,associateStore:String,joinDate:String,associateNumber:String,updatePassword:Bool,oldPassword:String,newPassword:String) -> [String:Any] {
         
         return ["profileId":profileId,"firstName":name,"lastName":lastName,"email":email,"gender":gender,"occupation":ocupation,"phoneNumber":phoneNumber,"phoneExtension":phoneExtension,"mobileNumber":mobileNumber,"associateCheckBox":updateAssociate ? "true" : "false","associateNumber":associateNumber,"associateStore":associateStore,"joinDate":joinDate,"passwordCheckBox":updatePassword ? "true" : "false","oldPassword":oldPassword,"newPassword":newPassword]
     }
@@ -33,7 +33,7 @@ class UpdateUserProfileService : BaseService {
                     if array.count > 0{
                         usr = array[0] as! User
                         
-                        //let resultProfileJSON = params["profile"] as! NSDictionary
+                        //let resultProfileJSON = params["profile"] as! [String:Any]
                         
                         usr.profile.name = params["firstName"] as! NSString
                         usr.profile.lastName = params["lastName"] as! NSString

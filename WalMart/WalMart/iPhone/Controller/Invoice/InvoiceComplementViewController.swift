@@ -32,9 +32,9 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     var finishButton: UIButton?
     var returnButton: UIButton?
 
-    var arrayAddressFiscal: NSArray?
+    var arrayAddressFiscal: [[String : Any]]?
     var arrayAddressFiscalNames: [String]! = []
-    var selectedAddress: NSDictionary?
+    var selectedAddress: [String : Any]?
     
     var modalView: AlertModalView?
     var picker: AlertPickerView!
@@ -288,10 +288,10 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     func callServiceAddress(){
         let addressService = ShippingAddressByUserService()
-        addressService.callService({ (resultCall:NSDictionary) -> Void in
+        addressService.callService({ (resultCall:[String:Any]) -> Void in
             self.arrayAddressFiscal = []
             
-            if let fiscalAddress = resultCall["fiscalAddresses"] as? NSArray {
+            if let fiscalAddress = resultCall["fiscalAddresses"] as? [[String : Any]] {
                 self.arrayAddressFiscal = fiscalAddress
                 self.getAddressFiscalNames(fiscalAddress)
                 self.removeViewLoad()
@@ -302,7 +302,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         })
     }
     
-    func getAddressFiscalNames(_ fiscalAddresses:NSArray){
+    func getAddressFiscalNames(_ fiscalAddresses:[[String:Any]]){
         for address in fiscalAddresses{
             self.arrayAddressFiscalNames?.append(address["name"] as! String)
         }
@@ -310,7 +310,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         let val = CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
         return val
     }
@@ -320,7 +320,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj == self.address!{
-                self.selectedAddress = self.arrayAddressFiscal![(indexPath as NSIndexPath).row] as? NSDictionary
+                self.selectedAddress = self.arrayAddressFiscal![(indexPath as NSIndexPath).row]
                 self.address?.text = selectedStr
             }
             
@@ -357,7 +357,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         /*if !self.selectedAddressHasStore{
             let serviceAddress = GRAddressesByIDService()
             serviceAddress.addressId = self.selectedAddress!
-            serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 self.sAddredssForm.addressName.text = result["name"] as! String!
                 self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
                 self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
@@ -388,7 +388,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             if self.addressItems?.count < 12 {
-                service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+                service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                     print("Se realizao la direccion")
                     self.picker!.closeNew()
                     self.picker!.closePicker()
@@ -419,7 +419,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     //MARK: AlertPickerSelectOptionDelegate
     func didSelectOptionAtIndex(_ indexPath: IndexPath) {
-       //let address = self.arrayAddressFiscal![indexPath.row] as? NSDictionary
+       //let address = self.arrayAddressFiscal![indexPath.row] as? [String:Any]
     }
     
     func getFisicalPersonForm(_ frame:CGRect) -> FiscalAddressPersonF{

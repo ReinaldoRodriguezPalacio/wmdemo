@@ -38,7 +38,7 @@ open class RSCornersLayer: CALayer {
                 if i == corners.count {
                     idx = 0
                 }
-                let dict = corners[idx] as! NSDictionary
+                let dict = corners[idx] as! [String:Any]
                 
                 let x = CGFloat((dict.object(forKey: "X") as! NSNumber).floatValue)
                 let y = CGFloat((dict.object(forKey: "Y") as! NSNumber).floatValue)

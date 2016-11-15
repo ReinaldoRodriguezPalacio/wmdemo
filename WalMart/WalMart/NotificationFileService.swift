@@ -34,7 +34,7 @@ class NotificationFileService : BaseService {
         
     }
     
-    func getAllNotifications() -> NSDictionary {
+    func getAllNotifications() -> [String:Any] {
         if let returnDict = self.getDataFromFile(fileNotification as NSString) {
             return returnDict
         }

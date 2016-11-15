@@ -302,7 +302,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func getAddressDescription(_ addressId: String){
 //        let serviceAddress = GRAddressesByIDService()
 //        serviceAddress.addressId = self.selectedAddress!
-//        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+//        serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
 //            self.addressDesccription = "\(result["street"] as! String!) \(result["outerNumber"] as! String!) \n\(result["county"] as! String!) \(result["city"] as! String!)"
 //            }) { (error:NSError) -> Void in
 //            self.addressDesccription = ""
@@ -411,7 +411,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.picker!.closeButton!.isHidden =  false
                 let serviceAddress = GRAddressesByIDService()
                 serviceAddress.addressId = self.selectedAddress!
-                serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
                     addAddressView.sAddredssForm!.addressName.text = result["name"] as! String!
                     addAddressView.sAddredssForm!.outdoornumber.text = result["outerNumber"] as! String!
                     addAddressView.sAddredssForm!.indoornumber.text = result["innerNumber"] as! String!
@@ -494,7 +494,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         let service = ShippingAddressByUserService()
         service.callService(
-            { (result:NSDictionary) -> Void in
+            { (result:[String:Any]) -> Void in
                 if let items = result["responseArray"] as? [[String:Any]] {
                     self.addressItems = items
                     if items.count > 0 {
@@ -543,7 +543,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func invokeAddressInvoiceUserService(_ endCallAddress:@escaping (() -> Void)) {
         let addressService = InvoiceAddressByUserService()
-        addressService.callService({ (resultCall:NSDictionary) -> Void in
+        addressService.callService({ (resultCall:[String:Any]) -> Void in
             self.addressInvoiceItems = []
             
             if let fiscalAddress = resultCall["responseArray"] as? [[String:Any]] {

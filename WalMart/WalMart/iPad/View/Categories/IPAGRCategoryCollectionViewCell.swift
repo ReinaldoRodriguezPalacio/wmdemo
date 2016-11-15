@@ -234,9 +234,9 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     func serviceUrl(_ serviceName:String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
-        let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! NSDictionary
-        let environmentServices = services.object(forKey: environment) as! NSDictionary
-        let serviceURL =  environmentServices.object(forKey: serviceName) as! String
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     

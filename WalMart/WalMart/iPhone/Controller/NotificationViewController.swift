@@ -139,7 +139,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellNot") as! NotificationTableViewCell
         
-        let notiicationInfo = allNotifications[(indexPath as NSIndexPath).row] as! NSDictionary
+        let notiicationInfo = allNotifications[(indexPath as NSIndexPath).row] as! [String:Any]
         let hour = notiicationInfo["hour"] as! String
         let date = notiicationInfo["date"] as! String
         let message = notiicationInfo["body"] as! String
@@ -158,7 +158,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectable  {
             selectable = false
-            let notiicationInfo = allNotifications[(indexPath as NSIndexPath).row] as! NSDictionary
+            let notiicationInfo = allNotifications[(indexPath as NSIndexPath).row] as! [String:Any]
             let type = notiicationInfo["type"] as! String
             let name = ""
             let value = notiicationInfo["value"] as! String
@@ -190,7 +190,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
      
      - returns: array notificatios acording to device
      */
-    func getNotificationsForDevice(_ dict: NSDictionary) -> [Any]{
+    func getNotificationsForDevice(_ dict: [String:Any]) -> [Any]{
         var showNotifications: [Any] = []
         if let notifications = dict["notifications"] as? [[String:Any]]{
             for notif in notifications {
@@ -227,7 +227,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         let stringBool = value ? "true" : "false"
         if  UserCurrentSession.sharedInstance.deviceToken != "" {
             let params = notService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !value)
-            notService.jsonFromObject(params)
+            notService.jsonFromObject(params as AnyObject!)
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 CustomBarViewController.addOrUpdateParam("showNotification", value: stringBool,forUser: false)
             }) { (error:NSError) -> Void in

@@ -11,13 +11,13 @@ import CoreData
 
 class LoginService : BaseService {
     
-    func buildParams(_ email:String,password: String) -> NSDictionary {
+    func buildParams(_ email:String,password: String) -> [String:Any] {
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
         let lowCaseUser = email.lowercased()
         return ["email":lowCaseUser,"password":password,"identifierDevice":idDevice]
     }
 
-    func callService(_ params:NSDictionary,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {

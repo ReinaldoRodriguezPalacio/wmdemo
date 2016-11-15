@@ -11,7 +11,7 @@ import MapKit
 
 class StoreAnnotation: NSObject, MKAnnotation {
 
-    var storeDictionary: NSDictionary?
+    var storeDictionary: [String:Any]?
     var storeEntity: Store?
     
     var coordinate: CLLocationCoordinate2D

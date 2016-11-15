@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol HelpViewControllerDelegate {
-    func selectedDetail(_ row:Int, item: NSDictionary)
+    func selectedDetail(_ row:Int, item: [String:Any])
 }
 
 class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITableViewDataSource {
@@ -130,7 +130,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             return cell!
         }
 
-        let item = self.array![0] as! NSDictionary
+        let item = self.array![0] as! [String:Any]
         let name = item["title"] as! String
         
         cell!.setValues(NSLocalizedString(name, comment: ""), font: WMFont.fontMyriadProLightOfSize(16), numberOfLines: 2, textColor: WMColor.dark_gray, padding: 12,align:NSTextAlignment.left)
@@ -156,7 +156,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CloseShoppingCart.rawValue), object: nil)
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowHelp.rawValue), object: nil)
         } else {
-            let item = self.array![0] as! NSDictionary
+            let item = self.array![0] as! [String:Any]
             if delegate != nil {
                 delegate!.selectedDetail((indexPath as NSIndexPath).row, item: item)
             }

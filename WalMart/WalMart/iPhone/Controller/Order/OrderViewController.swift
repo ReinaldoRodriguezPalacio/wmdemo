@@ -91,7 +91,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let cell = tableOrders.dequeueReusableCell(withIdentifier: "prevousOrder") as! PreviousOrdersTableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         if !((indexPath as NSIndexPath).row > self.items.count) && self.items.count > 0 {
-            let item = self.items[(indexPath as NSIndexPath).row] as NSDictionary
+            let item = self.items[(indexPath as NSIndexPath).row] as [String:Any]
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
             var statusStr = item["status"] as! String
@@ -106,7 +106,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.items[(indexPath as NSIndexPath).row] as NSDictionary
+        let item = self.items[(indexPath as NSIndexPath).row] as [String:Any]
         let detailController = OrderShippingViewController()
         
         //let dateStr = item["placedDate"] as! String
@@ -137,9 +137,9 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         viewLoad.startAnnimating(self.isVisibleTab)
         
         let servicePrev = PreviousOrdersService()
-        servicePrev.callService({ (previous:NSArray) -> Void in
+        servicePrev.callService({ (previous:[[String:Any]]) -> Void in
             for orderPrev in previous {
-                var dictMGOrder =  orderPrev as! [String:Any]
+                var dictMGOrder =  orderPrev 
                 dictMGOrder["type"] =  ""
                 self.items.append(dictMGOrder)
             }
@@ -180,7 +180,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let servicePrev = GRPreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
-                let dictGROrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                let dictGROrder = NSMutableDictionary(dictionary: orderPrev as! [String:Any])
                 dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
                 self.items.append(dictGROrder)
             }

@@ -645,11 +645,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     //MARK: Shopping cart
     /**
-     Builds an NSDictionary with data to add product to shopping cart
+     Builds an [String:Any] with data to add product to shopping cart
      
      - parameter quantity: quantity of product
      
-     - returns: NSDictionary
+     - returns: [String:Any]
      */
     func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
         var imageUrlSend = ""
@@ -884,12 +884,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.type = ResultObjectType.Mg
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             //TODO signals
-            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
             let productService = ProductDetailService(dictionary: signalsDictionary)
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
             //let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
             let params = productService.buildMustangParams(upc as String, skuId:self.sku as String)
-            productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
+            productService.callService(requestParams:params as AnyObject, successBlock: { (result: [String:Any]) -> Void in
                 self.reloadViewWithData(result)
                 if let facets = result["facets"] as? [[String:Any]] {
                     self.facets = facets
@@ -924,11 +924,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
     }
     /**
-     Reloads product detail view with a NSDIctionary
+     Reloads product detail view with a [String:Any]
      
      - parameter result: product detail data
      */
-    func reloadViewWithData(_ result:NSDictionary){
+    func reloadViewWithData(_ result:[String:Any]){
         let sku = result["sku"] as! [String:Any]
         let parentProducts = sku["parentProducts"] as! [[String:Any]]
         let parentProduct = parentProducts.first
@@ -1627,7 +1627,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         {
             let upc = self.getUpc(self.selectedDetailItem!)
             let facet = self.getFacetWithUpc(upc)
-            self.reloadViewWithData(facet as NSDictionary)
+            self.reloadViewWithData(facet as [String:Any])
         }
     }
     
@@ -1755,10 +1755,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 //        let detailService = UserListDetailService()
 //        detailService.buildParams(listId)
 //        detailService.callService([:],
-//                                  successBlock: { (result:NSDictionary) -> Void in
+//                                  successBlock: { (result:[String:Any]) -> Void in
 //                                    let service = GRDeleteItemListService()
 //                                    service.callService(service.buildParams(self.upc as String),
-//                                        successBlock: { (result:NSDictionary) -> Void in
+//                                        successBlock: { (result:[String:Any]) -> Void in
 //                                            self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
 //                                            self.alertView!.showDoneIcon()
 //                                            self.alertView!.afterRemove = {

@@ -23,17 +23,17 @@ class DisplaySlotsService: GRBaseService{
 //    }
     
     
-    func buildParamsHomeDelivery(_ deliveryType:String) -> NSDictionary{
+    func buildParamsHomeDelivery(_ deliveryType:String) -> [String:Any]{
         return ["deliveryType":deliveryType]
     }
     
-    func buildParamsStorePickUp(_ storePickUp:String) -> NSDictionary{
+    func buildParamsStorePickUp(_ storePickUp:String) -> [String:Any]{
         return ["deliveryType":storePickUp]
     }
     
-    func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         self.jsonFromObject(params)
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

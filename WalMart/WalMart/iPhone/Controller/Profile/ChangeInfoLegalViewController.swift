@@ -244,7 +244,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.addViewLoad()
         
         let peferences = GetPreferencesService()
-        peferences.getLocalPreferences({ (result:NSDictionary) in
+        peferences.getLocalPreferences({ (result:[String:Any]) in
             self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
             let acceptConsent = result["receiveInfoEmail"] as! Bool
             let promoEmail = result["receiveInfoEmail"] as! Bool
@@ -273,7 +273,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
         self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
         
-        peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
+        peferencesService.callService(requestParams:params , successBlock: { (result:[String:Any]) in
             print("Preferencias Guardadas")
             self.alertView!.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
             self.alertView!.showDoneIcon()

@@ -111,7 +111,7 @@ class IPALoginController: LoginController {
             self.addressViewController!.isLogin = true
             self.addressViewController!.view.frame = CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height)
             self.addressViewController!.typeAddress = TypeAddress.shiping
-            self.addressViewController!.item =  NSDictionary()
+            self.addressViewController!.item =  [String:Any]()
             self.addressViewController!.successCallBack = {() in
                 self.viewAnimated = true
                 UIView.animate(withDuration: 0.4, animations: {

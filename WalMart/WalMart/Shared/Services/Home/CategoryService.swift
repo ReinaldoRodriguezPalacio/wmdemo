@@ -26,9 +26,9 @@ class CategoryService : BaseService {
     let typeCategory = "categories"
    
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 self.jsonFromObject(resultCall)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)

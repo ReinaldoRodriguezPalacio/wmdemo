@@ -13,11 +13,11 @@ class ShippingAddressByUserService : BaseService {
     
     let JSON_RESULT = "responseObject"
     
-    func callService(_ successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         self.setManagerTempHeader()
         let params: [String:AnyObject] = [:]
-        self.callGETService(afManager,serviceURL:self.serviceUrl(),params:params as AnyObject, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService(afManager,serviceURL:self.serviceUrl(),params:params as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

@@ -171,7 +171,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         
     }
-    func configureWebView(_ itemsconfig:NSDictionary) {
+    func configureWebView(_ itemsconfig:[String:Any]) {
         
         
         if let block = itemsconfig["block"] as? Bool {
@@ -237,8 +237,8 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     func serviceUrl(_ serviceName:String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
-        let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! NSDictionary
-        let environmentServices = services.object(forKey: environment) as! NSDictionary
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
+        let environmentServices = services.object(forKey: environment) as! [String:Any]
         let serviceURL =  environmentServices.object(forKey: serviceName) as! String
         return serviceURL
     }
@@ -248,14 +248,14 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     class func callUpdateServices() {
                 
         let categoryService = CategoryService()
-        categoryService.callService(Dictionary<String, String>() as NSDictionary,
-            successBlock: { (response:NSDictionary) -> Void in print("Call service CategoryService success") },
+        categoryService.callService(Dictionary<String, String>() as [String:Any],
+            successBlock: { (response:[String:Any]) -> Void in print("Call service CategoryService success") },
             errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
         )
 
         
         let defaultlist = DefaultListService()
-        defaultlist.callService({ (result:NSDictionary) -> Void in
+        defaultlist.callService({ (result:[String:Any]) -> Void in
             print("Call DefaultListService sucess")
             }, errorBlock: { (error:NSError) -> Void in
                 print("Call DefaultListService error \(error)")
@@ -263,7 +263,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         let storeService = StoreLocatorService()
         storeService.callService(
-            { (response:NSDictionary) -> Void in
+            { (response:[String:Any]) -> Void in
                 print("Call StoreLocatorService sucess")
             },
             errorBlock: { (error:NSError) -> Void in
@@ -273,7 +273,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
-        caroService.callService(caroparams as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
+        caroService.callService(caroparams as [String:Any], successBlock: { (result:[String:Any]) -> Void in
             print("Call service caroService success")
             }) { (error:NSError) -> Void in
                 print("Call service caroService error \(error)")
@@ -289,7 +289,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         /*let shoppingCartUpdateBg = ShoppingCartProductsService()
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
         println("Call service ShoppingCartProductsService start")
-        shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        shoppingCartUpdateBg.callService([:], successBlock: { (result:[String:Any]) -> Void in
         println("Call service ShoppingCartProductsService success")
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
         }, errorBlock: { (error:NSError) -> Void in
@@ -305,7 +305,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         let banService = BannerService()
         let params = Dictionary<String, String>()
-        banService.callService(params as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
+        banService.callService(params as [String:Any], successBlock: { (result:[String:Any]) -> Void in
             
             }) { (error:NSError) -> Void in
                 print("Call service BannerService error \(error)")
@@ -314,7 +314,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         if invokeService {
             let caroService = CarouselService()
             let caroparams = Dictionary<String, String>()
-            caroService.callService(caroparams as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
+            caroService.callService(caroparams as [String:Any], successBlock: { (result:[String:Any]) -> Void in
                 print("Call service BannerService success")
                 }) { (error:NSError) -> Void in
                     print("Call service BannerService error \(error)")
@@ -331,7 +331,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     func configSplashAndGoToHome() {
         let confServ = ConfigService()
-        confServ.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        confServ.callService([:], successBlock: { (result:[String:Any]) -> Void in
             var error: NSError?
             self.configureWebView(result)
             IPOSplashViewController.callUpdateServices()
@@ -425,7 +425,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             print("Splash")
             print(notService.jsonFromObject(params))
 
-            notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
+            notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
                 
             }) { (error:NSError) -> Void in

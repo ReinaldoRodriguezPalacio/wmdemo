@@ -91,7 +91,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         
         for dicValue in values {
             //var valuesValues = NSMutableDictionary()
-            if let dicVal = dicValue as? NSDictionary {
+            if let dicVal = dicValue as? [String:Any] {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String
                 let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.reg_gray, colorValue:WMColor.dark_gray, size:14)

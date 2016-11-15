@@ -830,11 +830,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     //MARK: Shopping cart
     /**
-     Builds an NSDictionary with data to add product to shopping cart
+     Builds an [String:Any] with data to add product to shopping cart
      
      - parameter quantity: quantity of product
      
-     - returns: NSDictionary
+     - returns: [String:Any]
      */
     func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
         var imageUrlSend = ""
@@ -1018,12 +1018,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         print("parametro para signals MG :::\(self.indexRowSelected)")
         
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let productService = ProductDetailService(dictionary: signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         //let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
         let params = productService.buildMustangParams(upc as String, skuId:self.sku as String) //TODO : Validar si es sku
-        productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
+        productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
             self.reloadViewWithData(result)
             if let facets = result["facets"] as? [[String:Any]] {
                 self.facets = facets
@@ -1065,7 +1065,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
     }
     
-    func reloadViewWithData(_ result:NSDictionary){
+    func reloadViewWithData(_ result:[String:Any]){
         
         let sku = result["sku"] as! [String:Any]
         let parentProducts = sku["parentProducts"] as! [[String:Any]]
@@ -1523,7 +1523,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         {
             let upc = self.getUpc(self.selectedDetailItem!)
             let facet = self.getFacetWithUpc(upc)
-            self.reloadViewWithData(facet as NSDictionary)
+            self.reloadViewWithData(facet as [String:Any])
         }
     }
     
@@ -1647,8 +1647,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let service = GRAddItemListService()
             let pesable =  self.isPesable ? "1" : "0"
             let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
-            service.callService(service.buildParams(idList: listId, upcs: [productObject]) as NSDictionary,
-                                successBlock: { (result:NSDictionary) -> Void in
+            service.callService(service.buildParams(idList: listId, upcs: [productObject]) as [String:Any],
+                                successBlock: { (result:[String:Any]) -> Void in
                                     self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                     self.alertView!.showDoneIcon()
                                     self.alertView!.afterRemove = {
@@ -1693,10 +1693,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         /*let detailService = GRUserListDetailService()
         detailService.buildParams(listId)
         detailService.callService([:],
-                                  successBlock: { (result:NSDictionary) -> Void in
+                                  successBlock: { (result:[String:Any]) -> Void in
                                     let service = GRDeleteItemListService()
                                     service.callService(service.buildParams(self.upc as String),
-                                        successBlock: { (result:NSDictionary) -> Void in
+                                        successBlock: { (result:[String:Any]) -> Void in
                                             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
                                             self.alertView!.showDoneIcon()
                                             self.alertView!.afterRemove = {

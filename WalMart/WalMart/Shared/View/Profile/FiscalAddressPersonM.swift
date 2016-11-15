@@ -78,7 +78,7 @@ class FiscalAddressPersonM: AddressView {
         
     }
     
-    override func setItemWithDictionary(_ itemValues: NSDictionary) {
+    override func setItemWithDictionary(_ itemValues: [String:Any]) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
             self.corporateName!.text = self.item!["corporateName"] as? String
@@ -116,8 +116,8 @@ class FiscalAddressPersonM: AddressView {
         return super.validateAddress()
     }
     
-    override func getParams() -> NSDictionary {
-        let paramsAddress : NSMutableDictionary? = [:]
+    override func getParams() -> [AnyHashable:Any] {
+        var paramsAddress : [AnyHashable:Any]? = [:]
         paramsAddress!.addEntries(from: super.getParams() as! [AnyHashable: Any])
         paramsAddress!.addEntries(from: [ "RFC":self.rfc!.text!, "rfcEmail":self.email!.text!,"ieps":self.ieps!.text!,"phoneNumber":self.telephone!.text!, "corporateName":self.corporateName!.text!, "name":"Empresa","persona":"M"])
         

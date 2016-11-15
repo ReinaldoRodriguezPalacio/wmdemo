@@ -336,9 +336,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             for productObj  in self.products! {
                 if let product = productObj as? [String:Any] {
                     
-                    if let sku = product["sku"] as? NSDictionary {
+                    if let sku = product["sku"] as? [String:Any] {
                         if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                            if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                            if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                 let upc = item["repositoryId"] as! String
                                 let description = item["description"] as! String
                                 productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
@@ -407,9 +407,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             
              if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                 
-                if let sku = item["sku"] as? NSDictionary {
+                if let sku = item["sku"] as? [String:Any] {
                     if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                        if let productItem =  parentProducts.object(at: 0) as? NSDictionary {
+                        if let productItem =  parentProducts.object(at: 0) as? [String:Any] {
                             self.invokeUpdateProductFromListService(fromUpc:productItem["repositoryId"] as! String , skuId:sku.object(forKey: "id") as! String , quantity: Int(quantity)!)
                         }
                     }
@@ -581,7 +581,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
       
     }
     
-    override func invokeAddproductTolist(_ response:NSDictionary?,products:[Any]?,succesBlock:@escaping (() -> Void)){
+    override func invokeAddproductTolist(_ response:[String:Any]?,products:[Any]?,succesBlock:@escaping (() -> Void)){
         super.invokeAddproductTolist(response, products: products) { () -> Void in
             self.reloadTableListUser()
         }

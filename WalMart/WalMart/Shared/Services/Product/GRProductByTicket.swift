@@ -15,10 +15,10 @@ class GRProductByTicket: GRBaseService {
         return ["number":ticket as AnyObject] as [String:Any]
     }
 
-    func callService(_ params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print(params)
         self.callPOSTService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 successBlock?(resultCall)
                 return
@@ -30,7 +30,7 @@ class GRProductByTicket: GRBaseService {
         )
     }
 
-    override func validateCodeMessage(_ response:NSDictionary) -> NSError? {
+    override func validateCodeMessage(_ response:[String:Any]) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
             let message = response["message"] as! NSString
             if codeMessage.intValue == -12 {

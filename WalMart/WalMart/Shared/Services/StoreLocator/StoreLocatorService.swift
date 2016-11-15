@@ -13,13 +13,13 @@ class StoreLocatorService: BaseService {
 
     var managedObjectContext: NSManagedObjectContext?
 
-    func callService(_ successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let params: NSDictionary = [:]
+    func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        let params: [String:Any] = [:]
         self.callGETService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 if let values = resultCall["responseArray"] as? NSArray {
                     for idx in 0 ..< values.count {
-                        if let item = values[idx] as? NSDictionary {
+                        if let item = values[idx] as? [String:Any] {
                             let storeID = item["storeID"] as? String
                             if storeID == nil {
                                 continue

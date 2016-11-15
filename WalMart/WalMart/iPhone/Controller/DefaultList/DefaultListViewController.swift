@@ -47,7 +47,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         self.showLoadingView()
        
         let svcDefaulLists = DefaultListService()
-        svcDefaulLists.callService({ (result:NSDictionary) -> Void in
+        svcDefaulLists.callService({ (result:[String:Any]) -> Void in
                 self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
                 self.tableView?.reloadData()
                 self.removeLoadingView()
@@ -85,7 +85,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellreturn = tableView.dequeueReusableCell(withIdentifier: "SuperlistasCell", for: indexPath) as! DefaultListTableViewCell
-        let itemList = itemsLists[(indexPath as NSIndexPath).row] as! NSDictionary
+        let itemList = itemsLists[(indexPath as NSIndexPath).row] as! [String:Any]
         
         let listName = itemList["name"] as? String
         let items = itemList["items"] as? [[String:Any]]

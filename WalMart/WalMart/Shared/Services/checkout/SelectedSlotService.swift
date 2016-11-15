@@ -10,13 +10,13 @@ import Foundation
 
 class SelectedSlotService: GRBaseService{
 
-    func buildParams(_ deliveryType:String,selectedSlotId:String) -> NSDictionary{
+    func buildParams(_ deliveryType:String,selectedSlotId:String) -> [String:Any]{
         return ["deliveryType": deliveryType,"selectedSlotId": selectedSlotId]
     }
     
-    func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         self.jsonFromObject(params)
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

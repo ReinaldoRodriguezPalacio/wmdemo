@@ -11,16 +11,16 @@ import Foundation
 class UserListDetailService: GRBaseService {
     
     
-    func buildParams(_ idList:String) -> NSDictionary {
+    func buildParams(_ idList:String) -> [String:Any] {
         return ["giftlistId":idList]
     }
     
     
-    func callService(_ params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params,
-                             successBlock: { (resultCall:NSDictionary) -> Void in
-                                let  responseObject  =  resultCall["responseObject"] as? NSDictionary
-                                successBlock?(responseObject!["giftlist"] as! NSDictionary)
+                             successBlock: { (resultCall:[String:Any]) -> Void in
+                                let  responseObject  =  resultCall["responseObject"] as? [String:Any]
+                                successBlock?(responseObject!["giftlist"] as! [String:Any])
                                 return
             },
                              errorBlock: { (error:NSError) -> Void in

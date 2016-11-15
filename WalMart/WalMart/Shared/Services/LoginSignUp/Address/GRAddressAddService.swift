@@ -16,7 +16,7 @@ class GRAddressAddService : GRBaseService {
        
     }
     
-    func buildParamsPreferred(_ addressID:String,operationType:String,preferred:Bool) -> NSDictionary {
+    func buildParamsPreferred(_ addressID:String,operationType:String,preferred:Bool) -> [String:Any] {
         return [ "preferred":preferred,  "AddressID": addressID,  "operationType":operationType]
     }
     

@@ -165,7 +165,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     
     //MARK: - Utils
     
-    func setValues(listObject object:NSDictionary) {
+    func setValues(listObject object:[String:Any]) {
         var title = ""
         if let name = object["name"] as? String {
             title = name

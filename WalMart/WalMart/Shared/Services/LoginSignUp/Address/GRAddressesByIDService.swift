@@ -18,10 +18,10 @@ class GRAddressesByIDService : GRBaseService {
     }
 
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
        
-        let params: NSDictionary = [:]
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        let params: [String:Any] = [:]
+        self.callGETService(params as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
                 successBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 successBlock!([:])

@@ -13,7 +13,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     var trackingNumber = ""
     var status = ""
     var colorHeader = WMColor.yellow
-    var itemDetail : NSDictionary! = [:]
+    var itemDetail : [String:Any]! = [:]
     var shippingAll : NSArray! = []
     var detailsOrder : [Any]!
     
@@ -152,7 +152,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     
     func reloadPreviousOrderDetail() {
         let servicePrev = PreviousOrderDetailService()
-        servicePrev.callService(trackingNumber, successBlock: { (result:NSDictionary) -> Void in
+        servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
             
             self.itemDetail = result
             self.shippingAll = result["Shipping"] as! NSArray
@@ -246,8 +246,8 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 return 63.0
             } else {
                 let cellDetail = tableView.dequeueReusableCell(withIdentifier: "detailOrder") as! PreviousDetailTableViewCell
-                var valuesDetail : NSDictionary = [:]
-                let shipping = self.shippingAll[(indexPath as NSIndexPath).section] as! NSDictionary
+                var valuesDetail : [String:Any] = [:]
+                let shipping = self.shippingAll[(indexPath as NSIndexPath).section] as! [String:Any]
                 valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": shipping["items"] as! NSArray]
                 let size = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
                 return size
@@ -281,11 +281,11 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 let cellDetail = tableOrders.dequeueReusableCell(withIdentifier: "detailOrder") as! PreviousDetailTableViewCell
                 cellDetail.frame = CGRect(x: 0, y: 0, width: self.tableOrders.frame.width, height: cellDetail.frame.height)
                 
-                var valuesDetail : NSDictionary = [:]
+                var valuesDetail : [String:Any] = [:]
                 
                 let name = self.itemDetail["name"] as! String
                 
-                let shipping = self.shippingAll[(indexPath as NSIndexPath).section] as! NSDictionary
+                let shipping = self.shippingAll[(indexPath as NSIndexPath).section] as! [String:Any]
                 let deliveryType = shipping["deliveryType"] as! String
                 let deliveryAddress = shipping["deliveryAddress"] as! String
                 let paymentType = shipping["paymentType"] as! String
@@ -326,10 +326,10 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     func showShippingDetail(_ sender:UIButton){
         let detailController = OrderDetailViewController()
         
-        var valuesDetail : NSDictionary = [:]
+        var valuesDetail : [String:Any] = [:]
         
         let name = self.itemDetail["name"] as! String
-        let shipping = self.shippingAll[sender.tag] as! NSDictionary
+        let shipping = self.shippingAll[sender.tag] as! [String:Any]
         let deliveryType = shipping["deliveryType"] as! String
         let deliveryAddress = shipping["deliveryAddress"] as! String
         let paymentType = shipping["paymentType"] as! String
@@ -351,13 +351,13 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             var upcs: [Any] = []
             if !showFedexGuide {
                 for item in self.shippingAll! {
-                    upcs.append(getItemToShoppingCart(item as! NSDictionary) as AnyObject)
+                    upcs.append(getItemToShoppingCart(item as! [String:Any]) as AnyObject)
                 }
             } else {
                 for item in self.shippingAll! {
                     let itmProdVal = item["items"] as! [[String:Any]]
                     for itemProd in itmProdVal {
-                        upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
+                        upcs.append(getItemToShoppingCart(itemProd as [String:Any]))
                         
                     }
                 }
@@ -366,7 +366,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         }
     }
     
-    func getItemToShoppingCart(_ item:NSDictionary) ->  [String:Any] {
+    func getItemToShoppingCart(_ item:[String:Any]) ->  [String:Any] {
         
         var params: [String:Any] = [:]
         params["upc"] = item["upc"] as! String as AnyObject?
@@ -430,7 +430,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         for section in 0...shippingAll.count - 1 {
             var ixYSpace : CGFloat = 0
             var unifiedImage : UIImage? = nil
-            let shippingSect = self.shippingAll[section] as! NSDictionary
+            let shippingSect = self.shippingAll[section] as! [String:Any]
             let itemsShipping = shippingSect["items"] as! NSArray
             
             //imageHead
@@ -438,8 +438,8 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             //imageHead?.drawInRect(CGRectMake(0, 0, imageHead!.size.width, imageHead!.size.height))
             
             //Cell envios
-            var valuesDetail : NSDictionary = [:]
-            let shipping = itemsShipping[section] as! NSDictionary
+            var valuesDetail : [String:Any] = [:]
+            let shipping = itemsShipping[section] as! [String:Any]
             valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shippingSect["deliveryType"] as! String, "deliveryAddress": shippingSect["deliveryAddress"] as! String, "paymentType": shippingSect["paymentType"] as! String, "items": shipping]
             let cellDetail = tableOrders.dequeueReusableCell(withIdentifier: "detailOrder") as! PreviousDetailTableViewCell
             let sizeCellFirst = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
@@ -493,11 +493,11 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     func loadShippingViewCellCollection(_ shippingCell:PreviousDetailTableViewCell,indexPath:IndexPath) {
         shippingCell.frame = CGRect(x: 0, y: 0, width: self.tableOrders.frame.width, height: shippingCell.frame.height)
         
-        var valuesDetail : NSDictionary = [:]
+        var valuesDetail : [String:Any] = [:]
         
         let name = self.itemDetail["name"] as! String
         
-        let shipping = self.shippingAll[(indexPath as NSIndexPath).section] as! NSDictionary
+        let shipping = self.shippingAll[(indexPath as NSIndexPath).section] as! [String:Any]
         let deliveryType = shipping["deliveryType"] as! String
         let deliveryAddress = shipping["deliveryAddress"] as! String
         let paymentType = shipping["paymentType"] as! String
@@ -511,12 +511,12 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         productCell.frame = CGRect(x: 0, y: 0, width: self.tableOrders.frame.width, height: 109)
         
         productCell.type = self.type
-        let dictSect = self.shippingAll[(indexPath as NSIndexPath).section] as! NSDictionary
+        let dictSect = self.shippingAll[(indexPath as NSIndexPath).section] as! [String:Any]
         let items = dictSect["items"] as! NSArray
         
-        let dictProduct = items[(indexPath as NSIndexPath).row] as! NSDictionary
+        let dictProduct = items[(indexPath as NSIndexPath).row] as! [String:Any]
         let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct)
-        let valuesItems = itemShow[0] as NSDictionary
+        let valuesItems = itemShow[0] as [String:Any]
         //valuesItems["skuid"] as! String
         let pesableValue = valuesItems["pesable"] as! String == "true" ? true : false
         let isActiveValue = valuesItems["isActive"] as! String == "true" ? true : false

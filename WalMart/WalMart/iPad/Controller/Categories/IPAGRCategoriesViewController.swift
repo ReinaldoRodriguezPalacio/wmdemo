@@ -148,7 +148,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controllerAnimateView = IPACategoriesResultViewController()
         controllerAnimateView.setValues(idDepartment, family: idFamDefault, line: idLineDefault, name:nameLineDefault)
         
-        NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercased()))
+        //NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercased()))
         
         controllerAnimateView.frameStart = CGRect(x: (cellSelected?.frame.minX)!, y: 0, width: 330, height: 216)
         controllerAnimateView.frameEnd = self.view.bounds
@@ -268,7 +268,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controller.idDepartment = department
         controller.idLine = line
         controller.titleHeader = name
-        controller.searchFromContextType = SearchServiceFromContext.fromLineSearch
+        controller.searchFromContextType = SearchServiceFromContext.FromLineSearch
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -331,7 +331,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                 self.newModalView!.resizeViewContent(NSLocalizedString("gr.address.title", comment: ""),view: addAddress)
             }
             
-            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
+            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[[String:Any]]) in
                 let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
                 var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
                 storeViewHeight = max(minViewHeigth,storeViewHeight)

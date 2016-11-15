@@ -79,7 +79,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
    
     func invokeRecentProducts(){
         let service = GRRecentProductsService()
-        service.callService({ (resultado:NSDictionary) -> Void in
+        service.callService({ (resultado:[String:Any]) -> Void in
             self.contResult(resultado)
             // TODO : Servicios En walmart validar con servicio
             self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]! as AnyObject , isShoppingCart: false) 
@@ -97,7 +97,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         })
     }
     
-    func contResult(_ resultDictionary: NSDictionary) {
+    func contResult(_ resultDictionary: [String:Any]) {
         let productItemsOriginal = resultDictionary["responseArray"] as! [Any]
         
         if productItemsOriginal.count > 0{
@@ -109,7 +109,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     /**
      Create a dictionary of items by grouping them sections
      
-     - parameter resultDictionary: NSDictionary recent products service
+     - parameter resultDictionary: [String:Any] recent products service
      */
     class func adjustDictionary(_ resultDictionary: AnyObject, isShoppingCart:Bool) -> [[String:Any]] {
         var recentLineItems : [Any] = []
@@ -125,13 +125,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         var objectsFinal : [[String:Any]] = []
         var indi = 0
     
-        //search different lines and add in NSDictionary
+        //search different lines and add in [String:Any]
         if productItemsOriginal.count > 0 {
             var flagOther = false
             for objProduct in productItemsOriginal as! [[String:Any]] {
                 if (objProduct["familyName"] as? String) != nil {
-                    var lineObj :  NSDictionary = [:]
-                    lineObj = objProduct as NSDictionary
+                    var lineObj :  [String:Any] = [:]
+                    lineObj = objProduct as [String:Any]
                     
                     if lineObj.count > 0 {
                         if indi == 0 {
@@ -178,19 +178,19 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
         }
         
-        //add products NSDictionary in each lines
+        //add products [String:Any] in each lines
         for indx in 0 ..< recentLineItems.count {
-            var objectsLine : [NSDictionary] = []
+            var objectsLine : [[String:Any]] = []
             var indLine = 0
             var lineString = ""
             
             for idx in 0 ..< productItemsOriginal.count {
-                let objProduct = productItemsOriginal[idx] as! NSDictionary
+                let objProduct = productItemsOriginal[idx] as! [String:Any]
                 let obj = recentLineItems[indx]
                 
-                var lineObj : NSDictionary = [:]
+                var lineObj : [String:Any] = [:]
                 if isShoppingCart {
-                    if let lineObjValue = objProduct["fineContent"] as? NSDictionary {
+                    if let lineObjValue = objProduct["fineContent"] as? [String:Any] {
                         lineObj = lineObjValue
                     }
                 } else {
@@ -235,7 +235,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let listObj = self.recentProductItems[section] as NSDictionary
+        let listObj = self.recentProductItems[section] as [String:Any]
         let prodObj = listObj["products"]
         return (prodObj! as AnyObject).count
     }
@@ -254,7 +254,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         headerView.backgroundColor = UIColor.white
         let titleLabel = UILabel(frame: CGRect(x: 15.0, y: 0.0, width: self.view.frame.width, height: heightHeaderTable))
         
-        let listObj = self.recentProductItems[section] as NSDictionary
+        let listObj = self.recentProductItems[section] as [String:Any]
         titleLabel.text = listObj["name"] as? String
         titleLabel.textColor = WMColor.light_blue
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
@@ -266,7 +266,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
         
-        let listObj = self.recentProductItems[(indexPath as NSIndexPath).section] as NSDictionary
+        let listObj = self.recentProductItems[(indexPath as NSIndexPath).section] as [String:Any]
         let prodObj = listObj["products"] as! NSArray
         let objProduct = prodObj[(indexPath as NSIndexPath).row] as! [String:Any]
         //image

@@ -12,12 +12,12 @@ class GRZipCodeService : GRBaseService {
     
     var code : String? = nil
     
-    func buildParams(_ zipCode:String) -> NSDictionary{
+    func buildParams(_ zipCode:String) -> [String:Any]{
        return ["zipCode":zipCode]
     }
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

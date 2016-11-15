@@ -245,7 +245,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                 
                 let serviceZip = GRZipCodeService()
                 serviceZip.buildParams(padding + zipCode )
-                serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
                     
                     self.resultDict = result
                     self.neighborhoods = []
@@ -254,11 +254,11 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                     let zipreturned = result["zipCode"] as! String
                     self.zipcode.text = zipreturned
                     
-                    self.neighborhoodsDic = result["neighbourhoods"] as! [NSDictionary]
+                    self.neighborhoodsDic = result["neighbourhoods"] as! [[String:Any]]
                     for dic in  self.neighborhoodsDic {
                         self.neighborhoods.append(dic["neighbourhoodName"] as! String!)
-                    }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
-                    self.storesDic = result["stores"] as! [NSDictionary]
+                    }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
+                    self.storesDic = result["stores"] as! [[String:Any]]
                     for dic in  self.storesDic {
                         let name = dic["storeName"] as! String!
                         let cost = dic["cost"] as! String!

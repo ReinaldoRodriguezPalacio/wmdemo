@@ -160,7 +160,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
     }
     
     func saveBock(_ sender:UIButton?,successBlock:((Bool) -> Void)?) {
-        var params : NSDictionary? = nil
+        var params : [String:Any]? = nil
         var service :  BaseService!
         
         switch (typeAddress) {
@@ -197,7 +197,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
             
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             
-            service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
+            service.callPOSTService(params!, successBlock:{ (resultCall:[String:Any]?) in
                 if let message = resultCall!["message"] as? String {
                     let addres  = params!["AddressID"] as? String
                     self.alertView!.setMessage(NSLocalizedString("profile.address.add.ok",comment:""))

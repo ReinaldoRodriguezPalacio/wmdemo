@@ -33,7 +33,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
     var alertSaveSuccess : (() -> Void)? = nil
     var alertClose : (() -> Void)? = nil
     var cancelPress : (() -> Void)? = nil
-    var beforeAddAddress :  ((_ dictSend:NSDictionary?) -> Void)? = nil
+    var beforeAddAddress :  ((_ dictSend:[String:Any]?) -> Void)? = nil
     var showMessageCP : (() -> Void)? = nil
     
     
@@ -97,7 +97,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
         self.sAddredssForm!.allAddress = []
         self.sAddredssForm?.defaultPrefered = true
         self.sAddredssForm!.delegate = self
-        self.sAddredssForm!.item =  NSDictionary()
+        self.sAddredssForm!.item =  [String:Any]()
         
        // viewContentOptions.bounds)
         self.sAddredssForm.store!.isRequired = false
@@ -285,7 +285,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
     }
 
     
-    func registryAddress(_ dictSend:NSDictionary?) {
+    func registryAddress(_ dictSend:[String:Any]?) {
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NEW_ADDRESS_AUTH.rawValue, action:WMGAIUtils.ACTION_SAVE_NEW_ADDRESS.rawValue , label: "")
         
@@ -297,7 +297,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
          
-            service.callPOSTService(dictSend!, successBlock:{ (resultCall:NSDictionary?) in
+            service.callPOSTService(dictSend!, successBlock:{ (resultCall:[String:Any]?) in
                 
                 print("Se realizo la direccion")
                 if let message = resultCall!["message"] as? String {
@@ -317,7 +317,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
             self.scrollForm.resignFirstResponder()
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+            service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 print("Se realizo la direccion")
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
@@ -334,7 +334,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
 
     }
     
-   /* func setData(addressPreferred:NSDictionary) {
+   /* func setData(addressPreferred:[String:Any]) {
         self.sAddredssForm.shortNameField!.text = addressPreferred["name"] as! String!
         self.sAddredssForm.outdoornumber!.text = addressPreferred["outerNumber"] as! String!
         self.sAddredssForm.indoornumber!.text = addressPreferred["innerNumber"] as! String!

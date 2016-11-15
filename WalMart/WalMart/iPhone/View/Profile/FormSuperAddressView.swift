@@ -58,9 +58,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var cellPhone : FormFieldView!
     var phoneHomeNumber : FormFieldView!
     
-    var neighborhoodsDic : [NSDictionary]! = []
-    var storesDic : [NSDictionary]! = []
-    var resultDict : NSDictionary! = [:]
+    var neighborhoodsDic : [[String:Any]]! = []
+    var storesDic : [[String:Any]]! = []
+    var resultDict : [String:Any]! = [:]
     
     var selectedStore : IndexPath!
     var selectedNeighborhood : IndexPath!
@@ -296,7 +296,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 
                 let serviceZip = GRZipCodeService()
                 serviceZip.buildParams(padding + zipCode )
-                serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
                     
                     self.resultDict = result
                     self.neighborhoods = []
@@ -305,16 +305,16 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     let zipreturned = result["zipCode"] as! String
                     self.zipcode.text = zipreturned
                     
-                    self.neighborhoodsDic = result["neighborhoods"] as! [NSDictionary]
+                    self.neighborhoodsDic = result["neighborhoods"] as! [[String:Any]]
                     for dic in  self.neighborhoodsDic {
                         self.neighborhoods.append(dic["name"] as! String!)
-                    }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
-                    self.storesDic = result["stores"] as! [NSDictionary]
+                    }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
+                    self.storesDic = result["stores"] as! [[String:Any]]
                     for dic in  self.storesDic {
                         let name = dic["name"] as! String!
                         let cost = dic["cost"] as! String!
                         self.stores.append("\(name) - \(cost)")
-                    }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                    }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
                     
                     /*if self.stores.count == 0 {
                         
@@ -647,7 +647,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     func validateShortName(_ addressId:String)-> Bool {
         let id = addressId == "" ? "-1" : addressId
         if self.allAddress?.count > 0 {
-            for item in  self.allAddress as! [NSDictionary]{
+            for item in  self.allAddress as! [[String:Any]]{
                 let idItem = item["id"] as! String
                 let name = item["name"] as! String
                 if id != idItem && name.uppercased() ==  addressName!.text!.uppercased() {
@@ -682,13 +682,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     func setZipCodeAnfFillFields(_ zipcode:String,neighborhoodID:String,storeID:String) {
         let serviceZip = GRZipCodeService()
         serviceZip.buildParams(self.zipcode.text!)
-        serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
             
             self.resultDict = result
             self.neighborhoods = []
             self.stores = []
             
-            self.neighborhoodsDic = result["neighborhoods"] as! [NSDictionary]
+            self.neighborhoodsDic = result["neighborhoods"] as! [[String:Any]]
             var index = 0
             for dic in  self.neighborhoodsDic {
                 
@@ -703,9 +703,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     self.selectedNeighborhood = IndexPath(row: 0, section: 0)
                 }
                 index += 1
-            }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+            }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
             
-            self.storesDic = result["stores"] as! [NSDictionary]
+            self.storesDic = result["stores"] as! [[String:Any]]
             for dic in  self.storesDic {
                 let name = dic["name"] as! String!
                 let cost = dic["cost"] as! String!
@@ -723,7 +723,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     self.selectedStore = IndexPath(row: 0, section: 0)
                 }
                 
-            }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+            }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
             
             
             //            self.picker!.selected = self.selectedStore

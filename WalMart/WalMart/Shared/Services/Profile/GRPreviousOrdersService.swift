@@ -13,7 +13,7 @@ class GRPreviousOrdersService : GRBaseService  {
     let JSON_ORDERS_RESULT = "responseArray"
     
     func callService(_ successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
             let itemResult = resultCall[self.JSON_ORDERS_RESULT] as! NSArray
             successBlock!(itemResult)
             }) { (error:NSError) -> Void in

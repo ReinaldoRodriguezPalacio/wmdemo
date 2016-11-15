@@ -221,7 +221,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["priceInfo"] as! NSDictionary
+            //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["priceInfo"] as! [String:Any]
             self.subtotal = Int(UserCurrentSession.sharedInstance.itemsMG!["rawSubtotal"] as? String ?? "0") as NSNumber!//subtotal
             self.ivaprod = Int(UserCurrentSession.sharedInstance.itemsMG!["amount"] as? String ?? "0") as NSNumber!//ivaSubtotal
             self.totalest = UserCurrentSession.sharedInstance.itemsMG!["total"] as! NSNumber//totalEstimado
@@ -271,7 +271,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             return 1
         }
         
-        listObj = self.itemsInCartOrderSection[section - 1] as NSDictionary
+        listObj = self.itemsInCartOrderSection[section - 1] as [String:Any]
         productObje = listObj["products"] as! NSArray
         
         if section == (self.itemsInCartOrderSection.count) {
@@ -329,7 +329,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                 }
             }
            
-            addressService.callService({ (resultCall:NSDictionary) -> Void in
+            addressService.callService({ (resultCall:[String:Any]) -> Void in
                 if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
                 {
                     if shippingAddress.count > 0 {
@@ -370,7 +370,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
 
    override func loadCrossSell() {
     for itemSection in 0 ..< itemsInShoppingCart.count {
-        let listObj = self.itemsInShoppingCart[itemSection] as NSDictionary
+        let listObj = self.itemsInShoppingCart[itemSection] as [String:Any]
         if listObj.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
@@ -454,8 +454,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     
     func serviceUrl(_ serviceName:String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
-        let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! NSDictionary
-        let environmentServices = services.object(forKey: environment) as! NSDictionary
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
+        let environmentServices = services.object(forKey: environment) as! [String:Any]
         let serviceURL =  environmentServices.object(forKey: serviceName) as! String
         return serviceURL
     }
@@ -594,7 +594,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
 
         
-        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs) as NSDictionary, successBlock: { (result:NSDictionary) -> Void in
+        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs) as [String:Any], successBlock: { (result:[String:Any]) -> Void in
             print("Error not done")
             
             if self.viewLoad != nil {

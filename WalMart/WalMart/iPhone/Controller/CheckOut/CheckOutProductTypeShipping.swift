@@ -50,7 +50,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     var selectedDateIdx: IndexPath! = IndexPath(row: 0, section: 0)
     var titleString : String?
     
-    var paymentSelected : NSDictionary?
+    var paymentSelected : [String:Any]?
     var errorView : FormFieldErrorView? = nil
 
     var viewLoad : WMLoadingView!
@@ -306,9 +306,9 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         let service =  DisplaySlotsService()
         
-        service.callService(requestParams: service.buildParamsHomeDelivery(type), succesBlock: { (responce:NSDictionary) in
+        service.callService(requestParams: service.buildParamsHomeDelivery(type), succesBlock: { (responce:[String:Any]) in
             
-            let slots =  responce["responseObject"] as! NSDictionary
+            let slots =  responce["responseObject"] as! [String:Any]
             let key =  slots.allKeys.sorted(by: { (first, second) -> Bool in
                 let onne = first as! String
                 let two = second as! String
@@ -325,7 +325,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                     horsSlot.add(daySlot["deliveryTime"] as! String)
                     slot.add(daySlot["slotId"] as! String)
                     
-                    let date  = daySlot["DeliveryDateCalendar.time"] as! NSDictionary
+                    let date  = daySlot["DeliveryDateCalendar.time"] as! [String:Any]
                     let dayDelivery  = "\(date.object(forKey: "formattedDate") as! String)"
                     
                     if !self.dateSlot.contains(dayDelivery) {

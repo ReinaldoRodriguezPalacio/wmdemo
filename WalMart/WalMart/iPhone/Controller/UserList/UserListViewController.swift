@@ -336,13 +336,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if let _ = UserCurrentSession.sharedInstance.userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
+                successBlock: { (result:[String:Any]) -> Void in
                     self.itemsUserList = result["responseArray"] as? [Any]
                     
                     self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                         
-                        let dicFirst = first as! NSDictionary
-                        let dicSecond = second as! NSDictionary
+                        let dicFirst = first as! [String:Any]
+                        let dicSecond = second as! [String:Any]
                         let stringFirst  =  dicFirst["name"] as! String
                         let stringSecond  =  dicSecond["name"] as! String
                         
@@ -431,7 +431,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if let _ = UserCurrentSession.sharedInstance.userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
+                successBlock: { (result:[String:Any]) -> Void in
                     self.isShowingSuperlists = !self.isEditingUserList
                     self.itemsUserList = result["responseArray"] as? [Any]
                     if !self.newListEnabled && !self.isEditingUserList {
@@ -581,7 +581,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         //TODO Add
 //        let service = GRAddItemListService()
 //        let params = service.buildItemMustangObject(idList: "gl5890249", upcs:service.buildItemMustang("00750226892092", sku: "00750226892092_000897302", quantity: 2) )
-//        service.callService(params, successBlock: { (result:NSDictionary) -> Void in
+//        service.callService(params, successBlock: { (result:[String:Any]) -> Void in
 //            print("result")
 //            }, errorBlock: { (error:NSError) -> Void in
 //                print("Error at delete product from user")
@@ -592,7 +592,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 //        let service = GRUpdateItemListService()
 //        let params = service.buildItemMustangObject(idList: "gl5890249", upcs:service.buildItemMustang("00750226892092", sku: "00750226892092_000897302", quantity: 8))
 //        service.callService(params,
-//                            successBlock: { (result:NSDictionary) -> Void in
+//                            successBlock: { (result:[String:Any]) -> Void in
 //                         print("successBlock")
 //            }, errorBlock: { (error:NSError) -> Void in
 //                print("Error at delete product from user")
@@ -604,7 +604,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 //        let params = service.buildItemMustangObject(idList: "gl5890249", upcs:service.buildDeleteItemMustang("gi920004")) //repositoryId =  gi920004
 //        service.jsonFromObject(params)
 //        service.callService(params,
-//                            successBlock:{ (result:NSDictionary) -> Void in
+//                            successBlock:{ (result:[String:Any]) -> Void in
 //                                
 //                  print("successBlock ")
 //            },
@@ -769,7 +769,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParamsMustang(value),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
@@ -841,7 +841,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
                 self.alertView!.showErrorIcon("Ok")
             }
-            else if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? NSDictionary {
+            else if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? [String:Any] {
                 //let listId = listItem["id"] as! String
                 let listName = listItem["name"] as! String
 //                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
@@ -933,7 +933,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             
             let idx = self.newListEnabled ? (indexPath as NSIndexPath).row - 1 : (indexPath as NSIndexPath).row
-            if let listItem = self.itemsUserList![idx] as? NSDictionary {
+            if let listItem = self.itemsUserList![idx] as? [String:Any] {
                 let listId = listItem["repositoryId"] as! String
                 
 //                if text == nil || text!.isEmpty {
@@ -970,7 +970,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
         case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-                if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? NSDictionary {
+                if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? [String:Any] {
                     if let listId = listItem["repositoryId"] as? String {
                       self.deleteListInDB(listId)
                         
@@ -1311,7 +1311,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
       
         
-        if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? NSDictionary {
+        if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? [String:Any] {
             listCell.setValues(listObject:listItem)
         } else if let listEntity = self.itemsUserList![(indexPath as NSIndexPath).row] as? List {
             listCell.setValues(listEntity: listEntity)
@@ -1359,7 +1359,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
         
-        if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? NSDictionary {
+        if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? [String:Any] {
             if let listId = listItem["repositoryId"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
@@ -1455,8 +1455,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             let service = GRDeleteUserListService()
            
-            service.callService(service.buildParams(listId) as NSDictionary?,
-                successBlock:{ (result:NSDictionary) -> Void in
+            service.callService(service.buildParams(listId) as [String:Any]?,
+                successBlock:{ (result:[String:Any]) -> Void in
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.deleteListDone", comment:""))
@@ -1539,7 +1539,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     let service = GRUpdateListService()
             
                     service.callService(service.buildParams(firstKey!, name: name!),
-                        successBlock: { (result:NSDictionary) -> Void in
+                        successBlock: { (result:[String:Any]) -> Void in
                             let reminderService = ReminderNotificationService()
                             reminderService.listId = firstKey!
                             reminderService.updateListName(name!)
@@ -1591,7 +1591,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         //Validate list exist
         if let itemsList = self.itemsUserList {
             for itemInList in itemsList {
-                if let itemInListVal = itemInList as? NSDictionary {
+                if let itemInListVal = itemInList as? [String:Any] {
                     if let nameListSvc = itemInListVal["name"] as? String {
                         if let idListSvc = itemInListVal["id"]  as? String  {
                             if nameListSvc == nameList  && idListSvc != idLits {
@@ -1620,7 +1620,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
         let service = GRProductByTicket()
         service.callService(service.buildParams(value!) as AnyObject,
-            successBlock: { (result: NSDictionary) -> Void in
+            successBlock: { (result: [String:Any]) -> Void in
                 if let items = result["items"] as? [Any] {
                     
                     if items.count == 0 {
@@ -1648,7 +1648,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     var number = 0;
                     
                     if self.itemsUserList != nil {
-                        for item in  self.itemsUserList as! [NSDictionary]{
+                        for item in  self.itemsUserList as! [[String:Any]]{
                             if let nameList = item["name"] as? String {
                                 if nameList.uppercased().hasPrefix(name.uppercased()) {
                                     number = number+1
@@ -1662,11 +1662,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }
                     
                     
-                    saveService.callService(saveService.buildParamsMustang(name), successBlock: { (result:NSDictionary) in
+                    saveService.callService(saveService.buildParamsMustang(name), successBlock: { (result:[String:Any]) in
                         //Agregar items to list
                         let idList = result["idList"] as! String
                         let service = GRAddItemListService()
-                        service.callService(service.buildItemMustangObject(idList: idList, upcs: products), successBlock: { (result:NSDictionary) in
+                        service.callService(service.buildItemMustangObject(idList: idList, upcs: products), successBlock: { (result:[String:Any]) in
                            
                             if let cell = self.tableuserlist!.cellForRow(at: IndexPath(row: 0, section: 0)) as? NewListTableViewCell {
                                 cell.scanning = false

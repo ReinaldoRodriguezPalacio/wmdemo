@@ -329,7 +329,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
         let service = GRProductByTicket()
         service.callService(service.buildParams(barcodeValue) as AnyObject,
-            successBlock: { (result: NSDictionary) -> Void in
+            successBlock: { (result: [String:Any]) -> Void in
                 if let items = result["items"] as? [Any] {
                     
                     if items.count == 0 {
@@ -382,7 +382,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     
                     //var number = 0;
                     saveService.callService(saveService.buildParams(name, items: products),
-                        successBlock: { (result:NSDictionary) -> Void in
+                        successBlock: { (result:[String:Any]) -> Void in
                             //TODO
                             alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
                             alertView!.showDoneIcon()

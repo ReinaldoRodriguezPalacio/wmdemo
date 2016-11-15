@@ -387,13 +387,13 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
 
         
         let shoppingCartUpdateBg = ShoppingCartProductsService()
-        shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        shoppingCartUpdateBg.callService([:], successBlock: { (result:[String:Any]) -> Void in
             if  UserCurrentSession.sharedInstance.userSigned != nil {
                 UserCurrentSession.sharedInstance.userSigned = nil
                 UserCurrentSession.sharedInstance.deleteAllUsers()
                 self.reloadButtonSession()
                 let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: { (result:NSDictionary) -> Void in
+                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
                     
                     self.alertView!.setMessage("Ok")
                     self.alertView!.showDoneIcon()
@@ -524,7 +524,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
      */
     func loadGRServices(_ successBlock:((String) -> Void)?){
        
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
         service.callService(params!, successBlock: { (respose:NSArray, facet:NSArray) in

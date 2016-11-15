@@ -170,7 +170,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
         let controller = self.view.window!.rootViewController
         listCell.viewIpad = controller!.view
-        var plpArray : NSDictionary = [:]
+        var plpArray : [String:Any] = [:]
         plpArray = UserCurrentSession.sharedInstance.getArrayPLP((self.detailItems![(indexPath as NSIndexPath).row]))
         
         var through: NSString! = ""
@@ -546,7 +546,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let service = GRUserListService()
         if UserCurrentSession.sharedInstance.userSigned != nil {
             
-            service.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            service.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 
                 let  itemsUserList = result["responseArray"] as? [Any]
                 self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
@@ -586,7 +586,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 let dsc = product["description"] as! String
                 let type = product["isWeighable"] as! String //type
                 var  nameLine = ""
-                if let line = product["line"] as? NSDictionary {
+                if let line = product["line"] as? [String:Any] {
                     nameLine = line["name"] as! String
                 }
                 

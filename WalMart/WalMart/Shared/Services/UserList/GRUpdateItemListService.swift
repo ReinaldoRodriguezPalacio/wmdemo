@@ -18,20 +18,20 @@ class GRUpdateItemListService: GRBaseService {
         return ["upc":upc as AnyObject, "quantity":quantity as AnyObject, "comments":"" as AnyObject, "longDescription": "" as AnyObject, "pesable": "" as AnyObject, "equivalenceByPiece": "" as AnyObject, "promoDescription": "" as AnyObject, "productIsInStores": ""]
     }
     
-    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> NSDictionary {
+    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> [String:Any] {
         return ["upc":upc,"skuId":sku,"quantity":quantity]
         
     }
     
-    func buildItemMustangObject(idList:String, upcs:NSDictionary) -> NSDictionary {
+    func buildItemMustangObject(idList:String, upcs:[String:Any]) -> [String:Any] {
         return ["idList":idList,"items":[upcs]]
     }
 
     
-    func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.jsonFromObject(params)
+    func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 //self.manageList(resultCall) //Mustang
                 successBlock?(resultCall)

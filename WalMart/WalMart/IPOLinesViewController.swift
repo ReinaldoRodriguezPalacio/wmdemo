@@ -27,9 +27,9 @@ class IPOLinesViewController : IPOCategoriesViewController {
         imageBackground.contentMode = UIViewContentMode.left
         imageBackground.clipsToBounds = true
         
-        self.imageBackground.setImageWith(URL(string: "http://\(urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+        self.imageBackground.setImageWith(URL(string: "http://\(urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
             self.imageBackground.image = image
-            }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
+            }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
              print("Error al presentar imagen")
         }
     
@@ -90,7 +90,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
         print("familyName :::\(familyName)")
         let service =  LineService()
         
-        service.callService(requestParams: familyName as AnyObject, successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: familyName as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             let listLines  =  response["subCategories"] as! NSArray
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]

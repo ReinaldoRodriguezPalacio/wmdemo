@@ -27,9 +27,9 @@ class CarouselService : BaseService {
     
     
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //print(params)
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
             NotificationCenter.default.post(name: Notification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
             successBlock!(resultCall)

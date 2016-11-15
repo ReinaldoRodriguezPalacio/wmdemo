@@ -35,7 +35,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         self.pageController.dataSource = self
         self.pageController.view.frame = self.view.bounds
         
-        let selected = itemsToShow[ixSelected] as! NSDictionary
+        let selected = itemsToShow[ixSelected] as! [String:Any]
         let upc = selected["upc"] as! String
         let name = selected["description"] as! String
         let type = selected["type"] as! String
@@ -110,7 +110,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         if ixSelected > 0 {
             ixSelected = ixSelected - 1
             
-            let selected = itemsToShow[ixSelected] as! NSDictionary
+            let selected = itemsToShow[ixSelected] as! [String:Any]
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String
@@ -129,7 +129,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         if ixSelected + 1 < itemsToShow.count {
             ixSelected = ixSelected + 1
             
-            let selected = itemsToShow[ixSelected] as! NSDictionary
+            let selected = itemsToShow[ixSelected] as! [String:Any]
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String

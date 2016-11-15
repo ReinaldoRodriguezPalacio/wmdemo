@@ -81,7 +81,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             let cellLine = familyTable.dequeueReusableCell(withIdentifier: lineReuseIdentifier(), for: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[(indexPath as NSIndexPath).section]
             let linesArr = selectedSection["fineContent"] as! NSArray
-            let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! NSDictionary
+            let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             let selectedItem = itemLine["id"] as! String
             cellLine.setTitle(itemLine["displayName"] as! String)
             cellLine.showSeparator =  linesArr.count == (indexPath as NSIndexPath).row 
@@ -124,7 +124,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
         else {
             let selectedSection = families[(indexPath as NSIndexPath).section]
             let linesArr = selectedSection["fineContent"] as! NSArray
-            let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! NSDictionary
+            let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
 
             let controller = SearchProductViewController()
             controller.searchContextType = .WithCategoryForMG

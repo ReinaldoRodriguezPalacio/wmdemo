@@ -36,7 +36,7 @@ class ProductDetailColorSizeView: UIView {
     let buttonWidth = 20
     let buttonSpace = 30
     let backViewWidth = 28
-    var items:[[String : AnyObject]]! = nil
+    var items:[[String : Any]]! = nil
     var viewToInsert: UIView? = nil
     var scrollView: UIScrollView? = nil
     var delegate: ProductDetailColorSizeDelegate?
@@ -210,7 +210,7 @@ class ProductDetailColorSizeView: UIView {
         let backView = button.superview!
         backView.layer.borderWidth = 1
         backView.layer.borderColor = WMColor.reg_gray.cgColor
-        let item: AnyObject = items[button.tag]
+        let item: [String:Any] = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
     
@@ -222,7 +222,7 @@ class ProductDetailColorSizeView: UIView {
         let backView = button.superview!
         backView.layer.borderWidth = 1
         backView.layer.borderColor = WMColor.reg_gray.cgColor
-        let item: AnyObject = items[button.tag]
+        let item: [String:Any] = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
     

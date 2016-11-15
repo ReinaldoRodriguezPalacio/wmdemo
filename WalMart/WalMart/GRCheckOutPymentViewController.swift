@@ -387,7 +387,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.paymentString,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
         
         
-        serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
+        serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:[String:Any]) -> Void in
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
             // deliveryAmount
@@ -399,7 +399,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             
             let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
-            let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
+            let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
             
             let trakingNumber = purchaseOrder["trackingNumber"] as! String
             let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
@@ -430,7 +430,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
             let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)" as NSString)
             let formattedDate = deliveryDate.substring(to: 10)
-            let slot = purchaseOrder["slot"] as! NSDictionary
+            let slot = purchaseOrder["slot"] as! [String:Any]
             
             self.confirmOrderDictionary = ["paymentType": self.paymentId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
             self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": self.paymentId,"deliveryType": deliveryType!,"trackingNumber": trakingNumber]
@@ -580,7 +580,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     func getPayPalEnvironment() -> String{
-        let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! NSDictionary
+        let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! [String:Any]
         let environment = payPalEnvironment.object(forKey: "PayPalEnvironment") as! String
         
         if environment == "SANDBOX"{
@@ -645,7 +645,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //self.promotionIds! = ""
         
         promotionsService.setParams(paramsDic)
-        promotionsService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:NSDictionary) -> Void in
+        promotionsService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
             // self.removeViewLoad()
             if resultCall["codeMessage"] as! Int == 0
             {
@@ -688,7 +688,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.isFistShip = (self.idFreeShepping != 0)
                 
                 if self.idFreeShepping == 0 {
-                    if let listReferidos = resultCall["listReferidos"] as? NSDictionary{
+                    if let listReferidos = resultCall["listReferidos"] as? [String:Any]{
                         self.idReferido = listReferidos["idReferido"] as! Int
                         let  addIdRefered =  listReferidos["numEnviosReferidos"] as! Int
                         if addIdRefered > 0 {
@@ -818,7 +818,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
             
             discountAssociateService.setParams([:])
-            discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:NSDictionary) -> Void in
+            discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
                     var items = UserCurrentSession.sharedInstance.itemsGR as! [String:Any]
@@ -828,7 +828,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     
                     print("\(resultCall["saving"] as? Double)")
                     
-                    UserCurrentSession.sharedInstance.itemsGR = items as NSDictionary
+                    UserCurrentSession.sharedInstance.itemsGR = items as [String:Any]
                     
                     print("# de productos:: \(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
                     print("Subtotal:: \(UserCurrentSession.sharedInstance.estimateTotalGR())")
@@ -891,7 +891,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     */
     func invokePayPalCancelService(_ message: String){
         let cancelPayPalService = GRPaypalUpdateOrderService()
-        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary as NSDictionary, succesBlock: {(result:NSDictionary) -> Void in
+        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary as [String:Any], succesBlock: {(result:[String:Any]) -> Void in
             self.serviceDetail?.errorOrder(message)
             }, errorBlock: { (error:NSError) -> Void in
                 if error.code == -400 {
@@ -919,7 +919,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.confirmOrderDictionary["authorization"] = idAuthorization as AnyObject?
         print("idAuthorization::::\(idAuthorization)::::")
         
-        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary as NSDictionary, succesBlock: {(result:NSDictionary) -> Void in
+        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary as [String:Any], succesBlock: {(result:[String:Any]) -> Void in
             //self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
             
             }, errorBlock: { (error:NSError) -> Void in
@@ -1202,7 +1202,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         print(futurePaymentAuthorization.description)
         let futurePaymentService = GRPayPalFuturePaymentService()
         let responce = futurePaymentAuthorization["response"] as! [AnyHashable: Any]
-        futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
+        futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:[String:Any]) -> Void in
             //self.invokePaypalUpdateOrderService("",paymentType:"-3")
             //self.showPayPalPaymentController()
             self.sendOrder()

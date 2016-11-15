@@ -230,7 +230,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
             updateService.isInCart = true
-            updateService.callCoreDataService(skuId,upc:productId, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory as NSString,isPreorderable:isPreorderable,category:self.productDeparment,pesable:String(self.pesable) as NSString,successBlock: { (result:NSDictionary) -> Void in
+            updateService.callCoreDataService(skuId,upc:productId, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory as NSString,isPreorderable:isPreorderable,category:self.productDeparment,pesable:String(self.pesable) as NSString,successBlock: { (result:[String:Any]) -> Void in
                 
                 let totalInProducts = self.priceProduct * Double(quantity)
                 let totalPrice = NSString(format: "%.2f", totalInProducts)

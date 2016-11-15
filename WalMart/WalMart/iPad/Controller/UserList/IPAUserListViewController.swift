@@ -308,7 +308,7 @@ class IPAUserListViewController: UserListViewController {
         }
         
         selectedItem = indexPath
-        if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? NSDictionary {
+        if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? [String:Any] {
             if let listId = listItem["repositoryId"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
@@ -345,12 +345,12 @@ class IPAUserListViewController: UserListViewController {
         if UserCurrentSession.hasLoggedUser() {
             let userListsService = GRUserListService()
             userListsService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
+                successBlock: { (result:[String:Any]) -> Void in
                     self.itemsUserList = result["responseArray"] as? [Any]
                     self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                         
-                        let dicFirst = first as! NSDictionary
-                        let dicSecond = second as! NSDictionary
+                        let dicFirst = first as! [String:Any]
+                        let dicSecond = second as! [String:Any]
                         let stringFirst  =  dicFirst["name"] as! String
                         let stringSecond  =  dicSecond["name"] as! String
                         
@@ -467,7 +467,7 @@ class IPAUserListViewController: UserListViewController {
         self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParams(value),
-                            successBlock: { (result:NSDictionary) -> Void in
+                            successBlock: { (result:[String:Any]) -> Void in
                                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
                                 
                                 self.checkEditBtn()
@@ -543,7 +543,7 @@ class IPAUserListViewController: UserListViewController {
             }
         case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-                if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? NSDictionary {
+                if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? [String:Any] {
                     if let listId = listItem["repositoryId"] as? String {
                         self.deleteListInDB(listId)
                         

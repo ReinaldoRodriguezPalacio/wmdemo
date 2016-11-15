@@ -22,13 +22,13 @@ class ShoppingCartDeleteProductsService : BaseService {
     }
     
     
-    func callCoreDataService(_ upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataServiceWithParams(builParams(upc) as NSDictionary, successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(_ upc:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataServiceWithParams(builParams(upc) as [String:Any], successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
-            self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+            self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
                 //let shoppingService = ShoppingCartProductsService()
                 //shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
                 
@@ -46,7 +46,7 @@ class ShoppingCartDeleteProductsService : BaseService {
         }
     }
     
-    func callCoreDataServiceWithParams(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataServiceWithParams(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         

@@ -80,7 +80,7 @@ class ShippingAddress: AddressView {
     }
     
     
-    override func setItemWithDictionary(_ itemValues: NSDictionary) {
+    override func setItemWithDictionary(_ itemValues: [String:Any]) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
             self.name!.text = self.item!["firstName"] as? String
@@ -109,7 +109,7 @@ class ShippingAddress: AddressView {
         return super.validateAddress()
     }
     
-     override func getParams() -> NSDictionary {
+     override func getParams() -> [String:Any] {
         let paramsAdd : NSMutableDictionary? = [:]
         paramsAdd!.addEntries(from: super.getParams() as! [AnyHashable: Any])
        paramsAdd!.addEntries(from: ["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":self.telephone!.text!,"phoneExtension":"","mobileNumber":self.telephone!.text!])

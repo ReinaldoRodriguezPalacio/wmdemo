@@ -153,7 +153,7 @@ class ReminderNotificationService {
             for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
-                    let values = notification.userInfo as NSDictionary?
+                    let values = notification.userInfo as! [String:Any]?
                     if let listId = values![REMINDER_PARAM_LISTID] as? String {
                         if listId == self.listId {
                             UIApplication.shared.cancelLocalNotification(notification)
@@ -173,7 +173,7 @@ class ReminderNotificationService {
             for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
-                    let values = notification.userInfo as NSDictionary?
+                    let values = notification.userInfo as! [String:Any]?
                     if let listId = values![REMINDER_PARAM_LISTID] as? String {
                         if listId == self.listId {
                             self.currentNotificationConfig = notification.userInfo
@@ -197,7 +197,7 @@ class ReminderNotificationService {
             for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
-                    let values = notification.userInfo as NSDictionary?
+                    let values = notification.userInfo as! [String:Any]?
                     if let listId = values!["listId"] as? String {
                         if listId == self.listId {
                             exist = true

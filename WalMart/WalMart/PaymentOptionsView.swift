@@ -43,7 +43,7 @@ class PaymentOptionsView : UIView {
         if paymentItems.count > 0 {
             
             for payment in self.paymentItems{
-                let paymentTupeItem = payment as! NSDictionary
+                let paymentTupeItem = payment as! [String:Any]
                 if paymentTupeItem["paymentType"] as! String != "Paypal" {
                     let titleLabel = UILabel(frame:CGRect(x: 22, y: 0, width: widthField - 22,height: 22))
                     titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -154,7 +154,7 @@ class PaymentOptionsView : UIView {
             afterButton = sender
         }
         
-        let paymentItemSelect = self.paymentItems[sender.tag] as! NSDictionary
+        let paymentItemSelect = self.paymentItems[sender.tag] as! [String:Any]
         let selected = paymentItemSelect["id"] as! String
         self.selectedOption!(selected,paymentItemSelect["paymentType"] as! String)
        

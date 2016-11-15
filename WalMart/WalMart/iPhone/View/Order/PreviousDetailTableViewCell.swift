@@ -66,7 +66,7 @@ class PreviousDetailTableViewCell : ProductDetailCharacteristicsTableViewCell {
         self.descLabel.isHidden = true
     }
     
-    func setValuesDetail(_ values:NSDictionary){
+    func setValuesDetail(_ values:[String:Any]){
         
         self.itemShipping = values as! [AnyHashable : Any]
         
@@ -86,7 +86,7 @@ class PreviousDetailTableViewCell : ProductDetailCharacteristicsTableViewCell {
         self.paymentTypeLabel.frame = CGRect(x: 16, y: self.deliveryAddressLabel.frame.maxY + 8.0, width: self.frame.width - 16.0, height: rectSize.height)
     }
     
-    func sizeCell(_ width:CGFloat,values:NSDictionary, showHeader: Bool) -> CGFloat {
+    func sizeCell(_ width:CGFloat,values:[String:Any], showHeader: Bool) -> CGFloat {
         var heigth = 16.0 as CGFloat
         
         let name = values["name"] as? String

@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol TermViewControllerDelegate {
-    func selectedDetail(_ row:Int, item: NSDictionary)
+    func selectedDetail(_ row:Int, item: [String:Any])
 }
 
 class TermViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate {// NavigationViewController,  UITableViewDelegate, UITableViewDataSource {
@@ -125,7 +125,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             let cellLine = familyTable.dequeueReusableCell(withIdentifier: lineReuseIdentifier(), for: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[(indexPath as NSIndexPath).section]
             let linesArr = selectedSection["line"] as! NSArray
-            let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! NSDictionary
+            let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             cellLine.setTitle(itemLine["title"] as! String)
             cellLine.showSeparator =  linesArr.count == (indexPath as NSIndexPath).row
             cell = cellLine
@@ -156,7 +156,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             
             let selectedSection = families[(indexPath as NSIndexPath).section]
             let linesArr = selectedSection["line"] as! NSArray
-            let item = linesArr[(indexPath as NSIndexPath).row - 1] as! NSDictionary
+            let item = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             
             
             if delegate != nil {

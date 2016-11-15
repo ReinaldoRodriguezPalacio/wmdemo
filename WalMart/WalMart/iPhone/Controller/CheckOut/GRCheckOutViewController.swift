@@ -359,7 +359,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         if  self.orderOptionsItems?.count > 0 {
             self.selectedConfirmation  = IndexPath(row: 0, section: 0)
-            let first = self.orderOptionsItems![0] as! NSDictionary
+            let first = self.orderOptionsItems![0] as! [String:Any]
             if let text = first["desc"] as? String {
                 self.confirmation!.text = text
             }
@@ -687,7 +687,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.errorView = nil
                     self.deliverySchedule!.layer.borderColor = self.deliverySchedule!.textBorderOff
                 }
-                let selectedSlot = self.slotsItems![0] as! NSDictionary
+                let selectedSlot = self.slotsItems![0] as! [String:Any]
                 self.selectedTimeSlotTypeIx = IndexPath(row: 0, section: 0)
                 self.deliverySchedule!.text = selectedSlot["displayText"] as? String
             }
@@ -730,7 +730,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             successBlock: { (result:NSArray) -> Void in
                 self.paymentOptionsItems = result as! [Any]
                 if result.count > 0 {
-                    let option = result[0] as! NSDictionary
+                    let option = result[0] as! [String:Any]
                     if let text = option["paymentType"] as? String {
                         self.paymentOptions!.text = text
                         self.selectedPaymentType = IndexPath(row: 0, section: 0)
@@ -785,7 +785,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             //self.promotionIds! = ""
         
             promotionsService.setParams(paramsDic)
-            promotionsService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:NSDictionary) -> Void in
+            promotionsService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0
                 {
@@ -828,7 +828,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     
                     if self.idFreeShepping == 0 {
-                        if let listReferidos = resultCall["listReferidos"] as? NSDictionary{
+                        if let listReferidos = resultCall["listReferidos"] as? [String:Any]{
                             
                             //for promotionln in listReferidos {
                             
@@ -904,7 +904,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
             
             discountAssociateService.setParams([:])
-            discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:NSDictionary) -> Void in
+            discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
                // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
                     var items = UserCurrentSession.sharedInstance.itemsGR as! [String:Any]
@@ -914,7 +914,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     
                     print("\(resultCall["saving"] as? Double)")
            
-                    UserCurrentSession.sharedInstance.itemsGR = items as NSDictionary
+                    UserCurrentSession.sharedInstance.itemsGR = items as [String:Any]
                     
                     self.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
                         subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
@@ -974,7 +974,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         // Implementar validacion de direccion
         let service = ShippingAddressByUserService()
         service.callService(
-            { (result:NSDictionary) -> Void in
+            { (result:[String:Any]) -> Void in
                 if let items = result["responseArray"] as? NSArray {
                     self.addressItems = items as! [Any]
                     if items.count > 0 {
@@ -1059,7 +1059,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if self.selectedAddress != nil {
             service.setParams("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"\(shouldFreeShepping)")
             service.callService(requestParams: [:],
-                successBlock: { (result:NSDictionary) -> Void in
+                successBlock: { (result:[String:Any]) -> Void in
                     self.shipmentItems = []
                     if let fixedDelivery = result["fixedDelivery"] as? String {
                         //self.shipmentType!.text = fixedDelivery
@@ -1100,7 +1100,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     
                     if self.shipmentItems!.count > 0 {
-                        let shipName = self.shipmentItems![0] as! NSDictionary
+                        let shipName = self.shipmentItems![0] as! [String:Any]
                         self.selectedShipmentTypeIx = IndexPath(row: 0, section: 0)
                         self.shipmentType!.text = shipName["name"] as? String
                     }
@@ -1194,7 +1194,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokeTimeBandsService(_ date:String,endCallTypeService:@escaping (() -> Void)) {
         let service = GRTimeBands()
         let params = service.buildParams(date, addressId: self.selectedAddress!)
-        service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
+        service.callService(requestParams: params, successBlock: { (result:[String:Any]) -> Void in
             // var date = self.deliveryDatePicker!.date
             if let day = result["day"] as? String {
                 if let month = result["month"] as? String {
@@ -1356,7 +1356,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if !self.selectedAddressHasStore{
                 let serviceAddress = GRAddressesByIDService()
                 serviceAddress.addressId = self.selectedAddress!
-                serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 self.sAddredssForm.addressName.text = result["name"] as! String!
                 self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
                 self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
@@ -1390,7 +1390,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             if self.addressItems?.count < 12 {
-            service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+            service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 //--self.addViewLoad()
                 print("Se realizo la direccion")
                 self.picker!.closeNew()
@@ -1508,17 +1508,17 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let dateYear = components.year
             let dateDay = components.day
             
-            let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! NSDictionary
+            let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! [String:Any]
             let slotSelectedId = slotSel["id"] as! Int
             
-            let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! NSDictionary
+            let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! [String:Any]
             let shipmentType = shipmentTypeSel["key"] as! String
             self.shipmentAmount = shipmentTypeSel["cost"] as! Double
             
-            let confirmTypeSel = self.orderOptionsItems![selectedConfirmation.row] as! NSDictionary
+            let confirmTypeSel = self.orderOptionsItems![selectedConfirmation.row] as! [String:Any]
             let confirmation = confirmTypeSel["key"] as! String
             
-            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! NSDictionary
+            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! [String:Any]
             let paymentSelectedId = paymentSel["id"] as! String
             
             serviceDetail = OrderConfirmDetailView.initDetail()
@@ -1534,7 +1534,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
             
-              serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
+              serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
                 // deliveryAmount
@@ -1546,7 +1546,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 
                 let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
-                let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
+                let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
                 
                 let trakingNumber = purchaseOrder["trackingNumber"] as! String
                 let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
@@ -1577,7 +1577,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
                 let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)" as NSString)
                 let formattedDate = deliveryDate.substring(to: 10)
-                let slot = purchaseOrder["slot"] as! NSDictionary
+                let slot = purchaseOrder["slot"] as! [String:Any]
                 
                 self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
                 self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber]
@@ -1778,7 +1778,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func getPayPalEnvironment() -> String{
-        let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! NSDictionary
+        let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! [String:Any]
         let environment = payPalEnvironment.object(forKey: "PayPalEnvironment") as! String
         
         if environment == "SANDBOX"{
@@ -1799,7 +1799,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.confirmOrderDictionary["authorization"] = idAuthorization as AnyObject?
         print("idAuthorization::::\(idAuthorization)::::")
 
-        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary as NSDictionary, succesBlock: {(result:NSDictionary) -> Void in
+        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary as [String:Any], succesBlock: {(result:[String:Any]) -> Void in
         //self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
 
                
@@ -1816,7 +1816,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func invokePayPalCancelService(_ message: String){
         let cancelPayPalService = GRPaypalUpdateOrderService()
-        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary as NSDictionary, succesBlock: {(result:NSDictionary) -> Void in
+        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary as [String:Any], succesBlock: {(result:[String:Any]) -> Void in
             self.serviceDetail?.errorOrder(message)
             }, errorBlock: { (error:NSError) -> Void in
             if error.code == -400 {
@@ -1872,7 +1872,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         print(futurePaymentAuthorization.description)
         let futurePaymentService = GRPayPalFuturePaymentService()
         let responce = futurePaymentAuthorization["response"] as! [AnyHashable: Any]
-        futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
+        futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:[String:Any]) -> Void in
             //self.invokePaypalUpdateOrderService("",paymentType:"-3")
              //self.showPayPalPaymentController()
                 self.sendOrder()

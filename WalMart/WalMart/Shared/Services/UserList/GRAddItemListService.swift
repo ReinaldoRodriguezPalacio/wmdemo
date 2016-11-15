@@ -26,17 +26,17 @@ class GRAddItemListService: GRBaseService {
         return ["longDescription" : "" as AnyObject, "quantity" : quantity as AnyObject, "upc" : upc as AnyObject, "pesable" : pesable as AnyObject, "equivalenceByPiece" : "" as AnyObject, "promoDescription" : "" as AnyObject, "productIsInStores" : "" as AnyObject]
     }
     
-    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> NSDictionary {
+    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> [String:Any] {
         return ["upc":upc,"skuId":sku,"quantity":quantity]
     
     }
     
-    func buildItemMustangObject(idList:String, upcs:[Any]?) -> NSDictionary {
+    func buildItemMustangObject(idList:String, upcs:[Any]?) -> [String:Any] {
         return ["idList":idList,"items":upcs!]
     }
     
     
-    func callService(_ params:NSDictionary, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         /*var toSneditem : [String:Any] = [:]
         let arrayItems = params["itemArrImp"] as! NSArray
         var arrayToSend : [[String:Any]] = []

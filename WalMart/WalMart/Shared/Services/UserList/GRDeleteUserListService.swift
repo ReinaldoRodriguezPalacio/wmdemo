@@ -13,12 +13,12 @@ class GRDeleteUserListService: GRBaseService {
     var listId: String?
     
     func buildParams(_ idList:String) -> [String:Any]! {
-        return ["idList":idList as AnyObject]
+        return ["idList":idList as Any]
     }
     
-    func callService(_ params:NSDictionary?, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String : Any]?, successBlock:(([String : Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params!,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String : Any]) -> Void in
                 successBlock?(resultCall)
                 return
             }, errorBlock: { (error:NSError) -> Void in

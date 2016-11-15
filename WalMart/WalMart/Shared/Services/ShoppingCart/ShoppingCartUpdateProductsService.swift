@@ -19,7 +19,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
         return false
     }
     
-    func callService(_ params: AnyObject,updateSC:Bool, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    func callService(_ params: AnyObject,updateSC:Bool, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:Any]] = []
@@ -50,7 +50,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
     }
     
     
-    override func callService(_ params: AnyObject, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    override func callService(_ params: AnyObject, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
        self.callService(params,updateSC:false, successBlock: successBlock, errorBlock: errorBlock)
     }
     

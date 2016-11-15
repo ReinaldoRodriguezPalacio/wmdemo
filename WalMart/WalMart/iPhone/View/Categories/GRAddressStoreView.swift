@@ -158,7 +158,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         
         let service = AddPreferedAddress()
         service.buildParams(addressID)
-        service.callService(NSDictionary() as! [String : Any],  successBlock:{ (resultCall:NSDictionary?) in
+        service.callService([String:Any]() as! [String : Any],  successBlock:{ (resultCall:[String:Any]?) in
             print("success")
             self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.\n\n Únicamente se mostrarán los productos disponibles de esta tienda.")
             self.alertView?.showDoneIconWithoutClose()
@@ -173,7 +173,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
        /* let service = GRAddressAddService()
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = addressID
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
             let name = result["name"] as! String!
             let outerNumber = result["outerNumber"] as! String!
             let innerNumber = result["innerNumber"] as! String!
@@ -185,14 +185,14 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             let state = result["state"] as! String!
             let county = result["county"] as! String!
             let neighborhoodID = result["neighborhoodID"] as! String!
-            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode,"addressID":addressID] as NSDictionary
+            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode,"addressID":addressID] as [String:Any]
             
             let dictSendpreferred = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
             
             let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId,storeName: "", operationType: "C", preferred: false)
-            service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
+            service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
                 UserCurrentSession.sharedInstance.getStoreByAddress(address)  
-                service.callService(requestParams: dictSendpreferred, successBlock: { (result:NSDictionary) -> Void in
+                service.callService(requestParams: dictSendpreferred, successBlock: { (result:[String:Any]) -> Void in
                     self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.\n\n Únicamente se mostrarán los productos disponibles de esta tienda.")
                     self.alertView?.showDoneIconWithoutClose()
                     self.alertView?.showOkButton("Ok", colorButton: WMColor.green)

@@ -548,7 +548,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
    
     func invokePreferenceService(){
         let peferences = GetPreferencesService()
-        peferences.getLocalPreferences({ (result:NSDictionary) in
+        peferences.getLocalPreferences({ (result:[String:Any]) in
                 self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
             
         }, errorBlock: { (error:NSError) in
@@ -570,7 +570,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
         }
         
-        peferencesService.callService(requestParams:params , successBlock: { (result:NSDictionary) in
+        peferencesService.callService(requestParams:params , successBlock: { (result:[String:Any]) in
             print("Preferencias Guardadas")
             
             if self.isPreferencesView {

@@ -105,7 +105,7 @@ class GRSaveUserListService : GRBaseService {
         }
     }
     
-    func manageListData(_ list:NSDictionary)  {
+    func manageListData(_ list:[String:Any])  {
         
         if  UserCurrentSession.sharedInstance.userSigned == nil {
             return

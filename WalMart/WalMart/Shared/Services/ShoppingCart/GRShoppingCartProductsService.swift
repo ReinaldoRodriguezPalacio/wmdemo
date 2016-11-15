@@ -11,12 +11,12 @@ import CoreData
 
 class GRShoppingCartProductsService : GRBaseService {
 
-    func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //if !ShoppingCartService.isSynchronizing {
             if UserCurrentSession.hasLoggedUser() {
                 synchronizeWebShoppingCartFromCoreData({ () -> Void in
                     self.callGETService(params,
-                        successBlock: { (resultCall:NSDictionary) -> Void in
+                        successBlock: { (resultCall:[String:Any]) -> Void in
                             
                             
                             let itemsInShoppingCart =  resultCall["items"] as! NSArray
@@ -119,13 +119,13 @@ class GRShoppingCartProductsService : GRBaseService {
                 })
             }
             else{
-                callCoreDataService(params as! NSDictionary,successBlock:successBlock, errorBlock:errorBlock )
+                callCoreDataService(params as! [String:Any],successBlock:successBlock, errorBlock:errorBlock )
         }
     
         //}
     }
     
-    func callCoreDataService(_ params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
@@ -139,7 +139,7 @@ class GRShoppingCartProductsService : GRBaseService {
             arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
         }
         
-        service.callService(requestParams: arrayUPCQuantity as AnyObject, successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: arrayUPCQuantity as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             print("")
             self.saveItemsAndSuccess(arrayUPCQuantity,resultCall: response,successBlock: successBlock)
             }) { (error:NSError) -> Void in
@@ -201,7 +201,7 @@ class GRShoppingCartProductsService : GRBaseService {
                 
                 //arratUpcsDelete.append(itemDeleted.product.upc)
                 if currentItem == deteted.count {
-                    serviceDelete.callService(requestParams: ["parameter":[itemDeleted.product.upc]], successBlock: { (result:NSDictionary) -> Void in
+                    serviceDelete.callService(requestParams: ["parameter":[itemDeleted.product.upc]], successBlock: { (result:[String:Any]) -> Void in
                         self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                         
                         }, errorBlock: { (error:NSError) -> Void in
@@ -231,7 +231,7 @@ class GRShoppingCartProductsService : GRBaseService {
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: ""))
             }
-            serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                     if error.code != -100 {
@@ -275,7 +275,7 @@ class GRShoppingCartProductsService : GRBaseService {
             
             print(arrayUpcsUpdate)
             
-            serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 ShoppingCartService.isSynchronizing = false
                 successBlock()
                 
@@ -296,7 +296,7 @@ class GRShoppingCartProductsService : GRBaseService {
     
     
     
-    func saveItemsAndSuccess(_ params:[[String:String]],resultCall:NSDictionary, successBlock:((NSDictionary) -> Void)?) {
+    func saveItemsAndSuccess(_ params:[[String:String]],resultCall:[String:Any], successBlock:(([String:Any]) -> Void)?) {
         let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? NSArray : []
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -324,7 +324,7 @@ class GRShoppingCartProductsService : GRBaseService {
 //        context.save(&error)
 //        
         var resultServiceCall : [String:Any] = [:]
-        var resultItems : [NSDictionary] = []
+        var resultItems : [[String:Any]] = []
         
         for shoppingCartProduct in itemsInShoppingCart! {
 
@@ -362,7 +362,7 @@ class GRShoppingCartProductsService : GRBaseService {
                 let paramUse = filtredByUpc[0] as [String:String]
                 let quantity = paramUse["quantity"]
                 carProduct.quantity = NSNumber(value: Int(quantity!)! as Int)
-                let newItemQ = NSMutableDictionary(dictionary: shoppingCartProduct as! NSDictionary)
+                let newItemQ = NSMutableDictionary(dictionary: shoppingCartProduct as! [String:Any])
                 newItemQ.setValue(quantity, forKey: "quantity")
                 newItemQ.setValue(carProduct.note,forKey: "comments")
                 resultItems.append(newItemQ )
@@ -408,7 +408,7 @@ class GRShoppingCartProductsService : GRBaseService {
         }
 
         
-        successBlock?(resultServiceCall as NSDictionary)
+        successBlock?(resultServiceCall as [String:Any])
     }
     
 }

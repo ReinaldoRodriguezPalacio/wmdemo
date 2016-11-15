@@ -470,7 +470,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.continueSearch = true
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
-            successBlock: { (response: NSDictionary) -> Void in
+            successBlock: { (response: [String:Any]) -> Void in
                 self.checkPhotoStatus(response.object(forKey: "token") as! String, idSearch: searchId)
             }, errorBlock: { (error:NSError) -> Void in
                 //ERROR
@@ -491,13 +491,13 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
        if(self.continueSearch && self.searchId == idSearch){
         let service = CamFindService()
         service.checkImg(token,
-            successBlock: { (response: NSDictionary) -> Void in
-                let resp = response.object(forKey: "status") as! String
+            successBlock: { (response: [String:Any]) -> Void in
+                let resp = response["status"] as! String
                 switch resp {
                 case ("completed"):
-                    let name = response.object(forKey: "name") as! String
+                    let name = response["name"] as! String
                     var items : [String] = []
-                    if let allItems = response.object(forKey: "items") as? [[String:Any]] {
+                    if let allItems = response["items"] as? [[String:Any]] {
                         for item in allItems {
                             let data = item["data"] as! [String:String]
                             let valueData = data["product_id"]

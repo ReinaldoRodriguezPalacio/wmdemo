@@ -19,7 +19,7 @@ class ProductDetailService : BaseService {
         print(self.useSignals)
     }
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
@@ -36,22 +36,22 @@ class ProductDetailService : BaseService {
 //        return upc
 //    }
     
-    func buildMustangParams(_ upc:String,skuId:String) -> NSDictionary{
+    func buildMustangParams(_ upc:String,skuId:String) -> [String:Any]{
     
         return ["upc":upc,"skuId":skuId]
     }
     
-    func callService(_ UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ UPC:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(requestParams:UPC as AnyObject,successBlock: successBlock, errorBlock: errorBlock)
     }
     
     
-    func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("BEFORE CALLSERVICE::")
         //self.jsonFromObject(params)
         
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-            let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as! NSDictionary
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+            let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as! [String:Any]
             successBlock!(resultObject)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

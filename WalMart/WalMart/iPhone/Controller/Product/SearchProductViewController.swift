@@ -141,7 +141,7 @@
         self.filterButton = UIButton(type: .custom)
         //self.filterButton!.setImage(iconImage, forState: .Normal)
         //elf.filterButton!.setImage(iconSelected, forState: .Highlighted)
-        self.filterButton!.addTarget(self, action: #selector(SearchProductViewController.filter(sender:)), for: .touchUpInside)
+        self.filterButton!.addTarget(self, action: #selector(SearchProductViewController.filter(_:)), for: .touchUpInside)
         self.filterButton!.tintColor = UIColor.white
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: .normal)
@@ -428,9 +428,9 @@
         //Camfind Results
         //        if indexPath.section == 0 && self.upcsToShow?.count > 0 {
         //            if self.btnSuper.selected {
-        //                item = self.itemsUPCGR![indexPath.item] as! NSDictionary
+        //                item = self.itemsUPCGR![indexPath.item] as! [String:Any]
         //            } else {
-        //                item = self.itemsUPCMG![indexPath.item] as! NSDictionary
+        //                item = self.itemsUPCMG![indexPath.item] as! [String:Any]
         //            }
         //        } else {
         
@@ -696,7 +696,7 @@
             startOffSet += 1
         }
         //TODO: Signals
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
         // self.brandText = self.idSort != "" ? "" : self.brandText
@@ -713,7 +713,7 @@
                                     self.results!.resultsInResponse = arrayProduct!.count
                                     self.results!.totalResults = arrayProduct!.count
                                     
-                                    if let item = arrayProduct?[0] as? NSDictionary {
+                                    if let item = arrayProduct?[0] as? [String:Any] {
                                         //println(item)
                                         if let results = item["resultsInResponse"] as? NSString {
                                             self.results!.resultsInResponse += results.integerValue
@@ -814,8 +814,8 @@
                 case .priceAsc :
                     //println("priceAsc")
                     self.allProducts?.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                        let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                        let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
+                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
                         
                         if priceOne < priceTwo {
                             return ComparisonResult.orderedAscending
@@ -833,8 +833,8 @@
                 default :
                     //println("priceDesc")
                     self.allProducts!.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                        let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                        let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
+                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
                         
                         if priceOne > priceTwo {
                             return ComparisonResult.orderedAscending
@@ -857,13 +857,13 @@
                 self.showLoadingIfNeeded(hidden: true)
                 self.collection?.reloadData()
                 self.collection?.alpha = 1
-                NotificationCenter.default.postNotificationName(NSNotification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
                 self.filterButton?.alpha = 1
             }
         }
     }
     
-    func priceValueFrom(dictionary:NSDictionary) -> Double {
+    func priceValueFrom(dictionary:[String:Any]) -> Double {
         var price:Double = 0.0
         
         if let priceTxt = dictionary["price"] as? NSString {
@@ -1055,8 +1055,8 @@
             case .priceAsc :
                 //println("priceAsc")
                 self.allProducts!.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
+                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
                     
                     if priceOne < priceTwo {
                         return ComparisonResult.orderedAscending
@@ -1073,8 +1073,8 @@
             case .priceDesc :
                 //println("priceDesc")
                 self.allProducts!.sort(by: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
+                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
                     
                     if priceOne > priceTwo {
                         return ComparisonResult.orderedAscending
@@ -1341,7 +1341,7 @@
         let service = GRAddItemListService()
         let pesable = cell.pesable! ? "1" : "0"
         let productObject = service.buildProductObject(upc: cell.upc as String, quantity:Int(quantity)!,pesable:pesable,active:true)
-        service.callService(service.buildParams(idList: self.idListFromSearch!, upcs: [productObject]) as NSDictionary,
+        service.callService(service.buildParams(idList: self.idListFromSearch!, upcs: [productObject]) as [String:Any],
                             successBlock: { (result:[String:Any]) -> Void in
                                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                 alertView!.showDoneIcon()

@@ -231,7 +231,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
      */
     func invokeReferedCustomerService(){
         let referedCustomerService = ReferedCustomerService()
-        referedCustomerService.callService({ (result:NSDictionary) -> Void in
+        referedCustomerService.callService({ (result:[String:Any]) -> Void in
             if (result["codeMessage"] as! Int) == 0{
                 self.numFreeShipping = 0
                 if let numFreeShippingRef = result["numFreeShippingRef"] as? Int{
@@ -264,7 +264,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
      */
     func invokeValidateActiveReferedService(){
         let validateActiveReferedService = ValidateActiveReferedService()
-        validateActiveReferedService.callService({ (result:NSDictionary) -> Void in
+        validateActiveReferedService.callService({ (result:[String:Any]) -> Void in
             if let isActive = result["responseObject"] as? Bool{
                 if isActive{
                     self.addReferedButton?.isEnabled = true
@@ -311,7 +311,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         self.alertView!.view.alpha = 0.96
         addReferedService.callService(requestParams: addReferedService.buildParamsRefered(mail, nameRef: name, isReferedAutorized: true),
-            successBlock: {(result:NSDictionary) -> Void in
+            successBlock: {(result:[String:Any]) -> Void in
                 //codeMessage 0 == OK; codeMessage -1 == NOOK
                 let codeMessage = result["codeMessage"] as! Int
                 let messageResult = result["message"] as! String

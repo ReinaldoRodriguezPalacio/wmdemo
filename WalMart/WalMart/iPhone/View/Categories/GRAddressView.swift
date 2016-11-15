@@ -18,7 +18,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var viewLoad : WMLoadingView!
     var onCloseAddressView: (() -> Void)?
     var newAdressForm: (() -> Void)?
-    var addressSelected: ((_ addressId:String,_ addressName:String,_ selectedStore:String,_ stores:[NSDictionary]) -> Void)?
+    var addressSelected: ((_ addressId:String,_ addressName:String,_ selectedStore:String,_ stores:[[String:Any]]) -> Void)?
     var blockRows:Bool = false
     var alertView: IPOWMAlertViewController?
     
@@ -112,7 +112,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? GRAddressViewCell
         var prefered = false
         
-        let item = self.addressArray[(indexPath as NSIndexPath).row] as! NSDictionary
+        let item = self.addressArray[(indexPath as NSIndexPath).row] as! [String:Any]
         let name = item["name"] as! String
         if let pref = item["preferred"] as? NSNumber{
             if pref.intValue == 1 {
@@ -145,7 +145,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         }
         self.blockRows = true
         self.addViewLoad()
-        let item = self.addressArray[(indexPath as NSIndexPath).row] as! NSDictionary
+        let item = self.addressArray[(indexPath as NSIndexPath).row] as! [String:Any]
         let validStore = item["isAddressOk"] as! String!
         if validStore == "False"{
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
@@ -156,16 +156,16 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         }
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = item["id"] as? String
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
             let zipCode = result["zipCode"] as! String!
             let storeID = result["storeID"] as! String!
             let idAddress = result["addressID"] as! String!
             let addressName = result["name"] as! String!
             let serviceZip = GRZipCodeService()
             serviceZip.buildParams(zipCode!)
-            let parameters: NSDictionary = [:]
-            serviceZip.callService(parameters, successBlock: { (result:NSDictionary) -> Void in
-                let stores = result["stores"] as! [NSDictionary]
+            let parameters: [String:Any] = [:]
+            serviceZip.callService(parameters, successBlock: { (result:[String:Any]) -> Void in
+                let stores = result["stores"] as! [[String:Any]]
                 self.addressSelected?(idAddress!,addressName!, storeID!, stores )
                 self.viewLoad.stopAnnimating()
                 }, errorBlock: { (error:NSError) -> Void in
@@ -195,7 +195,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     func callServiceAddressGR(){
         self.addViewLoad()
         let addressService = ShippingAddressByUserService()
-        addressService.callService({ (resultCall:NSDictionary) -> Void in
+        addressService.callService({ (resultCall:[String:Any]) -> Void in
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue, label:"")
             
             self.addressArray = []

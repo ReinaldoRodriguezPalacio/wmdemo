@@ -11,7 +11,7 @@ import CoreData
 
 class GRShoppingCartDeleteProductsService : GRBaseService {
     
-    func buildParams(_ upc:String) -> NSDictionary {
+    func buildParams(_ upc:String) -> [String:Any] {
         return ["parameter":[upc]]
     }
     
@@ -40,7 +40,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                     }
             }
         } else {
-            callCoreDataService(params as NSDictionary,successBlock:successBlock, errorBlock:errorBlock )
+            callCoreDataService(params as [String:Any],successBlock:successBlock, errorBlock:errorBlock )
         }
     }
 
@@ -49,7 +49,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
         self.callCoreDataService(buildParams(upc), successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callCoreDataService(_ params:NSDictionary,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         

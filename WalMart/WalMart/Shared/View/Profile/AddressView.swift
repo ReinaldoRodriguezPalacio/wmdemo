@@ -22,7 +22,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     
      var errorLabelStore: UILabel!
     
-    var item: NSDictionary? = nil
+    var item: [String:Any]? = nil
     var idAddress : String? = nil
     var idSuburb : String? = nil
     
@@ -53,9 +53,9 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     var fieldHeight  : CGFloat = CGFloat(40)
     var leftRightPadding  : CGFloat = CGFloat(15)
     
-    var neighborhoodsDic : [NSDictionary]! = []
-    var storesDic : [NSDictionary]! = []
-    var resultDict : NSDictionary! = [:]
+    var neighborhoodsDic : [[String:Any]]! = []
+    var storesDic : [[String:Any]]! = []
+    var resultDict : [String:Any]! = [:]
     var neighborhoods : [String]! = []
     var stores : [String]! = []
     
@@ -359,7 +359,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         }
     }
     
-    func setItemWithDictionary(_ itemValues: NSDictionary) {
+    func setItemWithDictionary(_ itemValues: [String:Any]) {
         self.item = itemValues
         if self.item != nil{
             //TODO:Checar por que las direcciones no traen Id
@@ -472,7 +472,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         
         
         
-        service.callService(service.buildParams(padding + zipCode),  successBlock:{ (resultCall:NSDictionary?) in
+        service.callService(service.buildParams(padding + zipCode),  successBlock:{ (resultCall:[String:Any]?) in
             self.viewLoad.stopAnnimating()
             if let city = resultCall!["city"] as? String {
                 self.city!.text = city
@@ -483,28 +483,28 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 self.currentZipCode = self.zipcode!.text!
                 
                 if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.neighborhoodsDic.count == 0  {
-                    for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
+                    for dic in  resultCall!["neighbourhoods"] as! [[String:Any]]{
                         if dic["neighbourhoodId"] as? String ==  self.idSuburb{
                             self.suburb!.text = dic["neighbourhoodName"] as? String
                             self.city!.isHidden = true
                             setElement = true
                         }// if dic["id"] as? String ==  self.idSuburb{
-                    }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                    }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
                 }//if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.listSuburb.count == 0  {
                 
-                self.neighborhoodsDic = resultCall!["neighbourhoods"] as! [NSDictionary]
+                self.neighborhoodsDic = resultCall!["neighbourhoods"] as! [[String:Any]]
                 self.neighborhoods =  []
                 var index = 0
 
-                for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
+                for dic in  resultCall!["neighbourhoods"] as! [[String:Any]]{
                     self.neighborhoods.append(dic["neighbourhoodName"] as! String!)
                     if dic["neighbourhoodId"] as? String ==  self.idSuburb{
                         self.selectedNeighborhood = IndexPath(row: index, section: 0)
                     }
                     index += 1
-                }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
                 
-                self.storesDic = resultCall!["stores"] as! [NSDictionary]
+                self.storesDic = resultCall!["stores"] as! [[String:Any]]
                 for dic in  self.storesDic {
                     let name = dic["storeName"] as! String!
                     let cost = dic["cost"] as! String!
@@ -516,7 +516,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                         self.selectedStore = IndexPath(row: self.stores.count - 1, section: 0)
                         //self.currentZipCode = self.zipcode.text!
                     }
-                }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
                 
                 
                 self.validateShowField()
@@ -651,7 +651,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     
     func validateShortName()-> Bool {
         let id = self.idAddress == nil ? "-1" : self.idAddress!
-        for item in  self.allAddress as! [NSDictionary]{
+        for item in  self.allAddress as! [[String:Any]]{
             let idItem = item["addressId"] as? NSString
             let name = item["name"] as! NSString
             if idItem != nil && id != idItem! as String && name.uppercased ==  shortNameField!.text!.uppercased() {
@@ -678,7 +678,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         return false
     }
     
-    func getParams() -> NSDictionary {//"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser,
+    func getParams() -> [String:Any] {//"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser,
            let paramsAdd : NSMutableDictionary? = [:]
         let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!]
         if idAddress != nil{
@@ -686,7 +686,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             paramsAdd?.addEntries(from: ["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser])
             return  paramsAdd!
         }
-        return paramsAddress as NSDictionary
+        return paramsAddress as [String:Any]
         
     }
     

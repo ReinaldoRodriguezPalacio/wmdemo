@@ -468,7 +468,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                 self.newModalView!.resizeViewContent(NSLocalizedString("gr.address.title", comment: ""),view: addAddress)
             }
         
-            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
+            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[[String:Any]]) in
                 let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
                 var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
                 storeViewHeight = max(minViewHeigth,storeViewHeight)

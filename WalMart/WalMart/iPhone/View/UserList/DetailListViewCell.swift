@@ -128,9 +128,9 @@ class DetailListViewCell: ProductTableViewCell {
         var upcItem = ""
         var weighable = ""
         
-        if let sku = product["sku"] as? NSDictionary {
+        if let sku = product["sku"] as? [String:Any] {
             if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                if let item =  parentProducts.object(at: 0) as? [String:Any] {
                     imageUrl = item["largeImageUrl"] as! String
                     descriptionItem = item["description"] as! String
                     upcItem = item["repositoryId"] as! String

@@ -254,7 +254,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         tblShoppingCell.rightUtilityButtons = getRightButton()
         tblShoppingCell.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
         
-        let itemProduct = itemsInCart[(indexPath as NSIndexPath).row] as! NSDictionary
+        let itemProduct = itemsInCart[(indexPath as NSIndexPath).row] as! [String:Any]
         
         let upc = itemProduct["upc"] as! String
         var quantity : Int = 0
@@ -722,7 +722,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
          allUPCS.append(upc)
         self.addViewload()
             
-            serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
+            serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
                 UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                     self.itemsInCart.removeAtIndex(indexPath.row)
                     self.removeViewLoad()
@@ -793,7 +793,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         self.addViewload()
         
-        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
+        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
             UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                 //self.loadGRShoppingCart()
                 
@@ -943,7 +943,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         service.callService( service.buildItemMustangObject(idList: listId, upcs:products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
                 self.alertView!.afterRemove = {
@@ -1075,7 +1075,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let type = item["type"] as? String
             
             var  nameLine = ""
-            if let line = item["line"] as? NSDictionary {
+            if let line = item["line"] as? [String:Any] {
                 nameLine = line["name"] as! String
             }
 
@@ -1084,7 +1084,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         service.callService(service.buildParams(name, items: products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.listSelectorController!.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()

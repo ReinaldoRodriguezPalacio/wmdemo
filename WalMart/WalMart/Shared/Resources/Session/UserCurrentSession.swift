@@ -119,7 +119,7 @@ class UserCurrentSession : NSObject {
                 let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                 let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
                 
-                loginService.callService(["profileId":idUser], successBlock: { (result:NSDictionary) -> Void in
+                loginService.callService(["profileId":idUser], successBlock: { (result:[String:Any]) -> Void in
                     print("User signed")
                     }, errorBlock: { (error:NSError) -> Void in
                 })
@@ -481,7 +481,7 @@ class UserCurrentSession : NSObject {
         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
             let userListsService = GRUserListService()
             userListsService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
+                successBlock: { (result:[String:Any]) -> Void in
 
                 },
                 errorBlock: { (error:NSError) -> Void in
@@ -508,7 +508,7 @@ class UserCurrentSession : NSObject {
     //Shopping Cart para combinar
     func loadMGShoppingCart(_ endLoadSC:@escaping (() -> Void)) {
         let service = ShoppingCartProductsService()
-        service.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        service.callService([:], successBlock: { (result:[String:Any]) -> Void in
             print(result)
             self.itemsMG = result as! [String : Any]
             endLoadSC()
@@ -525,7 +525,7 @@ class UserCurrentSession : NSObject {
     /*func loadGRShoppingCart(endLoadSC:(() -> Void)) {
         let service = GRShoppingCartProductsService()
         service.callService(requestParams: [:],
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 self.itemsGR = resultCall
                 endLoadSC()
             },
@@ -800,15 +800,15 @@ class UserCurrentSession : NSObject {
         return fetchedResult?.count != 0
     }
     
-    func getStoreByAddress(_ address: NSDictionary){
+    func getStoreByAddress(_ address: [String:Any]){
         self.storeId = address["storeID"] as? String
         self.storeName = address["storeName"] as? String
         self.addressId = address["addressID"] as? String
         if self.storeId != nil && (self.storeName == nil || self.storeName!.isEmpty) {
             let serviceZip = GRZipCodeService()
             serviceZip.buildParams(address["zipCode"] as! String)
-            serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
-                let storesDic = result["stores"] as! [NSDictionary]
+            serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
+                let storesDic = result["stores"] as! [[String:Any]]
                 for dic in  storesDic {
                     let name = dic["name"] as! String!
                     let idStore = dic["id"] as! String!
@@ -825,7 +825,7 @@ class UserCurrentSession : NSObject {
     }
     
     
-    func getArrayPLP(_ Item: [String:Any]) ->  NSDictionary{
+    func getArrayPLP(_ Item: [String:Any]) ->  [String:Any]{
         //Add priceEvent, promotion, characteristics
         var plpShow : [String:Any] = [:]
         var dicReturn : [String:Any] = [:]
@@ -873,14 +873,14 @@ class UserCurrentSession : NSObject {
         //Promotion
         var flagPromAho = true
         
-        if (Item["promotion"] as AnyObject).count > 0 {//  as? NSDictionary
+        if (Item["promotion"] as AnyObject).count > 0 {//  as? [String:Any]
             let lenght = (Item["promotion"]! as AnyObject).count
             let promotion = Item["promotion"] as? NSArray
             
             for idx in 0 ..< lenght!{
                 
                 plpShow = [:]
-                let description = promotion![idx] as! NSDictionary
+                let description = promotion![idx] as! [String:Any]
                 
                 switch description["description"] as! String {
                 case "MSI":
@@ -960,7 +960,7 @@ class UserCurrentSession : NSObject {
         
         dicReturn = ["arrayItems":plpArray, "promo": promoDescription, "isMore": isMoreSave]
         
-        return dicReturn as NSDictionary
+        return dicReturn as [String:Any]
     }
     
 }

@@ -396,7 +396,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //        case 0:
         //            let cell = tableView.dequeueReusableCellWithIdentifier("ProductsCell", forIndexPath: indexPath) as SearchSingleViewCell
         //            if self.elements != nil && self.elements!.count > 0 {
-        //                let item = self.elements![indexPath.row] as? NSDictionary
+        //                let item = self.elements![indexPath.row] as? [String:Any]
         //                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:field!.text, andPrice:item!["price"] as NSString  )
         //            }
         //
@@ -405,7 +405,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as! SearchCategoriesViewCell
         if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
             if (indexPath as NSIndexPath).row < self.elementsCategories?.count {
-                let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? NSDictionary
+                let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? [String:Any]
                 cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:field!.text!, andDepartament:item!["departament"] as! String  )
             }
         }
@@ -489,10 +489,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        if indexPath.section == 0 {
-        //            let item = self.elements![indexPath.row] as? NSDictionary
+        //            let item = self.elements![indexPath.row] as? [String:Any]
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
         //        }else{
-        let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? NSDictionary
+        let item = self.elementsCategories![(indexPath as NSIndexPath).row] as? [String:Any]
         self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? String == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
         //        }
     }

@@ -306,9 +306,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if self.products != nil  && self.products!.count > 0  {
                     for i in 0...self.products!.count - 1 {
                         let item =  self.products![i] //as? [String:Any]
-                        if let sku = item["sku"] as? NSDictionary {
+                        if let sku = item["sku"] as? [String:Any] {
                             if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                                if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                                if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                     self.selectedItems?.add(item["repositoryId"] as! String)
                                 }
                             }
@@ -516,15 +516,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if  UserCurrentSession.hasLoggedUser() {
                     var index = 0
                     for lines in self.products! {
-                        var productItem : NSDictionary? = [:]
+                        var productItem : [String:Any]? = [:]
                         
                         let quantityItem = lines["quantityDesired"] as! String
                         let priceItem = lines["specialPrice"] as! String
                         
-                        if let sku = lines["sku"] as? NSDictionary {
+                        if let sku = lines["sku"] as? [String:Any] {
                             
                             if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                                if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                                if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                     productItem = item
                                 }
                             }
@@ -773,9 +773,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 for upcSelected in selectedItems! {
                     for lines in self.products! {
                         let upc = upcSelected as! String
-                        if let sku = lines["sku"] as? NSDictionary {
+                        if let sku = lines["sku"] as? [String:Any] {
                             if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                                if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                                if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                     if  item["repositoryId"] as! String  == upc {
                                         
                                         if let typeProd = sku["weighable"] as? NSString {
@@ -880,7 +880,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         //self.newArrayProducts = []
         if UserCurrentSession.hasLoggedUser() {
             for items in self.products! {
-                let line = items["fineContent"] as? NSDictionary
+                let line = items["fineContent"] as? [String:Any]
                 let lineId = line!["fineLineName"] as? String
                 if  !linesArray.contains(lineId!) {
                     print("se agrega")
@@ -890,7 +890,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             for lineArray in linesArray {
                 var arrayitems : [Any] = []
                 for  items in self.products!  {
-                    let line = items["fineContent"] as? NSDictionary
+                    let line = items["fineContent"] as? [String:Any]
                     let lineId = line!["fineLineName"] as? String
                     
                     if lineId! == lineArray as! String {
@@ -990,14 +990,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.detailDelegate = self
         listCell.delegate = self
         
-        var plpArray : NSDictionary = [:]
+        var plpArray : [String:Any] = [:]
             if self.products!.count > 0{
                 let items = self.products![(indexPath as NSIndexPath).row]
            
                 var upc = ""
-                if let sku = items["sku"] as? NSDictionary {
+                if let sku = items["sku"] as? [String:Any] {
                     if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                        if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                        if let item =  parentProducts.object(at: 0) as? [String:Any] {
                             upc = item["repositoryId"] as! String
                         }
                     }
@@ -1041,9 +1041,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             for idx in 0 ..< self.products!.count {
                 if let product = self.products![idx] {
                     
-                    if let sku = product["sku"] as? NSDictionary {
+                    if let sku = product["sku"] as? [String:Any] {
                         if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                            if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                            if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                 let upc = item["repositoryId"] as! String
                                 let description = item["description"] as! String
                                 
@@ -1185,9 +1185,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                     
-                    if let sku = item["sku"] as? NSDictionary {
+                    if let sku = item["sku"] as? [String:Any] {
                         if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                            if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                            if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                 self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku.object(forKey: "id") as! String, quantity: Int(quantity)!)
                             }
                         }
@@ -1236,7 +1236,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let detailService = UserListDetailService()
         
         detailService.callService(detailService.buildParams(self.listId!),
-                                  successBlock: { (result:NSDictionary) -> Void in
+                                  successBlock: { (result:[String:Any]) -> Void in
                                     
                                     self.products = result["giftlistItems"] as? [[String:Any]]
                                     self.titleLabel?.text = result["name"] as? String
@@ -1249,9 +1249,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             self.selectedItems = NSMutableArray()
                                             for i in 0...self.products!.count - 1 {
                                                 let item =  self.products![i] //as? [String:Any]
-                                                if let sku = item["sku"] as? NSDictionary {
+                                                if let sku = item["sku"] as? [String:Any] {
                                                     if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                                                        if let item =  parentProducts.object(at: 0) as? NSDictionary {
+                                                        if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                                             self.selectedItems?.add(item["repositoryId"] as! String )
                                                         }
                                                     }
@@ -1300,10 +1300,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
             let service = GRDeleteItemListService()
-            let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(repositoryId: repositoryId) as NSDictionary)
+            let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(repositoryId: repositoryId) as [String:Any])
             service.jsonFromObject(params)
             service.callService(params,
-                                successBlock:{ (result:NSDictionary) -> Void in
+                                successBlock:{ (result:[String:Any]) -> Void in
                                     self.invokeDetailListService({ () -> Void in
                                         
                                         
@@ -1344,8 +1344,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInList", comment:""))
         let service = GRDeleteItemListService()
-        service.callService(service.buildParamsArray(upcs) as NSDictionary,
-            successBlock: { (result:NSDictionary) -> Void in
+        service.callService(service.buildParamsArray(upcs) as [String:Any],
+            successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInListDone", comment:""))
                 self.alertView!.showDoneIcon()
                
@@ -1380,7 +1380,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let service = GRUpdateItemListService()
             let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildItemMustang(upc,sku: skuId, quantity: quantity))
             service.callService(params,
-                                successBlock: { (result:NSDictionary) -> Void in
+                                successBlock: { (result:[String:Any]) -> Void in
                                     self.invokeDetailListService({ () -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                                         self.alertView!.showDoneIcon()
@@ -1624,7 +1624,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let service = GRUpdateListService()
             
             service.callService(service.buildParams(self.listId!, name: self.nameField!.text!),
-                                successBlock: { (result:NSDictionary) -> Void in
+                                successBlock: { (result:[String:Any]) -> Void in
                                     self.titleLabel?.text = self.nameField?.text
                                     self.reminderService!.updateListName(self.nameField!.text!)
                                     self.loadServiceItems({ () -> Void in
@@ -1756,7 +1756,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.add.product.list", comment:""))
         
-        let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let useSignalsService : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let svcValidate = ProductDetailService(dictionary: useSignalsService)
         
         let upcDesc : NSString = upc as NSString
@@ -1767,7 +1767,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         //let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//position
         let params = svcValidate.buildMustangParams(paddedUPC as String, skuId:paddedUPC as String )//TODO Enviar sku
-        svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
+        svcValidate.callService(requestParams:params, successBlock: { (result:[String:Any]) -> Void in
             //[["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
             print("Correcto el producto es::::")
             self.invokeAddproductTolist(result,products: nil, succesBlock: { () -> Void in
@@ -1796,7 +1796,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     
-    func invokeAddproductTolist(_ response:NSDictionary?,products:[Any]?,succesBlock:@escaping (() -> Void)){
+    func invokeAddproductTolist(_ response:[String:Any]?,products:[Any]?,succesBlock:@escaping (() -> Void)){
         
         let service = GRAddItemListService()
         var isPesable  = ""
@@ -1817,7 +1817,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let productObject = response == nil ? [] : [service.buildProductObject(upc:upcAdd, quantity:1,pesable:isPesable,active:isActive)]
       
         service.callService(service.buildParams(idList: self.listId!, upcs: products != nil ? products : productObject),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 succesBlock()
                 self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                 self.alertView?.showDoneIcon()
@@ -1839,7 +1839,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         let service = GRProductByTicket()
         service.callService(service.buildParams(ticket) as AnyObject,
-            successBlock: { (result: NSDictionary) -> Void in
+            successBlock: { (result: [String:Any]) -> Void in
                 
                 
                 if let items = result["items"] as? [Any] {

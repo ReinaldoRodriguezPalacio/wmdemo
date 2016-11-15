@@ -10,7 +10,7 @@ import Foundation
 
 class UpdatePasswordService : BaseService {
     
-    func buildParams(_ password:String,newPassword:String) -> NSDictionary {
+    func buildParams(_ password:String,newPassword:String) -> [String:Any] {
         return ["password":password,"newPassword":newPassword]
     }
     

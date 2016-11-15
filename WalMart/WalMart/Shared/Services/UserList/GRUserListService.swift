@@ -19,11 +19,11 @@ class GRUserListService : GRBaseService {
         return context
     }()
 
-    func callService(_ params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if !isLoadingLists {
             isLoadingLists = false
             self.callGETService(params,
-                successBlock: { (resultCall:NSDictionary) -> Void in
+                successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
                     if let list = resultCall["responseArray"] as? [Any] {
                         //self.manageListData(list)
@@ -48,7 +48,7 @@ class GRUserListService : GRBaseService {
     
     //MARK: -
     
-    func mergeList(_ response:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func mergeList(_ response:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         let notSyncList = self.retrieveNotSyncList()
         
         if notSyncList != nil && notSyncList!.count > 0 {
@@ -80,7 +80,7 @@ class GRUserListService : GRBaseService {
                 } as! (Any, UnsafeMutablePointer<ObjCBool>) -> Void)
 
                 service.callService(service.buildParams(list!.name, items: items),
-                    successBlock: { (result:NSDictionary) -> Void in
+                    successBlock: { (result:[String:Any]) -> Void in
                         self.managedContext!.delete(list!)
                         self.saveContext()
                         if notSyncList!.count == 0 {
@@ -114,7 +114,7 @@ class GRUserListService : GRBaseService {
                 }
                 
                 addItemService.callService(addItemService.buildItemMustangObject(idList: listId, upcs: params),
-                    successBlock: { (result:NSDictionary) -> Void in
+                    successBlock: { (result:[String:Any]) -> Void in
                         self.managedContext!.delete(list!)
                         self.saveContext()
                         self.mergeList(response, successBlock: successBlock, errorBlock:errorBlock)
