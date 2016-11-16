@@ -14,7 +14,6 @@ import CoreData
 class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, CLLocationManagerDelegate, StoreViewDelegate, UIActionSheetDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UITextFieldDelegate {
 
     let annotationIdentifier = "StoreAnnotation"
-
     var coreLocationManager: CLLocationManager!
 
     @IBOutlet var bottomSpaceMap: NSLayoutConstraint!
@@ -30,7 +29,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var segmentedView : UIView!
     var btnMapView : UIButton!
     var btnSatView : UIButton!
-    
     
     var toggleViewBtn: WMRoundButton?
     var clubCollection: UICollectionView?
@@ -51,6 +49,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var searchField: FormFieldSearch!
     var errorView: FormFieldErrorView?
     var separator: CALayer!
+    var viewLoad : WMLoadingView!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue
@@ -59,8 +58,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     override func viewDidLoad() {
         super.viewDidLoad()
 
-      
-        
         self.clubMap!.showsUserLocation = true
         self.clubMap!.delegate = self
         
@@ -75,7 +72,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 // Fallback on earlier versions
             }
         }
-        
         
         self.segmentedView = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16,  150.0, 22.0))
         self.segmentedView.layer.borderWidth = 1
@@ -111,7 +107,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.segmentedView.backgroundColor = UIColor.whiteColor()
         self.segmentedView.addSubview(btnMapView)
         self.segmentedView.addSubview(btnSatView)
-         self.view.addSubview(self.segmentedView!)
+        self.view.addSubview(self.segmentedView!)
         
         self.toggleViewBtn = WMRoundButton()
         self.toggleViewBtn?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
@@ -167,8 +163,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.startRunning), name: UIApplicationWillEnterForegroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.stopRunning), name: UIApplicationDidEnterBackgroundNotification, object: nil)
         
-        self.loadAnnotations()
-        self.clubCollection!.reloadData()
+        self.invokeStoreLocatorService()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: CustomBarNotification.HideBar.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: CustomBarNotification.ShowBar.rawValue, object: nil)
@@ -238,17 +233,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     //MARK: - MKMapViewDelegate
 
@@ -326,7 +310,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         view.image = UIImage(named: "pin")
     }
 
-    
     func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool){
         if !self.touchPosition {
             self.usrPositionBtn!.selected = false
@@ -361,6 +344,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
 
     //MARK: - Actions
+    
     func mapViewUserDidTap() {
         self.mapViewUserDidTap(false)
     }
@@ -455,6 +439,31 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
 
     //MARK: - Utils
+    
+    func invokeStoreLocatorService() {
+        
+        self.showLoadingView()
+        
+        let storeService = StoreLocatorService()
+        storeService.callService(
+            { (response:NSDictionary) -> Void in
+                print("Call StoreLocatorService success")
+                self.removeLoadingView()
+                self.updateAnnotations()
+            },
+            errorBlock: { (error:NSError) -> Void in
+                print("Call StoreLocatorService error \(error)")
+                self.removeLoadingView()
+                self.updateAnnotations()
+            }
+        )
+        
+    }
+    
+    func updateAnnotations() {
+        self.loadAnnotations()
+        self.clubCollection!.reloadData()
+    }
     
     func memoryHotFix() {
         if !self.btnMapView.selected {
@@ -574,6 +583,26 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 UIApplication.sharedApplication().openURL(url!)
             }
             self.selectedStore = nil
+        }
+    }
+    
+    func showLoadingView() {
+        
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(self.isVisibleTab)
+    }
+    
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
         }
     }
 
@@ -700,6 +729,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     //MARK: - UITextFieldDelegate
+    
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         var txtAfterUpdate : NSString = textField.text! as String

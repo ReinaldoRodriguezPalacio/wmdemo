@@ -269,16 +269,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 print("Call DefaultListService error \(error)")
         })
         
-        let storeService = StoreLocatorService()
-        storeService.callService(
-            { (response:NSDictionary) -> Void in
-                print("Call StoreLocatorService sucess")
-            },
-            errorBlock: { (error:NSError) -> Void in
-                print("Call StoreLocatorService error \(error)")
-            }
-        )
-        
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
         caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
