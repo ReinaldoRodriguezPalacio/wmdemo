@@ -20,7 +20,7 @@ class BaseController : UIViewController {
             if !valueScreenName.isEmpty {
                 tracker.set(kGAIScreenName, value: self.getScreenGAIName())
                 let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
-                tracker.send(eventTracker as! [AnyHashable: Any])
+                tracker.send(eventTracker as! [String:Any])
             }
             
         }
@@ -54,7 +54,7 @@ class BaseController : UIViewController {
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.send(GAIDictionaryBuilder.createEvent(withCategory: category,
                         action: action,
-                        label: label, value: nil).build() as [AnyHashable: Any])
+                        label: label, value: nil).build() as [String:Any])
                 }
     }
     

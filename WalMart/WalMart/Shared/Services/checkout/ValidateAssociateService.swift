@@ -16,7 +16,7 @@ class ValidateAssociateService : BaseService {
         return ["idAssociated":idAssociated!,"determinant":determinant!]
     }
     
-    func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:[String:Any], succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             succesBlock!(resultCall)

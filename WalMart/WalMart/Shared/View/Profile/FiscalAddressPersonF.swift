@@ -147,7 +147,7 @@ class FiscalAddressPersonF: AddressView {
     
     override func getParams() -> [String:Any]{
          let paramsAdd : NSMutableDictionary? = [:]
-        paramsAdd!.addEntries(from: super.getParams() as! [AnyHashable: Any])
+        paramsAdd!.addEntries(from: super.getParams() as! [String:Any])
         //let paramsAddress =  super.getParams()
         paramsAdd?.addEntries(from: ["RFC":self.rfc!.text!,"email":self.email!.text!,"IEPS":self.ieps!.text!,"mobileNumber":self.telephone!.text!])
         paramsAdd?.addEntries(from: ["lastName2":self.lastName2!.text! ,"firstName":self.name!.text! ,"lastName":self.lastName!.text!,"persona":"F" ])

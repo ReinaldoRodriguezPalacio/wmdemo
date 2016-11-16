@@ -12,7 +12,7 @@ class NotificationFileService : BaseService {
     
     let fileNotification = "nots.json"
     
-    func saveNotification(_ notificationParams:[AnyHashable: Any]) {
+    func saveNotification(_ notificationParams:[String:Any]) {
         
         
         var notificationParamsToSave = notificationParams

@@ -21,7 +21,7 @@ class GRLinesForSearchService: GRBaseService {
     
     func callService(_ params:[String:Any], successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("PARAMS FOR GRProductBySearchService")
-        self.jsonFromObject(params)
+        self.jsonFromObject(params as AnyObject!)
         self.getManager().post(serviceUrl(), parameters: params,
             success: {(request:URLSessionDataTask!, json:AnyObject!) in
               

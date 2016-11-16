@@ -667,7 +667,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                     
                     self.alertView?.setMessage("Validando datos del asociado")
                     let service = ValidateAssociateService()
-                    service.callService(requestParams: service.buildParams(associateNumber!.text!, determinant: associateDeterminant!.text!) as AnyObject,
+                    service.callService(requestParams: service.buildParams(associateNumber!.text!, determinant: associateDeterminant!.text!),
                                         succesBlock: { (response:[String:Any]) -> Void in
                                             if response["codeMessage"] as? Int == 0 {
                                                 self.saveProfileService()

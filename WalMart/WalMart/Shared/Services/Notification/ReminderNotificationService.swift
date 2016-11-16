@@ -23,7 +23,7 @@ class ReminderNotificationService {
         NSLocalizedString("list.reminder.option.montly", comment:"")]
     let SECS_IN_DAY:TimeInterval = 60 * 60 * 24
     
-    var currentNotificationConfig: [AnyHashable: Any]?
+    var currentNotificationConfig: [String:Any]?
     var selectedPeriodicity: Int?
     var listId: String?
     var listName: String?
@@ -138,7 +138,7 @@ class ReminderNotificationService {
                 REMINDER_NOTIFICATION_VALUE: "WF",
                 REMINDER_NOTIFICATION_BUSINESS: "mg"
             ]
-            self.currentNotificationConfig = notification.userInfo
+            self.currentNotificationConfig = notification.userInfo as! [String : Any]?
         }
         UIApplication.shared.scheduleLocalNotification(notification)
         return notification
@@ -176,7 +176,7 @@ class ReminderNotificationService {
                     let values = notification.userInfo as! [String:Any]?
                     if let listId = values![REMINDER_PARAM_LISTID] as? String {
                         if listId == self.listId {
-                            self.currentNotificationConfig = notification.userInfo
+                            self.currentNotificationConfig = notification.userInfo as! [String : Any]?
                             break
                         }
                     }

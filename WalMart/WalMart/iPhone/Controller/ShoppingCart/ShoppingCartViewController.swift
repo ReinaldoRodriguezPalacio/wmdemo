@@ -642,7 +642,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as [String:Any]
-            productObje = listObj["products"] as! NSArray
+            productObje = listObj["products"]
 
         var flagSectionCel = false
         if (itemsInCartOrderSection.count) != (indexPath as NSIndexPath).section {
@@ -779,16 +779,17 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //cell.typeProd
             
             if cell.typeProd == 1 {
-                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.productId)
+                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.productId)
             } else {
-                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),upcProduct:cell.productId as String)
+                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),upcProduct:cell.productId as String)
             }
             
             selectQuantity?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
-                if cell.onHandInventory.integerValue <= Int(quantity) {
+                if (cell.onHandInventory as NSString).integerValue <= Int(quantity) {
                     self.selectQuantity?.closeAction()
+
                     
                     if cell.typeProd == 0 {
                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "")
@@ -920,7 +921,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         //getUPCItems
         self.showLoadingView()
         listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as [String:Any]
-        productObje = listObj["products"] as! NSArray
+        productObje = listObj["products"]
         let itemWishlist = productObje[(indexPath as NSIndexPath).row] 
         let upc = itemWishlist["commerceItemId"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()

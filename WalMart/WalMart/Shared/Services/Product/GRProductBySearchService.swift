@@ -55,7 +55,7 @@ class GRProductBySearchService: GRBaseService {
         ] as [String:Any]
     }
 
-    func callService(_ params:[String:Any], successBlock:(([AnyObject],_ facet:[AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([[String:Any]],_ facet:[[String:Any]]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
         self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
@@ -68,14 +68,14 @@ class GRProductBySearchService: GRBaseService {
                     return
                 }
                 
-                var newItemsArray = Array<AnyObject>()
-                var facets = Array<AnyObject>()
+                var newItemsArray = Array<[String:Any]>()
+                var facets = Array<[String:Any]>()
                 
                 if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? NSArray {
                     self.saveKeywords(items) //Creating keywords
                     
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
-                    var newItemsArray: [AnyObject] = []
+                    var newItemsArray: [[String:Any]] = []
                     for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:Any]
                         if let promodesc = item["promoDescription"] as? String{
@@ -85,7 +85,7 @@ class GRProductBySearchService: GRBaseService {
                         }
                         item["pesable"] =  item["type"] as! NSString
                         item["type"] = ResultObjectType.Groceries.rawValue as AnyObject?
-                        newItemsArray.append(item as AnyObject)
+                        newItemsArray.append(item)
                     }
                     successBlock?(newItemsArray, facets)
                 }
@@ -93,7 +93,7 @@ class GRProductBySearchService: GRBaseService {
                 //Search service Text
                 if let responseObject = resultJSON[JSON_KEY_RESPONSEOBJECT] as? [String:Any] {
                     //Array facet
-                    if let itemsFacets = responseObject["facet"] as? [AnyObject] {
+                    if let itemsFacets = responseObject["facet"] as? [[String:Any]] {
                         facets = itemsFacets
                     }
                     //Array items
@@ -105,7 +105,7 @@ class GRProductBySearchService: GRBaseService {
                                     item["saving"] = promodesc as AnyObject?
                                 }
                             }
-                            newItemsArray.append(item as AnyObject)
+                            newItemsArray.append(item)
                         }
                     }
                     

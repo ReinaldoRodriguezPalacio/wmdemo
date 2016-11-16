@@ -1866,12 +1866,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.dismiss(animated: true, completion: nil)
     }
     
-    func payPalFuturePaymentViewController(_ futurePaymentViewController: PayPalFuturePaymentViewController, didAuthorizeFuturePayment futurePaymentAuthorization: [AnyHashable: Any]) {
+    func payPalFuturePaymentViewController(_ futurePaymentViewController: PayPalFuturePaymentViewController, didAuthorizeFuturePayment futurePaymentAuthorization: [String:Any]) {
         
         // send authorization to your server to get refresh token.
         print(futurePaymentAuthorization.description)
         let futurePaymentService = GRPayPalFuturePaymentService()
-        let responce = futurePaymentAuthorization["response"] as! [AnyHashable: Any]
+        let responce = futurePaymentAuthorization["response"] as! [String:Any]
         futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:[String:Any]) -> Void in
             //self.invokePaypalUpdateOrderService("",paymentType:"-3")
              //self.showPayPalPaymentController()

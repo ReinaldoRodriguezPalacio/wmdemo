@@ -11,13 +11,15 @@
  
  
  struct SearchResult {
-    var products: NSArray? = nil
+    var products: [[String:Any]]? = nil
     var totalResults = -1
     var resultsInResponse = 0
     
-    mutating func addResults(otherProducts:NSArray) {
+    mutating func addResults(otherProducts:[[String:Any]]) {
         if self.products != nil {
-            self.products = self.products!.addingObjects(from: otherProducts as [AnyObject]) as NSArray?
+            for product in otherProducts {
+                self.products?.append(product)
+            }
         }
         else {
             self.products = otherProducts
@@ -702,25 +704,24 @@
         // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params!,
-                            successBlock: { (arrayProduct:[AnyObject]?, facet:[AnyObject]?) -> Void in
+                            successBlock: { (arrayProduct:[[String : Any]]?, facet:[[String : Any]]?) -> Void in
                                 
-                                self.facet = facet! as! [[String : AnyObject]]
+                                self.facet = facet!
                                 
                                 if arrayProduct != nil && arrayProduct!.count > 0 {
                                     
                                     //All array items
-                                    self.results!.addResults(otherProducts: arrayProduct! as NSArray)
+                                    self.results!.addResults(otherProducts: arrayProduct!)
                                     self.results!.resultsInResponse = arrayProduct!.count
                                     self.results!.totalResults = arrayProduct!.count
                                     
-                                    if let item = arrayProduct?[0] as? [String:Any] {
+                                     let item = arrayProduct![0]
                                         //println(item)
-                                        if let results = item["resultsInResponse"] as? NSString {
-                                            self.results!.resultsInResponse += results.integerValue
-                                        }
-                                        if let total = item["totalResults"] as? NSString {
-                                            self.results!.totalResults = total.integerValue
-                                        }
+                                    if let results = item["resultsInResponse"] as? NSString {
+                                        self.results!.resultsInResponse += results.integerValue
+                                    }
+                                    if let total = item["totalResults"] as? NSString {
+                                        self.results!.totalResults = total.integerValue
                                     }
                                 }
                                 else {
@@ -757,10 +758,10 @@
                     self.allProducts = self.appendArray(array1: self.allProducts!, array2: self.itemsUPC!)
                     var filtredProducts : [[String:Any]]? = []
                     for product in self.results!.products! {
-                        let productDict = product as! [String:AnyObject]
+                        let productDict = product
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPC!.contains(where: productUPC) {
-                                filtredProducts = self.appendArray(array1: filtredProducts!, array2: productDict)
+                            if !self.itemsUPC!.contains(where: { (item:[String:Any]) -> Bool  in return (item["upc"] as! String) == productUPC } ) {
+                                filtredProducts?.append(productDict)
                             }
                         }
                     }
@@ -779,9 +780,9 @@
                     self.allProducts = self.appendArray(array1:self.allProducts!, array2: self.itemsUPC!)
                     var filtredProducts : [[String:Any]] = []
                     for product in self.results!.products! {
-                        let productDict = product as! [String:Any]
+                        let productDict = product
                         if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPC!.contains(where: productUPC) {
+                            if !self.itemsUPC!.contains(where: { (item:[String:Any]) -> Bool  in return (item["upc"] as! String) == productUPC }) {
                                 filtredProducts.append(productDict)
                             }
                         }
@@ -789,7 +790,7 @@
                     
                    self.allProducts = self.appendArray(array1:self.allProducts!,array2:filtredProducts)
                 } else {
-                   self.allProducts = self.appendArray(array1:self.allProducts!, array2: self.results!.products)
+                   self.allProducts = self.appendArray(array1:self.allProducts!, array2: self.results!.products!)
                 }
             }
         }

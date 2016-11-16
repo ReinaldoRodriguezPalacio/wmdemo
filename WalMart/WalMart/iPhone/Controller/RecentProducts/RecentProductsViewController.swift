@@ -301,7 +301,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
 
         let controller = self.view.window!.rootViewController
         cellRecentProducts.viewIpad = controller!.view
-        cellRecentProducts.setValueArray(plpArray["arrayItems"] as! NSArray)
+        cellRecentProducts.setValueArray(plpArray["arrayItems"] as! [[String : Any]])
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
     }

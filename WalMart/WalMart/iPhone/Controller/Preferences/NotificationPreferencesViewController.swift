@@ -125,8 +125,8 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     
     func invokePreferenceService(){
         let peferences = GetPreferencesService()
-        peferences.getLocalPreferences({ (result: [AnyHashable:Any]) in
-            self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
+        peferences.getLocalPreferences({ (result: [String:Any]) in
+            self.userPreferences.addEntries(from: result as! [String:Any])
             self.tableview?.reloadData()
             print("Termina servicio de preferencias ")
             }, errorBlock: { (error:NSError) in

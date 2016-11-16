@@ -549,7 +549,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func invokePreferenceService(){
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:[String:Any]) in
-                self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
+                self.userPreferences.addEntries(from: result as! [String:Any])
             
         }, errorBlock: { (error:NSError) in
                 print("Error invokePreferenceService \(error.localizedDescription)")

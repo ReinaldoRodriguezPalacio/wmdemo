@@ -194,9 +194,9 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
     fileprivate func invokePreferenceService(){
         
         let peferences = GetPreferencesService()
-        peferences.getLocalPreferences({ (result:[AnyHashable:Any]) in
+        peferences.getLocalPreferences({ (result:[String:Any]) in
             
-            self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
+            self.userPreferences.addEntries(from: result)
             let categories = result["categories"] as! [[String:Any]]
             let userPreferencesCategories = result["userPreferences"] as! NSArray
             

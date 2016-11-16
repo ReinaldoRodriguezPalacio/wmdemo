@@ -692,21 +692,21 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.setTabBarHidden(false, animated: true, delegate:notification.object as! CustomBarDelegate?)
     }
     
-    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String,isPreorderable:String) -> [AnyHashable: Any] {
+    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String,isPreorderable:String) -> [String:Any] {
         return ["skuId":skuid,"upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable]
     }
     
-    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,wishlist:Bool,type:String,pesable:String,isPreorderable:String,category:String) -> [AnyHashable: Any] {
+    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,wishlist:Bool,type:String,pesable:String,isPreorderable:String,category:String) -> [String:Any] {
         return ["skuId":skuid,"upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category,"type":type]
         
     }
     
-    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,comments:String,onHandInventory:String,type:String,pesable:String,isPreorderable:String) -> [AnyHashable: Any] {
+    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,comments:String,onHandInventory:String,type:String,pesable:String,isPreorderable:String) -> [String:Any] {
         return
             ["skuId":skuid,"upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"comments":comments,"onHandInventory":onHandInventory,"wishlist":false,"type":type,"pesable":pesable,"isPreorderable":isPreorderable]
     }
     
-    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String, type:String ,isPreorderable:String) -> [AnyHashable: Any] {
+    class func buildParamsUpdateShoppingCart(_ skuid:String,upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String, type:String ,isPreorderable:String) -> [String:Any] {
         return ["skuId":skuid,"upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable, "type" : type,"isPreorderable":isPreorderable]
     }
     

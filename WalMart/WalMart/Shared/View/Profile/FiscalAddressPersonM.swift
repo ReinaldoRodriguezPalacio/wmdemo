@@ -116,9 +116,9 @@ class FiscalAddressPersonM: AddressView {
         return super.validateAddress()
     }
     
-    override func getParams() -> [AnyHashable:Any] {
-        var paramsAddress : [AnyHashable:Any]? = [:]
-        paramsAddress!.addEntries(from: super.getParams() as! [AnyHashable: Any])
+    override func getParams() -> [String:Any] {
+        var paramsAddress : [String:Any]? = [:]
+        paramsAddress!.addEntries(from: super.getParams() as! [String:Any])
         paramsAddress!.addEntries(from: [ "RFC":self.rfc!.text!, "rfcEmail":self.email!.text!,"ieps":self.ieps!.text!,"phoneNumber":self.telephone!.text!, "corporateName":self.corporateName!.text!, "name":"Empresa","persona":"M"])
         
         return paramsAddress!

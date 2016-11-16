@@ -131,7 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         self.window!.makeKeyAndVisible()
         
         if launchOptions != nil {
-            if let remoteNotifParam = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
+            if let remoteNotifParam = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String:Any] {
                 handleNotification(application,userInfo: remoteNotifParam)
             }
             
@@ -244,7 +244,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             error = error1
             coordinator = nil
             // Report any error we got.
-            var dict = [AnyHashable: Any]()
+            var dict = [String:Any]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
@@ -345,7 +345,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         return 1.0 / scaleFactor()
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [String:Any]) {
         let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
@@ -416,7 +416,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 
     }
 
-    func handleNotification(_ application: UIApplication,userInfo: [AnyHashable: Any]) {
+    func handleNotification(_ application: UIApplication,userInfo: [String:Any]) {
         if let notiicationInfo = userInfo["notification"] as? [String:Any] {
             
             //let notiicationInfo = userInfo["notification"] as! [String:Any]
@@ -486,7 +486,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         var twitter = false
         if shouldOpen {
-            let option = annotation as? [AnyHashable: Any] ?? [:]
+            let option = annotation as? [String:Any] ?? [:]
             twitter = Twitter.sharedInstance().application(application, open:url, options: option)
         }
     

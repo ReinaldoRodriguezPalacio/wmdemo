@@ -24,13 +24,13 @@ class GetPreferencesService : BaseService  {
     }
     
     
-    func getLocalPreferences(_ successBlock:(([AnyHashable:Any]) -> Void)?,errorBlock:((NSError) -> Void)?){
+    func getLocalPreferences(_ successBlock:(([String:Any]) -> Void)?,errorBlock:((NSError) -> Void)?){
         
         let values = self.getDataFromFile(fileName as NSString)
         if values != nil {
                successBlock!(values!)
         }else{
-            self.callService({ (result:[AnyHashable:Any]) in
+            self.callService({ (result:[String:Any]) in
                   successBlock!(result)
                 
                 }, errorBlock: { (error:NSError) in

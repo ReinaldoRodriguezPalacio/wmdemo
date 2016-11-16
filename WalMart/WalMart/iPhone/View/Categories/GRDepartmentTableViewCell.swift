@@ -74,10 +74,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         if loadHeader {
-            self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-                }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
+                }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
         }else{
@@ -85,10 +85,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         if loadImageIcon {
-            self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageIcon.image = image
                 self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
-                }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
+                }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
         }else{

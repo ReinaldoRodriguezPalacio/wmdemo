@@ -651,7 +651,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: [String:Any]
      */
-    func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
+    func buildParamsUpdateShoppingCart(_ quantity:String) -> [String:Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String

@@ -111,7 +111,7 @@ class ShippingAddress: AddressView {
     
      override func getParams() -> [String:Any] {
         let paramsAdd : NSMutableDictionary? = [:]
-        paramsAdd!.addEntries(from: super.getParams() as! [AnyHashable: Any])
+        paramsAdd!.addEntries(from: super.getParams() as! [String:Any])
        paramsAdd!.addEntries(from: ["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":self.telephone!.text!,"phoneExtension":"","mobileNumber":self.telephone!.text!])
        
         

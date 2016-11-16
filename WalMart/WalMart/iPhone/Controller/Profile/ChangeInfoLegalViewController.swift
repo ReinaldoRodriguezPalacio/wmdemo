@@ -245,7 +245,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:[String:Any]) in
-            self.userPreferences.addEntries(from: result as! [AnyHashable: Any])
+            self.userPreferences.addEntries(from: result as! [String:Any])
             let acceptConsent = result["receiveInfoEmail"] as! Bool
             let promoEmail = result["receiveInfoEmail"] as! Bool
             self.promoEmail?.isSelected = promoEmail
