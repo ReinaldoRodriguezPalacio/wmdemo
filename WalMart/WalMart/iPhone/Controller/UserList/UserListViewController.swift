@@ -89,8 +89,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0, 1, 0.0)
         self.header!.addSubview(self.newListBtn!)
         
-
-
         self.editBtn = UIButton(type: .Custom)
         self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
@@ -120,8 +118,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.tableuserlist!.registerClass(ListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         self.tableuserlist!.registerClass(NewListTableViewCell.self, forCellReuseIdentifier: self.NEWCELL_ID)
         
-        let defaultListSvc = DefaultListService()
-        numberOfDefaultLists = defaultListSvc.getDefaultContent().count
+        self.updateNumberOfDefaultList()
+        self.invokeDefaultUserListService()
         
         self.tableuserlist?.allowsMultipleSelection = false
         self.tableuserlist?.separatorStyle = .None
@@ -1747,6 +1745,23 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             print("searchForItems Error")
         }
         return result
+    }
+    
+    func invokeDefaultUserListService() {
+        let defaultlist = DefaultListService()
+        defaultlist.callService({ (result:NSDictionary) -> Void in
+            print("Call DefaultListService sucess")
+            self.updateNumberOfDefaultList()
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Call DefaultListService error \(error)")
+            self.updateNumberOfDefaultList()
+        })
+    }
+    
+    func updateNumberOfDefaultList() {
+        let defaultListSvc = DefaultListService()
+        numberOfDefaultLists = defaultListSvc.getDefaultContent().count
+        self.tableuserlist?.reloadData()
     }
     
 }

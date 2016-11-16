@@ -40,18 +40,22 @@ struct RecommendedCategory {
 
 class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnectionDelegate  {
     
-    var webViewSplash : UIWebView!
-    var splashDefault : UIImageView!
-    var paramsSetup : [[String:String]]!
+    var webViewSplash: UIWebView!
+    var splashDefault: UIImageView!
+    var paramsSetup: [[String:String]]!
     
-    var currentVersion : Double = 0.0
-    var minimumVersion : Double = 0.0
+    var currentVersion: Double = 0.0
+    var minimumVersion: Double = 0.0
     
     var blockScreen :Bool = false
     var splashTTL : Double = 1.0
     
-    var didHideSplash : (() -> Void)? = nil
-    var validateVersion : ((force:Bool) -> Void)? = nil
+    var didHideSplash: (() -> Void)? = nil
+    var validateVersion: ((force: Bool) -> Void)? = nil
+    
+    deinit{
+        print("Deinit splash")
+    }
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SPLASH.rawValue
@@ -81,7 +85,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
     }
     
-    func retrieveParam(key:String) -> Param? {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        splashDefault.frame = self.view.bounds
+        webViewSplash.frame = self.view.bounds
+    }
+    
+    func retrieveParam(key: String) -> Param? {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
@@ -123,14 +133,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         })
     }
     
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        splashDefault.frame = self.view.bounds
-        webViewSplash.frame = self.view.bounds
-    }
-    
-    
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if request.URL!.absoluteString.hasPrefix("ios:") {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -151,8 +153,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
     }
     
-    
-    
     func connection(connection: NSURLConnection, didFailWithError error: NSError) {
         
     }
@@ -160,7 +160,8 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         
     }
-    func configureWebView(itemsconfig:NSDictionary) {
+    
+    func configureWebView(itemsconfig: NSDictionary) {
         
         
         if let block = itemsconfig["block"] as? Bool {
@@ -246,94 +247,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         return serviceURL
     }
     
-    
-    
-    class func callUpdateServices() {
-                
-        let categoryService = CategoryService()
-        categoryService.callService(Dictionary<String, String>(),
-            successBlock: { (response:NSDictionary) -> Void in print("Call service CategoryService success") },
-            errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
-        )
-        
-        let categoryGRService = GRCategoryService()
-        categoryGRService.callService(Dictionary<String, String>(),
-            successBlock: { (response:NSDictionary) -> Void in print("Call service GRCategoryService success") },
-            errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
-        )
-        
-        let defaultlist = DefaultListService()
-        defaultlist.callService({ (result:NSDictionary) -> Void in
-            print("Call DefaultListService sucess")
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Call DefaultListService error \(error)")
-        })
-        
-        let caroService = CarouselService()
-        let caroparams = Dictionary<String, String>()
-        caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
-            print("Call service caroService success")
-            }) { (error:NSError) -> Void in
-                print("Call service caroService error \(error)")
-        }
-
-        
-        IPOSplashViewController.updateUserData(false)
-    }
-    
-    class func updateUserData(invokeService:Bool) {
-        
-        
-        /*let shoppingCartUpdateBg = ShoppingCartProductsService()
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
-        println("Call service ShoppingCartProductsService start")
-        shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
-        println("Call service ShoppingCartProductsService success")
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
-        }, errorBlock: { (error:NSError) -> Void in
-        //if error.code != -100 {
-        println("Call service ShoppingCartProductsService error")
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
-        //}
-        })*/
-        
-        UserCurrentSession.sharedInstance().loadShoppingCarts { () -> Void in
-            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
-        }
-        
-        let banService = BannerService()
-        let params = Dictionary<String, String>()
-        banService.callService(params, successBlock: { (result:NSDictionary) -> Void in
-            
-            }) { (error:NSError) -> Void in
-                print("Call service BannerService error \(error)")
-        }
-        
-        if invokeService {
-            let caroService = CarouselService()
-            let caroparams = Dictionary<String, String>()
-            caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
-                print("Call service BannerService success")
-                }) { (error:NSError) -> Void in
-                    print("Call service BannerService error \(error)")
-            }
-        }
-        
-    }
-    
-    deinit{
-        print("Deinit splash")
-    }
-    
-    
-    
     func configSplashAndGoToHome() {
         let confServ = ConfigService()
         confServ.callService([:], successBlock: { (result:NSDictionary) -> Void in
             var error: NSError?
             self.configureWebView(result)
             IPOSplashViewController.callUpdateServices()
-             UserCurrentSession.sharedInstance().finishConfig  = true
+            UserCurrentSession.sharedInstance().finishConfig  = true
             self.invokeServiceToken()
             
             if error == nil{
@@ -371,9 +291,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                             UserCurrentSession.sharedInstance().messageInCommens = message
                         }
                         if let upcs = commensChck[0].objectForKey("upcs") as? NSArray {
-                             UserCurrentSession.sharedInstance().upcSearch = upcs
+                            UserCurrentSession.sharedInstance().upcSearch = upcs
                         }
-                 
+                        
                     }
                     
                     
@@ -415,13 +335,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
                 UserCurrentSession.sharedInstance().searchForCurrentUser()
             }
-            }) { (error:NSError) -> Void in
-                self.gotohomecontroller()
+        }) { (error:NSError) -> Void in
+            self.gotohomecontroller()
         }
     }
     
     func invokeServiceToken(){
-
+        
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
         let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
@@ -430,7 +350,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             
             let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: !showNotification)
-             print("Splash")
+            print("Splash")
             print(notService.jsonFromObject(params))
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 //println( "Registrado para notificaciones")
@@ -439,6 +359,72 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 print( "Error device token: \(error.localizedDescription)" )
             }
         }
+    }
+    
+    class func callUpdateServices() {
+                
+        let categoryService = CategoryService()
+        categoryService.callService(Dictionary<String, String>(),
+            successBlock: { (response:NSDictionary) -> Void in print("Call service CategoryService success") },
+            errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
+        )
+        
+        let categoryGRService = GRCategoryService()
+        categoryGRService.callService(Dictionary<String, String>(),
+            successBlock: { (response:NSDictionary) -> Void in print("Call service GRCategoryService success") },
+            errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
+        )
+        
+        let caroService = CarouselService()
+        let caroparams = Dictionary<String, String>()
+        caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
+            print("Call service caroService success")
+            }) { (error:NSError) -> Void in
+                print("Call service caroService error \(error)")
+        }
+
+        
+        IPOSplashViewController.updateUserData(false)
+    }
+    
+    class func updateUserData(invokeService: Bool) {
+        
+        
+        /*let shoppingCartUpdateBg = ShoppingCartProductsService()
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
+        println("Call service ShoppingCartProductsService start")
+        shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        println("Call service ShoppingCartProductsService success")
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
+        }, errorBlock: { (error:NSError) -> Void in
+        //if error.code != -100 {
+        println("Call service ShoppingCartProductsService error")
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
+        //}
+        })*/
+        
+        UserCurrentSession.sharedInstance().loadShoppingCarts { () -> Void in
+            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+        }
+        
+        let banService = BannerService()
+        let params = Dictionary<String, String>()
+        banService.callService(params, successBlock: { (result:NSDictionary) -> Void in
+            
+            }) { (error:NSError) -> Void in
+                print("Call service BannerService error \(error)")
+        }
+        
+        if invokeService {
+            let caroService = CarouselService()
+            let caroparams = Dictionary<String, String>()
+            caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
+                print("Call service BannerService success")
+                }) { (error:NSError) -> Void in
+                    print("Call service BannerService error \(error)")
+            }
+        }
+        
     }
     
 }
