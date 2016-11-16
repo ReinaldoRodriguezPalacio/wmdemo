@@ -245,6 +245,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
                         controllernav?.delegate = contDetail
                     }
+                    contDetail.detailOf = "Search results"
                     controllernav?.pushViewController(contDetail, animated: true)
             })
         }
