@@ -641,8 +641,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             return 46
         }
         
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as [String:Any]
-            productObje = listObj["products"]
+        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as! [String:Any]
+        self.productObje = listObj["products"] as! [[String:Any]]
 
         var flagSectionCel = false
         if (itemsInCartOrderSection.count) != (indexPath as NSIndexPath).section {
@@ -920,8 +920,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
         //getUPCItems
         self.showLoadingView()
-        listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1] as [String:Any]
-        productObje = listObj["products"]
+        self.listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1]
+        self.productObje = listObj["products"] as! [[String:Any]]
         let itemWishlist = productObje[(indexPath as NSIndexPath).row] 
         let upc = itemWishlist["commerceItemId"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
@@ -931,7 +931,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if UserCurrentSession.sharedInstance.itemsMG != nil {
                 //self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! NSArray as [Any]
                 let itemsUserCurren = UserCurrentSession.sharedInstance.itemsMG!["commerceItems"] as! [Any]
-                self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as AnyObject, isShoppingCart: true) as! [Any]
+                self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as AnyObject, isShoppingCart: true)
                 self.arrayItems()
             }
             

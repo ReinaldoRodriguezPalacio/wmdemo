@@ -209,7 +209,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
             //let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position:"")//position
             let params = svcValidate.buildMustangParams(paddedUPC as String, skuId:paddedUPC as String ) //TODO :Enviar SKU
-            svcValidate.callService(requestParams:params, successBlock: { (result:[String:Any]) -> Void in
+            svcValidate.callService(requestParams:params as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
                 if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
@@ -258,7 +258,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
-        controller.searchFromContextType = SearchServiceFromContext.fromSearchTextSelect
+        controller.searchFromContextType = SearchServiceFromContext.FromSearchTextSelect
         let controllernav = self.currentController as? UINavigationController
         if (controllernav?.topViewController as? IPASearchProductViewController != nil){
             controllernav?.popViewController(animated: false)

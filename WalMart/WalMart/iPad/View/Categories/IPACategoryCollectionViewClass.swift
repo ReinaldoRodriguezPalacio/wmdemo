@@ -72,10 +72,10 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         }
         
         if loadHeader {
-            self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-                }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
+                }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
         }else{

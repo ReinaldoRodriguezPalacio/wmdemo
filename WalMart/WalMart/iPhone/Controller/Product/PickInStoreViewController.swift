@@ -141,7 +141,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
         self.suburbField!.onBecomeFirstResponder = { () in
             if self.neighbourhoods.count > 0 {
                 self.view.endEditing(true)
-                self.picker!.selected = self.selectedNeighborhood as NSIndexPath?? ?? IndexPath(row: 0, section: 0)
+                self.picker!.selected = self.selectedNeighborhood ?? IndexPath(row: 0, section: 0)
                 self.picker!.sender = self.suburbField!
                 self.picker!.selectOptionDelegate = self
                 self.picker!.setValues(self.suburbField!.nameField as NSString, values: self.neighbourhoods)
@@ -152,7 +152,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
         self.storeField!.onBecomeFirstResponder = { () in
             self.view.endEditing(true)
             if (self.stores.count > 0){
-                self.picker!.selected = self.selectedStore as NSIndexPath?? ?? IndexPath(row: 0, section: 0)
+                self.picker!.selected = self.selectedStore ?? IndexPath(row: 0, section: 0)
                 self.picker!.sender = self.storeField!
                 self.picker!.selectOptionDelegate = self
                 self.picker!.setValues(self.storeField!.nameField as NSString, values: self.stores)
@@ -237,20 +237,20 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
                 }
                 
                 for storeDict in self.storesDict {
-                    self.stores.append(storeDict.object(forKey: "storeName") as! String!)
+                    self.stores.append(storeDict["storeName"] as! String!)
                 }
                 
                 if self.neighbourhoods.count > 0  {
                     self.suburbField?.becomeFirstResponder()
-                    self.suburbField!.text = self.neighbourhoodsDict[0].object(forKey: "neighbourhoodName") as? String
-                    self.idSuburb = self.neighbourhoodsDict[0].object(forKey: "neighborhoodId") as? String
+                    self.suburbField!.text = self.neighbourhoodsDict.first!["neighbourhoodName"] as? String
+                    self.idSuburb = self.neighbourhoodsDict.first!["neighborhoodId"] as? String
                 }
                 
                 if  self.stores.count > 0  {
                     //self.selectedStore = NSIndexPath(forRow: 0, inSection: 0)
-                    let name = self.storesDict[0].object(forKey: "storeName") as! String!
+                    let name = self.storesDict.first!["storeName"] as! String!
                     self.storeField!.text = "\(name)"
-                    self.storeId = self.storesDict[0].object(forKey: "storeId") as! String!
+                    self.storeId = self.storesDict.first!["storeId"] as! String!
                 }
                 
             }
@@ -287,14 +287,14 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
         if (picker.sender as! FormFieldView) == self.storeField! {
             self.selectedStore = indexPath
             let store = self.storesDict[(indexPath as NSIndexPath).row]
-            self.storeField?.text = store.object(forKey: "storeName") as! String!
-            self.storeId? = store.object(forKey: "storeId") as! String!
+            self.storeField?.text = store["storeName"] as! String!
+            self.storeId? = store["storeId"] as! String!
         }
         if (picker.sender as! FormFieldView) == self.suburbField! {
             self.selectedNeighborhood = indexPath
             let suburb = self.neighbourhoodsDict[(indexPath as NSIndexPath).row]
-            self.suburbField!.text = suburb.object(forKey: "neighbourhoodName") as? String
-            self.idSuburb = suburb.object(forKey: "neighborhoodId") as? String
+            self.suburbField!.text = suburb["neighbourhoodName"] as? String
+            self.idSuburb = suburb["neighborhoodId"] as? String
         }
     }
     
@@ -318,7 +318,7 @@ class PickInStoreViewController: NavigationViewController,TPKeyboardAvoidingScro
     
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return CGSize(width: self.view.frame.width, height: self.content!.contentSize.height)
     }
 }

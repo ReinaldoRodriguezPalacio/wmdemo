@@ -99,7 +99,7 @@ class IPAHomeViewController : HomeViewController {
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-            let arrayItemsResult =  arrayItems as! [Any]
+            let arrayItemsResult =  arrayItems as! [[String:Any]]
           
             let paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = (indexPath as NSIndexPath).row
@@ -110,8 +110,8 @@ class IPAHomeViewController : HomeViewController {
                 var upc = ""
                 
                 if let sku = productRecomm["sku"] as? [String:Any] {
-                    if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                        if let item =  parentProducts.object(at: 0) as? [String:Any] {
+                    if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                        if let item =  parentProducts.first as? [String:Any] {
                             upc = item["id"] as? String ?? ""
                             desc = item["longDescription"] as! String
                         }
@@ -161,7 +161,7 @@ class IPAHomeViewController : HomeViewController {
         }else {
             controller.searchContextType = .WithCategoryForGR
         }
-        controller.findUpcsMg = upcs as? [String] as NSArray?
+        controller.findUpcsMg = upcs as? [String]
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         

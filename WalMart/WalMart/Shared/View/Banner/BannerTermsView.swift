@@ -98,7 +98,7 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
             let attributeName = "URLTERMS"
             let attributeValue = myTextView.attributedText.attribute(attributeName, at: characterIndex, effectiveRange: nil) as? String
             if let value = attributeValue {
-                openURL(url: value)
+                openURL(value)
             }
             
         }

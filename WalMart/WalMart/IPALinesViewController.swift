@@ -216,7 +216,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         searchProduct.titleHeader = name
         
         searchProduct.collection?.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.frameEnd.width, height: self.frameEnd.height), animated: false)
-        searchProduct.showLoadingIfNeeded(false)
+        searchProduct.showLoadingIfNeeded(hidden: false)
         searchProduct.brandText = ""
         
         searchProduct.getServiceProduct(resetTable: true)

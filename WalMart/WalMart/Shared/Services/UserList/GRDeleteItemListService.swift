@@ -29,7 +29,7 @@ class GRDeleteItemListService: GRAddItemListService {
     
     
     override func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.jsonFromObject(params)
+        self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)

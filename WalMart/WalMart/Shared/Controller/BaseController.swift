@@ -54,7 +54,7 @@ class BaseController : UIViewController {
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.send(GAIDictionaryBuilder.createEvent(withCategory: category,
                         action: action,
-                        label: label, value: nil).build() as [String:Any])
+                        label: label, value: nil).build() as! [AnyHashable:Any])
                 }
     }
     

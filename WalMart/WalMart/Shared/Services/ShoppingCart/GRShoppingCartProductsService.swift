@@ -19,7 +19,7 @@ class GRShoppingCartProductsService : GRBaseService {
                         successBlock: { (resultCall:[String:Any]) -> Void in
                             
                             
-                            let itemsInShoppingCart =  resultCall["items"] as! NSArray
+                            let itemsInShoppingCart =  resultCall["items"] as! [[String:Any]]
                             
                             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                             let context: NSManagedObjectContext = appDelegate.managedObjectContext!

@@ -174,12 +174,11 @@ DetailListViewCellDelegate,UIActivityItemSource {
         plpArray = UserCurrentSession.sharedInstance.getArrayPLP((self.detailItems![(indexPath as NSIndexPath).row]))
         
         var through: NSString! = ""
-        through = plpArray["promo"] as! String as NSString!
+        through = plpArray["promo"] as! NSString!
         
         listCell.setValuesDictionary(self.detailItems![(indexPath as NSIndexPath).row],disabled:!self.selectedItems!.contains((indexPath as NSIndexPath).row), productPriceThrough: through! as String, isMoreArts: plpArray["isMore"] as! Bool)
         listCell.detailDelegate = self
-        
-        listCell.setValueArray(plpArray["arrayItems"] as! NSArray)
+        listCell.setValueArray(plpArray["arrayItems"] as! [[String : Any]])
         listCell.hideUtilityButtons(animated: false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)

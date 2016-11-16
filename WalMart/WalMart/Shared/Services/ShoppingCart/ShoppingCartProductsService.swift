@@ -23,7 +23,8 @@ class ShoppingCartProductsService : BaseService {
         if !ShoppingCartService.isSynchronizing {
         if UserCurrentSession.hasLoggedUser() {
             synchronizeWebShoppingCartFromCoreData({ () -> Void in
-                self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
+                let empty: [String:Any] = [:]
+                self.callGETService(empty as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
                     
                    // let itemsInShoppingCart =  resultCall["items"] as! NSArray
                     

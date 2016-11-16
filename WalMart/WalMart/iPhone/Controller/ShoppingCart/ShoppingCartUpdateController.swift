@@ -103,10 +103,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         imageProduct = UIImageView(frame: CGRect(x: viewBgImage.frame.width / 4, y: viewBgImage.frame.width / 4, width: viewBgImage.frame.width - (viewBgImage.frame.width / 2), height: viewBgImage.frame.width - (viewBgImage.frame.width / 2)))
         
         if multipleItems == nil {
-            let imageUrl = params["imgUrl"] as! NSString
+            let imageUrl = params["imgUrl"] as! String
             
             self.imageProduct!.contentMode = UIViewContentMode.center
-            self.imageProduct!.setImageWith(URL(string: imageUrl as String), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageProduct!.setImageWith(URL(string: imageUrl), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageProduct!.contentMode = self.contentModeOrig
                 self.imageProduct!.image = image
                 }, failure: nil)
@@ -192,7 +192,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             /*if multipleItems?.count > 0 {
             callItemsService()
             }*/
-            let allItems = multipleItems!["allitems"] as! NSArray
+            let allItems = multipleItems!["allitems"] as! [Dictionary<String,Any>]
             let serviceAddProduct = ShoppingCartAddProductsService()
             var paramsitems : [Any] = []
             
@@ -296,7 +296,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
         }else{
             let signalParametrer = params["parameter"] as? [String:Any]
-            let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
+            let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
             let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
             
             var numOnHandInventory : NSString = "0"
@@ -367,7 +367,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }*/
             
             typeProduct = ResultObjectType.Mg
-            serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:(params["pesable"] as! NSString) as String as String,parameter: params["parameter"] as? [String:Any], successBlock: { (result:[String:Any]) -> Void in
+            serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString,parameter: params["parameter"] as? [String:Any], successBlock: { (result:[String:Any]) -> Void in
                 
                 let responceObject = result["responseObject"] as! [String: AnyObject]
                 let order = responceObject["order"] as! [String: AnyObject]
@@ -447,7 +447,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
             
             let serviceAddProduct = ShoppingCartAddProductsService()
-            serviceAddProduct.callCoreDataService(params["skuId"] as! NSString as String, upc:params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category, pesable:(params["pesable"] as! NSString) as String as String, successBlock: { (result:[String:Any]) -> Void in
+            serviceAddProduct.callCoreDataService(params["skuId"] as! NSString as String, upc:params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category, pesable:params["pesable"] as! NSString, successBlock: { (result:[String:Any]) -> Void in
                 self.currentIndex += 1
                 self.callItemsService()
                 }) { (error:NSError) -> Void in

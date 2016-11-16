@@ -22,7 +22,7 @@ class GRUserListService : GRBaseService {
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if !isLoadingLists {
             isLoadingLists = false
-            self.callGETService(params,
+            self.callGETService(params as AnyObject,
                 successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
                     if let list = resultCall["responseArray"] as? [Any] {

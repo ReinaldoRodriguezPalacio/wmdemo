@@ -433,7 +433,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             userListsService.callService([:],
                 successBlock: { (result:[String:Any]) -> Void in
                     self.isShowingSuperlists = !self.isEditingUserList
-                    self.itemsUserList = result["responseArray"] as? [Any]
+                    self.itemsUserList = result["responseArray"] as! [[String : Any]]?
                     if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
@@ -453,7 +453,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
-            self.itemsUserList = service.retrieveNotSyncList()
+            self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
                     }, atFinished: {
@@ -1727,7 +1727,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         var txtAfterUpdate : NSString = textField.text! as String as NSString
         txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
         
-        self.itemsUserList = self.searchForItems(txtAfterUpdate as String)
+        self.itemsUserList = self.searchForItems(txtAfterUpdate as String) as! [[String : Any]]?
         self.tableuserlist!.reloadData()
         self.editBtn!.isHidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
         

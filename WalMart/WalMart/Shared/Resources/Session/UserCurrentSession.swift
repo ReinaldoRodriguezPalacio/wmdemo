@@ -831,7 +831,7 @@ class UserCurrentSession : NSObject {
         var dicReturn : [String:Any] = [:]
         var promoDescription = "" //2x$21 or Ahorra $23
         
-        var plpArray: [Any] = []
+        var plpArray: [[String:Any]] = []
         
         //PriceEvent
         var flagAhorra = false

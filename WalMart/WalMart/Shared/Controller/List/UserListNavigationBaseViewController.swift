@@ -12,7 +12,7 @@ import Foundation
 class UserListNavigationBaseViewController :  NavigationViewController {
     
     
-    var itemsUserList: [Any]? = []
+    var itemsUserList: [[String:Any]]? = []
     var alertView: IPOWMAlertViewController?
     
     func invokeSaveListToDuplicateService(forListId products:[Any], andName listName:String,successDuplicateList:@escaping (() -> Void)) {
@@ -33,8 +33,8 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                         }
                         
                         if let sku = product["sku"] as? [String:Any] {
-                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
-                                if let itemParent =  parentProducts.object(at: 0) as? [String:Any] {
+                            if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                                if let itemParent =  parentProducts.first as? [String:Any] {
                                     
                                     //let itemAdd = service.buildProductObject(upc: itemParent["repositoryId"] as! String, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
                                     let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku.object(forKey: "id") as! String , quantity: Int(quantity)!)

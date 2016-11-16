@@ -188,9 +188,9 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
     
     func setvalues(){
         
-        delivaryCost!.updateMount( CurrencyCustomLabel.formatString(String("120.50")), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
+        delivaryCost!.updateMount( CurrencyCustomLabel.formatString(NSString(string: "120.50")), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
         
-        collectCost!.updateMount( CurrencyCustomLabel.formatString(String("10.50")), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
+        collectCost!.updateMount( CurrencyCustomLabel.formatString(NSString(string: "10.50")), font: WMFont.fontMyriadProSemiboldOfSize(18), color: WMColor.orange, interLine: false)
     
     }
     
@@ -289,7 +289,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         if validate(){
             let selectedSlotService = SelectedSlotService()
             let params = selectedSlotService.buildParams(self.selectTypeDelivery, selectedSlotId: self.slotSelected)
-            selectedSlotService.callService(requestParams: params, succesBlock: { (result) -> Void in
+            selectedSlotService.callService(requestParams: params as AnyObject, succesBlock: { (result) -> Void in
                 self.delegate?.selectDataTypeShipping(NSLocalizedString(self.selectTypeDelivery, comment: ""), util: "", date: self.dateForm!.text! , rowSelected: 1,idSolot: self.slotSelected)
                 self.navigationController!.popViewController(animated: true)
                 }, errorBlock: { (error) -> Void in
@@ -309,16 +309,14 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         service.callService(requestParams: service.buildParamsHomeDelivery(type) as AnyObject, succesBlock: { (responce:[String:Any]) in
             
             let slots =  responce["responseObject"] as! [String:Any]
-            let key =  slots.allKeys.sorted(by: { (first, second) -> Bool in
-                let onne = first as! String
-                let two = second as! String
-                return onne < two
+            let key =  slots.keys.sorted(by: { (first, second) -> Bool in
+                return first < second
             })
             self.dateSlot =  []
             for keys in key{
                 let horsSlot :NSMutableArray  = []
                 let slot :NSMutableArray  = []
-                let slotForDay = slots.object(forKey: keys) as! NSArray
+                let slotForDay = slots[keys] as! [[String:Any]]
                 
                 for daySlot in slotForDay {
                     
@@ -326,7 +324,7 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                     slot.add(daySlot["slotId"] as! String)
                     
                     let date  = daySlot["DeliveryDateCalendar.time"] as! [String:Any]
-                    let dayDelivery  = "\(date.object(forKey: "formattedDate") as! String)"
+                    let dayDelivery  = "\(date["formattedDate"] as! String)"
                     
                     if !self.dateSlot.contains(dayDelivery) {
                         self.dateSlot.append(dayDelivery)

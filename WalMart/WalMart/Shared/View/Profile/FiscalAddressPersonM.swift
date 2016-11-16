@@ -116,12 +116,20 @@ class FiscalAddressPersonM: AddressView {
         return super.validateAddress()
     }
     
-    override func getParams() -> [String:Any] {
-        var paramsAddress : [String:Any]? = [:]
-        paramsAddress!.addEntries(from: super.getParams() as! [String:Any])
-        paramsAddress!.addEntries(from: [ "RFC":self.rfc!.text!, "rfcEmail":self.email!.text!,"ieps":self.ieps!.text!,"phoneNumber":self.telephone!.text!, "corporateName":self.corporateName!.text!, "name":"Empresa","persona":"M"])
+    override func getParams() -> Dictionary<String,Any> {
+        var paramsAddress : Dictionary<String,Any>? = [:]
+        paramsAddress!.update(from: super.getParams())
+        paramsAddress!.update(from: [ "RFC":self.rfc!.text!, "rfcEmail":self.email!.text!,"ieps":self.ieps!.text!,"phoneNumber":self.telephone!.text!, "corporateName":self.corporateName!.text!, "name":"Empresa","persona":"M"])
         
         return paramsAddress!
     }
     
+}
+
+extension Dictionary {
+    mutating func update(from:Dictionary) {
+        for (key,value) in from {
+            self.updateValue(value, forKey:key)
+        }
+    }
 }

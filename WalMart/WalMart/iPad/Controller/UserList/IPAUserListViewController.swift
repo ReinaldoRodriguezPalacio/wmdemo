@@ -346,7 +346,7 @@ class IPAUserListViewController: UserListViewController {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:[String:Any]) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [Any]
+                    self.itemsUserList = result["responseArray"] as! [[String : Any]]?
                     self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                         
                         let dicFirst = first as! [String:Any]
@@ -407,7 +407,7 @@ class IPAUserListViewController: UserListViewController {
         else {
             
             let service = GRUserListService()
-            self.itemsUserList = service.retrieveNotSyncList()
+            self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List

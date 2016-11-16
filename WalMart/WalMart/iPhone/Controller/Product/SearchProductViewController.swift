@@ -755,7 +755,7 @@
             self.allProducts = []
             if self.results?.products != nil {
                 if (self.itemsUPC?.count)! > 0 {
-                    self.allProducts = self.appendArray(array1: self.allProducts!, array2: self.itemsUPC!)
+                    self.allProducts!.append(array:self.itemsUPC!)
                     var filtredProducts : [[String:Any]]? = []
                     for product in self.results!.products! {
                         let productDict = product
@@ -765,10 +765,10 @@
                             }
                         }
                     }
-                     self.allProducts = self.appendArray(array1: self.allProducts!,array2: filtredProducts!)
+                     self.allProducts!.append(array:filtredProducts!)
                 } else {
                     if self.results!.products != nil{
-                         self.allProducts = self.appendArray(array1: self.allProducts!, array2: self.results!.products!)
+                         self.allProducts!.append(array:self.results!.products!)
                     }
                 }
             }
@@ -777,7 +777,7 @@
             self.allProducts = []
             if self.results?.products != nil {
                 if (self.itemsUPC?.count)! > 0 {
-                    self.allProducts = self.appendArray(array1:self.allProducts!, array2: self.itemsUPC!)
+                    self.allProducts!.append(array:self.itemsUPC!)
                     var filtredProducts : [[String:Any]] = []
                     for product in self.results!.products! {
                         let productDict = product
@@ -788,9 +788,9 @@
                         }
                     }
                     
-                   self.allProducts = self.appendArray(array1:self.allProducts!,array2:filtredProducts)
+                   self.allProducts!.append(array:filtredProducts)
                 } else {
-                   self.allProducts = self.appendArray(array1:self.allProducts!, array2: self.results!.products!)
+                   self.allProducts!.append(array:self.results!.products!)
                 }
             }
         }
@@ -1043,7 +1043,7 @@
             if self.originalSearchContextType != .WithTextForCamFind {
                 self.allProducts? = []
             }
-            self.allProducts = self.appendArray(array1: self.allProducts!,array2: result.arrayObject! as! [[String : Any]])
+            self.allProducts!.append(array: result.arrayObject! as! [[String : Any]])
             self.results?.totalResults = self.allProducts!.count
             self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
@@ -1357,14 +1357,12 @@
         }
         )
     }
-    
-    
-    func appendArray(array1:[[String:Any]],array2:[[String:Any]]) -> [[String:Any]] {
-        var containerArray = array1
-        
-        for element in array2{
-            containerArray.append(element)
+ }
+ 
+ extension Array {
+    mutating func append(array:Array) {
+        for element in array {
+            self.append(element)
         }
-        return containerArray
     }
  }

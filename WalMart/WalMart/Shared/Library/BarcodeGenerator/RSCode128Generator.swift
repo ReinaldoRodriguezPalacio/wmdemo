@@ -139,7 +139,7 @@ open class RSCode128Generator: RSAbstractCodeGenerator, RSCheckDigitGenerator {
             var continousDigitsStartIndex:Int = NSNotFound
             for i in 0..<contents.length() {
                 let character = contents[i]
-                var continousDigitsRange:CountableRange<Int> = 0..<0
+                var continousDigitsRange:Range<Int> = 0..<0
                 if DIGITS_STRING.location(character!) == NSNotFound {
                     // Non digit found
                     if continousDigitsStartIndex != NSNotFound {

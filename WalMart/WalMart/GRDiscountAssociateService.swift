@@ -29,7 +29,8 @@ class GRDiscountAssociateService: GRBaseService{
     
     func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
          //self.jsonFromObject(buildParams(self.associateNumber!, startDate: self.dateAdmission!, determinant: self.determinant!,total: self.total!))
-        self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
+        let empty: Dictionary<String,Any> = [:]
+        self.callGETService(empty as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
            
              succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in

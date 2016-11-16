@@ -13,7 +13,7 @@ class CamFindService : BaseService {
     func buildParams(_ image: UIImage) -> [String:Any] {
         let data = UIImageJPEGRepresentation(image, 1.0) as AnyObject
         let language = "es-MX"
-        let params: [String:Any]  = [String:Any](dictionary: ["image_request[image]": data,"image_request[language]": language,"image_request[locale]": language])
+        let params: [String:Any]  = ["image_request[image]": data,"image_request[language]": language,"image_request[locale]": language]
         return params
     }
     
@@ -24,7 +24,7 @@ class CamFindService : BaseService {
         
         self.callPOSTServiceCam(manager, params: paramsDic,
             successBlock: { (resultDic: [String:Any]) -> Void in
-                let resDic = [ "token" : resultDic.object(forKey: "token") as! String] as [String:Any]
+                let resDic = [ "token" : resultDic["token"] as! String] as [String:Any]
                 successBlock!(resDic)
             })
             { (error:NSError) -> Void in
@@ -38,7 +38,8 @@ class CamFindService : BaseService {
         manager.requestSerializer!.setValue("CloudSight \(self.getCamFindAPIKey())", forHTTPHeaderField: "Authorization")
         
         let urlStr = "https://api.cloudsightapi.com/image_responses/\(tokenStr)?\(ConfigServices.camfindparams)" as String
-        self.callGETService(manager, serviceURL: urlStr, params: [:],
+        let empty: [String:Any] = [:]
+        self.callGETService(manager, serviceURL: urlStr, params: empty as AnyObject,
             successBlock: { (resultF: [String:Any]) -> Void in
                 //
                 successBlock!(resultF)

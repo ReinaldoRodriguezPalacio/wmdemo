@@ -108,7 +108,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.addSubview(imagePresale)
     }
     
-    func setValueArray(_ plpArray:NSArray){
+    func setValueArray(_ plpArray:[[String:Any]]){
         if plpArray.count > 0 {
             promotiosView = PLPLegendView(isvertical: false, PLPArray: plpArray, viewPresentLegend: IS_IPAD ? self.viewIpad! : self)
             self.contentView.addSubview(self.promotiosView!)
@@ -129,7 +129,7 @@ class DetailListViewCell: ProductTableViewCell {
         var weighable = ""
         
         if let sku = product["sku"] as? [String:Any] {
-            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+            if let parentProducts = sku["parentProducts"] as? NSArray{
                 if let item =  parentProducts.object(at: 0) as? [String:Any] {
                     imageUrl = item["largeImageUrl"] as! String
                     descriptionItem = item["description"] as! String

@@ -88,8 +88,8 @@ class BaseService : NSObject {
 //        }
         
         let services = Bundle.main.object(forInfoDictionaryKey: serviceConfigDictionary) as! [String:Any]
-        let environmentServices = services.object(forKey: environment) as! [String:Any]
-        let serviceURL =  environmentServices.object(forKey: serviceName) as! String
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     
@@ -175,7 +175,7 @@ class BaseService : NSObject {
    
         let task = afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
             let resultJSON = json as! [String:Any]
-            self.jsonFromObject(resultJSON)
+            self.jsonFromObject(resultJSON as AnyObject!)
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
@@ -195,23 +195,23 @@ class BaseService : NSObject {
                 return
             }
              successBlock!(resultJSON)
-            }, failure: {(request:URLSessionDataTask!, error:NSError!) in
+            }, failure: {(request:URLSessionDataTask?, error:Error?) in
                 
-                if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request.response)")
+                if (error as! NSError).code == -1005 {
+                    print("Response Error : \(error) \n Response \(request?.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                if error.code == -1001 || error.code == -1003 || error.code == -1009 {
+                if (error as! NSError).code == -1001 || (error as! NSError).code == -1003 || (error as! NSError).code == -1009 {
                     let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
                     errorBlock!(newError)
                     return
                 }
                 
-                print("Response Error : \(error) \n Response \(request.response)")
-                errorBlock!(error)
+                print("Response Error : \(error) \n Response \(request!.response)")
+                errorBlock!(error! as NSError)
         })
-       return task
+       return task!
     }
     
     func callGETService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -224,7 +224,7 @@ class BaseService : NSObject {
     }
     
     func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.get(serviceURL, parameters: params, success: {(request:URLSessionDataTask?, json:AnyObject?) in
+        manager.get(serviceURL, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
             let resultJSON = json as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode()   {
@@ -245,14 +245,14 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: {(request:URLSessionDataTask!, error:NSError!) in
-                if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request.response)")
+            }, failure: {(request:URLSessionDataTask?, error:Error?) -> Void in
+                if (error as! NSError).code == -1005 {
+                    print("Response Error : \(error) \n Response \(request?.response)")
                     self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 print("Response Error : \(error)")
-                errorBlock!(error)
+                errorBlock!(error as! NSError)
         })
         
     }
@@ -300,7 +300,7 @@ class BaseService : NSObject {
                 error = error1
             }
             if error != nil {
-                print(error)
+                print(error!)
             }
         }
         try? data.write(to: URL(fileURLWithPath: filePath), options: [.atomic])
@@ -359,7 +359,7 @@ class BaseService : NSObject {
                             }
 
                             let select = WalMartSqliteDB.instance.buildFindProductKeywordQuery(description: description, price: price!)
-                            if let rs = db.executeQuery(select, withArgumentsIn:nil) {
+                            if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
                                 var exist = false
                                 while rs.next() {
                                     exist = true
@@ -373,7 +373,7 @@ class BaseService : NSObject {
                             }
                             
                             let query = WalMartSqliteDB.instance.buildInsertProductKeywordQuery(forUpc: upc!, andDescription: description, andPrice:price!)
-                            db.executeUpdate(query, withArgumentsIn: nil)
+                            db?.executeUpdate(query, withArgumentsIn: nil)
                         }
                     }
                 }
@@ -389,7 +389,7 @@ class BaseService : NSObject {
     func jsonFromObject(_ object:AnyObject!) {
         let data : Data = try! JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
         let jsonTxt = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        print(jsonTxt)
+        print(jsonTxt!)
     }
     
     func needsLogin() -> Bool {
@@ -408,30 +408,30 @@ class BaseService : NSObject {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
-                for item in (items as? [Any])! {
+                for item in items as! [[String:Any]] {
                     let name = item["DepartmentName"] as? String ?? ""
                     let idDepto = item["idDept"] as! String
-                    let dicItem = item as! [String:Any]
-                    let items :AnyObject? =  dicItem["familyContent"]
+                    let dicItem = item 
+                    let items :[[String:Any]]? =  dicItem["familyContent"] as! [[String : Any]]?
                     if  items !=  nil {
-                        let famArray : AnyObject = item["familyContent"] as AnyObject!
+                        let famArray : [[String:Any]] = item["familyContent"] as! [[String:Any]]!
                         let bussines = item["bussines"] as? String ?? ""
                         
                         
-                        for itemFamily in famArray as! [Any] {
+                        for itemFamily in famArray {
                             let idFamily = itemFamily["id"] as? String ?? ""
                             if itemFamily.count > 1 {
                                 
-                                let itemdic = itemFamily as! [String:Any]
-                                let itemsContent :AnyObject? =  itemdic["fineContent"]
+                                let itemdic = itemFamily 
+                                let itemsContent :Any? =  itemdic["fineContent"]
                                 if  itemsContent !=  nil {
-                                    let lineArray : AnyObject = itemFamily["fineContent"] as AnyObject!
+                                    let lineArray : Any = itemFamily["fineContent"] as Any!
                                     let namefamily = itemFamily["familyName"] as! String
-                                    for itemLine in lineArray as! [Any] {
+                                    for itemLine in lineArray as! [[String:Any]] {
                                         let idLine =  itemLine["id"] as! String
                                         let nameLine =  itemLine["displayName"] as! String
                                         let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:bussines, idLine:idLine)
-                                        if let rs = db.executeQuery(select, withArgumentsIn:nil) {
+                                        if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
                                             var exist = false
                                             while rs.next() {
                                                 exist = true
@@ -445,9 +445,7 @@ class BaseService : NSObject {
                                         }
                                         
                                         let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:bussines, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
-                                        db.executeUpdate(query, withArgumentsIn: nil)
-                                        
-                                        
+                                        db?.executeUpdate(query, withArgumentsIn: nil)
                                     }
                                 }//items !=  nil
                             }//Close count
@@ -468,14 +466,14 @@ class BaseService : NSObject {
     func callPOSTServiceCam(_ manager:AFHTTPSessionManager, params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         manager.post(serviceUrl(), parameters: nil,
             constructingBodyWith: { (formData: AFMultipartFormData?) in
-                let imgData = params.object(forKey: "image_request[image]") as! Data
-                let localeStr = params.object(forKey: "image_request[locale]") as! String
-                let langStr = params.object(forKey: "image_request[language]") as! String
-                formData.appendPart(withFileData: imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
-                formData.appendPart(withForm: localeStr.data(using: String.Encoding.utf8), name:"image_request[locale]")
-                formData.appendPart(withForm: langStr.data(using: String.Encoding.utf8), name:"image_request[language]")
+                let imgData = params["image_request[image]"] as! Data
+                let localeStr = params["image_request[locale]"] as! String
+                let langStr = params["image_request[language]"] as! String
+                formData?.appendPart(withFileData: imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
+                formData?.appendPart(withForm: localeStr.data(using: String.Encoding.utf8), name:"image_request[locale]")
+                formData?.appendPart(withForm: langStr.data(using: String.Encoding.utf8), name:"image_request[language]")
             },
-            success: {(request:URLSessionDataTask!, json:AnyObject!) in
+            success: {(request:URLSessionDataTask?, json:Any?) in
                 let resultJSON = json as! [String:Any]
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
@@ -496,14 +494,14 @@ class BaseService : NSObject {
                 }
                 successBlock!(resultJSON)
             },
-            failure: {(request:URLSessionDataTask!, error:NSError!) in
-                if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request.response)")
+            failure: {(request:URLSessionDataTask?, error:Error?) in
+                if (error as! NSError).code == -1005 {
+                    print("Response Error : \(error?.localizedDescription) \n Response \(request?.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                print("Response Error : \(error) \n Response \(request.response)")
-                errorBlock!(error)
+                print("Response Error : \(error?.localizedDescription) \n Response \(request?.response)")
+                errorBlock!(error as! NSError)
         })
     }
 

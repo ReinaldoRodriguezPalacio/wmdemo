@@ -1318,7 +1318,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
             let selected = productUpc == self.upc as String
-            let details = product["details"] as! [Any]
+            let details = product["details"] as! [[String:Any]]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
             var count = 0
