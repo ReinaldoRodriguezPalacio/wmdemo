@@ -72,8 +72,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         if loadImagefromUrl {
             self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage:imageIcon, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageIcon.image = image
-                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon)
-                }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
+                self.saveImageToDisk(imageIconURL, image: image!,defaultImage:imageIcon!)
+                }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
         }else{
@@ -92,10 +92,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }//self.loadImageFromDisk(strinname,defaultStr:"header_default")
       
         if loadImagefromUrl {
-            self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageBackground.image = image
-                self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader)
-                }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
+                self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image!,defaultImage:imageHeader!)
+                }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
         }else{
@@ -114,11 +114,11 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWith(URL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
-                print(error)
+            }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
+                print(error?.localizedDescription)
         }
         
         //self.titleLabel.text = title
@@ -138,8 +138,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     func serviceUrl(_ serviceName:String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
-        let environmentServices = services.object(forKey: environment) as! [String:Any]
-        let serviceURL =  environmentServices.object(forKey: serviceName) as! String
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     

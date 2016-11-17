@@ -23,16 +23,16 @@ class GRLinesForSearchService: GRBaseService {
         print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params as AnyObject!)
         self.getManager().post(serviceUrl(), parameters: params,
-            success: {(request:URLSessionDataTask!, json:AnyObject!) in
+            success: {(request:URLSessionDataTask?, json:Any?) in
               
                 self.printTimestamp("success GRLinesForSearchService")
-                 self.jsonFromObject(json)
+                 self.jsonFromObject(json as AnyObject!)
                 
                     if let response = json as? [Any] {
                         
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
                             // var dictionary = self.buildResponse(response)
-                            let values = [Any](dictionary.values)
+                            let values = dictionary.values as! [Any]
                             
 //                            values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
 //                                var deptoOne = objectOne as [String:Any]
@@ -56,14 +56,14 @@ class GRLinesForSearchService: GRBaseService {
                     }
                 
             },
-            failure: {(request:URLSessionDataTask!, error:NSError!) in
-                if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request.response)")
+            failure: {(request:URLSessionDataTask?, error:Error?) in
+                if (error as! NSError).code == -1005 {
+                    print("Response Error : \(error!.localizedDescription) \n Response \(request?.response)")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                print("Response Error : \(error) \n Response \(request.response)")
-                errorBlock!(error)
+                print("Response Error : \(error!.localizedDescription) \n Response \(request?.response)")
+                errorBlock!((error as! NSError))
         })
     }
 
@@ -91,10 +91,10 @@ class GRLinesForSearchService: GRBaseService {
             return  successBuildBlock!(dictionary as [String : AnyObject])
         }
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 
                 let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
-                if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
+                if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
                     //var keywords = Array<AnyObject>()
                     while rs.next() {
                         let idDepto = rs.string(forColumn: "idDepto")
@@ -106,43 +106,37 @@ class GRLinesForSearchService: GRBaseService {
                         let linName = rs.string(forColumn: "line")
                         
                         
-                        var cdepto = dictionary[idDepto] as? [String:Any]
+                        var cdepto = dictionary[idDepto!] as? [String:Any]
                         if cdepto == nil {
                             cdepto = [
-                                "name" : depName,
-                                "id" : idDepto,
+                                "name" : depName!,
+                                "id" : idDepto!,
                                 "responseType" : ResultObjectType.Groceries.rawValue,
                                 "level" : NSNumber(value: 0 as Int),
                                 "parentId" : "",
-                                "path" : idDepto,
+                                "path" : idDepto!,
                                 "families" : NSMutableDictionary()]
-                            dictionary[idDepto] = cdepto
+                            dictionary[idDepto!] = cdepto
                         }
                         
                         let families = cdepto!["families"] as! NSMutableDictionary
-                        var cfamily = families[idFamily] as? [String:Any]
+                        var cfamily = families[idFamily!] as? [String:Any]
                         if cfamily == nil {
-                            families[idFamily] = [
-                                "id" : idFamily,
-                                "name" : famName,
+                            families[idFamily!] = [
+                                "id" : idFamily!,
+                                "name" : famName!,
                                 "responseType" : ResultObjectType.Groceries.rawValue,
                                 "level" : NSNumber(value: 1 as Int),
-                                "parentId" : idDepto,
+                                "parentId" : idDepto!,
                                 "path" : "\(idDepto)|\(idFamily)",
                                 "lines" : NSMutableDictionary()]
-                            cfamily = families[idFamily] as? [String:Any]
+                            cfamily = families[idFamily!] as? [String:Any]
                         }
                         
                         let lines = cfamily!["lines"] as! NSMutableDictionary
                         
-                        let cline = [
-                            "id" : idLine,
-                            "name" : (linName),
-                            "level" : NSNumber(value: 2 as Int),
-                            "parentId" : idFamily,
-                            "path" : "\(idDepto)|\(idFamily)|\(idLine!)",
-                            "responseType" : ResultObjectType.Groceries.rawValue]
-                        lines[idLine] = cline
+                        let cline = ["id" : idLine,"name" : linName!,"level" : NSNumber(value: 2 as Int),"parentId" : idFamily!,"path" : "\(idDepto)|\(idFamily)|\(idLine!)","responseType" : ResultObjectType.Groceries.rawValue] as [String : Any]
+                        lines[idLine!] = cline
                         
                         //keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
                     }// while rs.next() {
@@ -152,7 +146,7 @@ class GRLinesForSearchService: GRBaseService {
                     
                     DispatchQueue.main.async(execute: {
                         print("Success")
-                        successBuildBlock?(dictionary)
+                        successBuildBlock?(dictionary as [String : AnyObject])
                     })
                     
                 }

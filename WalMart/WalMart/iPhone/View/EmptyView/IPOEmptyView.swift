@@ -14,7 +14,7 @@ let IS_IPAD = (UIDevice.current.model.lowercased().uppercased().range(of: "IPAD"
 let IS_IPHONE = (UIDevice.current.model.lowercased().uppercased().range(of: "IPHONE") == nil ? false : true )
 let IS_IPOD = (UIDevice.current.model.lowercased().uppercased().range(of: "IPOD") == nil ? false : true )
 let IS_RETINA = (UIScreen.main.scale >= 2.0)
-let IS_IPAD_MINI = (UIDevice.current.modelName.lowercased.uppercased().range(of: "IPAD MINI") == nil ? false : true)
+let IS_IPAD_MINI = (UIDevice.current.modelName.lowercased().uppercased().range(of: "IPAD MINI") == nil ? false : true)
 
 let SCREEN_WIDTH =  UIScreen.main.bounds.size.width
 let SCREEN_HEIGHT = UIScreen.main.bounds.size.height

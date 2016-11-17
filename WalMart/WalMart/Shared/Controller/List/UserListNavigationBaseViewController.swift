@@ -34,10 +34,10 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                         
                         if let sku = product["sku"] as? [String:Any] {
                             if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                                if let itemParent =  parentProducts.first as? [String:Any] {
+                                if let itemParent =  parentProducts[0] as? [String:Any] {
                                     
                                     //let itemAdd = service.buildProductObject(upc: itemParent["repositoryId"] as! String, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
-                                    let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku.object(forKey: "id") as! String , quantity: Int(quantity)!)
+                                    let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku["id"] as! String , quantity: Int(quantity)!)
                                     items.append(itemAdd)
                                 }
                             }

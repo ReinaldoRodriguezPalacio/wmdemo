@@ -76,7 +76,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
         if loadHeader {
             self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageBackground.image = image
-                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+                self.saveImageToDisk(imageBackgroundURL, image: image!,defaultImage:imageHeader!)
                 }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
@@ -87,7 +87,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
         if loadImageIcon {
             self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
                 self.imageIcon.image = image
-                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
+                self.saveImageToDisk(imageIconURL, image: image!,defaultImage:imageIconDsk!)
                 }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
@@ -104,10 +104,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
     
     func setValuesLanding(_ imageBackgroundURL:String) {
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWith(URL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:URLRequest!, response:HTTPURLResponse!, error:NSError!) -> Void in
+        }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
             print(error)
         }
         //self.titleLabel.text = title
@@ -145,8 +145,8 @@ class GRDepartmentTableViewCell : UITableViewCell {
     func serviceUrl(_ serviceName:String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
-        let environmentServices = services.object(forKey: environment) as! [String:Any]
-        let serviceURL =  environmentServices.object(forKey: serviceName) as! String
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     

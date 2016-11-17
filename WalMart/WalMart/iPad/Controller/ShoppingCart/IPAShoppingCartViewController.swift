@@ -272,7 +272,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         listObj = self.itemsInCartOrderSection[section - 1] as [String:Any]
-        productObje = listObj["products"] as! NSArray
+        productObje = listObj["products"] as! [[String:Any]]
         
         if section == (self.itemsInCartOrderSection.count) {
             return productObje!.count + (self.itemsUPC.count > 0 ? 1 : 0)
@@ -455,8 +455,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
     func serviceUrl(_ serviceName:String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
-        let environmentServices = services.object(forKey: environment) as! [String:Any]
-        let serviceURL =  environmentServices.object(forKey: serviceName) as! String
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     
@@ -465,17 +465,17 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             let frameDetail = CGRect(x: 0, y: 0, width: 320, height: 568)
 
             if cell.typeProd == 1 {
-                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.productId)
+                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: NSString(string: cell.price).doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.productId)
                 
             }else{
-                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.productId)
+                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: NSString(string: cell.price).doubleValue as Double),quantity:cell.quantity,upcProduct:cell.productId)
             }
             
             
             selectQuantity?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 //self.ctrlCheckOut?.addViewLoad()
-                if cell.onHandInventory.integerValue <= Int(quantity) {
+                if NSString(string: cell.onHandInventory).integerValue <= Int(quantity) {
                     self.selectQuantity?.closeAction()
                     let updateOrderService = UpdateItemToOrderService()
                     let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")

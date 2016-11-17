@@ -194,7 +194,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }*/
             let allItems = multipleItems!["allitems"] as! [Dictionary<String,Any>]
             let serviceAddProduct = ShoppingCartAddProductsService()
-            var paramsitems : [Any] = []
+            var paramsitems :  [[String:Any]] = []
             
             var type : NSString = ""
             
@@ -270,7 +270,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             //}else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
                 serviceAddProductMG.jsonFromObject(paramsitems as AnyObject!)
-                serviceAddProductMG.callService(paramsitems as AnyObject, successBlock: { (result:[String:Any]) -> Void in
+                serviceAddProductMG.callService(paramsitems, successBlock: { (result:[String:Any]) -> Void in
                     self.finishCall = true
                     
                     if self.timmer == nil {

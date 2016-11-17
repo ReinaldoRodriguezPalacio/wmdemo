@@ -407,7 +407,8 @@ class IPAUserListViewController: UserListViewController {
         else {
             
             let service = GRUserListService()
-            self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
+            //TODO: CHECAR ESTE CAST
+            //self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List

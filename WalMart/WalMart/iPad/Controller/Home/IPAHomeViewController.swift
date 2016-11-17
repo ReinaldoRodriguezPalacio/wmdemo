@@ -111,7 +111,7 @@ class IPAHomeViewController : HomeViewController {
                 
                 if let sku = productRecomm["sku"] as? [String:Any] {
                     if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                        if let item =  parentProducts.first as? [String:Any] {
+                        if let item =  parentProducts[0] as? [String:Any] {
                             upc = item["id"] as? String ?? ""
                             desc = item["longDescription"] as! String
                         }

@@ -10,9 +10,10 @@ import Foundation
 
 class ReferedCustomerService : GRBaseService {
     func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService([:],
+        let empty: [String:Any] = [:]
+        self.callGETService(empty as AnyObject,
             successBlock: { (resultCall:[String:Any]) -> Void in
-                self.jsonFromObject(resultCall)
+                self.jsonFromObject(resultCall as AnyObject!)
                 
                 successBlock?(resultCall)
                 return

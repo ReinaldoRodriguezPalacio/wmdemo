@@ -136,7 +136,7 @@ class GRUserListService : GRBaseService {
     
     //MARK: -
     
-    func manageListData(_ list:[Any]) {
+    func manageListData(_ list:[[String:Any]]) {
         let user = UserCurrentSession.sharedInstance.userSigned
         if user == nil {
             print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
@@ -213,7 +213,7 @@ class GRUserListService : GRBaseService {
             let countItems = serviceList["giftlistItems"] as? NSArray
             
             //if let countItems = countItems!.count {
-                toUseList!.countItem = NSNumber(countItems!.count)
+            toUseList!.countItem = NSNumber(value: countItems!.count)
                 updateDetailList = countItems!.count > 0
             //}
             

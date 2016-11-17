@@ -63,8 +63,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paymentOptionsView : PaymentOptionsView!
     var paymentId = "0"
     var paymentString = ""
-    var paramsToOrder : NSMutableDictionary?
-    var paramsToConfirm : NSMutableDictionary?
+    var paramsToOrder : [String:Any]?
+    var paramsToConfirm : [String:Any]?
     
     //Paypal
     var showOnilePayments: Bool = false
@@ -387,7 +387,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.paymentString,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
         
         
-        serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:[String:Any]) -> Void in
+        serviceCheck.callService(requestParams: paramsOrder as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
             // deliveryAmount
@@ -581,7 +581,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     func getPayPalEnvironment() -> String{
         let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! [String:Any]
-        let environment = payPalEnvironment.object(forKey: "PayPalEnvironment") as! String
+        let environment = payPalEnvironment["PayPalEnvironment"] as! String
         
         if environment == "SANDBOX"{
             return PayPalEnvironmentSandbox
@@ -624,8 +624,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func invokeGetPromotionsService(_ pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:@escaping ((Bool) -> Void))
     {
         var savinAply : Double = 0.0
-        var items = UserCurrentSession.sharedInstance.itemsGR as! [String:Any]
-        if let savingGR = items["saving"] as? NSNumber {
+        var items = UserCurrentSession.sharedInstance.itemsGR
+        if let savingGR = items?["saving"] as? NSNumber {
             savinAply =  savingGR.doubleValue
             
         }
@@ -656,7 +656,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.totalDiscountsOrder = totalDiscounts!
                 self.promotionsDesc = []
                 
-                if let listSamples = resultCall["listSamples"] as? [Any]{
+                if let listSamples = resultCall["listSamples"] as? [[String:Any]]{
                     for promotionln in listSamples {
                         let isAsociate = promotionln["isAssociated"] as! Bool
                         self.isAssociateSend = isAsociate
@@ -665,7 +665,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                     }
                 }
-                if let listPromotions = resultCall["listPromotions"] as? [Any]{
+                if let listPromotions = resultCall["listPromotions"] as? [[String:Any]]{
                     for promotionln in listPromotions {
                         let promotion = promotionln["idPromotion"] as! Int
                         self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(promotion)", with: "")
@@ -675,7 +675,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     }
                 }
                 
-                if let listFreeshippins = resultCall["listFreeshippins"] as? [Any]{
+                if let listFreeshippins = resultCall["listFreeshippins"] as? [[String:Any]]{
                     for freeshippin in listFreeshippins {
                         self.idFreeShepping = freeshippin["idPromotion"] as! Int
                         self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(self.idFreeShepping)", with: "")
@@ -712,8 +712,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     print("Boton Comprar :: \(self.newTotal)")
                     //self.updateShopButton("\(self.newTotal)")
                     var savinAply : Double = 0.0
-                    var items = UserCurrentSession.sharedInstance.itemsGR as! [String:Any]
-                    if let savingGR = items["saving"] as? NSNumber {
+                    var items = UserCurrentSession.sharedInstance.itemsGR
+                    if let savingGR = items?["saving"] as? NSNumber {
                         savinAply =  savingGR.doubleValue
                     }
                     let total = "\(UserCurrentSession.sharedInstance.numberOfArticlesGR())"
@@ -821,14 +821,14 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
-                    var items = UserCurrentSession.sharedInstance.itemsGR as! [String:Any]
+                    var items = UserCurrentSession.sharedInstance.itemsGR
                     //if let savingGR = items["saving"] as? Double {
                     
-                    items["saving"] = resultCall["saving"] as? Double as AnyObject? //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    items?["saving"] = resultCall["saving"] as? Double as AnyObject? //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
                     
                     print("\(resultCall["saving"] as? Double)")
                     
-                    UserCurrentSession.sharedInstance.itemsGR = items as [String:Any]
+                    UserCurrentSession.sharedInstance.itemsGR = items! as [String:Any]
                     
                     print("# de productos:: \(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
                     print("Subtotal:: \(UserCurrentSession.sharedInstance.estimateTotalGR())")
@@ -1196,7 +1196,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.dismiss(animated: true, completion: nil)
     }
     
-    func payPalFuturePaymentViewController(_ futurePaymentViewController: PayPalFuturePaymentViewController, didAuthorizeFuturePayment futurePaymentAuthorization: [String:Any]) {
+    func payPalFuturePaymentViewController(_ futurePaymentViewController: PayPalFuturePaymentViewController, didAuthorizeFuturePayment futurePaymentAuthorization: [AnyHashable:Any]) {
         
         // send authorization to your server to get refresh token.
         print(futurePaymentAuthorization.description)

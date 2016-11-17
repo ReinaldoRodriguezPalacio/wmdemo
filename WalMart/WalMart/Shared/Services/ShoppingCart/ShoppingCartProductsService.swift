@@ -339,12 +339,12 @@ class ShoppingCartProductsService : BaseService {
         let updated = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             let serviceUpdate = ShoppingCartUpdateProductsService()
-            var arrayUpcsUpdate : [Any] = []
+            var arrayUpcsUpdate : [[String:Any]] = []
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
             }
-            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
+            serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                     if error.code != -100 {
@@ -363,7 +363,7 @@ class ShoppingCartProductsService : BaseService {
         let updated = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             let serviceUpdate = ShoppingCartAddProductsService()
-            var arrayUpcsUpdate : [Any] = []
+            var arrayUpcsUpdate : [[String:Any]] = []
             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
@@ -377,7 +377,7 @@ class ShoppingCartProductsService : BaseService {
                 print(error.localizedDescription)
             }
             
-            serviceUpdate.callService(arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
+            serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:[String:Any]) -> Void in
                 ShoppingCartService.isSynchronizing = false
                 successBlock()
                 

@@ -252,7 +252,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         let majorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let minorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         let ver  = "(IOS \(UIDevice.current.systemVersion), V App \(majorVersion) \(minorVersion))"
-        let device = UIDevice.current.model.lowercased.uppercased()
+        let device = UIDevice.current.model.lowercased().uppercased()
         let status = AFNetworkReachabilityManager.shared().isReachableViaWiFi ? "Wifi" : "WWAN"
         
         UIDevice.current.localizedModel

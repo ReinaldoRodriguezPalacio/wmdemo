@@ -11,7 +11,8 @@ import Foundation
 class ReviewShoppingCartService : BaseService {
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
+        let empty: [String:Any] = [:]
+        self.callGETService(empty as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!([:])
             }, errorBlock: { (error:NSError) -> Void in
                 successBlock!([:])

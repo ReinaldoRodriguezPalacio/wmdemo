@@ -93,7 +93,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
         self.titleMSILabel.frame = CGRect(x: self.imageMSI.frame.maxX + 8,y: 16, width: self.bounds.width - 32, height: 16.0)
     }
     
-    func setValues(_ msi:NSArray){
+    func setValues(_ msi:[String]){
         //var first = true
         clearView(self)
         //var first = true

@@ -68,7 +68,7 @@ class PreviousDetailTableViewCell : ProductDetailCharacteristicsTableViewCell {
     
     func setValuesDetail(_ values:[String:Any]){
         
-        self.itemShipping = values as! [AnyHashable : Any]
+        self.itemShipping = values as! [String : Any]
         
         self.nameLabel.text = values["name"] as? String
         self.deliveryTypeLabel.text = values["deliveryType"] as? String

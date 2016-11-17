@@ -14,7 +14,7 @@ class PromotionsMgService : BaseService {
     
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+        self.callGETService(params as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             
             successBlock!(resultCall)
             

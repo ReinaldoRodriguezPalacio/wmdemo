@@ -223,7 +223,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             vc.listName = listName
             vc.listEntity = entity
             vc.itemsUserList = self.listController!.itemsUserList
-            vc.products = self.listController!.itemsList as [Any]?
+            vc.products = self.listController!.itemsList as [[String:Any]]?
 
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)

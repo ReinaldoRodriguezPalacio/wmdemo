@@ -46,7 +46,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     var animationController : ProductDetailNavigatinAnimationController!
     var viewLoad : WMLoadingView!
-    var msi : NSArray = []
+    var msi : [String] = []
     var upc : NSString = ""
     var sku : NSString = ""
     var name : NSString = ""
@@ -1018,12 +1018,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         print("parametro para signals MG :::\(self.indexRowSelected)")
         
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let productService = ProductDetailService(dictionary: signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         //let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
         let params = productService.buildMustangParams(upc as String, skuId:self.sku as String) //TODO : Validar si es sku
-        productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
+        productService.callService(requestParams:params as AnyObject, successBlock: { (result: [String:Any]) -> Void in
             self.reloadViewWithData(result)
             if let facets = result["facets"] as? [[String:Any]] {
                 self.facets = facets
@@ -1371,7 +1371,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
             let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
             
-            let itemDetails = facetsDetails["itemDetails"] as? [Any]
+            let itemDetails = facetsDetails["itemDetails"] as? [[String:Any]]
             var findObj: [String] = []
             for item in itemDetails!{
                 if(item[filteredKeys.first!] as! String == selecteFirst)
@@ -1420,7 +1420,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     {
         var upc = ""
         var isSelected = false
-        let details = self.facetsDetails!["itemDetails"] as? [Any]
+        let details = self.facetsDetails!["itemDetails"] as? [[String:Any]]
         for item in details! {
             isSelected = false
             for selectItem in itemsSelected{
@@ -1451,7 +1451,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
-        let itemDetails = self.facetsDetails!["itemDetails"] as? [Any]
+        let itemDetails = self.facetsDetails!["itemDetails"] as? [[String:Any]]
         var findObj: [String] = []
         for item in itemDetails!{
             if(item[key] as! String == value)

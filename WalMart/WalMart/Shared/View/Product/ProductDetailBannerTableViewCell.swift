@@ -159,7 +159,7 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
         let imageURL = items[(indexPath as NSIndexPath).row] as! String
         
         cell.imageView!.contentMode = UIViewContentMode.center
-        cell.imageView!.setImageWith(URL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest!, response:HTTPURLResponse!, image:UIImage!) -> Void in
+        cell.imageView!.setImageWith(URL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
             cell.imageView!.contentMode = self.contentModeOrig
             cell.imageView!.image = image
             }, failure: nil)

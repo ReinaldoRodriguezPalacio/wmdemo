@@ -337,7 +337,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:[String:Any]) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [Any]
+                    self.itemsUserList = result["responseArray"] as? [[String : Any]]
                     
                     self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                         
@@ -387,7 +387,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
-            self.itemsUserList = service.retrieveNotSyncList()
+            //TODO: CHECAR ESTE CAST
+            //self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
@@ -453,7 +454,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
-            self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
+            //TODO: CHECAR ESTE CAST
+            //self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
                     }, atFinished: {
@@ -629,7 +631,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             if self.searchField?.text != "" {
                 self.searchField?.text = ""
-                self.itemsUserList = self.searchForItems("")
+                //TODO: CHECAR ESTE CAST
+                //self.itemsUserList = self.searchForItems("") as? [[String : Any]]
                 self.tableuserlist!.reloadData()
             }
             self.stateEdit =  true
@@ -1538,7 +1541,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
                     let service = GRUpdateListService()
             
-                    service.callService(service.buildParams(firstKey!, name: name!),
+                    service.callService(service.buildParams(firstKey!, name: name!) as AnyObject,
                         successBlock: { (result:[String:Any]) -> Void in
                             let reminderService = ReminderNotificationService()
                             reminderService.listId = firstKey!
@@ -1648,7 +1651,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     var number = 0;
                     
                     if self.itemsUserList != nil {
-                        for item in  self.itemsUserList as! [[String:Any]]{
+                        for item in  self.itemsUserList! {
                             if let nameList = item["name"] as? String {
                                 if nameList.uppercased().hasPrefix(name.uppercased()) {
                                     number = number+1
@@ -1726,8 +1729,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         var txtAfterUpdate : NSString = textField.text! as String as NSString
         txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
-        
-        self.itemsUserList = self.searchForItems(txtAfterUpdate as String) as! [[String : Any]]?
+        //TODO: CHECAR ESTE CAST
+        //self.itemsUserList = self.searchForItems(txtAfterUpdate as String) as! [[String : Any]]?
         self.tableuserlist!.reloadData()
         self.editBtn!.isHidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
         
