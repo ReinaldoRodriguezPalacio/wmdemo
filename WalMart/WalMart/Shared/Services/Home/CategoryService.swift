@@ -61,7 +61,7 @@ class CategoryService : BaseService {
             }
             response = filterResponse
             
-             response = response.sorted(by: { (obj1:[String : AnyObject], obj2:[String : AnyObject]) -> Bool in
+             response = response.sorted(by: { (obj1:[String:Any], obj2:[String:Any]) -> Bool in
                 let firstString = obj1["DepartmentName"] as! String?
                 let secondString = obj2["DepartmentName"] as! String?
                 return firstString < secondString

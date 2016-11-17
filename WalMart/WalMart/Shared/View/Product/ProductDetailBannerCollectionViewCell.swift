@@ -35,9 +35,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var collection: UICollectionView!
     var colorsView: ProductDetailColorSizeView!
     var sizesView: ProductDetailColorSizeView!
-    var items: [Any]! = []
-    var colors: [Any]? = []
-    var sizes: [Any]? = []
+    var items: [String]! = []
+    var colors: [[String:Any]]? = []
+    var sizes: [[String:Any]]? = []
     var imagesRef: [UIImage]! = []
     var promotions:[[String:Any]]! = []
     var pointSection: UIView! = nil
@@ -67,7 +67,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         setup()
     }
     
-    init(frame: CGRect,items:[Any]) {
+    init(frame: CGRect,items:[String]) {
         super.init(frame: frame)
         self.items = items
         setup()
@@ -222,8 +222,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
-        let nsarray = self.pointButtons! as [[String:Any]]
-        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
+        let nsarray = self.pointButtons! as [UIButton]
+        if let button = nsarray[self.currentItem!] as? UIButton {
             for inner: UIButton in self.pointButtons! {
                 inner.isSelected = button === inner
             }
@@ -341,21 +341,21 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func buildColorsAndSizesView(){
         if colors?.count != 0 || sizes?.count != 0{
             if colors?.count != 0 && sizes?.count != 0{
-                self.colorsView.items = self.colors as! [[String:Any]] as [[String : AnyObject]]!
+                self.colorsView.items = self.colors
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 160)
                 self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 174, width: self.bounds.width, height: 20)
                 self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - 154, width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
-                self.sizesView.items = self.sizes as! [[String:Any]] as [[String : AnyObject]]!
+                self.sizesView.items = self.sizes
                 self.sizesView.alpha = 1.0
                 self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
                 self.sizesView.buildItemsView()
                 self.sizesView.deleteTopBorder()
             }else if colors?.count != 0 && sizes?.count == 0{
                 self.sizesView.alpha = 0
-                self.colorsView.items = self.colors as! [[String:Any]] as [[String : AnyObject]]!
+                self.colorsView.items = self.colors
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)
@@ -364,7 +364,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.buildItemsView()
             }else if colors?.count == 0 && sizes?.count != 0{
                 self.colorsView.alpha = 0
-                self.sizesView.items = self.sizes as! [[String:Any]] as [[String : AnyObject]]!
+                self.sizesView.items = self.sizes
                 self.sizesView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)

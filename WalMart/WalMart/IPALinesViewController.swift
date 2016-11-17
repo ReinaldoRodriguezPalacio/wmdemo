@@ -119,7 +119,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         service.callService(requestParams:familyId as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             let listLines  =  response["subCategories"] as! [[String:Any]]
             print(listLines)
-            self.linesCamp = listLines as? [[String : AnyObject]]
+            self.linesCamp = listLines as? [[String:Any]]
             //self.removeLoadingView()
             
            succesBlock()

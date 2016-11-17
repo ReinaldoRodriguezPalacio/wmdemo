@@ -1325,11 +1325,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             for detail in details{
                 let label = detail["description"] as! String
                 let unit = detail["unit"] as! String
-                var values = facetsDetails[label] as? [Any]
+                var values = facetsDetails[label] as? [[String:Any]]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
-                if !(values! as! [[String:Any]]).contains(itemToAdd) {
-                    values!.append(itemToAdd as AnyObject)
+                if !values!.contains(where: { return  ($0["value"] as! String == itemToAdd["value"] as! String) && ($0["enabled"] as! Int == itemToAdd["enabled"] as! Int) && ($0["type"] as! String == itemToAdd["type"] as! String) && ($0["selected"] as! Bool == itemToAdd["selected"] as! Bool) }) {
+                    values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values as AnyObject?
                 itemDetail[label] = detail["unit"] as? String
@@ -1536,13 +1536,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         if colorItems.count != 0 || sizeItems.count != 0{
             if colorItems.count != 0 && sizeItems.count != 0{
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView?.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.colorsView?.items = self.colorItems as! [[String:Any]]
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
                 self.colorsView!.buildItemsView()
                 self.colorsView?.delegate = self
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.sizesView!.items = self.sizeItems as! [[String:Any]]
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRect(x: 0,y: 40,width: width, height: 40.0)
                 self.sizesView!.buildItemsView()
@@ -1555,7 +1555,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count != 0 && sizeItems.count == 0{
                 self.sizesView?.alpha = 0
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView!.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.colorsView!.items = self.colorItems as! [[String:Any]]
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
                 self.colorsView!.buildItemsView()
@@ -1566,7 +1566,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count == 0 && sizeItems.count != 0{
                 self.colorsView?.alpha = 0
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.sizesView!.items = self.sizeItems as! [[String:Any]]
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRect(x: 0,y: 0,width: width, height: 40.0)
                 self.sizesView!.buildItemsView()

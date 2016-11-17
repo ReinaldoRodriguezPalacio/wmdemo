@@ -64,11 +64,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var comments : NSString = ""
     var ingredients: String = ""
     var nutrimentalInfo: [String:String] = [:]
-    var imageUrl : [Any] = []
+    var imageUrl : [String] = []
     var characteristics : [[String:Any]] = []
-    var bundleItems : [Any] = []
-    var colorItems : [Any] = []
-    var sizesItems : [Any] = []
+    var bundleItems : [[String:Any]] = []
+    var colorItems : [[String:Any]] = []
+    var sizesItems : [[String:Any]] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var viewDetail : ProductDetailTextDetailView!
@@ -281,7 +281,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
-                imageUrl = self.imageUrl[0] as! NSString as String
+                imageUrl = self.imageUrl[0] as String
             }
             productDetailButton!.image = imageUrl
             productDetailButton!.delegate = self
@@ -424,7 +424,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter isPreorderable:  is preorderable product
      - parameter added:           added block
      */
-    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
+    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping(Bool) -> Void) {
         
         self.closeProductDetail()
         
@@ -654,7 +654,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func buildParamsUpdateShoppingCart(_ quantity:String) -> [String:Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
-            imageUrlSend = self.imageUrl[0] as! NSString as String
+            imageUrlSend = self.imageUrl[0] as String
         }
         let pesable = isPesable ? "1" : "0"
         return ["skuid":self.sku,"upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
@@ -896,12 +896,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.facetsDetails = self.getFacetsDetails()
                     let filteredKeys = self.getFilteredKeys(self.facetsDetails!)
                     if self.facetsDetails?.count > 1 {
-                        if let colors = self.facetsDetails![filteredKeys.first!] as? [Any]{
+                        if let colors = self.facetsDetails![filteredKeys.first!] as? [[String:Any]]{
                             self.colorItems = colors
                         }
                      }
                     if self.facetsDetails?.count > 2 {
-                        if let sizes = self.facetsDetails![filteredKeys[1]] as? [Any]{
+                        if let sizes = self.facetsDetails![filteredKeys[1]] as? [[String:Any]]{
                             self.sizesItems = sizes
                         }
                     }
@@ -971,7 +971,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.listPrice = result["original_listprice"] as? NSString ?? ""
         self.characteristics = []
         if let characteristicsResult = result["characteristics"] as? [[String:Any]] {
-            self.characteristics = characteristicsResult as! [[String:Any]]
+            self.characteristics = characteristicsResult
         }
         
         if let resultNutrimentalInfo = result["nutritional"] as? [String:String] {
@@ -1002,10 +1002,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         }
         
-        if let images = parentProduct!["largeImageUrl"] as? [Any] {
+        if let images = parentProduct!["largeImageUrl"] as? [String] {
             self.imageUrl = images
         }else{
-            self.imageUrl = [(parentProduct!["largeImageUrl"] as! String as AnyObject)]
+            self.imageUrl = [(parentProduct!["largeImageUrl"] as! String)]
         }
         
         let freeShippingStr  = result["freeShippingItem"] as? NSString ?? ""
@@ -1027,8 +1027,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.strisPreorderable  = sku["isPreOrderable"] as? String ?? ""
         
         self.isPreorderable = "true" == self.strisPreorderable
-        self.bundleItems = [Any]()
-        if let bndl = sku["bundleLinks"] as?  [Any] {
+        self.bundleItems = [[String:Any]]()
+        if let bndl = sku["bundleLinks"] as?  [[String:Any]] {
             self.bundleItems = bndl
         }
         
@@ -1169,7 +1169,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
             var imageUrl = ""
             if self.imageUrl.count > 0 {
-                imageUrl = self.imageUrl[0] as! NSString as String
+                imageUrl = self.imageUrl[0]
             }
             productDetailButton!.image = imageUrl
             productDetailButton!.delegate = self
@@ -1213,7 +1213,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     class func validateUpcPromotion(_ upc:String) -> Bool{
         let upcs =  UserCurrentSession.sharedInstance.upcSearch
-        return upcs!.contains(upc)
+        return upcs!.contains(where:{ return $0 == upc })
     }
     
     func cellForPoint(_ point:(Int,Int),indexPath: IndexPath) -> UICollectionViewCell? {
@@ -1223,7 +1223,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if bundleItems.count != 0 {
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "cellBundleitems", for: indexPath) as? ProductDetailBundleCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = bundleItems as [String:Any]
+                cellPromotion!.itemsUPC = bundleItems
                 cellPromotion!.type = "MG"
                 cell = cellPromotion
             } else {
@@ -1428,11 +1428,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             for detail in details{
                 let label = detail["description"] as! String
                 let unit = detail["unit"] as! String
-                var values = facetsDetails[label] as? [Any]
+                var values = facetsDetails[label] as? [[String:Any]]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
-                if !(values! as! [[String:Any]]).contains(itemToAdd) {
-                    values!.append(itemToAdd as AnyObject)
+                if !values!.contains(where: { return  ($0["value"] as! String == itemToAdd["value"] as! String) && ($0["enabled"] as! Int == itemToAdd["enabled"] as! Int) && ($0["type"] as! String == itemToAdd["type"] as! String) && ($0["selected"] as! Bool == itemToAdd["selected"] as! Bool) }) {
+                    values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values as AnyObject?
                 itemDetail[label] = detail["unit"] as? String

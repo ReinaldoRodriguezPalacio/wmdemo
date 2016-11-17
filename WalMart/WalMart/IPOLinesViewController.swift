@@ -93,7 +93,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
         service.callService(requestParams: familyName as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             let listLines  =  response["subCategories"] as! [[String:Any]]
             print(listLines)
-            self.linesCamp = listLines as? [[String : AnyObject]]
+            self.linesCamp = listLines as? [[String:Any]]
             self.didSelectDeparmentAtIndex(IndexPath(index: 0))
            
             }, errorBlock: { (error:NSError) -> Void in

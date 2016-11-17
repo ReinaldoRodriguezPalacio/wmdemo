@@ -320,7 +320,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
            
             let controller = CheckOutProductTypeShipping()
             controller.delegate = self
-            controller.paymentSelected =  paymentGroups.object(at: 0) as? [String:Any]
+            controller.paymentSelected =  paymentGroups[0] as? [String:Any]
             controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             itemSelected = selectedItem
             self.navigationController?.pushViewController(controller, animated: true)

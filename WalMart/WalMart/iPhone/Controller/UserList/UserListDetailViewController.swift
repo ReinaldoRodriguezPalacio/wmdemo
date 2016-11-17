@@ -1005,7 +1005,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
                 
                 if UserCurrentSession.hasLoggedUser() {
-                listCell.setValuesDictionary(items as [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
+                listCell.setValuesDictionary(items as [String:Any],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
                 }else{
                     //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
                     let product =  items as! Product

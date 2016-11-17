@@ -30,7 +30,7 @@ class GRLinesForSearchService: GRBaseService {
                 
                     if let response = json as? [Any] {
                         
-                        self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
+                        self.buildResponse(response, successBuildBlock: { (dictionary:[String:Any]) -> Void in
                             // var dictionary = self.buildResponse(response)
                             let values = dictionary.values as! [Any]
                             
@@ -67,7 +67,7 @@ class GRLinesForSearchService: GRBaseService {
         })
     }
 
-    func buildResponse(_ response:[Any],successBuildBlock:(([String : AnyObject]) -> Void)?) {
+    func buildResponse(_ response:[Any],successBuildBlock:(([String:Any]) -> Void)?) {
 
         printTimestamp("buildResponse GRLinesForSearchService")
         
@@ -88,7 +88,7 @@ class GRLinesForSearchService: GRBaseService {
          var dictionary: [String:Any] = [:]
         
         if strInLines == "" {
-            return  successBuildBlock!(dictionary as [String : AnyObject])
+            return  successBuildBlock!(dictionary as [String:Any])
         }
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
@@ -146,7 +146,7 @@ class GRLinesForSearchService: GRBaseService {
                     
                     DispatchQueue.main.async(execute: {
                         print("Success")
-                        successBuildBlock?(dictionary as [String : AnyObject])
+                        successBuildBlock?(dictionary as [String:Any])
                     })
                     
                 }

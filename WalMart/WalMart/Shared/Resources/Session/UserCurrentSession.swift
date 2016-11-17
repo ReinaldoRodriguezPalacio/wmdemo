@@ -55,7 +55,7 @@ class UserCurrentSession : NSObject {
     
     //Action in check out
     var activeCommens : Bool = false
-    var upcSearch : [[String:Any]]! = []
+    var upcSearch : [String]! = []
     var messageInCommens : String! = ""
 
     
