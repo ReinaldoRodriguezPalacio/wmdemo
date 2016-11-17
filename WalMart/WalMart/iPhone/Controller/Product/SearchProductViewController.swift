@@ -1124,7 +1124,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 var startPoint = self.header!.frame.maxY
                 
-                if self.isTextSearch {
+                if self.isTextSearch || self.isOriginalTextSearch {
                     startPoint = self.viewBgSelectorBtn.frame.maxY + 20
                 }
                 
