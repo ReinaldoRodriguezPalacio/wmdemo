@@ -241,7 +241,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
         // TODO preguntar por valor:: acceptConsent
         
         let peferencesService = SetPreferencesService()
-        let params = peferencesService.buildParams(self.getSelectedInterestCategories() as [[String:Any]], onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as? String ?? "", abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
+        let params = peferencesService.buildParams(self.getSelectedInterestCategories() as [String], onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as? String ?? "", abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.userPreferences["receivePromoEmail"] as! String, forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: true, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
         peferencesService.jsonFromObject(params as AnyObject!)
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
