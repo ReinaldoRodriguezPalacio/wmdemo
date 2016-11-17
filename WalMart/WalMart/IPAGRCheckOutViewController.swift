@@ -19,7 +19,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     
     var addToListButton: UIButton!
     var buttonShare: UIButton!
-    var itemsInCart: NSArray!
+    var itemsInCart: [[String:Any]]!
     var listSelectorController: ListsSelectorViewController?
     var delegateCheckOut : IPAGRCheckOutViewControllerDelegate!
     var footer: UIView?

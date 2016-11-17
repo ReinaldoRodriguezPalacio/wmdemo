@@ -81,7 +81,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var indexSelected  : Int = 0
     var addOrRemoveToWishListBlock : (() -> Void)? = nil
     var gestureCloseDetail : UITapGestureRecognizer!
-    var itemsCrossSellUPC : NSArray! = []
+    var itemsCrossSellUPC : [[String:Any]]! = []
     var isActive : Bool! = true
     var isPreorderable : Bool = false
     var onHandInventory : NSString = "0"
@@ -243,7 +243,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
         case (0,2) :
             if characteristics.count != 0 {
-                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.view.frame.width - 30,values:characteristics as NSArray)
+                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.view.frame.width - 30,values:characteristics as [[String:Any]])
                 return size + 50
             }
             return sizeForIndexPath ((indexPath.section,3),indexPath: indexPath)
@@ -352,7 +352,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(requestParams:["skuId":self.sku], successBlock: { (result:NSArray?) -> Void in
+        crossService.callService(requestParams:["skuId":self.sku], successBlock: { (result:[[String:Any]]?) -> Void in
                 if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0  {
@@ -970,7 +970,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.listPrice = result["original_listprice"] as? NSString ?? ""
         self.characteristics = []
-        if let characteristicsResult = result["characteristics"] as? NSArray {
+        if let characteristicsResult = result["characteristics"] as? [[String:Any]] {
             self.characteristics = characteristicsResult as! [[String:Any]]
         }
         
@@ -1223,7 +1223,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if bundleItems.count != 0 {
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "cellBundleitems", for: indexPath) as? ProductDetailBundleCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = bundleItems as NSArray
+                cellPromotion!.itemsUPC = bundleItems as [String:Any]
                 cellPromotion!.type = "MG"
                 cell = cellPromotion
             } else {
@@ -1252,7 +1252,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "crossSellCell", for: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
                 cellPromotion!.idListSelectdFromSearch =  self.idListFromlistFind
-                cellPromotion!.itemsUPC = itemsCrossSellUPC
+                cellPromotion!.itemsUPC = itemsCrossSellUPC as! [[String : Any]]
                 self.cellRelated = cellPromotion
             }
             cell = self.cellRelated
@@ -1431,7 +1431,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 var values = facetsDetails[label] as? [Any]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
-                if !(values! as NSArray).contains(itemToAdd) {
+                if !(values! as! [[String:Any]]).contains(itemToAdd) {
                     values!.append(itemToAdd as AnyObject)
                 }
                 facetsDetails[label] = values as AnyObject?

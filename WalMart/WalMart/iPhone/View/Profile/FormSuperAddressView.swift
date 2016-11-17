@@ -52,7 +52,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var separatorField  : CGFloat = CGFloat(8)
     var neighborhoods : [String]! = []
     var stores : [String]! = []
-    var allAddress: NSArray! = []
+    var allAddress: [[String:Any]]! = []
     var titleLabelPhone : UILabel!
     var phoneWorkNumber : FormFieldView!
     var cellPhone : FormFieldView!

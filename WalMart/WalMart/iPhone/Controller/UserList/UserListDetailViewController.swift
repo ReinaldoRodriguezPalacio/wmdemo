@@ -307,7 +307,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     for i in 0...self.products!.count - 1 {
                         let item =  self.products![i] //as? [String:Any]
                         if let sku = item["sku"] as? [String:Any] {
-                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                            if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                                 if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                     self.selectedItems?.add(item["repositoryId"] as! String)
                                 }
@@ -523,7 +523,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         
                         if let sku = lines["sku"] as? [String:Any] {
                             
-                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                            if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                                 if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                     productItem = item
                                 }
@@ -561,7 +561,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     
                     
                     for lines in self.products!{
-                        //let arrayItems =  lines[linesArray[index] as! String] as! NSArray
+                        //let arrayItems =  lines[linesArray[index] as! String] as! [[String:Any]]
                         //for item  in  arrayItems {
                             let productItem = lines as? Product
                             if selectedItems!.contains(productItem!.upc){
@@ -774,7 +774,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     for lines in self.products! {
                         let upc = upcSelected as! String
                         if let sku = lines["sku"] as? [String:Any] {
-                            if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                            if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                                 if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                     if  item["repositoryId"] as! String  == upc {
                                         
@@ -996,7 +996,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
            
                 var upc = ""
                 if let sku = items["sku"] as? [String:Any] {
-                    if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                    if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                         if let item =  parentProducts.object(at: 0) as? [String:Any] {
                             upc = item["repositoryId"] as! String
                         }
@@ -1042,7 +1042,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let product = self.products![idx] {
                     
                     if let sku = product["sku"] as? [String:Any] {
-                        if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                        if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                             if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                 let upc = item["repositoryId"] as! String
                                 let description = item["description"] as! String
@@ -1186,7 +1186,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                     
                     if let sku = item["sku"] as? [String:Any] {
-                        if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                        if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                             if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                 self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku.object(forKey: "id") as! String, quantity: Int(quantity)!)
                             }
@@ -1250,7 +1250,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             for i in 0...self.products!.count - 1 {
                                                 let item =  self.products![i] //as? [String:Any]
                                                 if let sku = item["sku"] as? [String:Any] {
-                                                    if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                                                    if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                                                         if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                                             self.selectedItems?.add(item["repositoryId"] as! String )
                                                         }

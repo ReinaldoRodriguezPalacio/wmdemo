@@ -14,7 +14,7 @@ class PreviousOrderDetailService : BaseService {
     
     func callService(_ trackingNumber:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let serviceURL = serviceUrl() //"\(serviceUrl())/\(trackingNumber)" //QUITAR COMENTARIO
-        let params: NSArray = []
+        let params: [[String:Any]] = []
         self.callGETService(serviceURL,params:params, successBlock: { (resultCall:[String:Any]) -> Void in
             let itemResult = resultCall[self.JSON_ORDERSDETAIL_RESULT] as! [String:Any]
             successBlock!(itemResult)

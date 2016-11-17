@@ -18,7 +18,7 @@ enum OnlyAlertPreferences : String {
 class SetPreferencesService : BaseService {
     
     
-    func buildParams(_ userPreferences:NSArray,onlyTelephonicAlert:String,abandonCartAlert:Bool,telephonicSmsAlert:Bool,mobileNumber:String,receivePromoEmail:String,forOBIEE:Bool,acceptConsent:Bool,receiveInfoEmail:Bool) -> [String:Any] {
+    func buildParams(_ userPreferences:[[String:Any]],onlyTelephonicAlert:String,abandonCartAlert:Bool,telephonicSmsAlert:Bool,mobileNumber:String,receivePromoEmail:String,forOBIEE:Bool,acceptConsent:Bool,receiveInfoEmail:Bool) -> [String:Any] {
         
         return ["userPreferences":userPreferences, "onlyTelephonicAlert":onlyTelephonicAlert,"abandonCartAlert":abandonCartAlert,"telephonicSmsAlert":telephonicSmsAlert,"mobileNumber":mobileNumber,"receivePromoEmail":receivePromoEmail,"forOBIEE":forOBIEE,"acceptConsent":acceptConsent,"receiveInfoEmail":receiveInfoEmail]
     }

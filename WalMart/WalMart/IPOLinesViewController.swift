@@ -91,7 +91,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
         let service =  LineService()
         
         service.callService(requestParams: familyName as AnyObject, successBlock: { (response:[String:Any]) -> Void in
-            let listLines  =  response["subCategories"] as! NSArray
+            let listLines  =  response["subCategories"] as! [[String:Any]]
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
             self.didSelectDeparmentAtIndex(IndexPath(index: 0))

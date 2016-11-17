@@ -28,7 +28,7 @@ struct ConfigServices {
 
 
 struct RecommendedCategory {
-    static var cagtegories : NSArray = []
+    static var cagtegories : [[String:Any]] = []
     static var groceriescategory : [String:Any] = [:]
     
 }
@@ -238,8 +238,8 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     func serviceUrl(_ serviceName:String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
-        let environmentServices = services.object(forKey: environment) as! [String:Any]
-        let serviceURL =  environmentServices.object(forKey: serviceName) as! String
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     
@@ -340,7 +340,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             
             if error == nil{
                 self.webViewSplash.loadRequest(URLRequest(url: URL(string:self.serviceUrl("WalmartMG.Splash"))!))
-                if let privateNot = result["privaceNotice"] as? NSArray {
+                if let privateNot = result["privaceNotice"] as? [[String:Any]] {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy"
                     let sinceDate = dateFormatter.date(from: (privateNot.object(at: 0) as AnyObject).object(forKey: "sinceDate") as! String)!
@@ -359,14 +359,14 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     
                     UserCurrentSession.sharedInstance.isReviewActive = isReviewActive.boolValue
                     
-                    if let commensChck = result["alertComment"] as? NSArray {
+                    if let commensChck = result["alertComment"] as? [[String:Any]] {
                         if let active = (commensChck[0] as AnyObject).object(forKey: "isActive") as? Bool {
                             UserCurrentSession.sharedInstance.activeCommens = active
                         }
                         if let message = (commensChck[0] as AnyObject).object(forKey: "message") as? String {
                             UserCurrentSession.sharedInstance.messageInCommens = message
                         }
-                        if let upcs = (commensChck[0] as AnyObject).object(forKey: "upcs") as? NSArray {
+                        if let upcs = (commensChck[0] as AnyObject).object(forKey: "upcs") as? [[String:Any]] {
                              UserCurrentSession.sharedInstance.upcSearch = upcs
                         }
                  
@@ -397,7 +397,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         let request = URLRequest(url: URL(string:url)!)
                         let configuration = URLSessionConfiguration.default
                         let manager = AFURLSessionManager(sessionConfiguration: configuration)
-                        let downloadTask = manager.downloadTask(with: request, progress: nil, destination: { (url:URL!, urlResponse:URLResponse!) -> URL! in
+                        let downloadTask = manager.downloadTask(with: request, progress: nil, destination: { (url:URL?, urlResponse:URLResponse?) -> URL! in
                             let file =  try? FileManager.default.url(for: .documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
                             return file?.appendingPathComponent("AvisoPrivacidad.pdf")
                             }, completionHandler: { (response:URLResponse!, fileUrl:URL!, error:NSError!) -> Void in
@@ -423,7 +423,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             
             let params = notService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !showNotification)
             print("Splash")
-            print(notService.jsonFromObject(params))
+            print(notService.jsonFromObject(params as AnyObject!))
 
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")

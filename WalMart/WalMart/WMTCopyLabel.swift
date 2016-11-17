@@ -33,7 +33,7 @@ class WMTCopyLable: UILabel {
             menu.setMenuVisible(true, animated: true)
         }
     }
-    override func copy(_ sender: AnyObject?) {
+    override func copy(_ sender: Any?) {
         let board = UIPasteboard.general
         board.string = stringCopy
         let menu = UIMenuController.shared

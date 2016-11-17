@@ -68,7 +68,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isHideCrossSell : Bool = true
     var indexSelected  : Int = 0
     var gestureCloseDetail : UITapGestureRecognizer!
-    var itemsCrossSellUPC : NSArray! = []
+    var itemsCrossSellUPC : [[String:Any]]! = []
     var bannerImagesProducts : IPAProductDetailBannerView!
     var productCrossSell : IPAProductCrossSellView!
     var tabledetail : UITableView!
@@ -222,7 +222,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(requestParams: ["skuId":self.sku] , successBlock: { (result:NSArray?) -> Void in
+        crossService.callService(requestParams: ["skuId":self.sku] , successBlock: { (result:[[String:Any]]?) -> Void in
             if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0{
@@ -421,7 +421,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "cellBundleitems", for: indexPath) as? IPAProductDetailBundleTableViewCell
                 cellBundle = cellPromotion
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = bundleItems as NSArray
+                cellPromotion!.itemsUPC = bundleItems as [[String:Any]]
                 cell = cellPromotion
             } else {
                 return cellForPoint(((indexPath as NSIndexPath).section,4),indexPath: indexPath)
@@ -440,7 +440,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if characteristics.count != 0 {
                 let cellCharacteristics = tabledetail.dequeueReusableCell(withIdentifier: "cellCharacteristics", for: indexPath) as? ProductDetailCharacteristicsTableViewCell
                 //self.clearView(cellCharacteristics!)
-                cellCharacteristics!.setValues(characteristics as NSArray)
+                cellCharacteristics!.setValues(characteristics as [[String:Any]])
                 cell = cellCharacteristics
             }else{
                 return nil
@@ -541,7 +541,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             return sizeForIndexPath ((indexPath.section,6),indexPath: indexPath)
         case (1,4) :
             if characteristics.count != 0 {
-                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics as NSArray)
+                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics as [[String:Any]])
                 return size + 126
             }
             return sizeForIndexPath ((indexPath.section,7),indexPath: indexPath)
@@ -1328,7 +1328,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 var values = facetsDetails[label] as? [Any]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
-                if !(values! as NSArray).contains(itemToAdd) {
+                if !(values! as [[String:Any]]).contains(itemToAdd) {
                     values!.append(itemToAdd as AnyObject)
                 }
                 facetsDetails[label] = values as AnyObject?

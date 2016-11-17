@@ -173,7 +173,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.listName!.text = title
         self.textField!.text = title
         
-        if let countItem = object["giftlistItems"] as? NSArray {
+        if let countItem = object["giftlistItems"] as? [[String:Any]] {
             print(countItem.count)
             self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), "\(countItem.count)")
         }

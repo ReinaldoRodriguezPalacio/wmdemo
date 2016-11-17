@@ -205,9 +205,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         if UserCurrentSession.sharedInstance.itemsMG != nil {
             //self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! NSArray as [Any]
             let itemsUserCurren = UserCurrentSession.sharedInstance.itemsMG! as Dictionary<String, AnyObject>
-            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as AnyObject, isShoppingCart: true) as! [Any]
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as AnyObject, isShoppingCart: true) 
             
-             checkoutVC?.itemsInCart = itemsUserCurren["commerceItems"] as! [Any] as NSArray!
+             checkoutVC?.itemsInCart = itemsUserCurren["commerceItems"] as! [[String:Any]]!
             
             self.arrayItems()
         }
@@ -330,7 +330,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
             }
            
             addressService.callService({ (resultCall:[String:Any]) -> Void in
-                if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
+                if let shippingAddress = resultCall["shippingAddresses"] as? [[String:Any]]
                 {
                     if shippingAddress.count > 0 {
                         if(cont!.password?.text == nil || cont!.password?.text == "" ){
@@ -374,7 +374,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         if listObj.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
-            crossService.callService(requestParams: ["skuId":upcValue], successBlock: { (result:NSArray?) -> Void in
+            crossService.callService(requestParams: ["skuId":upcValue], successBlock: { (result:[[String:Any]]?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false
@@ -394,12 +394,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
-                        self.itemsUPC = NSArray(array:resultArray) as! [Any]
+                        self.itemsUPC = [[String:Any]](array:resultArray) as! [Any]
                         
                     }
                     if self.itemsInShoppingCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.beforeLeave.itemsUPC = self.itemsUPC as NSArray
+                            self.beforeLeave.itemsUPC = self.itemsUPC as [[String:Any]]
                             self.beforeLeave.collection.reloadData()
                         }else{
                             

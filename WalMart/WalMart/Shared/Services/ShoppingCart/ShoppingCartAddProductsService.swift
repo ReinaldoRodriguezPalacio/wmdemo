@@ -138,7 +138,7 @@ class ShoppingCartAddProductsService : BaseService {
                         }
                         }) { (error:NSError) -> Void in
                             if (UserCurrentSession.sharedInstance.hasPreorderable()) {// is preorderable
-                                //let items  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? NSArray
+                                //let items  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [[String:Any]]
                                 let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
                                 let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
                                 errorBlock?(error)

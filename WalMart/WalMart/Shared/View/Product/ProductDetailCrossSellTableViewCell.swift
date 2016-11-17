@@ -16,7 +16,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
     var collection: UICollectionView!
     var delegate: ProductDetailCrossSellViewDelegate!
     var upc: String = ""
-    var itemsUPC: NSArray = [] {
+    var itemsUPC: [[String:Any]] = [] {
         didSet {
             collection.reloadData()
         }
@@ -69,7 +69,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
         
         let desc = itemUPC["description"] as! String
         let price = itemUPC["price"] as! String
-        let imageArray = itemUPC["imageUrl"] as! NSArray
+        let imageArray = itemUPC["imageUrl"] as! [[String:Any]]
         var imageUrl = ""
         if imageArray.count > 0 {
             imageUrl = imageArray.object(at: 0) as! String

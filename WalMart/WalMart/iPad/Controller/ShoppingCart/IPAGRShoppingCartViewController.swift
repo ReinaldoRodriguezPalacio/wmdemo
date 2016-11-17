@@ -71,7 +71,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             ctrlCheckOut?.view.frame = containerGROrder.bounds
             //checkoutVC!.hiddenBack = true
             ctrlCheckOut!.isNavigationBarHidden = true
-            checkoutVC?.itemsInCart = itemsInCart as NSArray!
+            checkoutVC?.itemsInCart = itemsInCart as [[String:Any]]!
             checkoutVC?.delegateCheckOut = self
             self.addChildViewController(ctrlCheckOut!)
             containerGROrder.addSubview(ctrlCheckOut!.view)

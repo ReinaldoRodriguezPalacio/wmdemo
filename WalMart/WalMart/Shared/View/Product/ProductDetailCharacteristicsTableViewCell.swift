@@ -36,7 +36,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
          self.addSubview(descLabel)
     }
     
-    func setValues(_ values:NSArray){
+    func setValues(_ values:[[String:Any]]){
         var currentY = 0.0 as CGFloat
         var index = 0
         self.clearView(descLabel)
@@ -80,7 +80,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         }
     }
     
-    class func sizeForCell(_ width:CGFloat,values:NSArray) -> CGFloat {
+    class func sizeForCell(_ width:CGFloat,values:[[String:Any]]) -> CGFloat {
         var heigth = 0.0 as CGFloat
         //var valuesDict = NSMutableArray()
         

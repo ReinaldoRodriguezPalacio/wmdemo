@@ -280,7 +280,7 @@ class BaseService : NSObject {
     // MARK: - File Manager
     
     func getFilePath(_ fileName:String) -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as NSArray!
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as [[String:Any]]!
         let docPath = paths?[0] as! NSString
         let path = docPath.appendingPathComponent(fileName)
         return path
@@ -334,7 +334,7 @@ class BaseService : NSObject {
 
     
     
-    func saveKeywords(_ items:NSArray) {
+    func saveKeywords(_ items:[[String:Any]]) {
         //Creating keywords
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in

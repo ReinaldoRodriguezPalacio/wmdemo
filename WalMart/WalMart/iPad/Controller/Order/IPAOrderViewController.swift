@@ -99,7 +99,7 @@ class IPAOrderViewController: OrderViewController {
         viewLoad.startAnnimating(self.isVisibleTab)
         
         let servicePrev = PreviousOrdersService()
-        servicePrev.callService({ (previous:NSArray) -> Void in
+        servicePrev.callService({ (previous:[[String:Any]]) -> Void in
             for orderPrev in previous {
                 let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! [String:Any])
                 dictMGOrder["type"] =  ""

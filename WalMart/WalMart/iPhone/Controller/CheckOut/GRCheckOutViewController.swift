@@ -726,7 +726,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         let service = GRPaymentTypeService()
         service.callService("2",
-            successBlock: { (result:NSArray) -> Void in
+            successBlock: { (result:[[String:Any]]) -> Void in
                 self.paymentOptionsItems = result as! [[String:Any]]
                 if result.count > 0 {
                     let option = result[0] as! [String:Any]
@@ -1351,7 +1351,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.scrollForm.scrollDelegate = self
         scrollForm.contentSize = CGSize(width: frame.width, height: 720)
         sAddredssForm = FormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
-        sAddredssForm.allAddress = self.addressItems as NSArray!
+        sAddredssForm.allAddress = self.addressItems as [[String:Any]]!
         sAddredssForm.idAddress = ""
         if !self.selectedAddressHasStore{
                 let serviceAddress = GRAddressesByIDService()
@@ -1545,7 +1545,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
                 
                 
-                let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
+                let purchaseOrderArray = resultCall["purchaseOrder"] as! [[String:Any]]
                 let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
                 
                 let trakingNumber = purchaseOrder["trackingNumber"] as! String

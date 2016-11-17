@@ -275,7 +275,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 var preorderable = false
                 
                 if let sku = recommendProduct["sku"] as? [String:Any] {
-                    if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                    if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                         if let item =  parentProducts.object(at: 0) as? [String:Any] {
                             desc = item["longDescription"] as? String ?? (item["description"] as? String)!
                             imageUrl = item["largeImageUrl"] as! String
@@ -343,7 +343,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             if let sku = recommendProduct["sku"] as? [String:Any] {
                 skuId =  sku.object(forKey: "id") as! String
-                if let parentProducts = sku.object(forKey: "parentProducts") as? NSArray{
+                if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
                     if let item =  parentProducts.object(at: 0) as? [String:Any] {
                         upc = item["repositoryId"] as? String ?? item["id"] as! String
                         desc = item["longDescription"] as? String ?? item["description"] as! String
@@ -419,7 +419,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             if val.range(of: ",") != nil {
                 let upcss :NSString = val as NSString
                 let myStringArr = upcss.components(separatedBy: ",")
-                self.showFindUpc(myStringArr as NSArray ,type: type)
+                self.showFindUpc(myStringArr as [[String:Any]] ,type: type)
                 
             }else{
                 showProductDetail(val,type: type)
@@ -478,14 +478,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     
     
-    func showFindUpc(_ upcs:NSArray,type:String){
+    func showFindUpc(_ upcs:[[String:Any]],type:String){
         let controller = SearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .WithCategoryForMG
         }else {
             controller.searchContextType = .WithCategoryForGR
         }
-        controller.findUpcsMg = upcs as? [String] as NSArray?
+        controller.findUpcsMg = upcs as? [String] as [[String:Any]]?
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         
@@ -538,7 +538,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             categories.append(itemRec["name"] as! String)
            
-            let upcs = itemRec["upcs"] as? NSArray
+            let upcs = itemRec["upcs"] as? [[String:Any]]
 
                     nameCategory = itemRec["name"] as! String
                     if categories.filter({ (catName) -> Bool in return catName == nameCategory }).count == 0 {

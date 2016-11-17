@@ -17,7 +17,7 @@ class StoreLocatorService: BaseService {
         let params: [String:Any] = [:]
         self.callGETService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in
-                if let values = resultCall["responseArray"] as? NSArray {
+                if let values = resultCall["responseArray"] as? [[String:Any]] {
                     for idx in 0 ..< values.count {
                         if let item = values[idx] as? [String:Any] {
                             let storeID = item["storeID"] as? String

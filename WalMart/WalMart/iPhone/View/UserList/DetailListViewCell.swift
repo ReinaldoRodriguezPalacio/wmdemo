@@ -129,7 +129,7 @@ class DetailListViewCell: ProductTableViewCell {
         var weighable = ""
         
         if let sku = product["sku"] as? [String:Any] {
-            if let parentProducts = sku["parentProducts"] as? NSArray{
+            if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                 if let item =  parentProducts.object(at: 0) as? [String:Any] {
                     imageUrl = item["largeImageUrl"] as! String
                     descriptionItem = item["description"] as! String

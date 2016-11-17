@@ -60,7 +60,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 }
                                 let baseprice = ""
                                 var imageUrl = ""
-                                if let images = shoppingCartProduct["imageUrl"] as? NSArray {
+                                if let images = shoppingCartProduct["imageUrl"] as? [[String:Any]] {
                                     imageUrl = images[0] as! String
                                 }
                                 
@@ -297,7 +297,7 @@ class GRShoppingCartProductsService : GRBaseService {
     
     
     func saveItemsAndSuccess(_ params:[[String:String]],resultCall:[String:Any], successBlock:(([String:Any]) -> Void)?) {
-        let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? NSArray : []
+        let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? [[String:Any]] : []
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -340,7 +340,7 @@ class GRShoppingCartProductsService : GRBaseService {
             }
             let baseprice = ""
             var imageUrl = ""
-            if let images = shoppingCartProduct["imageUrl"] as? NSArray {
+            if let images = shoppingCartProduct["imageUrl"] as? [[String:Any]] {
                 imageUrl = images[0] as! String
             }
             

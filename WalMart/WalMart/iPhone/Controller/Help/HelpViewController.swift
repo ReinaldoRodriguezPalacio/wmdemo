@@ -17,7 +17,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
 
     var delegate:HelpViewControllerDelegate!
     var table: UITableView!
-    var array : NSArray!
+    var array : [[String:Any]]!
     var selected : Int! = -1
     
     override func getScreenGAIName() -> String {
@@ -44,7 +44,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         } catch {
             jsonData = nil
         }
-        let resultArray = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSArray
+        let resultArray = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [[String:Any]]
         
         array = resultArray
         

@@ -178,7 +178,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     /*func loadGROrders() {
         let servicePrev = GRPreviousOrdersService()
-        servicePrev.callService({ (previous:NSArray) -> Void in
+        servicePrev.callService({ (previous:[[String:Any]]) -> Void in
             for orderPrev in previous {
                 let dictGROrder = NSMutableDictionary(dictionary: orderPrev as! [String:Any])
                 dictGROrder["type"] =  ResultObjectType.Groceries.rawValue

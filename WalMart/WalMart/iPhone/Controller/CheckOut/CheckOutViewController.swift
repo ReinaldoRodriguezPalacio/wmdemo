@@ -27,7 +27,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     var checkResponsive = "app_Checkout.aspx"
     var paramAppDevice = "device"
-    var itemsMG : NSArray!
+    var itemsMG : [[String:Any]]!
     var total : String?
     var stopTune =  true
     var useLancaster = false

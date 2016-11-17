@@ -26,7 +26,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var viewAddressFisical: AddressView? = nil
     var viewAddressMoral: AddressView? = nil
     var item: [String:Any]? = nil
-    var allAddress: NSArray! = []
+    var allAddress: [[String:Any]]! = []
     var viewTypeAdress: UIView? = nil
     var viewTypeAdressFiscal: UIView? = nil
     var saveButton: WMRoundButton?

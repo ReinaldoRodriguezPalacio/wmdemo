@@ -48,7 +48,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! [String:Any]
         let upc = itemUPC["upc"] as! String
         
-        let shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? NSArray
+        let shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [[String:Any]]
        
         /*for itemInCart in shoppingCartItems! {
             if let dictItem = itemInCart as? [String:Any] {

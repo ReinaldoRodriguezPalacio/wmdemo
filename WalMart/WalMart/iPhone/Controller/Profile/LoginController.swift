@@ -548,7 +548,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.alertView!.setMessage(NSLocalizedString("profile.message.sending",comment:""))
             let service = ForgotPasswordService()
             
-            service.callService(requestParams: service.buildParams(self.email!.text!), successBlock: { (result: [String:Any]) -> Void in
+            service.callService(requestParams: service.buildParams(self.email!.text!) as AnyObject, successBlock: { (result: [String:Any]) -> Void in
                 if let message = result["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
@@ -716,8 +716,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         if((FBSDKAccessToken.current()) != nil){
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil){
-                    print(result)
-                    self.loginWithEmail(result["email"] as! String, firstName: result["first_name"] as! String, lastName: result["last_name"] as! String, gender: result["gender"] as! String, birthDay:result["birthday"] as? String  == nil ? "" : result["birthday"] as! String)
+                    print(result!)
+                    let resultDict = result as! [String: Any]
+                    self.loginWithEmail(resultDict["email"] as! String, firstName: resultDict["first_name"] as! String, lastName: resultDict["last_name"] as! String, gender: resultDict["gender"] as! String, birthDay:resultDict["birthday"] as? String  == nil ? "" : resultDict["birthday"] as! String)
                 }else{
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
@@ -732,7 +733,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func deleteFacebookPermission(){
         if((FBSDKAccessToken.current()) != nil){
             let facebookRequest: FBSDKGraphRequest! = FBSDKGraphRequest(graphPath: "/me/permissions", parameters: nil, httpMethod: "DELETE")
-            facebookRequest.start { (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+            facebookRequest.start { (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: Error!) -> Void in
                 if(error == nil && result != nil){
                     print("Permission successfully revoked. This app will no longer post to Facebook on your behalf.")
                     print("result = \(result)")
@@ -783,7 +784,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
-                withError error: NSError!) {
+                withError error: Error!) {
         if (error == nil) {
             self.loginWithEmail(user.profile.email, firstName: user.profile.givenName, lastName: user.profile.familyName, gender: "", birthDay: "")
              GIDSignIn.sharedInstance().signOut()

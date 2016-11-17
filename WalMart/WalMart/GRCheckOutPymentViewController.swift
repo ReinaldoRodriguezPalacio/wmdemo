@@ -398,7 +398,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             
             
-            let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
+            let purchaseOrderArray = resultCall["purchaseOrder"] as! [[String:Any]]
             let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
             
             let trakingNumber = purchaseOrder["trackingNumber"] as! String
@@ -758,7 +758,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         let service = GRPaymentTypeService()
         service.callService("2",
-            successBlock: { (result:NSArray) -> Void in
+            successBlock: { (result:[[String:Any]]) -> Void in
                 self.paymentOptionsItems = result as! [Any]
                 //TODO: Borrar despues de validar paypal
                 //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])

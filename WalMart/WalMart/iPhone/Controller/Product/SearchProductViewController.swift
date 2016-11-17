@@ -458,7 +458,7 @@
         }
         
         var imageUrl: String? = ""
-        if let imageArray = item["imageUrl"] as? NSArray {
+        if let imageArray = item["imageUrl"] as? [[String:Any]] {
             if imageArray.count > 0 {
                 imageUrl = imageArray[0] as? String
             }

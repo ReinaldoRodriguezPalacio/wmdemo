@@ -154,7 +154,7 @@ class IPAHomeViewController : HomeViewController {
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
-    override func showFindUpc(_ upcs:NSArray,type:String){
+    override func showFindUpc(_ upcs:[[String:Any]],type:String){
         let controller = IPASearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .WithCategoryForMG

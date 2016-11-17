@@ -80,7 +80,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
         } else {
             let cellLine = familyTable.dequeueReusableCell(withIdentifier: lineReuseIdentifier(), for: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[(indexPath as NSIndexPath).section]
-            let linesArr = selectedSection["fineContent"] as! NSArray
+            let linesArr = selectedSection["fineContent"] as! [[String:Any]]
             let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             let selectedItem = itemLine["id"] as! String
             cellLine.setTitle(itemLine["displayName"] as! String)
@@ -123,7 +123,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
         }
         else {
             let selectedSection = families[(indexPath as NSIndexPath).section]
-            let linesArr = selectedSection["fineContent"] as! NSArray
+            let linesArr = selectedSection["fineContent"] as! [[String:Any]]
             let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
 
             let controller = SearchProductViewController()
@@ -151,7 +151,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     func numberOfRowsInSection(_ section:Int) -> Int {
         if section < families.count {
             let selectedSection = families[section]
-            let nameLine = selectedSection["fineContent"] as! NSArray
+            let nameLine = selectedSection["fineContent"] as! [[String:Any]]
             return nameLine.count
         }
         return 1

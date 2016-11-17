@@ -24,7 +24,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.useSignals = self.useSignalsServices
     }
     
-    func buildParams(_ quantity:String,upc:String,comments:String) -> NSArray {
+    func buildParams(_ quantity:String,upc:String,comments:String) -> [[String:Any]] {
         let quantityInt : Int = Int(quantity)!
         return [["quantity":quantityInt,"upc":upc,"comments":comments]]
         //return [["items":["quantity":quantityInt,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]]
@@ -61,7 +61,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
 
     func callService(_ upc:String,quantity:String,comments:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callService(requestParams: buildParams(quantity,upc:upc,comments:comments), successBlock: successBlock,errorBlock:errorBlock)
+        self.callService(requestParams: buildParams(quantity,upc:upc,comments:comments) as AnyObject, successBlock: successBlock,errorBlock:errorBlock)
     }
 
     func buildParams(_ products:[Any]) -> [String:Any] {

@@ -267,13 +267,13 @@ class ChangeInfoLegalViewController : NavigationViewController {
         // TODO preguntar por valor:: acceptConsent
         
         let peferencesService = SetPreferencesService()
-        let params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! NSArray, onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.promoEmail!.isSelected ? "Si" : "No", forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: self.acceptSharePersonal!.isSelected, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
-        peferencesService.jsonFromObject(params)
+        let params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! [[String:Any]], onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.promoEmail!.isSelected ? "Si" : "No", forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: self.acceptSharePersonal!.isSelected, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
+        peferencesService.jsonFromObject(params as AnyObject!)
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))
         self.alertView!.setMessage(NSLocalizedString("preferences.message.saving", comment:""))
         
-        peferencesService.callService(requestParams:params , successBlock: { (result:[String:Any]) in
+        peferencesService.callService(requestParams:params as AnyObject , successBlock: { (result:[String:Any]) in
             print("Preferencias Guardadas")
             self.alertView!.setMessage(NSLocalizedString("preferences.message.saved", comment:""))
             self.alertView!.showDoneIcon()

@@ -124,7 +124,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         } else {
             let cellLine = familyTable.dequeueReusableCell(withIdentifier: lineReuseIdentifier(), for: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[(indexPath as NSIndexPath).section]
-            let linesArr = selectedSection["line"] as! NSArray
+            let linesArr = selectedSection["line"] as! [[String:Any]]
             let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             cellLine.setTitle(itemLine["title"] as! String)
             cellLine.showSeparator =  linesArr.count == (indexPath as NSIndexPath).row
@@ -155,7 +155,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             self.familyTable.reloadData()
             
             let selectedSection = families[(indexPath as NSIndexPath).section]
-            let linesArr = selectedSection["line"] as! NSArray
+            let linesArr = selectedSection["line"] as! [[String:Any]]
             let item = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             
             
@@ -187,7 +187,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     func numberOfRowsInSection(_ section:Int) -> Int {
         if section < families.count {
             let selectedSection = families[section]
-            let nameLine = selectedSection["line"] as! NSArray
+            let nameLine = selectedSection["line"] as! [[String:Any]]
             return nameLine.count
         }
         

@@ -21,7 +21,7 @@ class SearchItemsByUPCService : BaseService {
             
             
             var newItemsArray: [[String:Any]] = []
-            if let items = result["responseArray"] as? NSArray {
+            if let items = result["responseArray"] as? [[String:Any]] {
                 //println(items)
                 self.saveKeywords(items) //Creating keywords
                 for idx in 0 ..< items.count {

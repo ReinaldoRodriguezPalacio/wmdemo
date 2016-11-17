@@ -254,7 +254,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     }
     
     func reloadTermsAndPages() {
-        let nsarray = self.pointButtons! as NSArray
+        let nsarray = self.pointButtons! as [[String:Any]]
         if nsarray.count > 0 {
             if let button = nsarray.object(at: self.visibleItem!) as? UIButton {
                 for inner: UIButton in self.pointButtons! {

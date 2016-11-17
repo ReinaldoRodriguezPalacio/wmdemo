@@ -14,7 +14,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     var status = ""
     var colorHeader = WMColor.yellow
     var itemDetail : [String:Any]! = [:]
-    var shippingAll : NSArray! = []
+    var shippingAll : [[String:Any]]! = []
     var detailsOrder : [Any]!
     
     var type : ResultObjectType!
@@ -155,7 +155,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
             
             self.itemDetail = result
-            self.shippingAll = result["Shipping"] as! NSArray
+            self.shippingAll = result["Shipping"] as! [[String:Any]]
             
             self.emptyView.isHidden = self.shippingAll.count > 0
             self.tableOrders.reloadData()
@@ -248,7 +248,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 let cellDetail = tableView.dequeueReusableCell(withIdentifier: "detailOrder") as! PreviousDetailTableViewCell
                 var valuesDetail : [String:Any] = [:]
                 let shipping = self.shippingAll[(indexPath as NSIndexPath).section] as! [String:Any]
-                valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": shipping["items"] as! NSArray]
+                valuesDetail = ["name":self.itemDetail["name"] as! String, "deliveryType": shipping["deliveryType"] as! String, "deliveryAddress": shipping["deliveryAddress"] as! String, "paymentType": shipping["paymentType"] as! String, "items": shipping["items"] as! [[String:Any]]]
                 let size = cellDetail.sizeCell(self.view.frame.width, values: valuesDetail, showHeader: true)
                 return size
             }
@@ -289,7 +289,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
                 let deliveryType = shipping["deliveryType"] as! String
                 let deliveryAddress = shipping["deliveryAddress"] as! String
                 let paymentType = shipping["paymentType"] as! String
-                let itemsShipping = shipping["items"] as! NSArray
+                let itemsShipping = shipping["items"] as! [[String:Any]]
                 
                 valuesDetail = ["name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
                 cellDetail.setValuesDetail(valuesDetail)
@@ -333,13 +333,13 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let deliveryType = shipping["deliveryType"] as! String
         let deliveryAddress = shipping["deliveryAddress"] as! String
         let paymentType = shipping["paymentType"] as! String
-        let itemsShipping = shipping["items"] as! NSArray
+        let itemsShipping = shipping["items"] as! [[String:Any]]
         
         valuesDetail = ["name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
         detailController.shipping = String(format: NSLocalizedString("previousorder.shipping", comment:""), String(sender.tag + 1), String(self.shippingAll.count))
         detailController.detailsOrderGroceries = valuesDetail
         detailController.type = ResultObjectType.Mg //
-        detailController.itemDetailProducts = shipping["items"] as! NSArray
+        detailController.itemDetailProducts = shipping["items"] as! [[String:Any]]
         self.navigationController!.pushViewController(detailController, animated: true)
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
@@ -373,7 +373,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         params["desc"] = item["description"] as! String as AnyObject?
         
         
-        if let images = item["imageUrl"] as? NSArray {
+        if let images = item["imageUrl"] as? [[String:Any]] {
             params["imgUrl"] = images[0] as! String as AnyObject?
         }else
         {
@@ -431,7 +431,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             var ixYSpace : CGFloat = 0
             var unifiedImage : UIImage? = nil
             let shippingSect = self.shippingAll[section] as! [String:Any]
-            let itemsShipping = shippingSect["items"] as! NSArray
+            let itemsShipping = shippingSect["items"] as! [[String:Any]]
             
             //imageHead
             let imageHead = UIImage(named:"detail_HeaderMail")
@@ -501,7 +501,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         let deliveryType = shipping["deliveryType"] as! String
         let deliveryAddress = shipping["deliveryAddress"] as! String
         let paymentType = shipping["paymentType"] as! String
-        let itemsShipping = shipping["items"] as! NSArray
+        let itemsShipping = shipping["items"] as! [[String:Any]]
         
         valuesDetail = ["name":name, "deliveryType": deliveryType, "deliveryAddress": deliveryAddress, "paymentType": paymentType, "items": itemsShipping]
         shippingCell.setValuesDetail(valuesDetail)
@@ -512,7 +512,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         
         productCell.type = self.type
         let dictSect = self.shippingAll[(indexPath as NSIndexPath).section] as! [String:Any]
-        let items = dictSect["items"] as! NSArray
+        let items = dictSect["items"] as! [[String:Any]]
         
         let dictProduct = items[(indexPath as NSIndexPath).row] as! [String:Any]
         let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct)

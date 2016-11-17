@@ -38,7 +38,7 @@ class GRAddItemListService: GRBaseService {
     
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         /*var toSneditem : [String:Any] = [:]
-        let arrayItems = params["itemArrImp"] as! NSArray
+        let arrayItems = params["itemArrImp"] as! [[String:Any]]
         var arrayToSend : [[String:Any]] = []
         for item in arrayItems {
             let paramUpc = item["upc"] as! String

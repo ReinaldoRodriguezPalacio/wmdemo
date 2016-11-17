@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         //Twitter
         let fabric =  Bundle.main.object(forInfoDictionaryKey: "Fabric") as! [String:Any]
-        let kits = (fabric["Kits"] as! NSArray)[0] as! [String:Any]
+        let kits = (fabric["Kits"] as! [[String:Any]])[0] as! [String:Any]
         let kitInfo = kits["KitInfo"] as! [String:Any]
         let twitterKey = kitInfo["consumerKey"] as! String
         let twitterSecret = kitInfo["consumerSecret"] as! String
@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         URLCache.setSharedURLCache(sharedCache)
         
      
-        let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray!
+        let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as [[String:Any]]!
         let docPath = paths?[0] as! String
         let todeletecloud =  URL(fileURLWithPath: docPath)
         do {

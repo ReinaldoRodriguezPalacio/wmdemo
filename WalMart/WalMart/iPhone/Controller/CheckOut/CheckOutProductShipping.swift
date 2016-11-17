@@ -11,7 +11,7 @@ import Foundation
 class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UITableViewDataSource, CheckOutShippingDelegate, CheckOutShippingSelectionDelegate,CheckOutProductTypeShippingDelegate {
 
     var tableProductsCheckout : UITableView!
-    var shippingAll : NSArray! = []
+    var shippingAll : [[String:Any]]! = []
     var itemDetail : [String:Any]! = [:]
     var shipping : [Int:AnyObject] = [:]
     var cancelButton : UIButton?
@@ -127,7 +127,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             sending = true
         }
        
-        let items =   self.orderDictionary?["commerceItems"] as! NSArray
+        let items =   self.orderDictionary?["commerceItems"] as! [[String:Any]]
         return items.count + 1 + (sending ? 1 : 0)
     }
     
@@ -243,7 +243,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
              return 114 / 2
             }
             if (indexPath as NSIndexPath).section ==  shippingAll.count - 1 {
-                let items =   self.orderDictionary?["commerceItems"] as! NSArray
+                let items =   self.orderDictionary?["commerceItems"] as! [[String:Any]]
                 if (items.count  + (configshiping ?  1 : 0)) == (indexPath as NSIndexPath).row {
                     return 85
                 }
@@ -284,7 +284,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             let response  =  result["responseObject"]  as! [String:Any]
             
             self.orderDictionary = response["order"] as? [String:Any]
-            self.shippingAll = self.orderDictionary!["shippingGroups"] as! NSArray
+            self.shippingAll = self.orderDictionary!["shippingGroups"] as! [[String:Any]]
             
             self.tableProductsCheckout.reloadData()
             self.removeViewLoad()
@@ -316,7 +316,7 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
             controller.titleString =  "Envío \(selectedItem + 1) de \(self.shippingAll.count)"
             self.navigationController?.pushViewController(controller, animated: true)
         }else{
-            let paymentGroups = self.orderDictionary?["paymentGroups"] as! NSArray
+            let paymentGroups = self.orderDictionary?["paymentGroups"] as! [[String:Any]]
            
             let controller = CheckOutProductTypeShipping()
             controller.delegate = self

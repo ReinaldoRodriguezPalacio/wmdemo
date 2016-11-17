@@ -238,7 +238,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         //let params = service.buildParamsForSearch(text: "", family:"f-papeleria-escolar", line: "l-escolar-cuadernos", sort:"rankingASC", departament: "d-papeleria", start: 0, maxResult: 20)
         let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100, brand: nil)
         service.callService(params!,
-                            successBlock:{ (arrayProduct,facet:NSArray?) in
+                            successBlock:{ (arrayProduct,facet:[[String:Any]]?) in
                                 self.detailItems = arrayProduct as? [[String:Any]]
                                 
                                 if self.detailItems?.count == 0 || self.detailItems == nil {
@@ -437,7 +437,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                 params["upc"] = item["upc"] as! String as AnyObject?
                 params["desc"] = item["description"] as! String as AnyObject?
                 var imageUrl: String? = ""
-                if let imageArray = item["imageUrl"] as? NSArray {
+                if let imageArray = item["imageUrl"] as? [[String:Any]] {
                     if imageArray.count > 0 {
                         imageUrl = imageArray[0] as? String
                     }
@@ -570,7 +570,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                     onHandInventory = inventory
                 }
                 
-                let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
+                let imageArray = shoppingCartProduct["imageUrl"] as! [[String:Any]]
                 var imageUrl = ""
                 if imageArray.count > 0 {
                     imageUrl = imageArray.object(at: 0) as! String

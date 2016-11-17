@@ -19,7 +19,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
     var upc: String = ""
     var idListSelectdFromSearch = ""
     
-    var itemsUPC: NSArray = [] {
+    var itemsUPC: [[String:Any]] = [] {
         didSet {
             collection.reloadData()
         }

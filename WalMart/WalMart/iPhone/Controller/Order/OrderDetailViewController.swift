@@ -18,7 +18,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var isShowingTabBar : Bool = true
     var showFedexGuide : Bool = true
     
-    var itemDetailProducts : NSArray!
+    var itemDetailProducts : [[String:Any]]!
     var type : ResultObjectType!
     
     var detailsOrder : [Any]!
@@ -154,7 +154,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             quantityStr = quantityProd.stringValue
         }
         var urlImage = ""
-        if let imageURLArray = itemDetail["imageUrl"] as? NSArray {
+        if let imageURLArray = itemDetail["imageUrl"] as? [[String:Any]] {
             if imageURLArray.count > 0 {
                 urlImage = imageURLArray[0] as! String
             }
@@ -299,7 +299,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             return getUPCItems()
         }
         let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:Any]
-        if let  listUPCItems =  shoppingCartProduct["items"] as? NSArray {
+        if let  listUPCItems =  shoppingCartProduct["items"] as? [[String:Any]] {
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
             
             for shoppingCartProductDetail in  listUPCItems {

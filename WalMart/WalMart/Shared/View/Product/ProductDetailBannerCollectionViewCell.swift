@@ -222,7 +222,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
-        let nsarray = self.pointButtons! as NSArray
+        let nsarray = self.pointButtons! as [[String:Any]]
         if let button = nsarray.object(at: self.currentItem!) as? UIButton {
             for inner: UIButton in self.pointButtons! {
                 inner.isSelected = button === inner

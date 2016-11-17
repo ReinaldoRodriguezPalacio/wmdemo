@@ -267,7 +267,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
         
         let listObj = self.recentProductItems[(indexPath as NSIndexPath).section] as [String:Any]
-        let prodObj = listObj["products"] as! NSArray
+        let prodObj = listObj["products"] as! [[String:Any]]
         let objProduct = prodObj[(indexPath as NSIndexPath).row] as! [String:Any]
         //image
         let parentProd = objProduct["parentProducts"] as! [[String:Any]]

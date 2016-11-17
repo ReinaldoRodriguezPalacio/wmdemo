@@ -13,7 +13,7 @@ class AddInvoiceAddressView:GRAddAddressView, AddressViewDelegate {
 
     var viewAddressFisical: AddressView? = nil
     var viewAddressMoral: AddressView? = nil
-    var allAddress: NSArray! = []
+    var allAddress: [[String:Any]]! = []
     var typeAddress: TypeAddress = TypeAddress.fiscalPerson
     var addressFiscalPersonButton: UIButton? = nil
     var addressFiscalMoralButton: UIButton? = nil

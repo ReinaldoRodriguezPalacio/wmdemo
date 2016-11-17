@@ -63,16 +63,16 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var selectedElementsFacet: [IndexPath:Bool]?
     var selectedOrder: String?
     var isGroceriesSearch: Bool = false
-    var facetGr: NSArray? = nil
+    var facetGr: [[String:Any]]? = nil
     var selectedFacetGr: [String:Bool]?
 
     var delegate:FilterProductsViewControllerDelegate?
     var successCallBack : (() -> Void)? = nil
     var backFilter : (() -> Void)? = nil
     
-    var prices: NSArray?
-    var upcPrices: NSArray?
-    var upcByPrice: NSArray?
+    var prices: [[String:Any]]?
+    var upcPrices: [[String:Any]]?
+    var upcByPrice: [[String:Any]]?
     var brandFacets: [String] = []
     var isTextSearch: Bool = false
     var needsToValidateData = true
@@ -503,9 +503,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     }
     
     func processPriceFacet(_ fitem:[String:Any]) {
-        if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? NSArray {
+        if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? [[String:Any]] {
             var array = Array<Double>()
-            var mirror = Array<NSArray>()
+            var mirror = Array<[[String:Any]]>()
             for idx in 0 ..< itemsFacet.count {
                 let item = itemsFacet[idx] as! [String:Any]
                 if let value = item[JSON_KEY_FACET_ITEMNAME] as? NSString {
@@ -521,10 +521,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         array.append(price.doubleValue)
                     }
                 }
-                mirror.append(item[JSON_KEY_FACET_UPCS] as! NSArray)
+                mirror.append(item[JSON_KEY_FACET_UPCS] as! [[String:Any]])
             }
-            self.prices = array as NSArray?
-            self.upcPrices = mirror as NSArray?
+            self.prices = array as [[String:Any]]?
+            self.upcPrices = mirror as [[String:Any]]?
         }
     }
 
@@ -971,7 +971,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         var array = Array<String>()
         for idx in low ..< high {
-            if let upcs = self.upcPrices![idx] as? NSArray {
+            if let upcs = self.upcPrices![idx] as? [[String:Any]] {
                 for upc in upcs {
                     if let string = upc as? String {
                         array.append(string)
@@ -982,7 +982,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
         }
-        self.upcByPrice = array as NSArray?
+        self.upcByPrice = array as [[String:Any]]?
     }
     
     func addBrandFacet(_ brand:String){

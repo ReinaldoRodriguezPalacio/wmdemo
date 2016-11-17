@@ -71,7 +71,7 @@ class GRProductBySearchService: GRBaseService {
                 var newItemsArray = Array<[String:Any]>()
                 var facets = Array<[String:Any]>()
                 
-                if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? NSArray {
+                if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? [[String:Any]] {
                     self.saveKeywords(items) //Creating keywords
                     
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
@@ -97,7 +97,7 @@ class GRProductBySearchService: GRBaseService {
                         facets = itemsFacets
                     }
                     //Array items
-                    if let items = responseObject["items"] as? NSArray {
+                    if let items = responseObject["items"] as? [[String:Any]] {
                         for idx in 0 ..< items.count {
                             var item = items[idx] as! [String:Any]
                             if let promodesc = item["promoDescription"] as? String{

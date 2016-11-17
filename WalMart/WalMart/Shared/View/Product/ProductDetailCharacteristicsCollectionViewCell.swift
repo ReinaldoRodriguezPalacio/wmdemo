@@ -85,7 +85,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
     }
     
     
-    class func sizeForCell(_ width:CGFloat,values:NSArray) -> CGFloat {
+    class func sizeForCell(_ width:CGFloat,values:[[String:Any]]) -> CGFloat {
         var heigth = 0.0 as CGFloat
         //var valuesDict = NSMutableArray()
         

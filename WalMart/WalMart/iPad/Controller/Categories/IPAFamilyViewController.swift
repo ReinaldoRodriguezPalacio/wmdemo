@@ -28,7 +28,7 @@ class IPAFamilyViewController : FamilyViewController {
         }else
         {
             let selectedSection = families[(indexPath as NSIndexPath).section]
-            let linesArr = selectedSection["fineContent"] as! NSArray
+            let linesArr = selectedSection["fineContent"] as! [[String:Any]]
             let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             let nameLine = itemLine["displayName"] as! String
             delegate.didSelectLine(departmentId,family: selectedSection["familyId"] as! String,line: itemLine["id"] as! String, name: nameLine)

@@ -590,7 +590,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             } else { //if productObje.count < indexPath.row
                 let cellPromotion = viewShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = itemsUPC as NSArray
+                cellPromotion!.itemsUPC = itemsUPC as [[String:Any]]
                 cellPromotion!.collection.reloadData()
                 cell = cellPromotion
             }
@@ -1253,7 +1253,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.checkVC.afterclose = {() -> Void in self.checkVC = nil }
                     self.checkVC.username = loginController.email?.text
                     self.checkVC.password = loginController.password?.text
-                    self.checkVC.itemsMG = itemsMG!["items"] as! NSArray
+                    self.checkVC.itemsMG = itemsMG!["items"] as! [[String:Any]]
                     self.checkVC.total = total
                     self.checkVC.finishLoadCheckOut = {() in
                        
@@ -1419,7 +1419,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
          if self.itemsInCartOrderSection.count >  0 {
             let uskuIdValue = getExpensive()
             let crossService = CrossSellingProductService()
-            crossService.callService(requestParams: ["skuId":uskuIdValue], successBlock: { (result:NSArray?) -> Void in
+            crossService.callService(requestParams: ["skuId":uskuIdValue], successBlock: { (result:[[String:Any]]?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false

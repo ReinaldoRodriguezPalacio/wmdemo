@@ -210,7 +210,7 @@ class GRUserListService : GRBaseService {
             }
             
             var updateDetailList = false
-            let countItems = serviceList["giftlistItems"] as? NSArray
+            let countItems = serviceList["giftlistItems"] as? [[String:Any]]
             
             //if let countItems = countItems!.count {
             toUseList!.countItem = NSNumber(value: countItems!.count)
@@ -251,7 +251,7 @@ class GRUserListService : GRBaseService {
                 }
 
                 
-                        if let items =  serviceList["giftlistItems"] as? NSArray{
+                        if let items =  serviceList["giftlistItems"] as? [[String:Any]]{
                             
                             let parentList = self.findListById(listId)
                             if parentList == nil {

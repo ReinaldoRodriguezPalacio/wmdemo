@@ -150,7 +150,7 @@ class ShoppingCartProductsService : BaseService {
         
         let orderId = itemsInShoppingCart["orderId"] as? NSString
         
-        let commerceItems = itemsInShoppingCart["commerceItems"] as! NSArray
+        let commerceItems = itemsInShoppingCart["commerceItems"] as! [[String:Any]]
         
         if itemsInShoppingCart.count > 1 {
             for indx in 0 ..< commerceItems.count  {
@@ -228,7 +228,7 @@ class ShoppingCartProductsService : BaseService {
                  }*/
             
                 var imageUrl = ""
-                if let images = shoppingCartProduct["imageUrl"] as? NSArray {
+                if let images = shoppingCartProduct["imageUrl"] as? [[String:Any]] {
                     imageUrl = images[0] as! String
                 }
             

@@ -337,7 +337,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 if let product = productObj as? [String:Any] {
                     
                     if let sku = product["sku"] as? [String:Any] {
-                        if let parentProducts = sku["parentProducts"] as? NSArray{
+                        if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                             if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                 let upc = item["repositoryId"] as! String
                                 let description = item["description"] as! String
@@ -408,7 +408,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
              if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                 
                 if let sku = item["sku"] as? [String:Any] {
-                    if let parentProducts = sku["parentProducts"] as? NSArray{
+                    if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                         if let productItem =  parentProducts.object(at: 0) as? [String:Any] {
                             self.invokeUpdateProductFromListService(fromUpc:productItem["repositoryId"] as! String , skuId:sku["id"] as! String , quantity: Int(quantity)!)
                         }

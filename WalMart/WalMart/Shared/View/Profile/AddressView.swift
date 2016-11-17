@@ -44,7 +44,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     var idStoreArray :  [String]! = []
     var idStoreSelected : String? = ""
     
-    var allAddress: NSArray!
+    var allAddress: [[String:Any]]!
     
     var preferedLabel : UILabel? = nil
     var defaultPrefered : Bool = false

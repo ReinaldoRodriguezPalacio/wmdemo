@@ -55,7 +55,7 @@ class UserCurrentSession : NSObject {
     
     //Action in check out
     var activeCommens : Bool = false
-    var upcSearch : NSArray! = []
+    var upcSearch : [[String:Any]]! = []
     var messageInCommens : String! = ""
 
     
@@ -141,7 +141,7 @@ class UserCurrentSession : NSObject {
         let idUser = loginResult["idUser"] as? String//profileId
         let predicate = NSPredicate(format: "idUser == %@ ", idUser!)
         
-        let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
+        let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! [[String:Any]]
         
         var profile : Profile
         if array.count > 0{
@@ -538,7 +538,7 @@ class UserCurrentSession : NSObject {
     
     func isEmptyMG() -> Bool {
         if self.itemsMG != nil {
-            if let itemsInShoppingCart = self.itemsMG!["items"] as? NSArray {
+            if let itemsInShoppingCart = self.itemsMG!["items"] as? [[String:Any]] {
                 return itemsInShoppingCart.count == 0
             }
         }
@@ -547,7 +547,7 @@ class UserCurrentSession : NSObject {
     
     func isEmptyGR() -> Bool {
         if self.itemsGR != nil {
-            if let itemsInShoppingCart = self.itemsGR!["items"] as? NSArray {
+            if let itemsInShoppingCart = self.itemsGR!["items"] as? [[String:Any]] {
                 return itemsInShoppingCart.count == 0
             }
         }
@@ -875,7 +875,7 @@ class UserCurrentSession : NSObject {
         
         if (Item["promotion"] as AnyObject).count > 0 {//  as? [String:Any]
             let lenght = (Item["promotion"]! as AnyObject).count
-            let promotion = Item["promotion"] as? NSArray
+            let promotion = Item["promotion"] as? [[String:Any]]
             
             for idx in 0 ..< lenght!{
                 
