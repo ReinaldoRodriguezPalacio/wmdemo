@@ -411,10 +411,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         let request = NSURLRequest(URL: NSURL(string:url)!)
                         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
                         let manager = AFURLSessionManager(sessionConfiguration: configuration)
-                        let downloadTask = manager.downloadTaskWithRequest(request, progress: nil, destination: { (url:NSURL!, urlResponse:NSURLResponse!) -> NSURL! in
+                        let downloadTask = manager.downloadTaskWithRequest(request, progress: nil, destination: { (url:NSURL, urlResponse:NSURLResponse) -> NSURL in
                             let file =  try? NSFileManager.defaultManager().URLForDirectory(.DocumentDirectory, inDomain: NSSearchPathDomainMask.UserDomainMask, appropriateForURL: nil, create: false)
-                            return file?.URLByAppendingPathComponent("AvisoPrivacidad.pdf")
-                            }, completionHandler: { (response:NSURLResponse!, fileUrl:NSURL!, error:NSError!) -> Void in
+                            return file!.URLByAppendingPathComponent("AvisoPrivacidad.pdf")
+                            }, completionHandler: { (response:NSURLResponse, fileUrl:NSURL?, error:NSError?) -> Void in
                                 print("File Path : \(fileUrl)")
                         })
                         downloadTask.resume()

@@ -71,10 +71,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             loadImagefromUrl = loadImage
         }//self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
         if loadImagefromUrl {
-            self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIcon, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageIcon.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imgURLName)!), placeholderImage:imageIcon, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
                 self.imageIcon.image = image
                 self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon)
-                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
                     
             }
         }else{
@@ -93,10 +93,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }//self.loadImageFromDisk(strinname,defaultStr:"header_default")
       
         if loadImagefromUrl {
-            self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg"), image: image,defaultImage:imageHeader)
-                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
                     
             }
         }else{
@@ -115,10 +115,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWithURL(NSURL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+            }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
                 print(error)
         }
         

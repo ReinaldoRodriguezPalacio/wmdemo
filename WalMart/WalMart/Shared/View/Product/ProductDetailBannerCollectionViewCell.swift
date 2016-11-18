@@ -277,7 +277,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         let imageURL = items[indexPath.row] as! String
         
         cell.imageView!.contentMode = UIViewContentMode.Center
-        cell.imageView!.setImageWithURL(NSURL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        cell.imageView!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
             cell.imageView!.contentMode = self.contentModeOrig
             cell.imageView!.image = image
             self.imagesRef.insert(image, atIndex: indexPath.row)

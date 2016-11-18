@@ -866,7 +866,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
         listCell.productImage!.image = nil
-        listCell.productImage!.cancelImageRequestOperation()
+        listCell.productImage!.cancelImageDownloadTask()
         listCell.defaultList = false
         listCell.detailDelegate = self
         listCell.delegate = self

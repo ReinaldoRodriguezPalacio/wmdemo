@@ -24,7 +24,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
         }
     
         self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURL(NSURL(string: imageUrl!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.productImage!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageUrl!)!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
             self.productImage!.contentMode = self.contentModeOrig
             self.productImage!.image = image
             self.imageGrayScale = self.convertImageToGrayScale(image)
