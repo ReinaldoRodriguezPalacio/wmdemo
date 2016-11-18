@@ -41,13 +41,11 @@ class GRBaseService : BaseService {
             let uuid  = NSUUID().UUIDString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
             let strUsr  = "ff24423eefbca345" + timeStamp + uuid // "f3062afbe4c4a8ea2fc730687d0e9f818c7f9a23"//
             
-            if AFStatic.managerGR.requestSerializer == nil {
-                AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-            }
-            
-            AFStatic.managerGR.requestSerializer!.setValue(timeStamp, forHTTPHeaderField: "timestamp")
-            AFStatic.managerGR.requestSerializer!.setValue(uuid, forHTTPHeaderField: "requestID")
-            AFStatic.managerGR.requestSerializer!.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
+            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+        
+            AFStatic.managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+            AFStatic.managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+            AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
             
 //            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: serviceUrl())!)
 //            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)

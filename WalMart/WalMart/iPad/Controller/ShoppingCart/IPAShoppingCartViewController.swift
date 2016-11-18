@@ -56,7 +56,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let url = NSURL(string: serviceUrl("WalmartMG.CartPromo"))
-        imagePromotion.setImageWithURL(url, placeholderImage: UIImage(named:"cart_promo"))
+        imagePromotion.setImageWithURL(url!, placeholderImage: UIImage(named:"cart_promo"))
     }
 
     

@@ -85,13 +85,13 @@ class ProductCollectionViewCell : UICollectionViewCell {
         let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)")
 
         self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURL(NSURL(string: productImageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.productImage!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
                 self.productImage!.contentMode = self.contentModeOrig
                 self.productImage!.image = image
                 if self.completeimageaction != nil {
                     self.completeimageaction!()
                 }
-            }, failure: { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+            }, failure: { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
                 if self.completeimageaction != nil {
                     self.completeimageaction!()
                 }

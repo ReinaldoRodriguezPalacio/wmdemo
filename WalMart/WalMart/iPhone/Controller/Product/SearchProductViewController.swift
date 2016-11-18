@@ -868,9 +868,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     if self.landingPageMG?.count > 0{ // > 0 TODO cambiar
                         //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                         let imageURL = IS_IPAD ? self.landingPageMG!["imgipad"] as! String : self.landingPageMG!["imgiphone"] as! String
-                        self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                        self.bannerView.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageURL)!), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
                             self.bannerView.image = image//"http://\(imageURL)"
-                        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                        }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
                             print("Error al presentar imagen")
                         }
                         
@@ -981,9 +981,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if self.landingPageGR?.count > 0 && self.btnSuper.selected{ // > 0 TODO cambiar
                     //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                     let imageURL = IS_IPAD ? self.landingPageGR!["imgipad"] as! String : self.landingPageGR!["imgiphone"] as! String
-                    self.bannerView.setImageWithURL(NSURL(string: imageURL), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                    self.bannerView.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageURL)!), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
                         self.bannerView.image = image //"http://\(imageURL)"
-                    }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
                         print("Error al presentar imagen")
                     }
                     self.isLandingPage = true

@@ -117,7 +117,7 @@ public struct JSON {
                 } else {
                     _type = .Number
                 }
-            case let string as NSString:
+            case let _ as NSString:
                 _type = .String
             case let null as NSNull:
                 _type = .Null
