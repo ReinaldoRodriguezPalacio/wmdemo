@@ -142,6 +142,18 @@
 		5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5645789B19AE2E00006A7152 /* AppDelegate.swift */; };
 		564578CC19AE3231006A7152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564578CB19AE3231006A7152 /* HomeViewController.swift */; };
 		564578CE19AE327A006A7152 /* Storyboard_iphone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564578CD19AE327A006A7152 /* Storyboard_iphone.storyboard */; };
+		564578EA19AE33AB006A7152 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D119AE33AB006A7152 /* AFHTTPRequestOperation.m */; };
+		564578EB19AE33AB006A7152 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D319AE33AB006A7152 /* AFHTTPRequestOperationManager.m */; };
+		564578EC19AE33AB006A7152 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D519AE33AB006A7152 /* AFHTTPSessionManager.m */; };
+		564578ED19AE33AB006A7152 /* AFNetworkActivityLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D719AE33AB006A7152 /* AFNetworkActivityLogger.m */; };
+		564578EE19AE33AB006A7152 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578DA19AE33AB006A7152 /* AFNetworkReachabilityManager.m */; };
+		564578EF19AE33AB006A7152 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578DC19AE33AB006A7152 /* AFSecurityPolicy.m */; };
+		564578F019AE33AB006A7152 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578DE19AE33AB006A7152 /* AFURLConnectionOperation.m */; };
+		564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E019AE33AB006A7152 /* AFURLRequestSerialization.m */; };
+		564578F219AE33AB006A7152 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E219AE33AB006A7152 /* AFURLResponseSerialization.m */; };
+		564578F319AE33AB006A7152 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E419AE33AB006A7152 /* AFURLSessionManager.m */; };
+		564578F419AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E719AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m */; };
+		564578F519AE33AB006A7152 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E919AE33AB006A7152 /* UIImageView+AFNetworking.m */; };
 		564578FA19AE3718006A7152 /* CustomBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564578F919AE3718006A7152 /* CustomBarViewController.swift */; };
 		564A98AD19D320DE0047D898 /* ShoppingCartQuantitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564A98AC19D320DE0047D898 /* ShoppingCartQuantitySelectorView.swift */; };
 		564A98B119D3644A0047D898 /* HighlightedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564A98B019D3644A0047D898 /* HighlightedButton.swift */; };
@@ -407,7 +419,6 @@
 		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; };
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
-		6C5774D01DDF774F000019B3 /* walmartmx.cer in Resources */ = {isa = PBXBuildFile; fileRef = 6C5774CF1DDF774F000019B3 /* walmartmx.cer */; };
 		6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */; };
 		6C6AC1EE1CF51A650072FBB7 /* FamilyByCategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */; };
 		6C6AC1F21CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */; };
@@ -507,6 +518,8 @@
 		AC59118419DE0D2400EB095C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AC59117F19DE0D2400EB095C /* FMResultSet.m */; };
 		AC59118919DE0D4D00EB095C /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC59118619DE0D4D00EB095C /* TPKeyboardAvoidingScrollView.m */; };
 		AC59118A19DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AC59118819DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC59119519DE0D6100EB095C /* libAdIdAccess.a */; };
+		AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */; };
 		AC5911A419DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AC59119B19DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg */; };
 		AC5911A519DE26E600EB095C /* cancelPolicies.html in Resources */ = {isa = PBXBuildFile; fileRef = AC59119C19DE26E600EB095C /* cancelPolicies.html */; };
 		AC5911A619DE26E600EB095C /* enviocostotiempo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AC59119D19DE26E600EB095C /* enviocostotiempo.jpg */; };
@@ -723,6 +736,31 @@
 		564578B119AE2E00006A7152 /* WalMartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalMartTests.swift; sourceTree = "<group>"; };
 		564578CB19AE3231006A7152 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = iPhone/Controller/Home/HomeViewController.swift; sourceTree = "<group>"; };
 		564578CD19AE327A006A7152 /* Storyboard_iphone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard_iphone.storyboard; path = iPhone/Resources/Storyboard_iphone.storyboard; sourceTree = "<group>"; };
+		564578D019AE33AB006A7152 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = Shared/Library/AFNetworking/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		564578D119AE33AB006A7152 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPRequestOperation.m; path = Shared/Library/AFNetworking/AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		564578D219AE33AB006A7152 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperationManager.h; path = Shared/Library/AFNetworking/AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
+		564578D319AE33AB006A7152 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPRequestOperationManager.m; path = Shared/Library/AFNetworking/AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
+		564578D419AE33AB006A7152 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPSessionManager.h; path = Shared/Library/AFNetworking/AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		564578D519AE33AB006A7152 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPSessionManager.m; path = Shared/Library/AFNetworking/AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		564578D619AE33AB006A7152 /* AFNetworkActivityLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworkActivityLogger.h; path = Shared/Library/AFNetworking/AFNetworkActivityLogger.h; sourceTree = "<group>"; };
+		564578D719AE33AB006A7152 /* AFNetworkActivityLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFNetworkActivityLogger.m; path = Shared/Library/AFNetworking/AFNetworkActivityLogger.m; sourceTree = "<group>"; };
+		564578D819AE33AB006A7152 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworking.h; path = Shared/Library/AFNetworking/AFNetworking.h; sourceTree = "<group>"; };
+		564578D919AE33AB006A7152 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworkReachabilityManager.h; path = Shared/Library/AFNetworking/AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		564578DA19AE33AB006A7152 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFNetworkReachabilityManager.m; path = Shared/Library/AFNetworking/AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		564578DB19AE33AB006A7152 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFSecurityPolicy.h; path = Shared/Library/AFNetworking/AFSecurityPolicy.h; sourceTree = "<group>"; };
+		564578DC19AE33AB006A7152 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFSecurityPolicy.m; path = Shared/Library/AFNetworking/AFSecurityPolicy.m; sourceTree = "<group>"; };
+		564578DD19AE33AB006A7152 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLConnectionOperation.h; path = Shared/Library/AFNetworking/AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		564578DE19AE33AB006A7152 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLConnectionOperation.m; path = Shared/Library/AFNetworking/AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		564578DF19AE33AB006A7152 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLRequestSerialization.h; path = Shared/Library/AFNetworking/AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		564578E019AE33AB006A7152 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLRequestSerialization.m; path = Shared/Library/AFNetworking/AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		564578E119AE33AB006A7152 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLResponseSerialization.h; path = Shared/Library/AFNetworking/AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		564578E219AE33AB006A7152 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLResponseSerialization.m; path = Shared/Library/AFNetworking/AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		564578E319AE33AB006A7152 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLSessionManager.h; path = Shared/Library/AFNetworking/AFURLSessionManager.h; sourceTree = "<group>"; };
+		564578E419AE33AB006A7152 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLSessionManager.m; path = Shared/Library/AFNetworking/AFURLSessionManager.m; sourceTree = "<group>"; };
+		564578E619AE33AB006A7152 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
+		564578E719AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
+		564578E819AE33AB006A7152 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		564578E919AE33AB006A7152 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		564578F619AE3554006A7152 /* WalMart-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WalMart-Bridging-Header.h"; sourceTree = "<group>"; };
 		564578F919AE3718006A7152 /* CustomBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomBarViewController.swift; path = iPhone/Controller/Navigation/CustomBarViewController.swift; sourceTree = "<group>"; };
 		564A98AC19D320DE0047D898 /* ShoppingCartQuantitySelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartQuantitySelectorView.swift; path = iPhone/View/ShoppingCart/ShoppingCartQuantitySelectorView.swift; sourceTree = "<group>"; };
@@ -1005,7 +1043,6 @@
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
-		6C5774CF1DDF774F000019B3 /* walmartmx.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = walmartmx.cer; sourceTree = "<group>"; };
 		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
 		6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyByCategoryService.swift; path = Shared/Services/BackToSchool/FamilyByCategoryService.swift; sourceTree = "<group>"; };
 		6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackToSchoolCategoryViewController.swift; path = iPhone/Controller/Categories/BackToSchoolCategoryViewController.swift; sourceTree = "<group>"; };
@@ -1117,6 +1154,18 @@
 		AC59118619DE0D4D00EB095C /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingScrollView.m; path = Shared/Library/ScrollViewForm/TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		AC59118719DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+TPKeyboardAvoidingAdditions.h"; path = "Shared/Library/ScrollViewForm/UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		AC59118819DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+TPKeyboardAvoidingAdditions.m"; path = "Shared/Library/ScrollViewForm/UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		AC59118B19DE0D6100EB095C /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = Shared/Library/GAnalitics/GAI.h; sourceTree = "<group>"; };
+		AC59118C19DE0D6100EB095C /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIDictionaryBuilder.h; path = Shared/Library/GAnalitics/GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		AC59118D19DE0D6100EB095C /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceFields.h; path = Shared/Library/GAnalitics/GAIEcommerceFields.h; sourceTree = "<group>"; };
+		AC59118E19DE0D6100EB095C /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProduct.h; path = Shared/Library/GAnalitics/GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		AC59118F19DE0D6100EB095C /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProductAction.h; path = Shared/Library/GAnalitics/GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		AC59119019DE0D6100EB095C /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommercePromotion.h; path = Shared/Library/GAnalitics/GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		AC59119119DE0D6100EB095C /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIFields.h; path = Shared/Library/GAnalitics/GAIFields.h; sourceTree = "<group>"; };
+		AC59119219DE0D6100EB095C /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAILogger.h; path = Shared/Library/GAnalitics/GAILogger.h; sourceTree = "<group>"; };
+		AC59119319DE0D6100EB095C /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITrackedViewController.h; path = Shared/Library/GAnalitics/GAITrackedViewController.h; sourceTree = "<group>"; };
+		AC59119419DE0D6100EB095C /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITracker.h; path = Shared/Library/GAnalitics/GAITracker.h; sourceTree = "<group>"; };
+		AC59119519DE0D6100EB095C /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAdIdAccess.a; path = Shared/Library/GAnalitics/libAdIdAccess.a; sourceTree = "<group>"; };
+		AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = Shared/Library/GAnalitics/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		AC59119B19DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bbvabancomer_pagodeservicios.jpg; path = "Supporting Files/Help/bbvabancomer_pagodeservicios.jpg"; sourceTree = "<group>"; };
 		AC59119C19DE26E600EB095C /* cancelPolicies.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = cancelPolicies.html; path = "Supporting Files/Help/cancelPolicies.html"; sourceTree = "<group>"; };
 		AC59119D19DE26E600EB095C /* enviocostotiempo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = enviocostotiempo.jpg; path = "Supporting Files/Help/enviocostotiempo.jpg"; sourceTree = "<group>"; };
@@ -1196,7 +1245,9 @@
 				6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */,
 				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
+				AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
+				AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */,
 				E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1624,12 +1675,14 @@
 				5608AF741A0AADE600176CB0 /* StickyHeaderLayout */,
 				AC59117519DE0CBF00EB095C /* fmdb */,
 				AC59117419DE0CB500EB095C /* ScrollViewForm */,
+				AC59117319DE0CA300EB095C /* GAnalitics */,
 				56AE80E319D9F47E00D5DDA4 /* ScreenShot */,
 				56DFE4C119D057A8001811F5 /* SWTableView */,
 				56823A2B19CB72D3007DD932 /* Hash */,
 				5680B7D319C3975B00108F34 /* LoadingView */,
 				5606BC2D19BA6586002A70ED /* BlurImage */,
 				56527DE319AFE9EE008032C6 /* iCarousel */,
+				564578CF19AE3367006A7152 /* AFNetworking */,
 				04D2A3931A2FD27A008DAE37 /* MapUtils */,
 			);
 			name = Library;
@@ -1819,6 +1872,47 @@
 				56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */,
 			);
 			name = Home;
+			sourceTree = "<group>";
+		};
+		564578CF19AE3367006A7152 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				564578D019AE33AB006A7152 /* AFHTTPRequestOperation.h */,
+				564578D119AE33AB006A7152 /* AFHTTPRequestOperation.m */,
+				564578D219AE33AB006A7152 /* AFHTTPRequestOperationManager.h */,
+				564578D319AE33AB006A7152 /* AFHTTPRequestOperationManager.m */,
+				564578D419AE33AB006A7152 /* AFHTTPSessionManager.h */,
+				564578D519AE33AB006A7152 /* AFHTTPSessionManager.m */,
+				564578D619AE33AB006A7152 /* AFNetworkActivityLogger.h */,
+				564578D719AE33AB006A7152 /* AFNetworkActivityLogger.m */,
+				564578D819AE33AB006A7152 /* AFNetworking.h */,
+				564578D919AE33AB006A7152 /* AFNetworkReachabilityManager.h */,
+				564578DA19AE33AB006A7152 /* AFNetworkReachabilityManager.m */,
+				564578DB19AE33AB006A7152 /* AFSecurityPolicy.h */,
+				564578DC19AE33AB006A7152 /* AFSecurityPolicy.m */,
+				564578DD19AE33AB006A7152 /* AFURLConnectionOperation.h */,
+				564578DE19AE33AB006A7152 /* AFURLConnectionOperation.m */,
+				564578DF19AE33AB006A7152 /* AFURLRequestSerialization.h */,
+				564578E019AE33AB006A7152 /* AFURLRequestSerialization.m */,
+				564578E119AE33AB006A7152 /* AFURLResponseSerialization.h */,
+				564578E219AE33AB006A7152 /* AFURLResponseSerialization.m */,
+				564578E319AE33AB006A7152 /* AFURLSessionManager.h */,
+				564578E419AE33AB006A7152 /* AFURLSessionManager.m */,
+				564578E519AE33AB006A7152 /* UIKit+AFNetworking */,
+			);
+			name = AFNetworking;
+			sourceTree = "<group>";
+		};
+		564578E519AE33AB006A7152 /* UIKit+AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				564578E619AE33AB006A7152 /* AFNetworkActivityIndicatorManager.h */,
+				564578E719AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m */,
+				564578E819AE33AB006A7152 /* UIImageView+AFNetworking.h */,
+				564578E919AE33AB006A7152 /* UIImageView+AFNetworking.m */,
+			);
+			name = "UIKit+AFNetworking";
+			path = "Shared/Library/AFNetworking/UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
 		564578F719AE35E7006A7152 /* Model */ = {
@@ -2511,7 +2605,6 @@
 		56DE027119DE2BDA00FA2042 /* Certs */ = {
 			isa = PBXGroup;
 			children = (
-				6C5774CF1DDF774F000019B3 /* walmartmx.cer */,
 				56DE027219DE2BE400FA2042 /* www.aclaraciones.com.mx.cer */,
 			);
 			name = Certs;
@@ -2887,6 +2980,13 @@
 			name = Help;
 			sourceTree = "<group>";
 		};
+		AC59116119DE08BE00EB095C /* GAnalitics */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = GAnalitics;
+			sourceTree = "<group>";
+		};
 		AC59117019DE0A5700EB095C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -2894,6 +2994,25 @@
 				56895A4F1AA644D900561B12 /* MD5Util.swift */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		AC59117319DE0CA300EB095C /* GAnalitics */ = {
+			isa = PBXGroup;
+			children = (
+				AC59118B19DE0D6100EB095C /* GAI.h */,
+				AC59118C19DE0D6100EB095C /* GAIDictionaryBuilder.h */,
+				AC59118D19DE0D6100EB095C /* GAIEcommerceFields.h */,
+				AC59118E19DE0D6100EB095C /* GAIEcommerceProduct.h */,
+				AC59118F19DE0D6100EB095C /* GAIEcommerceProductAction.h */,
+				AC59119019DE0D6100EB095C /* GAIEcommercePromotion.h */,
+				AC59119119DE0D6100EB095C /* GAIFields.h */,
+				AC59119219DE0D6100EB095C /* GAILogger.h */,
+				AC59119319DE0D6100EB095C /* GAITrackedViewController.h */,
+				AC59119419DE0D6100EB095C /* GAITracker.h */,
+				AC59119519DE0D6100EB095C /* libAdIdAccess.a */,
+				AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */,
+			);
+			name = GAnalitics;
 			sourceTree = "<group>";
 		};
 		AC59117419DE0CB500EB095C /* ScrollViewForm */ = {
@@ -2931,6 +3050,7 @@
 				5512FEDB1DD2936800411BF6 /* Dynatrace */,
 				6C7E3FC61D11B73300E814AC /* CMSwitchView */,
 				4A5A9D271C84A99B00A2A7F4 /* CalendarPicker */,
+				AC59116119DE08BE00EB095C /* GAnalitics */,
 				AC88FA6C19CA388C003BD859 /* ScrollViewForm */,
 				AC5F647019BF52E10098BE43 /* fmdb */,
 			);
@@ -3195,7 +3315,6 @@
 				AC59115A19DDEE7500EB095C /* privacyPolicies.html in Resources */,
 				8B44A1B51AA7DDF3008E3CC0 /* term.json in Resources */,
 				AC5911A519DE26E600EB095C /* cancelPolicies.html in Resources */,
-				6C5774D01DDF774F000019B3 /* walmartmx.cer in Resources */,
 				5670FFF51A532EBD00C29A5E /* specialstest.json in Resources */,
 				AC5911AA19DE26E600EB095C /* productsAvailability.html in Resources */,
 				56527DD319AFA8C2008032C6 /* MyriadPro-Regular.otf in Resources */,
@@ -3297,6 +3416,7 @@
 			files = (
 				56ED1B631A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift in Sources */,
 				4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */,
+				564578F019AE33AB006A7152 /* AFURLConnectionOperation.m in Sources */,
 				5614A65C1A6872E20048B71A /* GRAddressByUserService.swift in Sources */,
 				AC6AAE9E19CCD408004081C4 /* AddressViewCell.swift in Sources */,
 				04D5E9421A30CD390043437C /* StoreView.swift in Sources */,
@@ -3340,6 +3460,7 @@
 				56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */,
 				567023331AB255D300FDCD91 /* IPOWebViewController.swift in Sources */,
 				5663A62419DA11AC00EF0B17 /* Wishlist.swift in Sources */,
+				564578EE19AE33AB006A7152 /* AFNetworkReachabilityManager.m in Sources */,
 				AC7A0BEE19D9D99B004ED6CC /* AddPreferedAddress.swift in Sources */,
 				5614A6551A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift in Sources */,
 				569E004E19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift in Sources */,
@@ -3404,6 +3525,7 @@
 				04C2342E1A70125100AEFC09 /* ListSelectorViewCell.swift in Sources */,
 				568A42B319ED8F8D00608297 /* ProductDetailCrossSellView.swift in Sources */,
 				5612FC991A8BD2DA007CA2FD /* RecentProductsViewController.swift in Sources */,
+				564578F319AE33AB006A7152 /* AFURLSessionManager.m in Sources */,
 				56527DE619AFEA3E008032C6 /* iCarousel.m in Sources */,
 				AC37F6BF19B90E7B000BB80D /* DeleteAddressesByUserService.swift in Sources */,
 				56C211851A24E278002D1C91 /* IPASearchLastViewTableViewController.swift in Sources */,
@@ -3435,6 +3557,7 @@
 				569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */,
 				568A42B119ED8E7500608297 /* IPAProductDetailCrossSellView.swift in Sources */,
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
+				564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */,
 				56253D9119D2242B002E128A /* OrderProductTableViewCell.swift in Sources */,
 				5636DCE71C12581000E14473 /* SignUpMGViewController.swift in Sources */,
 				567AB65B1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift in Sources */,
@@ -3548,10 +3671,12 @@
 				AC3B64F019BE657000564845 /* SearchSingleViewCell.swift in Sources */,
 				5688470719E8775A00D5C45D /* IPACustomBarViewController.swift in Sources */,
 				4AE7FA941C802805007C43B3 /* IPALinesListViewController.swift in Sources */,
+				564578F219AE33AB006A7152 /* AFURLResponseSerialization.m in Sources */,
 				56DE026619DE073C00FA2042 /* IPOEmptyView.swift in Sources */,
 				6C3092D41B990C9600D00349 /* GRPayPalUpdateOrderService.swift in Sources */,
 				6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */,
 				5696078F19B4D955005D20DC /* BannerService.swift in Sources */,
+				564578ED19AE33AB006A7152 /* AFNetworkActivityLogger.m in Sources */,
 				5688470A19E87E2800D5C45D /* IPACategoriesViewController.swift in Sources */,
 				04D605A21A9F9DFB006B36D5 /* IPAListTableViewCell.swift in Sources */,
 				565E5B5A19C0BF2F00444DF7 /* UserCurrentSession.swift in Sources */,
@@ -3565,6 +3690,7 @@
 				AC6BC2C819EEC89C00835D03 /* IPAAddressViewController.swift in Sources */,
 				AC37F6C719B91907000BB80D /* UpdateFiscalAddressService.swift in Sources */,
 				ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */,
+				564578EB19AE33AB006A7152 /* AFHTTPRequestOperationManager.m in Sources */,
 				4A5A9D4E1C84A99B00A2A7F4 /* ABCalendarPickerDefaultSeasonedMonthsProvider.m in Sources */,
 				56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */,
 				56253D8D19D21883002E128A /* PreviousDetailTableViewCell.swift in Sources */,
@@ -3581,6 +3707,7 @@
 				AC1CF41D19EC831A006F1BC6 /* IPAProfileViewController.swift in Sources */,
 				56527DE019AFC689008032C6 /* IPOBaseController.swift in Sources */,
 				5698842D1BE1B1A700FEF4FA /* PromotionsMgService.swift in Sources */,
+				564578EA19AE33AB006A7152 /* AFHTTPRequestOperation.m in Sources */,
 				5673D13A1A9D500400DCD20B /* RSCodeLayer.swift in Sources */,
 				56DB80481B0225B8002E65F7 /* GRProductsByUPCService.swift in Sources */,
 				5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */,
@@ -3627,6 +3754,8 @@
 				AC6AAE9719CC94FB004081C4 /* ProfileViewCell.swift in Sources */,
 				56BB629D1A5F2C3A0008BD1F /* ProductDetailBundleCollectionViewCell.swift in Sources */,
 				5662252F1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift in Sources */,
+				564578EF19AE33AB006A7152 /* AFSecurityPolicy.m in Sources */,
+				564578F519AE33AB006A7152 /* UIImageView+AFNetworking.m in Sources */,
 				561657D919B1423900DA056A /* FamilyViewController.swift in Sources */,
 				5608AF711A0AA24D00176CB0 /* IPASearchCatProductViewController.swift in Sources */,
 				04C711CA1A856C800095090E /* NewListSelectorViewCell.swift in Sources */,
@@ -3684,6 +3813,7 @@
 				04203FE11A6F2B2800008366 /* GRDeleteItemListService.swift in Sources */,
 				56B044AE1A6DB5E300BA173A /* GRTimeBands.swift in Sources */,
 				56DA713D1A3F9AEB00048539 /* IPOCategoriesViewController.swift in Sources */,
+				564578EC19AE33AB006A7152 /* AFHTTPSessionManager.m in Sources */,
 				56DB7C881B260E51005D0600 /* KeyboardPicesViewController.swift in Sources */,
 				568A42B519ED919100608297 /* IPAProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
 				5673D1411A9D500400DCD20B /* RSITFGenerator.swift in Sources */,
@@ -3733,6 +3863,7 @@
 				5673D13B1A9D500400DCD20B /* RSCodeReaderViewController.swift in Sources */,
 				56527DB019AFA2C7008032C6 /* ProductCollectionViewCell.swift in Sources */,
 				56D69D781A9BAD93009FFC77 /* ShoppingCartButton.swift in Sources */,
+				564578F419AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				AC59118219DE0D2400EB095C /* FMDatabasePool.m in Sources */,
 				56BB62991A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift in Sources */,
 				041CC49F1A85807C00750B5E /* NewListView.swift in Sources */,
@@ -3914,7 +4045,6 @@
 					"-lc++",
 					"-lz",
 					"$(DT_LDFLAGS)",
-					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
@@ -3972,7 +4102,6 @@
 					"-lc++",
 					"-lz",
 					"$(DT_LDFLAGS)",
-					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;

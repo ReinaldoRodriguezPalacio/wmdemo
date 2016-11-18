@@ -80,10 +80,10 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.familyController!.delegate = self
         
         self.imageBackground = UIImageView()
-        self.imageBackground!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: "\(self.urlImage!)")!), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground!.setImageWithURL(NSURL(string: "\(self.urlImage!)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground!.image = image
             self.collection?.reloadData()
-        }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
             print("Error al presentar imagen")
         }
         

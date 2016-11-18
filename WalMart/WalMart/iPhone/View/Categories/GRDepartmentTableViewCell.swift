@@ -74,10 +74,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         if loadHeader {
-            self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+            self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-                }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                     
             }
         }else{
@@ -85,10 +85,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         if loadImageIcon {
-            self.imageIcon.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imgURLName)!), placeholderImage:imageIconDsk, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+            self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageIcon.image = image
                 self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
-                }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                     
             }
         }else{
@@ -104,10 +104,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
     
     func setValuesLanding(imageBackgroundURL:String) {
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWithURL(NSURL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
             print(error)
         }
         //self.titleLabel.text = title

@@ -27,9 +27,9 @@ class IPOLinesViewController : IPOCategoriesViewController {
         imageBackground.contentMode = UIViewContentMode.Left
         imageBackground.clipsToBounds = true
         
-        self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: "http://\(urlTicer)")!), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWithURL(NSURL(string: "http://\(urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image
-            }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
              print("Error al presentar imagen")
         }
     

@@ -62,7 +62,7 @@ class ProductTableViewCell : SWTableViewCell {
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
         
         self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.productImage!.setImageWithURL(NSURL(string: productImageURL), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.productImage!.contentMode = self.contentModeOrig
             self.productImage!.image = image
             }, failure: nil)

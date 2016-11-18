@@ -83,10 +83,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         imageProduct = UIImageView(frame: CGRectMake(viewBgImage.frame.width / 4, viewBgImage.frame.width / 4, viewBgImage.frame.width - (viewBgImage.frame.width / 2), viewBgImage.frame.width - (viewBgImage.frame.width / 2)))
         
         if multipleItems == nil {
-            let imageUrl = params["imgUrl"] as! String
+            let imageUrl = params["imgUrl"] as! NSString
             
             self.imageProduct!.contentMode = UIViewContentMode.Center
-            self.imageProduct!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageUrl)!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+            self.imageProduct!.setImageWithURL(NSURL(string: imageUrl as String), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageProduct!.contentMode = self.contentModeOrig
                 self.imageProduct!.image = image
                 }, failure: nil)
@@ -409,7 +409,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             params = allItems[currentIndex] as? [String:AnyObject]
             
             let imageUrl = params["imgUrl"] as! String
-            imageProduct.setImageWithURL(NSURL(string: imageUrl)!)
+            imageProduct.setImageWithURL(NSURL(string: imageUrl))
             
             //Change label 
             let startTitleAddShoppingCart = NSLocalizedString("shoppingcart.additem",comment:"")

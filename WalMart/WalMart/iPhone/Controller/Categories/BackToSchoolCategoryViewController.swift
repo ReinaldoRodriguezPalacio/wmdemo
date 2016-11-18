@@ -32,9 +32,9 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         imageBackground.contentMode = UIViewContentMode.ScaleAspectFill
         imageBackground.clipsToBounds = true
         let stringURl = urlTicer.contains("http") ?  urlTicer : "http://\(urlTicer)"
-        self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: stringURl)!), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWithURL(NSURL(string: stringURl), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image
-        }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
             print("Error al presentar imagen")
         }
         

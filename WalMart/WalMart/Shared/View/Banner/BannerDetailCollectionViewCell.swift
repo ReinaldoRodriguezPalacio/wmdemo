@@ -16,7 +16,7 @@ class BannerDetailCollectionViewCell : UICollectionViewCell {
     var imageURL : String? {
         didSet {
 
-            imageBanner.setImageWithURL(NSURL(string: "http://\(imageURL!)")!)
+            imageBanner.setImageWithURL(NSURL(string: "http://\(imageURL!)"))
         }
     }
     

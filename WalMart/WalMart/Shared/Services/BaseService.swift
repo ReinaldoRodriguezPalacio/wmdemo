@@ -59,20 +59,17 @@ class BaseService : NSObject {
         super.init()
         dispatch_once(&AFStatic.onceToken) {
             AFStatic.manager = AFHTTPSessionManager()
-            AFStatic.manager.requestSerializer = AFJSONRequestSerializer()
-            AFStatic.manager.responseSerializer = AFJSONResponseSerializer()
-            AFStatic.manager.responseSerializer.acceptableContentTypes = nil
-            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+            AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as AFJSONRequestSerializer
+            //AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+            //AFStatic.manager.securityPolicy.validatesCertificateChain = false
             AFStatic.manager.securityPolicy.allowInvalidCertificates = true
-            AFStatic.manager.securityPolicy.validatesDomainName = false
+            
         
             AFStatic.managerGR = AFHTTPSessionManager()
-            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer()
-            AFStatic.managerGR.responseSerializer = AFJSONResponseSerializer()
-            AFStatic.managerGR.responseSerializer.acceptableContentTypes = nil
-            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as AFJSONRequestSerializer
+            //AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+            //AFStatic.managerGR.securityPolicy.validatesCertificateChain = false
             AFStatic.managerGR.securityPolicy.allowInvalidCertificates = true
-            AFStatic.managerGR.securityPolicy.validatesDomainName = false
         }
         
     }
@@ -116,9 +113,9 @@ class BaseService : NSObject {
                 let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue)
                 let uuid  = NSUUID().UUIDString
                 let strUsr  = "ff24423eefbca345" + timeStamp + uuid
-                AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
-                AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
-                AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
+                AFStatic.manager.requestSerializer!.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+                AFStatic.manager.requestSerializer!.setValue(uuid, forHTTPHeaderField: "requestID")
+                AFStatic.manager.requestSerializer!.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
                 
 //                let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
 //                let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
@@ -130,7 +127,6 @@ class BaseService : NSObject {
             } else{
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
             }
-            
         }
         return AFStatic.manager
         
@@ -178,7 +174,7 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
    
-        let task = afManager.POST(url, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+        let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
@@ -190,7 +186,7 @@ class BaseService : NSObject {
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance().userSigned = nil
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                         })
                     }
                     errorBlock!(errorResult)
@@ -201,12 +197,12 @@ class BaseService : NSObject {
                 errorBlock!(errorResult)
                 return
             }
-            successBlock!(resultJSON)
-            }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+             successBlock!(resultJSON)
+            }, failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 //TAG Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request!.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
@@ -216,10 +212,10 @@ class BaseService : NSObject {
                     return
                 }
                 
-                print("Response Error : \(error) \n Response \(request!.response)")
+                print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
-       return task!
+       return task
     }
     
     func callGETService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -232,7 +228,7 @@ class BaseService : NSObject {
     }
     
     func callGETService(manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.GET(serviceURL, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+        manager.GET(serviceURL, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager
@@ -257,10 +253,10 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+            }, failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 
                 if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request!.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
                     self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
@@ -270,6 +266,7 @@ class BaseService : NSObject {
                 BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
                 errorBlock!(error)
         })
+        
     }
     
     
@@ -464,14 +461,16 @@ class BaseService : NSObject {
     }
     
     func callPOSTServiceCam(manager:AFHTTPSessionManager, params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.POST(serviceUrl(), parameters: nil, constructingBodyWithBlock: { (formData: AFMultipartFormData!) in
-            let imgData = params.objectForKey("image_request[image]") as! NSData
-            let localeStr = params.objectForKey("image_request[locale]") as! String
-            let langStr = params.objectForKey("image_request[language]") as! String
-            formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
-            formData.appendPartWithFormData(localeStr.dataUsingEncoding(NSUTF8StringEncoding)!, name:"image_request[locale]")
-            formData.appendPartWithFormData(langStr.dataUsingEncoding(NSUTF8StringEncoding)!, name:"image_request[language]")
-            }, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+        manager.POST(serviceUrl(), parameters: nil,
+            constructingBodyWithBlock: { (formData: AFMultipartFormData!) in
+                let imgData = params.objectForKey("image_request[image]") as! NSData
+                let localeStr = params.objectForKey("image_request[locale]") as! String
+                let langStr = params.objectForKey("image_request[language]") as! String
+                formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
+                formData.appendPartWithFormData(localeStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[locale]")
+                formData.appendPartWithFormData(langStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[language]")
+            },
+            success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
                 let resultJSON = json as! NSDictionary
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     //TAG manager
@@ -491,21 +490,22 @@ class BaseService : NSObject {
                         }
                         return
                     }
-                    
+                  
                     errorBlock!(errorResult)
                     return
                 }
-                
+               
                 successBlock!(resultJSON)
-            }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+            },
+            failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 //TAG manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request!.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                print("Response Error : \(error) \n Response \(request!.response)")
+                print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
     }

@@ -19,10 +19,10 @@ class LinesForSearchService: BaseService {
         printTimestamp("servicio LinesForSearchService")
         self.jsonFromObject(params)
         self.getManager().POST(serviceUrl(), parameters: params,
-            success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+            success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
                 //println(json)
                 self.printTimestamp("success LinesForSearchService")
-                if let response = json!["responseArray"] as? [AnyObject] {
+                if let response = json["responseArray"] as? [AnyObject] {
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
                             let values = [AnyObject](dictionary.values)
@@ -39,13 +39,13 @@ class LinesForSearchService: BaseService {
                 }
                 
             },
-            failure: {(request:NSURLSessionDataTask?, error:NSError) in
+            failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request!.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                print("Response Error : \(error) \n Response \(request!.response)")
+                print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
         

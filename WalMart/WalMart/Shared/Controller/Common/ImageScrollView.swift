@@ -110,7 +110,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         self.addSubview(self.imageView!)
 
         self.imageView!.contentMode = UIViewContentMode.Center
-        self.imageView!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: urlImage)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageView!.setImageWithURL(NSURL(string: urlImage), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageView!.contentMode = self.contentModeOrig
             self.imageView!.image = image
             self.imageView!.frame = CGRectMake(0.0,0.0,image.size.width, image.size.height)

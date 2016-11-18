@@ -23,7 +23,7 @@ class GRLinesForSearchService: GRBaseService {
 //        println("PARAMS FOR GRProductBySearchService")
         //self.jsonFromObject(params)
         self.getManager().POST(serviceUrl(), parameters: params,
-            success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+            success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
                //self.jsonFromObject(json)
                 self.printTimestamp("success GRLinesForSearchService")
                 
@@ -55,13 +55,13 @@ class GRLinesForSearchService: GRBaseService {
                     }
                 
             },
-            failure: {(request:NSURLSessionDataTask?, error:NSError) in
+            failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 if error.code == -1005 {
-                    print("Response Error : \(error) \n Response \(request!.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                print("Response Error : \(error) \n Response \(request!.response)")
+                print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
     }

@@ -57,11 +57,11 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             self.searchProduct.delegateImgHeader = self
             self.searchProduct.imageBgCategory =  UIImage(named: "header_default")
             self.imageBackground = UIImageView()
-            self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: "http://\(self.urlTicer)")!), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+            self.imageBackground.setImageWithURL(NSURL(string: "http://\(self.urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageBackground.image = image
                 self.searchProduct.imageBgCategory = image
                 
-                }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                     print("Error al presentar imagen")
             }
             self.searchProduct.imageIconCategory = UIImage(named: "default")
