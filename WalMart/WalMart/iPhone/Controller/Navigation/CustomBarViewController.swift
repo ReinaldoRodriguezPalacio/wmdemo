@@ -78,6 +78,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var imageLoadingCart: UIImageView!
     var openSearch = false
     var totuView : TutorialHelpView?
+    let KEY_RATING = "ratingEnabled"
     //var viewSuper : IPOGroceriesView!
     
     var splashVC : IPOSplashViewController!
@@ -1163,6 +1164,18 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func closeShoppingCart() {        
+        
+        if mgCheckOutComplete {
+            rateFinishShopp()
+            mgCheckOutComplete = false
+        } else {
+            validateCloseShoppingCart()
+        }
+        
+    }
+    
+    func validateCloseShoppingCart() {
+        
         self.btnShopping?.selected = false
         self.btnCloseShopping?.alpha = 0
         self.showBadge()
@@ -1184,7 +1197,91 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
-
+    }
+    
+    func rateFinishShopp(){
+        //Validar presentar mensaje
+        let showRating = CustomBarViewController.retrieveRateParam(self.KEY_RATING)
+        let velue = showRating == nil ? "" :showRating?.value
+        
+        if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
+            let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+            alert!.isCustomAlert = true
+            alert!.spinImage.hidden =  true
+            alert!.setMessage(NSLocalizedString("review.title.like.app", comment: ""))
+            alert!.addActionButtonsWithCustomText("No", leftAction: {
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
+                alert?.close()
+                //regresar a carrito
+                self.validateCloseShoppingCart()
+                print("Save in data base")
+                
+                
+                ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
+                }, rightText: "Sí", rightAction: {
+                    alert?.close()
+                    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
+                    self.rankingApp()
+                }, isNewFrame: false)
+            
+            alert!.leftButton.layer.cornerRadius = 20
+            alert!.rightButton.layer.cornerRadius = 20
+        }else{
+            //regresar a carrito
+            validateCloseShoppingCart()
+        }
+        
+    }
+    
+    /**
+     Show screen rate with options :
+     -review app
+     -later or no thanks
+     */
+    func rankingApp(){
+        
+        let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+        alert!.spinImage.hidden =  true
+        alert!.setMessage(NSLocalizedString("review.description.ok.rate", comment: ""))
+        
+        alert!.addActionButtonsWithCustomTextRating(NSLocalizedString("review.no.thanks", comment: ""), leftAction: {
+            // ---
+            CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
+            alert?.close()
+            ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+            //regresar a carrito
+            self.validateCloseShoppingCart()
+            
+            }, rightText: NSLocalizedString("review.maybe.later", comment: ""), rightAction: {
+                
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "true")
+                alert?.close()
+                
+                ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
+                //regresar a carrito
+                self.validateCloseShoppingCart()
+                
+                
+            }, centerText: NSLocalizedString("review.yes.rate", comment: ""),centerAction: {
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
+                alert?.close()
+                ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
+                //regresar a carrito
+                self.validateCloseShoppingCart()
+                let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+                if UIApplication.sharedApplication().canOpenURL(url!) == true  {
+                    UIApplication.sharedApplication().openURL(url!)
+                }
+                
+                
+        })
+        
+        alert!.leftButton.backgroundColor = WMColor.regular_blue
+        alert!.leftButton.layer.cornerRadius = 20
+        
+        alert!.rightButton.backgroundColor = WMColor.dark_blue
+        alert!.rightButton.layer.cornerRadius = 20
+        
         
     }
     

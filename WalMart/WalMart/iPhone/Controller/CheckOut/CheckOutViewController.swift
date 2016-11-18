@@ -9,6 +9,8 @@
 import Foundation
 //import Tune
 
+var mgCheckOutComplete = false
+
 class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
 
     let timeInterval : NSTimeInterval = 10.0
@@ -447,6 +449,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         }
         //Presentar
         isRateActive =  true
+        mgCheckOutComplete = true
        
     }
     
