@@ -275,13 +275,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 var preorderable = false
                 
                 if let sku = recommendProduct["sku"] as? [String:Any] {
-                    if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
-                        if let item =  parentProducts.object(at: 0) as? [String:Any] {
-                            desc = item["longDescription"] as? String ?? (item["description"] as? String)!
-                            imageUrl = item["largeImageUrl"] as! String
-                        }
+                    if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                         let item =  parentProducts[0]
+                        desc = item["longDescription"] as? String ?? (item["description"] as? String)!
+                        imageUrl = item["largeImageUrl"] as! String
                     }
-                    preorderable = sku.object(forKey: "weighable") as! String  == "N" ? false : true
+                    preorderable = sku[ "weighable"] as! String  == "N" ? false : true
                 }
                 
                 var price = ""
@@ -342,12 +341,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             var skuId =  ""
             
             if let sku = recommendProduct["sku"] as? [String:Any] {
-                skuId =  sku.object(forKey: "id") as! String
-                if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
-                    if let item =  parentProducts.object(at: 0) as? [String:Any] {
-                        upc = item["repositoryId"] as? String ?? item["id"] as! String
-                        desc = item["longDescription"] as? String ?? item["description"] as! String
-                    }
+                skuId =  sku["id"] as! String
+                if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                    let item =  parentProducts[0]
+                    upc = item["repositoryId"] as? String ?? item["id"] as! String
+                    desc = item["longDescription"] as? String ?? item["description"] as! String
                 }
             }
             
@@ -419,7 +417,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             if val.range(of: ",") != nil {
                 let upcss :NSString = val as NSString
                 let myStringArr = upcss.components(separatedBy: ",")
-                self.showFindUpc(myStringArr as [[String:Any]] ,type: type)
+                self.showFindUpc(myStringArr ,type: type)
                 
             }else{
                 showProductDetail(val,type: type)
@@ -478,14 +476,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     
     
-    func showFindUpc(_ upcs:[[String:Any]],type:String){
+    func showFindUpc(_ upcs:[String],type:String){
         let controller = SearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .WithCategoryForMG
         }else {
             controller.searchContextType = .WithCategoryForGR
         }
-        controller.findUpcsMg = upcs as? [String] as [[String:Any]]?
+        controller.findUpcsMg = upcs
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         

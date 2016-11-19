@@ -101,7 +101,7 @@ class IPAOrderViewController: OrderViewController {
         let servicePrev = PreviousOrdersService()
         servicePrev.callService({ (previous:[[String:Any]]) -> Void in
             for orderPrev in previous {
-                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! [String:Any])
+                var dictMGOrder = orderPrev
                 dictMGOrder["type"] =  ""
                 self.items.append(dictMGOrder)
             }

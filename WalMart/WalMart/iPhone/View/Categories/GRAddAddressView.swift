@@ -12,7 +12,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
     var scrollForm: TPKeyboardAvoidingScrollView?
     var layerLine: CALayer!
     var sAddredssForm: GRFormSuperAddressView?
-    var addressArray: [Any]?
+    var addressArray: [[String:Any]]?
     var saveButton: UIButton?
     var alertView: IPOWMAlertViewController?
     var onClose: (() -> Void)?
@@ -40,7 +40,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         self.addSubview(scrollForm!)
         
         self.sAddredssForm = GRFormSuperAddressView()
-        self.sAddredssForm!.allAddress = self.addressArray as [[String:Any]]!
+        self.sAddredssForm!.allAddress = self.addressArray
         self.sAddredssForm!.idAddress = ""
         self.scrollForm!.addSubview(sAddredssForm!)
         

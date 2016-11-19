@@ -343,9 +343,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 if let privateNot = result["privaceNotice"] as? [[String:Any]] {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy"
-                    let sinceDate = dateFormatter.date(from: (privateNot.object(at: 0) as AnyObject).object(forKey: "sinceDate") as! String)!
-                    let untilDate = dateFormatter.date(from: (privateNot.object(at: 0) as AnyObject).object(forKey: "untilDate") as! String)!
-                    let version = (privateNot.object(at: 0) as AnyObject).object(forKey: "version") as! NSNumber
+                    let sinceDate = dateFormatter.date(from: privateNot[0]["sinceDate"] as! String)
+                    let untilDate = dateFormatter.date(from: privateNot[0]["untilDate"] as! String)
+                    let version = privateNot[0]["version"] as! NSNumber
                     let versionAP = "AP\(version)" as String!
                     var isReviewActive : NSString = "false"
                     

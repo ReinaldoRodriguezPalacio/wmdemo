@@ -99,7 +99,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         
         if let imageArray = itemUPC["imageUrl"] as? [[String:Any]]{
             if imageArray.count > 0 {
-                imageUrl = imageArray.object(at: 0) as! String
+                imageUrl = imageArray[0] as! String
             }
         }
         else

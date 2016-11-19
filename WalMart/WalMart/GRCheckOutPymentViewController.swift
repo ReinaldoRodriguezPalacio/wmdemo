@@ -759,7 +759,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:[[String:Any]]) -> Void in
-                self.paymentOptionsItems = result as! [Any]
+                self.paymentOptionsItems = result
                 //TODO: Borrar despues de validar paypal
                 //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])
                 

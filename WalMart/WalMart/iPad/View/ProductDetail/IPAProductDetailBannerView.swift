@@ -184,10 +184,9 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         let currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as [UIButton]
-        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
-            for inner: UIButton in self.pointButtons! {
-                inner.isSelected = button === inner
-            }
+        let button = nsarray[self.currentItem!]
+        for inner: UIButton in self.pointButtons! {
+            inner.isSelected = button === inner
         }
     }
     

@@ -22,11 +22,12 @@ class LinesForSearchService: BaseService {
             success: {(request:URLSessionDataTask?, json:Any?) in
                 self.jsonFromObject(json as AnyObject!)
                 self.printTimestamp("success LinesForSearchService")
-                if let response = json["subCategories"] as? [[String:Any]] {
+                let responceDict = json as! [String:Any]
+                if let response = responceDict["subCategories"] as? [[String:Any]] {
                     DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
-                        self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
-                            let values = dictionary.values as! [Any]
-                            self.jsonFromObject(values)
+                        self.buildResponse(response, successBuildBlock: { (dictionary:[String : Any]) -> Void in
+                            let values = dictionary.values
+                            self.jsonFromObject(values as AnyObject!)
                             DispatchQueue.main.async(execute: { () -> Void in
                                 print("")
                                 successBlock?(values)

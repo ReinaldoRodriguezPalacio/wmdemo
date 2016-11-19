@@ -76,7 +76,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var showCloseButton : Bool = true
 
-    var itemsUPC: [Any] = []
+    var itemsUPC: [[String:Any]] = []
     
     var picker : AlertPickerView!
     var selectedConfirmation : IndexPath!
@@ -590,7 +590,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             } else { //if productObje.count < indexPath.row
                 let cellPromotion = viewShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = itemsUPC as [[String:Any]]
+                cellPromotion!.itemsUPC = itemsUPC 
                 cellPromotion!.collection.reloadData()
                 cell = cellPromotion
             }
@@ -1431,10 +1431,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         isShowingBeforeLeave = true
                     }
                     
-                    self.itemsUPC = result as! [Any]
+                    self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC as [Any]
-                        var resultArray : [Any] = []
+                        var arrayUPCS = self.itemsUPC as [[String:Any]]
+                        var resultArray : [[String:Any]] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }

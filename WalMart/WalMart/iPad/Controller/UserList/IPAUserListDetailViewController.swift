@@ -338,11 +338,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                     
                     if let sku = product["sku"] as? [String:Any] {
                         if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                            if let item =  parentProducts.object(at: 0) as? [String:Any] {
-                                let upc = item["repositoryId"] as! String
-                                let description = item["description"] as! String
-                                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                            }
+                            let item =  parentProducts[0]
+                            let upc = item["repositoryId"] as! String
+                            let description = item["description"] as! String
+                            productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                         }
                     }
                     
@@ -409,9 +408,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 
                 if let sku = item["sku"] as? [String:Any] {
                     if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                        if let productItem =  parentProducts.object(at: 0) as? [String:Any] {
-                            self.invokeUpdateProductFromListService(fromUpc:productItem["repositoryId"] as! String , skuId:sku["id"] as! String , quantity: Int(quantity)!)
-                        }
+                        let productItem =  parentProducts[0]
+                        self.invokeUpdateProductFromListService(fromUpc:productItem["repositoryId"] as! String , skuId:sku["id"] as! String , quantity: Int(quantity)!)
+                        
                     }
                 }
                 

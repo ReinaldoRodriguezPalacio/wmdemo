@@ -14,7 +14,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var tableAddress: UITableView?
     var titleLabel: UILabel?
     var layerLine: CALayer!
-    var addressArray: [Any]! = []
+    var addressArray: [[String:Any]]! = []
     var viewLoad : WMLoadingView!
     var onCloseAddressView: (() -> Void)?
     var newAdressForm: (() -> Void)?
@@ -200,7 +200,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             
             self.addressArray = []
             
-            if  let resultAddress = resultCall["responseArray"] as? [Any] {
+            if  let resultAddress = resultCall["responseArray"] as? [[String:Any]] {
                 self.addressArray = resultAddress
             }
 

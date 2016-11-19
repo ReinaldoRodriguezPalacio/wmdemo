@@ -382,19 +382,19 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                         isShowingBeforeLeave = true
                     }
                     
-                    self.itemsUPC = result! as! [Any]
+                    self.itemsUPC = result! 
                     if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC as [Any]
+                        var arrayUPCS = self.itemsUPC as [[String:Any]]
 //                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
 //                            let priceB = before["price"] as! NSString
 //                            let priceA = after["price"] as! NSString
 //                            return priceB.doubleValue < priceA.doubleValue
 //                        })
-                        var resultArray : [Any] = []
+                        var resultArray : [[String:Any]] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
-                        self.itemsUPC = [[String:Any]](array:resultArray) as! [Any]
+                        self.itemsUPC = resultArray
                         
                     }
                     if self.itemsInShoppingCart.count >  0  {

@@ -267,7 +267,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         // TODO preguntar por valor:: acceptConsent
         
         let peferencesService = SetPreferencesService()
-        let params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! [[String:Any]], onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.promoEmail!.isSelected ? "Si" : "No", forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: self.acceptSharePersonal!.isSelected, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
+        let params = peferencesService.buildParams(self.userPreferences["userPreferences"] as! [String], onlyTelephonicAlert: self.userPreferences["onlyTelephonicAlert"] as! String, abandonCartAlert: self.userPreferences["abandonCartAlert"] as! Bool, telephonicSmsAlert: self.userPreferences["telephonicSmsAlert"] as! Bool, mobileNumber: self.userPreferences["mobileNumber"] as! String, receivePromoEmail: self.promoEmail!.isSelected ? "Si" : "No", forOBIEE: self.userPreferences["forOBIEE"] as! Bool, acceptConsent: self.acceptSharePersonal!.isSelected, receiveInfoEmail: self.userPreferences["receiveInfoEmail"] as! Bool)
         peferencesService.jsonFromObject(params as AnyObject!)
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"icon_alert_saving"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"alert_ups"))

@@ -308,7 +308,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         let item =  self.products![i] //as? [String:Any]
                         if let sku = item["sku"] as? [String:Any] {
                             if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                                if let item =  parentProducts.object(at: 0) as? [String:Any] {
+                                if let item =  parentProducts[0] as? [String:Any] {
                                     self.selectedItems?.add(item["repositoryId"] as! String)
                                 }
                             }
@@ -514,7 +514,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                var params: [String:Any] = [:]
                 //validar session
                 if  UserCurrentSession.hasLoggedUser() {
-                    var index = 0
                     for lines in self.products! {
                         var productItem : [String:Any]? = [:]
                         
@@ -523,10 +522,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         
                         if let sku = lines["sku"] as? [String:Any] {
                             
-                            if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
-                                if let item =  parentProducts.object(at: 0) as? [String:Any] {
-                                    productItem = item
-                                }
+                            if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                                let item =  parentProducts[0]
+                                productItem = item
                             }
                         }
                         
@@ -774,8 +772,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     for lines in self.products! {
                         let upc = upcSelected as! String
                         if let sku = lines["sku"] as? [String:Any] {
-                            if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
-                                if let item =  parentProducts.object(at: 0) as? [String:Any] {
+                            if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                                    let item =  parentProducts[0]
                                     if  item["repositoryId"] as! String  == upc {
                                         
                                         if let typeProd = sku["weighable"] as? NSString {
@@ -791,8 +789,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             }
                                         }
                                     }
-                                    
-                                }//Item
                             }
                         }
 
@@ -990,16 +986,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.detailDelegate = self
         listCell.delegate = self
         
-        var plpArray : [String:Any] = [:]
             if self.products!.count > 0{
                 let items = self.products![(indexPath as NSIndexPath).row]
            
                 var upc = ""
                 if let sku = items["sku"] as? [String:Any] {
-                    if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
-                        if let item =  parentProducts.object(at: 0) as? [String:Any] {
-                            upc = item["repositoryId"] as! String
-                        }
+                    if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                        let item =  parentProducts[0]
+                        upc = item["repositoryId"] as! String
                     }
                 }
 
@@ -1186,8 +1180,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let item = self.products![(indexPath! as NSIndexPath).row] as? [String:Any] {
                     
                     if let sku = item["sku"] as? [String:Any] {
-                        if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
-                            if let item =  parentProducts.object(at: 0) as? [String:Any] {
+                        if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                            if let item =  parentProduct[0] as? [String:Any] {
                                 self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku.object(forKey: "id") as! String, quantity: Int(quantity)!)
                             }
                         }
@@ -1235,7 +1229,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func invokeDetailListService(_ action:(()->Void)? , reloadList : Bool) {
         let detailService = UserListDetailService()
         
-        detailService.callService(detailService.buildParams(self.listId!),
+        detailService.callService(detailService.buildParams(self.listId!) as AnyObject,
                                   successBlock: { (result:[String:Any]) -> Void in
                                     
                                     self.products = result["giftlistItems"] as? [[String:Any]]
@@ -1250,7 +1244,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             for i in 0...self.products!.count - 1 {
                                                 let item =  self.products![i] //as? [String:Any]
                                                 if let sku = item["sku"] as? [String:Any] {
-                                                    if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
+                                                    if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                                                         if let item =  parentProducts.object(at: 0) as? [String:Any] {
                                                             self.selectedItems?.add(item["repositoryId"] as! String )
                                                         }
@@ -1301,7 +1295,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
             let service = GRDeleteItemListService()
             let params = service.buildDeleteItemMustangObject(idList: self.listId!, upcs:service.buildDeleteItemMustang(repositoryId: repositoryId) as [String:Any])
-            service.jsonFromObject(params)
+            service.jsonFromObject(params as AnyObject!)
             service.callService(params,
                                 successBlock:{ (result:[String:Any]) -> Void in
                                     self.invokeDetailListService({ () -> Void in
@@ -1789,7 +1783,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         controller.searchContextType = searchContextType
         controller.titleHeader = text
         controller.textToSearch = text
-        controller.searchFromContextType = .fromSearchTextList
+        controller.searchFromContextType = .FromSearchTextList
         controller.idListFromSearch =  self.listId
         self.navigationController?.pushViewController(controller, animated: true)
         
