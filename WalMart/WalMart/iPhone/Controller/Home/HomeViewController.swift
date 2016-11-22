@@ -543,7 +543,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                         categories.append(nameCategory)
                     }
                     
-                    if let catItem : AnyObject = recommendCategoryItems[nameCategory] {
+                    if let catItem : Any = recommendCategoryItems[nameCategory] {
                         var array = catItem as! [Any]
                         array.append(itemRec as AnyObject)
                         recommendCategoryItems.updateValue(array as AnyObject, forKey: nameCategory)

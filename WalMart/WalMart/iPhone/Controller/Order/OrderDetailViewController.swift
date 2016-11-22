@@ -118,14 +118,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 let cellOrderProduct = tableDetailOrder.dequeueReusableCell(withIdentifier: "orderCell", for: indexPath) as! OrderProductTableViewCell
                 cellOrderProduct.frame = CGRect(x: 0, y: 0, width: self.tableDetailOrder.frame.width, height: cellOrderProduct.frame.height)
                 cellOrderProduct.type = self.type
-                var dictProduct = [:]
+                var dictProduct : [String:Any] = [:]
                 if showFedexGuide {
-                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row ] as! [String:Any]) as! [AnyHashable : Any]
+                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row ])
                 } else {
-                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row - 2] as! [String:Any]) as! [AnyHashable : Any]
+                    dictProduct = (itemDetailProducts[(indexPath as NSIndexPath).row - 2])
                 }
                 
-                let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct as [String:Any])
+                let itemShow = OrderDetailViewController.prepareValuesItems(dictProduct as! [String:Any])
                 let valuesItems = itemShow[0] as [String:Any]
                 
                 //valuesItems["skuId"] as! String

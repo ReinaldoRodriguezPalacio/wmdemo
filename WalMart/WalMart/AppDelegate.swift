@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         //Twitter
         let fabric =  Bundle.main.object(forInfoDictionaryKey: "Fabric") as! [String:Any]
-        let kits = (fabric["Kits"] as! [[String:Any]])[0] as! [String:Any]
+        let kits = (fabric["Kits"] as! [[String:Any]])[0]
         let kitInfo = kits["KitInfo"] as! [String:Any]
         let twitterKey = kitInfo["consumerKey"] as! String
         let twitterSecret = kitInfo["consumerSecret"] as! String
@@ -74,11 +74,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         //Set url image cache to application
         let sharedCache  = URLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
-        URLCache.setSharedURLCache(sharedCache)
+        URLCache.shared = sharedCache
         
      
-        let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as [[String:Any]]!
-        let docPath = paths?[0] as! String
+        let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as [String]!
+        let docPath = paths![0] 
         let todeletecloud =  URL(fileURLWithPath: docPath)
         do {
             try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
@@ -142,8 +142,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         //PayPal
         let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! [String:Any]
-        let sandboxClientID = payPalEnvironment.object(forKey: "SandboxClientID") as! String
-        let productionClientID =  payPalEnvironment.object(forKey: "ProductionClientID") as! String
+        let sandboxClientID = payPalEnvironment["SandboxClientID"] as! String
+        let productionClientID =  payPalEnvironment["ProductionClientID"] as! String
         PayPalMobile.initializeWithClientIds(forEnvironments: [PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
 
         
@@ -316,7 +316,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
-        print(notService.jsonFromObject(params))
+        print(notService.jsonFromObject(params as AnyObject!))
         if UserCurrentSession.sharedInstance.finishConfig {
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
@@ -510,7 +510,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
     func handleURLFacebookTag(_ url: URL,sourceApplication:String){
         let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
-        let stringCompare = parsedUrl?.targetURL.absoluteString as NSString
+        let stringCompare = parsedUrl!.targetURL.absoluteString as NSString
         let rangeEnd = stringCompare.range(of: "walmartmexicoapp://")
         
         if rangeEnd.location != NSNotFound {
@@ -547,9 +547,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                     
                     if components.count > 3 {
                         schoolName = components[3].components(separatedBy: "_")[1]
-                        schoolName = schoolName.replacingOccurrences(of: "-", with: " ").stringByRemovingPercentEncoding!
+                        schoolName = (schoolName.replacingOccurrences(of: "-", with: " ") as NSString).removingPercentEncoding!
                         grade = components[4].components(separatedBy: "_")[1]
-                        grade = grade.replacingOccurrences(of: "-", with: " ").stringByRemovingPercentEncoding!
+                        grade = (grade.replacingOccurrences(of: "-", with: " ") as NSString).removingPercentEncoding!
                     }
                     customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
                 }

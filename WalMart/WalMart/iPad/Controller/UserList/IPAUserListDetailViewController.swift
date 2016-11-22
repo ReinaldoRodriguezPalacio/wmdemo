@@ -459,7 +459,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             }else{
                 let service = GRUserListService()
                 //TODO: Checar como hacer este cast
-                //self.itemsUserList = service.retrieveUserList() as! [[String : Any]]?
+                self.itemsUserList = service.retrieveUserList()
                 self.invokeSaveListToDuplicateService(forListId: self.products!, andName: listName!, successDuplicateList: { () -> Void in
                     self.delegate?.reloadTableListUser()
                     self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))

@@ -300,16 +300,17 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.addressController = AddressViewController()
         }
         var item: [String:Any]!
-        let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as! [Any])
-        self.addressController!.allAddress =  allArray as [[String:Any]]!
+        var allArray: [[String:Any]] = self.arrayAddressShipping!
+        allArray.append(array:arrayAddressFiscal)
+        self.addressController!.allAddress =  allArray
         
         if (indexPath as NSIndexPath).section == 0{
-            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item] as! [String:Any]
+            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item]
             self.addressController!.typeAddress = TypeAddress.shiping
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
         }else{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
-            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item] as! [String:Any]
+            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item]
             if let type = item["persona"] as? String{
                 if type == "F" {
                     self.addressController!.typeAddress = TypeAddress.fiscalPerson
@@ -336,9 +337,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         if arrayAddressShipping.count == 0{
             self.addressController!.defaultPrefered = true
         }
-            
-        let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as! [Any])
-        self.addressController!.allAddress =  allArray as [[String:Any]]!
+        
+        var allArray: [[String:Any]] = self.arrayAddressShipping!
+        allArray.append(array: arrayAddressFiscal)
+        self.addressController!.allAddress =  allArray
         self.addressController!.typeAddress = TypeAddress.shiping
         self.addressController!.addressFiscalCount = self.arrayAddressFiscal.count
         self.addressController!.addressShippingCont = self.arrayAddressShipping!.count

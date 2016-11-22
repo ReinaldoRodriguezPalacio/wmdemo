@@ -44,7 +44,7 @@ class LoginWithEmailService : BaseService {
         if !UserCurrentSession.sharedInstance.userSignedOnService {
             UserCurrentSession.sharedInstance.userSignedOnService = true
             self.callPOSTService(params, successBlock: { (loginResult:[String:Any]) -> Void in
-                self.jsonFromObject(loginResult)
+                self.jsonFromObject(loginResult as AnyObject!)
                 if let codeMessage = loginResult["codeMessage"] as? NSNumber {
                     if codeMessage.intValue == 0 &&  UserCurrentSession.hasLoggedUser(){
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUser

@@ -26,7 +26,7 @@ class UpdateUserProfileService : BaseService {
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                     var usr : User
                     
-                    let email = params.object(forKey: "email") as! String;
+                    let email = params["email"] as! String;
                     let predicate = NSPredicate(format: "email == %@ ", email)
                     let array =  self.retrieve("User" ,sortBy:nil,isAscending:true,predicate:predicate) as! [[String:Any]]
         

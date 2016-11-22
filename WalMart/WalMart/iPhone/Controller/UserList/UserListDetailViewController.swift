@@ -38,7 +38,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var listId: String?
     var listName: String?
     var listEntity: List?
-    var products: [[String:Any]]?
+    var products: [Any]?
     var isEdditing = false
     var enableScrollUpdateByTabBar = true
 
@@ -305,12 +305,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.selectedItems = NSMutableArray()
                 if self.products != nil  && self.products!.count > 0  {
                     for i in 0...self.products!.count - 1 {
-                        let item =  self.products![i] //as? [String:Any]
-                        if let sku = item["sku"] as? [String:Any] {
+                        let item =  self.products![i] as? [String:Any]
+                        if let sku = item!["sku"] as? [String:Any] {
                             if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                                if let item =  parentProducts[0] as? [String:Any] {
-                                    self.selectedItems?.add(item["repositoryId"] as! String)
-                                }
+                                let item =  parentProducts[0]
+                                self.selectedItems?.add(item["repositoryId"] as! String)
                             }
                         }
                     }
@@ -514,7 +513,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                var params: [String:Any] = [:]
                 //validar session
                 if  UserCurrentSession.hasLoggedUser() {
-                    for lines in self.products! {
+                    for lines in self.products! as! [[String:Any]] {
                         var productItem : [String:Any]? = [:]
                         
                         let quantityItem = lines["quantityDesired"] as! String
@@ -769,7 +768,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
             if UserCurrentSession.hasLoggedUser() {
                 for upcSelected in selectedItems! {
-                    for lines in self.products! {
+                    for lines in self.products! as! [[String:Any]] {
                         let upc = upcSelected as! String
                         if let sku = lines["sku"] as? [String:Any] {
                             if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
@@ -852,7 +851,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             else if let item = self.products![idx] as? Product {
                 let quantity = item.quantity
-                if item.type == "false" {
+                if item.type == 0 {
                     count += quantity.intValue
                 }
                 else {
@@ -875,7 +874,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func counSections(){
         //self.newArrayProducts = []
         if UserCurrentSession.hasLoggedUser() {
-            for items in self.products! {
+            for items in self.products! as! [[String:Any]] {
                 let line = items["fineContent"] as? [String:Any]
                 let lineId = line!["fineLineName"] as? String
                 if  !linesArray.contains(lineId!) {
@@ -885,7 +884,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             for lineArray in linesArray {
                 var arrayitems : [Any] = []
-                for  items in self.products!  {
+                for  items in self.products! as! [[String:Any]] {
                     let line = items["fineContent"] as? [String:Any]
                     let lineId = line!["fineLineName"] as? String
                     
@@ -990,7 +989,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 let items = self.products![(indexPath as NSIndexPath).row]
            
                 var upc = ""
-                if let sku = items["sku"] as? [String:Any] {
+                let dicItem = items as! [String:Any]
+                if let sku = dicItem["sku"] as? [String:Any] {
                     if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                         let item =  parentProducts[0]
                         upc = item["repositoryId"] as! String
@@ -999,7 +999,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
                 
                 if UserCurrentSession.hasLoggedUser() {
-                listCell.setValuesDictionary(items as [String:Any],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
+                listCell.setValuesDictionary(items as! [String:Any],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
                 }else{
                     //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
                     let product =  items as! Product
@@ -1033,16 +1033,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let controller = ProductDetailPageViewController()
             var productsToShow:[Any] = []
             for idx in 0 ..< self.products!.count {
-                if let product = self.products![idx] {
+                if let product = self.products![idx] as? [String:Any] {
                     
                     if let sku = product["sku"] as? [String:Any] {
-                        if let parentProducts = sku.object(forKey: "parentProducts") as? [[String:Any]]{
-                            if let item =  parentProducts.object(at: 0) as? [String:Any] {
-                                let upc = item["repositoryId"] as! String
-                                let description = item["description"] as! String
+                        if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
+                            let item =  parentProducts[0]
+                            let upc = item["repositoryId"] as! String
+                            let description = item["description"] as! String
                                 
-                                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":"","sku":sku.object(forKey: "id") as! String])
-                            }
+                            productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":"","sku":sku["id"] as! String])
                         }
                     }
                     
@@ -1070,7 +1069,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         case 0:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
             if let indexPath = self.tableView!.indexPath(for: cell) {
-                if let item = self.products![(indexPath as NSIndexPath).row] {
+                if let item = self.products![(indexPath as NSIndexPath).row] as? [String:Any]{
                     
                     //Event
                     if self.selectedItems!.contains((indexPath as NSIndexPath).row) {
@@ -1153,7 +1152,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 price = numberPrice.number(from: item["specialPrice"] as! String)
             }
             else if let item = self.products![(indexPath! as NSIndexPath).row] as? Product {
-                isPesable = item.type == "false" ?  false : true //mustang
+                isPesable = item.type == 0 ?  false : true //mustang
                 price = NSNumber(value: item.price.doubleValue as Double)
             }
             
@@ -1181,9 +1180,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     
                     if let sku = item["sku"] as? [String:Any] {
                         if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                            if let item =  parentProduct[0] as? [String:Any] {
-                                self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku.object(forKey: "id") as! String, quantity: Int(quantity)!)
-                            }
+                            let item =  parentProducts[0]
+                            self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku["id"] as! String, quantity: Int(quantity)!)
                         }
                     }
                     
@@ -1242,12 +1240,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                             self.fromDelete =  false
                                             self.selectedItems = NSMutableArray()
                                             for i in 0...self.products!.count - 1 {
-                                                let item =  self.products![i] //as? [String:Any]
+                                                let item =  self.products![i] as! [String:Any]
                                                 if let sku = item["sku"] as? [String:Any] {
                                                     if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                                                        if let item =  parentProducts.object(at: 0) as? [String:Any] {
-                                                            self.selectedItems?.add(item["repositoryId"] as! String )
-                                                        }
+                                                        let item =  parentProducts[0]
+                                                        self.selectedItems?.add(item["repositoryId"] as! String )
                                                     }
                                                 }
                                                 
@@ -1420,7 +1417,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             catch{
                 print("Error retrieveProductsLocally")
             }
-            self.products = products as! [[String : Any]]?
+            self.products = products
             self.titleLabel?.text = self.listEntity?.name
              
             //self.layoutTitleLabel()
@@ -1617,7 +1614,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             let service = GRUpdateListService()
             
-            service.callService(service.buildParams(self.listId!, name: self.nameField!.text!),
+            service.callService(service.buildParams(self.listId!, name: self.nameField!.text!) as AnyObject,
                                 successBlock: { (result:[String:Any]) -> Void in
                                     self.titleLabel?.text = self.nameField?.text
                                     self.reminderService!.updateListName(self.nameField!.text!)
@@ -1740,7 +1737,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func photoCaptured(_ value: String?, upcs: [String]?, done: (() -> Void)) {
         if value !=  nil {
             if value != "" {
-                self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .WithTextForCamFind,searchServiceFromContext: .fromSearchCamFind)
+                self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .WithTextForCamFind,searchServiceFromContext: .FromSearchCamFind)
             }
         }
     }
@@ -1750,7 +1747,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.add.product.list", comment:""))
         
-        let useSignalsService : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let useSignalsService : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let svcValidate = ProductDetailService(dictionary: useSignalsService)
         
         let upcDesc : NSString = upc as NSString
@@ -1761,7 +1758,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         //let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearching: "",position: "")//position
         let params = svcValidate.buildMustangParams(paddedUPC as String, skuId:paddedUPC as String )//TODO Enviar sku
-        svcValidate.callService(requestParams:params, successBlock: { (result:[String:Any]) -> Void in
+        svcValidate.callService(requestParams:params as AnyObject, successBlock: { (result:[String:Any]) -> Void in
             //[["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
             print("Correcto el producto es::::")
             self.invokeAddproductTolist(result,products: nil, succesBlock: { () -> Void in

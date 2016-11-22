@@ -11,7 +11,7 @@ import AVFoundation
 
 open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
-    open lazy var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+    open var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
     open lazy var output = AVCaptureMetadataOutput()
     open lazy var session = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -282,11 +282,11 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
     
     open func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         var barcodeObjects : Array<AVMetadataMachineReadableCodeObject> = []
-        var cornersArray : Array<[Any]> = []
-        for metadataObject : AnyObject in metadataObjects {
+        var cornersArray : Array<Any> = []
+        for metadataObject in metadataObjects {
             if let l = self.videoPreviewLayer {
                 let transformedMetadataObject = l.transformedMetadataObject(for: metadataObject as! AVMetadataObject)
-                if transformedMetadataObject.isKind(of: AVMetadataMachineReadableCodeObject.self) {
+                if transformedMetadataObject!.isKind(of: AVMetadataMachineReadableCodeObject.self) {
                     let barcodeObject = transformedMetadataObject as! AVMetadataMachineReadableCodeObject
                     barcodeObjects.append(barcodeObject)
                     cornersArray.append(barcodeObject.corners)
@@ -294,7 +294,7 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
             }
         }
         
-        self.cornersLayer.cornersArray = cornersArray
+        self.cornersLayer.cornersArray = cornersArray as! [[[String : Any]]]
         
         if barcodeObjects.count > 0 {
             if let h = self.barcodesHandler {

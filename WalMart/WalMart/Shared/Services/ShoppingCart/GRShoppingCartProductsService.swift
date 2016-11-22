@@ -192,7 +192,7 @@ class GRShoppingCartProductsService : GRBaseService {
             for itemDeleted in deteted {
                 currentItem += 1
                 
-                itemDeleted.status = NSNumber(CartStatus.synchronized.rawValue)
+                itemDeleted.status = NSNumber(value:CartStatus.synchronized.rawValue)
                 do {
                     try context.save()
                 } catch let error1 as NSError {
@@ -265,7 +265,7 @@ class GRShoppingCartProductsService : GRBaseService {
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
             for itemUpdated in updated {
-                itemUpdated.status = NSNumber(CartStatus.synchronized.rawValue)
+                itemUpdated.status = NSNumber(value:CartStatus.synchronized.rawValue)
             }
             do {
                 try context.save()
@@ -362,9 +362,9 @@ class GRShoppingCartProductsService : GRBaseService {
                 let paramUse = filtredByUpc[0] as [String:String]
                 let quantity = paramUse["quantity"]
                 carProduct.quantity = NSNumber(value: Int(quantity!)! as Int)
-                let newItemQ = NSMutableDictionary(dictionary: shoppingCartProduct as! [String:Any])
-                newItemQ.setValue(quantity, forKey: "quantity")
-                newItemQ.setValue(carProduct.note,forKey: "comments")
+                var newItemQ = shoppingCartProduct
+                newItemQ["quantity" ] = quantity
+                newItemQ["comments"] = carProduct.note
                 resultItems.append(newItemQ )
             }
 

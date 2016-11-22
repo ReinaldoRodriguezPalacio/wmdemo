@@ -26,7 +26,7 @@ class LinesForSearchService: BaseService {
                 if let response = responceDict["subCategories"] as? [[String:Any]] {
                     DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : Any]) -> Void in
-                            let values = dictionary.values
+                            let values = Array(dictionary.values)
                             self.jsonFromObject(values as AnyObject!)
                             DispatchQueue.main.async(execute: { () -> Void in
                                 print("")

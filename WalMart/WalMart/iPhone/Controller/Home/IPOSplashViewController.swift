@@ -366,7 +366,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         if let message = (commensChck[0] as AnyObject).object(forKey: "message") as? String {
                             UserCurrentSession.sharedInstance.messageInCommens = message
                         }
-                        if let upcs = (commensChck[0] as AnyObject).object(forKey: "upcs") as? [[String:Any]] {
+                        if let upcs = (commensChck[0] as AnyObject).object(forKey: "upcs") as? [String] {
                              UserCurrentSession.sharedInstance.upcSearch = upcs
                         }
                  
@@ -397,13 +397,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         let request = URLRequest(url: URL(string:url)!)
                         let configuration = URLSessionConfiguration.default
                         let manager = AFURLSessionManager(sessionConfiguration: configuration)
-                        let downloadTask = manager.downloadTask(with: request, progress: nil, destination: { (url:URL?, urlResponse:URLResponse?) -> URL! in
+                        let downloadTask = manager?.downloadTask(with: request, progress: nil, destination: { (url:URL?, urlResponse:URLResponse?) -> URL! in
                             let file =  try? FileManager.default.url(for: .documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
                             return file?.appendingPathComponent("AvisoPrivacidad.pdf")
-                            }, completionHandler: { (response:URLResponse!, fileUrl:URL!, error:NSError!) -> Void in
+                            }, completionHandler: { (response:URLResponse?, fileUrl:URL?, error:Error?) -> Void in
                                 print("File Path : \(fileUrl)")
                         })
-                        downloadTask.resume()
+                        downloadTask?.resume()
                     }
                 }
                 UserCurrentSession.sharedInstance.searchForCurrentUser()

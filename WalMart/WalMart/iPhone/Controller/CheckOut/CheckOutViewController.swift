@@ -440,11 +440,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         let library =  ALAssetsLibrary()
         library.save(image, toAlbum: "Walmart", completion: { (url:URL?, error:Error?) -> Void in
             print("saved image")
-            }) { (error:NSError!) -> Void in
-                print("Error saving image")
-              
-
-        }
+            },failure: nil)
         //Presentar
         isRateActive =  true
        

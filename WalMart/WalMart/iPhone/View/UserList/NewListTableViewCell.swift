@@ -147,7 +147,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         }
         
         let alphanumericset = CharacterSet(charactersIn: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").inverted
-        let cleanedName = (trimmedString.components(separatedBy: alphanumericset)).componentsJoined(by: "")
+        let cleanedName = (trimmedString.components(separatedBy: alphanumericset)).joined(separator: "")
         if trimmedString != cleanedName {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))

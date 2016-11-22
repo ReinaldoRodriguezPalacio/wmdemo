@@ -207,11 +207,10 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.scrollHelp!.contentOffset.x / self.scrollHelp!.frame.size.width
         self.currentItem = Int(currentIndex)
-        let nsarray = self.pointButtons! as [[String:Any]]
-        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
-            for inner: UIButton in self.pointButtons! {
-                inner.isSelected = button === inner
-            }
+        let nsarray = self.pointButtons! as [UIButton]
+        let button = nsarray[self.currentItem!]
+        for inner: UIButton in self.pointButtons! {
+            inner.isSelected = button === inner
         }
         if self.items?.count == self.currentItem! {
             labelTitle!.text = ""

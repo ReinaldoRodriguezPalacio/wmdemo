@@ -692,7 +692,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     func getUPCItems() -> [[String:String]] {
         
         var upcItems : [[String:String]] = []
-        for shoppingCartProduct in  itemsInCart {
+        for shoppingCartProduct in  itemsInCart as! [[String:Any]]{
             let upc = shoppingCartProduct["upc"] as! String
             let desc = shoppingCartProduct["description"] as! String
             let type = ResultObjectType.Groceries.rawValue
@@ -703,7 +703,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func getUPCItemsString() -> String {
         var upcItems :String = "["
-        for shoppingCartProduct in  itemsInCart {
+        for shoppingCartProduct in  itemsInCart as! [[String:Any]] {
             let upc = shoppingCartProduct["upc"] as! String
             upcItems.append("'\(upc)',")
         }

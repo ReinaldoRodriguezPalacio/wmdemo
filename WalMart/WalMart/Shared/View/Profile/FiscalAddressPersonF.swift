@@ -146,11 +146,11 @@ class FiscalAddressPersonF: AddressView {
     }
     
     override func getParams() -> [String:Any]{
-         let paramsAdd : NSMutableDictionary? = [:]
-        paramsAdd!.addEntries(from: super.getParams() as! [String:Any])
+         var paramsAdd : [String:Any]? = [:]
+        paramsAdd!.update(from: super.getParams())
         //let paramsAddress =  super.getParams()
-        paramsAdd?.addEntries(from: ["RFC":self.rfc!.text!,"email":self.email!.text!,"IEPS":self.ieps!.text!,"mobileNumber":self.telephone!.text!])
-        paramsAdd?.addEntries(from: ["lastName2":self.lastName2!.text! ,"firstName":self.name!.text! ,"lastName":self.lastName!.text!,"persona":"F" ])
+        paramsAdd?.update(from: ["RFC":self.rfc!.text!,"email":self.email!.text!,"IEPS":self.ieps!.text!,"mobileNumber":self.telephone!.text!])
+        paramsAdd?.update(from: ["lastName2":self.lastName2!.text! ,"firstName":self.name!.text! ,"lastName":self.lastName!.text!,"persona":"F" ])
       //  let userParams = ["profile":["lastName2":self.lastName2!.text! ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]]
 //        paramsAddress.updateValue(userParams as AnyObject, forKey: "user")
         return paramsAdd!

@@ -733,12 +733,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func deleteFacebookPermission(){
         if((FBSDKAccessToken.current()) != nil){
             let facebookRequest: FBSDKGraphRequest! = FBSDKGraphRequest(graphPath: "/me/permissions", parameters: nil, httpMethod: "DELETE")
-            facebookRequest.start { (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: Error!) -> Void in
+            facebookRequest.start(completionHandler: { (connection: FBSDKGraphRequestConnection?, result: Any?, error: Error?) -> Void in
                 if(error == nil && result != nil){
                     print("Permission successfully revoked. This app will no longer post to Facebook on your behalf.")
                     print("result = \(result)")
                 } else {
-                    if let error: NSError = error {
+                    if let error: NSError = error as NSError? {
                         if let errorString = error.userInfo["error"] as? String {
                             print("errorString variable equals: \(errorString)")
                         }
@@ -746,7 +746,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                         print("No value for error key")
                     }
                 }
-            }
+            })
         }
     }
     

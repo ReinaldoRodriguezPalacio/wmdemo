@@ -523,16 +523,16 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 if !setElement && self.neighborhoodsDic.count > 0  {
                     self.selectedNeighborhood = IndexPath(row: 0, section: 0)
                     self.suburb?.becomeFirstResponder()
-                    self.suburb!.text = self.neighborhoodsDic[0].object(forKey: "neighbourhoodName") as? String
-                    self.idSuburb = self.neighborhoodsDic[0].object(forKey: "neighbourhoodId") as? String
+                    self.suburb!.text = self.neighborhoodsDic[0]["neighbourhoodName"] as? String
+                    self.idSuburb = self.neighborhoodsDic[0]["neighbourhoodId"] as? String
                 }//if setElement && self.listSuburb.count > 0  {
                 
                 if !setElement && self.storesDic.count > 0  {
                     self.selectedStore = IndexPath(row: 0, section: 0)
-                    let name = self.storesDic[0].object(forKey: "storeName") as! String!
-                    let cost = self.storesDic[0].object(forKey: "cost") as! String!
+                    let name = self.storesDic[0]["storeName"] as! String!
+                    let cost = self.storesDic[0]["cost"] as! String!
                     self.store!.text = "\(name) - \(cost)"
-                    self.idStoreSelected = self.storesDic[0].object(forKey: "storeId") as! String!
+                    self.idStoreSelected = self.storesDic[0]["storeId"] as! String!
                 }//if setElement && self.listSuburb.count > 0  {
                 
                 
@@ -682,8 +682,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         var paramsAdd : [String:Any]? = [:]
         let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!]
         if idAddress != nil{
-           paramsAdd?.addEntries(from: paramsAddress)
-            paramsAdd?.addEntries(from: ["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser])
+           paramsAdd?.update(from: paramsAddress)
+            paramsAdd?.update(from: ["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser])
             return  paramsAdd!
         }
         return paramsAddress

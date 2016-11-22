@@ -408,7 +408,7 @@ class IPAUserListViewController: UserListViewController {
             
             let service = GRUserListService()
             //TODO: CHECAR ESTE CAST
-            //self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
+            self.itemsUserList = service.retrieveNotSyncList()
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
@@ -482,7 +482,7 @@ class IPAUserListViewController: UserListViewController {
                                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                                         self.alertView!.showDoneIcon()
                                         var count = 0
-                                        for itemList in self.itemsUserList! {
+                                        for itemList in self.itemsUserList! as! [[String:Any]] {
                                             if UserCurrentSession.hasLoggedUser() {
                                                 if (itemList["name"] as! String) == value {
                                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))

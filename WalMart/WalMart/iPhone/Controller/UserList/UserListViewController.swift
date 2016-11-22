@@ -387,8 +387,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
-            //TODO: CHECAR ESTE CAST
-            //self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
+            self.itemsUserList = service.retrieveNotSyncList()
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
@@ -455,7 +454,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
             //TODO: CHECAR ESTE CAST
-            //self.itemsUserList = service.retrieveNotSyncList() as! [[String : Any]]?
+            self.itemsUserList = service.retrieveNotSyncList()
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
                     }, atFinished: {
@@ -632,7 +631,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             if self.searchField?.text != "" {
                 self.searchField?.text = ""
                 //TODO: CHECAR ESTE CAST
-                //self.itemsUserList = self.searchForItems("") as? [[String : Any]]
+                self.itemsUserList = self.searchForItems("")
                 self.tableuserlist!.reloadData()
             }
             self.stateEdit =  true
@@ -789,7 +788,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.alertView!.showDoneIcon()
                         var count = 0
                         if UserCurrentSession.hasLoggedUser() {
-                            for itemList in self.itemsUserList! {
+                            for itemList in self.itemsUserList! as! [[String:Any]]{
                                 if (itemList["name"] as! String) == value {
                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
                                     return
@@ -1651,7 +1650,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     var number = 0;
                     
                     if self.itemsUserList != nil {
-                        for item in  self.itemsUserList! {
+                        for item in  self.itemsUserList! as! [[String:Any]] {
                             if let nameList = item["name"] as? String {
                                 if nameList.uppercased().hasPrefix(name.uppercased()) {
                                     number = number+1
@@ -1730,7 +1729,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         var txtAfterUpdate : NSString = textField.text! as String as NSString
         txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
         //TODO: CHECAR ESTE CAST
-        //self.itemsUserList = self.searchForItems(txtAfterUpdate as String) as! [[String : Any]]?
+        self.itemsUserList = self.searchForItems(txtAfterUpdate as String)
         self.tableuserlist!.reloadData()
         self.editBtn!.isHidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
         
@@ -1827,7 +1826,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         var result: [List]? =  nil
         do{
             result =  try self.managedContext!.fetch(fetchRequest) as? [List]
-            print(result)
+            print(result!)
 
         }catch{
             print("searchForItems Error")

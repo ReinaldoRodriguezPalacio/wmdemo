@@ -12,7 +12,7 @@ import Foundation
 class UserListNavigationBaseViewController :  NavigationViewController {
     
     
-    var itemsUserList: [[String:Any]]? = []
+    var itemsUserList: [Any]? = []
     var alertView: IPOWMAlertViewController?
     
     func invokeSaveListToDuplicateService(forListId products:[Any], andName listName:String,successDuplicateList:@escaping (() -> Void)) {

@@ -570,10 +570,10 @@ class SchoolListViewController : DefaultListDetailViewController {
                     onHandInventory = inventory
                 }
                 
-                let imageArray = shoppingCartProduct["imageUrl"] as! [[String:Any]]
+                let imageArray = shoppingCartProduct["imageUrl"] as! [String]
                 var imageUrl = ""
                 if imageArray.count > 0 {
-                    imageUrl = imageArray.object(at: 0) as! String
+                    imageUrl = imageArray[0] 
                 }
                 
                 var preorderable = "false"
