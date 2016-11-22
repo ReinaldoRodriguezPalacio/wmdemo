@@ -592,19 +592,18 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         for item in controllerIdentifiers {
             let components = item.components(separatedBy: "-")
             let strController = components[0] as String
-            if let vc = storyboard!.instantiateViewController(withIdentifier: strController) as? UIViewController {
-                if let navVC = vc as? UINavigationController {
-                    if let loginVC = navVC.viewControllers.first as? LoginController {
-                        if components.count > 1 {
-                            loginVC.controllerTo = components[1] as String
-                        }
+            let vc = storyboard!.instantiateViewController(withIdentifier: strController)
+            if let navVC = vc as? UINavigationController {
+                if let loginVC = navVC.viewControllers.first as? LoginController {
+                    if components.count > 1 {
+                        loginVC.controllerTo = components[1] as String
                     }
                 }
-                if let navController = vc as? UINavigationController {
-                    navController.delegate = self
-                }
-                self.viewControllers.append(vc)
             }
+            if let navController = vc as? UINavigationController {
+                navController.delegate = self
+            }
+            self.viewControllers.append(vc)
         }
     }
     

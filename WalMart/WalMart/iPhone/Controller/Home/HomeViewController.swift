@@ -235,7 +235,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         if self.categories.count > 0 {
             let catNameFilter = self.categories[selectedIndexCategory]
-            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
+            let arrayItems : [Any] = self.recommendCategoryItems[catNameFilter]! as! [Any]
             //let arrayItemsResult =  arrayItems as! [Any]
             return arrayItems.count
         }
@@ -266,8 +266,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: indexPath) as! ProductHomeCollectionViewCell
                 
                 let catNameFilter = self.categories[selectedIndexCategory]
-                let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-                let arrayItemsResult =  arrayItems as! [Any]
+                let arrayItems : [Any] = self.recommendCategoryItems[catNameFilter]! as! [Any]
+                let arrayItemsResult =  arrayItems 
                 let recommendProduct = arrayItemsResult[(indexPath as NSIndexPath).row] as! [String:Any]
                
                 var desc = ""

@@ -388,12 +388,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
-            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
             
-           } as! (Any, Any) -> Bool)
+           })
             
             self.tableuserlist!.reloadData()
             self.tableuserlist!.selectRow(at: self.listSelectedDuplicate, animated: false, scrollPosition: .none)
