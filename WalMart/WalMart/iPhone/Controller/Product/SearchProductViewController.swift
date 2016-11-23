@@ -1539,7 +1539,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func getFacet(idDepartament:String,textSearch:String?,idFamily:String?){
         let serviceFacet = GRFacets()
         
-        serviceFacet.callService(idDepartament,stringSearch:textSearch == nil ? "" : textSearch!,idFamily: idFamily == nil ? "" : idFamily!,idLine:self.idLine!,
+        serviceFacet.callService(idDepartament,stringSearch:textSearch == nil ? "" : textSearch!,idFamily: idFamily == nil ? "" : idFamily!,idLine:self.idLine == nil ? "":self.idLine!,
             successBlock: { (result:NSDictionary) -> Void in
                 let arrayCall = result["brands"] as! NSArray
                 
