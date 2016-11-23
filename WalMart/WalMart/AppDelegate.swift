@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
-        //UserCurrentSession.sharedInstance().searchForCurrentUser()
+        UserCurrentSession.sharedInstance().searchForCurrentUser()
 //        // Optional: automatically send uncaught exceptions to Google Analytics.
 //        GAI.sharedInstance().trackUncaughtExceptions = true
 //        // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
