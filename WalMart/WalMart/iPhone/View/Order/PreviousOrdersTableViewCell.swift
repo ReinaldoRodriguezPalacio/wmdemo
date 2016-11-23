@@ -61,7 +61,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         viewSeparator.frame = CGRectMake(dateLabel.frame.minX,self.bounds.maxY - AppDelegate.separatorHeigth(),self.bounds.width - dateLabel.frame.minX,AppDelegate.separatorHeigth())
-        statusLabel.frame = CGRectMake(self.bounds.width - 94, 18, 70, 14)
+        statusLabel.frame = CGRectMake(self.bounds.width - 104, 18, 80, 14)
         
     }
     
