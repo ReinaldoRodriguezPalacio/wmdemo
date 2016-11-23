@@ -873,14 +873,14 @@ class UserCurrentSession : NSObject {
         //Promotion
         var flagPromAho = true
         
-        if (Item["promotion"] as AnyObject).count > 0 {//  as? [String:Any]
-            let lenght = (Item["promotion"]! as AnyObject).count
+        if Item["promotion"] != nil && (Item["promotion"] as! [[String:Any]]).count > 0 {//  as? [String:Any]
+            let lenght = (Item["promotion"] as! [[String:Any]]).count
             let promotion = Item["promotion"] as? [[String:Any]]
             
-            for idx in 0 ..< lenght!{
+            for idx in 0 ..< lenght{
                 
                 plpShow = [:]
-                let description = promotion![idx] as! [String:Any]
+                let description = promotion![idx]
                 
                 switch description["description"] as! String {
                 case "MSI":

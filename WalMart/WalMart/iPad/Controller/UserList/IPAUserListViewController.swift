@@ -409,12 +409,12 @@ class IPAUserListViewController: UserListViewController {
             let service = GRUserListService()
             //TODO: CHECAR ESTE CAST
             self.itemsUserList = service.retrieveNotSyncList()
-            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
                 
-            } as! (Any, Any) -> Bool)
+            })
             //println(self.itemsUserList)
             self.isShowingSuperlists = !self.isEditingUserList
 

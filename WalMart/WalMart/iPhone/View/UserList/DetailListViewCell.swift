@@ -140,15 +140,20 @@ class DetailListViewCell: ProductTableViewCell {
         
         
         self.productImage!.contentMode = UIViewContentMode.center
-        self.productImage!.setImageWith(URLRequest(url: URL(string: imageUrl)!),
-            placeholderImage: UIImage(named:"img_default_table"),
-            success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
-                self.productImage!.contentMode = self.contentModeOrig
-                self.productImage!.image = image
-                self.imageGrayScale = self.convertImageToGrayScale(image!)
-                self.imageNormal = image
+        let url = URL(string: imageUrl)
+        if url != nil {
+            self.productImage!.setImageWith(URLRequest(url: url!),
+                                            placeholderImage: UIImage(named:"img_default_table"),
+                                            success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+                                                self.productImage!.contentMode = self.contentModeOrig
+                                                self.productImage!.image = image
+                                                self.imageGrayScale = self.convertImageToGrayScale(image!)
+                                                self.imageNormal = image
                 
-            }, failure: nil)
+                }, failure: nil)
+        }else{
+           self.productImage!.image = UIImage(named:"img_default_table")
+        }
         //self.promoDescription!.text = product["promoDescription"] as? String
         var savingPrice = ""
         if productPriceThrough != "" { //&& type == ResultObjectType.Groceries.rawValue
