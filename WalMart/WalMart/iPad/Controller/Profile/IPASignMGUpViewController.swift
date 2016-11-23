@@ -38,13 +38,25 @@ class IPASignMGUpViewController: IPASignUpViewController {
             self.addressMGView.showSaveAlert = false
             self.addressMGView.backButton?.hidden =  true
             self.addressMGView.saveButton?.titleLabel?.textAlignment = .Center
+            
             self.addressMGView.successCallBackRegistry = {() in
                 let params = service.buildParamsWithMembership(self.email!.text!,password:  self.password!.text!,name: self.name!.text!,lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
+                
+                
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 if self.addressMGView.viewAddress!.validateAddress() {
+                    
+                    
+                    if(self.aPhoneHomeNumber == ""){
+                        self.aPhoneHomeNumber = self.addressMGView.viewAddress!.telipad
+                    }
+
+                    let params = service.buildParamsWithMembership(self.email!.text!,password:  self.password!.text!,name: self.name!.text!,lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
+                    
+                    
                     service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                         self.addressMGView.closeAlert()
                         let login = LoginService()

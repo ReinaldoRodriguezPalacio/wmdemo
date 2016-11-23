@@ -45,9 +45,15 @@ class SignUpMGViewController: SignUpViewController {
 
                 self.aAddredssForm = GRFormSuperAddressView()
                 
-                let aPhoneHomeNumber =  self.aAddredssForm.getPhoneHomeNumber()
+                var aPhoneHomeNumber =  self.aAddredssForm.getPhoneHomeNumber()
                 let aPhoneWorkNumber =  self.aAddredssForm.getPhoneWorkNumber()
                 let aCellPhone       =  self.aAddredssForm.getCellPhone()
+                
+                if(aPhoneHomeNumber == "" && self.addressMgView.viewAddress?.getParams() != nil){
+                    
+                    var p = self.addressMgView.viewAddress?.getParams()
+                    aPhoneHomeNumber = p!["TelNumber"]as! String
+                }
                 
                 let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
                 
