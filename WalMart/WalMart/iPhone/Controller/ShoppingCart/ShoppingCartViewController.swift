@@ -734,9 +734,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             selectQuantity!.addToCartAction = { (quantity:String) in
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
+                    
+                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_cart"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+                    alertView!.setMessage(NSLocalizedString("shoppingcart.additem", comment:""))
+                    
                     let updateService = ShoppingCartUpdateProductsService()
                     updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: nil,errorBlock: nil)
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:NSDictionary) -> Void in
+                        delay(0.3, completion: {
+                            alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))
+                            alertView!.showDoneIcon()
+                        })
+                        
+                        print("done")
+                        },errorBlock: nil)
                     self.reloadShoppingCart()
                     self.selectQuantity!.closeAction()
                 } else {
