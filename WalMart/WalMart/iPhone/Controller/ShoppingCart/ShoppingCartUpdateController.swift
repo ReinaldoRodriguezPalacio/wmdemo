@@ -243,17 +243,22 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 }
                 
                 }, errorBlock: { (error:NSError) -> Void in
-                    self.spinImage.layer.removeAllAnimations()
-                    self.spinImage.hidden = true
-                    self.titleLabel.sizeToFit()
-                    self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232,60)
+                    
+                    if error.code != -100 {
+                        self.spinImage.layer.removeAllAnimations()
+                        self.spinImage.hidden = true
+                        self.titleLabel.sizeToFit()
+                        self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
+                    }
+                    
                     if error.code == 1 || error.code == 999 {
                         self.titleLabel.text = error.localizedDescription
-                    }else{
+                    } else if error.code != -100 {
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
+                    
                })
             }else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
@@ -278,17 +283,22 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     }
                     
                     }, errorBlock: { (error:NSError) -> Void in
-                        self.spinImage.layer.removeAllAnimations()
-                        self.spinImage.hidden = true
-                        self.titleLabel.sizeToFit()
-                        self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
+                        
+                        if error.code != -100 {
+                            self.spinImage.layer.removeAllAnimations()
+                            self.spinImage.hidden = true
+                            self.titleLabel.sizeToFit()
+                            self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
+                        }
+                        
                         if error.code == 1 || error.code == 999 {
                             self.titleLabel.text = error.localizedDescription
-                        }else{
+                        } else if error.code != -100 {
                             self.titleLabel.text = error.localizedDescription
                             self.imageProduct.image = UIImage(named:"alert_ups")
                             self.viewBgImage.backgroundColor = WMColor.light_light_blue
                         }
+                        
                 })
                 
             }
@@ -348,13 +358,17 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         
                         
                         }) { (error:NSError) -> Void in
-                            self.spinImage.layer.removeAllAnimations()
-                            self.spinImage.hidden = true
-                            self.titleLabel.sizeToFit()
-                            self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
+                            
+                            if error.code != -100 {
+                                self.spinImage.layer.removeAllAnimations()
+                                self.spinImage.hidden = true
+                                self.titleLabel.sizeToFit()
+                                self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
+                            }
+                            
                             if error.code == 1 || error.code == 999 {
                                 self.titleLabel.text = error.localizedDescription
-                            }else{
+                            } else if error.code != -100 {
                                 self.titleLabel.text = error.localizedDescription
                                 self.imageProduct.image = UIImage(named:"alert_ups")
                                 self.viewBgImage.backgroundColor = WMColor.light_light_blue
@@ -386,13 +400,17 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                  })
                 
                 }) { (error:NSError) -> Void in
-                    self.spinImage.layer.removeAllAnimations()
-                    self.spinImage.hidden = true
-                    self.titleLabel.sizeToFit()
-                    self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
+                    
+                    if error.code != -100 {
+                        self.spinImage.layer.removeAllAnimations()
+                        self.spinImage.hidden = true
+                        self.titleLabel.sizeToFit()
+                        self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
+                    }
+                   
                     if error.code == 1 || error.code == 999  {
                          self.titleLabel.text = error.localizedDescription
-                    }else{
+                    } else if error.code != -100 {
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
@@ -631,15 +649,20 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: self, userInfo: nil)
                                 
                                 }) { (error:NSError) -> Void in
-                                    self.spinImage.layer.removeAllAnimations()
-                                    self.spinImage.hidden = true
+                                    
+                                    if error.code != -100 {
+                                        self.spinImage.layer.removeAllAnimations()
+                                        self.spinImage.hidden = true
+                                    }
+                                    
                                     if error.code == 1 || error.code == 999 {
                                         self.titleLabel.text = error.localizedDescription
-                                    }else{
+                                    } else if error.code != -100 {
                                         self.titleLabel.text = error.localizedDescription
                                         self.imageProduct.image = UIImage(named:"alert_ups")
                                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                                     }
+                                    
                             }
                             
                         }

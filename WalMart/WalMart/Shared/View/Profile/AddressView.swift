@@ -51,6 +51,8 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     var isLogin : Bool! = false
     var isIpad : Bool! = false
     
+    var telipad:String = "";
+    
     var keyboardBar: FieldInputView? {
         didSet {
         }
@@ -289,6 +291,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             self.delegate!.textModify(textField)
         }
         if textField == self.telephone{
+            telipad = self.telephone!.text!
             if keyword.characters.count == 10{
                 textField.text = keyword
                 self.shortNameField?.becomeFirstResponder()

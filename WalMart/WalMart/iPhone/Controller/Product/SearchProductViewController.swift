@@ -124,6 +124,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var position = 0
     
     var changebtns  =  false
+    var validate = false
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -1139,6 +1140,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func validateSeletctedTap(){
+        validate =  true
         
         let  grTotalResults =  self.grResults!.products != nil ? self.grResults!.products!.count : 0
         let  mgTotalResults =  self.mgResults!.products != nil ? self.mgResults!.products!.count : 0
@@ -1155,7 +1157,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func updateViewAfterInvokeService(resetTable resetTable:Bool) {
-        self.validateSeletctedTap()
+        if !validate {
+            self.validateSeletctedTap()
+        }
         if  self.searchContextType == .WithCategoryForGR {
             if self.idDepartment !=  nil {
                 self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)

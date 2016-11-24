@@ -203,6 +203,7 @@
 "shoppingcart.updatetoshoppingcart" = "Actualizar";
 "order.shop.title.btn" = "Comprar";
 "shoppingcart.multiple.50" = "Solo múltiplos de 50";
+"shoppingcart.update.product" = "Artículo actualizado";
 
 //Note
 "note.title" = "Nota para Envío";
