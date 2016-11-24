@@ -58,9 +58,9 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 labelCharacteristic.numberOfLines = 0
                 index += 1
                 if index % 2 == 0 {
-                    bgView.backgroundColor = UIColor.whiteColor()
-                }else{
                     bgView.backgroundColor = WMColor.light_light_gray
+                }else{
+                    bgView.backgroundColor = UIColor.whiteColor()
                 }
                 bgView.userInteractionEnabled = true
                 descLabel.userInteractionEnabled = true

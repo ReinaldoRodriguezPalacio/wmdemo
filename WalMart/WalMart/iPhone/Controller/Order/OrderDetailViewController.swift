@@ -34,6 +34,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var addToListButton: UIButton?
     var alertView: IPOWMAlertViewController?
     
+    var emptyOrder: IPOSearchResultEmptyView!
+    
     var timmer : NSTimer!
 
     override func getScreenGAIName() -> String {
@@ -136,6 +138,34 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         reloadPreviousOrderDetail()
+        
+        if itemDetailProducts != nil {
+            if itemDetailProducts.count == 0 {
+                
+                var maxY = self.tableDetailOrder!.frame.minY
+                let height = IS_IPAD ? self.view.frame.height : self.view.bounds.height
+                let width = IS_IPAD ? self.view.frame.width - 300 : self.view.bounds.width
+                
+                if IS_IPAD {
+                    maxY = maxY + 140
+                } else {
+                    maxY = maxY + 120
+                }
+                
+                if self.emptyOrder == nil {
+                    self.emptyOrder = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, width, height - maxY))
+                    self.emptyOrder.iconImageView.contentMode = .ScaleAspectFill
+                    self.emptyOrder.iconImageView.image = UIImage(named:"bg_pedidos_empty")
+                    self.emptyOrder.returnButton.removeFromSuperview()
+                }
+                
+                self.emptyOrder.descLabel.text = "No se encontraron artículos"
+                self.tableDetailOrder.scrollEnabled = false
+                
+                self.view.addSubview(self.emptyOrder)
+            }
+        }
+
     }
  
     
@@ -162,6 +192,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     //MARK:TableViewDelegate
      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if showFedexGuide {
             if section == 0 {
                 return 1
@@ -170,14 +201,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             let arrayProdsItems = arrayProds["items"] as! [AnyObject]
             return arrayProdsItems.count
         }
+        
         return 2 + self.itemDetailProducts.count
             
     }
     
-   
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : UITableViewCell? = nil
+       
+        var cell: UITableViewCell? = nil
         
         switch (indexPath.section, indexPath.row) {
             case (0,0):
@@ -190,14 +221,17 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 cellCharacteristicsTitle!.setValues("Artículos de mi compra", font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
                 cell = cellCharacteristicsTitle
             default:
+                
                 let cellOrderProduct = tableDetailOrder.dequeueReusableCellWithIdentifier("orderCell", forIndexPath: indexPath) as! OrderProductTableViewCell
                 cellOrderProduct.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellOrderProduct.frame.height)
                 cellOrderProduct.type = self.type
+                
                 var dictProduct = [:]
+                
                 if showFedexGuide {
                     let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as! [String:AnyObject]
                     let productsArray = arrayProductsFed["items"] as! [AnyObject]
-                    dictProduct = productsArray[indexPath.row ] as! NSDictionary
+                    dictProduct = productsArray[indexPath.row] as! NSDictionary
                 } else {
                     dictProduct = itemDetailProducts[indexPath.row - 2] as! NSDictionary
                 }
@@ -252,6 +286,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 cell = cellOrderProduct
 
         }
+        
         cell!.selectionStyle = UITableViewCellSelectionStyle.None
 
         return cell!
