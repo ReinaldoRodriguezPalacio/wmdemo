@@ -125,12 +125,15 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             self.handleLandingEvent(eventUrl!)
             return
         }
-        
+        var currentItem = indexPath.row
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
         
         if self.selectedIndex == nil {
             self.selectedIndex = indexPath
             
-            let item = items[indexPath.row] as! [String:AnyObject]
+            let item = items[currentItem] as! [String:AnyObject]
             let idDepartment = item["idDepto"] as! String
             let famArray : AnyObject = item["family"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
@@ -190,7 +193,12 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             selectedLine = true
             let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
             
-            let item = items[selectedIndex.row] as! [String:AnyObject]
+            var currentItem = selectedIndex.row
+            if landingItem != nil {
+                currentItem = currentItem - 1
+            }
+            
+            let item = items[currentItem] as! [String:AnyObject]
             let famArray : AnyObject = item["family"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
             
