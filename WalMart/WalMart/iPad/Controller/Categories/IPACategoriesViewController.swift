@@ -53,13 +53,16 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count //+ 1
+        if landingItem == nil {
+            return items.count
+        }
+        return items.count + 1
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
         
-        let currentItem = indexPath.row
+        var currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
             
             let itemBannerPhone = landingItem!["bannerUrlTablet"]
@@ -67,6 +70,10 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             return categoryCell
             
         }// if indexPath.item == 0 {
+        
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
         
         let item = items[currentItem] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
@@ -112,18 +119,22 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             selectedIndex = indexPath
             collectionView.reloadItemsAtIndexPaths([indexPath])
         }*/
-
+        var currentItem = indexPath.row
         if indexPath.row == 0  && landingItem != nil  {
             let eventUrl = landingItem!["eventUrl"]
             self.handleLandingEvent(eventUrl!)
             return
         }
         
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
+        
         
         if self.selectedIndex == nil {
             self.selectedIndex = indexPath
             
-            let item = items[indexPath.row] as! [String:AnyObject]
+            let item = items[currentItem] as! [String:AnyObject]
             let idDepartment = item["idDepto"] as! String
             let famArray : AnyObject = item["family"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
@@ -182,8 +193,11 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         if selectedIndex != nil &&  self.selectedLine == false {
             selectedLine = true
             let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
-            
-            let item = items[selectedIndex.row] as! [String:AnyObject]
+           var currentItem = selectedIndex.row
+            if landingItem != nil {
+                currentItem = currentItem - 1
+            }
+            let item = items[currentItem] as! [String:AnyObject]
             let famArray : AnyObject = item["family"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
             
