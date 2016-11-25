@@ -297,9 +297,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         
         if buttonShop == nil {
-            buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  ,wShop, 34))
+            buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  ,wShop - 16, 34))
         }else {
-            buttonShop.frame = CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , wShop, 34)
+            buttonShop.frame = CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , wShop - 16, 34)
         }
 
     
