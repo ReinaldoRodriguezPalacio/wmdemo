@@ -53,13 +53,16 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count //+ 1
+        if landingItem == nil {
+            return items.count
+        }
+        return items.count + 1
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
         
-        let currentItem = indexPath.row
+        var currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
             
             let itemBannerPhone = landingItem!["bannerUrlTablet"]
@@ -68,13 +71,17 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             
         }// if indexPath.item == 0 {
         
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
         let item = items[currentItem] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
-        /*var selected = false
-        if selectedIndex != nil {
-        selected = indexPath.row == selectedIndex.row
-        }*/
+        
+//        var selected = false
+//        if selectedIndex != nil {
+//        selected = indexPath.row == selectedIndex.row
+//        }
         
         categoryCell.setValues(descDepartment, imageBackgroundURL: bgDepartment + ".png", imageIconURL: "i_" + bgDepartment + ".png")
         

@@ -49,6 +49,9 @@ class UserCurrentSession : NSObject {
     var screenSubSubCategory: String! = ""
     var screenViewArray : NSDictionary! = [:]
     var nameListToTag =  ""
+    
+    var JSESSIONID = ""
+    var JSESSIONATG = ""
 
 
     

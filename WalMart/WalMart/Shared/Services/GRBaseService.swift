@@ -46,16 +46,33 @@ class GRBaseService : BaseService {
             AFStatic.managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
             AFStatic.managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
             AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
-            
-//            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: serviceUrl())!)
-//            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
-//            for key in headers.keys {
-//                let strKey = key as NSString
-//                let strVal = headers[key] as NSString
-//                AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
-//            }
+            //session --
+            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
+            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+            print("GR NSHTTPCookieStorage:::::")
+            for key in headers.keys {
+                let strKey = key as NSString
+                let strVal = headers[key]! as NSString
+                print("strVal : \(strVal)"  )
+                //AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
+            }
             
         } else{
+            let urlRequest = self.serviceUrl()
+            //session --
+            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: urlRequest)!)
+            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+            print("GR NSHTTPCookieStorageSession::::: .URL \(urlRequest)")
+            if urlRequest.contains("getItemByUpc") {//TODO Change value
+                for key in headers.keys {
+                    let strKey = key as NSString
+                    let strVal = headers[key]! as NSString
+                    print("strVal- Session : \(strVal) - strKey \(strKey )")
+                    
+                    //AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
+                }
+            }
+            
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
         }
         return AFStatic.managerGR

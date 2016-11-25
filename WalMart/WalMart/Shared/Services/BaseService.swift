@@ -119,15 +119,29 @@ class BaseService : NSObject {
                 AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
-                
-//                let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
-//                let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
-//                for key in headers.keys {
-//                    let strKey = key as NSString
-//                    let strVal = headers[key] as NSString
-//                    AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
-//                }
+                //Session --
+                let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
+                let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+                print("NSHTTPCookieStorage:::::")
+                for key in headers.keys {
+                    let strKey = key as NSString
+                    let strVal = headers[key]! as NSString
+                    print("strVal : \(strVal)"  )
+                    //AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
+                }
             } else{
+                //Session --
+                let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
+                let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+                print("NSHTTPCookieStorageSession:::::")
+                for key in headers.keys {
+                    let strKey = key as NSString
+                    let strVal = headers[key]! as NSString
+                    print("strVal-Session : \(strVal)"  )
+                    //AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
+                }
+
+                
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
             }
             
@@ -179,6 +193,14 @@ class BaseService : NSObject {
         let url = serviceUrl()
    
         let task = afManager.POST(url, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+            //session --
+            //TODO Loginbyemail
+            let response : NSHTTPURLResponse = request.response as! NSHTTPURLResponse
+            let headers : NSDictionary = response.allHeaderFields
+            let cookie = headers["Set-Cookie"] as? NSString ?? ""
+            
+            print(headers["Content-Type"] as! NSString)
+            
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
@@ -219,6 +241,9 @@ class BaseService : NSObject {
                 print("Response Error : \(error) \n Response \(request!.response)")
                 errorBlock!(error)
         })
+        
+ 
+        
        return task!
     }
     
@@ -233,6 +258,19 @@ class BaseService : NSObject {
     
     func callGETService(manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         manager.GET(serviceURL, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+            
+            //session --
+            let response : NSHTTPURLResponse = request.response as! NSHTTPURLResponse
+            let headers : NSDictionary = response.allHeaderFields
+            let cookie = headers["Set-Cookie"] as? NSString ?? ""
+            let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
+           
+            //UserCurrentSession.sharedInstance().JSESSIONID = cookie as String
+            //UserCurrentSession.sharedInstance().JSESSIONATG = atgSession as String
+            print(cookie)
+            print(atgSession)
+            
+            
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager

@@ -552,6 +552,7 @@
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
 		E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */; };
+		F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -1163,6 +1164,7 @@
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WalMart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthorizationService.swift; path = Shared/Services/LoginSignUp/AuthorizationService.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -1690,6 +1692,7 @@
 				5696078A19B4C718005D20DC /* LoginSignUp */,
 				56C5B22419AE879600BB81DE /* BaseService.swift */,
 				5680A08F1A48C4ED009C5515 /* GRBaseService.swift */,
+				F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -3154,7 +3157,7 @@
 				TargetAttributes = {
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = UDPJ785EBR;
+						DevelopmentTeam = Y9UWXL6Q88;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -3616,6 +3619,7 @@
 				569AB9F31AAA226D0036D5AB /* GRFormAddressAlertView.swift in Sources */,
 				566E547219F572850007C75A /* IPAShoppingCartViewController.swift in Sources */,
 				56E54E4C19EC7C920004161C /* IPASearchProductCollectionViewCell.swift in Sources */,
+				F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */,
 				AC34D80F19B4F37600801906 /* NavigationViewController.swift in Sources */,
 				5684E9B21A65CB5A00765833 /* GRUserListService.swift in Sources */,
 				5A5E5EE51C8773E100E519AD /* CarouselService.swift in Sources */,
@@ -3876,8 +3880,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -3916,9 +3920,9 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "6bf26c80-fb94-413b-80b9-5b8e4ab25b17";
+				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -3934,8 +3938,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -3974,9 +3978,9 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "6bf26c80-fb94-413b-80b9-5b8e4ab25b17";
+				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
