@@ -115,7 +115,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var invokeServiceInError = false
     var viewEmptyImage =  false
     
-    var  isAplyFilter : Bool =  false
+    var selectQuantityOpen = false
+    var isAplyFilter : Bool =  false
     var removeEmpty =  false
     var searchAlertView: SearchAlertView? = nil
     var showAlertView = false
@@ -1826,6 +1827,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         selectQuantityGR?.closeAction = { () in
             self.selectQuantityGR.removeFromSuperview()
+            self.selectQuantityOpen = false
         }
         
         selectQuantityGR?.addToCartAction = { (quantity:String) in
@@ -1864,15 +1866,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
-        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
-        self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
-        self.view.addSubview(selectQuantityGR)
+        if !selectQuantityOpen {
+            let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+            self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
+            self.view.addSubview(selectQuantityGR)
+            selectQuantityOpen = true
+        }
     }
     
     func buildMGSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
         selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
         selectQuantity!.closeAction = { () in
             self.selectQuantity.removeFromSuperview()
+            self.selectQuantityOpen = false
         }
         //selectQuantity!.generateBlurImage(self.view,frame:selectQuantity.bounds)
         
@@ -1913,9 +1919,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
-        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
-        self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
-        self.view.addSubview(selectQuantity)
+        if !selectQuantityOpen {
+            let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+            self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
+            self.view.addSubview(selectQuantity)
+            selectQuantityOpen = true
+        }
     }
     
     func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
