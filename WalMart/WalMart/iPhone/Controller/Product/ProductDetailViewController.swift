@@ -1379,6 +1379,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func marckSelectedDetails(facetsDetails: [String:AnyObject]) -> [String:AnyObject] {
         var selectedDetails: [String:AnyObject] = [:]
         let filteredKeys = self.getFilteredKeys(facetsDetails)
+        if filteredKeys.count > 0 {
         // Primer elemento
         let itemsFirst: [[String:AnyObject]] = facetsDetails[filteredKeys.first!] as! [[String:AnyObject]]
         let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
@@ -1413,6 +1414,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectedDetails[selectedSecond] = valuesSecond
         }
         selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
+    }
         return selectedDetails
     }
     

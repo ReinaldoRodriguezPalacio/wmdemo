@@ -574,6 +574,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             
             if self.navigationController != nil {
+                 self.navigationController?.view.backgroundColor =  UIColor.whiteColor()
                 self.navigationController!.pushViewController(controller, animated: true)
                 
             }
