@@ -281,10 +281,25 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonWishlist)
+        
+        var wShop : CGFloat =  341 - 82
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.sharedInstance().isAssociated == 1{
+                if buttonAsociate ==  nil {
+                    buttonAsociate = UIButton(frame: CGRectMake(16, 16, 34, 34))
+                }else{
+                    buttonAsociate.frame =  CGRectMake(16, 16, 40, 40)
+                }
+                x = buttonAsociate.frame.maxX + 16
+                wShop = 341 - 135
+            }
+        }
+
+        
         if buttonShop == nil {
-            buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
+            buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  ,wShop - 16, 34))
         }else {
-            buttonShop.frame = CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34)
+            buttonShop.frame = CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , wShop - 16, 34)
         }
 
     
@@ -559,6 +574,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             
             if self.navigationController != nil {
+                 self.navigationController?.view.backgroundColor =  UIColor.whiteColor()
                 self.navigationController!.pushViewController(controller, animated: true)
                 
             }
