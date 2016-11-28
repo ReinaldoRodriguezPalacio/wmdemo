@@ -199,10 +199,11 @@ class BaseService : NSObject {
                         print("name: \(cookie.name) value: \(cookie.value)")
                     }
                 }
-                 print("Response JSESSIONID:: \(atgSession)")
-                UserCurrentSession.sharedInstance().JSESSIONATG = atgSession as String
               
             }
+            print("Response JSESSIONID:: \(atgSession)")
+            print("UserCurrentSession.sharedInstance().JSESSIONATG::  \(UserCurrentSession.sharedInstance().JSESSIONATG)")
+            UserCurrentSession.sharedInstance().JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance().JSESSIONATG
             
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
@@ -278,9 +279,14 @@ class BaseService : NSObject {
                         print("name: \(cookie.name) value: \(cookie.value)")
                     }
                 }
-                UserCurrentSession.sharedInstance().JSESSIONATG = atgSession as String
-                print("Regresa JSESSIONATG \(atgSession)")
+                
+                
             }
+            print("serviceUrl() \(self.serviceUrl())")
+            print("Regresa JSESSIONATG \(atgSession)")
+             print("UserCurrentSession.sharedInstance().JSESSIONATG \(UserCurrentSession.sharedInstance().JSESSIONATG)")
+            UserCurrentSession.sharedInstance().JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance().JSESSIONATG
+            
            
             
             

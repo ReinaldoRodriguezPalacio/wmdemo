@@ -376,9 +376,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
-
         
-        delay(0.3) { 
+        
+        delay(0.3) {
             
             if  UserCurrentSession.sharedInstance().userSigned != nil {
                 
@@ -406,10 +406,24 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         let logoutService = LogoutService()
         logoutService.callService(Dictionary<String, String>(),
-                                  successBlock: { (response:NSDictionary) -> Void in print("Call service LogoutService success") },
-                                  errorBlock: { (error:NSError) -> Void in print("Call service LogoutService error \(error)") }
+                                  successBlock: { (response:NSDictionary) -> Void in
+                                    
+                                    let authorizationService =  AuthorizationService()
+                                    authorizationService.callGETService("", successBlock: { (response:NSDictionary) in
+                                        print("::Call service AuthorizationService in LogoutService ::")
+                                        
+                                        },errorBlock:{ (error:NSError) in
+                                            print(error.localizedDescription)
+                                            
+                                    })
+                                    
+                                    print("Call service LogoutService success")
+            },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Call service LogoutService error \(error)")
+            }
         )
-
+        
     }
     
     //MARK CameraViewControllerDelegate
@@ -507,7 +521,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 NSLog("termina llamado de Servicios:::")
                 let window = UIApplication.sharedApplication().keyWindow
                 if let customBar = window!.rootViewController as? CustomBarViewController {
-                    customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
+                    customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cat2320023" :"l-lp-app-promociones",bussines:bussines)
                     self.showPromos = true
                 }
             }
@@ -532,6 +546,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
            
         }, errorBlock: { (error:NSError) in
+            print(error.localizedDescription)
             successBlock!("mg")
             print("llama al mg")
         })

@@ -217,6 +217,27 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
             }
         }
         
+        let logoutService = LogoutService()
+        logoutService.callService(Dictionary<String, String>(),
+                                  successBlock: { (response:NSDictionary) -> Void in
+                                    
+                                    let authorizationService =  AuthorizationService()
+                                    authorizationService.callGETService("", successBlock: { (response:NSDictionary) in
+                                        print("::Call service AuthorizationService in LogoutService ::")
+                                        
+                                        },errorBlock:{ (error:NSError) in
+                                            print(error.localizedDescription)
+                                            
+                                    })
+                                    
+                                    print("Call service LogoutService success")
+            },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Call service LogoutService error \(error)")
+            }
+        )
+        
+        
     }
     
     func editProfile(sender:UIButton) {

@@ -9,16 +9,11 @@
 import Foundation
 
 class LogoutService : BaseService {
-    
-    let fileName = "logout.json"
 
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
                             successBlock: { (resultCall:NSDictionary) -> Void in
-                                self.jsonFromObject(resultCall)
-                                self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                                 successBlock?(resultCall)
-
                                 return
             },
                             errorBlock: { (error:NSError) -> Void in
