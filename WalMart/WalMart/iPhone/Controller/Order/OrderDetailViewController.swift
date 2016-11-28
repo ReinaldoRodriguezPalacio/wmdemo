@@ -23,12 +23,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var isShowingTabBar : Bool = true
     var showFedexGuide : Bool = false
     
-    var itemDetail : NSDictionary!
+    var itemDetail : [String:Any]!
     var itemDetailProducts : NSArray!
     var type : ResultObjectType!
     
     var detailsOrder : [AnyObject]!
-    var detailsOrderGroceries : NSDictionary!
+    var detailsOrderGroceries : [String:Any]!
     
     var listSelectorController: ListsSelectorViewController?
     var addToListButton: UIButton?
@@ -36,7 +36,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     var emptyOrder: IPOSearchResultEmptyView!
     
-    var timmer : NSTimer!
+    var timmer : Timer!
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREVIOUSORDERDETAIL.rawValue
@@ -46,49 +46,49 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         super.viewDidLoad()
         //viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
         
-        self.viewFooter = UIView(frame:CGRectMake(0, self.view.bounds.maxY - 72, self.view.bounds.width, 46))
+        self.viewFooter = UIView(frame:CGRect(x: 0, y: self.view.bounds.maxY - 72, width: self.view.bounds.width, height: 46))
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = trackingNumber
         
         tableDetailOrder = UITableView()
        
-        tableDetailOrder.registerClass(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
-        tableDetailOrder.registerClass(ProductDetailLabelCollectionView.self, forCellReuseIdentifier: "labelCell")
-        tableDetailOrder.registerClass(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
-        tableDetailOrder.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableDetailOrder.register(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
+        tableDetailOrder.register(ProductDetailLabelCollectionView.self, forCellReuseIdentifier: "labelCell")
+        tableDetailOrder.register(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
+        tableDetailOrder.separatorStyle = UITableViewCellSeparatorStyle.none
         
-        self.viewFooter!.backgroundColor = UIColor.whiteColor()
+        self.viewFooter!.backgroundColor = UIColor.white
         
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
         if self.type == ResultObjectType.Groceries {
             self.addToListButton = UIButton()
-            self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
-            self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), forState: .Selected)
-            self.addToListButton!.addTarget(self, action: #selector(OrderDetailViewController.addCartToList), forControlEvents: .TouchUpInside)
+            self.addToListButton!.setImage(UIImage(named: "detail_list"), for: UIControlState())
+            self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), for: .selected)
+            self.addToListButton!.addTarget(self, action: #selector(OrderDetailViewController.addCartToList), for: .touchUpInside)
             self.viewFooter!.addSubview(self.addToListButton!)
         }
 
-        self.shareButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
-        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
-        self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareButton!.addTarget(self, action: #selector(OrderDetailViewController.shareList), forControlEvents: .TouchUpInside)
+        self.shareButton = UIButton(frame: CGRect(x: 16.0, y: y, width: 34.0, height: 34.0))
+        self.shareButton!.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
+        self.shareButton!.setImage(UIImage(named: "detail_share"), for: .selected)
+        self.shareButton!.setImage(UIImage(named: "detail_share"), for: .highlighted)
+        self.shareButton!.addTarget(self, action: #selector(OrderDetailViewController.shareList), for: .touchUpInside)
         self.viewFooter!.addSubview(self.shareButton!)
         
         let x = self.shareButton!.frame.maxX + 16.0
         
-        self.addToCartButton = UIButton(frame: CGRectMake(x, y, (self.viewFooter!.frame.width - (x + 16.0)) - 32, 34.0))
+        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: (self.viewFooter!.frame.width - (x + 16.0)) - 32, height: 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
  
         
-        self.addToCartButton?.setTitle(NSLocalizedString("order.shop.title.btn", comment: ""), forState: .Normal)
+        self.addToCartButton?.setTitle(NSLocalizedString("order.shop.title.btn", comment: ""), for: UIControlState())
         self.addToCartButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.addToCartButton?.titleLabel?.textColor = UIColor.whiteColor()
+        self.addToCartButton?.titleLabel?.textColor = UIColor.white
         //self.addToCartButton?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
-        self.addToCartButton!.addTarget(self, action: #selector(OrderDetailViewController.addListToCart), forControlEvents: .TouchUpInside)
+        self.addToCartButton!.addTarget(self, action: #selector(OrderDetailViewController.addListToCart), for: .touchUpInside)
         self.viewFooter!.addSubview(self.addToCartButton!)
         
     
@@ -109,34 +109,34 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        self.tableDetailOrder.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
 
-        self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
+        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
 
         if self.type == ResultObjectType.Groceries {
-            self.addToListButton!.frame = CGRectMake(16.0, y, 34.0, 34.0)
-            self.shareButton!.frame = CGRectMake(self.addToListButton!.frame.maxX + 16.0, y, 34.0, 34.0)
+            self.addToListButton!.frame = CGRect(x: 16.0, y: y, width: 34.0, height: 34.0)
+            self.shareButton!.frame = CGRect(x: self.addToListButton!.frame.maxX + 16.0, y: y, width: 34.0, height: 34.0)
         }
         else {
-            self.shareButton!.frame = CGRectMake(16.0, y, 34.0, 34.0)
+            self.shareButton!.frame = CGRect(x: 16.0, y: y, width: 34.0, height: 34.0)
         }
         
-        self.addToCartButton!.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, y, (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, 34.0)
+        self.addToCartButton!.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: y, width: (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, height: 34.0)
   
         if isShowingTabBar {
-            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+            self.self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
         }else{
-            self.self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
+            self.self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
         }
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         reloadPreviousOrderDetail()
         
         if itemDetailProducts != nil {
@@ -153,14 +153,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 }
                 
                 if self.emptyOrder == nil {
-                    self.emptyOrder = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, width, height - maxY))
-                    self.emptyOrder.iconImageView.contentMode = .ScaleAspectFill
+                    self.emptyOrder = IPOSearchResultEmptyView(frame:CGRect(x: 0, y: maxY, width: width, height: height - maxY))
+                    self.emptyOrder.iconImageView.contentMode = .scaleAspectFill
                     self.emptyOrder.iconImageView.image = UIImage(named:"bg_pedidos_empty")
                     self.emptyOrder.returnButton.removeFromSuperview()
                 }
                 
                 self.emptyOrder.descLabel.text = "No se encontraron artículos"
-                self.tableDetailOrder.scrollEnabled = false
+                self.tableDetailOrder.isScrollEnabled = false
                 
                 self.view.addSubview(self.emptyOrder)
             }
@@ -169,7 +169,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
  
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         if showFedexGuide {
              return self.itemDetailProducts.count + 1
         }
@@ -177,9 +177,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
     }
     
-    func showProducDetail(indexPath: NSIndexPath){
+    func showProducDetail(_ indexPath: IndexPath){
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section)
+        controller.itemsToShow = getUPCItems(indexPath.section) as [AnyObject]
         controller.ixSelected = indexPath.row
         if !showFedexGuide {
             controller.ixSelected = indexPath.row - 2
@@ -191,13 +191,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     //MARK:TableViewDelegate
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if showFedexGuide {
             if section == 0 {
                 return 1
             }
-            let arrayProds = self.itemDetailProducts[section - 1] as! [String:AnyObject]
+            let arrayProds = self.itemDetailProducts[section - 1] as! [String:Any]
             let arrayProdsItems = arrayProds["items"] as! [AnyObject]
             return arrayProdsItems.count
         }
@@ -206,34 +206,34 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         var cell: UITableViewCell? = nil
         
         switch (indexPath.section, indexPath.row) {
             case (0,0):
-                let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
-                cellDetail.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellDetail.frame.height)
+                let cellDetail = tableDetailOrder.dequeueReusableCell(withIdentifier: "detailOrder") as! PreviousDetailTableViewCell
+                cellDetail.frame = CGRect(x: 0, y: 0, width: self.tableDetailOrder.frame.width, height: cellDetail.frame.height)
                 cellDetail.setValues(self.detailsOrder)
                 cell = cellDetail
             case (0,1):
-                let cellCharacteristicsTitle = tableDetailOrder.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
-                cellCharacteristicsTitle!.setValues("Artículos de mi compra", font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
+                let cellCharacteristicsTitle = tableDetailOrder.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
+                cellCharacteristicsTitle!.setValues("Artículos de mi compra", font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.left)
                 cell = cellCharacteristicsTitle
             default:
                 
-                let cellOrderProduct = tableDetailOrder.dequeueReusableCellWithIdentifier("orderCell", forIndexPath: indexPath) as! OrderProductTableViewCell
-                cellOrderProduct.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellOrderProduct.frame.height)
+                let cellOrderProduct = tableDetailOrder.dequeueReusableCell(withIdentifier: "orderCell", for: indexPath) as! OrderProductTableViewCell
+                cellOrderProduct.frame = CGRect(x: 0, y: 0, width: self.tableDetailOrder.frame.width, height: cellOrderProduct.frame.height)
                 cellOrderProduct.type = self.type
                 
                 var dictProduct = [:]
                 
                 if showFedexGuide {
-                    let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as! [String:AnyObject]
+                    let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as! [String:Any]
                     let productsArray = arrayProductsFed["items"] as! [AnyObject]
-                    dictProduct = productsArray[indexPath.row] as! NSDictionary
+                    dictProduct = productsArray[indexPath.row] as! [String:Any]
                 } else {
-                    dictProduct = itemDetailProducts[indexPath.row - 2] as! NSDictionary
+                    dictProduct = itemDetailProducts[indexPath.row - 2] as! [String:Any]
                 }
                 
                 let upcProduct = dictProduct["upc"] as! String
@@ -287,13 +287,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
         }
         
-        cell!.selectionStyle = UITableViewCellSelectionStyle.None
+        cell!.selectionStyle = UITableViewCellSelectionStyle.none
 
         return cell!
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
        
         if indexPath.section == 0 && indexPath.row == 0{
             let size = PreviousDetailTableViewCell.sizeForCell(self.view.frame.width, values: self.detailsOrder)
@@ -305,7 +305,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
    
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !showFedexGuide {
             switch indexPath.row {
             case 0:
@@ -323,35 +323,35 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section > 0 {
             return 44
         }
         return 0
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section > 0 {
             
-            let arrayProductsFed = itemDetailProducts[section - 1] as! [String:AnyObject]
+            let arrayProductsFed = itemDetailProducts[section - 1] as! [String:Any]
             let guide = arrayProductsFed["fedexGuide"] as! String
             let guideurl = arrayProductsFed["urlfedexGuide"] as! String
             let viewFedex = UIView()
             viewFedex.backgroundColor = WMColor.light_light_gray
             
-            let lblGuide = UILabel(frame: CGRectMake(16, 0, 200, 44))
+            let lblGuide = UILabel(frame: CGRect(x: 16, y: 0, width: 200, height: 44))
             lblGuide.text = "Guia: \(guide)"
             lblGuide.textColor = WMColor.light_blue
             lblGuide.font = WMFont.fontMyriadProRegularOfSize(14)
             
             if guideurl != "" {
-                let btnGoToGuide = UIButton(frame:CGRectMake(self.view.frame.width - 84 , 11, 68, 22))
-                btnGoToGuide.setTitle("Rastrear", forState: UIControlState.Normal)
+                let btnGoToGuide = UIButton(frame:CGRect(x: self.view.frame.width - 84 , y: 11, width: 68, height: 22))
+                btnGoToGuide.setTitle("Rastrear", for: UIControlState())
                 btnGoToGuide.backgroundColor = WMColor.light_blue
-                btnGoToGuide.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                btnGoToGuide.setTitleColor(UIColor.white, for: UIControlState())
                 btnGoToGuide.layer.cornerRadius = btnGoToGuide.frame.height / 2
                 btnGoToGuide.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-                btnGoToGuide.addTarget(self, action: #selector(OrderDetailViewController.didSelectItem(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                btnGoToGuide.addTarget(self, action: #selector(OrderDetailViewController.didSelectItem(_:)), for: UIControlEvents.touchUpInside)
                 btnGoToGuide.tag = section
                 if guide != "No disponible" {
                     viewFedex.addSubview(btnGoToGuide)
@@ -363,16 +363,16 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return UIView()
     }
     
-    func didSelectItem(sender:UIButton) {
-        let arrayProductsFed = itemDetailProducts[sender.tag - 1] as! [String:AnyObject]
+    func didSelectItem(_ sender:UIButton) {
+        let arrayProductsFed = itemDetailProducts[sender.tag - 1] as! [String:Any]
         let guideurl = arrayProductsFed["urlfedexGuide"] as! String
         
         
         let webCtrl = IPOWebViewController()
-        if let url = NSURL(string: guideurl) {
-            if UIApplication.sharedApplication().canOpenURL(url){
+        if let url = URL(string: guideurl) {
+            if UIApplication.shared.canOpenURL(url){
                 webCtrl.openURL(guideurl)
-                self.presentViewController(webCtrl,animated:true,completion:nil)
+                self.present(webCtrl,animated:true,completion:nil)
             }
         }
 
@@ -391,12 +391,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return upcItems
     }
     
-    func getUPCItems(section:Int) -> [[String:String]] {
+    func getUPCItems(_ section:Int) -> [[String:String]] {
         var upcItems : [[String:String]] = []
         if !showFedexGuide {
             return getUPCItems()
         }
-        let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:AnyObject]
+        let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:Any]
         if let  listUPCItems =  shoppingCartProduct["items"] as? NSArray {
              //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
             
@@ -416,7 +416,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func reloadPreviousOrderDetail() {
         if type == ResultObjectType.Mg {
             let servicePrev = PreviousOrderDetailService()
-            servicePrev.callService(trackingNumber, successBlock: { (result:NSDictionary) -> Void in
+            servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
                 
                 self.tableDetailOrder.dataSource = self
                 self.tableDetailOrder.delegate = self
@@ -443,7 +443,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 //details.append(["label":fedexLbl,"value":guide])
                 
 
-                var itemsFedex : [[String:AnyObject]] = []
+                var itemsFedex : [[String:Any]] = []
                 self.detailsOrder = details
                 let resultsProducts =  result["items"] as! NSArray
                 
@@ -459,21 +459,21 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                    
                     
                     if itemFedexFound.count == 0 {
-                        var itmNewProduct : [String:AnyObject] = [:]
+                        var itmNewProduct : [String:Any] = [:]
                         itmNewProduct["fedexGuide"] = guide
                         itmNewProduct["urlfedexGuide"] = urlGuide
                         itmNewProduct["items"] = [itemProduct]
                         itemsFedex.append(itmNewProduct)
                     } else {
-                        let index = itemsFedex.indexOf({ (itemFedexFilter) -> Bool in
+                        let index = itemsFedex.index(where: { (itemFedexFilter) -> Bool in
                             let itemTwo =  itemFedexFilter["fedexGuide"] as! String
                             return guide == itemTwo
                         })
-                        var itemFound = itemFedexFound[0] as  [String:AnyObject]
+                        var itemFound = itemFedexFound[0] as  [String:Any]
                         var itemsFound = itemFound["items"] as!  [AnyObject]
                         itemsFound.append(itemProduct)
-                        itemsFedex.removeAtIndex(index!)
-                        var itmNewProduct : [String:AnyObject] = [:]
+                        itemsFedex.remove(at: index!)
+                        var itmNewProduct : [String:Any] = [:]
                         itmNewProduct["fedexGuide"] = guide
                         itmNewProduct["urlfedexGuide"] = urlGuide
                         itmNewProduct["items"] = itemsFound
@@ -524,7 +524,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             //details.append(["label":addressLbl,"value":address])
            // details.append(["label":fedexLbl,"value":""])
             
-            self.detailsOrder = details
+            self.detailsOrder = details as [AnyObject]!
             self.itemDetailProducts = detailsOrderGroceries["items"] as! NSArray
             self.tableDetailOrder.reloadData()
             self.removeLoadingView()
@@ -537,7 +537,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func addCartToList() {
         if self.listSelectorController == nil {
-            self.addToListButton!.selected = true
+            self.addToListButton!.isSelected = true
             let frame = self.view.frame
             
             if type == ResultObjectType.Mg {
@@ -549,19 +549,19 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRectMake(0.0, frame.height, frame.width, frame.height)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height)
             self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
-            self.listSelectorController!.didMoveToParentViewController(self)
+            self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRectMake(0, 0, frame.width, frame.height))
-            self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
+            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+            self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
             
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
-                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
@@ -572,9 +572,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 }
             )
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
-                self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
             })
         }
         else {
@@ -593,25 +593,25 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             var upcs: [AnyObject] = []
             if !showFedexGuide {
                 for item in self.itemDetailProducts! {
-                    upcs.append(getItemToShoppingCart(item as! NSDictionary))
+                    upcs.append(getItemToShoppingCart(item as! [String:Any]) as AnyObject)
                 }
             } else {
                 for item in self.itemDetailProducts! {
-                    let itmProdVal = item["items"] as! [[String:AnyObject]]
+                    let itmProdVal = item["items"] as! [[String:Any]]
                     for itemProd in itmProdVal {
-                        upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
+                        upcs.append(getItemToShoppingCart(itemProd as [String:Any]))
 
                     }
                 }
             }
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
         }
     
     }
     
-    func getItemToShoppingCart(item:NSDictionary) ->  [String:AnyObject] {
+    func getItemToShoppingCart(_ item:[String:Any]) ->  [String:Any] {
 
-        var params: [String:AnyObject] = [:]
+        var params: [String:Any] = [:]
         params["upc"] = item["upc"] as! String
         params["desc"] = item["description"] as! String
         
@@ -632,7 +632,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if let quantity = item["quantity"] as? Int {
             params["quantity"] = "\(quantity)"
         }else if let quantity = item["quantity"] as? NSNumber {
-            params["quantity"] = "\(quantity.integerValue)"
+            params["quantity"] = "\(quantity.intValue)"
         }
         else if let quantity = item["quantity"] as? NSString {
             params["quantity"] = "\(quantity.integerValue)"
@@ -662,17 +662,17 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
         if let image = self.buildImageToShare() {
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            self.navigationController?.present(controller, animated: true, completion: nil)
             
             if #available(iOS 8.0, *) {
                 controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                    if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                    if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -688,8 +688,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         //UIGraphicsBeginImageContext(self.tableDetailOrder!.bounds.size)
         UIGraphicsBeginImageContextWithOptions(self.tableDetailOrder!.bounds.size, false, 2.0)
-        self.tableDetailOrder!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        self.tableDetailOrder!.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         self.tableDetailOrder!.frame = oldFrame
@@ -697,24 +697,24 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     }
     
-    func removeListSelector(action action:(()->Void)?) {
+    func removeListSelector(action:(()->Void)?) {
         if self.listSelectorController != nil {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 delay: 0.0,
-                options: .LayoutSubviews,
+                options: .layoutSubviews,
                 animations: { () -> Void in
                     let frame = self.view.frame
-                    self.listSelectorController!.view.frame = CGRectMake(0, frame.height, frame.width, 0.0)
-                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: frame.height, width: frame.width, height: 0.0)
+                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
                 }, completion: { (complete:Bool) -> Void in
                     if complete {
                         if self.listSelectorController != nil {
-                            self.listSelectorController!.willMoveToParentViewController(nil)
+                            self.listSelectorController!.willMove(toParentViewController: nil)
                             self.listSelectorController!.view.removeFromSuperview()
                             self.listSelectorController!.removeFromParentViewController()
                             self.listSelectorController = nil
                         }
-                        self.addToListButton!.selected = false
+                        self.addToListButton!.isSelected = false
                         
                         action?()
                     }
@@ -725,8 +725,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     override func willShowTabbar() {
         isShowingTabBar = true
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
             self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 109, 0)
             self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 109, 0)
         })
@@ -734,8 +734,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     override func willHideTabbar() {
         isShowingTabBar = false
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
             self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
             self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
         })
@@ -751,8 +751,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
-        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+        self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
     }
@@ -782,7 +782,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemDetailProducts.count {
             
-            let item = self.itemDetailProducts[idx] as! [String:AnyObject]
+            let item = self.itemDetailProducts[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             let desc = item["description"] as! String
@@ -803,14 +803,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if let stock = item["stock"] as? Bool {
                 active = stock
             }
-            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active))
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active) as AnyObject)
             
             // 360 Event
             BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
                 self.alertView!.afterRemove = {
@@ -830,15 +830,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func listSelectorDidAddProductLocally(inList list:List) {
     }
     
-    func listSelectorDidDeleteProductLocally(product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
     }
     
     func listSelectorDidDeleteProduct(inList listId:String) {
     }
     
-    func listSelectorDidShowList(listId: String, andName name:String) {
+    func listSelectorDidShowList(_ listId: String, andName name:String) {
         let storyboard = self.loadStoryboardDefinition()
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
             vc.listId = listId
             vc.listName = name
             vc.enableScrollUpdateByTabBar = false
@@ -846,9 +846,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
     }
     
-    func listSelectorDidShowListLocally(list: List) {
+    func listSelectorDidShowListLocally(_ list: List) {
         let storyboard = self.loadStoryboardDefinition()
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
             vc.listEntity = list
             vc.listName = list.name
             vc.enableScrollUpdateByTabBar = false
@@ -860,7 +860,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         return true
     }
     
-    func listSelectorDidCreateList(name:String) {
+    func listSelectorDidCreateList(_ name:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
@@ -868,12 +868,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemDetailProducts.count {
-            let item = self.itemDetailProducts[idx] as! [String:AnyObject]
+            let item = self.itemDetailProducts[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? NSNumber {
-                quantity = qIntProd.integerValue
+                quantity = qIntProd.intValue
             }
             else if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
@@ -891,11 +891,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             let type = item["type"] as? String
             
             let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type)
-            products.append(serviceItem)
+            products.append(serviceItem as AnyObject)
         }
         
         service.callService(service.buildParams(name, items: products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.listSelectorController!.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()

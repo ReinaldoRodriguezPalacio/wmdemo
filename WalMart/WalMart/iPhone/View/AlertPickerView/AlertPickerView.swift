@@ -10,17 +10,17 @@ import Foundation
 
 
 @objc protocol AlertPickerViewDelegate {
-    func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String)
-    func didDeSelectOption(picker:AlertPickerView)
+    func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String)
+    func didDeSelectOption(_ picker:AlertPickerView)
     
-    func viewReplaceContent(frame:CGRect) -> UIView!
+    func viewReplaceContent(_ frame:CGRect) -> UIView!
     func saveReplaceViewSelected()
-    func buttomViewSelected(sender:UIButton)
-    optional func closeAlertPk()
+    func buttomViewSelected(_ sender:UIButton)
+    @objc optional func closeAlertPk()
 }
 
 protocol AlertPickerSelectOptionDelegate {
-    func didSelectOptionAtIndex(indexPath: NSIndexPath)
+    func didSelectOptionAtIndex(_ indexPath: IndexPath)
 }
 
 class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
@@ -39,7 +39,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     var onClosePicker : (() -> Void)?
     
-    var selected : NSIndexPath!
+    var selected : IndexPath!
     var delegate : AlertPickerViewDelegate? = nil
     var selectOptionDelegate: AlertPickerSelectOptionDelegate? = nil
     
@@ -55,7 +55,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     var lastTitle : String! = ""
     var titleHeader : String! = ""
-    var cellType: TypeField! = TypeField.Check
+    var cellType: TypeField! = TypeField.check
     var textboxValues: [String:String]? = [:]
     var stopRemoveView: Bool? = false
     var isNewAddres: Bool  =  false
@@ -84,73 +84,73 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         self.tag = 5000
         
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
-        viewContent = UIView(frame: CGRectMake(0, 0, 286, 316))
+        viewContent = UIView(frame: CGRect(x: 0, y: 0, width: 286, height: 316))
         viewContent.layer.cornerRadius = 6.0
-        viewContent.backgroundColor = UIColor.whiteColor()
+        viewContent.backgroundColor = UIColor.white
         viewContent.clipsToBounds = true
         
-        headerView = UIView(frame: CGRectMake(0, 0, viewContent.frame.width, 46))
+        headerView = UIView(frame: CGRect(x: 0, y: 0, width: viewContent.frame.width, height: 46))
         headerView.backgroundColor = WMColor.light_light_gray
         viewContent.addSubview(headerView)
         
-        closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
-        closeButton!.addTarget(self, action: #selector(AlertPickerView.closePicker), forControlEvents: UIControlEvents.TouchUpInside)
-        closeButton!.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        closeButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.headerView.frame.height,  height: self.headerView.frame.height))
+        closeButton!.addTarget(self, action: #selector(AlertPickerView.closePicker), for: UIControlEvents.touchUpInside)
+        closeButton!.setImage(UIImage(named: "detail_close"), for: UIControlState())
         headerView.addSubview(closeButton!)
 
         titleLabel = UILabel(frame: headerView.bounds)
         titleLabel.textColor =  WMColor.light_blue
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2
         
         headerView.addSubview(titleLabel)
         
-        viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height - headerView.frame.height))
+        viewContentOptions = UIView(frame: CGRect(x: 0, y: headerView.frame.height, width: viewContent.frame.width, height: viewContent.frame.height - headerView.frame.height))
         
-        tableData = UITableView(frame: CGRectMake(0, 5, viewContentOptions.frame.width,viewContentOptions.frame.height - 64))
-        tableData.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
-        tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
+        tableData = UITableView(frame: CGRect(x: 0, y: 5, width: viewContentOptions.frame.width,height: viewContentOptions.frame.height - 64))
+        tableData.register(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
+        tableData.register(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self
         tableData.dataSource = self
 
         self.viewContentOptions.addSubview(tableData)
         
-        viewFooter = UIView(frame: CGRectMake(0, self.viewContentOptions.frame.height - 64, self.frame.width, 64))
-        buttonOk = UIButton(frame: CGRectMake(0, 0, 98, 34))
+        viewFooter = UIView(frame: CGRect(x: 0, y: self.viewContentOptions.frame.height - 64, width: self.frame.width, height: 64))
+        buttonOk = UIButton(frame: CGRect(x: 0, y: 0, width: 98, height: 34))
 
         buttonOk.backgroundColor = WMColor.green
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonOk.setTitle("Ok", forState: UIControlState.Normal)
-        buttonOk.center = CGPointMake(self.viewContent.frame.width / 2, 32)
-        buttonOk.addTarget(self, action: #selector(AlertPickerView.okAction), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonOk.setTitle("Ok", for: UIControlState())
+        buttonOk.center = CGPoint(x: self.viewContent.frame.width / 2, y: 32)
+        buttonOk.addTarget(self, action: #selector(AlertPickerView.okAction), for: UIControlEvents.touchUpInside)
         
-        buttonCancel = UIButton(frame: CGRectMake(0, 0, 120, 34))
+        buttonCancel = UIButton(frame: CGRect(x: 0, y: 0, width: 120, height: 34))
         buttonCancel.backgroundColor = WMColor.empty_gray_btn
         buttonCancel.layer.cornerRadius = 17
         buttonCancel.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonCancel.setTitle("Cancelar", forState: UIControlState.Normal)
-        buttonCancel.center = CGPointMake((self.viewContent.frame.width / 2) - 68 , 32)
-        buttonCancel.addTarget(self, action: #selector(AlertPickerView.closePicker), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonCancel.setTitle("Cancelar", for: UIControlState())
+        buttonCancel.center = CGPoint(x: (self.viewContent.frame.width / 2) - 68 , y: 32)
+        buttonCancel.addTarget(self, action: #selector(AlertPickerView.closePicker), for: UIControlEvents.touchUpInside)
         
         if self.showCancelButton{
-            buttonOk.frame = CGRectMake(0, 0, 120, 34)
-            buttonOk.center = CGPointMake((self.viewContent.frame.width / 2) + 68 , 32)
+            buttonOk.frame = CGRect(x: 0, y: 0, width: 120, height: 34)
+            buttonOk.center = CGPoint(x: (self.viewContent.frame.width / 2) + 68 , y: 32)
             viewFooter.addSubview(buttonCancel)
         }
         
-        viewFooter.backgroundColor = UIColor.whiteColor()
+        viewFooter.backgroundColor = UIColor.white
         viewFooter.addSubview(buttonOk)
         
         layerLine = CALayer()
-        layerLine!.backgroundColor = WMColor.light_light_gray.CGColor
-        viewFooter!.layer.insertSublayer(layerLine!, atIndex: 1000)
+        layerLine!.backgroundColor = WMColor.light_light_gray.cgColor
+        viewFooter!.layer.insertSublayer(layerLine!, at: 1000)
     
         self.viewContentOptions.addSubview(viewFooter)
         self.viewContent.addSubview(self.viewContentOptions)
@@ -163,18 +163,18 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     override func layoutSubviews() {
         viewContent.center = self.center
-        headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
-        closeButton?.frame = CGRectMake(2, 0, 28,  self.headerView.frame.height)
-        layerLine?.frame = CGRectMake(0, 1, viewContent.frame.width, 1)
+        headerView.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: 46)
+        closeButton?.frame = CGRect(x: 2, y: 0, width: 28,  height: self.headerView.frame.height)
+        layerLine?.frame = CGRect(x: 0, y: 1, width: viewContent.frame.width, height: 1)
         if !isNewAddres {
             titleLabel.frame = headerView.bounds
         }
         if buttonRight != nil  {
-            buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
+            buttonRight.frame = CGRect(x: self.viewContent.frame.width - 80, y: 12, width: 64, height: 22)
         }
     }
     
-    func setValues(title:NSString,values:[String]) {
+    func setValues(_ title:NSString,values:[String]) {
         self.titleHeader = title as String
         self.titleLabel.text = title as String
         self.itemsToShow = values
@@ -182,63 +182,63 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return itemsToShow.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        if cellType == TypeField.Alphanumeric
+        if cellType == TypeField.alphanumeric
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
+            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.none
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
-            cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
-            cell.textbox!.maxLength = 0
-            cell.textbox!.disablePaste =  true
+            let cell = tableView.dequeueReusableCell(withIdentifier: "textboxItem") as! TextboxTableViewCell!
+            cell?.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
+            cell?.textbox!.maxLength = 0
+            cell?.textbox!.disablePaste =  true
             
             if indexPath.row == 0 {
-                cell.textbox!.maxLength = 8
-                cell.textbox!.setCustomDelegate(self)
+                cell?.textbox!.maxLength = 8
+                cell?.textbox!.setCustomDelegate(self)
             }
             if indexPath.row == 2 {
-                cell.textbox!.maxLength = 4
-                cell.textbox!.setCustomDelegate(self)
+                cell?.textbox!.maxLength = 4
+                cell?.textbox!.setCustomDelegate(self)
             }
-            cell.textbox!.delegate = self
-            cell.textbox!.nameField = itemsToShow[indexPath.row]
-            cell.textLabel?.text = itemsToShow[indexPath.row]
+            cell?.textbox!.delegate = self
+            cell?.textbox!.nameField = itemsToShow[indexPath.row]
+            cell?.textLabel?.text = itemsToShow[indexPath.row]
             if self.selected != nil {
-                cell.setSelected(indexPath.row == self.selected.row, animated: true)
+                cell?.setSelected(indexPath.row == self.selected.row, animated: true)
             }
             
             if itemsToShow[indexPath.row] == NSLocalizedString("checkout.discount.dateAdmission", comment:"") {
-                cell.setDatePickerInputView()
+                cell?.setDatePickerInputView()
             }
             
-            return cell
+            return cell!
         }
         else
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
-            let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
-            cell.selectionStyle = .None
-            cell.textLabel?.text = itemsToShow[indexPath.row]
+            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.singleLine
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cellSelItem") as! SelectItemTableViewCell!
+            cell?.selectionStyle = .none
+            cell?.textLabel?.text = itemsToShow[indexPath.row]
             if self.selected != nil {
-                cell.setSelected(indexPath.row == self.selected.row, animated: true)
+                cell?.setSelected(indexPath.row == self.selected.row, animated: true)
             }
             if self.selectDelegate{
-                cell.showButton?.hidden = false
-                cell.showButton?.tag = indexPath.row
-                cell.showButton?.addTarget(self, action: #selector(AlertPickerView.cellShowButtonSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                cell?.showButton?.isHidden = false
+                cell?.showButton?.tag = indexPath.row
+                cell?.showButton?.addTarget(self, action: #selector(AlertPickerView.cellShowButtonSelected(_:)), for: UIControlEvents.touchUpInside)
             }
-            return cell
+            return cell!
         }
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.selected == nil{
             self.selected = indexPath
         }
@@ -246,11 +246,11 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         if self.selected.row != indexPath.row {
             let lastSelected = self.selected
             self.selected = indexPath
-            tableView.reloadRowsAtIndexPaths([self.selected ,lastSelected], withRowAnimation: UITableViewRowAnimation.None)
+            tableView.reloadRows(at: [self.selected ,lastSelected!], with: UITableViewRowAnimation.none)
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let textCell = itemsToShow[indexPath.row]
         return  SelectItemTableViewCell.sizeText(textCell, width: 247.0)
     }
@@ -279,17 +279,17 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     //MARK TextField delegate
     
-    func textField(textField: UITextField,
-        shouldChangeCharactersInRange range: NSRange,
+    func textField(_ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
         replacementString string: String) -> Bool
     {
         let formField = textField as! FormFieldView
-        let textValue = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString:string)
+        let textValue = (textField.text! as NSString).replacingCharacters(in: range, with:string)
         
         let text = (textValue as String).trim()
         if text == ""
         {
-            textboxValues?.removeValueForKey(formField.nameField)
+            textboxValues?.removeValue(forKey: formField.nameField)
         }
         else{
             textboxValues?[formField.nameField] = text
@@ -298,7 +298,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         let formField = textField as! FormFieldView
         var text = formField.text
         
@@ -311,7 +311,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         if text == ""
         {
-            textboxValues?.removeValueForKey(formField.nameField)
+            textboxValues?.removeValue(forKey: formField.nameField)
         }
         else{
             textboxValues?[formField.nameField] = text
@@ -320,14 +320,14 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     //MARK Show alerts
     
     class func initPicker()  -> AlertModalView? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         if vc != nil {
             return initPicker(vc!)
         }
         return nil
     }
     
-    class func initPicker(controller:UIViewController) -> AlertModalView? {
+    class func initPicker(_ controller:UIViewController) -> AlertModalView? {
         let newAlert = AlertModalView(frame:controller.view.bounds)
         controller.view.addSubview(newAlert)
         newAlert.startAnimating()
@@ -335,19 +335,19 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     }
     
     class func initPickerWithDefault() -> AlertPickerView {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let newAlert = AlertPickerView(frame:vc!.view.bounds)
         return newAlert
     }
     
     class func initPickerWithDefaultCancelButton() -> AlertPickerView {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let newAlert = AlertPickerView(frame:vc!.view.bounds,showCancelButton: true)
         return newAlert
     }
     
     func showPicker() {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         vc!.view.addSubview(self)
         //vc!.view.bringSubviewToFront(self)
         self.startAnimating()
@@ -361,28 +361,28 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         
         let imgBgView = UIImageView(frame: self.bgView.bounds)
-        let imgBack = UIImage(fromView: self.superview!)
-        let imgBackBlur = imgBack.applyLightEffect()
+        let imgBack = UIImage(from: self.superview!)
+        let imgBackBlur = imgBack?.applyLightEffect()
         imgBgView.image = imgBackBlur
         self.bgView.addSubview(imgBgView)
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        bgViewAlpha.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
         
         tableData.reloadData()
         
         bgView.alpha = 0
-        viewContent.transform = CGAffineTransformMakeTranslation(0,500)
+        viewContent.transform = CGAffineTransform(translationX: 0,y: 500)
         
-        UIView.animateKeyframesWithDuration(0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModeCubicPaced, animations: { () -> Void in
+        UIView.animateKeyframes(withDuration: 0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.calculationModeCubicPaced, animations: { () -> Void in
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
                 self.bgView.alpha = 1.0
             })
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-                 self.viewContent.transform = CGAffineTransformIdentity
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
+                 self.viewContent.transform = CGAffineTransform.identity
             })
             
 //            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
@@ -400,14 +400,14 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     }
     
     override func removeFromSuperview() {
-        UIView.animateKeyframesWithDuration(0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModePaced, animations: { () -> Void in
+        UIView.animateKeyframes(withDuration: 0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.calculationModePaced, animations: { () -> Void in
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
                 self.bgView.alpha = 0.0
             })
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.viewContent.transform = CGAffineTransformMakeTranslation(0,500)
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
+                self.viewContent.transform = CGAffineTransform(translationX: 0,y: 500)
             })
             
             //            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
@@ -430,89 +430,89 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     
-    func addRigthActionButton(buttonRight:WMRoundButton) {
+    func addRigthActionButton(_ buttonRight:WMRoundButton) {
         if self.buttonRight != nil {
             self.buttonRight.removeFromSuperview()
             self.buttonRight = nil
         }
         self.buttonRight = buttonRight
-        self.buttonRight.addTarget(self, action: #selector(AlertPickerView.newItemForm), forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
+        self.buttonRight.addTarget(self, action: #selector(AlertPickerView.newItemForm), for: UIControlEvents.touchUpInside)
+        self.buttonRight.frame = CGRect(x: self.viewContent.frame.width - 80, y: 12, width: 64, height: 22)
         self.viewContent.addSubview(buttonRight)
     }
     
-    func hiddenRigthActionButton(hidden:Bool) {
+    func hiddenRigthActionButton(_ hidden:Bool) {
         if self.buttonRight != nil {
-            self.buttonRight.hidden = hidden
+            self.buttonRight.isHidden = hidden
         }
     }
     
     func newItemForm () {
-        if self.buttonRight.selected {
+        if self.buttonRight.isSelected {
            //Save action
             self.delegate?.saveReplaceViewSelected()
         } else {
-            self.buttonRight.setBackgroundColor(WMColor.green, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+            self.buttonRight.setBackgroundColor(WMColor.green, size:CGSize(width: 64.0, height: 22), forUIControlState: UIControlState())
             lastTitle = self.buttonRight.titleLabel?.text
             isNewAddres =  true
             if !IS_IPAD{
-                self.titleLabel.textAlignment = .Left
-                self.titleLabel.frame =  CGRectMake(40, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
+                self.titleLabel.textAlignment = .left
+                self.titleLabel.frame =  CGRect(x: 40, y: self.titleLabel.frame.origin.y, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
             }
             
-            self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
+            self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), for: UIControlState())
             
-            viewButtonClose = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
-            viewButtonClose.addTarget(self, action: #selector(AlertPickerView.closeNew), forControlEvents: UIControlEvents.TouchUpInside)
-            viewButtonClose.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
+            viewButtonClose = UIButton(frame: CGRect(x: 0, y: 0, width: self.headerView.frame.height,  height: self.headerView.frame.height))
+            viewButtonClose.addTarget(self, action: #selector(AlertPickerView.closeNew), for: UIControlEvents.touchUpInside)
+            viewButtonClose.setImage(UIImage(named: "BackProduct"), for: UIControlState())
             viewButtonClose.alpha = 0
             self.headerView.addSubview(viewButtonClose)
-            self.closeButton!.hidden = true
+            self.closeButton!.isHidden = true
             
-            self.buttonRight.selected = true
-            let finalContentFrame = CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80)
-            let finalContentInnerFrame = CGRectMake(0, self.headerView.frame.maxY, finalContentFrame.width, finalContentFrame.height - self.headerView.frame.maxY)
+            self.buttonRight.isSelected = true
+            let finalContentFrame = CGRect(x: 8, y: 40, width: self.frame.width - 16, height: self.frame.height - 80)
+            let finalContentInnerFrame = CGRect(x: 0, y: self.headerView.frame.maxY, width: finalContentFrame.width, height: finalContentFrame.height - self.headerView.frame.maxY)
             self.viewReplace = self.delegate?.viewReplaceContent(finalContentInnerFrame)
             self.viewReplace?.alpha = 0
             self.viewContent.addSubview(viewReplace!)
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
           
                 self.viewContent.frame = finalContentFrame
                 self.viewContent.center = self.center
                 self.viewReplace?.alpha = 1
                 self.viewContentOptions.alpha = 0
                 self.viewButtonClose.alpha = 1
-                }) { (completed:Bool) -> Void in
+                }, completion: { (completed:Bool) -> Void in
                     
-            }
+            }) 
         }
     }
     
-    func cellShowButtonSelected(sender:UIButton){
-        self.selectOptionDelegate?.didSelectOptionAtIndex(NSIndexPath(forRow: sender.tag, inSection: 0))
+    func cellShowButtonSelected(_ sender:UIButton){
+        self.selectOptionDelegate?.didSelectOptionAtIndex(IndexPath(row: sender.tag, section: 0))
     }
     
     func closeNew() {
         onClosePicker?()
         isNewAddres =  false
-         self.buttonRight.setBackgroundColor(WMColor.light_blue, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
-         self.titleLabel.textAlignment = .Center
-         self.titleLabel.frame =  CGRectMake(0, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
+         self.buttonRight.setBackgroundColor(WMColor.light_blue, size:CGSize(width: 64.0, height: 22), forUIControlState: UIControlState())
+         self.titleLabel.textAlignment = .center
+         self.titleLabel.frame =  CGRect(x: 0, y: self.titleLabel.frame.origin.y, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
         
-        self.buttonRight.selected = false
+        self.buttonRight.isSelected = false
         self.titleLabel.text = self.titleHeader
-        self.buttonRight.setTitle(lastTitle, forState: UIControlState.Normal)
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 286, 316)
+        self.buttonRight.setTitle(lastTitle, for: UIControlState())
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.viewContent.frame = CGRect(x: 0, y: 0, width: 286, height: 316)
              self.viewContent.center = self.center
             self.viewContentOptions.alpha = 1
             self.viewReplace?.alpha = 0
-            self.viewButtonClose.hidden = true
-            self.closeButton!.hidden = false
-            }) { (complete:Bool) -> Void in
+            self.viewButtonClose.isHidden = true
+            self.closeButton!.isHidden = false
+            }, completion: { (complete:Bool) -> Void in
                 self.viewReplace?.removeFromSuperview()
                 self.viewButtonClose.removeFromSuperview()
-        }
+        }) 
     }
     
     

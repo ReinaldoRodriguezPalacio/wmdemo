@@ -10,18 +10,18 @@ import Foundation
 
 class GRLoginService : GRBaseService {
     
-    func buildParams(email:String,password: String) -> NSDictionary {
-        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
+    func buildParams(_ email:String,password: String) -> [String:Any] {
+        let idDevice = UIDevice.current.identifierForVendor!.uuidString
         return ["email":email,"password":password,"identifierDevice":idDevice]
     }
     
-    func buildParamsUserId() -> NSDictionary {
+    func buildParamsUserId() -> [String:Any] {
         return ["email":"","password":"","idUser":UserCurrentSession.sharedInstance().userSigned!.idUserGR]
     }
 
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.jsonFromObject(resultCall)
 
             let newResultCall = NSMutableDictionary(dictionary: resultCall)

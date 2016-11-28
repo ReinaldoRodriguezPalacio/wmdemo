@@ -15,13 +15,13 @@ class IPABarCodeViewController: BarCodeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let Device = UIDevice.currentDevice()
+        let Device = UIDevice.current
         if previewLayer != nil {
-            if Device.orientation == UIDeviceOrientation.LandscapeLeft {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
+            if Device.orientation == UIDeviceOrientation.landscapeLeft {
+                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight
             }
             else {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft
+                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeLeft
             }
         }
     }
@@ -34,39 +34,39 @@ class IPABarCodeViewController: BarCodeViewController {
         if previewLayer != nil {
             previewLayer!.frame =  self.view.bounds
         }
-        self.helpLabel!.frame = CGRectMake( (self.view.frame.width / 2) - 100  , 150  , 200 ,30 )
-        self.close.frame = CGRectMake((self.view.frame.width) - 48,16,48,48)
+        self.helpLabel!.frame = CGRect( x: (self.view.frame.width / 2) - 100  , y: 150  , width: 200 ,height: 30 )
+        self.close.frame = CGRect(x: (self.view.frame.width) - 48,y: 16,width: 48,height: 48)
     }
 
     
     
     //MARK: - Orientation
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.landscape
     }
     
-    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-        let Device = UIDevice.currentDevice()
-        if Device.orientation == UIDeviceOrientation.LandscapeLeft {
-            return UIInterfaceOrientation.LandscapeRight
+    override var preferredInterfaceOrientationForPresentation : UIInterfaceOrientation {
+        let Device = UIDevice.current
+        if Device.orientation == UIDeviceOrientation.landscapeLeft {
+            return UIInterfaceOrientation.landscapeRight
         }
         else {
-            return UIInterfaceOrientation.LandscapeLeft
+            return UIInterfaceOrientation.landscapeLeft
         }
     }
     
     
-    override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+    override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         if previewLayer != nil {
-            if  toInterfaceOrientation ==  UIInterfaceOrientation.LandscapeLeft {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft
+            if  toInterfaceOrientation ==  UIInterfaceOrientation.landscapeLeft {
+                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeLeft
             }
-            if  toInterfaceOrientation ==  UIInterfaceOrientation.LandscapeRight {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
+            if  toInterfaceOrientation ==  UIInterfaceOrientation.landscapeRight {
+                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight
             }
         }
     }

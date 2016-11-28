@@ -21,17 +21,17 @@ class FormFieldSearch: UITextField {
     
     func setup(){
         self.layer.cornerRadius = 5
-        self.backgroundColor =  UIColor.whiteColor()
+        self.backgroundColor =  UIColor.white
         self.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textColor = WMColor.dark_gray
     }
     
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(CGRectMake(bounds.minX - 15 , bounds.minY, bounds.size.width, bounds.size.height), 30, 00);
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.minX - 15 , y: bounds.minY, width: bounds.size.width, height: bounds.size.height).insetBy(dx: 30, dy: 00);
     }
     
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(CGRectMake(bounds.minX - 15 , bounds.minY, bounds.size.width, bounds.size.height), 30, 00);
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.minX - 15 , y: bounds.minY, width: bounds.size.width, height: bounds.size.height).insetBy(dx: 30, dy: 00);
         //return CGRectInset(bounds, 25 , 00);
     }
     

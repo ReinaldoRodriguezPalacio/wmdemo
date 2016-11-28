@@ -22,16 +22,16 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setup()
-        self.buttonClose.hidden = true
+        self.buttonClose.isHidden = true
         
         loadDepartments()
         self.familyController = FamilyViewController()
-        self.familyController.categoriesType = .CategoryForMG
+        self.familyController.categoriesType = .categoryForMG
         
         self.addChildViewController(self.familyController)
         self.view.addSubview(self.familyController.view)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
         self.setValuesFamily()
     }
     
@@ -48,14 +48,14 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         attachment.image = UIImage(named: "search_edit")
         let attachmentString = NSAttributedString(attachment: attachment)
         let myString = NSMutableAttributedString(string: "\(titleText) ")
-        myString.appendAttributedString(attachmentString)
+        myString.append(attachmentString)
         titleLabelEdit!.numberOfLines = 2
         titleLabelEdit!.attributedText = myString
-        titleLabelEdit!.userInteractionEnabled = true
+        titleLabelEdit!.isUserInteractionEnabled = true
         titleLabelEdit!.textColor =  WMColor.light_blue
         titleLabelEdit!.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabelEdit!.numberOfLines = 2
-        titleLabelEdit!.textAlignment = .Center
+        titleLabelEdit!.textAlignment = .center
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(LandingPageViewController.editSearch))
         titleLabelEdit!.addGestureRecognizer(tapGesture)
@@ -66,34 +66,34 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         
         if !hiddenBack{
             self.backButton = UIButton()
-            self.backButton!.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
-            self.backButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+            self.backButton!.setImage(UIImage(named: "BackProduct"), for: UIControlState())
+            self.backButton!.addTarget(self, action: #selector(NavigationViewController.back), for: UIControlEvents.touchUpInside)
             self.header?.addSubview(self.backButton!)
         }
         
-        self.titleLabelEdit?.textAlignment = NSTextAlignment.Center
+        self.titleLabelEdit?.textAlignment = NSTextAlignment.center
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.imageBackground.frame = CGRectMake(0,startView ,self.view.frame.width , CELL_HEIGHT)
-        self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 84)
-        self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, self.view.frame.width, 1)
-        self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 22, 55, 40)
+        self.imageBackground.frame = CGRect(x: 0,y: startView ,width: self.view.frame.width , height: CELL_HEIGHT)
+        self.searchView.frame = CGRect(x: 0, y: self.imageBackground!.frame.maxY, width: self.view.frame.width, height: 84)
+        self.separator.frame = CGRect(x: 0, y: self.searchView!.bounds.maxY - 1, width: self.view.frame.width, height: 1)
+        self.clearButton!.frame = CGRect(x: self.searchView.frame.width - self.searchFieldSpace, y: 22, width: 55, height: 40)
         
         if self.titleLabelEdit != nil && self.titleLabelEdit!.frame.width == 0 {
-            self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-            self.titleLabelEdit!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
+            self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46)
+            self.titleLabelEdit!.frame = CGRect(x: 46, y: 0, width: self.header!.frame.width - 92, height: self.header!.frame.maxY)
         }
         if backButton != nil{
-            self.backButton!.frame = CGRectMake(0, 0  ,46,46)
+            self.backButton!.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)
         }
         
-        self.searchField.frame = CGRectMake(16, 22, self.view.frame.width - (self.searchFieldSpace + 32), 0.0)
-        self.schoolsTable.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.imageBackground.frame.maxY)
+        self.searchField.frame = CGRect(x: 16, y: 22, width: self.view.frame.width - (self.searchFieldSpace + 32), height: 0.0)
+        self.schoolsTable.frame = CGRect(x: 0, y: self.imageBackground!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.imageBackground.frame.maxY)
         self.schoolsTable.alpha = 0.0
-        familyController.view.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.imageBackground.frame.maxY)
+        familyController.view.frame = CGRect(x: 0, y: self.imageBackground!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.imageBackground.frame.maxY)
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,12 +101,12 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     }
     
     func back(){
-        self.navigationController?.popToRootViewControllerAnimated(true)
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        self.navigationController?.popToRootViewController(animated: true)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
     }
     
     func editSearch(){
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
     }
     
     func setValuesFamily(){
@@ -114,7 +114,7 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         
         var itemSelect = 0
         for indx in 0...(items!.count - 1){
-            let itmG = items![indx] as! [String:AnyObject]
+            let itmG = items![indx] as! [String:Any]
             if itmG["idDepto"] as! String == departmentId {
                 print(indx)
                 print(itmG["description"] as! String)
@@ -122,9 +122,9 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
             }
         }
         
-        let item = items![itemSelect] as! [String:AnyObject]
+        let item = items![itemSelect] as! [String:Any]
         let famArray : AnyObject = item["family"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+        let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
         
         familyController.departmentId = item["idDepto"] as! String
         familyController.families = itemsFam

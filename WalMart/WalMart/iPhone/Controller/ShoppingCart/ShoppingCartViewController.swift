@@ -8,6 +8,30 @@
 
 import Foundation
 import QuartzCore
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 protocol ShoppingCartViewControllerDelegate {
     func returnToView()
@@ -38,7 +62,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var closeButton : UIButton!
     
-    var idexesPath : [NSIndexPath]! = []
+    var idexesPath : [IndexPath]! = []
     
     var isEdditing = false
     var isSelectingProducts = false
@@ -57,7 +81,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var itemsUPC = []
     
      var picker : AlertPickerView!
-     var selectedConfirmation : NSIndexPath!
+     var selectedConfirmation : IndexPath!
      var alertView: IPOWMAlertViewController?
     var containerView : UIImage!
     var visibleLabel = false
@@ -77,51 +101,51 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.view.backgroundColor = WMColor.light_light_gray
         
-        viewShoppingCart = UITableView(frame:CGRectMake(0, 46 , self.viewContent.frame.width, viewContent.frame.height - 46))
+        viewShoppingCart = UITableView(frame:CGRect(x: 0, y: 46 , width: self.viewContent.frame.width, height: viewContent.frame.height - 46))
         viewShoppingCart.clipsToBounds = false
         viewShoppingCart.backgroundColor =  WMColor.light_light_gray
         //self.navigationController?.view.clipsToBounds = true
-        self.view.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.clear
         self.view.clipsToBounds = true
         
-        viewHerader = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 46))
+        viewHerader = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
         viewHerader.backgroundColor = WMColor.light_light_gray
         
         titleView = UILabel(frame: viewHerader.bounds)
         titleView.font = WMFont.fontMyriadProRegularOfSize(14)
         titleView.textColor = WMColor.light_blue
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
-        titleView.textAlignment = .Center
+        titleView.textAlignment = .center
         
         
         
-        editButton = UIButton(frame:CGRectMake(self.view.frame.width - 82, 12, 55, 22))
-        editButton.setTitle(NSLocalizedString("shoppingcart.edit",comment:""), forState: UIControlState.Normal)
-        editButton.setTitle(NSLocalizedString("shoppingcart.endedit",comment:""), forState: UIControlState.Selected)
+        editButton = UIButton(frame:CGRect(x: self.view.frame.width - 82, y: 12, width: 55, height: 22))
+        editButton.setTitle(NSLocalizedString("shoppingcart.edit",comment:""), for: UIControlState())
+        editButton.setTitle(NSLocalizedString("shoppingcart.endedit",comment:""), for: UIControlState.selected)
         editButton.backgroundColor = WMColor.light_blue
-        editButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        editButton.setTitleColor(UIColor.white, for: UIControlState())
         editButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editButton.layer.cornerRadius = 11
-        editButton.addTarget(self, action: #selector(ShoppingCartViewController.editAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        editButton.addTarget(self, action: #selector(ShoppingCartViewController.editAction(_:)), for: UIControlEvents.touchUpInside)
         editButton.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0.0, 1.0, 0.0)
         
-        deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 72, 12, 75, 22))
-        deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
+        deleteall = UIButton(frame: CGRect(x: editButton.frame.minX - 72, y: 12, width: 75, height: 22))
+        deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), for: UIControlState())
         deleteall.backgroundColor = WMColor.red
-        deleteall.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        deleteall.setTitleColor(UIColor.white, for: UIControlState())
         deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteall.layer.cornerRadius = 11
         deleteall.alpha = 0
         deleteall.titleEdgeInsets = UIEdgeInsetsMake(1.0, 1.0, 0.0, 0.0)
-        deleteall.addTarget(self, action: #selector(ShoppingCartViewController.deleteAll), forControlEvents: UIControlEvents.TouchUpInside)
+        deleteall.addTarget(self, action: #selector(ShoppingCartViewController.deleteAll), for: UIControlEvents.touchUpInside)
         
-        closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
+        closeButton = UIButton(frame:CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height))
         //closeButton.setTitle(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""), forState: UIControlState.Normal)
-        closeButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
+        closeButton.setImage(UIImage(named: "BackProduct"), for: UIControlState())
         //closeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         //closeButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         //closeButton.layer.cornerRadius = 3
-        closeButton.addTarget(self, action: #selector(ShoppingCartViewController.closeShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(ShoppingCartViewController.closeShoppingCart), for: UIControlEvents.touchUpInside)
         
         viewHerader.addSubview(closeButton)
         viewHerader.addSubview(editButton)
@@ -130,7 +154,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         
         viewFooter = UIView()
-        viewFooter.backgroundColor = UIColor.whiteColor()
+        viewFooter.backgroundColor = UIColor.white
         
         
         //--
@@ -139,24 +163,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.layer.cornerRadius = 17
-        buttonShop.addTarget(self, action: #selector(ShoppingCartViewController.showloginshop), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonShop.addTarget(self, action: #selector(ShoppingCartViewController.showloginshop), for: UIControlEvents.touchUpInside)
         viewFooter.addSubview(buttonShop)
         
-        let viewBorderTop = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 1))
+        let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 1))
         viewBorderTop.backgroundColor = WMColor.light_light_gray
         viewFooter.addSubview(viewBorderTop)
         
-        viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
-        viewShoppingCart.registerClass(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "productTotalsCell")
-        viewShoppingCart.registerClass(ShoppingCartCrossSellCollectionViewCell.self, forCellReuseIdentifier: "crossSellCell")
+        viewShoppingCart.register(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
+        viewShoppingCart.register(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "productTotalsCell")
+        viewShoppingCart.register(ShoppingCartCrossSellCollectionViewCell.self, forCellReuseIdentifier: "crossSellCell")
         
-        viewShoppingCart.separatorStyle = .None
+        viewShoppingCart.separatorStyle = .none
         
-        viewShoppingCart.multipleTouchEnabled = false
+        viewShoppingCart.isMultipleTouchEnabled = false
         
         self.viewContent.addSubview(viewHerader)
         self.viewContent.addSubview(viewShoppingCart)
-        self.viewContent.sendSubviewToBack(viewShoppingCart)
+        self.viewContent.sendSubview(toBack: viewShoppingCart)
         self.viewContent.addSubview(viewFooter)
 
 
@@ -178,8 +202,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - returns: na
      */
     func initEmptyView(){
-        emptyView = IPOShoppingCartEmptyView(frame:CGRectZero)
-        emptyView.frame = CGRectMake(0,  viewHerader.frame.maxY,  self.view.frame.width,  self.view.frame.height - viewHerader.frame.height)
+        emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
+        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHerader.frame.height)
         emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
@@ -191,24 +215,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if self.viewLoad == nil {
             self.showLoadingView()
         }
         
-        self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
-        self.editButton.hidden = self.itemsInShoppingCart.count == 0
+        self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
+        self.editButton.isHidden = self.itemsInShoppingCart.count == 0
         
         if !showCloseButton {
-            self.closeButton.hidden = true
+            self.closeButton.isHidden = true
         } else {
-            self.closeButton.hidden = false
+            self.closeButton.isHidden = false
         }
 
         self.isEdditing = false
-        editButton.selected = false
+        editButton.isSelected = false
         editButton.backgroundColor = WMColor.light_blue
         editButton.tintColor = WMColor.light_blue
         deleteall.alpha = 0
@@ -219,15 +243,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
        
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
         self.showDiscountAsociate()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -237,15 +261,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
        // self.buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
         
         self.viewContent.frame = self.view.bounds
-        self.viewFooter.frame = CGRectMake(0, viewContent.frame.height - 72 , self.viewContent.frame.width, 72)
-        self.viewShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.view.bounds.width, viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
+        self.viewFooter.frame = CGRect(x: 0, y: viewContent.frame.height - 72 , width: self.viewContent.frame.width, height: 72)
+        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
 
         if !self.isEdditing {
-        self.titleView.frame = CGRectMake((self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
+        self.titleView.frame = CGRect(x: (self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHerader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHerader.bounds.height)
         }
 
-        self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
-        self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
+        self.editButton.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
+        self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height)
         if UserCurrentSession.sharedInstance().userSigned != nil {
             if UserCurrentSession.sharedInstance().isAssociated == 1{
                     self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
@@ -261,42 +285,42 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.sharedInstance().userSigned != nil {
             if UserCurrentSession.sharedInstance().isAssociated == 1{
                 if buttonAsociate == nil {
-                    buttonAsociate = UIButton(frame: CGRectMake(16, 16, 34, 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame = CGRectMake(16, 16, 34, 34)
+                    buttonAsociate.frame = CGRect(x: 16, y: 16, width: 34, height: 34)
                 }
                 
-                buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
-                buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
-                buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), forControlEvents: UIControlEvents.TouchUpInside)
+                buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
+                buttonAsociate.setImage(UIImage(named:"active_discount"), for: UIControlState.highlighted)
+                buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), for: UIControlEvents.touchUpInside)
                 viewFooter.addSubview(buttonAsociate)
                 x =  buttonAsociate.frame.maxX + 16
             }
         }
         if buttonWishlist ==  nil {
-            buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
+            buttonWishlist = UIButton(frame: CGRect(x: x, y: 16, width: 34, height: 34))
         }else{
-            buttonWishlist.frame = CGRectMake(x, 16, 34, 34)
+            buttonWishlist.frame = CGRect(x: x, y: 16, width: 34, height: 34)
         }
-        buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
-        buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), for: UIControlState())
+        buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), for: UIControlEvents.touchUpInside)
         viewFooter.addSubview(buttonWishlist)
         var wShop : CGFloat =  341 - 82
         if UserCurrentSession.sharedInstance().userSigned != nil {
             if UserCurrentSession.sharedInstance().isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRectMake(16, 16, 34, 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRectMake(16, 16, 40, 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 40, height: 40)
                 }
                 x = buttonAsociate.frame.maxX + 16
                 wShop = 341 - 135
             }
         }
         if buttonShop == nil {
-            buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  ,wShop - 16, 34))
+            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop - 16, height: 34))
         }else {
-            buttonShop.frame = CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , wShop - 16, 34)
+            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop - 16, height: 34)
         }
 
     
@@ -316,7 +340,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         if self.itemsInShoppingCart.count == 0 {
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
         
         if  self.itemsInShoppingCart.count > 0 {
@@ -324,16 +348,16 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
             self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
         }else{
-            self.subtotal = NSNumber(int: 0)
-            self.ivaprod = NSNumber(int: 0)
-            self.totalest = NSNumber(int: 0)
+            self.subtotal = NSNumber(value: 0 as Int32)
+            self.ivaprod = NSNumber(value: 0 as Int32)
+            self.totalest = NSNumber(value: 0 as Int32)
         }
         
         
         let totalsItems = self.totalItems()
         let total = totalsItems["total"] as String!
         if self.buttonShop != nil {
-            self.updateShopButton(total)
+            self.updateShopButton(total!)
         }
         
         self.viewShoppingCart.delegate = self
@@ -353,7 +377,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func closeShoppingCart () {
         //EVENT
         ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue,categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue,action:WMGAIUtils.ACTION_BACK_PRE_SHOPPING_CART.rawValue , label: "")
-        self.navigationController!.popToRootViewControllerAnimated(true)
+        self.navigationController!.popToRootViewController(animated: true)
     }
 
     /**
@@ -363,7 +387,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         if !self.isWishListProcess {
             self.isWishListProcess = true
-            let animation = UIImageView(frame: CGRectMake(0, 0,36, 36));
+            let animation = UIImageView(frame: CGRect(x: 0, y: 0,width: 36, height: 36));
             animation.center = self.buttonWishlist.center
             animation.image = UIImage(named:"detail_addToList")
             runSpinAnimationOnView(animation, duration: 100, rotations: 1, repeats: 100)
@@ -387,7 +411,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
                 var imageUrl = ""
                 if imageArray.count > 0 {
-                    imageUrl = imageArray.objectAtIndex(0) as! String
+                    imageUrl = imageArray.object(at: 0) as! String
                 }
                 
                 var preorderable = "false"
@@ -403,14 +427,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                 let serviceAdd = AddItemWishlistService()
                 if ixCount < self.itemsInShoppingCart.count {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:[String:Any]) -> Void in
                         //let path = NSIndexPath(forRow: , inSection: 0)
 
                         
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }else {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:[String:Any]) -> Void in
                         self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
                         animation.removeFromSuperview()
                         }, errorBlock: { (error:NSError) -> Void in
@@ -435,20 +459,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - parameter rotations: number rotation
      - parameter repeats:   number repeats
      */
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
+    func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
-        rotationAnimation.cumulative = true
+        rotationAnimation.isCumulative = true
         rotationAnimation.repeatCount = Float(repeats)
-        view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+        view.layer.add(rotationAnimation, forKey: "rotationAnimation")
         
     }
     
     //MARK : TableviewDelegate
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if itemsInShoppingCart.count > 0{
             if itemsUPC.count > 0 {
                 return itemsInShoppingCart.count + 2
@@ -460,15 +484,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
 
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
         if itemsInShoppingCart.count > indexPath.row {
-            let cellProduct = viewShoppingCart.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! ProductShoppingCartTableViewCell
+            let cellProduct = viewShoppingCart.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! ProductShoppingCartTableViewCell
             cellProduct.delegateProduct = self
             cellProduct.delegate = self
             cellProduct.rightUtilityButtons = getRightButtonDelete()
             cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
-            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as! [String:AnyObject]
+            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as! [String:Any]
             let upc = shoppingCartProduct["upc"] as! String
             let desc = shoppingCartProduct["description"] as! String
             let price = shoppingCartProduct["price"] as! String
@@ -489,10 +513,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as! String
+                imageUrl = imageArray.object(at: 0) as! String
             }
             
-            let savingIndex = shoppingCartProduct.indexForKey("saving")
+            let savingIndex = shoppingCartProduct.index(forKey: "saving")
             var savingVal = "0.0"
             if savingIndex != nil {
                 savingVal = shoppingCartProduct["saving"]  as! String
@@ -511,11 +535,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //cellProduct.endEdditingQuantity()
             if isEdditing == true {
                 cellProduct.setEditing(true, animated: false)
-                cellProduct.showLeftUtilityButtonsAnimated(false)
+                cellProduct.showLeftUtilityButtons(animated: false)
                 cellProduct.moveRightImagePresale(false)
             }else{
                 cellProduct.setEditing(false, animated: false)
-                cellProduct.hideUtilityButtonsAnimated(false)
+                cellProduct.hideUtilityButtons(animated: false)
                 cellProduct.moveRightImagePresale(false)
                 
             }
@@ -524,7 +548,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         else {
             if itemsInShoppingCart.count == indexPath.row  {
-                let cellTotals = viewShoppingCart.dequeueReusableCellWithIdentifier("productTotalsCell", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
+                let cellTotals = viewShoppingCart.dequeueReusableCell(withIdentifier: "productTotalsCell", for: indexPath) as! ShoppingCartTotalsTableViewCell
                 
                 let totalsItems = totalItems()
                 
@@ -533,7 +557,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 let total = totalsItems["total"] as String!
                 let totalSaving = totalsItems["totalSaving"] as String!
                 
-                updateShopButton(total)
+                updateShopButton(total!)
                 
                  var newTotal  = total
                  var newTotalSavings = totalSaving
@@ -547,25 +571,25 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             if itemsInShoppingCart.count < indexPath.row  {
                 
-                let cellPromotion = viewShoppingCart.dequeueReusableCellWithIdentifier("crossSellCell", forIndexPath: indexPath) as? ShoppingCartCrossSellCollectionViewCell
+                let cellPromotion = viewShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = itemsUPC
+                cellPromotion!.itemsUPC = itemsUPC as NSArray
                 cellPromotion!.collection.reloadData()
                 cell = cellPromotion
             }
 
         }
         
-        cell?.selectionStyle = UITableViewCellSelectionStyle.None
+        cell?.selectionStyle = UITableViewCellSelectionStyle.none
         
         return cell!
         
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
             let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems()
+            controller.itemsToShow = getUPCItems() as [AnyObject]
             controller.ixSelected = indexPath.row
             controller.detailOf = "Shopping Cart"
             
@@ -583,7 +607,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
 
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if itemsInShoppingCart.count > indexPath.row {
             return 110
         }else{
@@ -605,8 +629,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func getRightButtonDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 80, 109))
-        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
@@ -622,8 +646,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func getLeftDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 36, 109))
-        buttonDelete.setImage(UIImage(named:"myList_delete"), forState: UIControlState.Normal)
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 109))
+        buttonDelete.setImage(UIImage(named:"myList_delete"), for: UIControlState())
         buttonDelete.backgroundColor = WMColor.light_gray
         toReturn.append(buttonDelete)
         
@@ -639,10 +663,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 //            idexesPath.append(indexPath)
 //            
 //            let productService = ProductDetailService()
-//            productService.callService(upc, successBlock: { (result: NSDictionary) -> Void in
+//            productService.callService(upc, successBlock: { (result: [String:Any]) -> Void in
 //                let savingItem = result["saving"] as NSString
 //                if self.itemsInShoppingCart.count > indexPath.row {
-//                var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as [String:AnyObject]
+//                var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as [String:Any]
 //                itemByUpc.updateValue(savingItem, forKey: "saving")
 //                self.itemsInShoppingCart[indexPath.row] = itemByUpc
 //                
@@ -664,26 +688,26 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      
      - parameter sender: button send action
      */
-    @IBAction func editAction(sender: AnyObject) {
+    @IBAction func editAction(_ sender: AnyObject) {
         isEdditing = !isEdditing
         if (isEdditing) {
             let currentCells = self.viewShoppingCart.visibleCells
             for cell in currentCells {
-                if cell.isKindOfClass(SWTableViewCell) {
+                if cell.isKind(of: SWTableViewCell.self) {
                     let productCell = cell as! ProductShoppingCartTableViewCell
                     productCell.setEditing(true, animated: false)
-                    productCell.showLeftUtilityButtonsAnimated(true)
+                    productCell.showLeftUtilityButtons(animated: true)
                     productCell.moveRightImagePresale(true)
                 }
             }
-            editButton.selected = true
+            editButton.isSelected = true
             editButton.backgroundColor =  WMColor.green
             editButton.tintColor = WMColor.dark_blue
             
             
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1
-                self.titleView.frame = CGRectMake(self.titleView.frame.minX - 30, self.titleView.frame.minY, self.titleView.frame.width, self.titleView.frame.height)
+                self.titleView.frame = CGRect(x: self.titleView.frame.minX - 30, y: self.titleView.frame.minY, width: self.titleView.frame.width, height: self.titleView.frame.height)
             })
             
             //EVENT
@@ -692,21 +716,21 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }else{
             let currentCells = self.viewShoppingCart.visibleCells
             for cell in currentCells {
-                if cell.isKindOfClass(SWTableViewCell) {
+                if cell.isKind(of: SWTableViewCell.self) {
                     let productCell = cell as! ProductShoppingCartTableViewCell
                     productCell.setEditing(false, animated: false)
-                    productCell.hideUtilityButtonsAnimated(false)
+                    productCell.hideUtilityButtons(animated: false)
                     productCell.moveRightImagePresale(false)
                     
                 }
             }
-            editButton.selected = false
+            editButton.isSelected = false
             editButton.backgroundColor = WMColor.light_blue
             editButton.tintColor = WMColor.light_blue
             
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.deleteall.alpha = 0
-                self.titleView.frame = CGRectMake(self.titleView.frame.minX + 30, self.titleView.frame.minY, self.titleView.frame.width, self.titleView.frame.height)
+                self.titleView.frame = CGRect(x: self.titleView.frame.minX + 30, y: self.titleView.frame.minY, width: self.titleView.frame.width, height: self.titleView.frame.height)
             })
 
         }
@@ -714,29 +738,29 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
 //MARK: ProductShoppingCartTableViewCellDelegate
     
-    func endUpdatingShoppingCart(cell:ProductShoppingCartTableViewCell) {
-        let indexPath : NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
+    func endUpdatingShoppingCart(_ cell:ProductShoppingCartTableViewCell) {
+        let indexPath : IndexPath = self.viewShoppingCart.indexPath(for: cell)!
         
-        var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as! [String:AnyObject]
+        var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as! [String:Any]
         itemByUpc.updateValue(String(cell.quantity) , forKey: "quantity")
-        self.itemsInShoppingCart[indexPath.row] = itemByUpc
+        self.itemsInShoppingCart[indexPath.row] = itemByUpc as AnyObject
         
         //viewLoad.stopAnnimating()
         self.updateTotalItemsRow()
     }
     
-    func deleteProduct(cell:ProductShoppingCartTableViewCell) {
-        let toUseCellIndex = self.viewShoppingCart.indexPathForCell(cell)
+    func deleteProduct(_ cell:ProductShoppingCartTableViewCell) {
+        let toUseCellIndex = self.viewShoppingCart.indexPath(for: cell)
         if toUseCellIndex != nil {
-            let indexPath : NSIndexPath = toUseCellIndex!
+            let indexPath : IndexPath = toUseCellIndex!
             deleteRowAtIndexPath(indexPath)
         }
     }
     
-    func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell) {
+    func userShouldChangeQuantity(_ cell:ProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
-            let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+            let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),upcProduct:cell.upc as String)
             let text = String(cell.quantity).characters.count < 2 ? "0" : ""
             self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
             self.selectQuantity!.updateQuantityBtn()
@@ -752,7 +776,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     
                     let updateService = ShoppingCartUpdateProductsService()
                     updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:NSDictionary) -> Void in
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:[String:Any]) -> Void in
                         delay(0.3, completion: {
                             alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))
                             alertView!.showDoneIcon()
@@ -779,11 +803,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     //MARK: SWTableViewCellDelegate
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
         switch index {
         case 0:
 
-            let indexPath = self.viewShoppingCart.indexPathForCell(cell)
+            let indexPath = self.viewShoppingCart.indexPath(for: cell)
             if indexPath != nil {
                 deleteRowAtIndexPath(indexPath!)
             }
@@ -792,32 +816,32 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
     }
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerLeftUtilityButtonWithIndex index: Int) {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
         switch index {
         case 0:
             //let indexPath : NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
             //deleteRowAtIndexPath(indexPath)
-            let index = self.viewShoppingCart.indexPathForCell(cell)
-            let superCell = self.viewShoppingCart.cellForRowAtIndexPath(index!) as! ProductShoppingCartTableViewCell
+            let index = self.viewShoppingCart.indexPath(for: cell)
+            let superCell = self.viewShoppingCart.cellForRow(at: index!) as! ProductShoppingCartTableViewCell
             superCell.moveRightImagePresale(false)
-             cell.showRightUtilityButtonsAnimated(true)
+             cell.showRightUtilityButtons(animated: true)
         default :
             print("other pressed")
         }
     }
     
-    func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
+    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
         return !isEdditing
     }
 
 
-    func swipeableTableViewCell(cell: SWTableViewCell!, canSwipeToState state: SWCellState) -> Bool {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
         switch state {
-            case SWCellState.CellStateLeft:
+            case SWCellState.cellStateLeft:
                 return isEdditing
-            case SWCellState.CellStateRight:
+            case SWCellState.cellStateRight:
                 return true
-            case SWCellState.CellStateCenter:
+            case SWCellState.cellStateCenter:
                 return !isEdditing
             //default:
             //   return !isEdditing && !self.isSelectingProducts
@@ -831,8 +855,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      
      - parameter indexPath: selected row
      */
-    func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+    func deleteRowAtIndexPath(_ indexPath : IndexPath){
+        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:Any]
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         let descriptions =  itemWishlist["description"] as! String
@@ -840,14 +864,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if !UserCurrentSession.hasLoggedUser() {
          BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
         }
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
-            self.itemsInShoppingCart.removeAtIndex(indexPath.row)
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
+            self.itemsInShoppingCart.remove(at: indexPath.row)
             
             self.viewShoppingCart.reloadData()
             self.updateTotalItemsRow()
             
             if self.itemsInShoppingCart.count == 0 {
-                self.navigationController!.popToRootViewControllerAnimated(true)
+                self.navigationController!.popToRootViewController(animated: true)
             }
             
             }, errorBlock: { (error:NSError) -> Void in
@@ -859,8 +883,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      Update totals view in case, delete or update itmes
      */
     func updateTotalItemsRow() {
-        let totalIndexPath =  NSIndexPath(forRow: itemsInShoppingCart.count, inSection: 0)
-        self.viewShoppingCart.reloadRowsAtIndexPaths([totalIndexPath], withRowAnimation: UITableViewRowAnimation.None)
+        let totalIndexPath =  IndexPath(row: itemsInShoppingCart.count, section: 0)
+        self.viewShoppingCart.reloadRows(at: [totalIndexPath], with: UITableViewRowAnimation.none)
         UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
     }
     
@@ -878,7 +902,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var showIva = true
         
         for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
             let price = shoppingCartProduct["price"] as! NSString
             
             var iva : NSString = ""
@@ -886,14 +910,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 iva = ivabase
             }
             if let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
-                iva = ivabase.stringValue
+                iva = ivabase.stringValue as NSString
             }
             var baseprice : NSString = ""
             if let pricebase = shoppingCartProduct["basePrice"] as? NSString {
                 baseprice = pricebase
             }
             if let pricebase = shoppingCartProduct["basePrice"] as? NSNumber {
-                baseprice = pricebase.stringValue
+                baseprice = pricebase.stringValue as NSString
             }
             
             var quantity : NSString = ""
@@ -901,16 +925,16 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 quantity = quantityN
             }
             if let quantityN = shoppingCartProduct["quantity"] as? NSNumber {
-                quantity = quantityN.stringValue
+                quantity = quantityN.stringValue as NSString
             }
 
 
             //let quantity = shoppingCartProduct["quantity"] as NSString
             
-            let savingIndex = dictShoppingCartProduct.indexForKey("saving")
+            let savingIndex = dictShoppingCartProduct.index(forKey: "saving")
             var savingVal : NSString = "0.0"
             if savingIndex != nil {
-                savingVal = shoppingCartProduct["saving"]  as! String
+                savingVal = shoppingCartProduct["saving"]  as! String as NSString
                 totalSavings += (savingVal.doubleValue * quantity.doubleValue)
             }
             total +=  (price.doubleValue * quantity.doubleValue)
@@ -928,14 +952,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         //let subTotalStr =  totalest
         //let iva = ivaprod
         
-        let totalInCart = NSNumber(double:total).stringValue
+        let totalInCart = NSNumber(value: total as Double).stringValue
         var subtotalCart = ""
         var totalIVA = ""
         if showIva {
-            subtotalCart = NSNumber(double:subtotal).stringValue
-            totalIVA = NSNumber(double:subtotalIVA).stringValue
+            subtotalCart = NSNumber(value: subtotal as Double).stringValue
+            totalIVA = NSNumber(value: subtotalIVA as Double).stringValue
         }
-        let totalSaving = NSNumber(double:totalSavings).stringValue
+        let totalSaving = NSNumber(value: totalSavings as Double).stringValue
         
         return ["subtotal":subtotalCart,"iva":totalIVA,"total":totalInCart,"totalSaving":totalSaving]
     }
@@ -949,7 +973,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let priceLasiItem = 0.0
         var upc = ""
            for shoppingCartProduct in  itemsInShoppingCart {
-            //let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            //let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
             let price = shoppingCartProduct["price"] as! NSString
             if price.doubleValue < priceLasiItem {
                 continue
@@ -985,9 +1009,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var upcItems :String = "["
         for shoppingCartProduct in  itemsInShoppingCart {
             let upc = shoppingCartProduct["upc"] as! String
-            upcItems.appendContentsOf("'\(upc)',")
+            upcItems.append("'\(upc)',")
         }
-        upcItems.appendContentsOf("]")
+        upcItems.append("]")
         return upcItems
     }
 
@@ -1001,9 +1025,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - parameter point:        point of start animation if use
      - parameter idList:       id list if requiered in detail
      */
-    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
+    func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = items
+        controller.itemsToShow = items as [AnyObject]
         controller.ixSelected = index
         controller.detailOf = "Shopping Cart"
         self.navigationController!.pushViewController(controller, animated: true)
@@ -1014,7 +1038,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      */
     func openDiscount(){
         let discountAssociateItems = [NSLocalizedString("checkout.discount.associateNumber", comment:""),NSLocalizedString("checkout.discount.dateAdmission", comment:""),NSLocalizedString("checkout.discount.determinant", comment:"")]
-        self.selectedConfirmation  = NSIndexPath(forRow: 0, inSection: 0)
+        self.selectedConfirmation  = IndexPath(row: 0, section: 0)
         
         self.picker!.sender = self//self.discountAssociate!
         self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
@@ -1022,17 +1046,17 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.picker!.selected = self.selectedConfirmation
         self.picker!.setValues("Descuento de asociado", values: discountAssociateItems)
         self.picker!.hiddenRigthActionButton(true)
-        self.picker!.cellType = TypeField.Alphanumeric
+        self.picker!.cellType = TypeField.alphanumeric
         self.picker!.showPicker()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShoppingCartViewController.keyBoardWillShow), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShoppingCartViewController.keyBoardWillHide), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.keyBoardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.keyBoardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
     }
     
     //Keyboart
     func keyBoardWillShow() {
-        self.picker!.viewContent.center = CGPointMake(self.picker!.center.x, self.picker!.center.y - 85)
+        self.picker!.viewContent.center = CGPoint(x: self.picker!.center.x, y: self.picker!.center.y - 85)
     }
     
     func keyBoardWillHide() {
@@ -1053,24 +1077,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN_PRE_CHECKOUT.rawValue, label: "")
         
         self.canceledAction = false
-        self.buttonShop.enabled = false
+        self.buttonShop.isEnabled = false
         self.buttonShop.alpha = 0.7
         //let storyboard = self.loadStoryboardDefinition()
         let addressService = AddressByUserService()
         
-        self.buttonShop.enabled = true
+        self.buttonShop.isEnabled = true
         self.buttonShop.alpha = 1.0
         let cont = LoginController.showLogin()
         var user = ""
         if UserCurrentSession.hasLoggedUser() {
-            cont!.noAccount?.hidden = true
-            cont!.registryButton?.hidden = true
+            cont!.noAccount?.isHidden = true
+            cont!.registryButton?.isHidden = true
             cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
             cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email!.enabled = false
+            cont!.email!.isEnabled = false
             user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
-        cont.isMGLogin =  true
+        cont?.isMGLogin =  true
         cont!.closeAlertOnSuccess = false
         cont!.okCancelCallBack = {() in
             self.canceledAction = true
@@ -1079,13 +1103,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         cont!.successCallBack = {() in
             if UserCurrentSession.hasLoggedUser() {
-                if user !=  UserCurrentSession.sharedInstance().userSigned!.email {
-                    NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
+                if user !=  UserCurrentSession.sharedInstance().userSigned!.email as String {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
                     //self.reloadShoppingCart()
                 }
             }
             
-            addressService.callService({ (resultCall:NSDictionary) -> Void in
+            addressService.callService({ (resultCall:[String:Any]) -> Void in
                 var presentAddres = true
                 if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
                 {
@@ -1105,8 +1129,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
                 if presentAddres {
                     let address = AddressViewController()
-                    address.typeAddress = TypeAddress.Shiping
-                    address.item =  NSDictionary()
+                    address.typeAddress = TypeAddress.shiping
+                    address.item =  [String:Any]()
                     address.successCallBack = {() in
                         address.closeAlert()
                         if(cont!.email?.text == nil || cont!.email?.text == "" ){
@@ -1122,12 +1146,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
                 }, errorBlock: { (error:NSError) -> Void in
                     
-                    self.buttonShop.enabled = true
+                    self.buttonShop.isEnabled = true
                     self.buttonShop.alpha = 1.0
                     print("errorBlock")
                     let address = AddressViewController()
-                    address.typeAddress = TypeAddress.Shiping
-                    address.item =  NSDictionary()
+                    address.typeAddress = TypeAddress.shiping
+                    address.item =  [String:Any]()
                     address.successCallBack = {() in
                         address.closeAlert()
                         if(cont!.email?.text == nil || cont!.email?.text == "" ){
@@ -1145,14 +1169,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     
-    func presentedCheckOut(loginController: LoginController, address: AddressViewController?){
+    func presentedCheckOut(_ loginController: LoginController, address: AddressViewController?){
         //FACEBOOKLOG
         FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
 
         
         UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
             let serviceReview = ReviewShoppingCartService()
-            serviceReview.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            serviceReview.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 if !self.canceledAction  {
                     print(UserCurrentSession.sharedInstance().itemsMG)
                     let itemsMG = UserCurrentSession.sharedInstance().itemsMG
@@ -1197,7 +1221,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         }
                         
                         if self.navigationController != nil {
-                            self.navigationController!.popViewControllerAnimated(false)
+                            self.navigationController!.popViewController(animated: false)
                         }
 
                         
@@ -1216,7 +1240,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                                 //check.back()
                                 self.canceledAction = true
                                 if self.navigationController != nil {
-                                    self.navigationController!.popViewControllerAnimated(false)
+                                    self.navigationController!.popViewController(animated: false)
                                 }
                                 //let response = self.navigationController?.popToRootViewControllerAnimated(true)
                                 loginController.closeAlert(true, messageSucesss: false)
@@ -1249,7 +1273,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                                     //check.back()
                                     self.canceledAction = true
                                     if self.navigationController != nil {
-                                        self.navigationController!.popViewControllerAnimated(false)
+                                        self.navigationController!.popViewController(animated: false)
                                     }
                                     loginController.closeModal()
                                 }
@@ -1295,34 +1319,34 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      
      - parameter total: new total
      */
-    func updateShopButton(total:String) {
+    func updateShopButton(_ total:String) {
         self.totalShop = (total as NSString).doubleValue
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
-            customlabel.backgroundColor = UIColor.clearColor()
+            customlabel.backgroundColor = UIColor.clear
             customlabel.setCurrencyUserInteractionEnabled(true)
             buttonShop.addSubview(customlabel)
-            buttonShop.sendSubviewToBack(customlabel)
+            buttonShop.sendSubview(toBack: customlabel)
         }
         customlabel.frame = self.buttonShop.bounds
         var newTotal  = total
         if self.isEmployeeDiscount {
             newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-            self.totalest = (newTotal as NSString).doubleValue
+            self.totalest = (newTotal as NSString).doubleValue as NSNumber!
         }
         
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
         let fmtTotal = CurrencyCustomLabel.formatString(newTotal)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
-        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
     }
     
-    func generateImageOfView(viewCapture:UIView) -> UIImage {
+    func generateImageOfView(_ viewCapture:UIView) -> UIImage {
         var cloneImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(viewCapture.frame.size, false, 1.0);
-            viewCapture.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+            viewCapture.layer.render(in: UIGraphicsGetCurrentContext()!)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }
@@ -1347,7 +1371,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
-                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
+                        arrayUPCS.sort(by: { (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
@@ -1363,9 +1387,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     }
                     if self.itemsInShoppingCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.viewShoppingCart.insertRowsAtIndexPaths([NSIndexPath(forItem: self.itemsInShoppingCart.count + 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                            self.viewShoppingCart.insertRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
                         }else{
-                            self.viewShoppingCart.reloadRowsAtIndexPaths([NSIndexPath(forItem: self.itemsInShoppingCart.count + 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                            self.viewShoppingCart.reloadRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
                         }
                     }
                     //self.collection.reloadData()
@@ -1401,23 +1425,23 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      
      - parameter message: text to present in view
      */
-    func showMessageWishList(message:String) {
-        let addedAlertWL = WishlistAddProductStatus(frame: CGRectMake(self.viewFooter.frame.minX, self.viewFooter.frame.minY , self.viewFooter.frame.width, 0))
-        addedAlertWL.generateBlurImage(self.view,frame:CGRectMake(self.viewFooter.frame.minX, -96, self.viewFooter.frame.width, 96))
+    func showMessageWishList(_ message:String) {
+        let addedAlertWL = WishlistAddProductStatus(frame: CGRect(x: self.viewFooter.frame.minX, y: self.viewFooter.frame.minY , width: self.viewFooter.frame.width, height: 0))
+        addedAlertWL.generateBlurImage(self.view,frame:CGRect(x: self.viewFooter.frame.minX, y: -96, width: self.viewFooter.frame.width, height: 96))
         addedAlertWL.clipsToBounds = true
-        addedAlertWL.imageBlurView.frame = CGRectMake(self.viewFooter.frame.minX, -96, self.viewFooter.frame.width, 96)
+        addedAlertWL.imageBlurView.frame = CGRect(x: self.viewFooter.frame.minX, y: -96, width: self.viewFooter.frame.width, height: 96)
         addedAlertWL.textView.text = message
         self.view.addSubview(addedAlertWL)
         self.isWishListProcess = false
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            addedAlertWL.frame = CGRectMake(self.viewFooter.frame.minX,self.viewFooter.frame.minY - 48, self.viewFooter.frame.width, 48)
-            }) { (complete:Bool) -> Void in
-                UIView.animateWithDuration(0.5, delay: 1, options: UIViewAnimationOptions.AllowUserInteraction, animations: { () -> Void in
-                    addedAlertWL.frame = CGRectMake(addedAlertWL.frame.minX, self.viewFooter.frame.minY , addedAlertWL.frame.width, 0)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            addedAlertWL.frame = CGRect(x: self.viewFooter.frame.minX,y: self.viewFooter.frame.minY - 48, width: self.viewFooter.frame.width, height: 48)
+            }, completion: { (complete:Bool) -> Void in
+                UIView.animate(withDuration: 0.5, delay: 1, options: UIViewAnimationOptions.allowUserInteraction, animations: { () -> Void in
+                    addedAlertWL.frame = CGRect(x: addedAlertWL.frame.minX, y: self.viewFooter.frame.minY , width: addedAlertWL.frame.width, height: 0)
                     }) { (complete:Bool) -> Void in
                         addedAlertWL.removeFromSuperview()
                 }
-        }
+        }) 
         
     }
     
@@ -1435,7 +1459,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.showLoadingView()
    
         BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsInShoppingCart , isAdd: false)
-        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
+        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:[String:Any]) -> Void in
            /* println("Error not done")
             
             self.reloadShoppingCart()
@@ -1451,7 +1475,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 //EVENT
                 ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
                 
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.navigationController?.popToRootViewController(animated: true)
             })
             
             }) { (error:NSError) -> Void in
@@ -1464,7 +1488,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     //MARK: AlertPickerViewDelegate
-    func didSelectOption(picker: AlertPickerView, indexPath: NSIndexPath, selectedStr: String) {
+    func didSelectOption(_ picker: AlertPickerView, indexPath: IndexPath, selectedStr: String) {
         
         let paramsDic = picker.textboxValues!
         let associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
@@ -1478,7 +1502,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if result == ""{
                 let service = ValidateAssociateService()
                 service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
-                    succesBlock: { (response:NSDictionary) -> Void in
+                    succesBlock: { (response:[String:Any]) -> Void in
                         print(response)
                         if response["codeMessage"] as? Int == 0 {
                             //Mostrar alerta y continua
@@ -1509,7 +1533,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 self.isEmployeeDiscount =  false
                 self.alertView?.setMessage("Error en los datos del asociado\(result)")
                 self.alertView!.showErrorIcon("Ok")
-                 self.buttonAsociate.highlighted =  false
+                 self.buttonAsociate.isHighlighted =  false
             }
         
     })
@@ -1519,7 +1543,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func closeAlertPk() {
-        self.buttonAsociate.highlighted =  isEmployeeDiscount
+        self.buttonAsociate.isHighlighted =  isEmployeeDiscount
     }
     
     /**
@@ -1530,7 +1554,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - parameter determinant:     determinat
      - parameter completion:      block validate
      */
-    func validateAssociate(associateNumber:String?,dateAdmission:String?,determinant:String?, completion: (result:String) -> Void) {
+    func validateAssociate(_ associateNumber:String?,dateAdmission:String?,determinant:String?, completion: (_ result:String) -> Void) {
         var message = ""
         
         if associateNumber == nil ||  associateNumber?.trim() == "" {
@@ -1543,14 +1567,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
              message =  ", Determinante requerido"
         }
         
-        completion(result: message)
+        completion(message)
         
     }
   
-    func didDeSelectOption(picker:AlertPickerView){
+    func didDeSelectOption(_ picker:AlertPickerView){
     }
     
-    func viewReplaceContent(frame: CGRect) -> UIView! {
+    func viewReplaceContent(_ frame: CGRect) -> UIView! {
         let view: UIView! =  UIView(frame: self.view.frame)
         
         return view
@@ -1561,7 +1585,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
     
-    func buttomViewSelected(sender: UIButton) {
+    func buttomViewSelected(_ sender: UIButton) {
         
     }
 
@@ -1576,33 +1600,33 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      
      - parameter message: text to present in alert
      */
-    func associateDiscount (message: String ){
+    func associateDiscount (_ message: String ){
         if !visibleLabel  {
             
             visibleLabel = true
             
-            imageView =  UIView(frame:CGRectMake((self.view.frame.width/2) - 150 ,  viewFooter.frame.minY - 90, 190, 38))
+            imageView =  UIView(frame:CGRect(x: (self.view.frame.width/2) - 150 ,  y: viewFooter.frame.minY - 90, width: 190, height: 38))
             viewContents = UIView(frame: imageView!.bounds)
             viewContents!.layer.cornerRadius = 5.0
             viewContents!.backgroundColor = WMColor.light_blue
             imageView!.addSubview(viewContents!)
             self.viewContent.addSubview(imageView!)
             
-            lblError = UILabel(frame:CGRectMake (15, 0 , viewContents!.frame.width - 30, 38))
+            lblError = UILabel(frame:CGRect (x: 15, y: 0 , width: viewContents!.frame.width - 30, height: 38))
             lblError!.font = WMFont.fontMyriadProRegularOfSize(12)
             
-            lblError!.textColor = UIColor.whiteColor()
-            lblError!.backgroundColor = UIColor.clearColor()
+            lblError!.textColor = UIColor.white
+            lblError!.backgroundColor = UIColor.clear
             lblError!.text = message
-            lblError!.textAlignment = NSTextAlignment.Left
+            lblError!.textAlignment = NSTextAlignment.left
             lblError!.numberOfLines = 2
             viewContents!.addSubview(lblError!)
             
             
             imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
-            imageIco!.frame = CGRectMake( 24 , viewContents!.frame.maxY - 1, 8, 6)
+            imageIco!.frame = CGRect( x: 24 , y: viewContents!.frame.maxY - 1, width: 8, height: 6)
             self.viewContents!.addSubview(imageIco!)
-            NSTimer.scheduledTimerWithTimeInterval(1.8, target: self, selector: #selector(ShoppingCartViewController.animationClose), userInfo: nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: 1.8, target: self, selector: #selector(ShoppingCartViewController.animationClose), userInfo: nil, repeats: false)
             
         }
         
@@ -1612,7 +1636,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      */
     func animationClose () {
         
-        UIView.animateWithDuration(0.9,
+        UIView.animate(withDuration: 0.9,
             animations: { () -> Void in
                 self.viewContents!.alpha = 0.0
                 self.imageView!.alpha = 0.0
@@ -1642,8 +1666,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
-        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(false)
     }

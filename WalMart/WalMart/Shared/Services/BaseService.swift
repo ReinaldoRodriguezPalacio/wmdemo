@@ -45,24 +45,12 @@ enum ResultObjectType : String {
 }
 
 class BaseService : NSObject {
-    struct AFStatic {
-        static var cookie : String!
-        static var manager : AFHTTPSessionManager!
-        static var managerGR : AFHTTPSessionManager!
-        static var onceToken : dispatch_once_t = 0
-    }
-    
-    var urlForSession = false
-    var useSignalsServices = false
-    
-    override init() {
-        super.init()
-        dispatch_once(&AFStatic.onceToken) {
+    private static var __once: () = {
             AFStatic.manager = AFHTTPSessionManager()
             AFStatic.manager.requestSerializer = AFJSONRequestSerializer()
             AFStatic.manager.responseSerializer = AFJSONResponseSerializer()
             AFStatic.manager.responseSerializer.acceptableContentTypes = nil
-            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.None)
+            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
             AFStatic.manager.securityPolicy.allowInvalidCertificates = true
             AFStatic.manager.securityPolicy.validatesDomainName = false
         
@@ -70,34 +58,47 @@ class BaseService : NSObject {
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer()
             AFStatic.managerGR.responseSerializer = AFJSONResponseSerializer()
             AFStatic.managerGR.responseSerializer.acceptableContentTypes = nil
-            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.None)
+            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
             AFStatic.managerGR.securityPolicy.allowInvalidCertificates = true
             AFStatic.managerGR.securityPolicy.validatesDomainName = false
-        }
+        }()
+    struct AFStatic {
+        static var cookie : String!
+        static var manager : AFHTTPSessionManager!
+        static var managerGR : AFHTTPSessionManager!
+        static var onceToken : Int = 0
+    }
+    
+    var urlForSession = false
+    var useSignalsServices = false
+    
+    override init() {
+        super.init()
+        _ = BaseService.__once
         
     }
     
     // MARK: - Service url helpers
     func serviceUrl() -> (String){
-        let stringOfClassType: String = nameOfClass(self.dynamicType)
+        let stringOfClassType: String = nameOfClass(type(of: self))
         return serviceUrl(stringOfClassType)
     }
     
-    func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+    func serviceUrl(_ serviceName:String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         var serviceConfigDictionary = ConfigServices.ConfigIdMG
         
         if useSignalsServices {
             serviceConfigDictionary =  ConfigServices.ConfigIdMGSignals
         }
         
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
-        let environmentServices = services.objectForKey(environment) as! NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
+        let services = Bundle.main.object(forInfoDictionaryKey: serviceConfigDictionary) as! [String:Any]
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     
-    func nameOfClass(classType: AnyClass) -> String {
+    func nameOfClass(_ classType: AnyClass) -> String {
         let stringOfClassType: String = NSStringFromClass(classType)
         return stringOfClassType
     }
@@ -109,19 +110,19 @@ class BaseService : NSObject {
     
     func getManager() -> AFHTTPSessionManager {
         
-        let lockQueue = dispatch_queue_create("com.test.LockQueue", nil)
-        dispatch_sync(lockQueue) {
+        let lockQueue = DispatchQueue(label: "com.test.LockQueue", attributes: [])
+        lockQueue.sync {
             if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
-                let timeInterval = NSDate().timeIntervalSince1970
-                let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue)
-                let uuid  = NSUUID().UUIDString
+                let timeInterval = Date().timeIntervalSince1970
+                let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
+                let uuid  = UUID().uuidString
                 let strUsr  = "ff24423eefbca345" + timeStamp + uuid
                 AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
                 //Session --
-                let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
-                let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+                let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: self.serviceUrl())!)
+                let headers = HTTPCookie.requestHeaderFields(with: cookies!)
                 print("NSHTTPCookieStorage:::::")
                 for key in headers.keys {
                     let strKey = key as NSString
@@ -131,8 +132,8 @@ class BaseService : NSObject {
                 }
             } else{
                 //Session --
-                let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
-                let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+                let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: self.serviceUrl())!)
+                let headers = HTTPCookie.requestHeaderFields(with: cookies!)
                 print("NSHTTPCookieStorageSession:::::")
                 for key in headers.keys {
                     let strKey = key as NSString
@@ -150,14 +151,14 @@ class BaseService : NSObject {
         
     }
     
-    func retrieve(entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil) -> AnyObject {
+    func retrieve(_ entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil) -> AnyObject {
         return retrieve(entityName, sortBy:sortBy , isAscending:isAscending, predicate:predicate,expression:nil)
     }
 
     
-    func retrieve(entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil,expression :NSExpressionDescription?) -> AnyObject {
+    func retrieve(_ entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil,expression :NSExpressionDescription?) -> AnyObject {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         let request    =  NSFetchRequest(entityName: entityName as NSString as String)
         
@@ -169,14 +170,14 @@ class BaseService : NSObject {
         }
         
         if expression != nil {
-            request.resultType = NSFetchRequestResultType.DictionaryResultType;
+            request.resultType = NSFetchRequestResultType.dictionaryResultType;
             request.propertiesToFetch = [expression!];
         }
         
         var error: NSError? = nil
         var fetchedResult: [AnyObject]?
         do {
-            fetchedResult = try context.executeFetchRequest(request)
+            fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
             error = error1
             fetchedResult = nil
@@ -184,35 +185,35 @@ class BaseService : NSObject {
         if error != nil {
             print("errore: \(error)")
         }
-        return fetchedResult!
+        return fetchedResult! as AnyObject
     }
 
     
-    func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) -> NSURLSessionDataTask {
+    func callPOSTService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) -> URLSessionDataTask {
         let afManager = getManager()
         let url = serviceUrl()
    
-        let task = afManager.POST(url, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+        let task = afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:AnyObject?) in
             //session --
             //TODO Loginbyemail
-            let response : NSHTTPURLResponse = request.response as! NSHTTPURLResponse
-            let headers : NSDictionary = response.allHeaderFields
+            let response : HTTPURLResponse = request.response as! HTTPURLResponse
+            let headers : [String:Any] = response.allHeaderFields
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             
             print(headers["Content-Type"] as! NSString)
             
-            let resultJSON = json as! NSDictionary
+            let resultJSON = json as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
                         let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+                        loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance().userSigned = nil
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                         })
                     }
                     errorBlock!(errorResult)
@@ -224,7 +225,7 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+            }, failure: {(request:URLSessionDataTask?, error:NSError) in
                 //TAG Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if error.code == -1005 {
@@ -247,21 +248,21 @@ class BaseService : NSObject {
        return task!
     }
     
-    func callGETService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callGETService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callGETService(serviceUrl(),params:params,successBlock:successBlock, errorBlock:errorBlock)
     }
     
-    func callGETService(serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callGETService(_ serviceURL:String,params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         callGETService(afManager,serviceURL:serviceURL,params:params,successBlock:successBlock, errorBlock:errorBlock)
     }
     
-    func callGETService(manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.GET(serviceURL, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
+    func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:AnyObject?) in
             
             //session --
-            let response : NSHTTPURLResponse = request.response as! NSHTTPURLResponse
-            let headers : NSDictionary = response.allHeaderFields
+            let response : HTTPURLResponse = request.response as! HTTPURLResponse
+            let headers : [String:Any] = response.allHeaderFields
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
            
@@ -271,7 +272,7 @@ class BaseService : NSObject {
             print(atgSession)
             
             
-            let resultJSON = json as! NSDictionary
+            let resultJSON = json as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
@@ -281,11 +282,11 @@ class BaseService : NSObject {
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+                        loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance().userSigned = nil
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                         })
                         return
                     }
@@ -295,7 +296,7 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+            }, failure: {(request:URLSessionDataTask?, error:NSError) in
                 
                 if error.code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
@@ -315,12 +316,12 @@ class BaseService : NSObject {
     
     // MARK: - Service code validation
     
-    func validateCodeMessage(response:NSDictionary) -> NSError? {
+    func validateCodeMessage(_ response:[String:Any]) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
             let message = response["message"] as! NSString
-            if codeMessage.integerValue != 0  {
+            if codeMessage.intValue != 0  {
                 print("error : Response with error \(message)")
-                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:message])
+                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }
         return nil
@@ -328,23 +329,23 @@ class BaseService : NSObject {
     
     // MARK: - File Manager
     
-    func getFilePath(fileName:String) -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray!
-        let docPath = paths[0] as! NSString
-        let path = docPath.stringByAppendingPathComponent(fileName)
+    func getFilePath(_ fileName:String) -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as NSArray!
+        let docPath = paths?[0] as! NSString
+        let path = docPath.appendingPathComponent(fileName)
         return path
     }
     
   
     
-    func saveDictionaryToFile(dictionary:NSDictionary,fileName:String) {
+    func saveDictionaryToFile(_ dictionary:[String:Any],fileName:String) {
         let filePath = getFilePath(fileName)
-        let data : NSData = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted)
+        let data : Data = try! JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
         
-        if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
+        if FileManager.default.fileExists(atPath: filePath) {
             var error:NSError?
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                try FileManager.default.removeItem(atPath: filePath)
             } catch let error1 as NSError {
                 error = error1
             }
@@ -352,29 +353,29 @@ class BaseService : NSObject {
                 print(error)
             }
         }
-        data.writeToFile(filePath, atomically: true)
+        try? data.write(to: URL(fileURLWithPath: filePath), options: [.atomic])
     }
     
-    func getDataFromFile(fileName:NSString) -> NSDictionary? {
+    func getDataFromFile(_ fileName:NSString) -> [String:Any]? {
         let path = self.getFilePath(fileName as String)
-        if NSFileManager.defaultManager().fileExistsAtPath(path) {
-            var jsonData: NSData?
+        if FileManager.default.fileExists(atPath: path) {
+            var jsonData: Data?
             do {
-                jsonData = try NSData(contentsOfFile:path, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+                jsonData = try Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions.mappedIfSafe)
             } catch {
                 jsonData = nil
             }
-            let values = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+            let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
             return values
         }else {
-            if let pathResource = NSBundle.mainBundle().pathForResource(NSURL(string:fileName.lastPathComponent)!.URLByDeletingPathExtension?.absoluteString, ofType:fileName.pathExtension ) {
-                var jsonData: NSData?
+            if let pathResource = Bundle.main.path(forResource: NSURL(string:fileName.lastPathComponent)!.deletingPathExtension?.absoluteString, ofType:fileName.pathExtension ) {
+                var jsonData: Data?
                 do {
-                    jsonData = try NSData(contentsOfFile:pathResource, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+                    jsonData = try Data(contentsOf: URL(fileURLWithPath: pathResource), options: NSData.ReadingOptions.mappedIfSafe)
                 } catch {
                     jsonData = nil
                 }
-                let values = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
                 return values
             }
         }
@@ -383,21 +384,21 @@ class BaseService : NSObject {
 
     
     
-    func saveKeywords(items:NSArray) {
+    func saveKeywords(_ items:NSArray) {
         //Creating keywords
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 for idx in 0 ..< items.count {
-                    if let item = items[idx] as? NSDictionary {
+                    if let item = items[idx] as? [String:Any] {
                         if let desc = item[JSON_KEY_DESCRIPTION] as? String {
-                            let description = desc.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                            let description = desc.trimmingCharacters(in: CharacterSet.whitespaces)
 
                             var upc = item["upc"] as? String
-                            upc = upc!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                            upc = upc!.trimmingCharacters(in: CharacterSet.whitespaces)
 
                             var price: String?
                             if let pricetxt = item["price"] as? String {
-                                price = pricetxt.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                                price = pricetxt.trimmingCharacters(in: CharacterSet.whitespaces)
                             }
                             if let pricenum = item["price"] as? NSNumber {
                                 price = pricenum.stringValue
@@ -408,7 +409,7 @@ class BaseService : NSObject {
                             }
 
                             let select = WalMartSqliteDB.instance.buildFindProductKeywordQuery(description: description, price: price!)
-                            if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
+                            if let rs = db.executeQuery(select, withArgumentsIn:nil) {
                                 var exist = false
                                 while rs.next() {
                                     exist = true
@@ -422,7 +423,7 @@ class BaseService : NSObject {
                             }
                             
                             let query = WalMartSqliteDB.instance.buildInsertProductKeywordQuery(forUpc: upc!, andDescription: description, andPrice:price!)
-                            db.executeUpdate(query, withArgumentsInArray: nil)
+                            db.executeUpdate(query, withArgumentsIn: nil)
                         }
                     }
                 }
@@ -435,9 +436,9 @@ class BaseService : NSObject {
         return true
     }
 
-    func jsonFromObject(object:AnyObject!) {
-        let data : NSData = try! NSJSONSerialization.dataWithJSONObject(object, options: .PrettyPrinted)
-        let jsonTxt = NSString(data: data, encoding: NSUTF8StringEncoding)
+    func jsonFromObject(_ object:AnyObject!) {
+        let data : Data = try! JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
+        let jsonTxt = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
         print(jsonTxt)
     }
     
@@ -453,8 +454,8 @@ class BaseService : NSObject {
     
     
 
-    func loadKeyFieldCategories( items:AnyObject!, type:String ) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
+    func loadKeyFieldCategories( _ items:AnyObject!, type:String ) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in items as! [AnyObject] {
@@ -470,7 +471,7 @@ class BaseService : NSObject {
                             let idLine =  itemLine["id"] as! String
                             let nameLine =  itemLine["name"] as! String
                             let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)
-                            if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
+                            if let rs = db.executeQuery(select, withArgumentsIn:nil) {
                                 var exist = false
                                 while rs.next() {
                                     exist = true
@@ -484,7 +485,7 @@ class BaseService : NSObject {
                             }
                             
                             let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:type, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
-                            db.executeUpdate(query, withArgumentsInArray: nil)
+                            db.executeUpdate(query, withArgumentsIn: nil)
                             
                             
                         }
@@ -496,21 +497,21 @@ class BaseService : NSObject {
     
     
     
-    func printTimestamp(message: String) {
-        let timestamp = NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .MediumStyle, timeStyle: .ShortStyle)
+    func printTimestamp(_ message: String) {
+        let timestamp = DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short)
         print("\(message)"  + timestamp)
     }
     
-    func callPOSTServiceCam(manager:AFHTTPSessionManager, params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.POST(serviceUrl(), parameters: nil, constructingBodyWithBlock: { (formData: AFMultipartFormData!) in
-            let imgData = params.objectForKey("image_request[image]") as! NSData
-            let localeStr = params.objectForKey("image_request[locale]") as! String
-            let langStr = params.objectForKey("image_request[language]") as! String
+    func callPOSTServiceCam(_ manager:AFHTTPSessionManager, params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        manager.post(serviceUrl(), parameters: nil, constructingBodyWith: { (formData: AFMultipartFormData!) in
+            let imgData = params["image_request[image]"] as! Data
+            let localeStr = params["image_request[locale]"] as! String
+            let langStr = params["image_request[language]"] as! String
             formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
-            formData.appendPartWithFormData(localeStr.dataUsingEncoding(NSUTF8StringEncoding)!, name:"image_request[locale]")
-            formData.appendPartWithFormData(langStr.dataUsingEncoding(NSUTF8StringEncoding)!, name:"image_request[language]")
-            }, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
-                let resultJSON = json as! NSDictionary
+            formData.appendPartWithFormData(localeStr.dataUsingEncoding(String.Encoding.utf8)!, name:"image_request[locale]")
+            formData.appendPartWithFormData(langStr.dataUsingEncoding(String.Encoding.utf8)!, name:"image_request[language]")
+            }, progress: nil, success: {(request:URLSessionDataTask, json:AnyObject?) in
+                let resultJSON = json as! [String:Any]
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     //TAG manager
                     BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
@@ -520,7 +521,7 @@ class BaseService : NSObject {
                             let loginService = LoginWithEmailService()
                             loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
                             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-                            loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+                            loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance().userSigned = nil
@@ -535,7 +536,7 @@ class BaseService : NSObject {
                 }
                 
                 successBlock!(resultJSON)
-            }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+            }, failure: {(request:URLSessionDataTask?, error:NSError) in
                 //TAG manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if error.code == -1005 {

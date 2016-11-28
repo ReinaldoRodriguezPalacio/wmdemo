@@ -21,7 +21,7 @@ class ShoppingCartAddProductsService : BaseService {
     
     
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         //self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
@@ -29,52 +29,52 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
 
-    class func maxItemsInShoppingCart(useDefault:Bool, onHandInventory:Int) -> Int {
+    class func maxItemsInShoppingCart(_ useDefault:Bool, onHandInventory:Int) -> Int {
         return useDefault ? ShoppingCartParams.maxProducts : onHandInventory
     }
     
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [String:AnyObject] {
+    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [String:Any] {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
     }
     
-    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
+    func builParams(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:Any]?) -> [[String:Any]] {
         if useSignals && parameter != nil{
-            parameterSend = parameter!
+            parameterSend = parameter! as AnyObject?
             return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]]
         }
         return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category]]
     }
     
-    func builParamSvc(upc:String,quantity:String,comments:String) -> [String:AnyObject] {
+    func builParamSvc(_ upc:String,quantity:String,comments:String) -> [String:Any] {
         return ["comments":comments,"quantity":quantity,"upc":upc]
     }
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:AnyObject] {
+    func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:Any] {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist]
     }
     
-    func buildProductObject(upcsParams:[AnyObject]) -> AnyObject {
+    func buildProductObject(_ upcsParams:[AnyObject]) -> AnyObject {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]
             
         }
-        return upcsParams
+        return upcsParams as AnyObject
     }
 
     
-    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, parameter:parameter), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:Any]?,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, parameter:parameter) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,parameter: nil) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             
-            var itemsSvc : [[String:AnyObject]] = []
+            var itemsSvc : [[String:Any]] = []
             var itemsWishList : [String] = []
            
             var upcSend = ""
@@ -95,14 +95,14 @@ class ShoppingCartAddProductsService : BaseService {
             if itemsSvc.count > 1 {
                 
                 
-                self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+                self.callPOSTService(itemsSvc, successBlock: { (resultCall:[String:Any]) -> Void in
                     
                     if self.updateShoppingCart() {
                         
                         let serviceWishDelete = DeleteItemWishlistService()
 
                         for itemWishlistUPC in itemsWishList {
-                            serviceWishDelete.callCoreDataService(itemWishlistUPC, successBlock: { (result:NSDictionary) -> Void in
+                            serviceWishDelete.callCoreDataService(itemWishlistUPC, successBlock: { (result:[String:Any]) -> Void in
                                 }) { (error:NSError) -> Void in
                             }
                         }
@@ -125,11 +125,11 @@ class ShoppingCartAddProductsService : BaseService {
                 if !hasUPC {
                     var send  : AnyObject?
                     if useSignals  && self.parameterSend != nil{
-                        send = buildProductObject(itemsSvc)
+                        send = buildProductObject(itemsSvc as [AnyObject])
                     }else{
-                        send = itemsSvc
+                        send = itemsSvc as AnyObject?
                     }
-                        self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
+                        self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
 
                         if self.updateShoppingCart() {
                             UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
@@ -170,7 +170,7 @@ class ShoppingCartAddProductsService : BaseService {
         }
     }
     
-    func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !self.isInCart {
             if (UserCurrentSession.sharedInstance().hasPreorderable()) {// is preorderable
                 //let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
@@ -192,7 +192,7 @@ class ShoppingCartAddProductsService : BaseService {
             }
         }
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         for product in params as! NSArray {
             
@@ -203,14 +203,14 @@ class ShoppingCartAddProductsService : BaseService {
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
-                cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
-                let productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
+                cartProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
+                let productBD =  NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
                 cartProduct.product = productBD
             }else{
                 cartProduct = array[0]
             }
             let quantityStr = product["quantity"] as! NSString
-            cartProduct.quantity = NSNumber(integer:quantityStr.integerValue)
+            cartProduct.quantity = NSNumber(value: quantityStr.integerValue as Int)
             
             print("Product in shopping cart: \(product)")
             
@@ -222,7 +222,7 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
             cartProduct.product.isPreorderable =  product["isPreorderable"]  as? String == nil ? "false" : product["isPreorderable"] as! String
-            cartProduct.status = NSNumber(integer: statusForProduct())
+            cartProduct.status = NSNumber(value: statusForProduct() as Int)
             cartProduct.type = ResultObjectType.Mg.rawValue
             if let category = product["category"] as? String {
                 cartProduct.product.department = category
@@ -240,7 +240,7 @@ class ShoppingCartAddProductsService : BaseService {
         }
         
         WishlistService.shouldupdate = true
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
         
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
@@ -248,7 +248,7 @@ class ShoppingCartAddProductsService : BaseService {
     }
     
     func statusForProduct() -> Int {
-        return CartStatus.Created.rawValue
+        return CartStatus.created.rawValue
     }
     
     func updateShoppingCart() -> Bool {

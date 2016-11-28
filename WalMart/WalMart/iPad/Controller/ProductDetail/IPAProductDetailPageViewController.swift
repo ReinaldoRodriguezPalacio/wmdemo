@@ -14,15 +14,15 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
     var animationController : ProductDetailNavigatinAnimationController!
     
     
-    override func getControllerToShow(upc:String,descr:String,type:String,saving:String?) -> UIViewController? {
+    override func getControllerToShow(_ upc:String,descr:String,type:String,saving:String?) -> UIViewController? {
             
         storyBoard = loadStoryboardDefinition()
         switch(type) {
         case ResultObjectType.Mg.rawValue :
-            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
-                vc.upc = upc
+            if let vc = storyBoard!.instantiateViewController(withIdentifier: "productDetailVC") as? IPAProductDetailViewController {
+                vc.upc = upc as NSString
                 vc.indexRowSelected = self.itemSelectedSolar // ixSelected
-                vc.name = descr
+                vc.name = descr as NSString
                 vc.stringSearch = self.stringSearching
                 vc.view.tag = ixSelected
                 vc.pagerController = self
@@ -30,13 +30,13 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :
-            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? IPAGRProductDetailViewController {
-                vc.upc = upc
+            if let vc = storyBoard!.instantiateViewController(withIdentifier: "grProductDetailVC") as? IPAGRProductDetailViewController {
+                vc.upc = upc as NSString
                 vc.indexRowSelected = self.itemSelectedSolar//ixSelected
                 vc.stringSearch = self.stringSearching
-                vc.name = descr
+                vc.name = descr as NSString
                 vc.view.tag = ixSelected
-                vc.saving = saving == nil ? "" : saving!
+                vc.saving = saving == nil ? "" : saving! as NSString
                 vc.pagerController = self
                 vc.idListSelected =  self.idListSeleted!
                 vc.detailOf = self.detailOf
@@ -61,15 +61,15 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
         
     }*/
     
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         if animationController != nil {
         switch (operation) {
-        case UINavigationControllerOperation.Push:
-            animationController.type = AnimationType.Present;
+        case UINavigationControllerOperation.push:
+            animationController.type = AnimationType.present;
             return  animationController;
-        case UINavigationControllerOperation.Pop:
-            animationController.type = AnimationType.Dismiss;
+        case UINavigationControllerOperation.pop:
+            animationController.type = AnimationType.dismiss;
             return animationController;
         default: return nil;
         }

@@ -26,12 +26,12 @@ class HomeBannerImageViewController : UIViewController {
         imageView.frame = self.view.bounds
     }
     
-    func setCurrentImage(urlImage:String){
-        if let urlObj = NSURL(string:"https://\(urlImage)" ) {
+    func setCurrentImage(_ urlImage:String){
+        if let urlObj = URL(string:"https://\(urlImage)" ) {
             if imageView  ==  nil {
                 imageView = UIImageView(frame: self.view.bounds)
             }
-            imageView.setImageWithURLRequest(NSURLRequest(URL:urlObj), placeholderImage:UIImage(named: "loading_home"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+            imageView.setImageWith(URLRequest(url:urlObj), placeholderImage:UIImage(named: "loading_home"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageView.image = image
             },failure: nil)
         }

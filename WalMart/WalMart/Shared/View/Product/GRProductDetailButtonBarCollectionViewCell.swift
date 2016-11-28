@@ -22,22 +22,22 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
     override func setup() {
         super.setup()
         
-        self.listButton.setImage(UIImage(named:"detail_list"), forState: .Normal)
-        self.listButton.setImage(UIImage(named:"detail_list_selected"), forState: .Selected)
-        self.listButton.setImage(UIImage(named:"detail_list_selected"), forState: .Highlighted)
+        self.listButton.setImage(UIImage(named:"detail_list"), for: UIControlState())
+        self.listButton.setImage(UIImage(named:"detail_list_selected"), for: .selected)
+        self.listButton.setImage(UIImage(named:"detail_list_selected"), for: .highlighted)
         
         
     }
     
-    func validateIsInList(upc:String) {
-        self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
+    func validateIsInList(_ upc:String) {
+        self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
     }
     
     /**
      Send product to wishList
      */
     override func addProductToWishlist() {
-        self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
+        self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
         //event
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label: "\(desc) - \(upc)")
         
@@ -46,8 +46,8 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
             self.addDirectToListId()
         }else{
             
-            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
-                self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+                self.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
             })
         }
     }
@@ -63,7 +63,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         let productObject = [service.buildProductObject(upc:self.upc, quantity:1,pesable:"\(self.isPesable.hashValue)",active:self.isActive == "true" ? true : false)]//isActive
         
         service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                 alertView!.showDoneIcon()

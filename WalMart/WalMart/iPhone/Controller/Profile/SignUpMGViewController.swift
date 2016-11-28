@@ -27,19 +27,19 @@ class SignUpMGViewController: SignUpViewController {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
             
             let service = SignUpService()
-            let dateFmtBD = NSDateFormatter()
+            let dateFmtBD = DateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
             
-            let dateOfBirth = dateFmtBD.stringFromDate(self.dateVal!)
-            let gender = femaleButton!.selected ? "Female" : "Male"
-            let allowTransfer = "\(self.acceptSharePersonal!.selected)"
-            let allowPub = "\(self.promoAccept!.selected)"
+            let dateOfBirth = dateFmtBD.string(from: self.dateVal! as Date)
+            let gender = femaleButton!.isSelected ? "Female" : "Male"
+            let allowTransfer = "\(self.acceptSharePersonal!.isSelected)"
+            let allowPub = "\(self.promoAccept!.isSelected)"
             
             self.addressMgView = AddressViewController()
-            self.addressMgView.typeAddress = TypeAddress.Shiping
-            self.addressMgView.item =  NSDictionary()
+            self.addressMgView.typeAddress = TypeAddress.shiping
+            self.addressMgView.item =  [String:Any]()
             self.addressMgView.addFRomMg =  true
-            self.addressMgView.backButton?.hidden =  true
+            self.addressMgView.backButton?.isHidden =  true
             self.addressMgView.showSaveAlert = false
             self.addressMgView.successCallBackRegistry = {() in
 
@@ -61,11 +61,11 @@ class SignUpMGViewController: SignUpViewController {
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 if self.addressMgView.viewAddress!.validateAddress(){
-                    service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+                    service.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
                         self.addressMgView.closeAlert()
                         let login = LoginService()
                         var firstEnter = true
-                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:[String:Any]) -> Void in
                             
                             // Event -- Succesful Registration
                             BaseController.sendAnalyticsSuccesfulRegistration()

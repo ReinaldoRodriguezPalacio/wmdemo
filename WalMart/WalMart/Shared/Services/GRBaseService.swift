@@ -11,8 +11,8 @@ import Foundation
 
 class GRBaseService : BaseService {
     
-    override func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+    override func serviceUrl(_ serviceName:String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         var serviceConfigDictionary = ConfigServices.ConfigIdGR
         if self.urlForSession {
             serviceConfigDictionary = UserCurrentSession.hasLoggedUser() ? ConfigServices.ConfigIdGRSign : ConfigServices.ConfigIdGR
@@ -27,8 +27,8 @@ class GRBaseService : BaseService {
         }
         
         
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
-        let environmentServices = services[environment] as! [String:AnyObject]
+        let services = Bundle.main.object(forInfoDictionaryKey: serviceConfigDictionary) as! [String:Any]
+        let environmentServices = services[environment] as! [String:Any]
         let serviceURL =  environmentServices[serviceName] as! String
         //println(serviceURL)
         return serviceURL
@@ -36,9 +36,9 @@ class GRBaseService : BaseService {
 
     override func getManager() -> AFHTTPSessionManager {
         if UserCurrentSession.hasLoggedUser() && shouldIncludeHeaders() {
-            let timeInterval = NSDate().timeIntervalSince1970
-            let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue) // Time in milis "1400705132881"//
-            let uuid  = NSUUID().UUIDString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
+            let timeInterval = Date().timeIntervalSince1970
+            let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue) // Time in milis "1400705132881"//
+            let uuid  = UUID().uuidString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
             let strUsr  = "ff24423eefbca345" + timeStamp + uuid // "f3062afbe4c4a8ea2fc730687d0e9f818c7f9a23"//
             
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
@@ -47,8 +47,8 @@ class GRBaseService : BaseService {
             AFStatic.managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
             AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
             //session --
-            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
-            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+            let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: self.serviceUrl())!)
+            let headers = HTTPCookie.requestHeaderFields(with: cookies!)
             print("GR NSHTTPCookieStorage:::::")
             for key in headers.keys {
                 let strKey = key as NSString
@@ -60,8 +60,8 @@ class GRBaseService : BaseService {
         } else{
             let urlRequest = self.serviceUrl()
             //session --
-            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: urlRequest)!)
-            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
+            let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: urlRequest)!)
+            let headers = HTTPCookie.requestHeaderFields(with: cookies!)
             print("GR NSHTTPCookieStorageSession::::: .URL \(urlRequest)")
             if urlRequest.contains("getItemByUpc") {//TODO Change value
                 for key in headers.keys {
@@ -83,7 +83,7 @@ class GRBaseService : BaseService {
     }
 
     static func getUseSignalServices() ->Bool{
-        return NSBundle.mainBundle().objectForInfoDictionaryKey("useSignalsServices") as! Bool
+        return Bundle.main.object(forInfoDictionaryKey: "useSignalsServices") as! Bool
     }
     
 }

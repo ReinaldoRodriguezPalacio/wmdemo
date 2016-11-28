@@ -36,14 +36,14 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyAddressViewController.callServiceAddress), name: ProfileNotification.updateProfile.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MyAddressViewController.callServiceAddress), name: NSNotification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
         self.table = UITableView()
-        self.table.registerClass(AddressViewCell.self, forCellReuseIdentifier: "labelCell")
+        self.table.register(AddressViewCell.self, forCellReuseIdentifier: "labelCell")
         
-        self.table?.backgroundColor = UIColor.whiteColor()
+        self.table?.backgroundColor = UIColor.white
         
-        self.table.separatorStyle = .None
-        self.table.autoresizingMask = UIViewAutoresizing.None
+        self.table.separatorStyle = .none
+        self.table.autoresizingMask = UIViewAutoresizing()
         self.titleLabel!.text = NSLocalizedString("profile.myAddress", comment: "")
         self.arrayAddressShipping = NSArray()
         self.arrayAddressFiscal = NSArray()
@@ -53,60 +53,60 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
         self.newAddressButton = WMRoundButton()
         self.newAddressButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.newAddressButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(55.0, 22), forUIControlState: UIControlState.Normal)
-        self.newAddressButton!.addTarget(self, action: #selector(MyAddressViewController.newAddress), forControlEvents: UIControlEvents.TouchUpInside)
-        self.newAddressButton!.setTitle(NSLocalizedString("profile.address.new", comment:"" ) , forState: UIControlState.Normal)
-        self.newAddressButton!.frame = CGRectMake(248.0, 12.0, 55.0, 22.0)
+        self.newAddressButton?.setBackgroundColor(WMColor.green, size: CGSize(width: 55.0, height: 22), forUIControlState: UIControlState())
+        self.newAddressButton!.addTarget(self, action: #selector(MyAddressViewController.newAddress), for: UIControlEvents.touchUpInside)
+        self.newAddressButton!.setTitle(NSLocalizedString("profile.address.new", comment:"" ) , for: UIControlState())
+        self.newAddressButton!.frame = CGRect(x: 248.0, y: 12.0, width: 55.0, height: 22.0)
         
         self.header?.addSubview(self.newAddressButton!)
-        self.newAddressButton!.hidden = true
+        self.newAddressButton!.isHidden = true
         
         self.view.addSubview(self.table!)
         
-        emptyView = IPOAddressEmptyView(frame:CGRectZero)
+        emptyView = IPOAddressEmptyView(frame:CGRect.zero)
         emptyView.returnAction = {() in
             self.newAddress()
         }
         self.view.addSubview(emptyView)
         
-        viewBgSelectorBtn = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16, 282, 28))
+        viewBgSelectorBtn = UIView(frame: CGRect(x: 16,  y: self.header!.frame.maxY + 16, width: 282, height: 28))
         viewBgSelectorBtn.layer.borderWidth = 1
         viewBgSelectorBtn.layer.cornerRadius = 14
-        viewBgSelectorBtn.layer.borderColor = WMColor.light_blue.CGColor
+        viewBgSelectorBtn.layer.borderColor = WMColor.light_blue.cgColor
         
         let titleSupper = NSLocalizedString("profile.address.super",comment:"")
-        btnSuper = UIButton(frame: CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) - 1, viewBgSelectorBtn.frame.height - 2))
-        btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
-        btnSuper.setTitle(titleSupper, forState: UIControlState.Normal)
-        btnSuper.setTitle(titleSupper, forState: UIControlState.Selected)
-        btnSuper.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnSuper.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
+        btnSuper = UIButton(frame: CGRect(x: 1, y: 1, width: (viewBgSelectorBtn.frame.width / 2) - 1, height: viewBgSelectorBtn.frame.height - 2))
+        btnSuper.setImage(UIImage(color: UIColor.white, size: btnSuper.frame.size), for: UIControlState())
+        btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), for: UIControlState.selected)
+        btnSuper.setTitle(titleSupper, for: UIControlState())
+        btnSuper.setTitle(titleSupper, for: UIControlState.selected)
+        btnSuper.setTitleColor(UIColor.white, for: UIControlState.selected)
+        btnSuper.setTitleColor(WMColor.light_blue, for: UIControlState())
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        btnSuper.selected = true
+        btnSuper.isSelected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
-        btnSuper.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        btnSuper.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), for: UIControlEvents.touchUpInside)
         
         let titleTech = NSLocalizedString("profile.address.tech",comment:"")
-        btnTech = UIButton(frame: CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2))
-        btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
-        btnTech.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnTech.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        btnTech.setTitle(titleTech, forState: UIControlState.Normal)
-        btnTech.setTitle(titleTech, forState: UIControlState.Selected)
+        btnTech = UIButton(frame: CGRect(x: btnSuper.frame.maxX, y: 1, width: viewBgSelectorBtn.frame.width / 2, height: viewBgSelectorBtn.frame.height - 2))
+        btnTech.setImage(UIImage(color: UIColor.white, size: btnSuper.frame.size), for: UIControlState())
+        btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), for: UIControlState.selected)
+        btnTech.setTitleColor(UIColor.white, for: UIControlState.selected)
+        btnTech.setTitleColor(WMColor.light_blue, for: UIControlState())
+        btnTech.setTitle(titleTech, for: UIControlState())
+        btnTech.setTitle(titleTech, for: UIControlState.selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnTech.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
-        btnTech.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        btnTech.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), for: UIControlEvents.touchUpInside)
         
         viewBgSelectorBtn.clipsToBounds = true
-        viewBgSelectorBtn.backgroundColor = UIColor.whiteColor()
+        viewBgSelectorBtn.backgroundColor = UIColor.white
         viewBgSelectorBtn.addSubview(btnSuper)
         viewBgSelectorBtn.addSubview(btnTech)
         
         self.view.addSubview(viewBgSelectorBtn)
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         BaseController.setOpenScreenTagManager(titleScreen: NSLocalizedString("profile.myAddress", comment: "") , screenName: self.getScreenGAIName())
 
@@ -119,14 +119,14 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let buttonHeight: CGFloat = 22.0
         
         let bounds = self.view.bounds
-        self.table!.frame =  CGRectMake(0,  self.header!.frame.maxY + SELECTORH , bounds.width, bounds.height - self.header!.frame.maxY - SELECTORH )
+        self.table!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY + SELECTORH , width: bounds.width, height: bounds.height - self.header!.frame.maxY - SELECTORH )
         //tamaño
-        self.newAddressButton!.frame = CGRectMake(self.view.bounds.width - (buttonWidth + 16.0), (header!.bounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
+        self.newAddressButton!.frame = CGRect(x: self.view.bounds.width - (buttonWidth + 16.0), y: (header!.bounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
         //self.newAddressButton!.frame = CGRectMake( self.view.bounds.maxX - 165.0, 12.0, 75.0, 22.0 )
-        self.titleLabel!.frame = CGRectMake(self.newAddressButton!.frame.width , 0, self.view.bounds.width - (self.newAddressButton!.frame.width * 2), self.header!.frame.maxY)
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.titleLabel!.frame = CGRect(x: self.newAddressButton!.frame.width , y: 0, width: self.view.bounds.width - (self.newAddressButton!.frame.width * 2), height: self.header!.frame.maxY)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
-        self.viewBgSelectorBtn.frame =  CGRectMake((self.view.bounds.width - 282) / 2  ,  self.header!.frame.maxY + 16, 282, 28)
+        self.viewBgSelectorBtn.frame =  CGRect(x: (self.view.bounds.width - 282) / 2  ,  y: self.header!.frame.maxY + 16, width: 282, height: 28)
     }
     
     override func didReceiveMemoryWarning() {
@@ -134,7 +134,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.addressController = nil
         self.alertView = nil
@@ -150,7 +150,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         viewLoad.startAnnimating(self.isVisibleTab)*/
         
         let addressService = AddressByUserService()
-        addressService.callService({ (resultCall:NSDictionary) -> Void in
+        addressService.callService({ (resultCall:[String:Any]) -> Void in
             
             self.arrayAddressFiscal = []
             self.arrayAddressShipping = []
@@ -162,13 +162,13 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.arrayAddressShipping = shippingAddress
             }
             
-            self.emptyView.hidden = (self.arrayAddressShippingGR.count > 0 || self.arrayAddressFiscal.count > 0 || self.arrayAddressShipping.count > 0)
+            self.emptyView.isHidden = (self.arrayAddressShippingGR.count > 0 || self.arrayAddressFiscal.count > 0 || self.arrayAddressShipping.count > 0)
             
-            if self.btnSuper.selected {
-                self.newAddressButton!.hidden = !self.emptyView!.hidden || self.arrayAddressShippingGR.count >= 12
+            if self.btnSuper.isSelected {
+                self.newAddressButton!.isHidden = !self.emptyView!.isHidden || self.arrayAddressShippingGR.count >= 12
                 
             }else{
-                self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
+                self.newAddressButton!.isHidden = !self.emptyView!.isHidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
             }
             
            
@@ -192,15 +192,15 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     
     func callServiceAddressGR(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+            viewLoad.backgroundColor = UIColor.white
             self.alertView = nil
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
         }
         
         let addressService = GRAddressByUserService()
-        addressService.callService({ (resultCall:NSDictionary) -> Void in
+        addressService.callService({ (resultCall:[String:Any]) -> Void in
             
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue, label:"")
@@ -213,13 +213,13 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
 
             self.arrayAddressFiscal = []
 
-            self.emptyView.hidden = (self.arrayAddressShippingGR.count > 0 || self.arrayAddressFiscal.count > 0 || self.arrayAddressShipping.count > 0)
+            self.emptyView.isHidden = (self.arrayAddressShippingGR.count > 0 || self.arrayAddressFiscal.count > 0 || self.arrayAddressShipping.count > 0)
             
-            if self.btnSuper.selected {
-                self.newAddressButton!.hidden = !self.emptyView!.hidden || self.arrayAddressShippingGR.count >= 12
+            if self.btnSuper.isSelected {
+                self.newAddressButton!.isHidden = !self.emptyView!.isHidden || self.arrayAddressShippingGR.count >= 12
                 
             }else{
-                self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
+                self.newAddressButton!.isHidden = !self.emptyView!.isHidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
             }
             
             //self.newAddressButton!.hidden = !self.emptyView!.hidden || self.arrayAddressShippingGR.count >= 12
@@ -244,8 +244,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     /*
     *@method: Obtain number of sections on menu
     */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if btnSuper.selected {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if btnSuper.isSelected {
             return 1
         }
         return 2
@@ -254,46 +254,46 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     /*
     *@method: Obtain the number of rows for table view
     */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0){
-            if btnSuper.selected {
+            if btnSuper.isSelected {
                 return self.arrayAddressShippingGR!.count
             } else {
                 return self.arrayAddressShipping!.count
             }
         }
-        if btnSuper.selected {
+        if btnSuper.isSelected {
             return 0
         }
         return self.arrayAddressFiscal!.count
         
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let height: CGFloat = 46
         return height
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? AddressViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? AddressViewCell
         var prefered = false
         var isViewLine = true
-        var item : NSDictionary
+        var item : [String:Any]
         if indexPath.section == 0{
-            if btnSuper.selected {
-                item = self.arrayAddressShippingGR![indexPath.item] as! NSDictionary
+            if btnSuper.isSelected {
+                item = self.arrayAddressShippingGR![indexPath.item] as! [String:Any]
                 //isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
                 isViewLine = true
             } else {
-                item = self.arrayAddressShipping![indexPath.item] as! NSDictionary
+                item = self.arrayAddressShipping![indexPath.item] as! [String:Any]
                 isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
             }
         }else{
-            item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
+            item = self.arrayAddressFiscal![indexPath.item] as! [String:Any]
         }
         let name = item["name"] as! String
         if let pref = item["preferred"] as? NSNumber{
-            if pref.integerValue == 1 {
+            if pref.intValue == 1 {
                 prefered = true
             }
         }
@@ -307,7 +307,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             addressId = addId
         }
         
-        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.gray, padding: 12,align:NSTextAlignment.Left, isViewLine:isViewLine, isPrefered:prefered, addressID: addressId)
+        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.gray, padding: 12,align:NSTextAlignment.left, isViewLine:isViewLine, isPrefered:prefered, addressID: addressId)
         
         cell!.delegateAddres = self
         cell!.delegate = self
@@ -326,8 +326,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     func getRightButtonDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 46))
-        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 64, height: 46))
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
@@ -335,25 +335,25 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         return toReturn
     }
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
         switch index {
         case 0:
             print("delete pressed")
-            let indexPath = self.table.indexPathForCell(cell)
+            let indexPath = self.table.indexPath(for: cell)
             if indexPath != nil {
                 var addressId = ""
-                var item : NSDictionary
-                if self.btnSuper.selected {
-                    item = self.arrayAddressShippingGR![indexPath!.row] as! NSDictionary
+                var item : [String:Any]
+                if self.btnSuper.isSelected {
+                    item = self.arrayAddressShippingGR![indexPath!.row] as! [String:Any]
                     if let addId =  item["id"] as? String {
                         addressId = addId
                         self.deleteAddressGR(addressId)
                     }
                 }else{
                     if indexPath!.section == 0{
-                        item = self.arrayAddressShipping![indexPath!.row] as! NSDictionary
+                        item = self.arrayAddressShipping![indexPath!.row] as! [String:Any]
                     }else{
-                        item = self.arrayAddressFiscal![indexPath!.row] as! NSDictionary
+                        item = self.arrayAddressFiscal![indexPath!.row] as! [String:Any]
                     }
                     if let addId =  item["addressID"] as? String {
                         addressId = addId
@@ -369,7 +369,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
     }
     
-    func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
+    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
         return true
     }
     
@@ -377,9 +377,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     /*
     *@method: Create a section view and return
     */
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36))
-        let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36))
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let generic : UIView = UIView(frame: CGRect(x: 0,y: 0,width: tableView.frame.width,height: 36))
+        let titleView : UILabel = UILabel(frame:CGRect(x: 16,y: 0,width: tableView.frame.width,height: 36))
         titleView.textColor = WMColor.light_blue
         titleView.font = WMFont.fontMyriadProLightOfSize(14)
         if section == 0 {
@@ -389,23 +389,23 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             titleView.text = NSLocalizedString("profile.fiscal", comment: "")
         }
         generic.addSubview(titleView)
-        generic.backgroundColor = UIColor.whiteColor()
+        generic.backgroundColor = UIColor.white
         return generic
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 36
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if btnSuper.selected {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if btnSuper.isSelected {
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SHOW_ADDREES_DETAIL.rawValue, label:"")
             
             self.superAddressController = SuperAddressViewController()
             self.superAddressController.showGRAddressForm = self.showGRAddressForm
             self.superAddressController!.allAddress =  self.arrayAddressShippingGR
-            let item = self.arrayAddressShippingGR![indexPath.item] as! NSDictionary
+            let item = self.arrayAddressShippingGR![indexPath.item] as! [String:Any]
             self.superAddressController.addressId = item["id"] as! String
             self.superAddressController!.view.frame = self.view.frame
             self.superAddressController.setValues(item["id"] as! String)
@@ -422,22 +422,22 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             if self.addressController == nil {
                 self.addressController = AddressViewController()
             }
-            var item: NSDictionary!
-            let allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as [AnyObject])
-            self.addressController!.allAddress =  allArray
+            var item: [String:Any]!
+            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [AnyObject])
+            self.addressController!.allAddress =  allArray as NSArray!
             
             if indexPath.section == 0{
-                item = self.arrayAddressShipping![indexPath.item] as! NSDictionary
-                self.addressController!.typeAddress = TypeAddress.Shiping
+                item = self.arrayAddressShipping![indexPath.item] as! [String:Any]
+                self.addressController!.typeAddress = TypeAddress.shiping
                  ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
             }else{
                 ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
-                item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
+                item = self.arrayAddressFiscal![indexPath.item] as! [String:Any]
                 if let type = item["corporateName"] as? String{
                     if type == "" {
-                        self.addressController!.typeAddress = TypeAddress.FiscalPerson
+                        self.addressController!.typeAddress = TypeAddress.fiscalPerson
                     }else{
-                        self.addressController!.typeAddress = TypeAddress.FiscalMoral
+                        self.addressController!.typeAddress = TypeAddress.fiscalMoral
                     }
                 }
             }
@@ -453,7 +453,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     }
 
     func newAddress(){
-        if btnSuper.selected {
+        if btnSuper.isSelected {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_OPEN_GR_NEW_ADDRES.rawValue, label:"" )
             self.superAddressController = SuperAddressViewController()
                self.superAddressController!.allAddress =  self.arrayAddressShippingGR
@@ -469,9 +469,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.addressController!.defaultPrefered = true
             }
             
-            let allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as [AnyObject])
-            self.addressController!.allAddress =  allArray
-            self.addressController!.typeAddress = TypeAddress.Shiping
+            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [AnyObject])
+            self.addressController!.allAddress =  allArray as NSArray!
+            self.addressController!.typeAddress = TypeAddress.shiping
             self.addressController!.addressFiscalCount = self.arrayAddressFiscal.count
             self.addressController!.addressShippingCont = self.arrayAddressShipping!.count
             
@@ -480,20 +480,20 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
     }
     
-    func applyPrefered (addressID: String){
+    func applyPrefered (_ addressID: String){
         
-        viewLoad = WMLoadingView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
-        viewLoad.backgroundColor = UIColor.whiteColor()
+        viewLoad = WMLoadingView(frame: CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
+        viewLoad.backgroundColor = UIColor.white
         self.alertView = nil
         self.view.addSubview(viewLoad)
          viewLoad.startAnnimating(self.isVisibleTab)
         
-        if btnSuper.selected {
+        if btnSuper.isSelected {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
             let service = GRAddressAddService()
             let serviceAddress = GRAddressesByIDService()
             serviceAddress.addressId = addressID
-            serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 
                 let name = result["name"] as! String!
                 let outerNumber = result["outerNumber"] as! String!
@@ -511,7 +511,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 
                 let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "C", preferred: true)
                 
-                service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
+                service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
                     self.callServiceAddressGR()
                     }, errorBlock: { (error:NSError) -> Void in
                         print("error")
@@ -525,7 +525,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_SET_ADDRESS_PREFERRED.rawValue, label: "")
             let service = AddPreferedAddress()
             service.buildParams(addressID)
-            service.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
+            service.callService([String:Any](),  successBlock:{ (resultCall:[String:Any]?) in
                 print("success")
                 self.callServiceAddress()
                 }, errorBlock: {(error: NSError) in
@@ -536,7 +536,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
     }
 
-    func deleteAddressGR(idAddress:String){
+    func deleteAddressGR(_ idAddress:String){
         
          self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
@@ -544,7 +544,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let service = GRAddressAddService()
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = idAddress
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label: "")
             
             let name = result["name"] as! String!
@@ -563,7 +563,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "B", preferred: false)
             
-            service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
+            service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
 
              
                 if let message = result["message"] as? String {
@@ -573,14 +573,14 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                     }
                     let serviceAddress = GRAddressesByIDService()
                     serviceAddress.addressId = result["addressID"] as? String
-                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                    serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
                         UserCurrentSession.sharedInstance().getStoreByAddress(result)
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }
                 self.alertView = nil
                 
-                if self.btnSuper.selected {
+                if self.btnSuper.isSelected {
                     self.callServiceAddressGR()
                 }else{
                     self.callServiceAddress()
@@ -601,7 +601,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     }
     
     
-    func deleteAddress(idAddress:String){
+    func deleteAddress(_ idAddress:String){
         let service = DeleteAddressesByUserService()
         service.buildParams(idAddress)
         
@@ -610,7 +610,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-        service.callService(NSDictionary(), successBlock:{ (resultCall:NSDictionary?) in
+        service.callService([String:Any](), successBlock:{ (resultCall:[String:Any]?) in
             ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             
             if let message = resultCall!["message"] as? String {
@@ -620,7 +620,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 }
             }//if let message = resultCall!["message"] as? String {
              self.alertView = nil
-            if self.btnSuper.selected {
+            if self.btnSuper.isSelected {
                 self.callServiceAddressGR()
             }else{
                 self.callServiceAddress()
@@ -635,20 +635,20 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     }
 
     //MARK: CHange Súper Tecnologia Hogar y mas
-    func changeSuperTech(sender:UIButton) {
-        if sender == btnSuper &&  !sender.selected {
-            sender.selected = true;
-            btnTech.selected = false
+    func changeSuperTech(_ sender:UIButton) {
+        if sender == btnSuper &&  !sender.isSelected {
+            sender.isSelected = true;
+            btnTech.isSelected = false
             
-            self.newAddressButton!.hidden = !self.emptyView!.hidden || arrayAddressShippingGR.count >= 12
+            self.newAddressButton!.isHidden = !self.emptyView!.isHidden || arrayAddressShippingGR.count >= 12
             
                  
             table.reloadData()
-        } else if sender == btnTech &&  !sender.selected {
-            sender.selected = true;
-            btnSuper.selected = false
+        } else if sender == btnTech &&  !sender.isSelected {
+            sender.isSelected = true;
+            btnSuper.isSelected = false
             
-            self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
+            self.newAddressButton!.isHidden = !self.emptyView!.isHidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
             
                       
             table.reloadData()

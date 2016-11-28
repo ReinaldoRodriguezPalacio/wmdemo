@@ -42,27 +42,27 @@ class LoadingViewBk: UIView {
         self.label = UILabel()
         self.label!.numberOfLines = 0
         //self.label!.textColor = Color.productDetailDescColor
-        self.label!.textAlignment = .Center
-        self.label!.backgroundColor = UIColor.clearColor()
+        self.label!.textAlignment = .center
+        self.label!.backgroundColor = UIColor.clear
         //self.label!.font = Font.fontWhitneyMediumOfSize(18)
         self.addSubview(self.label!)
         
-        self.indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        self.indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.indicator!.startAnimating()
         self.addSubview(self.indicator!)
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
     }
     
     override func layoutSubviews() {
         let width = self.frame.size.width - 20.0
-        let size = CGSizeMake(width, CGFloat.max)
-        let computedRect: CGRect = self.label!.text!.boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:self.label!.font], context: nil)
-        self.label!.frame = CGRectMake(0.0,0.0,width, computedRect.size.height)
-        self.label!.center = CGPointMake(self.frame.size.width/2,(self.frame.size.height/2) - computedRect.size.height)
-        self.indicator!.center = CGPointMake(self.frame.size.width/2,(self.frame.size.height/2) + self.indicator!.frame.size.height)
+        let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let computedRect: CGRect = self.label!.text!.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:self.label!.font], context: nil)
+        self.label!.frame = CGRect(x: 0.0,y: 0.0,width: width, height: computedRect.size.height)
+        self.label!.center = CGPoint(x: self.frame.size.width/2,y: (self.frame.size.height/2) - computedRect.size.height)
+        self.indicator!.center = CGPoint(x: self.frame.size.width/2,y: (self.frame.size.height/2) + self.indicator!.frame.size.height)
     }
 
-    func updateText(text:String, enableIndicator:Bool) {
+    func updateText(_ text:String, enableIndicator:Bool) {
         self.label!.text = text
         if enableIndicator {
             self.indicator!.startAnimating()

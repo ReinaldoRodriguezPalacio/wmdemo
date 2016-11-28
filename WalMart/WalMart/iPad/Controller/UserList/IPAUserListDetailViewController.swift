@@ -7,6 +7,41 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 protocol IPAUserListDetailDelegate {
     func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int,listName:String)
@@ -23,7 +58,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     var addGestureLeft = false
     var isShared =  false
     var showReminderController = true
-    var searchInList : (( controller:IPASearchProductViewController) -> Void)?
+    var searchInList : (( _ controller:IPASearchProductViewController) -> Void)?
     var hiddenBackButton: Bool = true
    
     override func viewDidLoad() {
@@ -35,12 +70,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         var x = (self.footerSection!.frame.width - (shareWidth + separation + 254.0))/2
         let y = (self.footerSection!.frame.height - shareWidth)/2
        
-        self.duplicateButton!.frame = CGRectMake(145, y, 34.0, 34.0)
+        self.duplicateButton!.frame = CGRect(x: 145, y: y, width: 34.0, height: 34.0)
         
         x = self.duplicateButton!.frame.maxX + 16.0
-        self.shareButton!.frame = CGRectMake(x, y, shareWidth, shareWidth)
+        self.shareButton!.frame = CGRect(x: x, y: y, width: shareWidth, height: shareWidth)
         x = self.shareButton!.frame.maxX + separation
-        self.addToCartButton!.frame = CGRectMake(x, y, 254.0, shareWidth)
+        self.addToCartButton!.frame = CGRect(x: x, y: y, width: 254.0, height: shareWidth)
         self.customLabel!.frame = self.addToCartButton!.bounds
        // self.tableView.frame = CGRectMake(self.tableView!.frame.minx , self.tableView!.frame.minY, self.view.bounds.width, self.tableView!.frame.heigth)
 
@@ -55,7 +90,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         if addGestureLeft {
             let gestureSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(IPAUserListDetailViewController.didTapClose))
-            gestureSwipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+            gestureSwipeLeft.direction = UISwipeGestureRecognizerDirection.left
             self.header!.addGestureRecognizer(gestureSwipeLeft)
         }
         self.reminderButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -67,45 +102,45 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
     
     override func viewWillLayoutSubviews() {
-        self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
+        self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46.0)
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {
 //            self.layoutTitleLabel()
 //        }
-        self.backButton?.frame = CGRectMake(0, (self.header!.frame.height - 46.0)/2, 46.0, 46.0)
-        if CGRectEqualToRect(self.editBtn!.frame, CGRectZero) {
+        self.backButton?.frame = CGRect(x: 0, y: (self.header!.frame.height - 46.0)/2, width: 46.0, height: 46.0)
+        if self.editBtn!.frame.equalTo(CGRect.zero) {
             let headerBounds = self.header!.frame.size
             let buttonWidth: CGFloat = 55.0
             let buttonHeight: CGFloat = 22.0
-            self.editBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
-            self.deleteAllBtn!.frame = CGRectMake(self.editBtn!.frame.minX - (90.0 + 8.0), (headerBounds.height - buttonHeight)/2, 90.0, buttonHeight)
+            self.editBtn!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+            self.deleteAllBtn!.frame = CGRect(x: self.editBtn!.frame.minX - (90.0 + 8.0), y: (headerBounds.height - buttonHeight)/2, width: 90.0, height: buttonHeight)
         }
         
         let x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2
         
-        addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
+        addToCartButton?.frame = CGRect(x: x, y: y, width: 256, height: 34.0)//self.footerSection!.frame.width - (x + 16.0)
         self.customLabel?.frame  = self.addToCartButton!.bounds
         if !isShared {
             if showReminderButton{
-                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
-                self.reminderImage?.frame = CGRectMake(self.view.frame.width - 28, self.header!.frame.maxY + 8, 12.0, 12.0)
+                self.reminderButton?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width,  height: 28.0)
+                self.reminderImage?.frame = CGRect(x: self.view.frame.width - 28, y: self.header!.frame.maxY + 8, width: 12.0, height: 12.0)
                 
-                self.addProductsView!.frame = CGRectMake(0,self.openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                self.addProductsView!.frame = CGRect(x: 0,y: self.openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, width: self.view.frame.width, height: 64.0)
                 
-                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
+                self.tableView?.frame = CGRect(x: 0, y: self.addProductsView!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.addProductsView!.frame.maxY)
             }else{
-                self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+                self.tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
             }
         }
 
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.showLoadingView()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if self.loading != nil {
             self.loading!.stopAnnimating()
@@ -116,7 +151,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             self.invokeDetailListService({ () -> Void in
                 self.loading?.stopAnnimating()
                 self.loading = nil
-                self.reminderButton!.hidden = false
+                self.reminderButton!.isHidden = false
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {
@@ -124,7 +159,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                         self.fromDelete =  false
                         self.selectedItems = NSMutableArray()
                         for i in 0...self.products!.count - 1 {
-                            self.selectedItems?.addObject(i)
+                            self.selectedItems?.add(i)
                         }
                     }
                 self.updateTotalLabel()
@@ -139,7 +174,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             } else {
             self.selectedItems = NSMutableArray()
             for i in 0...self.products!.count - 1 {
-                self.selectedItems?.addObject(i)
+                self.selectedItems?.add(i)
             }
             }
             self.updateTotalLabel()
@@ -160,39 +195,39 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func showEditionMode() {
         if !self.isEdditing {
-            self.deleteAllBtn!.hidden = false
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.deleteAllBtn!.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.deleteAllBtn!.alpha = 1.0
             })
             var cells = self.tableView!.visibleCells
             for idx in 0 ..< cells.count {
                 if let cell = cells[idx] as? DetailListViewCell {
                     cell.setEditing(true, animated: false)
-                    cell.showLeftUtilityButtonsAnimated(true)
+                    cell.showLeftUtilityButtons(animated: true)
                 }
             }
         }
         else {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
                     self.deleteAllBtn!.alpha = 0.0
                 }, completion: { (finished:Bool) -> Void in
                     if finished {
-                        self.deleteAllBtn!.hidden = true
+                        self.deleteAllBtn!.isHidden = true
                     }
                 }
             )
             var cells = self.tableView!.visibleCells
             for idx in 0 ..< cells.count {
                 if let cell = cells[idx] as? DetailListViewCell {
-                    cell.hideUtilityButtonsAnimated(false)
+                    cell.hideUtilityButtons(animated: false)
                     cell.setEditing(false, animated: false)
                 }
             }
         }
         
         self.isEdditing = !self.isEdditing
-        self.editBtn!.selected = self.isEdditing
+        self.editBtn!.isSelected = self.isEdditing
         
     }
 
@@ -204,23 +239,23 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
-            let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+            let imgResult = UIImage.verticalImage(from: [imageHead!,image])
             let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
                 //self.sharePopover!.backgroundColor = UIColor.greenColor()
-            let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
-            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            let rect = self.footerSection!.convert(self.shareButton!.frame, to: self.view.superview!)
+            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
             
             if #available(iOS 8.0, *) {
                 controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                    if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                    if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -237,43 +272,43 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
         
         if UserCurrentSession.hasLoggedUser() {
-           self.emptyView!.frame = CGRectMake(0.0, self.header!.frame.maxY + 64, self.view.bounds.width, 612 - 64 )
+           self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: self.view.bounds.width, height: 612 - 64 )
         }else{
-            self.emptyView!.frame = CGRectMake(0.0, self.header!.frame.maxY, self.view.bounds.width, 612)
+            self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: 612)
         }
         
-        self.emptyView!.backgroundColor = UIColor.whiteColor()
+        self.emptyView!.backgroundColor = UIColor.white
        
         
         
-        self.emptyView!.backgroundColor = UIColor.whiteColor()
+        self.emptyView!.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView!)
         
         let bg = UIImageView(image: UIImage(named:UserCurrentSession.hasLoggedUser() ? "empty_list" : "list_empty_no"))
-        bg.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, UserCurrentSession.hasLoggedUser() ?  612 - 64 : 612)
+        bg.frame = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: UserCurrentSession.hasLoggedUser() ?  612 - 64 : 612)
         self.emptyView!.addSubview(bg)
         
-        let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, self.view.bounds.width, 16.0))
-        labelOne.textAlignment = .Center
+        let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: self.view.bounds.width, height: 16.0))
+        labelOne.textAlignment = .center
         labelOne.textColor = WMColor.light_blue
         labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
-        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, self.view.bounds.width, 16))
-        labelTwo.textAlignment = .Center
+        let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: self.view.bounds.width, height: 16))
+        labelTwo.textAlignment = .center
         labelTwo.textColor = WMColor.light_blue
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
         labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRectMake(280.0, labelOne.frame.maxY + 12.0, 16.0, 16.0)
+        icon.frame = CGRect(x: 280.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
         self.emptyView!.addSubview(icon)
     }
 
     override func showLoadingView() {
-        self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.tableView!.bounds.width, 746))
+        self.loading = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.tableView!.bounds.width, height: 746))
         self.loading!.startAnnimating(true)
         self.view.addSubview(self.loading!)
     }
@@ -282,11 +317,11 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
     //MARK: - UITableViewDataSource
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var productsToShow:[AnyObject] = []
-        if !tableView.cellForRowAtIndexPath(indexPath)!.isKindOfClass(GRShoppingCartTotalsTableViewCell){
+        if !tableView.cellForRow(at: indexPath)!.isKind(of: GRShoppingCartTotalsTableViewCell.self){
             for productObj  in self.products! {
-                if let product = productObj as? [String:AnyObject] {
+                if let product = productObj as? [String:Any] {
                     let upc = product["upc"] as! String
                     let description = product["description"] as! String
                     productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
@@ -302,18 +337,18 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
     //MARK: - DetailListViewCellDelegate
     
-    override func didChangeQuantity(cell:DetailListViewCell) {
+    override func didChangeQuantity(_ cell:DetailListViewCell) {
         if self.isEdditing {
             return
         }
-        let indexPath = self.tableView!.indexPathForCell(cell)
+        let indexPath = self.tableView!.indexPath(for: cell)
         if indexPath == nil {
             return
         }
         
         var isPesable = false
         var price: NSNumber? = nil
-        if let item = self.products![indexPath!.row] as? [String:AnyObject] {
+        if let item = self.products![indexPath!.row] as? [String:Any] {
             
             if let pesable = item["type"] as?  NSString {
                 isPesable = pesable.intValue == 1
@@ -324,20 +359,20 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
         else if let item = self.products![indexPath!.row] as? Product {
             isPesable = item.type.boolValue
-            price = NSNumber(double: item.price.doubleValue)
+            price = NSNumber(value: item.price.doubleValue as Double)
         }
         
         
 
         if isPesable {
-            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,equivalenceByPiece:equivalenceByPiece,upcProduct:cell.upcVal!)
+            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece:equivalenceByPiece,upcProduct:cell.upcVal!)
             
         }
         else {
-            self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,upcProduct:cell.upcVal!)
+            self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,upcProduct:cell.upcVal!)
         }
         self.quantitySelector!.closeAction = { () in
-            self.sharePopover?.dismissPopoverAnimated(true)
+            self.sharePopover?.dismiss(animated: true)
             return
         }
        
@@ -346,20 +381,20 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
            
             if Int(quantity) <= 20000 {
             
-             self.sharePopover?.dismissPopoverAnimated(false)
+             self.sharePopover?.dismiss(animated: false)
             
-             if let item = self.products![indexPath!.row] as? [String:AnyObject] {
+             if let item = self.products![indexPath!.row] as? [String:Any] {
                  let upc = item["upc"] as? String
                  self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
              }
              else if let item = self.products![indexPath!.row] as? Product {
-                 item.quantity = NSNumber(integer: Int(quantity)!)
+                 item.quantity = NSNumber(value: Int(quantity)! as Int)
                  self.saveContext()
                  self.retrieveProductsLocally(true)
                  self.removeSelector()
              }
             }else{
-                self.sharePopover?.dismissPopoverAnimated(true)
+                self.sharePopover?.dismiss(animated: true)
                 
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
@@ -371,19 +406,19 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         }
 
-        self.quantitySelector!.backgroundColor = UIColor.clearColor()
-        self.quantitySelector!.backgroundView!.backgroundColor = UIColor.clearColor()
+        self.quantitySelector!.backgroundColor = UIColor.clear
+        self.quantitySelector!.backgroundView!.backgroundColor = UIColor.clear
         let controller = UIViewController()
-        controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 388.0)
+        controller.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0)
         controller.view.addSubview(self.quantitySelector!)
-        controller.view.backgroundColor = UIColor.clearColor()
+        controller.view.backgroundColor = UIColor.clear
 
         self.sharePopover = UIPopoverController(contentViewController: controller)
-        self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
+        self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 388.0)
         self.sharePopover!.delegate = self
         self.sharePopover!.backgroundColor = WMColor.light_blue
-        let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
-        self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+        let rect = cell.convert(cell.quantityIndicator!.frame, to: self.view.superview!)
+        self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
 
     }
     
@@ -403,12 +438,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 })
             }
         }else{
-            NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
         }
     }
 
     //MARK: - UIPopoverControllerDelegate
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+    func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         self.sharePopover = nil
     }
 
@@ -438,7 +473,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
-    override func invokeDeleteProductFromListService(upc: String, succesDelete: (() -> Void)) {
+    override func invokeDeleteProductFromListService(_ upc: String, succesDelete: (() -> Void)) {
         super.invokeDeleteProductFromListService(upc) { () -> Void in
             self.delegate!.reloadTableListUser()
         }
@@ -450,22 +485,22 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     override func addReminder(){
         if self.showReminderController{
             self.showReminderController = false
-            let selected = self.reminderButton!.selected
+            let selected = self.reminderButton!.isSelected
             let reminderViewController = ReminderViewController()
             reminderViewController.listId = self.listId!
             reminderViewController.listName = self.listName!
             reminderViewController.delegate = self
             if  selected {
                 reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
-                reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
+                reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? Date
             }
-            reminderViewController.view.frame = CGRectMake(self.view.bounds.maxX, 0.0, self.view.bounds.width, self.view.bounds.height)
+            reminderViewController.view.frame = CGRect(x: self.view.bounds.maxX, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height)
             self.addChildViewController(reminderViewController)
             self.view.addSubview(reminderViewController.view)
-            UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
+            UIView.animate(withDuration: 0.4, delay: 0.1, options: [], animations: {
                 reminderViewController.view.frame = self.view.bounds
                 }, completion: {(finish) in
-                    reminderViewController.didMoveToParentViewController(self)
+                    reminderViewController.didMove(toParentViewController: self)
             })
         }
     }
@@ -479,11 +514,11 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         barCodeController.searchProduct = true
         barCodeController.useDelegate = true
         barCodeController.isAnyActionFromCode =  true
-        self.presentViewController(barCodeController, animated: true, completion: nil)
+        self.present(barCodeController, animated: true, completion: nil)
     }
     
     
-    override func searchByTextAndCamfind(text: String,upcs:[String]?,searchContextType:SearchServiceContextType,searchServiceFromContext:SearchServiceFromContext) {
+    override func searchByTextAndCamfind(_ text: String,upcs:[String]?,searchContextType:SearchServiceContextType,searchServiceFromContext:SearchServiceFromContext) {
         
         let controller = IPASearchProductViewController()
         controller.upcsToShow = upcs
@@ -494,7 +529,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         controller.idListFromSearch = self.listId
         self.retunrFromSearch =  true
         if self.searchInList != nil {
-            self.searchInList?(controller: controller)
+            self.searchInList?(controller)
         }else{
             self.navigationController?.pushViewController(controller, animated: true)
         }
@@ -502,7 +537,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
     }
     
-    override func searchByText(text: String) {
+    override func searchByText(_ text: String) {
         if text.isNumeric() && text.length() == 13 ||  text.length() == 14 {
              self.findProdutFromUpc(text)
 //            let window = UIApplication.sharedApplication().keyWindow
@@ -516,7 +551,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
       
     }
     
-    override func invokeAddproductTolist(response:NSDictionary?,products:[AnyObject]?,succesBlock:(() -> Void)){
+    override func invokeAddproductTolist(_ response:[String:Any]?,products:[AnyObject]?,succesBlock:(() -> Void)){
         super.invokeAddproductTolist(response, products: products) { () -> Void in
             self.reloadTableListUser()
         }

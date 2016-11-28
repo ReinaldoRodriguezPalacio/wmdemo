@@ -13,13 +13,13 @@ class GRLoginWithEmailService : GRBaseService {
 
     var loginIdGR = ""
     
-    func buildParams(email:String) -> NSDictionary {
-        let lowCaseUser = email.lowercaseString
+    func buildParams(_ email:String) -> [String:Any] {
+        let lowCaseUser = email.lowercased()
         return ["email":lowCaseUser]
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             let newResultCall = NSMutableDictionary(dictionary: resultCall)
             successBlock!(newResultCall)
             }) { (error:NSError) -> Void in

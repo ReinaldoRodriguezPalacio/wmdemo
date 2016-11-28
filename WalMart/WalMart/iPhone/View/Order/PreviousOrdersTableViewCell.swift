@@ -30,22 +30,22 @@ class PreviousOrdersTableViewCell: UITableViewCell {
     
     func setup() {
         
-        dateLabel = UILabel(frame: CGRectMake(16, 18, 70, 14))
+        dateLabel = UILabel(frame: CGRect(x: 16, y: 18, width: 70, height: 14))
         dateLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         dateLabel.textColor = WMColor.gray
         
-        trackingNumberLabel = UILabel(frame: CGRectMake(103, 18, 130, 14))
+        trackingNumberLabel = UILabel(frame: CGRect(x: 103, y: 18, width: 130, height: 14))
         trackingNumberLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         trackingNumberLabel.textColor = WMColor.light_blue
         
-        statusLabel = UILabel(frame: CGRectMake(self.bounds.width - 94, 18, 70, 14))
+        statusLabel = UILabel(frame: CGRect(x: self.bounds.width - 94, y: 18, width: 70, height: 14))
         statusLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         statusLabel.textColor = WMColor.gray
-        statusLabel.textAlignment = NSTextAlignment.Right
+        statusLabel.textAlignment = NSTextAlignment.right
         
         viewSeparator = UIView()
         viewSeparator.backgroundColor = WMColor.light_gray
-        self.viewSeparator.frame = CGRectMake(dateLabel.frame.minX,self.frame.maxY - AppDelegate.separatorHeigth(),self.frame.width - dateLabel.frame.minX,AppDelegate.separatorHeigth())
+        self.viewSeparator.frame = CGRect(x: dateLabel.frame.minX,y: self.frame.maxY - AppDelegate.separatorHeigth(),width: self.frame.width - dateLabel.frame.minX,height: AppDelegate.separatorHeigth())
         self.addSubview(viewSeparator)
         
         
@@ -60,19 +60,19 @@ class PreviousOrdersTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        viewSeparator.frame = CGRectMake(dateLabel.frame.minX,self.bounds.maxY - AppDelegate.separatorHeigth(),self.bounds.width - dateLabel.frame.minX,AppDelegate.separatorHeigth())
-        statusLabel.frame = CGRectMake(self.bounds.width - 104, 18, 80, 14)
+        viewSeparator.frame = CGRect(x: dateLabel.frame.minX,y: self.bounds.maxY - AppDelegate.separatorHeigth(),width: self.bounds.width - dateLabel.frame.minX,height: AppDelegate.separatorHeigth())
+        statusLabel.frame = CGRect(x: self.bounds.width - 104, y: 18, width: 80, height: 14)
         
     }
     
     
-    func setValues(date:String,trackingNumber:String,status:String) {
-        let dateFormat = NSDateFormatter()
+    func setValues(_ date:String,trackingNumber:String,status:String) {
+        let dateFormat = DateFormatter()
         dateFormat.dateFormat = "dd/MM/yyyy"
-        let date = dateFormat.dateFromString(date)
+        let date = dateFormat.date(from: date)
         
         dateFormat.dateFormat = "dd MMM yy"
-        let resultDate = dateFormat.stringFromDate(date!)
+        let resultDate = dateFormat.string(from: date!)
         
         dateLabel.text = resultDate
         trackingNumberLabel.text = trackingNumber

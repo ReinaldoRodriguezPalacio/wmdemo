@@ -24,7 +24,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         self.navigation = UINavigationController()
         
         let storyboard = self.loadStoryboardDefinition()
-        let vc = storyboard!.instantiateViewControllerWithIdentifier("ipaMoreVC")
+        let vc = storyboard!.instantiateViewController(withIdentifier: "ipaMoreVC")
             if let vcRoot = vc as? IPAMoreOptionsViewController {
                 vcRoot.delegate = self
                 self.navController = vc
@@ -35,7 +35,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         self.navigation.pushViewController(recent, animated: true)
         selected = 8 // 7
         
-        if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
+        if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
         {
             if #available(iOS 8.0, *) {
                 self.maximumPrimaryColumnWidth = 342
@@ -47,18 +47,18 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     }
     
     
-    func selectedDetail(row: Int) {
+    func selectedDetail(_ row: Int) {
         
         if selected == row && selected != 3 && selected != 5 && selected != 6  {//add
             return
         }
     
         if selected == row && selected != 3 && selected != 5 && selected != 6  {
-            self.navigation.popToRootViewControllerAnimated(true)
+            self.navigation.popToRootViewController(animated: true)
             return
         }
         self.navigation = UINavigationController()
-        self.navigation!.popViewControllerAnimated(true)
+        self.navigation!.popViewController(animated: true)
         
         switch row {
         case 0:
@@ -90,7 +90,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
               //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue , label: "" )
             let cameraController = CameraViewController()
             cameraController.delegate = self
-            self.presentViewController(cameraController, animated: true, completion: nil)
+            self.present(cameraController, animated: true, completion: nil)
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
         case 5:
@@ -101,7 +101,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
-            self.presentViewController(webCtrl,animated:true,completion:nil)
+            self.present(webCtrl,animated:true,completion:nil)
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
       
@@ -109,7 +109,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         case 7:
             //Notifica
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("notificationVC")
+            let controller = self.storyboard!.instantiateViewController(withIdentifier: "notificationVC")
             self.navigation.pushViewController(controller, animated: true)
         case 8:
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
@@ -163,21 +163,21 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     
     
     func loadStoryboardDefinition() -> UIStoryboard? {
-        let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
+        let storyboardName = UIDevice.current.userInterfaceIdiom == .phone ? "Storyboard_iphone" : "Storyboard_ipad"
         let storyboard : UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil);
         return storyboard;
     }
     
     // MARK: - CameraViewControllerDelegate
-   func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
+   func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void)) {
         if value != nil && value?.trim() != "" {
           //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
             var upcArray = upcs
             if upcArray == nil{
                 upcArray = []
             }
-            let params = ["upcs": upcArray!, "keyWord":value!]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
+            let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
             done()
       }
     }
@@ -190,7 +190,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         let barCodeController = IPABarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.searchProduct = false
-        self.presentViewController(barCodeController, animated: true, completion: nil)
+        self.present(barCodeController, animated: true, completion: nil)
     }
     
     var openPromotions  =  false
@@ -200,9 +200,9 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             NSLog("Inicia llamado de  Servicios:::::")
             self.loadGRServices { (bussines:String) in
             NSLog("termina llamado de Servicios:::")
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
                 if let customBar = window!.rootViewController as? CustomBarViewController {
-                     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMasterHelpViewController.validatePromotions), name: "CENTER_PROMOS", object: nil)
+                     NotificationCenter.default.addObserver(self, selector: #selector(IPAMasterHelpViewController.validatePromotions), name: NSNotification.Name(rawValue: "CENTER_PROMOS"), object: nil)
                     if self.openPromotions == false {
                         customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
                         self.openPromotions =  true
@@ -225,12 +225,12 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
      
      - parameter successBlock: finish service an retun bussines
      */
-    func loadGRServices(successBlock:((String) -> Void)?){
+    func loadGRServices(_ successBlock:((String) -> Void)?){
         
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
-        service.callService(params, successBlock: { (respose:NSArray,resultDic:[String:AnyObject]) in
+        service.callService(params, successBlock: { (respose:NSArray,resultDic:[String:Any]) in
             print("temina")
             if respose.count > 0 {
                 successBlock!("gr")

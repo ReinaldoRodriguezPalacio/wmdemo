@@ -27,8 +27,8 @@ class ProductDetailLabelCollectionView  : UITableViewCell {
         titleLabel = UILabel()
     }
     
-    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment){
-        titleLabel.frame = CGRectMake(padding, 0, self.bounds.width - (padding * 2), self.bounds.height)
+    func setValues(_ title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment){
+        titleLabel.frame = CGRect(x: padding, y: 0, width: self.bounds.width - (padding * 2), height: self.bounds.height)
         titleLabel.text  = title
         titleLabel.font = font
         titleLabel.numberOfLines = numberOfLines
@@ -39,7 +39,7 @@ class ProductDetailLabelCollectionView  : UITableViewCell {
         
     }
     
-    func clearView(view: UIView){
+    func clearView(_ view: UIView){
         for subview in view.subviews{
             subview.removeFromSuperview()
         }

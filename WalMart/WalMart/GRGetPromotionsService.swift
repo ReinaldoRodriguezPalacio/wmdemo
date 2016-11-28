@@ -17,7 +17,7 @@ class GRGetPromotionsService: GRBaseService{
     var total:String?
     var addressId:String?
     
-    func buildParams(isAssociated: String,associateNumber:String, startDate:String, determinant: String, total: String,storeID:String) -> NSDictionary{
+    func buildParams(_ isAssociated: String,associateNumber:String, startDate:String, determinant: String, total: String,storeID:String) -> [String:Any]{
         
         var isAssociatedSend = (isAssociated == "1" ? true : false)
         
@@ -28,7 +28,7 @@ class GRGetPromotionsService: GRBaseService{
         return ["isAssociated": isAssociatedSend ,"idAssociated":associateNumber,"dateAdmission":startDate, "determinant":determinant, "total":total,"addressId":storeID]
     }
     
-    func setParams(params:[String:String])
+    func setParams(_ params:[String:String])
     {
         self.isAssociated = params["isAssociated"]
         self.idAssociated = params[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
@@ -38,12 +38,12 @@ class GRGetPromotionsService: GRBaseService{
         self.addressId = params["addressId"]
     }
     
-    func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         
 //        self.jsonFromObject(buildParams(self.isAssociated!,associateNumber: self.idAssociated ==  nil ? "" :self.idAssociated!,
 //            startDate: self.dateAdmission == nil ? "": self.dateAdmission!, determinant: self.determinant == nil ? "" : self.determinant!,total: self.total!,storeID: self.addressId!))
         self.callPOSTService(buildParams(self.isAssociated!,associateNumber: self.idAssociated ==  nil ? "" :self.idAssociated!,
-            startDate: self.dateAdmission == nil ? "": self.dateAdmission!, determinant: self.determinant == nil ? "" : self.determinant!,total: self.total!,storeID: self.addressId!), successBlock: { (resultCall:NSDictionary) -> Void in
+            startDate: self.dateAdmission == nil ? "": self.dateAdmission!, determinant: self.determinant == nil ? "" : self.determinant!,total: self.total!,storeID: self.addressId!), successBlock: { (resultCall:[String:Any]) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

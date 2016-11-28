@@ -27,18 +27,18 @@ class SearchAlertView: UIView {
     
     func setup() {
      
-        self.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
+        self.backgroundColor = WMColor.dark_blue.withAlphaComponent(0.9)
         
         self .imageIcon = UIImageView()
         self.imageIcon?.image = UIImage(named:"search_alert")
         
         self.labelMessage = UILabel()
-        self.labelMessage?.textColor = UIColor.whiteColor()
+        self.labelMessage?.textColor = UIColor.white
         self.labelMessage?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.labelMessage?.numberOfLines = 1
         
         self.resultsOf = UILabel()
-        self.resultsOf?.textColor = UIColor.whiteColor()
+        self.resultsOf?.textColor = UIColor.white
         self.resultsOf?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.resultsOf?.numberOfLines = 1
         
@@ -47,16 +47,16 @@ class SearchAlertView: UIView {
         self.addSubview(resultsOf!)
     }
     
-    func setValues(key:String,correction:String,underline:String?)
+    func setValues(_ key:String,correction:String,underline:String?)
     {
         let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
         let attrsBold = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12)]
         let attrsOrange = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12), NSForegroundColorAttributeName: WMColor.yellow]
         
-        var attrsUnderline: [String:AnyObject] = [:]
+        var attrsUnderline: [String:Any] = [:]
         
         if #available(iOS 8.4, *) {
-            attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12),NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue]
+            attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12),NSStrikethroughStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
         } else {
             attrsUnderline = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12),NSForegroundColorAttributeName: WMColor.gray]
         }
@@ -64,7 +64,7 @@ class SearchAlertView: UIView {
         let messageString = NSMutableAttributedString(string: "No se encontró: ", attributes: attrs)
         let boldString = NSMutableAttributedString(string:"\(key) ", attributes:attrsBold)
         
-        messageString.appendAttributedString(boldString)
+        messageString.append(boldString)
         
         if underline != nil {
           let underlineString = NSMutableAttributedString(string:" \(underline!)  ", attributes:attrsUnderline)
@@ -72,9 +72,9 @@ class SearchAlertView: UIView {
         }
         
         if messageString.length > 48 && IS_IPHONE {
-            let string = NSMutableAttributedString(attributedString: messageString.attributedSubstringFromRange(NSRange(location: 0, length: 46)))
+            let string = NSMutableAttributedString(attributedString: messageString.attributedSubstring(from: NSRange(location: 0, length: 46)))
             let boldString = NSMutableAttributedString(string:"...", attributes:attrsBold)
-            string.appendAttributedString(boldString)
+            string.append(boldString)
             self.labelMessage!.attributedText = string
         }else{
           self.labelMessage!.attributedText = messageString
@@ -83,7 +83,7 @@ class SearchAlertView: UIView {
         let resultsOfString = NSMutableAttributedString(string: "Mostrando resultados de ", attributes: attrs)
         let orangeString = NSMutableAttributedString(string: correction, attributes: attrsOrange)
         
-        resultsOfString.appendAttributedString(orangeString)
+        resultsOfString.append(orangeString)
         self.resultsOf!.attributedText = resultsOfString
         
         self.labelMessage!.sizeToFit()
@@ -93,9 +93,9 @@ class SearchAlertView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.imageIcon!.frame = CGRectMake(12, 15, 16, 16)
-        self.labelMessage!.frame.size = CGSizeMake( 150, 12)
-        self.resultsOf!.frame.size = CGSizeMake(150, 12)
+        self.imageIcon!.frame = CGRect(x: 12, y: 15, width: 16, height: 16)
+        self.labelMessage!.frame.size = CGSize( width: 150, height: 12)
+        self.resultsOf!.frame.size = CGSize(width: 150, height: 12)
         
         self.labelMessage!.sizeToFit()
         self.resultsOf!.sizeToFit()
@@ -104,8 +104,8 @@ class SearchAlertView: UIView {
         let resultsOfOriginY: CGFloat = IS_IPAD ? 18 : 26
         let resultsOfOriginX: CGFloat = IS_IPAD ? self.labelMessage!.frame.maxX + 12 : self.imageIcon!.frame.maxX + 12
         
-        self.labelMessage!.frame.origin = CGPointMake(self.imageIcon!.frame.maxX + 12, labelMessageOriginY)
-        self.resultsOf!.frame.origin = CGPointMake(resultsOfOriginX, resultsOfOriginY)
+        self.labelMessage!.frame.origin = CGPoint(x: self.imageIcon!.frame.maxX + 12, y: labelMessageOriginY)
+        self.resultsOf!.frame.origin = CGPoint(x: resultsOfOriginX, y: resultsOfOriginY)
         
     }
 }

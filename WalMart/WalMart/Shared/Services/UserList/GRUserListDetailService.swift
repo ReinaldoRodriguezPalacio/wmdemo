@@ -12,12 +12,12 @@ class GRUserListDetailService: GRBaseService {
 
     var listId: String?
     
-    func buildParams(listId:String?) {
+    func buildParams(_ listId:String?) {
         self.listId = listId
     }
     
-    func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        super.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        super.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 successBlock?(resultCall)
                 return

@@ -10,31 +10,31 @@ import Foundation
 import QuartzCore
 
 enum TypeField {
-    case Number
-    case Name
-    case NumAddress
-    case String
-    case Alphanumeric
-    case Password
-    case RFC
-    case RFCM
-    case Email
-    case List
-    case Check
-    case None
-    case Phone
+    case number
+    case name
+    case numAddress
+    case string
+    case alphanumeric
+    case password
+    case rfc
+    case rfcm
+    case email
+    case list
+    case check
+    case none
+    case phone
 }
 
 class FormFieldView : UIEdgeTextField {
     
-    let textBorderOn = WMColor.light_blue.CGColor
-    let textBorderOff = UIColor.whiteColor().CGColor
-    let textBorderError = WMColor.red.CGColor
+    let textBorderOn = WMColor.light_blue.cgColor
+    let textBorderOff = UIColor.white.cgColor
+    let textBorderError = WMColor.red.cgColor
     
     var isRequired : Bool = false 
     var nameField : String!
     var validMessageText : String!
-    var typeField : TypeField = TypeField.None
+    var typeField : TypeField = TypeField.none
     var isValid : Bool = true
     var minLength : Int! = 0
     var maxLength : Int! = 0
@@ -66,19 +66,19 @@ class FormFieldView : UIEdgeTextField {
         self.isValid = true
     }
    
-    func setCustomAttributedPlaceholder(placeholder : NSMutableAttributedString){
+    func setCustomAttributedPlaceholder(_ placeholder : NSMutableAttributedString){
         var str = placeholder
         if(self.isRequired){
            let attrStr = NSMutableAttributedString()
-            attrStr.appendAttributedString(NSAttributedString(string: "*"))
-            attrStr.appendAttributedString(placeholder)
+            attrStr.append(NSAttributedString(string: "*"))
+            attrStr.append(placeholder)
             str = attrStr
         }
         
         self.attributedPlaceholder = str
     }
     
-    func setCustomPlaceholder(placeholder : String){
+    func setCustomPlaceholder(_ placeholder : String){
         var str = placeholder
         if(self.isRequired){
             str = "*" + placeholder
@@ -87,7 +87,7 @@ class FormFieldView : UIEdgeTextField {
         self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.gray , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
     }
     
-    func setCustomPlaceholderRegular(placeholder : String){
+    func setCustomPlaceholderRegular(_ placeholder : String){
         var str = placeholder
         if(self.isRequired){
             str = "*" + placeholder
@@ -95,8 +95,8 @@ class FormFieldView : UIEdgeTextField {
         self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.empty_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
-    func setSelectedCheck( isCheck: Bool){
-        if typeField == TypeField.Check{
+    func setSelectedCheck( _ isCheck: Bool){
+        if typeField == TypeField.check{
             //self.setCustomPlaceholderRegular(self.placeholder!)
             if self.imageCheck == nil {
                 self.imageCheck = UIImageView()
@@ -104,27 +104,27 @@ class FormFieldView : UIEdgeTextField {
             }
             let imageName = isCheck ? "checkAddressOn" : "checkTermOff"
             self.imageCheck!.image = UIImage(named: imageName)
-            self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 20 ) / 2  ,16,16)
+            self.imageCheck!.frame = CGRect(x: 2  , y: (self.frame.height - 20 ) / 2  ,width: 16,height: 16)
         }
     }
     
     func setImageTypeField(){
-        if typeField == TypeField.List{
+        if typeField == TypeField.list{
             if self.imageList == nil {
                 self.imageList = UIImageView()
                 self.addSubview(self.imageList!)
                 self.imageList!.image = UIImage(named: "fieldListOpen")
-                self.imageList!.frame = CGRectMake(self.frame.width - 30  , (self.frame.height - 16 ) / 2  ,16,16)
+                self.imageList!.frame = CGRect(x: self.frame.width - 30  , y: (self.frame.height - 16 ) / 2  ,width: 16,height: 16)
             }
         }
-        if typeField == TypeField.Check{
-            self.borderStyle = UITextBorderStyle.None
-            self.backgroundColor = UIColor.whiteColor()
+        if typeField == TypeField.check{
+            self.borderStyle = UITextBorderStyle.none
+            self.backgroundColor = UIColor.white
             if self.imageCheck == nil {
                 self.imageCheck = UIImageView()
                 self.addSubview(self.imageCheck!)
                 self.imageCheck!.image = UIImage(named: "checkTermOff")
-                self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 20 ) / 2  ,16,16)
+                self.imageCheck!.frame = CGRect(x: 2  , y: (self.frame.height - 20 ) / 2  ,width: 16,height: 16)
             }
         }
     }
@@ -136,7 +136,7 @@ class FormFieldView : UIEdgeTextField {
             return false
         }
         self.layer.borderColor =  textBorderOn
-        if typeField == TypeField.List{
+        if typeField == TypeField.list{
             self.imageList!.image = UIImage(named: "fieldListClose")
 
         }
@@ -146,7 +146,7 @@ class FormFieldView : UIEdgeTextField {
     override func resignFirstResponder() -> Bool {
         self.layer.borderColor =  textBorderOff
         
-        if typeField == TypeField.List{
+        if typeField == TypeField.list{
             self.imageList!.image = UIImage(named: "fieldListOpen")
  
         }
@@ -158,7 +158,7 @@ class FormFieldView : UIEdgeTextField {
     func validate() -> String? {
         self.isValid = true
         var message : String? = nil
-        self.text = self.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        self.text = self.text!.trimmingCharacters(in: CharacterSet.whitespaces)
         if isRequired{
             if self.text == "" {
                 self.isValid = false
@@ -172,7 +172,7 @@ class FormFieldView : UIEdgeTextField {
                 message = NSLocalizedString("field.validate.maxlength",comment:"") + "\(maxLength)"
                 
                 switch (typeField) {
-                    case .Number:
+                    case .number:
                         let digits = NSLocalizedString("field.validate.minmaxlength.digit",comment:"")
                         message = "\(message!) \(digits)"
                     default:
@@ -187,7 +187,7 @@ class FormFieldView : UIEdgeTextField {
                 self.isValid = false
                 message = NSLocalizedString("field.validate.minlength",comment:"") + "\(minLength)"
                 switch (typeField) {
-                case .Number:
+                case .number:
                     let digits = NSLocalizedString("field.validate.minmaxlength.digit",comment:"")
                     message = "\(message!) \(digits)"
                 default:
@@ -197,32 +197,32 @@ class FormFieldView : UIEdgeTextField {
             }
         }
         
-        if self.isValid && typeField != .None{
+        if self.isValid && typeField != .none{
             var validate: String? = nil
             switch (typeField) {
-            case .Number:
+            case .number:
                 validate = self.validateNumber()
-            case .NumAddress:
+            case .numAddress:
                 validate = self.validateNumAddress()
-            case .Name:
-                let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ ").invertedSet
-                if let contains = self.text!.rangeOfCharacterFromSet(alphanumericset) {
+            case .name:
+                let alphanumericset = CharacterSet(charactersIn: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ ").inverted
+                if let contains = self.text!.rangeOfCharacter(from: alphanumericset) {
                     return   NSLocalizedString("field.validate.text.invalid",comment:"")
                 }
                 validate = self.validateName()
-            case .String:
+            case .string:
                 validate = self.validateString()
-            case .Alphanumeric:
+            case .alphanumeric:
                 validate = self.validateAlphanumeric()
-            case .Password:
+            case .password:
                 validate = self.validatePass() as String
-            case .RFC:
+            case .rfc:
                 validate = self.validateRFC()
-            case .RFCM:
+            case .rfcm:
                 validate = self.validateRFCM()
-            case .Phone:
+            case .phone:
                 validate = self.validatePhone()
-            case .Email:
+            case .email:
                 self.isValid =  SignUpViewController.isValidEmail(self.text!)
             default:
                 break
@@ -231,12 +231,12 @@ class FormFieldView : UIEdgeTextField {
             if validate != nil {
                 var regExVal: NSRegularExpression?
                 do {
-                    regExVal = try NSRegularExpression(pattern: validate!, options: NSRegularExpressionOptions.CaseInsensitive)
+                    regExVal = try NSRegularExpression(pattern: validate!, options: NSRegularExpression.Options.caseInsensitive)
                 } catch let error as NSError {
                     print(error.localizedDescription)
                     regExVal = nil
                 }
-                let matches = regExVal!.numberOfMatchesInString(self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))
+                let matches = regExVal!.numberOfMatches(in: self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))
                 
                 if matches > 0 {
                     self.isValid = true
@@ -284,7 +284,7 @@ class FormFieldView : UIEdgeTextField {
     
     func validatePass()-> NSString{
         let regString : String = "^[A-Za-z0-9]{5,20}$";
-        return regString
+        return regString as NSString
     }
 
     func validateRFC ()-> String{
@@ -303,13 +303,13 @@ class FormFieldView : UIEdgeTextField {
     }
     
     
-    func setCustomDelegate(delegate:UITextFieldDelegate?){
+    func setCustomDelegate(_ delegate:UITextFieldDelegate?){
         self.delegateCustom.delegateOnChange = delegate
         super.delegate = delegateCustom
     }
     
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == "paste:" {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(UIResponderStandardEditActions.paste(_:)) {
             return !disablePaste
         }
         return super.canPerformAction(action,withSender:sender)
@@ -323,47 +323,47 @@ class CustomFormFIeldDelegate : NSObject, UITextFieldDelegate {
     
     var delegateOnChange : UITextFieldDelegate?
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if self.delegateOnChange?.textFieldShouldBeginEditing != nil {
             return self.delegateOnChange!.textFieldShouldBeginEditing!(textField)
         }
         return true
     }
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         self.delegateOnChange?.textFieldDidBeginEditing?(textField)
     }
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool{
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool{
         if self.delegateOnChange?.textFieldShouldEndEditing != nil {
             return self.delegateOnChange!.textFieldShouldEndEditing!(textField)
         }
         return true
     }
-    func textFieldDidEndEditing(textField: UITextField){
+    func textFieldDidEndEditing(_ textField: UITextField){
         self.delegateOnChange?.textFieldDidEndEditing?(textField)
     }
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if self.delegateOnChange?.textFieldShouldClear != nil {
             return self.delegateOnChange!.textFieldShouldClear!(textField)
         }
         return false
     }
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if self.delegateOnChange?.textFieldShouldReturn != nil {
             return self.delegateOnChange!.textFieldShouldReturn!(textField)
         }
         return false
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let field = textField as? FormFieldView {
             if field.maxLength > 0 {
                 var txtAfterUpdate:NSString = textField.text! as NSString
-                txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
-                self.delegateOnChange?.textField!(textField, shouldChangeCharactersInRange: range, replacementString: string)
+                txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
+                self.delegateOnChange?.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
                 return txtAfterUpdate.length <= field.maxLength
             }
         }
-        return self.delegateOnChange!.textField!(textField, shouldChangeCharactersInRange: range, replacementString: string)
+        return self.delegateOnChange!.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
     }
 
 }

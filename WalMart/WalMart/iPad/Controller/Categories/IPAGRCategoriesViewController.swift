@@ -13,7 +13,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     var items : [AnyObject]? = []
     @IBOutlet var colCategories : UICollectionView!
-    var canfigData : [String:AnyObject]! = [:]
+    var canfigData : [String:Any]! = [:]
     var animateView : UIView!
     var controllerAnimateView : IPACategoriesResultViewController!
     var newModalView: AlertModalView? = nil
@@ -24,9 +24,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         return WMGAIUtils.SCREEN_SUPER.rawValue
     }
     
-    var pontInViewNuew = CGRectZero
+    var pontInViewNuew = CGRect.zero
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if UserCurrentSession.hasLoggedUser() {
            self.setStoreName()
@@ -36,10 +36,10 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.backButton?.hidden = true
+        self.backButton?.isHidden = true
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel?.text = "Walmart Buenavista"
-        self.titleLabel?.textAlignment = .Center
+        self.titleLabel?.textAlignment = .center
         
         colCategories.backgroundColor = WMColor.light_light_gray
         
@@ -47,7 +47,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         let svcConfig = ConfigService()
         canfigData = svcConfig.getConfoigContent()
-        colCategories.registerClass(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "cellLanding")
+        colCategories.register(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "cellLanding")
         
         let serviceBanner = BannerService()
         if let landingUse = serviceBanner.getLanding() {
@@ -64,43 +64,43 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     func loadDepartments() -> [AnyObject]? {
         let serviceCategory = GRCategoryService()
-        self.items = serviceCategory.getCategoriesContent()
+        self.items = serviceCategory.getCategoriesContent() as [AnyObject]?
         colCategories.delegate = self
         colCategories.dataSource = self
         return self.items
     }
     
     //MARK: - collectionViewDelegate
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return ((landingItem != nil) ? 2: 1)
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (landingItem != nil && section == 0) {
             return 1
         }
         return self.items!.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if indexPath.section == 0 && landingItem != nil  {
-            let cellLanding = colCategories.dequeueReusableCellWithReuseIdentifier("cellLanding", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
+            let cellLanding = colCategories.dequeueReusableCell(withReuseIdentifier: "cellLanding", for: indexPath) as! IPACategoryCollectionViewClass
             let itemBannerPhone = landingItem!["bannerUrlTablet"]
             cellLanding.setValuesLanding("https://\(itemBannerPhone!)")
             return cellLanding
         }
         
-        let cell = colCategories.dequeueReusableCellWithReuseIdentifier("cellCategory", forIndexPath: indexPath) as! IPAGRCategoryCollectionViewCell
+        let cell = colCategories.dequeueReusableCell(withReuseIdentifier: "cellCategory", for: indexPath) as! IPAGRCategoryCollectionViewCell
         cell.delegate =  self // new 
-        cell.index = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section)
+        cell.index = IndexPath(row: indexPath.row, section: indexPath.section)
         
-        let item = items![indexPath.row] as! [String:AnyObject]
+        let item = items![indexPath.row] as! [String:Any]
         let descDepartment = item["description"] as! String
         var bgDepartment = item["idDepto"] as! String
-        let families = JSON(item["family"] as! [[String:AnyObject]])
+        let families = JSON(item["family"] as! [[String:Any]])
         cell.descLabel!.text = "Lo más destacado de \(descDepartment)"
-        bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        bgDepartment = bgDepartment.trimmingCharacters(in: CharacterSet.whitespaces)
         
         
         if let resultProducts = fillConfigData(bgDepartment,families:families) {
@@ -111,35 +111,35 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         return cell
     }
     
-    func collectionView(collectionView : UICollectionView,layout collectionViewLayout:UICollectionViewLayout,sizeForItemAtIndexPath indexPath:NSIndexPath) -> CGSize
+    func collectionView(_ collectionView : UICollectionView,layout collectionViewLayout:UICollectionViewLayout,sizeForItemAtIndexPath indexPath:IndexPath) -> CGSize
     {
         if landingItem != nil && indexPath.section == 0 {
-            return CGSizeMake(self.view.frame.width - 32, 216)
+            return CGSize(width: self.view.frame.width - 32, height: 216)
         }
-        return  CGSizeMake(488,313)
+        return  CGSize(width: 488,height: 313)
     }
     
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0  && landingItem != nil  {
             let eventUrl = landingItem!["eventUrl"]
             self.handleLandingEvent(eventUrl!)
             return
         }
         
-        let cellSelected = collectionView.cellForItemAtIndexPath(indexPath) as! IPAGRCategoryCollectionViewCell!
-        let pontInView = cellSelected.superview!.convertRect(cellSelected!.frame, toView: self.view)
-        pontInViewNuew = pontInView
+        let cellSelected = collectionView.cellForItem(at: indexPath) as! IPAGRCategoryCollectionViewCell!
+        let pontInView = cellSelected?.superview!.convert(cellSelected!.frame, to: self.view)
+        pontInViewNuew = pontInView!
 
-        let item = self.items![indexPath.row] as! [String:AnyObject]
+        let item = self.items![indexPath.row] as! [String:Any]
         let idDepartment = item["idDepto"] as! String
         let famArray : AnyObject = item["family"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+        let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
         let famSelected = itemsFam[0]
         let idFamDefault = famSelected["id"] as! String
         
         let lineArray : AnyObject = famSelected["line"] as AnyObject!
-        let itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
+        let itemsLine : [[String:Any]] = lineArray as! [[String:Any]]
         let lineSelected = itemsLine[0]
         let idLineDefault = lineSelected["id"] as! String
         let nameLineDefault = lineSelected["name"] as! String
@@ -148,23 +148,23 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controllerAnimateView = IPACategoriesResultViewController()
         controllerAnimateView.setValues(idDepartment, family: idFamDefault, line: idLineDefault, name:nameLineDefault)
         
-        NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString))
+        NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercased()))
         
-        controllerAnimateView.frameStart = CGRectMake(cellSelected.frame.minX, 0, 330, 216)
+        controllerAnimateView.frameStart = CGRect(x: (cellSelected?.frame.minX)!, y: 0, width: 330, height: 216)
         controllerAnimateView.frameEnd = self.view.bounds
-        controllerAnimateView.titleStr = cellSelected.buttonDepartment.titleLabel!.text
+        controllerAnimateView.titleStr = cellSelected?.buttonDepartment.titleLabel!.text
         controllerAnimateView.families = itemsFam
         controllerAnimateView.name = nameLineDefault
-        controllerAnimateView.searchContextType = SearchServiceContextType.WithCategoryForGR
+        controllerAnimateView.searchContextType = SearchServiceContextType.withCategoryForGR
         controllerAnimateView.closeAnimated = false
         
         controllerAnimateView.actionClose = {() in
             
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.controllerAnimateView.view.alpha = 0
                 }, completion: { (complete:Bool) -> Void in
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.animateView.frame =  pontInView
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                        self.animateView.frame =  pontInView!
                         self.animateView.alpha = 0
                         }, completion: { (complete:Bool) -> Void in
                             self.animateView.removeFromSuperview()
@@ -178,46 +178,46 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.addChildViewController(controllerAnimateView)
         self.view.addSubview(controllerAnimateView.view)
         
-        animateView = UIView(frame: pontInView)
-        animateView.backgroundColor = UIColor.whiteColor()
+        animateView = UIView(frame: pontInView!)
+        animateView.backgroundColor = UIColor.white
         animateView.alpha = 0
         controllerAnimateView.view.alpha = 0
         self.view.addSubview(animateView)
         self.animateView.addSubview(controllerAnimateView.view)
-        self.controllerAnimateView.searchProduct.imageBgCategory = cellSelected.imageBackground.image
-        self.controllerAnimateView.searchProduct.imageIconCategory = cellSelected.iconCategory.image
+        self.controllerAnimateView.searchProduct.imageBgCategory = cellSelected?.imageBackground.image
+        self.controllerAnimateView.searchProduct.imageIconCategory = cellSelected?.iconCategory.image
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
              self.animateView.alpha = 1
-            }) { (complete:Bool) -> Void in
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
+            }, completion: { (complete:Bool) -> Void in
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     self.animateView.frame = self.view.bounds
                     }, completion: { (complete:Bool) -> Void in
                         
                         if self.controllerAnimateView.searchProduct != nil {
-                            self.controllerAnimateView.searchProduct.view.frame = CGRectMake(0, 0,  self.controllerAnimateView.frameEnd.width,  self.controllerAnimateView.frameEnd.height)
-                            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                            self.controllerAnimateView.searchProduct.view.frame = CGRect(x: 0, y: 0,  width: self.controllerAnimateView.frameEnd.width,  height: self.controllerAnimateView.frameEnd.height)
+                            UIView.animate(withDuration: 0.2, animations: { () -> Void in
                                 self.controllerAnimateView.searchProduct.view.alpha = 1
-                                }) { (complete:Bool) -> Void in
+                                }, completion: { (complete:Bool) -> Void in
                                     if self.controllerAnimateView.viewImageContent != nil {
                                         self.controllerAnimateView.addPopover()
                                     }
-                            }
+                            }) 
                         }
 
                         
                         
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
                         self.controllerAnimateView.view.alpha = 1
                     })
                 })
             
-        }
+        }) 
         
     }
  
     
-    func didTapProduct(upcProduct: String, descProduct: String,imageProduct :UIImageView) {
+    func didTapProduct(_ upcProduct: String, descProduct: String,imageProduct :UIImageView) {
         
 
         let controller = IPAProductDetailPageViewController()
@@ -225,7 +225,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controller.itemsToShow = [["upc":upcProduct,"description":descProduct,"type":ResultObjectType.Groceries.rawValue]]
         controller.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
         controller.animationController.setImage(imageProduct.image!)
-        pontInViewNuew = imageProduct.superview!.convertRect(imageProduct.frame, toView: self.view)
+        pontInViewNuew = imageProduct.superview!.convert(imageProduct.frame, to: self.view)
         
         controller.animationController.originPoint =  pontInViewNuew
         self.navigationController?.delegate = controller
@@ -234,7 +234,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
    
     
-    func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {
+    func fillConfigData(_ depto:String,families:JSON) -> [[String:Any]]? {
         var resultDict : [AnyObject] = []
         if Array(canfigData.keys.filter {$0 == depto }).count > 0 {
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
@@ -243,8 +243,8 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                     for line in family["line"].arrayValue {
                         let lineOne = line["id"].stringValue
                         let lineTwo = lineDest["line"].stringValue
-                        if lineOne.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            == lineTwo.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
+                        if lineOne.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                            == lineTwo.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
                                 let itemToShow = ["name": line["name"].stringValue,
                                     "imageUrl": lineDest["imageUrl"].stringValue,
                                     "line": lineTwo ,
@@ -258,31 +258,31 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             }
         }
         
-        return resultDict as? [[String:AnyObject]]
+        return resultDict as? [[String:Any]]
     }
     
-    func didTapLine(name:String,department:String,family:String,line:String) {
+    func didTapLine(_ name:String,department:String,family:String,line:String) {
         let controller = IPASearchProductViewController()
-        controller.searchContextType = SearchServiceContextType.WithCategoryForGR
+        controller.searchContextType = SearchServiceContextType.withCategoryForGR
         controller.idFamily  = family
         controller.idDepartment = department
         controller.idLine = line
         controller.titleHeader = name
-        controller.searchFromContextType = SearchServiceFromContext.FromLineSearch
+        controller.searchFromContextType = SearchServiceFromContext.fromLineSearch
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
-    func didTapMore(index:NSIndexPath) {
-        self.colCategories.delegate?.collectionView!(colCategories, didSelectItemAtIndexPath: index)
+    func didTapMore(_ index:IndexPath) {
+        self.colCategories.delegate?.collectionView!(colCategories, didSelectItemAt: index)
     }
     
-    func handleLandingEvent(strAction:String) {
-        var components = strAction.componentsSeparatedByString("_")
+    func handleLandingEvent(_ strAction:String) {
+        var components = strAction.components(separatedBy: "_")
         if(components.count > 1){
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
             if let customBar = window!.rootViewController as? IPACustomBarViewController {
                 let cmpStr  = components[0] as String
-                let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
+                let strValue = strAction.replacingOccurrences(of: "\(cmpStr)_", with: "")
                 var strAction = ""
                 switch components[0] {
                 case "f":
@@ -306,9 +306,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     //MARK changeStore
     func changeStore(){
         if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance().addressId == nil{
-            let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,338,210))
+            let noAddressView = GRAddressNoStoreView(frame: CGRect(x: 0,y: 0,width: 338,height: 210))
             noAddressView.newAdressForm = { void in
-                let addAddress = GRAddAddressView(frame: CGRectMake(0,49,338,self.view.frame.height - 90))
+                let addAddress = GRAddAddressView(frame: CGRect(x: 0,y: 49,width: 338,height: self.view.frame.height - 90))
                 addAddress.addressArray = []
                 addAddress.onClose = {void in
                     self.newModalView!.closePicker()
@@ -319,10 +319,10 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             self.newModalView = AlertModalView.initModalWithView("Ver inventario de tienda", innerView: noAddressView)
             self.newModalView!.showPicker()
         }else{
-            self.addressView = GRAddressView(frame: CGRectMake(0,0,338,365))
+            self.addressView = GRAddressView(frame: CGRect(x: 0,y: 0,width: 338,height: 365))
             self.addressView?.onCloseAddressView = {void in self.newModalView!.closePicker()}
             self.addressView?.newAdressForm = { void in
-                let addAddress = GRAddAddressView(frame: CGRectMake(0,49,338,self.view.frame.height - 90))
+                let addAddress = GRAddAddressView(frame: CGRect(x: 0,y: 49,width: 338,height: self.view.frame.height - 90))
                 addAddress.addressArray = self.addressView!.addressArray
                 addAddress.onClose = {void in
                     self.newModalView!.closePicker()
@@ -331,13 +331,13 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                 self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
             }
             
-            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
+            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[[String:Any]]) in
                 let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
                 var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
                 storeViewHeight = max(minViewHeigth,storeViewHeight)
-                let storeView = GRAddressStoreView(frame: CGRectMake(0,49,338,min(storeViewHeight,270)))
+                let storeView = GRAddressStoreView(frame: CGRect(x: 0,y: 49,width: 338,height: min(storeViewHeight,270)))
                 storeView.selectedstoreId = selectedStore
-                storeView.storeArray = stores
+                storeView.storeArray = stores as [AnyObject]!
                 storeView.addressId = addressId
                 storeView.onClose = {void in
                     self.newModalView!.closePicker()
@@ -363,20 +363,20 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
-            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
+            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalized)  ", attributes:attrs)
             if UserCurrentSession.sharedInstance().storeName == "" {
                 boldString = NSMutableAttributedString(string:"Walmart Buenavista ", attributes:attrs)
             }
-            boldString.appendAttributedString(attachmentString)
+            boldString.append(attachmentString)
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = boldString;
-            self.titleLabel?.userInteractionEnabled = true;
+            self.titleLabel?.isUserInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoriesViewController.changeStore))
             self.titleLabel?.addGestureRecognizer(tapGesture)
-            self.titleLabel!.frame = CGRectMake(0, 0, self.header!.frame.width, self.header!.frame.maxY)
+            self.titleLabel!.frame = CGRect(x: 0, y: 0, width: self.header!.frame.width, height: self.header!.frame.maxY)
         }else{
             self.titleLabel?.text = "Walmart Buenavista"
-            self.titleLabel!.frame = CGRectMake(0, 0, self.header!.frame.width, self.header!.frame.maxY)
+            self.titleLabel!.frame = CGRect(x: 0, y: 0, width: self.header!.frame.width, height: self.header!.frame.maxY)
         }
         
     }

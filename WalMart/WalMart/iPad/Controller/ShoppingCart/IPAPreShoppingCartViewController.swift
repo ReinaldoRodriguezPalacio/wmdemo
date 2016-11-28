@@ -36,24 +36,24 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
     
     override func viewDidLoad() {
         
-        self.view.backgroundColor = UIColor.clearColor()
-        self.navigationController?.view.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.clear
+        self.navigationController?.view.backgroundColor = UIColor.clear
         
-        viewBG = UIView(frame:CGRectZero)
+        viewBG = UIView(frame:CGRect.zero)
         viewBG.alpha = 0
-        viewBG.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        viewBG.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.view.addSubview(viewBG)
         
-        viewSuper = PreShoppingCartView(frame: CGRectZero)
+        viewSuper = PreShoppingCartView(frame: CGRect.zero)
         self.view.addSubview(viewSuper)
         
         
         
-        viewMG = PreShoppingCartView(frame: CGRectZero)
+        viewMG = PreShoppingCartView(frame: CGRect.zero)
         self.view.addSubview(viewMG)
         
         
-        emptyView = IPAShoppingCartEmptyView(frame:CGRectZero)
+        emptyView = IPAShoppingCartEmptyView(frame:CGRect.zero)
         emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
@@ -62,14 +62,14 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.reloadpreShopingCard()
     }
     
     func reloadpreShopingCard(){
         if self.controllerShowing != nil {
-            if self.controllerShowing!.parentViewController != nil {
+            if self.controllerShowing!.parent != nil {
                 self.controllerShowing?.removeFromParentViewController()
             }
             if self.controllerShowing!.view.superview != nil {
@@ -93,8 +93,8 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
     
     func reloadPreShoppingCar(){
     
-        self.emptyView!.hidden = true
-        self.emptyView.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height - 46)
+        self.emptyView!.isHidden = true
+        self.emptyView.frame = CGRect(x: 0, y: -self.view.bounds.height, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
         UserCurrentSession.sharedInstance().loadShoppingCarts({() -> Void in
             
@@ -128,7 +128,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 if totArticlesMG > 0 {
                     self.openViewMG()
                 } else {
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartMG.rawValue), object: nil)
                 }
                 
             }
@@ -138,7 +138,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 if totArticlesGR > 0 {
                     self.openViewGR()
                 } else {
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartGR.rawValue), object: nil)
                 }
             }
 
@@ -156,19 +156,19 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
             
         })
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.viewBG.alpha = 1
-            }) { (complete:Bool) -> Void in
+            }, completion: { (complete:Bool) -> Void in
                 
-        }
+        }) 
 
     }
     
     
     
-    override func viewWillAppear(animated: Bool) {
-        viewSuper.frame =  CGRectMake(200, -288, 288, 228)
-        viewMG.frame =  CGRectMake(536, -288, 288, 228)
+    override func viewWillAppear(_ animated: Bool) {
+        viewSuper.frame =  CGRect(x: 200, y: -288, width: 288, height: 228)
+        viewMG.frame =  CGRect(x: 536, y: -288, width: 288, height: 228)
         
         self.loadAnimationPreShopping()
         
@@ -178,13 +178,13 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
     func loadAnimationPreShopping(){
     
         if loadImage == nil {
-            loadImage = LoadingIconView(frame: CGRectMake(0, 0, 116, 120))
+            loadImage = LoadingIconView(frame: CGRect(x: 0, y: 0, width: 116, height: 120))
         }
         loadImage.center = self.view.center
         self.view.addSubview(loadImage)
         
         loadImage.startAnnimating()
-        loadImage.backgroundColor = UIColor.clearColor()
+        loadImage.backgroundColor = UIColor.clear
         
         shoppingCart?.view.removeFromSuperview()
         shoppingCart?.removeFromParentViewController()
@@ -206,8 +206,8 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
         viewSuper.alpha = 1
         viewMG.alpha = 1
         
-        viewSuper.frame =  CGRectMake(200, -288, 288, 228)
-        viewMG.frame =  CGRectMake(536, -288, 288, 228)
+        viewSuper.frame =  CGRect(x: 200, y: -288, width: 288, height: 228)
+        viewMG.frame =  CGRect(x: 536, y: -288, width: 288, height: 228)
         
         animator = UIDynamicAnimator(referenceView: self.view)
         animator2 = UIDynamicAnimator(referenceView: self.view)
@@ -225,8 +225,8 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
         collision = UICollisionBehavior(items: [viewSuper])
         collision2 = UICollisionBehavior(items: [viewMG])
         //collision.translatesReferenceBoundsIntoBoundary = true
-        collision.addBoundaryWithIdentifier("barrier", fromPoint: CGPointMake(self.view.frame.origin.x, 439), toPoint: CGPointMake(self.view.frame.origin.x + self.view.frame.width, 439))
-        collision2.addBoundaryWithIdentifier("barrier", fromPoint: CGPointMake(self.view.frame.origin.x, 439), toPoint: CGPointMake(self.view.frame.origin.x + self.view.frame.width, 439))
+        collision.addBoundary(withIdentifier: "barrier" as NSCopying, from: CGPoint(x: self.view.frame.origin.x, y: 439), to: CGPoint(x: self.view.frame.origin.x + self.view.frame.width, y: 439))
+        collision2.addBoundary(withIdentifier: "barrier" as NSCopying, from: CGPoint(x: self.view.frame.origin.x, y: 439), to: CGPoint(x: self.view.frame.origin.x + self.view.frame.width, y: 439))
 
         animator.addBehavior(collision)
         animator2.addBehavior(collision2)
@@ -238,34 +238,34 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
     func closeShoppingCart() {
         
 
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.view.frame = CGRectMake(self.view.frame.minX, -self.view.frame.height , self.view.frame.width,  self.view.frame.height)
-                }) { (completed:Bool) -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.view.frame = CGRect(x: self.view.frame.minX, y: -self.view.frame.height , width: self.view.frame.width,  height: self.view.frame.height)
+                }, completion: { (completed:Bool) -> Void in
                     
                     
-                   self.viewSuper.frame =  CGRectMake(200, -288, 288, 228)
-                    self.viewMG.frame =  CGRectMake(536, -288, 288, 228)
+                   self.viewSuper.frame =  CGRect(x: 200, y: -288, width: 288, height: 228)
+                    self.viewMG.frame =  CGRect(x: 536, y: -288, width: 288, height: 228)
                     
                     
 //                    self.controllerShowing?.removeFromParentViewController()
 //                    self.controllerShowing?.view.removeFromSuperview()
 //                    self.controllerShowing = nil
-                  self.navigationController?.popToRootViewControllerAnimated(false)
+                  self.navigationController?.popToRootViewController(animated: false)
                 //self.view.removeFromSuperview()
                   //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
                  self.delegate.returnToView()
-        }
+        }) 
     }
     
     
     func openViewMG() {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewMG.frame = CGRectMake((self.view.frame.width / 2) - (self.viewMG.frame.width / 2), self.viewMG.frame.minY, self.viewMG.frame.width, self.viewMG.frame.height)
-            self.viewSuper.frame = CGRectMake(-self.viewSuper.frame.width, self.viewSuper.frame.minY, self.viewSuper.frame.width, self.viewSuper.frame.height)
-            }) { (complete:Bool) -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.viewMG.frame = CGRect(x: (self.view.frame.width / 2) - (self.viewMG.frame.width / 2), y: self.viewMG.frame.minY, width: self.viewMG.frame.width, height: self.viewMG.frame.height)
+            self.viewSuper.frame = CGRect(x: -self.viewSuper.frame.width, y: self.viewSuper.frame.minY, width: self.viewSuper.frame.width, height: self.viewSuper.frame.height)
+            }, completion: { (complete:Bool) -> Void in
                 
-                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as! IPAShoppingCartViewController
-                vcResult.view.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height)
+                let vcResult = self.storyboard?.instantiateViewController(withIdentifier: "shoppingCartMGVC") as! IPAShoppingCartViewController
+                vcResult.view.frame = CGRect(x: 0, y: -self.view.bounds.height, width: self.view.bounds.width, height: self.view.bounds.height)
                 vcResult.onClose = {(isClose:Bool) in
                     
                     self.viewMG.alpha = 0
@@ -276,23 +276,23 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 self.controllerShowing = vcResult
                 self.navigationController?.pushViewController(vcResult, animated: false)
                 
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    vcResult.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-                    self.viewMG.frame = CGRectMake((self.view.frame.width / 2) - (self.viewMG.frame.width / 2), self.view.bounds.height, self.viewMG.frame.width, self.viewMG.frame.height)
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    vcResult.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+                    self.viewMG.frame = CGRect(x: (self.view.frame.width / 2) - (self.viewMG.frame.width / 2), y: self.view.bounds.height, width: self.viewMG.frame.width, height: self.viewMG.frame.height)
                     }, completion: { (complete:Bool) -> Void in
                     
                 })
-        }
+        }) 
     }
     
     func openViewGR() {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewSuper.frame = CGRectMake((self.view.frame.width / 2) - (self.viewSuper.frame.width / 2), self.viewSuper.frame.minY, self.viewSuper.frame.width, self.viewSuper.frame.height)
-            self.viewMG.frame = CGRectMake(1024+self.viewMG.frame.width, self.viewMG.frame.minY, self.viewMG.frame.width, self.viewMG.frame.height)
-            }) { (complete:Bool) -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.viewSuper.frame = CGRect(x: (self.view.frame.width / 2) - (self.viewSuper.frame.width / 2), y: self.viewSuper.frame.minY, width: self.viewSuper.frame.width, height: self.viewSuper.frame.height)
+            self.viewMG.frame = CGRect(x: 1024+self.viewMG.frame.width, y: self.viewMG.frame.minY, width: self.viewMG.frame.width, height: self.viewMG.frame.height)
+            }, completion: { (complete:Bool) -> Void in
                 
-                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartGRVC") as! IPAGRShoppingCartViewController
-                vcResult.view.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height)
+                let vcResult = self.storyboard?.instantiateViewController(withIdentifier: "shoppingCartGRVC") as! IPAGRShoppingCartViewController
+                vcResult.view.frame = CGRect(x: 0, y: -self.view.bounds.height, width: self.view.bounds.width, height: self.view.bounds.height)
                 
                 vcResult.onClose = {(isClose:Bool) in
                     
@@ -311,20 +311,20 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 self.controllerShowing = vcResult
                 self.navigationController?.pushViewController(vcResult, animated: false)
                 
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    vcResult.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-                    self.viewSuper.frame = CGRectMake((self.view.frame.width / 2) - (self.viewSuper.frame.width / 2), self.view.bounds.height, self.viewSuper.frame.width, self.viewSuper.frame.height)
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    vcResult.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+                    self.viewSuper.frame = CGRect(x: (self.view.frame.width / 2) - (self.viewSuper.frame.width / 2), y: self.view.bounds.height, width: self.viewSuper.frame.width, height: self.viewSuper.frame.height)
                     }, completion: { (complete:Bool) -> Void in
                         
                 })
-        }
+        }) 
     }
     
     
     
-    func dynamicAnimatorDidPause(animator: UIDynamicAnimator) {
+    func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
         
-        self.view.userInteractionEnabled = true
+        self.view.isUserInteractionEnabled = true
         
         self.finishAnimation?()
         

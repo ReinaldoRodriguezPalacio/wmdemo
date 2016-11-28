@@ -10,7 +10,7 @@ import UIKit
 
 protocol NewListTableViewCellDelegate {
     func cancelNewList()
-    func createNewList(value:String)
+    func createNewList(_ value:String)
     func scanTicket()
 }
 
@@ -30,9 +30,9 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
-        self.inputNameList = ListFieldSearch(frame: CGRectMake(16.0, 0.0, 200.0, 40.0))
+        self.inputNameList = ListFieldSearch(frame: CGRect(x: 16.0, y: 0.0, width: 200.0, height: 40.0))
         self.inputNameList!.backgroundColor = WMColor.light_gray
         self.inputNameList!.layer.cornerRadius = 5.0
         self.inputNameList!.font = WMFont.fontMyriadProLightOfSize(16)
@@ -40,19 +40,19 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.inputNameList!.placeholder = NSLocalizedString("list.new.placeholder", comment:"")
         self.contentView.addSubview(self.inputNameList!)
         
-        self.saveButton = UIButton(type: .Custom)
-        self.saveButton!.frame = CGRectMake(0.0, 0.0, 46.0, 40.0)
+        self.saveButton = UIButton(type: .custom)
+        self.saveButton!.frame = CGRect(x: 0.0, y: 0.0, width: 46.0, height: 40.0)
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.saveButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), forState: .Normal)
-        self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.saveButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), for: UIControlState())
+        self.saveButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.saveButton!.backgroundColor = WMColor.green
-        self.saveButton!.addTarget(self, action: #selector(NewListTableViewCell.save(_:)), forControlEvents: .TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(NewListTableViewCell.save(_:)), for: .touchUpInside)
         self.inputNameList!.rightView = self.saveButton
-        self.inputNameList!.rightViewMode = .Always
+        self.inputNameList!.rightViewMode = .always
 
-        self.scanTicketBtn = UIButton(type: .Custom)
-        self.scanTicketBtn!.setImage(UIImage(named: "list_scan_ticket"), forState: .Normal)
-        self.scanTicketBtn!.addTarget(self, action: #selector(NewListTableViewCell.scanTicket(_:)), forControlEvents: .TouchUpInside)
+        self.scanTicketBtn = UIButton(type: .custom)
+        self.scanTicketBtn!.setImage(UIImage(named: "list_scan_ticket"), for: UIControlState())
+        self.scanTicketBtn!.addTarget(self, action: #selector(NewListTableViewCell.scanTicket(_:)), for: .touchUpInside)
         self.contentView.addSubview(self.scanTicketBtn!)
 
         self.separatorView = UIView()
@@ -64,37 +64,37 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     override func layoutSubviews() {
         let bounds = self.frame.size
         if  UserCurrentSession.hasLoggedUser() {
-            self.scanTicketBtn!.hidden = false
-            self.scanTicketBtn!.frame = CGRectMake(16.0, (bounds.height - 40.0)/2, 40.0, 40.0)
-            self.inputNameList!.frame = CGRectMake(self.scanTicketBtn!.frame.maxX + 16.0, (bounds.height - 40.0)/2, bounds.width - 88.0, 40.0)
+            self.scanTicketBtn!.isHidden = false
+            self.scanTicketBtn!.frame = CGRect(x: 16.0, y: (bounds.height - 40.0)/2, width: 40.0, height: 40.0)
+            self.inputNameList!.frame = CGRect(x: self.scanTicketBtn!.frame.maxX + 16.0, y: (bounds.height - 40.0)/2, width: bounds.width - 88.0, height: 40.0)
         }
         else {
-            self.inputNameList!.frame = CGRectMake(16.0, (bounds.height - 40.0)/2, bounds.width - 32.0, 40.0)
-            self.scanTicketBtn!.hidden = true
+            self.inputNameList!.frame = CGRect(x: 16.0, y: (bounds.height - 40.0)/2, width: bounds.width - 32.0, height: 40.0)
+            self.scanTicketBtn!.isHidden = true
         }
-        self.separatorView!.frame = CGRectMake(72.0, bounds.height - 1.0, self.contentView.frame.size.width - 72.0, 1.0)
+        self.separatorView!.frame = CGRect(x: 72.0, y: bounds.height - 1.0, width: self.contentView.frame.size.width - 72.0, height: 1.0)
     }
     
     //MAR: - UITextFieldDelegate
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        let newString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let newString = strNSString.replacingCharacters(in: range, with: string)
         
         return (newString.characters.count > 25) ? false : true
     }
     
     //MARK: - Actions
     
-    func scanTicket(button:UIButton) {
+    func scanTicket(_ button:UIButton) {
         self.scanning = true
-        if self.inputNameList!.isFirstResponder() {
+        if self.inputNameList!.isFirstResponder {
             self.inputNameList!.resignFirstResponder()
         }
         self.delegate?.scanTicket()
     }
     
-    func save(button:UIButton) {
+    func save(_ button:UIButton) {
         if NewListTableViewCell.isValidName(self.inputNameList) {
             self.delegate?.createNewList(self.inputNameList!.text!)
         }
@@ -102,7 +102,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.inputNameList!.resignFirstResponder()
     }
     
-    func cancel(button:UIButton) {
+    func cancel(_ button:UIButton) {
         self.inputNameList!.text = ""
         self.inputNameList!.resignFirstResponder()
         self.delegate?.cancelNewList()
@@ -110,7 +110,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
 
     //MARK: - Validaciones
     
-    class func isValidName(field:UITextField?) -> Bool {
+    class func isValidName(_ field:UITextField?) -> Bool {
         if field == nil {
             return false
         }
@@ -123,10 +123,10 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
             return false
         }
         
-        let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        let whitespaceset = CharacterSet.whitespaces
 
-        let trimmedString = string!.stringByTrimmingCharactersInSet(whitespaceset)
-        let length = trimmedString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let trimmedString = string!.trimmingCharacters(in: whitespaceset)
+        let length = trimmedString.lengthOfBytes(using: String.Encoding.utf8)
         if length == 0 {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))
@@ -142,8 +142,8 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
             return false
         }
         
-        let alphanumericset = NSCharacterSet(charactersInString: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").invertedSet
-        let cleanedName = (trimmedString.componentsSeparatedByCharactersInSet(alphanumericset) as NSArray).componentsJoinedByString("")
+        let alphanumericset = CharacterSet(charactersIn: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").inverted
+        let cleanedName = (trimmedString.components(separatedBy: alphanumericset) as NSArray).componentsJoined(by: "")
         if trimmedString != cleanedName {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))

@@ -21,9 +21,9 @@ let REMINDER_NOTIFICATION_BUSINESS = "business"
 class ReminderNotificationService {
     let options = [NSLocalizedString("list.reminder.option.onetime", comment:""),NSLocalizedString("list.reminder.option.weekly", comment:""), NSLocalizedString("list.reminder.option.everyTwoWeek", comment:""), NSLocalizedString("list.reminder.option.everyThreeWeek", comment:""),
         NSLocalizedString("list.reminder.option.montly", comment:"")]
-    let SECS_IN_DAY:NSTimeInterval = 60 * 60 * 24
+    let SECS_IN_DAY:TimeInterval = 60 * 60 * 24
     
-    var currentNotificationConfig: [NSObject:AnyObject]?
+    var currentNotificationConfig: [AnyHashable: Any]?
     var selectedPeriodicity: Int?
     var listId: String?
     var listName: String?
@@ -46,8 +46,8 @@ class ReminderNotificationService {
      - parameter fireDate: reminder start date
      - parameter time:     reminder hour
      */
-    func scheduleNotifications(forOption option:Int, withDate fireDate:NSDate, forTime time:String) {
-        let timeArray = time.componentsSeparatedByString(":")
+    func scheduleNotifications(forOption option:Int, withDate fireDate:Date, forTime time:String) {
+        let timeArray = time.components(separatedBy: ":")
         let hour = Int(timeArray.first!)
         let min = Int(timeArray.last!)
         let title = self.options[option]
@@ -58,7 +58,7 @@ class ReminderNotificationService {
             }
         case 1 : //Semanal
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
-                self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: NSCalendarUnit.WeekOfYear, customType:1)
+                self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: NSCalendar.Unit.weekOfYear, customType:1)
             }
         case 2 : //Cada 2 semanas
             //Generate all notifications for a year (52 weaks; 26 for every 2 weeks at year)
@@ -66,7 +66,7 @@ class ReminderNotificationService {
                 var nextDate = date
                 for _ in 0 ..< 26 {
                     self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:2)
-                    nextDate = nextDate.dateByAddingTimeInterval(self.SECS_IN_DAY * 14.0)
+                    nextDate = nextDate.addingTimeInterval(self.SECS_IN_DAY * 14.0)
                 }
             }
         case 3 : //Cada 3 semanas
@@ -75,12 +75,12 @@ class ReminderNotificationService {
                 var nextDate = date
                 for _ in 0 ..< 18 {
                     self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:3)
-                    nextDate = nextDate.dateByAddingTimeInterval(self.SECS_IN_DAY * 21.0)
+                    nextDate = nextDate.addingTimeInterval(self.SECS_IN_DAY * 21.0)
                 }
             }
         default:
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
-                self.createLocalNotification(title: title, fireDate: date, originalFireDate: date, frequency: NSCalendarUnit.Month, customType:4)
+                self.createLocalNotification(title: title, fireDate: date, originalFireDate: date, frequency: NSCalendar.Unit.month, customType:4)
             }
         }
     }
@@ -94,15 +94,15 @@ class ReminderNotificationService {
      
      - returns: Regresa la fecha con la hora especificada
      */
-    func createDateFrom(date:NSDate, forHour hour:Int, andMinute minute:Int) -> NSDate? {
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+    func createDateFrom(_ date:Date, forHour hour:Int, andMinute minute:Int) -> Date? {
+        let calendar = Calendar(identifier: NSGregorianCalendar)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-        calendar!.timeZone = NSTimeZone.localTimeZone()
-        let components = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: date)
+        calendar!.timeZone = TimeZone.autoupdatingCurrent
+        let components = (calendar! as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: date)
         components.second = 00
         components.minute = minute
         components.hour = hour
-        let otherDate = calendar!.dateFromComponents(components)
+        let otherDate = calendar!.date(from: components)
         return otherDate
     }
     
@@ -117,12 +117,12 @@ class ReminderNotificationService {
      
      - returns: UILocalNotification
      */
-    func createLocalNotification(title title:String, fireDate:NSDate, originalFireDate:NSDate, frequency:NSCalendarUnit?, customType:Int) -> UILocalNotification {
+    func createLocalNotification(title:String, fireDate:Date, originalFireDate:Date, frequency:NSCalendar.Unit?, customType:Int) -> UILocalNotification {
         let notification = UILocalNotification()
         if frequency != nil {
             notification.repeatInterval = frequency!
         }
-        notification.timeZone = NSTimeZone.localTimeZone()
+        notification.timeZone = TimeZone.autoupdatingCurrent
         notification.soundName = UILocalNotificationDefaultSoundName
         notification.alertBody = String(format: NSLocalizedString("list.reminder.notification.content", comment:""), self.listName!)
         notification.fireDate = fireDate
@@ -132,7 +132,7 @@ class ReminderNotificationService {
                 REMINDER_PARAM_LISTID:self.listId!,
                 REMINDER_PARAM_LISTNAME:self.listName!,
                 REMINDER_PARAM_ORIGINALDATE:originalFireDate,
-                REMINDER_PARAM_TYPE:NSNumber(integer: customType),
+                REMINDER_PARAM_TYPE:NSNumber(value: customType as Int),
                 REMINDER_PARAM_NOTIFTYPE:REMINDER_NOTIFICATION,
                 REMINDER_NOTIFICATION_NAME: REMINDER_NOTIFICATION,
                 REMINDER_NOTIFICATION_VALUE: "WF",
@@ -140,7 +140,7 @@ class ReminderNotificationService {
             ]
             self.currentNotificationConfig = notification.userInfo
         }
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        UIApplication.shared.scheduleLocalNotification(notification)
         return notification
     }
     
@@ -148,15 +148,15 @@ class ReminderNotificationService {
      Delete the reminders from current list
      */
     func removeNotificationsFromCurrentList() {
-        var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
+        var notifications = UIApplication.shared.scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
             for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
-                    let values = notification.userInfo as NSDictionary?
+                    let values = notification.userInfo as! [String:Any]?
                     if let listId = values![REMINDER_PARAM_LISTID] as? String {
                         if listId == self.listId {
-                            UIApplication.sharedApplication().cancelLocalNotification(notification)
+                            UIApplication.shared.cancelLocalNotification(notification)
                         }
                     }
                 }
@@ -168,12 +168,12 @@ class ReminderNotificationService {
      Search local notifications and set the currentNotificationConfig
      */
     func findNotificationForCurrentList() {
-        var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
+        var notifications = UIApplication.shared.scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
             for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
-                    let values = notification.userInfo as NSDictionary?
+                    let values = notification.userInfo as! [String:Any]?
                     if let listId = values![REMINDER_PARAM_LISTID] as? String {
                         if listId == self.listId {
                             self.currentNotificationConfig = notification.userInfo
@@ -192,12 +192,12 @@ class ReminderNotificationService {
      */
     func existNotificationForCurrentList() -> Bool {
         var exist = false
-        var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
+        var notifications = UIApplication.shared.scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
             for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
-                    let values = notification.userInfo as NSDictionary?
+                    let values = notification.userInfo as! [String:Any]?
                     if let listId = values!["listId"] as? String {
                         if listId == self.listId {
                             exist = true
@@ -216,12 +216,12 @@ class ReminderNotificationService {
      - returns: Bool
      */
     static func isEnableLocalNotificationForApp() -> Bool {
-        if(UIApplication.instancesRespondToSelector(Selector("currentUserNotificationSettings")))
+        if(UIApplication.instancesRespond(to: #selector(getter: UIApplication.currentUserNotificationSettings)))
         {
             if #available(iOS 8.0, *) {
-                let settings = UIApplication.sharedApplication().currentUserNotificationSettings()
+                let settings = UIApplication.shared.currentUserNotificationSettings
                 
-                if settings == nil || settings!.types == .None {
+                if settings == nil || settings!.types == UIUserNotificationType() {
                     //AlertController.presentViewController(NSLocalizedString("list.reminder.notification.validation",comment:""),
                     //    icon: nil,
                       //  titleButton: NSLocalizedString("list.reminder.notification.settings", comment:""),
@@ -262,16 +262,16 @@ class ReminderNotificationService {
     
      - parameter newName: reminder new name
      */
-    func updateListName(newName:String){
+    func updateListName(_ newName:String){
         if self.existNotificationForCurrentList(){
             self.findNotificationForCurrentList()
             self.listName = newName
             let period = self.currentNotificationConfig!["type"] as! Int
-            let date = self.currentNotificationConfig!["originalFireDate"] as! NSDate
-            let timeFormat = NSDateFormatter()
+            let date = self.currentNotificationConfig!["originalFireDate"] as! Date
+            let timeFormat = DateFormatter()
             timeFormat.dateFormat = "HH:mm"
-            timeFormat.locale = NSLocale(localeIdentifier: "da_DK")
-            let time = timeFormat.stringFromDate(date)
+            timeFormat.locale = Locale(identifier: "da_DK")
+            let time = timeFormat.string(from: date)
             self.removeNotificationsFromCurrentList()
             self.scheduleNotifications(forOption: period, withDate: date, forTime: time)
         }

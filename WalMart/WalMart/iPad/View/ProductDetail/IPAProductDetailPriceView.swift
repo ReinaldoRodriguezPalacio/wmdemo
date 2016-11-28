@@ -25,15 +25,15 @@ class IPAProductDetailPriceView : UIView {
     
     func setup(){
         
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
         
-        originalPriceLabel = CurrencyCustomLabel(frame: CGRectMake(0, 0, self.frame.width, 15))
-        currentPriceLabel = CurrencyCustomLabel(frame: CGRectMake(0, originalPriceLabel.frame.maxY, self.frame.width, 15))
-        savingPriceLabel = CurrencyCustomLabel(frame: CGRectMake(0, currentPriceLabel.frame.maxY, self.frame.width, 15))
+        originalPriceLabel = CurrencyCustomLabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 15))
+        currentPriceLabel = CurrencyCustomLabel(frame: CGRect(x: 0, y: originalPriceLabel.frame.maxY, width: self.frame.width, height: 15))
+        savingPriceLabel = CurrencyCustomLabel(frame: CGRect(x: 0, y: currentPriceLabel.frame.maxY, width: self.frame.width, height: 15))
         
-        originalPriceLabel.textAlignment = NSTextAlignment.Center
-        currentPriceLabel.textAlignment = NSTextAlignment.Center
-        savingPriceLabel.textAlignment = NSTextAlignment.Center
+        originalPriceLabel.textAlignment = NSTextAlignment.center
+        currentPriceLabel.textAlignment = NSTextAlignment.center
+        savingPriceLabel.textAlignment = NSTextAlignment.center
         
         self.addSubview(originalPriceLabel)
         self.addSubview(currentPriceLabel)
@@ -41,7 +41,7 @@ class IPAProductDetailPriceView : UIView {
         
     }
     
-    func changePrices(originalPrice:String,currentPrice:String,savingPrice:String){
+    func changePrices(_ originalPrice:String,currentPrice:String,savingPrice:String){
         
       
         

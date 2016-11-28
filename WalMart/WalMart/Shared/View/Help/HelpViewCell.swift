@@ -29,7 +29,7 @@ class HelpViewCell: UITableViewCell {
         self.addSubview(viewLine)
      }
     
-    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment){
+    func setValues(_ title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment){
         
         titleLabel.text  = title
         titleLabel.font = font
@@ -37,9 +37,9 @@ class HelpViewCell: UITableViewCell {
         titleLabel.textAlignment = align
         titleLabel.textColor = textColor
         
-        viewLine.frame =  CGRectMake(padding, self.bounds.height-1 , self.bounds.width - padding, AppDelegate.separatorHeigth() )
+        viewLine.frame =  CGRect(x: padding, y: self.bounds.height-1 , width: self.bounds.width - padding, height: AppDelegate.separatorHeigth() )
         viewLine.backgroundColor = WMColor.light_light_gray
-        titleLabel.frame = CGRectMake(padding, 1, self.bounds.width -  (padding * 2), self.bounds.height - 1)
+        titleLabel.frame = CGRect(x: padding, y: 1, width: self.bounds.width -  (padding * 2), height: self.bounds.height - 1)
     }
     
     

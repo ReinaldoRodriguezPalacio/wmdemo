@@ -25,12 +25,12 @@ class IPALoginController: LoginController {
     
     
     override class func showLogin() -> IPALoginController! {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let newAlert = IPALoginController()
         vc!.addChildViewController(newAlert)
         newAlert.view.frame = vc!.view.bounds
         vc!.view.addSubview(newAlert.view)
-        newAlert.didMoveToParentViewController(vc)
+        newAlert.didMove(toParentViewController: vc)
         vc!.addChildViewController(newAlert)
         newAlert.view.tag = 5000
         return newAlert
@@ -41,22 +41,22 @@ class IPALoginController: LoginController {
         if self.signUp == nil{
             
             self.signUp = isMGLogin ? IPASignMGUpViewController() : IPASignUpViewController()
-            self.view.backgroundColor = UIColor.greenColor()
-            self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height)
+            self.view.backgroundColor = UIColor.green
+            self.signUp!.view.frame = CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height)
             if isMGLogin {
-                self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width - 100, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height + 100)
+                self.signUp!.view.frame = CGRect(x: self.viewCenter!.frame.width - 100, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height + 100)
             }
     
             self.signUp.viewClose = {(hidden : Bool) in
-                self.close!.hidden = hidden
+                self.close!.isHidden = hidden
             }
             
             self.signUp.cancelSignUp = {() in
                 self.viewAnimated = true
-                UIView.animateWithDuration(0.4, animations: {
-                    self.signUp!.view.frame =  CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.viewCenter!.frame.width, self.view.bounds.height)
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.signUp!.view.frame =  CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.view.bounds.height)
                     self.signUp.view.alpha = 0
-                    self.content!.frame = CGRectMake((self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2) , self.content!.frame.minY ,  self.content!.frame.width , self.content!.frame.height)
+                    self.content!.frame = CGRect(x: (self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2) , y: self.content!.frame.minY ,  width: self.content!.frame.width , height: self.content!.frame.height)
                     self.content!.alpha = 100
                     }, completion: {(bool : Bool) in
                         if bool {
@@ -81,10 +81,10 @@ class IPALoginController: LoginController {
         signUp.view.alpha = 0
         self.viewAnimated = true
         
-        UIView.animateWithDuration(0.4, animations: {
-            self.signUp!.view.frame =  CGRectMake(0, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height)
+        UIView.animate(withDuration: 0.4, animations: {
+            self.signUp!.view.frame =  CGRect(x: 0, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height)
             self.signUp.view.alpha = 1
-            self.content!.frame = CGRectMake(-self.content!.frame.width, 50, self.content!.frame.width ,  self.content!.frame.height)
+            self.content!.frame = CGRect(x: -self.content!.frame.width, y: 50, width: self.content!.frame.width ,  height: self.content!.frame.height)
             self.content!.alpha = 0
             }, completion: {(bool : Bool) in
                 if bool {
@@ -99,15 +99,15 @@ class IPALoginController: LoginController {
             self.addressViewController = IPAAddressViewController()
             self.addressViewController!.hiddenBack = true
             self.addressViewController!.isLogin = true
-            self.addressViewController!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height)
-            self.addressViewController!.typeAddress = TypeAddress.Shiping
-            self.addressViewController!.item =  NSDictionary()
+            self.addressViewController!.view.frame = CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height)
+            self.addressViewController!.typeAddress = TypeAddress.shiping
+            self.addressViewController!.item =  [String:Any]()
             self.addressViewController!.successCallBack = {() in
                 self.viewAnimated = true
-                UIView.animateWithDuration(0.4, animations: {
-                    self.addressViewController!.view.frame =  CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.viewCenter!.frame.width, self.view.bounds.height)
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.addressViewController!.view.frame =  CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.view.bounds.height)
                     self.addressViewController.view.alpha = 0
-                    self.content!.frame = CGRectMake((self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2) , self.content!.frame.minY ,  self.content!.frame.width , self.content!.frame.height)
+                    self.content!.frame = CGRect(x: (self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2) , y: self.content!.frame.minY ,  width: self.content!.frame.width , height: self.content!.frame.height)
                     self.content!.alpha = 100
                     }, completion: {(bool : Bool) in
                         if bool {
@@ -118,19 +118,19 @@ class IPALoginController: LoginController {
             self.viewCenter!.addSubview(addressViewController.view)
         }//if showAddres == nil{
     
-        self.addressViewController!.view.backgroundColor = UIColor.clearColor()
-        self.addressViewController!.titleLabel!.textColor = UIColor.whiteColor()
-        self.addressViewController!.viewAddress!.backgroundColor = UIColor.clearColor()
+        self.addressViewController!.view.backgroundColor = UIColor.clear
+        self.addressViewController!.titleLabel!.textColor = UIColor.white
+        self.addressViewController!.viewAddress!.backgroundColor = UIColor.clear
         
         addressViewController.view.alpha = 0
         self.viewAnimated = true
-        addressViewController!.addressFiscalButton!.enabled = false
-        addressViewController!.header!.backgroundColor = UIColor.clearColor()
+        addressViewController!.addressFiscalButton!.isEnabled = false
+        addressViewController!.header!.backgroundColor = UIColor.clear
         
-            UIView.animateWithDuration(0.4, animations: {
-                self.addressViewController!.view.frame =  CGRectMake(0, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height)
+            UIView.animate(withDuration: 0.4, animations: {
+                self.addressViewController!.view.frame =  CGRect(x: 0, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height)
             self.addressViewController.view.alpha = 1
-                self.content!.frame = CGRectMake(-self.content!.frame.width, 50, self.content!.frame.width ,  self.content!.frame.height)
+                self.content!.frame = CGRect(x: -self.content!.frame.width, y: 50, width: self.content!.frame.width ,  height: self.content!.frame.height)
                 self.content!.alpha = 0
                 }, completion: {(bool : Bool) in
                     if bool {

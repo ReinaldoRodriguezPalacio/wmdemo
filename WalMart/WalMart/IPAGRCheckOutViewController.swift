@@ -12,7 +12,7 @@ import CoreData
 protocol IPAGRCheckOutViewControllerDelegate {
     func shareShoppingCart()
     func closeIPAGRCheckOutViewController()
-    func showViewBackground(show:Bool)
+    func showViewBackground(_ show:Bool)
 }
 
 class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelectorDelegate {
@@ -31,30 +31,30 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         super.viewDidLoad()
     
         self.footer = UIView()
-        self.footer!.backgroundColor = UIColor.whiteColor()
+        self.footer!.backgroundColor = UIColor.white
         self.view.addSubview(self.footer!)
         let bounds = self.view.frame.size
         let footerHeight:CGFloat = 60.0
-        self.buttonShop = UIButton(type: .Custom) as UIButton
-        self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
+        self.buttonShop = UIButton(type: .custom) as UIButton
+        self.buttonShop!.frame = CGRect(x: 16, y: (footerHeight / 2) - 17, width: bounds.width - 32, height: 34)
         self.buttonShop!.backgroundColor = WMColor.green
         self.buttonShop!.layer.cornerRadius = 17
-        self.buttonShop!.addTarget(self, action: #selector(IPAGRCheckOutViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShop!.addTarget(self, action: #selector(getter: IPAGRCheckOutViewController.next), for: UIControlEvents.touchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         self.footer!.addSubview(self.buttonShop!)
         
-        self.addToListButton = UIButton(frame: CGRectMake(8 ,0, 50, footer!.frame.height))
-        self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
-        self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), forState: .Selected)
-        self.addToListButton!.addTarget(self, action: #selector(IPAGRCheckOutViewController.addCartToList), forControlEvents: .TouchUpInside)
+        self.addToListButton = UIButton(frame: CGRect(x: 8 ,y: 0, width: 50, height: footer!.frame.height))
+        self.addToListButton!.setImage(UIImage(named: "detail_list"), for: UIControlState())
+        self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), for: .selected)
+        self.addToListButton!.addTarget(self, action: #selector(IPAGRCheckOutViewController.addCartToList), for: .touchUpInside)
         
-        self.buttonShare = UIButton(frame: CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height))
-        self.buttonShare.setImage(UIImage(named: "detail_shareOff"), forState: UIControlState.Normal)
-        self.buttonShare.addTarget(self, action: #selector(IPAGRCheckOutViewController.shareShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShare = UIButton(frame: CGRect(x: self.addToListButton!.frame.maxX, y: 0, width: 50, height: footer!.frame.height))
+        self.buttonShare.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
+        self.buttonShare.addTarget(self, action: #selector(IPAGRCheckOutViewController.shareShoppingCart), for: UIControlEvents.touchUpInside)
         self.footer!.addSubview(self.addToListButton!)
         self.footer!.addSubview(self.buttonShare)
         
-        totalView = IPOCheckOutTotalView(frame:CGRectMake(0, self.toolTipLabel!.frame.maxY + 10, self.view.frame.width, 60))
+        totalView = IPOCheckOutTotalView(frame:CGRect(x: 0, y: self.toolTipLabel!.frame.maxY + 10, width: self.view.frame.width, height: 60))
         totalView.backgroundColor = WMColor.light_light_gray
         totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
@@ -73,20 +73,20 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         let bounds = self.view.bounds.size
         let footerHeight:CGFloat = 65.0
         
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view!.frame.height - 206)
-        self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
-        self.totalView.frame = CGRectMake(0, self.view!.frame.height - 160, self.view.bounds.width, 95)
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view!.frame.height - 206)
+        self.layerLine.frame = CGRect(x: 0, y: self.content!.frame.maxY,  width: self.view.frame.width, height: 1)
+        self.totalView.frame = CGRect(x: 0, y: self.view!.frame.height - 160, width: self.view.bounds.width, height: 95)
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
-        self.footer!.frame = CGRectMake(0.0, self.view!.bounds.height - footerHeight, bounds.width, footerHeight)
-        self.addToListButton.frame = CGRectMake(8 ,0, 50, footer!.frame.height)
-        self.buttonShare.frame = CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height)
-        self.buttonShop!.frame = CGRectMake(buttonShare.frame.maxX + 8, (footer!.frame.height / 2) - 17, self.view.frame.width - buttonShare.frame.maxX - 24, 34)
+        self.footer!.frame = CGRect(x: 0.0, y: self.view!.bounds.height - footerHeight, width: bounds.width, height: footerHeight)
+        self.addToListButton.frame = CGRect(x: 8 ,y: 0, width: 50, height: footer!.frame.height)
+        self.buttonShare.frame = CGRect(x: self.addToListButton!.frame.maxX, y: 0, width: 50, height: footer!.frame.height)
+        self.buttonShop!.frame = CGRect(x: buttonShare.frame.maxX + 8, y: (footer!.frame.height / 2) - 17, width: self.view.frame.width - buttonShare.frame.maxX - 24, height: 34)
         
         self.customlabel.frame = self.buttonShop!.bounds
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.delegateCheckOut?.showViewBackground(false)
     }
@@ -96,7 +96,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      */
     func addCartToList() {
         if self.listSelectorController == nil {
-            self.addToListButton!.selected = true
+            self.addToListButton!.isSelected = true
             let frame = self.view.frame
             
             self.listSelectorController = ListsSelectorViewController()
@@ -104,26 +104,26 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRectMake(0.0, frame.height, frame.width, frame.height)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height)
             //self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
-            self.listSelectorController!.didMoveToParentViewController(self)
+            self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRectMake(0, 0, frame.width, frame.height))
-            self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
+            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+            self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
             self.view.addSubview(self.listSelectorController!.view)
             
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
-                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
                 },
                 completion: nil)
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
-                self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
             })
         }
         else {
@@ -136,24 +136,24 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      
      - parameter action: actiton finish anumation
      */
-    func removeListSelector(action action:(()->Void)?) {
+    func removeListSelector(action:(()->Void)?) {
         if self.listSelectorController != nil {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 delay: 0.0,
-                options: .LayoutSubviews,
+                options: .layoutSubviews,
                 animations: { () -> Void in
                     let frame = self.view.frame
-                    self.listSelectorController!.view.frame = CGRectMake(0, frame.height, frame.width, 0.0)
-                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: frame.height, width: frame.width, height: 0.0)
+                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
                 }, completion: { (complete:Bool) -> Void in
                     if complete {
                         if self.listSelectorController != nil {
-                            self.listSelectorController!.willMoveToParentViewController(nil)
+                            self.listSelectorController!.willMove(toParentViewController: nil)
                             self.listSelectorController!.view.removeFromSuperview()
                             self.listSelectorController!.removeFromParentViewController()
                             self.listSelectorController = nil
                         }
-                        self.addToListButton!.selected = false
+                        self.addToListButton!.isSelected = false
                         
                         action?()
                     }
@@ -184,7 +184,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
         for idx in 0 ..< itemsCart.count {
             
-            let item = itemsCart[idx] as! [String:AnyObject]
+            let item = itemsCart[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             let desc = item["description"] as! String
@@ -206,14 +206,14 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
                 active = stock
             }
             
-            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active))
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active) as AnyObject)
             
             // 360 Event
             BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
                 self.alertView!.afterRemove = {
@@ -236,12 +236,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      - parameter list: list object to add product
      */
     func listSelectorDidAddProductLocally(inList list:List) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         //var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:Any]
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -264,12 +264,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
                 typeProdVal = typeProd.integerValue
             }
             
-            let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
             detail!.upc = item["upc"] as! String
             detail!.desc = item["description"] as! String
-            detail!.price = "\(price)"
-            detail!.quantity = NSNumber(integer: quantity)
-            detail!.type = NSNumber(integer: typeProdVal)
+            detail!.price = "\(price)" as NSString
+            detail!.quantity = NSNumber(value: quantity as Int)
+            detail!.type = NSNumber(value: typeProdVal as Int)
             detail!.list = list
             detail!.img = item["imageUrl"] as! String
             
@@ -289,7 +289,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         }
         
         let count:Int = list.products.count
-        list.countItem = NSNumber(integer: count)
+        list.countItem = NSNumber(value: count as Int)
         
         error = nil
         do {
@@ -311,7 +311,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      - parameter product: product object to delete
      - parameter list:    list object to delete product
      */
-    func listSelectorDidDeleteProductLocally(product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
     }
     
     /**
@@ -328,8 +328,8 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      - parameter listId: listId
      - parameter name:   List Name
      */
-    func listSelectorDidShowList(listId: String, andName name:String) {
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
+    func listSelectorDidShowList(_ listId: String, andName name:String) {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
             vc.listId = listId
             vc.listName = name
             vc.enableScrollUpdateByTabBar = false
@@ -342,8 +342,8 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      
      - parameter list: List object
      */
-    func listSelectorDidShowListLocally(list: List) {
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
+    func listSelectorDidShowListLocally(_ list: List) {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
             vc.listEntity = list
             vc.listName = list.name
             vc.enableScrollUpdateByTabBar = false
@@ -365,7 +365,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      
      - parameter name: list name
      */
-    func listSelectorDidCreateList(name:String) {
+    func listSelectorDidCreateList(_ name:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
@@ -373,12 +373,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         var products: [AnyObject] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:Any]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? NSNumber {
-                quantity = qIntProd.integerValue
+                quantity = qIntProd.intValue
             }
             else if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
@@ -396,11 +396,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             let type = item["type"] as! String
             
             let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
-            products.append(serviceItem)
+            products.append(serviceItem as AnyObject)
         }
         
         service.callService(service.buildParams(name, items: products),
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.listSelectorController!.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
@@ -425,18 +425,18 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      
      - parameter total: total in string
      */
-    func updateShopButton(total:String) {
+    func updateShopButton(_ total:String) {
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buttonShop!.bounds)
-            customlabel.backgroundColor = UIColor.clearColor()
+            customlabel.backgroundColor = UIColor.clear
             customlabel.setCurrencyUserInteractionEnabled(true)
             buttonShop!.addSubview(customlabel)
-            buttonShop!.sendSubviewToBack(customlabel)
+            buttonShop!.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
         let fmtTotal = CurrencyCustomLabel.formatString(total)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
-        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
     //MARK: - IPAGRCheckOutViewControllerDelegate
     

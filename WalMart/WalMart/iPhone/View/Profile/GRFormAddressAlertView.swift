@@ -35,7 +35,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     var alertSaveSuccess : (() -> Void)? = nil
     var alertClose : (() -> Void)? = nil
     var cancelPress : (() -> Void)? = nil
-    var beforeAddAddress :  ((dictSend:NSDictionary?) -> Void)? = nil
+    var beforeAddAddress :  ((_ dictSend:[String:Any]?) -> Void)? = nil
     var showMessageCP : (() -> Void)? = nil
     
     
@@ -52,53 +52,53 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     
     func setup() {
         
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
-        let viewButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        viewButton.addTarget(self, action: #selector(GRFormAddressAlertView.closeAlertButton), forControlEvents: UIControlEvents.TouchUpInside)
-        viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        let viewButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        viewButton.addTarget(self, action: #selector(GRFormAddressAlertView.closeAlertButton), for: UIControlEvents.touchUpInside)
+        viewButton.setImage(UIImage(named: "detail_close"), for: UIControlState())
     
         
-        viewContent = UIView(frame: CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80))
+        viewContent = UIView(frame: CGRect(x: 8, y: 40, width: self.frame.width - 16, height: self.frame.height - 80))
         viewContent.layer.cornerRadius = 6.0
-        viewContent.backgroundColor = UIColor.whiteColor()
+        viewContent.backgroundColor = UIColor.white
         viewContent.clipsToBounds = true
         
-        headerView = UIView(frame: CGRectMake(0, 0, viewContent.frame.width, 46))
+        headerView = UIView(frame: CGRect(x: 0, y: 0, width: viewContent.frame.width, height: 46))
         headerView.backgroundColor = WMColor.light_light_gray
         viewContent.addSubview(headerView)
         
-        titleLabel = UILabel(frame: CGRectMake(40,0, headerView.bounds.width - 120 , headerView.bounds.height))
+        titleLabel = UILabel(frame: CGRect(x: 40,y: 0, width: headerView.bounds.width - 120 , height: headerView.bounds.height))
         titleLabel.textColor =  WMColor.light_blue
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2
         titleLabel.text = "Es necesario capturar una dirección"
         
         headerView.addSubview(titleLabel)
         
-        viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height))
+        viewContentOptions = UIView(frame: CGRect(x: 0, y: headerView.frame.height, width: viewContent.frame.width, height: viewContent.frame.height))
         
         self.buttonRight = WMRoundButton()
-        self.buttonRight!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
-        self.buttonRight.titleLabel?.textColor = UIColor.whiteColor()
+        self.buttonRight!.setBackgroundColor(WMColor.green, size: CGSize(width: 71, height: 22), forUIControlState: UIControlState())
+        self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), for: UIControlState())
+        self.buttonRight.titleLabel?.textColor = UIColor.white
         self.buttonRight!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.buttonRight!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.buttonRight.addTarget(self, action: #selector(GRFormAddressAlertView.newItemForm), forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonRight.frame = CGRectMake(self.headerView.frame.width - 80, 12, 64, 22)
+        self.buttonRight!.setTitleColor(UIColor.white, for: UIControlState())
+        self.buttonRight.addTarget(self, action: #selector(GRFormAddressAlertView.newItemForm), for: UIControlEvents.touchUpInside)
+        self.buttonRight.frame = CGRect(x: self.headerView.frame.width - 80, y: 12, width: 64, height: 22)
 
         
         scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm.scrollDelegate = self
         self.scrollForm.frame = viewContentOptions.bounds
-        self.scrollForm.contentSize = CGSizeMake(self.viewContent.frame.width, 720)
+        self.scrollForm.contentSize = CGSize(width: self.viewContent.frame.width, height: 720)
 
         
-        sAddredssForm = FormSuperAddressView(frame: CGRectMake(viewContentOptions.bounds.minX , viewContentOptions.bounds.minY, viewContentOptions.bounds.width, 720))
+        sAddredssForm = FormSuperAddressView(frame: CGRect(x: viewContentOptions.bounds.minX , y: viewContentOptions.bounds.minY, width: viewContentOptions.bounds.width, height: 720))
        //     viewContentOptions.bounds)
         sAddredssForm.store!.isRequired = false
         sAddredssForm.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
@@ -118,12 +118,12 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     override func layoutSubviews() {
         viewContent.center = self.center
         self.scrollForm.frame = viewContentOptions.bounds
-        headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
+        headerView.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: 46)
         
-        titleLabel.frame = CGRectMake(headerView.frame.minX + 20 , headerView.frame.minY, headerView.frame.width - 100, headerView.frame.height)
-        buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
+        titleLabel.frame = CGRect(x: headerView.frame.minX + 20 , y: headerView.frame.minY, width: headerView.frame.width - 100, height: headerView.frame.height)
+        buttonRight.frame = CGRect(x: self.viewContent.frame.width - 80, y: 12, width: 64, height: 22)
         if buttonRight != nil  {
-            buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
+            buttonRight.frame = CGRect(x: self.viewContent.frame.width - 80, y: 12, width: 64, height: 22)
             buttonRight.layer.cornerRadius =  11
         }
         
@@ -147,7 +147,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     //MARK Show alerts
     
     class func initAddressAlert()  -> GRFormAddressAlertView? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         //var frame = vc!.view.bounds
         if vc != nil {
             return initAddressAlert(vc!)
@@ -155,7 +155,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         return nil
     }
     
-    class func initAddressAlert(controller:UIViewController) -> GRFormAddressAlertView? {
+    class func initAddressAlert(_ controller:UIViewController) -> GRFormAddressAlertView? {
         let newAlert = GRFormAddressAlertView(frame:controller.view.bounds)
         controller.view.addSubview(newAlert)
         newAlert.startAnimating()
@@ -163,13 +163,13 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     }
     
     class func initAddressAlertWithDefault() -> GRFormAddressAlertView {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let newAlert = GRFormAddressAlertView(frame:vc!.view.bounds)
         return newAlert
     }
     
     func showAddressAlert() {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         vc!.view.addSubview(self)
         self.startAnimating()
     }
@@ -181,27 +181,27 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         
         
         let imgBgView = UIImageView(frame: self.bgView.bounds)
-        let imgBack = UIImage(fromView: self.superview!)
-        let imgBackBlur = imgBack.applyLightEffect()
+        let imgBack = UIImage(from: self.superview!)
+        let imgBackBlur = imgBack?.applyLightEffect()
         imgBgView.image = imgBackBlur
         self.bgView.addSubview(imgBgView)
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        bgViewAlpha.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
         
        
         bgView.alpha = 0
-        viewContent.transform = CGAffineTransformMakeTranslation(0,500)
+        viewContent.transform = CGAffineTransform(translationX: 0,y: 500)
         
-        UIView.animateKeyframesWithDuration(0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModeCubicPaced, animations: { () -> Void in
+        UIView.animateKeyframes(withDuration: 0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.calculationModeCubicPaced, animations: { () -> Void in
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
                 self.bgView.alpha = 1.0
             })
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.viewContent.transform = CGAffineTransformIdentity
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
+                self.viewContent.transform = CGAffineTransform.identity
             })
             
             }) { (complete:Bool) -> Void in
@@ -211,12 +211,12 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     }
     
     override func removeFromSuperview() {
-        UIView.animateKeyframesWithDuration(0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModePaced, animations: { () -> Void in
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
+        UIView.animateKeyframes(withDuration: 0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.calculationModePaced, animations: { () -> Void in
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
                 self.bgView.alpha = 0.0
             })
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.viewContent.transform = CGAffineTransformMakeTranslation(0,500)
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
+                self.viewContent.transform = CGAffineTransform(translationX: 0,y: 500)
             })
             }) { (complete:Bool) -> Void in
                 self.removeComplete()
@@ -228,15 +228,15 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     }
 
     // TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return  CGSizeMake(self.viewContent.frame.width, 720)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        return  CGSize(width: self.viewContent.frame.width, height: 720)
     }
     
-    func textFieldDidBeginEditing(sender: UITextField!) {
+    func textFieldDidBeginEditing(_ sender: UITextField!) {
         
     }
     
-    func textFieldDidEndEditing(sender: UITextField!) {
+    func textFieldDidEndEditing(_ sender: UITextField!) {
         if let zipCode = sender as? FormFieldView{
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode &&  zipCode.text!.characters.count == 5{
                 self.sAddredssForm.store.becomeFirstResponder()
@@ -244,7 +244,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         }
     }
     
-    func textModify(sender: UITextField!) {
+    func textModify(_ sender: UITextField!) {
         if let zipCode = sender as? FormFieldView{
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode {
                 self.sAddredssForm.suburb!.text = ""
@@ -256,7 +256,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
                 if self.sAddredssForm!.zipcode.text!.utf16.count > 0 {
                     let xipStr = self.sAddredssForm!.zipcode.text! as NSString
                     let textZipcode = String(format: "%05d",xipStr.integerValue)
-                    self.sAddredssForm!.zipcode.text = textZipcode.substringToIndex(textZipcode.startIndex.advancedBy(5))
+                    self.sAddredssForm!.zipcode.text = textZipcode.substring(to: textZipcode.characters.index(textZipcode.startIndex, offsetBy: 5))
                     self.sAddredssForm!.store.becomeFirstResponder()
                 }
             }
@@ -283,7 +283,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     }
 
     
-    func registryAddress(dictSend:NSDictionary?) {
+    func registryAddress(_ dictSend:[String:Any]?) {
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NEW_ADDRESS_AUTH.rawValue, action:WMGAIUtils.ACTION_SAVE_NEW_ADDRESS.rawValue , label: "")
         
@@ -293,7 +293,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
             self.scrollForm.resignFirstResponder()
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+            service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 print("Se realizo la direccion")
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
@@ -310,7 +310,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
 
     }
     
-    func setData(addressPreferred:NSDictionary) {
+    func setData(_ addressPreferred:[String:Any]) {
         self.sAddredssForm.addressName.text = addressPreferred["name"] as! String!
         self.sAddredssForm.outdoornumber.text = addressPreferred["outerNumber"] as! String!
         self.sAddredssForm.indoornumber.text = addressPreferred["innerNumber"] as! String!

@@ -15,13 +15,13 @@ class ProductbySearchService : BaseService {
         super.init()
     }
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         self.useSignalsServices = dictionary["signals"] as! Bool
         self.useSignals = self.useSignalsServices
     }
     
-    func buildParamsForSearch(text text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:AnyObject]! {
+    func buildParamsForSearch(text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:Any]! {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
@@ -37,7 +37,7 @@ class ProductbySearchService : BaseService {
                 JSON_KEY_SORT:(idSort != nil ? idSort! : ""),
                 JSON_KEY_STARTOFFSET:"\(startOffSet)",
                 JSON_KEY_MAXRESULTS:"\(max)",
-                "parameter":parameter] as [String:AnyObject]
+                "parameter":parameter] as [String:Any]
         }
         return [
             JSON_KEY_TEXT:(text != nil ? text! : ""),
@@ -51,11 +51,11 @@ class ProductbySearchService : BaseService {
     }
     
     
-    func callService(params:NSDictionary, successBlock:((NSArray,facet:NSArray,resultDic:[String:AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any], successBlock:((NSArray,_ facet:NSArray,_ resultDic:[String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("PARAMS FOR ProductbySearchService")
         self.jsonFromObject(params)
         self.callPOSTService(params,
-            successBlock: { (resultJSON:NSDictionary) -> Void in
+            successBlock: { (resultJSON:[String:Any]) -> Void in
 //                println("RESULT FOR ProductbySearchService")
 //                self.jsonFromObject(resultJSON)
                 if let error = self.validateCodeMessage(resultJSON) {
@@ -65,8 +65,8 @@ class ProductbySearchService : BaseService {
                 
                 let suggestion:String = resultJSON["suggestion"] as? String ?? ""
                 let alternativeCombination:String = resultJSON["alternativeCombination"]as? String ?? ""
-                let landingPage = resultJSON["landingPage"] as? [String:AnyObject] ?? [:]
-                let dic: [String:AnyObject] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
+                let landingPage = resultJSON["landingPage"] as? [String:Any] ?? [:]
+                let dic: [String:Any] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
                 let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEARRAY))
                 
                 var newItemsArray = Array<AnyObject>()
@@ -74,7 +74,7 @@ class ProductbySearchService : BaseService {
                     //println(items)
                     self.saveKeywords(items) //Creating keywords
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:AnyObject]
+                        var item = items[idx] as! [String:Any]
                         item["type"] = ResultObjectType.Mg.rawValue
                         newItemsArray.append(item)
                     }

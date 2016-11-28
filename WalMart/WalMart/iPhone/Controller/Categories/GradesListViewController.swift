@@ -13,7 +13,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     var schoolName: String! = ""
     var familyId: String! = ""
     var departmentId: String?
-    var gradesList :[[String:AnyObject]]! = [[:]]
+    var gradesList :[[String:Any]]! = [[:]]
     var gradesTable : UITableView!
     var loading: WMLoadingView?
     var emptyView: IPOGenericEmptyView!
@@ -30,57 +30,57 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         self.gradesTable = UITableView()
         self.gradesTable.delegate = self
         self.gradesTable.dataSource = self
-        self.gradesTable.registerClass(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
-        self.gradesTable.separatorStyle = .None
+        self.gradesTable.register(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
+        self.gradesTable.separatorStyle = .none
         self.view.addSubview(self.gradesTable)
         self.invokeServiceLines()
         
         if IS_IPAD {
-            self.backButton?.hidden = true 
+            self.backButton?.isHidden = true 
         }
     }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.gradesTable.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.gradesTable.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if self.loading == nil {
             if IS_IPHONE {
-              self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
+              self.loading = WMLoadingView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - 46))
             }else{
-              self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, 682.0, 658.0))
+              self.loading = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: 682.0, height: 658.0))
             }
-            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.loading!.backgroundColor = UIColor.white
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
     }
     
     //MARK: TableViewDelegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.gradesList!.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let grades = self.gradesList![indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("lineCell", forIndexPath: indexPath) as! IPOLineTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "lineCell", for: indexPath) as! IPOLineTableViewCell
         cell.titleLabel?.text = grades["name"] as? String
         cell.showSeparator =  true
         cell.oneLine = true
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let grade = self.gradesList![indexPath.row]
         if isSearching {
             let controller = SearchProductViewController()
-            controller.searchContextType = .WithCategoryForMG
+            controller.searchContextType = .withCategoryForMG
             controller.titleHeader = grade["name"] as? String
             controller.idDepartment = self.departmentId
             controller.idFamily = self.familyId
@@ -104,7 +104,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
      */
     func invokeServiceLines(){
         let service =  LineService()
-        service.callService(requestParams: self.familyId, successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: self.familyId as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             let grades  =  response["responseArray"] as! NSArray
             self.gradesList = grades as? [[String : AnyObject]]
             if  self.gradesList.count == 0 {
@@ -129,24 +129,24 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     func showEmptyView(){
 
         if  self.emptyView == nil {
-            self.emptyView = IPOGenericEmptyView(frame:CGRectMake(0,  self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - 46))
+            self.emptyView = IPOGenericEmptyView(frame:CGRect(x: 0,  y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - 46))
             
         }else{
             self.emptyView.removeFromSuperview()
             self.emptyView =  nil
-            self.emptyView = IPOGenericEmptyView(frame:CGRectMake(0,self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - 46))
+            self.emptyView = IPOGenericEmptyView(frame:CGRect(x: 0,y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - 46))
         }
         
         if IS_IPAD {
             self.emptyView.iconImageView.image = UIImage(named:"oh-oh_bts")
-            self.emptyView.returnButton.hidden =  true
+            self.emptyView.returnButton.isHidden =  true
         }
         
         self.emptyView.descLabel.text = NSLocalizedString("empty.bts.title.school",comment:"")
         
         self.emptyView.returnAction = { () in
             //self.emptyView.removeFromSuperview()
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }
         
         self.view.addSubview(self.emptyView)

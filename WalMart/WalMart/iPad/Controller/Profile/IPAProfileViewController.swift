@@ -9,7 +9,7 @@
 import UIKit
 
 protocol IPAProfileViewControllerDelegate {
-    func selectedDetail(row: Int)
+    func selectedDetail(_ row: Int)
     func closeSession()
 }
 
@@ -24,7 +24,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
         self.hiddenBack = true
         super.viewDidLoad()
         self.viewLine = UIView()
-        self.viewLine.backgroundColor = UIColor.whiteColor()
+        self.viewLine.backgroundColor = UIColor.white
         self.viewProfile.addSubview(self.viewLine!)
     }
 
@@ -36,48 +36,48 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
 
-        self.nameLabel!.frame = CGRectMake(15,self.imageProfile!.frame.maxY + 5 ,bounds.width - 30, 55)
-        self.emailLabel!.frame = CGRectMake(0,self.nameLabel!.frame.maxY + 5 , bounds.width, 16)
-        self.editProfileButton!.frame = CGRectMake(bounds.width - 63, 0 , 63, 63 )
-        self.signOutButton!.frame = CGRectMake((bounds.width - 86) / 2,self.emailLabel!.frame.maxY + 80 , 86, 28 )
-        self.viewLine!.frame = CGRectMake(0, self.signOutButton!.frame.maxY + 15 , bounds.width, 1)
-        self.table!.frame = CGRectMake(0, self.signOutButton!.frame.maxY + 16 , bounds.width, bounds.height - self.signOutButton!.frame.maxY )
+        self.nameLabel!.frame = CGRect(x: 15,y: self.imageProfile!.frame.maxY + 5 ,width: bounds.width - 30, height: 55)
+        self.emailLabel!.frame = CGRect(x: 0,y: self.nameLabel!.frame.maxY + 5 , width: bounds.width, height: 16)
+        self.editProfileButton!.frame = CGRect(x: bounds.width - 63, y: 0 , width: 63, height: 63 )
+        self.signOutButton!.frame = CGRect(x: (bounds.width - 86) / 2,y: self.emailLabel!.frame.maxY + 80 , width: 86, height: 28 )
+        self.viewLine!.frame = CGRect(x: 0, y: self.signOutButton!.frame.maxY + 15 , width: bounds.width, height: 1)
+        self.table!.frame = CGRect(x: 0, y: self.signOutButton!.frame.maxY + 16 , width: bounds.width, height: bounds.height - self.signOutButton!.frame.maxY )
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
         cell.setSelected(indexPath.row == selected, animated: false)
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ProfileViewCell", forIndexPath: indexPath) as! ProfileViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileViewCell", for: indexPath) as! ProfileViewCell
         
         if indexPath.row == 0 {
-            cell.setValues(NSLocalizedString("profile.misarticulos", comment: ""), image: "topSales", size:16 ,  colorText: UIColor.whiteColor(), colorSeparate: UIColor.whiteColor() )
+            cell.setValues(NSLocalizedString("profile.misarticulos", comment: ""), image: "topSales", size:16 ,  colorText: UIColor.white, colorSeparate: UIColor.white )
         }else
         if indexPath.row == 1 {
-            cell.setValues(NSLocalizedString("profile.myAddress", comment: ""), image: "myAddresses", size:16 ,  colorText: UIColor.whiteColor(), colorSeparate: UIColor.whiteColor() )
+            cell.setValues(NSLocalizedString("profile.myAddress", comment: ""), image: "myAddresses", size:16 ,  colorText: UIColor.white, colorSeparate: UIColor.white )
         }
         else{
-            cell.setValues(NSLocalizedString("profile.myOrders", comment: ""), image: "myOrders" , size:16 ,  colorText: UIColor.whiteColor(), colorSeparate: UIColor.whiteColor() )
+            cell.setValues(NSLocalizedString("profile.myOrders", comment: ""), image: "myOrders" , size:16 ,  colorText: UIColor.white, colorSeparate: UIColor.white )
         }
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        selected = indexPath.row
        self.delegate.selectedDetail(indexPath.row)
        self.table.reloadData()
     }
     
-    override func editProfile(sender:UIButton) {
-        if sender.selected{
+    override func editProfile(_ sender:UIButton) {
+        if sender.isSelected{
             return
         }
         
        
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
-        sender.selected = !sender.selected
+        sender.isSelected = !sender.isSelected
         self.delegate.selectedDetail(3)
     }
 
@@ -85,7 +85,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
         self.setValues()
     }
 
-    override func signOut(sender:UIButton?) {
+    override func signOut(_ sender:UIButton?) {
         super.signOut(nil)
         self.delegate.closeSession()
     }

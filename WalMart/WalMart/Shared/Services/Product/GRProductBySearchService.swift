@@ -16,7 +16,7 @@ class GRProductBySearchService: GRBaseService {
     }
     
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
@@ -24,11 +24,11 @@ class GRProductBySearchService: GRBaseService {
     }
     
     
-    func buildParamsForSearch(text text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:AnyObject]! {
+    func buildParamsForSearch(text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:Any]! {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
-            var parameter = ["q":searchText,"eventtype": "search","collection":"dah","channel": channel] as [String:AnyObject]
+            var parameter = ["q":searchText,"eventtype": "search","collection":"dah","channel": channel] as [String:Any]
             if searchText == ""{
                parameter = ["category":idLine!,"eventtype": "categoryview","collection":"dah","channel": channel]
             }
@@ -41,7 +41,7 @@ class GRProductBySearchService: GRBaseService {
                 JSON_KEY_STARTOFFSET:"\(startOffSet)", //startOffSet
                 JSON_KEY_MAXRESULTS:"\(max)" //"maxResults"
                 ,JSON_KEY_BRAND:(brand != nil ? brand! : "")//"brand"
-                ,"parameter":parameter] as [String:AnyObject]
+                ,"parameter":parameter] as [String:Any]
         }
         return [
             JSON_KEY_TEXT:(text != nil ? text! : ""), //"pText"
@@ -52,14 +52,14 @@ class GRProductBySearchService: GRBaseService {
             JSON_KEY_STARTOFFSET:"\(startOffSet)", //startOffSet
             JSON_KEY_MAXRESULTS:"\(max)" //"maxResults"
             ,JSON_KEY_BRAND:(brand != nil ? brand! : "")//"brand"
-        ] as [String:AnyObject]
+        ] as [String:Any]
     }
 
-    func callService(params:NSDictionary, successBlock:((NSArray,resultDic:[String:AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:((NSArray,_ resultDic:[String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params)
         self.callPOSTService(params,
-            successBlock: { (resultJSON:NSDictionary) -> Void in
+            successBlock: { (resultJSON:[String:Any]) -> Void in
 //                println("RESULT FOR GRProductBySearchService")
 //                self.jsonFromObject(resultJSON)
                 
@@ -70,8 +70,8 @@ class GRProductBySearchService: GRBaseService {
                 
                 let suggestion:String = resultJSON["suggestion"] as? String ?? ""
                 let alternativeCombination:String = resultJSON["alternativeCombination"]as? String ?? ""
-                let landingPage = resultJSON["landingPage"] as? [String:AnyObject] ?? [:]
-                let dic: [String:AnyObject] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
+                let landingPage = resultJSON["landingPage"] as? [String:Any] ?? [:]
+                let dic: [String:Any] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
                 let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEARRAY))
                 
                 if let items = resultJSON[arrayKey] as? NSArray {
@@ -80,7 +80,7 @@ class GRProductBySearchService: GRBaseService {
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
                     var newItemsArray = Array<AnyObject>()
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:AnyObject]
+                        var item = items[idx] as! [String:Any]
                         if let promodesc = item["promoDescription"] as? String{
                             if promodesc != "null" {
                                 item["saving"] = promodesc

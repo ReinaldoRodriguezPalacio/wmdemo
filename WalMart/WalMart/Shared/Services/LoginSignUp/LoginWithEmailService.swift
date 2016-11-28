@@ -14,22 +14,22 @@ class LoginWithEmailService : BaseService {
     var loginIdGR = ""
     
     
-    func buildParams(email:String,password: String) -> NSDictionary {
-        let lowCaseUser = email.lowercaseString
+    func buildParams(_ email:String,password: String) -> [String:Any] {
+        let lowCaseUser = email.lowercased()
         return ["email":lowCaseUser]
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !UserCurrentSession.sharedInstance().userSignedOnService {
             UserCurrentSession.sharedInstance().userSignedOnService = true
-            self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+            self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
                 if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                     if codeMessage.integerValue == 0 &&  UserCurrentSession.hasLoggedUser(){
                         let resultCallMG = resultCall
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
                             let serviceGr = GRLoginService()
-                            serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:NSDictionary?) in
+                            serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
                                 UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance().userSignedOnService = false
@@ -62,13 +62,13 @@ class LoginWithEmailService : BaseService {
     }
 
     
-    func callServiceForFacebook(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callServiceForFacebook(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {
                     let resultCallMG = resultCall
                     let serviceGr = GRLoginService()
-                    serviceGr.callService(["email":"","password":"","idUser":resultCall["idUser"] as! String], successBlock:{ (resultCall:NSDictionary?) in
+                    serviceGr.callService(["email":"","password":"","idUser":resultCall["idUser"] as! String], successBlock:{ (resultCall:[String:Any]?) in
                         UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                         successBlock!(resultCall!)
                         UserCurrentSession.sharedInstance().userSignedOnService = false

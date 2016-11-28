@@ -23,31 +23,31 @@ class TmpIPAHomeViewController : BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webview.loadRequest(NSURLRequest(URL: NSURL(string: "https://www.walmart.com.mx/")!))
+        webview.loadRequest(URLRequest(url: URL(string: "https://www.walmart.com.mx/")!))
         
-        viewSuper = IPOGroceriesView(frame: CGRectMake(0, self.headerView.frame.maxY, 1024, 48))
+        viewSuper = IPOGroceriesView(frame: CGRect(x: 0, y: self.headerView.frame.maxY, width: 1024, height: 48))
         self.view.addSubview(viewSuper)
         
         let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(TmpIPAHomeViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
         
-        self.view.bringSubviewToFront(self.headerView)
+        self.view.bringSubview(toFront: self.headerView)
         
         
-          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(TmpIPAHomeViewController.disapearSuperView), userInfo: nil, repeats: false)
+          Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(TmpIPAHomeViewController.disapearSuperView), userInfo: nil, repeats: false)
         
     }
     
     func apearSuperView (){
         isShowingGroceriesView = true
         supperIndicator.image = UIImage(named: "home_switch_On")
-          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(TmpIPAHomeViewController.disapearSuperView), userInfo: nil, repeats: false)
+          Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(TmpIPAHomeViewController.disapearSuperView), userInfo: nil, repeats: false)
         self.viewSuper.generateBlurImageWithView(self.webview)
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.viewSuper.frame = CGRectMake(0,self.headerView.frame.maxY, self.viewSuper.frame.width, self.viewSuper.frame.height)
-            }) { (complete:Bool) -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.viewSuper.frame = CGRect(x: 0,y: self.headerView.frame.maxY, width: self.viewSuper.frame.width, height: self.viewSuper.frame.height)
+            }, completion: { (complete:Bool) -> Void in
                 
-        }
+        }) 
         
         
     }
@@ -56,11 +56,11 @@ class TmpIPAHomeViewController : BaseController {
         isShowingGroceriesView = false
         supperIndicator.image = UIImage(named: "home_switch_Off")
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.viewSuper.frame = CGRectMake(0,-self.viewSuper.frame.height, self.viewSuper.frame.width, self.viewSuper.frame.height)
-            }) { (complete:Bool) -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.viewSuper.frame = CGRect(x: 0,y: -self.viewSuper.frame.height, width: self.viewSuper.frame.width, height: self.viewSuper.frame.height)
+            }, completion: { (complete:Bool) -> Void in
                 
-        }
+        }) 
     }
     
     func logoTap(){

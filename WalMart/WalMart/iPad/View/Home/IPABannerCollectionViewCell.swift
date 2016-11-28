@@ -30,10 +30,10 @@ class IPABannerCollectionViewCell : BannerCollectionViewCell {
             imageController.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapOnItembanner:"))
        
             
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
-                }) { (complete:Bool) -> Void in
-            }
+                }, completion: { (complete:Bool) -> Void in
+            }) 
 
             
             return imageController

@@ -24,9 +24,9 @@ class SelectItemTableViewCell : UITableViewCell {
     }
     
     func setup() {
-        checkSelected = UIImageView(frame: CGRectMake(8, 0, 33, 46))
+        checkSelected = UIImageView(frame: CGRect(x: 8, y: 0, width: 33, height: 46))
         checkSelected.image = UIImage(named: "checkTermOff")
-        checkSelected.contentMode = UIViewContentMode.Center
+        checkSelected.contentMode = UIViewContentMode.center
 
         self.addSubview(checkSelected)
         
@@ -35,10 +35,10 @@ class SelectItemTableViewCell : UITableViewCell {
         self.textLabel?.numberOfLines = 0
         
         self.showButton = UIButton()
-        self.showButton?.hidden = true
-        self.showButton?.setTitle("ver", forState: UIControlState.Normal)
+        self.showButton?.isHidden = true
+        self.showButton?.setTitle("ver", for: UIControlState())
         self.showButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.showButton?.setTitleColor( WMColor.light_blue, forState: UIControlState.Normal)
+        self.showButton?.setTitleColor( WMColor.light_blue, for: UIControlState())
         addSubview(showButton!)
         
     }
@@ -46,15 +46,15 @@ class SelectItemTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        checkSelected.frame = CGRectMake(0, 0, 33, 46)
+        checkSelected.frame = CGRect(x: 0, y: 0, width: 33, height: 46)
         
-        self.textLabel?.frame = CGRectMake(self.checkSelected.frame.maxX, self.textLabel!.frame.minY, 249, self.textLabel!.frame.height)
+        self.textLabel?.frame = CGRect(x: self.checkSelected.frame.maxX, y: self.textLabel!.frame.minY, width: 249, height: self.textLabel!.frame.height)
         
-        self.showButton?.frame = CGRectMake(250, self.textLabel!.frame.minY, 22, self.textLabel!.frame.height)
+        self.showButton?.frame = CGRect(x: 250, y: self.textLabel!.frame.minY, width: 22, height: self.textLabel!.frame.height)
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
-        if self.selected {
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        if self.isSelected {
             self.checkSelected.image = UIImage(named: "checkAddressOn")
             self.textLabel?.textColor = WMColor.light_blue
         } else {
@@ -66,9 +66,9 @@ class SelectItemTableViewCell : UITableViewCell {
     }
     
     
-    class func sizeText(text:String,width:CGFloat) -> CGFloat {
+    class func sizeText(_ text:String,width:CGFloat) -> CGFloat {
         let attrString = NSAttributedString(string:text, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)])
-        let rectSize = attrString.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         return rectSize.height + 32
 
     }

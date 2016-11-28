@@ -9,9 +9,9 @@
 import UIKit
 
 protocol SelectorBandDelegate {
-    func addProductQuantity(quantity:Int)
+    func addProductQuantity(_ quantity:Int)
     func deleteProduct()
-    func tapInPrice(quantity:Int,total:String)
+    func tapInPrice(_ quantity:Int,total:String)
     
     
     func startEdditingQuantity()
@@ -35,18 +35,18 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
     var selectorNormalFont : UIFont? = nil
     var selectorSelectedFont : UIFont? = nil
     
-    var timer: NSTimer?
+    var timer: Timer?
     var isShowingScroll = false
     var isScrolling = false
     
-    func buildSelector(frame:CGRect) -> UIView? {
+    func buildSelector(_ frame:CGRect) -> UIView? {
         
         self.selectorNormalFont = WMFont.fontMyriadProRegularOfSize(16)
         self.selectorSelectedFont = WMFont.fontMyriadProRegularOfSize(20)
 
         let imgInsets = UIEdgeInsetsMake(15, 15, 15, 15)
-        let image_normal = UIImage(named:"segmented_normal")!.resizableImageWithCapInsets(imgInsets)
-        let image_highlighted = UIImage(named:"segmented_selected")!.resizableImageWithCapInsets(imgInsets)
+        let image_normal = UIImage(named:"segmented_normal")!.resizableImage(withCapInsets: imgInsets)
+        let image_highlighted = UIImage(named:"segmented_selected")!.resizableImage(withCapInsets: imgInsets)
         
         self.container = UIView(frame: frame)
         self.container!.layer.cornerRadius = 5
@@ -56,45 +56,45 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         self.bandLayout!.minimumInteritemSpacing = 0.0
         self.bandLayout!.minimumLineSpacing = 0.0
         self.bandLayout!.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-        self.bandLayout!.scrollDirection = .Horizontal
-        self.bandLayout!.itemSize = CGSizeMake(frame.size.height + 5, frame.size.height)
+        self.bandLayout!.scrollDirection = .horizontal
+        self.bandLayout!.itemSize = CGSize(width: frame.size.height + 5, height: frame.size.height)
         
-        self.band = UICollectionView(frame: CGRectMake(frame.size.width,0.0,frame.size.width, frame.size.height), collectionViewLayout: self.bandLayout!)
+        self.band = UICollectionView(frame: CGRect(x: frame.size.width,y: 0.0,width: frame.size.width, height: frame.size.height), collectionViewLayout: self.bandLayout!)
         self.band!.layer.borderWidth = 1
-        self.band!.layer.borderColor = WMColor.yellow.CGColor
+        self.band!.layer.borderColor = WMColor.yellow.cgColor
         self.band!.layer.cornerRadius = 5
         self.band!.backgroundView = UIImageView(image:image_normal)
         self.band!.showsHorizontalScrollIndicator = false
         self.band!.showsVerticalScrollIndicator = false
         self.band!.delegate = self
         self.band!.dataSource = self
-        self.band!.registerClass(SelectorBandCell.self, forCellWithReuseIdentifier: "Cell")
+        self.band!.register(SelectorBandCell.self, forCellWithReuseIdentifier: "Cell")
         
         self.segmented = UISegmentedControl(items: [NSLocalizedString("product.detail.addToCart", comment:""), "1"])
-        self.segmented!.frame = CGRectMake(0.0,0.0,frame.size.width, frame.size.height)
-        self.segmented!.addTarget(self, action: #selector(SelectorBandHandler.segmentedControlAction(_:)), forControlEvents: .ValueChanged)
+        self.segmented!.frame = CGRect(x: 0.0,y: 0.0,width: frame.size.width, height: frame.size.height)
+        self.segmented!.addTarget(self, action: #selector(SelectorBandHandler.segmentedControlAction(_:)), for: .valueChanged)
         //self.segmented!.setWidth(frame.size.width - frame.size.height, forSegmentAtIndex: 0)
-        self.segmented!.setWidth(frame.size.height + 5, forSegmentAtIndex: 1)
+        self.segmented!.setWidth(frame.size.height + 5, forSegmentAt: 1)
         
         let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16),
-            NSForegroundColorAttributeName:UIColor.whiteColor()]
-        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Normal)
-        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Selected)
-        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Highlighted)
+            NSForegroundColorAttributeName:UIColor.white]
+        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, for: UIControlState())
+        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, for: .selected)
+        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, for: .highlighted)
         
-        self.segmented!.setBackgroundImage(image_normal, forState:.Normal, barMetrics:.Default)
-        self.segmented!.setBackgroundImage(image_normal, forState:.Selected, barMetrics:.Default)
-        self.segmented!.setBackgroundImage(image_highlighted, forState:.Highlighted, barMetrics:.Default)
+        self.segmented!.setBackgroundImage(image_normal, for:UIControlState(), barMetrics:.default)
+        self.segmented!.setBackgroundImage(image_normal, for:.selected, barMetrics:.default)
+        self.segmented!.setBackgroundImage(image_highlighted, for:.highlighted, barMetrics:.default)
         
         let sepInsets = UIEdgeInsetsMake(15, 10, 15, 10)
-        let bothSelected = UIImage(named:"segmented_bothActive")?.resizableImageWithCapInsets(sepInsets)
-        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: .Normal, rightSegmentState: .Normal, barMetrics: .Default)
-        let leftSelected = UIImage(named:"segmented_LActiveRInactive")?.resizableImageWithCapInsets(sepInsets)
-        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Normal, rightSegmentState:.Highlighted, barMetrics:.Default)
-        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Selected, rightSegmentState:.Highlighted, barMetrics:.Default)
-        let rightSelected = UIImage(named:"segmented_RActiveLInactive")?.resizableImageWithCapInsets(sepInsets)
-        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Highlighted, rightSegmentState:.Normal, barMetrics:.Default)
-        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Highlighted, rightSegmentState:.Selected, barMetrics:.Default)
+        let bothSelected = UIImage(named:"segmented_bothActive")?.resizableImage(withCapInsets: sepInsets)
+        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: UIControlState(), rightSegmentState: UIControlState(), barMetrics: .default)
+        let leftSelected = UIImage(named:"segmented_LActiveRInactive")?.resizableImage(withCapInsets: sepInsets)
+        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:UIControlState(), rightSegmentState:.highlighted, barMetrics:.default)
+        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.selected, rightSegmentState:.highlighted, barMetrics:.default)
+        let rightSelected = UIImage(named:"segmented_RActiveLInactive")?.resizableImage(withCapInsets: sepInsets)
+        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.highlighted, rightSegmentState:UIControlState(), barMetrics:.default)
+        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.highlighted, rightSegmentState:.selected, barMetrics:.default)
         
         self.container!.addSubview(self.segmented!)
         self.container!.addSubview(self.band!)
@@ -103,27 +103,27 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         return self.container!
     }
     
-    func segmentedControlAction(segmentedControl:UISegmentedControl) {
+    func segmentedControlAction(_ segmentedControl:UISegmentedControl) {
         if segmentedControl.selectedSegmentIndex == 0 {
             self.delegate?.addProductQuantity(self.selectedOption)
         }
         if segmentedControl.selectedSegmentIndex == 1 && !self.isShowingScroll {
             self.band!.reloadData()
             if self.selectedOption > -1 {
-                self.band!.scrollToItemAtIndexPath(NSIndexPath(forItem: self.selectedOption - 1, inSection: 0), atScrollPosition: .CenteredHorizontally , animated: false)
+                self.band!.scrollToItem(at: IndexPath(item: self.selectedOption - 1, section: 0), at: .centeredHorizontally , animated: false)
             } else {
-                self.band!.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .Left , animated: false)
+                self.band!.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left , animated: false)
             }
-            UIView.animateWithDuration(animationSpeed, animations:{
+            UIView.animate(withDuration: animationSpeed, animations:{
                 let frame = self.container!.frame
-                self.band!.frame = CGRectMake(0.0,0.0,frame.size.width, frame.size.height)
+                self.band!.frame = CGRect(x: 0.0,y: 0.0,width: frame.size.width, height: frame.size.height)
                 }, completion: {(completed: Bool) in
                     if completed == true {
                         self.isShowingScroll = true
                         self.delegate?.startEdditingQuantity()
-                        self.timer = NSTimer(fireDate:NSDate(timeIntervalSinceNow:10), interval:5.0, target:self, selector:#selector(SelectorBandHandler.removeBand), userInfo:nil, repeats:true)
-                        let runner = NSRunLoop.currentRunLoop()
-                        runner.addTimer(self.timer!, forMode: NSDefaultRunLoopMode)
+                        self.timer = Timer(fireAt:Date(timeIntervalSinceNow:10), interval:5.0, target:self, selector:#selector(SelectorBandHandler.removeBand), userInfo:nil, repeats:true)
+                        let runner = RunLoop.current
+                        runner.add(self.timer!, forMode: RunLoopMode.defaultRunLoopMode)
                     }
                 })
         }
@@ -140,9 +140,9 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
             return
         }
         
-        UIView.animateWithDuration(animationSpeed, animations:{
+        UIView.animate(withDuration: animationSpeed, animations:{
             let frame = self.container!.frame
-            self.band!.frame = CGRectMake(frame.size.width,0.0,frame.size.width, frame.size.height)
+            self.band!.frame = CGRect(x: frame.size.width,y: 0.0,width: frame.size.width, height: frame.size.height)
             },
             completion: {(Bool) in
                 self.timer!.invalidate()
@@ -151,38 +151,38 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
             })
     }
     
-    func setSelectorValue(value:Int) {
+    func setSelectorValue(_ value:Int) {
         self.selectedOption = value
-        self.segmented!.setTitle("\(value)", forSegmentAtIndex: 1)
+        self.segmented!.setTitle("\(value)", forSegmentAt: 1)
     }
     
     //MARK: - UICollectionView
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.numberOfOptions!
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell: SelectorBandCell? = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as? SelectorBandCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: SelectorBandCell? = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? SelectorBandCell
         cell!.normalFont = self.selectorNormalFont
         cell!.selectedFont = self.selectorSelectedFont
         cell!.setText("\(indexPath.item + 1)", selected: self.selectedOption == (indexPath.item + 1))
         return cell!
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SelectorBandCell {
+        if let cell = collectionView.cellForItem(at: indexPath) as? SelectorBandCell {
             cell.setText("\(indexPath.item + 1)", selected: true)
         }
         
         let option = indexPath.item + 1
         if self.isShowingScroll {
-            self.segmented!.setTitle("\(option)", forSegmentAtIndex: 1)
-            UIView.animateWithDuration(animationSpeed,
+            self.segmented!.setTitle("\(option)", forSegmentAt: 1)
+            UIView.animate(withDuration: animationSpeed,
                 animations:{
                     let frame = self.container!.frame
-                    self.band!.frame = CGRectMake(frame.size.width,0.0,frame.size.width, frame.size.height)
+                    self.band!.frame = CGRect(x: frame.size.width,y: 0.0,width: frame.size.width, height: frame.size.height)
                 },
                 completion: {(Bool) in
                     self.isShowingScroll = false
@@ -192,17 +192,17 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SelectorBandCell {
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? SelectorBandCell {
             cell.setText("\(indexPath.item + 1)", selected: false)
         }
     }
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.isScrolling = true
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.isScrolling = false
     }
     

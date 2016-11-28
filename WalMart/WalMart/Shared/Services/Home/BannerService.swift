@@ -7,6 +7,19 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class BannerService : BaseService {
     
@@ -22,9 +35,9 @@ class BannerService : BaseService {
     
     
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print(params)
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
             NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
             
@@ -47,7 +60,7 @@ class BannerService : BaseService {
         
         bannerItems = values![JSON_BANNER_EMBEDDEDLIST] as! [[String:String]]
         if var moreBanner = values![JSON_BANNER_BANNERLIST] as? [[String:String]] {
-            moreBanner.sortInPlace({ (one:[String : String], second:[String : String]) -> Bool in
+            moreBanner.sort(by: { (one:[String : String], second:[String : String]) -> Bool in
                 let firstString = one["order"] as String?
                 let secondString = second["order"] as String?
                 return Int(firstString!) < Int(secondString!)
@@ -121,7 +134,7 @@ class BannerService : BaseService {
         return nil
     }
     
-    func getPleca() -> NSDictionary? {
+    func getPleca() -> [String:Any]? {
         
         let values = getDataFromFile(fileName)
         if values == nil {
@@ -131,7 +144,7 @@ class BannerService : BaseService {
             if landingItem.count == 0{
                 return [:]
             }
-            return landingItem[0] as NSDictionary
+            return landingItem[0] as [String:Any]
         }
         return nil
     }

@@ -7,6 +7,30 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class IPASearchLastViewTableViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate  {
     
@@ -26,15 +50,15 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         super.viewDidLoad()
         
         self.table = UITableView()
-        self.table.registerClass(SearchSingleViewCell.self, forCellReuseIdentifier: "ProductsCell")
-        self.table.registerClass(SearchCategoriesViewCell.self, forCellReuseIdentifier: "SearchCell")
+        self.table.register(SearchSingleViewCell.self, forCellReuseIdentifier: "ProductsCell")
+        self.table.register(SearchCategoriesViewCell.self, forCellReuseIdentifier: "SearchCell")
         
-        self.table?.backgroundColor = UIColor.whiteColor()
+        self.table?.backgroundColor = UIColor.white
         self.table?.alpha = 0.8
         self.table?.frame = self.view.bounds
         
-        self.table.separatorStyle = .None
-        self.table.autoresizingMask = UIViewAutoresizing.None
+        self.table.separatorStyle = .none
+        self.table.autoresizingMask = UIViewAutoresizing()
         table.delegate = self
         table.dataSource = self
         self.view.addSubview(self.table!)
@@ -42,7 +66,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.table!.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height )
+        self.table!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height )
     }
     
     func showTableIfNeeded() {
@@ -52,12 +76,12 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                 
                 if self.table.frame.minY != 0.0 {
                     
-                    self.table?.backgroundColor = UIColor.whiteColor()
+                    self.table?.backgroundColor = UIColor.white
                     self.table?.alpha = 0.8
                     
-                    UIView.animateWithDuration(0.25,
+                    UIView.animate(withDuration: 0.25,
                         animations: {
-                            self.table.frame = CGRectMake(0.0, 0.0, bounds.width, 64.0)
+                            self.table.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: 64.0)
                         },completion: {(bool : Bool) in
                             if bool {
                             }
@@ -68,12 +92,12 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         else {
             
             if self.table.frame.minY == 0.0{
-                self.table.backgroundColor = UIColor.clearColor()
+                self.table.backgroundColor = UIColor.clear
                 
                 
-                UIView.animateWithDuration(0.25,
+                UIView.animate(withDuration: 0.25,
                     animations: {
-                        self.table.frame = CGRectMake(0.0, 73, bounds.width, bounds.height - CGRectGetMaxY(self.view!.frame))
+                        self.table.frame = CGRect(x: 0.0, y: 73, width: bounds.width, height: bounds.height - self.view!.frame.maxY)
                     },completion: {(bool : Bool) in
                         if bool {
                             
@@ -85,11 +109,11 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         //        switch section {
         //        case 0:
         //            if (self.elements == nil || self.elements!.count == 0){
@@ -107,12 +131,12 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     /*
     *@method: Create a section view and return
     */
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let generic : UIView = UIView(frame: CGRectMake(0,0,self.view.frame.width,36.0))
-        let titleView : UILabel = UILabel(frame:CGRectMake(16,0,self.view.frame.width,36.0))
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let generic : UIView = UIView(frame: CGRect(x: 0,y: 0,width: self.view.frame.width,height: 36.0))
+        let titleView : UILabel = UILabel(frame:CGRect(x: 16,y: 0,width: self.view.frame.width,height: 36.0))
         titleView.textColor = WMColor.gray
         titleView.font = WMFont.fontMyriadProRegularOfSize(11)
-        titleView.backgroundColor = UIColor.clearColor()
+        titleView.backgroundColor = UIColor.clear
         //        if section == 0 {
         //            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
         //            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
@@ -144,16 +168,16 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         return generic
     }
     
-    func checkSelected(sender:UIButton) {
+    func checkSelected(_ sender:UIButton) {
         
-        sender.selected = !(sender.selected)
-        self.all = sender.selected
+        sender.isSelected = !(sender.isSelected)
+        self.all = sender.isSelected
         if self.elements?.count > 0 {
             self.table.reloadData()
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var size = 0
         //        if section == 0 {
         //            if let count = self.elements?.count {
@@ -170,7 +194,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         return size
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //        switch  indexPath.section {
         //        case 0:
         //            return 46.0
@@ -179,21 +203,21 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //        }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //        switch  indexPath.section {
         //        case 0:
         //            let cell = tableView.dequeueReusableCellWithIdentifier("ProductsCell", forIndexPath: indexPath) as SearchSingleViewCell
         //            if self.elements != nil && self.elements!.count > 0 {
-        //                let item = self.elements![indexPath.row] as? NSDictionary
+        //                let item = self.elements![indexPath.row] as? [String:Any]
         //                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:searchText, andPrice:item!["price"] as NSString  )
         //            }
         //
         //            return cell
         //        default:
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCategoriesViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as! SearchCategoriesViewCell
         if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
             if self.elementsCategories?.count > indexPath.row {
-                let item = self.elementsCategories![indexPath.row] as? NSDictionary
+                let item = self.elementsCategories![indexPath.row] as? [String:Any]
                 cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:searchText, andDepartament:item!["departament"] as! String  )
             }
         }
@@ -253,9 +277,9 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     //        });
     //    }
     
-    func searchProductKeywords(string:String) {
+    func searchProductKeywords(_ string:String) {
         searchText = string
-        if searchText.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <  2 {
+        if searchText.lengthOfBytes(using: String.Encoding.utf8) <  2 {
             
             self.elements = nil
             self.elementsCategories = nil
@@ -266,26 +290,26 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         }
         
         _ = { () -> Void in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.table.reloadData()
                 self.showTableIfNeeded()
             })
         }
         
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 let select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
                 var load = false
                 self.cancelSearch = false
-                if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
+                if let rs = db.executeQuery(select, withArgumentsIn:nil) {
                     var keywords = Array<AnyObject>()
                     while rs.next() {
                         if  self.cancelSearch {
                             break
                         }
-                        let keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
-                        let upc = rs.stringForColumn("upc")
-                        let price = rs.stringForColumn("price")
+                        let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
+                        let upc = rs.string(forColumn: "upc")
+                        let price = rs.string(forColumn: "price")
                         keywords.append([KEYWORD_TITLE_COLUMN:keyword , "upc":upc , "price":price  ])
                     }
                     rs.close()
@@ -297,23 +321,23 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                 if  !self.cancelSearch {
                     let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
                     self.cancelSearch = false
-                    if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
+                    if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
                         var keywords = Array<AnyObject>()
                         
                         while rs.next() {
                             if self.cancelSearch {
                                 break
                             }
-                            let depto = rs.stringForColumn("departament")
-                            let family = rs.stringForColumn("family")
+                            let depto = rs.string(forColumn: "departament")
+                            let family = rs.string(forColumn: "family")
                             
-                            let keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
+                            let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
                             let description = "\(depto) > \(family)"
                             //                            var description = rs.stringForColumn("departament")
-                            let idLine = rs.stringForColumn("idLine")
-                            let idDepto = rs.stringForColumn("idDepto")
-                            let idFamily = rs.stringForColumn("idFamily")
-                            let type = rs.stringForColumn("type")
+                            let idLine = rs.string(forColumn: "idLine")
+                            let idDepto = rs.string(forColumn: "idDepto")
+                            let idFamily = rs.string(forColumn: "idFamily")
+                            let type = rs.string(forColumn: "type")
                             
                             keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
                         }
@@ -324,7 +348,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                         
                         if !self.cancelSearch {
                             if load {
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                DispatchQueue.main.async(execute: { () -> Void in
                                     self.table.reloadData()
                                     self.showTableIfNeeded()
                                 });
@@ -336,22 +360,22 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         })
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        if indexPath.section == 0 {
-        //            let item = self.elements![indexPath.row] as? NSDictionary
+        //            let item = self.elements![indexPath.row] as? [String:Any]
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false )
         //        }else{
-        let item = self.elementsCategories![indexPath.row] as? NSDictionary
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
+        let item = self.elementsCategories![indexPath.row] as? [String:Any]
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? NSString == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
         
         //        }
-        //        let item = self.elements![indexPath.row] as? NSDictionary
+        //        let item = self.elements![indexPath.row] as? [String:Any]
         if afterselect != nil {
             afterselect!()
         }
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if endEditing != nil {
            // endEditing!()
         }

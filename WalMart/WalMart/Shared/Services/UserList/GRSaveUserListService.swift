@@ -19,25 +19,25 @@ import CoreData
 
 class GRSaveUserListService : GRBaseService {
     
-    func buildParams(name:String?) -> [String:AnyObject]! {
+    func buildParams(_ name:String?) -> [String:Any]! {
         //{"name":"PentonVillet30Mayo2014","items":[]}
         return ["name":name!, "items":[]]
     }
 
-    func buildParams(name:String?, items:[AnyObject]) -> [String:AnyObject]! {
+    func buildParams(_ name:String?, items:[AnyObject]) -> [String:Any]! {
         return ["name":name!, "items":items]
     }
 
-    func buildBaseProductObject(upc upc:String, quantity:Int) -> [String:AnyObject] {
+    func buildBaseProductObject(upc:String, quantity:Int) -> [String:Any] {
         return ["upc":upc, "quantity":quantity]
     }
     
-    func buildProductObject(upc upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?) -> [String:Any] {
         //Este JSON de ejemplo es tomado del servicio de addItemToList
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         //Los argumentos: image, description y price son usados solo localmente
         //los valores a ser enviados al servicio solo son upc y quantity
-        var base: [String:AnyObject] = ["upc":upc, "quantity":quantity]
+        var base: [String:Any] = ["upc":upc, "quantity":quantity]
         if image != nil {
             base["imageUrl"] = image!
         }
@@ -53,26 +53,26 @@ class GRSaveUserListService : GRBaseService {
         return base
     }
 
-    func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if  UserCurrentSession.hasLoggedUser() {
             print(params["name"] as! String)
-            var cleaned:[String:AnyObject] = ["name":(params["name"] as! String)]
+            var cleaned:[String:Any] = ["name":(params["name"] as! String)]
             //Se remueven atributos de los productos que sean innecesarios
             if let items = params["items"] as? [AnyObject] {
                 var cleanedItems:[AnyObject] = []
                 for idx in 0 ..< items.count {
-                    var item = items[idx] as! [String:AnyObject]
-                    item.removeValueForKey("imageUrl")
-                    item.removeValueForKey("description")
-                    item.removeValueForKey("price")
-                    item.removeValueForKey("type")
-                    cleanedItems.append(item)
+                    var item = items[idx] as! [String:Any]
+                    item.removeValue(forKey: "imageUrl")
+                    item.removeValue(forKey: "description")
+                    item.removeValue(forKey: "price")
+                    item.removeValue(forKey: "type")
+                    cleanedItems.append(item as AnyObject)
                 }
                 cleaned["items"] = cleanedItems
             }
             
             self.callPOSTService(cleaned,
-                successBlock: { (resultCall:NSDictionary) -> Void in
+                successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
                     self.manageListData(resultCall)
                     successBlock?(resultCall)
@@ -86,7 +86,7 @@ class GRSaveUserListService : GRBaseService {
         }
         else {
             print("Saving list without user")
-            if !self.includeListInDB(params as! [String:AnyObject]) {
+            if !self.includeListInDB(params ) {
                 successBlock?([:])
             } else {
                 let message = NSLocalizedString("gr.list.samename",  comment: "")
@@ -96,30 +96,30 @@ class GRSaveUserListService : GRBaseService {
         }
     }
     
-    func manageListData(list:NSDictionary)  {
+    func manageListData(_ list:[String:Any])  {
         
         if  UserCurrentSession.sharedInstance().userSigned == nil {
             return
         }
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         //let user = UserCurrentSession.sharedInstance().userSigned
         let listId = list["id"] as! String
         
-        let entity = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: context) as? List
-        entity!.registryDate = NSDate()
+        let entity = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List
+        entity!.registryDate = Date()
         entity!.idList = listId
         entity!.user = UserCurrentSession.sharedInstance().userSigned!
         entity!.name = list["name"] as! String
-        entity!.countItem = NSNumber(integer: 0)
+        entity!.countItem = NSNumber(value: 0 as Int)
         
         if let items = list["items"] as? [AnyObject] {
-            entity!.countItem = NSNumber(integer: items.count)
+            entity!.countItem = NSNumber(value: items.count as Int)
             for idx in 0 ..< items.count {
-                var item = items[idx] as! [String:AnyObject]
-                let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+                var item = items[idx] as! [String:Any]
+                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                 detail!.upc = item["upc"] as! String
                 detail!.img = item["imageUrl"] as! String
                 detail!.desc = item["description"] as! String
@@ -127,16 +127,16 @@ class GRSaveUserListService : GRBaseService {
                     detail!.quantity = quantity
                 }
                 else if let quantityTxt = item["quantity"] as? String {
-                    detail!.quantity = NSNumber(integer: Int(quantityTxt)!)
+                    detail!.quantity = NSNumber(value: Int(quantityTxt)! as Int)
                 }
                 if let price = item["price"] as? NSNumber {
-                    detail!.price = "\(price)"
+                    detail!.price = "\(price)" as NSString
                 }
                 else if let price = item["price"] as? String {
-                    detail!.price = price
+                    detail!.price = price as NSString
                 }
                 if let type = item["type"] as? String {
-                    detail!.type = NSNumber(integer: Int(type)!)
+                    detail!.type = NSNumber(value: Int(type)! as Int)
                 }
                 else if let type = item["type"] as? NSNumber {
                     detail!.type = type
@@ -150,18 +150,18 @@ class GRSaveUserListService : GRBaseService {
     
     //MARK: - CoreData
     
-    func includeListInDB(list:[String:AnyObject]) -> Bool {
+    func includeListInDB(_ list:[String:Any]) -> Bool {
         var existsList = false
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
 
         let name = list["name"] as! String
         let items = list["items"] as? [AnyObject]
         var localList = self.retrieveListNotSync(name: name, inContext:context)
         if localList == nil {
-            localList = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: context) as? List
+            localList = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List
             localList!.name = name
-            localList!.registryDate = NSDate()
+            localList!.registryDate = Date()
         } else {
             existsList = true
         }
@@ -169,8 +169,8 @@ class GRSaveUserListService : GRBaseService {
         if items != nil && items!.count > 0 {
             countItem = items!.count
             for idx in 0 ..< items!.count {
-                var item = items![idx] as! [String:AnyObject]
-                let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+                var item = items![idx] as! [String:Any]
+                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                 detail!.upc = item["upc"] as! String
                 if let imageUrl = item["imageUrl"] as? String {
                     detail!.img = imageUrl
@@ -179,19 +179,19 @@ class GRSaveUserListService : GRBaseService {
                     detail!.desc = description
                 }
                 if let price = item["price"] as? NSNumber {
-                    detail!.price = "\(price)"
+                    detail!.price = "\(price)" as NSString
                 }
                 else if let price = item["price"] as? String {
-                    detail!.price = price
+                    detail!.price = price as NSString
                 }
                 if let quantity = item["quantity"] as? NSNumber {
                     detail!.quantity = quantity
                 }
                 else if let quantity = item["quantity"] as? String {
-                    detail!.quantity = NSNumber(integer: Int(quantity)!)
+                    detail!.quantity = NSNumber(value: Int(quantity)! as Int)
                 }
                 if let type = item["type"] as? String {
-                    detail!.type = NSNumber(integer: Int(type)!)
+                    detail!.type = NSNumber(value: Int(type)! as Int)
                 }
                 else if let type = item["type"] as? NSNumber {
                     detail!.type = type
@@ -202,16 +202,16 @@ class GRSaveUserListService : GRBaseService {
                detail!.list = localList!
             }
         }
-        localList!.countItem = NSNumber(integer: countItem)
+        localList!.countItem = NSNumber(value: countItem as Int)
 
         self.saveContext(context)
         return existsList
 
     }
 
-    func retrieveListNotSync(name name:String, inContext context:NSManagedObjectContext) -> List? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
+    func retrieveListNotSync(name:String, inContext context:NSManagedObjectContext) -> List? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
         if UserCurrentSession.hasLoggedUser() {
             fetchRequest.predicate = NSPredicate(format: "name == %@ ", name)
         }else{
@@ -219,7 +219,7 @@ class GRSaveUserListService : GRBaseService {
         }
         var list: List? = nil
         do{
-            let result: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
+            let result: [List]? = try context.fetch(fetchRequest) as? [List]
             if result != nil && result!.count > 0 {
                 list = result!.first
             }
@@ -230,7 +230,7 @@ class GRSaveUserListService : GRBaseService {
         return list
     }
     
-    func saveContext(context:NSManagedObjectContext) {
+    func saveContext(_ context:NSManagedObjectContext) {
         do {
             try context.save()
         } catch{

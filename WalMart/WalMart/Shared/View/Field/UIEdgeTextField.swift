@@ -9,7 +9,7 @@
 import UIKit
 
 protocol UITextFieldChangeValueProtocol {
-    func fieldChangeValue(value:String)
+    func fieldChangeValue(_ value:String)
 }
 
 class UIEdgeTextField : UITextField {
@@ -17,17 +17,17 @@ class UIEdgeTextField : UITextField {
     var valueDelegate : UITextFieldChangeValueProtocol? = nil
     var customRightView = false
     
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 20, 11);
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: 20, dy: 11);
     }
     
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 20, 11);
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: 20, dy: 11);
     }
     
-    override func rightViewRectForBounds(bounds: CGRect) -> CGRect {
+    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         if self.customRightView {
-            return CGRectMake(bounds.size.width - 30, 12, 20, 20)
+            return CGRect(x: bounds.size.width - 30, y: 12, width: 20, height: 20)
         }
         return bounds
     }

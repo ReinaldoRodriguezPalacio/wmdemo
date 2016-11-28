@@ -35,7 +35,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     var successCallBack : (() -> Void)? = nil
     var cancelButton: UIButton? = nil
     var cancelSignUp : (() -> Void)? = nil
-    var viewClose : ((hidden: Bool ) -> Void)? = nil
+    var viewClose : ((_ hidden: Bool ) -> Void)? = nil
     var titleLabel: UILabel? = nil
     var errorView : FormFieldErrorView? = nil
     var previewHelp : PreviewHelpViewController? = nil
@@ -44,8 +44,8 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     
     var maleButton: UIButton?
     var femaleButton: UIButton?
-    var dateFmt: NSDateFormatter?
-    var dateVal : NSDate? = nil
+    var dateFmt: DateFormatter?
+    var dateVal : Date? = nil
     var closeModal : (() -> Void)? = nil
     
     var gPhoneNumber = "";
@@ -65,7 +65,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         self.sAddredssForm = GRFormSuperAddressView()
         
-        self.dateFmt = NSDateFormatter()
+        self.dateFmt = DateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         
         self.content = TPKeyboardAvoidingScrollView()
@@ -77,7 +77,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.name = FormFieldView()
         self.name!.isRequired = true
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
-        self.name!.typeField = TypeField.Name
+        self.name!.typeField = TypeField.name
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
         self.name!.minLength = 3
         self.name!.maxLength = 25
@@ -85,7 +85,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.lastName = FormFieldView()
         self.lastName!.isRequired = true
         self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
-        self.lastName!.typeField = TypeField.Name
+        self.lastName!.typeField = TypeField.name
         self.lastName!.minLength = 3
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
@@ -93,17 +93,17 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.email = FormFieldView()
         self.email!.isRequired = true
         self.email!.setCustomPlaceholder(NSLocalizedString("profile.email",comment:""))
-        self.email!.keyboardType = UIKeyboardType.EmailAddress
-        self.email!.typeField = TypeField.Email
+        self.email!.keyboardType = UIKeyboardType.emailAddress
+        self.email!.typeField = TypeField.email
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
         self.email!.maxLength = 45
-        self.email!.autocapitalizationType = UITextAutocapitalizationType.None
+        self.email!.autocapitalizationType = UITextAutocapitalizationType.none
         
         self.password = FormFieldView()
         self.password!.isRequired = true
         self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
-        self.password!.secureTextEntry = true
-        self.password!.typeField = TypeField.Password
+        self.password!.isSecureTextEntry = true
+        self.password!.typeField = TypeField.password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.minLength = 8
         self.password!.maxLength = 20
@@ -111,8 +111,8 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.confirmPassword = FormFieldView()
         self.confirmPassword!.isRequired = true
         self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
-        self.confirmPassword!.secureTextEntry = true
-        self.confirmPassword!.typeField = TypeField.Password
+        self.confirmPassword!.isSecureTextEntry = true
+        self.confirmPassword!.typeField = TypeField.password
         self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
         self.confirmPassword!.minLength = 8
         self.confirmPassword!.maxLength = 20
@@ -121,31 +121,31 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.birthDate = FormFieldView()
         self.birthDate!.isRequired = true
         self.birthDate!.setCustomPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
-        self.birthDate!.typeField = .None
+        self.birthDate!.typeField = .none
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
         self.birthDate!.disablePaste = true
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+        let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width , height: 44), inputViewStyle: .keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 self.dateChanged()
                 field?.resignFirstResponder()
             }
         })
         
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
-        let currentDate = NSDate()
-        let comps = NSDateComponents()
+        let calendar = Calendar(identifier: NSGregorianCalendar)
+        let currentDate = Date()
+        var comps = DateComponents()
         comps.year = -18
-        let maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        let maxDate = (calendar! as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
         comps.year = -100
-        let minDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        let minDate = (calendar! as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
 
         self.inputBirthdateView = UIDatePicker()
-        self.inputBirthdateView!.datePickerMode = .Date
-        self.inputBirthdateView!.date = NSDate()
+        self.inputBirthdateView!.datePickerMode = .date
+        self.inputBirthdateView!.date = Date()
         self.inputBirthdateView!.maximumDate = maxDate
         self.inputBirthdateView!.minimumDate = minDate
-        self.inputBirthdateView!.addTarget(self, action: #selector(SignUpViewController.dateChanged), forControlEvents: .ValueChanged)
+        self.inputBirthdateView!.addTarget(self, action: #selector(SignUpViewController.dateChanged), for: .valueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess
 //        self.dateChanged()
@@ -153,21 +153,21 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         
         self.maleButton = UIButton()
-        self.maleButton?.setTitle(NSLocalizedString("signup.male", comment: ""), forState: UIControlState.Normal)
-        self.maleButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.maleButton!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
+        self.maleButton?.setTitle(NSLocalizedString("signup.male", comment: ""), for: UIControlState())
+        self.maleButton!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+        self.maleButton!.setImage(UIImage(named:"checkTermOn"), for: UIControlState.selected)
         self.maleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.maleButton?.addTarget(self, action: #selector(SignUpViewController.changeMF(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.maleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.maleButton?.addTarget(self, action: #selector(SignUpViewController.changeMF(_:)), for: UIControlEvents.touchUpInside)
+        self.maleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.maleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         
         self.femaleButton = UIButton()
-        self.femaleButton?.setTitle(NSLocalizedString("signup.female", comment: ""), forState: UIControlState.Normal)
-        self.femaleButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-        self.femaleButton!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
+        self.femaleButton?.setTitle(NSLocalizedString("signup.female", comment: ""), for: UIControlState())
+        self.femaleButton!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+        self.femaleButton!.setImage(UIImage(named:"checkTermOn"), for: UIControlState.selected)
         self.femaleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.femaleButton?.addTarget(self, action: #selector(SignUpViewController.changeMF(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.femaleButton?.addTarget(self, action: #selector(SignUpViewController.changeMF(_:)), for: UIControlEvents.touchUpInside)
+        self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.femaleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         
 
@@ -205,31 +205,31 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         //self.viewTap!.addGestureRecognizer(tapGestureRecognizer)
         
         self.continueButton = UIButton()
-        self.continueButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment: ""), forState: UIControlState.Normal)
-        self.continueButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.continueButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment: ""), for: UIControlState())
+        self.continueButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.continueButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.continueButton!.backgroundColor = WMColor.green
         self.continueButton!.layer.cornerRadius = 20.0
-        self.continueButton!.addTarget(self, action: #selector(SignUpViewController.continueToInfo), forControlEvents: .TouchUpInside)
+        self.continueButton!.addTarget(self, action: #selector(SignUpViewController.continueToInfo), for: .touchUpInside)
         
-        self.content.backgroundColor = UIColor.clearColor()
+        self.content.backgroundColor = UIColor.clear
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle(NSLocalizedString("profile.create.an.cancel", comment: ""), forState: UIControlState.Normal)
-        self.cancelButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.cancelButton!.setTitle(NSLocalizedString("profile.create.an.cancel", comment: ""), for: UIControlState())
+        self.cancelButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.dark_blue
         self.cancelButton!.layer.cornerRadius = 20.0
-        self.cancelButton!.addTarget(self, action: #selector(SignUpViewController.cancelRegistry(_:)), forControlEvents: .TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(SignUpViewController.cancelRegistry(_:)), for: .touchUpInside)
         
         //labelTerms!.textColor = UIColor.whiteColor()
         
         self.titleLabel = UILabel()
-        self.titleLabel!.textColor =  UIColor.whiteColor()
+        self.titleLabel!.textColor =  UIColor.white
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel!.numberOfLines = 2
         self.titleLabel!.text = NSLocalizedString("profile.create.an.account", comment: "")
-        self.titleLabel!.textAlignment = NSTextAlignment.Center
+        self.titleLabel!.textAlignment = NSTextAlignment.center
         self.content!.addSubview(self.titleLabel!)
         self.content!.addSubview(self.cancelButton!)
 
@@ -258,39 +258,39 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         let bounds = self.view.bounds
         let fieldHeight  : CGFloat = CGFloat(40)
         let leftRightPadding  : CGFloat = CGFloat(15)
-        self.content.frame = CGRectMake(0, 0 , self.view.bounds.width , self.view.bounds.height)
-        self.titleLabel!.frame =  CGRectMake(0 , 0, self.content.frame.width , 16)
-        self.name?.frame = CGRectMake(leftRightPadding,  40, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
-        self.lastName?.frame = CGRectMake(leftRightPadding,  name!.frame.maxY + 8, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
-        self.email?.frame = CGRectMake(leftRightPadding,  lastName!.frame.maxY + 8, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
-        self.password?.frame = CGRectMake(leftRightPadding,  email!.frame.maxY + 8, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
-        self.confirmPassword?.frame = CGRectMake(leftRightPadding,  password!.frame.maxY + 8, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
-        self.birthDate?.frame = CGRectMake(leftRightPadding,  confirmPassword!.frame.maxY + 8, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
+        self.content.frame = CGRect(x: 0, y: 0 , width: self.view.bounds.width , height: self.view.bounds.height)
+        self.titleLabel!.frame =  CGRect(x: 0 , y: 0, width: self.content.frame.width , height: 16)
+        self.name?.frame = CGRect(x: leftRightPadding,  y: 40, width: self.view.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.lastName?.frame = CGRect(x: leftRightPadding,  y: name!.frame.maxY + 8, width: self.view.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.email?.frame = CGRect(x: leftRightPadding,  y: lastName!.frame.maxY + 8, width: self.view.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.password?.frame = CGRect(x: leftRightPadding,  y: email!.frame.maxY + 8, width: self.view.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.confirmPassword?.frame = CGRect(x: leftRightPadding,  y: password!.frame.maxY + 8, width: self.view.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.birthDate?.frame = CGRect(x: leftRightPadding,  y: confirmPassword!.frame.maxY + 8, width: self.view.bounds.width - (leftRightPadding*2), height: fieldHeight)
         
         
         
         
-        self.femaleButton!.frame = CGRectMake(84,  birthDate!.frame.maxY + 15,  76 , fieldHeight)
-        self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 15, 76 , fieldHeight)
+        self.femaleButton!.frame = CGRect(x: 84,  y: birthDate!.frame.maxY + 15,  width: 76 , height: fieldHeight)
+        self.maleButton!.frame = CGRect(x: self.femaleButton!.frame.maxX,  y: birthDate!.frame.maxY + 15, width: 76 , height: fieldHeight)
         
-        self.cancelButton!.frame = CGRectMake(leftRightPadding,  maleButton!.frame.maxY + 15,  (self.email!.frame.width / 2) - 5 , fieldHeight)
-        self.continueButton!.frame = CGRectMake(self.cancelButton!.frame.maxX + 10 , self.cancelButton!.frame.minY ,  self.cancelButton!.frame.width, fieldHeight)
+        self.cancelButton!.frame = CGRect(x: leftRightPadding,  y: maleButton!.frame.maxY + 15,  width: (self.email!.frame.width / 2) - 5 , height: fieldHeight)
+        self.continueButton!.frame = CGRect(x: self.cancelButton!.frame.maxX + 10 , y: self.cancelButton!.frame.minY ,  width: self.cancelButton!.frame.width, height: fieldHeight)
         self.content.contentSize = CGSize(width: bounds.width, height:  self.continueButton!.frame.maxY + 40)
     }
     
-    func changeMF(sender:UIButton) {
+    func changeMF(_ sender:UIButton) {
         if sender == self.maleButton {
-            self.maleButton?.selected = true
-            self.femaleButton?.selected = false
+            self.maleButton?.isSelected = true
+            self.femaleButton?.isSelected = false
         } else if sender == self.femaleButton  {
-            self.maleButton?.selected = false
-            self.femaleButton?.selected = true
+            self.maleButton?.isSelected = false
+            self.femaleButton?.isSelected = true
         }
         
     }
     
-    func checkSelected(sender:UIButton) {
-        sender.selected = !(sender.selected)
+    func checkSelected(_ sender:UIButton) {
+        sender.isSelected = !(sender.isSelected)
         if errorView != nil{
             if errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -302,11 +302,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //        acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
     }
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-          return CGSizeMake(self.view.frame.width, content.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+          return CGSize(width: self.view.frame.width, height: content.contentSize.height)
     }
     
-    func textFieldDidEndEditingSW(textField: UITextField!) {
+    func textFieldDidEndEditingSW(_ textField: UITextField!) {
         if errorView != nil{
             if (errorView!.focusError == textField || errorView!.focusError == nil ) &&  errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -318,7 +318,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //        acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
     }
     
-    func textFieldDidBeginEditingSW(textField: UITextView!) {
+    func textFieldDidBeginEditingSW(_ textField: UITextView!) {
         if errorView != nil && errorView!.focusError == nil {
             errorView?.removeFromSuperview()
             errorView!.focusError = nil
@@ -328,7 +328,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //        acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
     }
     
-    func noticePrivacy(recognizer:UITapGestureRecognizer) {
+    func noticePrivacy(_ recognizer:UITapGestureRecognizer) {
         if errorView != nil{
             if errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -341,33 +341,33 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             previewHelp = PreviewHelpViewController()
             self.previewHelp!.resource = "privacy"
             self.previewHelp!.type = "pdf"
-            self.previewHelp!.view.frame =  CGRectMake(self.name!.frame.minX ,  40, self.content!.frame.width - (self.name!.frame.minX * 2) , self.content!.frame.height - 60 )
-            self.close = UIButton(type: .Custom)
-            self.close!.setImage(UIImage(named: "termsClose"), forState: .Normal)
-            self.close!.addTarget(self, action: #selector(SignUpViewController.closeNoticePrivacy), forControlEvents: .TouchUpInside)
-            self.close!.backgroundColor = UIColor.clearColor()
-            self.close!.frame = CGRectMake(self.content!.frame.width - 40.0, 22, 40.0, 40.0)
+            self.previewHelp!.view.frame =  CGRect(x: self.name!.frame.minX ,  y: 40, width: self.content!.frame.width - (self.name!.frame.minX * 2) , height: self.content!.frame.height - 60 )
+            self.close = UIButton(type: .custom)
+            self.close!.setImage(UIImage(named: "termsClose"), for: UIControlState())
+            self.close!.addTarget(self, action: #selector(SignUpViewController.closeNoticePrivacy), for: .touchUpInside)
+            self.close!.backgroundColor = UIColor.clear
+            self.close!.frame = CGRect(x: self.content!.frame.width - 40.0, y: 22, width: 40.0, height: 40.0)
         
         } else {
             self.previewHelp!.loadPreview()
         }
         self.infoContainer!.addSubview(self.previewHelp!.view)
         self.infoContainer!.addSubview(self.close!)
-        self.viewClose!(hidden: true)
-        self.continueButton!.hidden = true
-        self.cancelButton!.hidden = true
+        self.viewClose!(true)
+        self.continueButton!.isHidden = true
+        self.cancelButton!.isHidden = true
     }
     
     func closeNoticePrivacy() {
         self.previewHelp!.view.removeFromSuperview()
         self.close!.removeFromSuperview()
-        self.viewClose!(hidden: false)
-        self.continueButton!.hidden = false
-        self.cancelButton!.hidden = false
+        self.viewClose!(false)
+        self.continueButton!.isHidden = false
+        self.cancelButton!.isHidden = false
 
     }
     
-    func cancelRegistry(sender:UIButton) {
+    func cancelRegistry(_ sender:UIButton) {
         self.cancelSignUp!()
     }
     
@@ -397,13 +397,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             
             let service = SignUpService()
             
-            let dateFmtBD = NSDateFormatter()
+            let dateFmtBD = DateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
             
-            let dateOfBirth = dateFmtBD.stringFromDate(self.dateVal!)
-            let gender = femaleButton!.selected ? "Female" : "Male"
-            let allowTransfer = "\(self.acceptSharePersonal!.selected)"
-            let allowPub = "\(self.promoAccept!.selected)"
+            let dateOfBirth = dateFmtBD.string(from: self.dateVal!)
+            let gender = femaleButton!.isSelected ? "Female" : "Male"
+            let allowTransfer = "\(self.acceptSharePersonal!.isSelected)"
+            let allowPub = "\(self.promoAccept!.isSelected)"
 
             if alertAddress == nil {
                 alertAddress = GRFormAddressAlertView.initAddressAlert()!
@@ -411,7 +411,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             
             alertAddress?.showAddressAlert()
             alertAddress?.sAddredssForm.isSignUp = true
-            alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+            alertAddress?.beforeAddAddress = {(dictSend:[String:Any]?) in
                 
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -425,13 +425,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                 
                 let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
 
-                service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+                service.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
                    
                     // Event -- Succesful Registration
                     BaseController.sendAnalyticsSuccesfulRegistration()
                     
                     let login = LoginService()
-                    login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                    login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:[String:Any]) -> Void in
                         
                         self.alertAddress?.registryAddress(dictSend)
                         
@@ -528,7 +528,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         if error{
             return false
         }
-        if !maleButton!.selected && !femaleButton!.selected {
+        if !maleButton!.isSelected && !femaleButton!.isSelected {
             if self.errorView == nil {
                 self.errorView = FormFieldErrorView()
             }
@@ -546,7 +546,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     
     func validateTerms() -> Bool {
         
-        if !acceptSharePersonal!.selected && !declineSharePersonal!.selected {
+        if !acceptSharePersonal!.isSelected && !declineSharePersonal!.isSelected {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"user_error"))
             let msgInventory = "Para poder continuar, es necesario nos indique si está, o no, de acuerdo en transferir sus datos personales a terceros"
             alert!.setMessage(msgInventory)
@@ -557,7 +557,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             
             return false
         }
-        if !acceptTerms!.selected {
+        if !acceptTerms!.isSelected {
             if self.errorView == nil {
                 self.errorView = FormFieldErrorView()
             }
@@ -572,7 +572,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return true
     }
     
-    func viewError(field: FormFieldView)-> Bool{
+    func viewError(_ field: FormFieldView)-> Bool{
         let message = field.validate()
         if message != nil  {
             if self.errorView == nil{
@@ -584,19 +584,19 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return false
     }
 
-    func presentMessageTerms(view: UIView,  message: String, errorView : FormFieldErrorView){
-        errorView.frame =  CGRectMake(10, 0, view.frame.width, view.frame.height )
+    func presentMessageTerms(_ view: UIView,  message: String, errorView : FormFieldErrorView){
+        errorView.frame =  CGRect(x: 10, y: 0, width: view.frame.width, height: view.frame.height )
         errorView.focusError = nil
         errorView.setValues(280, strLabel:"", strValue: message)
-        errorView.frame =  CGRectMake(10, view.frame.minY, errorView.frame.width , errorView.frame.height)
+        errorView.frame =  CGRect(x: 10, y: view.frame.minY, width: errorView.frame.width , height: errorView.frame.height)
         let contentView = view.superview!
         contentView.addSubview(errorView)
-        contentView.bringSubviewToFront(view)
-        UIView.animateWithDuration(0.2, animations: {
-            errorView.frame =  CGRectMake(10, view.frame.minY - errorView.frame.height, errorView.frame.width , errorView.frame.height)
-            contentView.bringSubviewToFront(errorView)
+        contentView.bringSubview(toFront: view)
+        UIView.animate(withDuration: 0.2, animations: {
+            errorView.frame =  CGRect(x: 10, y: view.frame.minY - errorView.frame.height, width: errorView.frame.width , height: errorView.frame.height)
+            contentView.bringSubview(toFront: errorView)
             if self.infoContainer != nil {
-                self.infoContainer!.bringSubviewToFront(errorView)
+                self.infoContainer!.bringSubview(toFront: errorView)
             }
             }, completion: {(bool : Bool) in
 //                if bool {
@@ -605,49 +605,49 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         })
     }
     
-    class func presentMessage(field: UITextField, nameField:String,  message: String , errorView : FormFieldErrorView, becomeFirstResponder: Bool){
-        errorView.frame = CGRectMake(field.frame.minX - 5, 0, field.frame.width, field.frame.height )
+    class func presentMessage(_ field: UITextField, nameField:String,  message: String , errorView : FormFieldErrorView, becomeFirstResponder: Bool){
+        errorView.frame = CGRect(x: field.frame.minX - 5, y: 0, width: field.frame.width, height: field.frame.height )
         errorView.focusError = field
         if field.frame.minX < 20 {
             //errorView.setValues(280, strLabel:nameField, strValue: message)
             errorView.setValues(field.frame.width, strLabel:nameField, strValue: message)
-            errorView.frame =  CGRectMake(field.frame.minX - 5, field.frame.minY, errorView.frame.width , errorView.frame.height)
+            errorView.frame =  CGRect(x: field.frame.minX - 5, y: field.frame.minY, width: errorView.frame.width , height: errorView.frame.height)
         }
         else{
             errorView.setValues(field.frame.width, strLabel:nameField, strValue: message)
-            errorView.frame =  CGRectMake(field.frame.minX - 5, field.frame.minY, errorView.frame.width , errorView.frame.height)
+            errorView.frame =  CGRect(x: field.frame.minX - 5, y: field.frame.minY, width: errorView.frame.width , height: errorView.frame.height)
         }
         let contentView = field.superview!
         contentView.addSubview(errorView)
-        contentView.bringSubviewToFront(field)
-        UIView.animateWithDuration(0.2, animations: {
-            errorView.frame =  CGRectMake(field.frame.minX - 5 , field.frame.minY - errorView.frame.height, errorView.frame.width , errorView.frame.height)
+        contentView.bringSubview(toFront: field)
+        UIView.animate(withDuration: 0.2, animations: {
+            errorView.frame =  CGRect(x: field.frame.minX - 5 , y: field.frame.minY - errorView.frame.height, width: errorView.frame.width , height: errorView.frame.height)
             }, completion: {(bool : Bool) in
                 if bool {
-                    contentView.bringSubviewToFront(errorView)
+                    contentView.bringSubview(toFront: errorView)
                     if becomeFirstResponder {
                         field.becomeFirstResponder()
                     }
-                    field.layer.borderColor =   WMColor.red.CGColor
+                    field.layer.borderColor =   WMColor.red.cgColor
                 }
         })
     }
     
-    class func isValidEmail(email: String ) -> Bool{
+    class func isValidEmail(_ email: String ) -> Bool{
 
-        let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890._%+-@").invertedSet
-        if email.rangeOfCharacterFromSet(alphanumericset) != nil {
+        let alphanumericset = CharacterSet(charactersIn: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890._%+-@").inverted
+        if email.rangeOfCharacter(from: alphanumericset) != nil {
             return false
         }
         
         let regExEmailPattern : String = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"//"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
         var regExVal: NSRegularExpression?
         do {
-            regExVal = try NSRegularExpression(pattern: regExEmailPattern, options: NSRegularExpressionOptions.CaseInsensitive)
+            regExVal = try NSRegularExpression(pattern: regExEmailPattern, options: NSRegularExpression.Options.caseInsensitive)
         } catch {
             regExVal = nil
         }
-        let matches = regExVal!.numberOfMatchesInString(email, options: [], range: NSMakeRange(0, email.characters.count))
+        let matches = regExVal!.numberOfMatches(in: email, options: [], range: NSMakeRange(0, email.characters.count))
         
         if matches > 0 {
             return true
@@ -682,30 +682,30 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 
     func dateChanged() {
         let date = self.inputBirthdateView!.date
-        self.birthDate!.text = self.dateFmt!.stringFromDate(date)
+        self.birthDate!.text = self.dateFmt!.string(from: date)
         self.dateVal = date
     }
     
     //MARK: Info view
-    func generateInfoView(frame:CGRect) -> UIView {
+    func generateInfoView(_ frame:CGRect) -> UIView {
         if infoContainer == nil {
             
             infoContainer = UIView(frame:frame)
             
-            let lblTitle = UILabel(frame: CGRectMake(0, 0, frame.width, 16))
+            let lblTitle = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: 16))
             lblTitle.text = NSLocalizedString("signup.info", comment: "")
             lblTitle.font = WMFont.fontMyriadProRegularOfSize(16)
-            lblTitle.textColor = UIColor.whiteColor()
-            lblTitle.textAlignment = .Center
+            lblTitle.textColor = UIColor.white
+            lblTitle.textAlignment = .center
             
-            self.promoAccept = UIButton(frame: CGRectMake(16, lblTitle.frame.maxY + 30.0, frame.width, 16))
-            self.promoAccept?.setTitle(NSLocalizedString("signup.info.pub", comment: ""), forState: UIControlState.Normal)
-            self.promoAccept!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-            self.promoAccept!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
+            self.promoAccept = UIButton(frame: CGRect(x: 16, y: lblTitle.frame.maxY + 30.0, width: frame.width, height: 16))
+            self.promoAccept?.setTitle(NSLocalizedString("signup.info.pub", comment: ""), for: UIControlState())
+            self.promoAccept!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+            self.promoAccept!.setImage(UIImage(named:"checkTermOn"), for: UIControlState.selected)
             self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+            self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
             self.promoAccept!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-            self.promoAccept!.addTarget(self, action: #selector(SignUpViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            self.promoAccept!.addTarget(self, action: #selector(SignUpViewController.checkSelected(_:)), for: UIControlEvents.touchUpInside)
             
 //            self.acceptTerms = UIButton(frame: CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, frame.width, 27))
 //            self.acceptTerms?.setTitle(NSLocalizedString("signup.info.provacity", comment: ""), forState: UIControlState.Normal)
@@ -716,16 +716,16 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //            self.acceptTerms!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
             
             self.contentTerms = UIView()
-            self.contentTerms!.frame = CGRectMake(0 ,  self.promoAccept!.frame.maxY + 24.0 , self.view.bounds.width ,30)
+            self.contentTerms!.frame = CGRect(x: 0 ,  y: self.promoAccept!.frame.maxY + 24.0 , width: self.view.bounds.width ,height: 30)
             
             acceptTerms = UIButton()
-            acceptTerms!.frame = CGRectMake(10, -4, 30, 30 )
-            acceptTerms!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
-            acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-            acceptTerms!.addTarget(self, action: #selector(SignUpViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            acceptTerms!.frame = CGRect(x: 10, y: -4, width: 30, height: 30 )
+            acceptTerms!.setImage(UIImage(named:"checkTermOn"), for: UIControlState.selected)
+            acceptTerms!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+            acceptTerms!.addTarget(self, action: #selector(SignUpViewController.checkSelected(_:)), for: UIControlEvents.touchUpInside)
             
             labelTerms = UILabel()
-            labelTerms?.frame =  CGRectMake(acceptTerms!.frame.maxX + 4, 0 ,  self.content!.frame.width - (acceptTerms!.frame.width + 15 )  , 30 )
+            labelTerms?.frame =  CGRect(x: acceptTerms!.frame.maxX + 4, y: 0 ,  width: self.content!.frame.width - (acceptTerms!.frame.width + 15 )  , height: 30 )
             labelTerms!.numberOfLines = 0
             labelTerms!.font = WMFont.fontMyriadProRegularOfSize(12)
             
@@ -734,17 +734,17 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             
             //var valueItem = NSMutableAttributedString()
             let valuesDescItem = NSMutableAttributedString()
-            let attrStringLab = NSAttributedString(string: NSLocalizedString("signup.info.provacity", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName:UIColor.whiteColor()])
-            valuesDescItem.appendAttributedString(attrStringLab)
-            let attrStringVal = NSAttributedString(string: NSLocalizedString("profile.terms.privacy", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldSize(12),NSForegroundColorAttributeName:UIColor.whiteColor()])
-            valuesDescItem.appendAttributedString(attrStringVal)
+            let attrStringLab = NSAttributedString(string: NSLocalizedString("signup.info.provacity", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName:UIColor.white])
+            valuesDescItem.append(attrStringLab)
+            let attrStringVal = NSAttributedString(string: NSLocalizedString("profile.terms.privacy", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldSize(12),NSForegroundColorAttributeName:UIColor.white])
+            valuesDescItem.append(attrStringVal)
             valuesDescItem.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, valuesDescItem.length))
             labelTerms!.attributedText = valuesDescItem
-            labelTerms!.textColor = UIColor.whiteColor()
+            labelTerms!.textColor = UIColor.white
             
             //viewTap = UIView()
             let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:#selector(SignUpViewController.noticePrivacy(_:)))
-            labelTerms?.userInteractionEnabled = true
+            labelTerms?.isUserInteractionEnabled = true
             labelTerms?.addGestureRecognizer(tapGestureRecognizer)
             
             
@@ -752,47 +752,47 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.contentTerms!.addSubview(labelTerms!)
             
             
-            let lblPersonalData = UILabel(frame: CGRectMake(16, self.contentTerms!.frame.maxY + 24.0, frame.width - 32, 84))
+            let lblPersonalData = UILabel(frame: CGRect(x: 16, y: self.contentTerms!.frame.maxY + 24.0, width: frame.width - 32, height: 84))
             lblPersonalData.text = NSLocalizedString("signup.info.share", comment: "")
-            lblPersonalData.textColor = UIColor.whiteColor()
+            lblPersonalData.textColor = UIColor.white
             lblPersonalData.font = WMFont.fontMyriadProRegularOfSize(12)
             lblPersonalData.numberOfLines = 0
             
             
-            self.acceptSharePersonal = UIButton(frame: CGRectMake(45, lblPersonalData.frame.maxY + 24.0, 120, 16))
-            self.acceptSharePersonal?.setTitle(NSLocalizedString("signup.info.share.yes", comment: ""), forState: UIControlState.Normal)
-            self.acceptSharePersonal!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-            self.acceptSharePersonal!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
+            self.acceptSharePersonal = UIButton(frame: CGRect(x: 45, y: lblPersonalData.frame.maxY + 24.0, width: 120, height: 16))
+            self.acceptSharePersonal?.setTitle(NSLocalizedString("signup.info.share.yes", comment: ""), for: UIControlState())
+            self.acceptSharePersonal!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+            self.acceptSharePersonal!.setImage(UIImage(named:"checkTermOn"), for: UIControlState.selected)
             self.acceptSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            self.acceptSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+            self.acceptSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
             self.acceptSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-            self.acceptSharePersonal!.addTarget(self, action: #selector(SignUpViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            self.acceptSharePersonal!.addTarget(self, action: #selector(SignUpViewController.changeCons(_:)), for: UIControlEvents.touchUpInside)
             
-            self.declineSharePersonal = UIButton(frame: CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16))
-            self.declineSharePersonal?.setTitle(NSLocalizedString("signup.info.share.no", comment: ""), forState: UIControlState.Normal)
-            self.declineSharePersonal!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-            self.declineSharePersonal!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
+            self.declineSharePersonal = UIButton(frame: CGRect(x: acceptSharePersonal!.frame.maxX, y: lblPersonalData.frame.maxY + 24.0, width: 120, height: 16))
+            self.declineSharePersonal?.setTitle(NSLocalizedString("signup.info.share.no", comment: ""), for: UIControlState())
+            self.declineSharePersonal!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+            self.declineSharePersonal!.setImage(UIImage(named:"checkTermOn"), for: UIControlState.selected)
             self.declineSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            self.declineSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+            self.declineSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
             self.declineSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-            self.declineSharePersonal!.addTarget(self, action: #selector(SignUpViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            self.declineSharePersonal!.addTarget(self, action: #selector(SignUpViewController.changeCons(_:)), for: UIControlEvents.touchUpInside)
             
             
-            self.backButton = UIButton(frame: CGRectMake(16, declineSharePersonal!.frame.maxY + 102.0, 136, 40))
-            self.backButton!.setTitle(NSLocalizedString("signup.info.return", comment: ""), forState: UIControlState.Normal)
-            self.backButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            self.backButton = UIButton(frame: CGRect(x: 16, y: declineSharePersonal!.frame.maxY + 102.0, width: 136, height: 40))
+            self.backButton!.setTitle(NSLocalizedString("signup.info.return", comment: ""), for: UIControlState())
+            self.backButton!.setTitleColor(UIColor.white, for: UIControlState())
             self.backButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.backButton!.backgroundColor = WMColor.dark_blue
             self.backButton!.layer.cornerRadius = 20.0
-            self.backButton!.addTarget(self, action: #selector(SignUpViewController.backRegistry(_:)), forControlEvents: .TouchUpInside)
+            self.backButton!.addTarget(self, action: #selector(SignUpViewController.backRegistry(_:)), for: .touchUpInside)
             
-            self.registryButton = UIButton(frame: CGRectMake(self.backButton!.frame.maxX + 16.0, declineSharePersonal!.frame.maxY + 102.0, 136, 40))
-            self.registryButton!.setTitle(NSLocalizedString("signup.info.registry", comment: ""), forState: UIControlState.Normal)
-            self.registryButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            self.registryButton = UIButton(frame: CGRect(x: self.backButton!.frame.maxX + 16.0, y: declineSharePersonal!.frame.maxY + 102.0, width: 136, height: 40))
+            self.registryButton!.setTitle(NSLocalizedString("signup.info.registry", comment: ""), for: UIControlState())
+            self.registryButton!.setTitleColor(UIColor.white, for: UIControlState())
             self.registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.registryButton!.backgroundColor = WMColor.green
             self.registryButton!.layer.cornerRadius = 20.0
-            self.registryButton!.addTarget(self, action: #selector(SignUpViewController.registryUser), forControlEvents: .TouchUpInside)
+            self.registryButton!.addTarget(self, action: #selector(SignUpViewController.registryUser), for: .touchUpInside)
             
             
             infoContainer?.addSubview(lblTitle)
@@ -809,20 +809,20 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return infoContainer!
     }
     
-    func backRegistry(sender:AnyObject) {
+    func backRegistry(_ sender:AnyObject) {
         let infoView = self.generateInfoView(self.content.frame)
         self.content.alpha = 1
         infoView.alpha = 0
         
     }
     
-    func changeCons(sender:UIButton) {
+    func changeCons(_ sender:UIButton) {
         if sender == self.acceptSharePersonal {
-            self.acceptSharePersonal?.selected = true
-            self.declineSharePersonal?.selected = false
+            self.acceptSharePersonal?.isSelected = true
+            self.declineSharePersonal?.isSelected = false
         } else if sender == self.declineSharePersonal  {
-            self.acceptSharePersonal?.selected = false
-            self.declineSharePersonal?.selected = true
+            self.acceptSharePersonal?.isSelected = false
+            self.declineSharePersonal?.isSelected = true
         }
         
     }

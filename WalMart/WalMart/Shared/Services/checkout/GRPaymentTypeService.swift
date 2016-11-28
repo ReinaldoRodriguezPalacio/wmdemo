@@ -11,14 +11,14 @@ import UIKit
 class GRPaymentTypeService: GRBaseService {
 
     
-    func callService(payment:String, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ payment:String, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //let afManager = getManager()
         //self.callService(requestParams: ["payment":payment,"isPaypalOn":true], successBlock: successBlock, errorBlock: errorBlock)
         self.callService(requestParams: ["payment":payment], successBlock: successBlock, errorBlock: errorBlock)
     }
     
     func callService(requestParams params:AnyObject, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             let arrayCall = resultCall["responseArray"] as! NSArray
             successBlock!(arrayCall)
         }) { (error:NSError) -> Void in

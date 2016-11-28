@@ -15,14 +15,14 @@ class CategoryService : BaseService {
     let typeCategory = "categories"
    
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 self.jsonFromObject(resultCall)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                 successBlock?(resultCall)
                 
-                self.loadKeyFieldCategories(resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]], type: ResultObjectType.Mg.rawValue);
+                self.loadKeyFieldCategories(resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:Any]], type: ResultObjectType.Mg.rawValue);
                 
                 return
             },
@@ -34,11 +34,11 @@ class CategoryService : BaseService {
     }
     
     
-    func getCategoriesContent() -> [[String:AnyObject]] {
-        var response : [[String:AnyObject]] = []
+    func getCategoriesContent() -> [[String:Any]] {
+        var response : [[String:Any]] = []
         let values = self.getDataFromFile(fileName)
         if values != nil {
-            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
+            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
              response = response.sort({ (obj1:[String : AnyObject], obj2:[String : AnyObject]) -> Bool in
                 let firstString = obj1["description"] as! String?
                 let secondString = obj2["description"] as! String?

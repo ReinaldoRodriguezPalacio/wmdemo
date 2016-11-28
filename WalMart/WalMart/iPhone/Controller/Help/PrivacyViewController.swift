@@ -16,17 +16,17 @@ class PrivacyViewController :  PreviewHelpViewController {
         
         //
         self.titleLabel!.text = NSLocalizedString("help.item.privacy.notice", comment: "")
-        self.titleText = self.titleLabel!.text
+        self.titleText = self.titleLabel!.text as NSString!
     }
     
     override func loadPreview () {
         
-            let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
-            let myFilePath = documentDirectory.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
-            let manager = NSFileManager.defaultManager()
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+            let myFilePath = documentDirectory.appendingPathComponent("AvisoPrivacidad.pdf")
+            let manager = FileManager.default
             
-            if (manager.fileExistsAtPath(myFilePath)) {
-                let request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath))
+            if (manager.fileExists(atPath: myFilePath)) {
+                let request = URLRequest(url: URL(fileURLWithPath: myFilePath))
                 self.webShowDetail.loadRequest(request)
             }
     }

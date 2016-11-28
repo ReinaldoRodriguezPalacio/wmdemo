@@ -19,22 +19,22 @@ class ImageDisplayCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate 
     override init(frame: CGRect)  {
         super.init(frame: frame)
         
-        self.scrollView = ImageScrollView(frame: CGRectMake(0.0, 0.0, frame.size.width, frame.size.height))
-        self.scrollView!.backgroundColor = UIColor.whiteColor()
+        self.scrollView = ImageScrollView(frame: CGRect(x: 0.0, y: 0.0, width: frame.size.width, height: frame.size.height))
+        self.scrollView!.backgroundColor = UIColor.white
         self.contentView.addSubview(self.scrollView!)
     }
     
-    func setImageToDisplay(image:UIImage) {
+    func setImageToDisplay(_ image:UIImage) {
         self.scrollView!.displayImage(image)
     }
     
-    func setImageUrlToDisplay(url:String) {
+    func setImageUrlToDisplay(_ url:String) {
         self.scrollView!.displayImageWithUrl(url)
     }
     
     override func layoutSubviews() {
         let bounds = self.contentView.frame
-        self.scrollView!.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
+        self.scrollView!.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height)
         self.scrollView!.contentSize = bounds.size
     }
     

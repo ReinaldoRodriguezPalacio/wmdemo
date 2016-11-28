@@ -14,6 +14,9 @@ let KEYWORD_IDLINE_COLUMN = "idLine"
 let CATEGORIES_KEYWORD_TABLE = "CategoriesKeywords"
 
 class WalMartSqliteDB: NSObject {
+    private static var __once: () = {
+        Static.instance = WalMartSqliteDB()
+        }()
     let DB_NAME = "keywords.sqlite"
    
     let CREATE_PRODUCT_TABLE_QUERY = "CREATE VIRTUAL TABLE IF NOT EXISTS \(PRODUCT_KEYWORD_TABLE) USING fts3(\(KEYWORD_TITLE_COLUMN) VARCHAR(256) NOT NULL , upc VARCHAR(10) NOT NULL, price VARCHAR(10) NOT NULL);"
@@ -22,14 +25,14 @@ class WalMartSqliteDB: NSObject {
  
     
     lazy var dataBase: FMDatabaseQueue = {
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray!
-        var docPath = paths[0] as! NSString
-        var dbPath = docPath.stringByAppendingPathComponent(self.DB_NAME)
+        var paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as NSArray!
+        var docPath = paths?[0] as! NSString
+        var dbPath = docPath.appendingPathComponent(self.DB_NAME)
         
         var error : NSError? = nil
-        let todeletecloud =  NSURL(fileURLWithPath: docPath as String)
+        let todeletecloud =  URL(fileURLWithPath: docPath as String)
         do {
-            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+            try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
         } catch var error1 as NSError {
             error = error1
         } catch {
@@ -37,10 +40,10 @@ class WalMartSqliteDB: NSObject {
         }
 
         
-        var queueDB: FMDatabaseQueue = FMDatabaseQueue.dbQueueWithPath(dbPath)
+        var queueDB: FMDatabaseQueue = FMDatabaseQueue.dbQueue(withPath: dbPath)
         queueDB.inDatabase({ (db:FMDatabase!) in
             
-            if let rs = db.executeQuery(self.CREATE_PRODUCT_TABLE_QUERY, withArgumentsInArray:nil) {
+            if let rs = db.executeQuery(self.CREATE_PRODUCT_TABLE_QUERY, withArgumentsIn:nil) {
                 while rs.next() {
                     print(rs.resultDictionary())
                 }
@@ -48,7 +51,7 @@ class WalMartSqliteDB: NSObject {
                 rs.setParentDB(nil)
             }
         
-            if let rsCategories = db.executeQuery(self.CREATE_CATEGORIES_TABLE_QUERY, withArgumentsInArray:nil) {
+            if let rsCategories = db.executeQuery(self.CREATE_CATEGORIES_TABLE_QUERY, withArgumentsIn:nil) {
                 while rsCategories.next() {
                     print(rsCategories.resultDictionary())
                 }
@@ -62,14 +65,12 @@ class WalMartSqliteDB: NSObject {
         }()
     
     struct Static {
-        static var token : dispatch_once_t = 0
+        static var token : Int = 0
         static var instance : WalMartSqliteDB?
     }
     
     class var instance: WalMartSqliteDB {
-    dispatch_once(&Static.token) {
-        Static.instance = WalMartSqliteDB()
-        }
+    _ = WalMartSqliteDB.__once
         return Static.instance!
     }
     
@@ -87,11 +88,11 @@ class WalMartSqliteDB: NSObject {
         return "INSERT INTO \(PRODUCT_KEYWORD_TABLE) (\(KEYWORD_TITLE_COLUMN)) VALUES(\"\(description)\");"
     }*/
     
-    func buildFindProductKeywordQuery(description description:String, price:String) -> String {
+    func buildFindProductKeywordQuery(description:String, price:String) -> String {
         return "SELECT * FROM \(PRODUCT_KEYWORD_TABLE) WHERE \(KEYWORD_TITLE_COLUMN) = '\(description)\' and price = \'\(price)\';"
     }
     
-    func buildSearchProductKeywordsQuery(keyword keyword:String) -> String {
+    func buildSearchProductKeywordsQuery(keyword:String) -> String {
         return "SELECT * FROM \(PRODUCT_KEYWORD_TABLE) WHERE \(KEYWORD_TITLE_COLUMN) MATCH \"\(keyword)*\"  ORDER BY \(KEYWORD_TITLE_COLUMN);"
     }
 
@@ -100,19 +101,19 @@ class WalMartSqliteDB: NSObject {
         return "INSERT INTO \(CATEGORIES_KEYWORD_TABLE) (departament , type  , idLine , idFamily, idDepto,  \(KEYWORD_TITLE_COLUMN) ,family,line) VALUES('\(departament)','\(type)','\(idLine)','\(idFamily)','\(idDepto)', '\(categorie)', '\(family)', '\(line)');"
     }
     
-    func buildFindCategoriesKeywordQuery(categories categories:String, departament:String, type:String, idLine: String ) -> String {
+    func buildFindCategoriesKeywordQuery(categories:String, departament:String, type:String, idLine: String ) -> String {
          return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE type=\'\(type)\' and idLine=\'\(idLine)\' ;"
     }
     
-    func buildSearchCategoriesKeywordsQuery(keyword keyword:String) -> String {
+    func buildSearchCategoriesKeywordsQuery(keyword:String) -> String {
         return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE \(KEYWORD_TITLE_COLUMN) MATCH \"\(keyword)*\"  ORDER BY \(KEYWORD_TITLE_COLUMN);"
     }
     
-    func buildSearchCategoriesIdLineQuery(idline idline:String) -> String {
+    func buildSearchCategoriesIdLineQuery(idline:String) -> String {
         return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE \(KEYWORD_IDLINE_COLUMN) IN(\(idline));"
     }
     
-    func buildSearchCategoriesIdFamilyQuery(idFamily idFamily:String) -> String {
+    func buildSearchCategoriesIdFamilyQuery(idFamily:String) -> String {
         return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE idFamily IN(\(idFamily));"
     }
     

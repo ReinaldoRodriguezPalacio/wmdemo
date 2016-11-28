@@ -37,15 +37,15 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
     func setup() {
         
         let collectionLayout = UICollectionViewFlowLayout()
-        collectionLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+        collectionLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
         
         collection = UICollectionView(frame: self.bounds, collectionViewLayout: collectionLayout)
-        collection.registerClass(ProductDetailCrossSellItemCollectionViewCell.self, forCellWithReuseIdentifier: "productCrossSellCell")
+        collection.register(ProductDetailCrossSellItemCollectionViewCell.self, forCellWithReuseIdentifier: "productCrossSellCell")
         
         collection.dataSource = self
         collection.delegate = self
-        collection.pagingEnabled = true
-        collection.backgroundColor = UIColor.whiteColor()
+        collection.isPagingEnabled = true
+        collection.backgroundColor = UIColor.white
         
         
         
@@ -58,21 +58,21 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
         collection.frame = self.bounds
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemsUPC.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("productCrossSellCell", forIndexPath: indexPath) as! ProductDetailCrossSellItemCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: "productCrossSellCell", for: indexPath) as! ProductDetailCrossSellItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
         
         let desc = itemUPC["description"] as! String
         let price = itemUPC["price"] as! String
         let imageArray = itemUPC["imageUrl"] as! NSArray
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as! String
+            imageUrl = imageArray.object(at: 0) as! String
         }
         
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: price)
@@ -80,19 +80,19 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        return CGSizeMake(106.66, 146)
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
+        return CGSize(width: 106.66, height: 146)
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var upcItems : [[String:String]] = []
         for upcStr in itemsUPC {
             let upc = upcStr["upc"] as! String
@@ -100,15 +100,15 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
             upcItems.append(["upc":upc,"description":desc])
         }
         
-        let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
+        let currentCell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell!
         
          //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(currentCell.upcProduct)")
         //currentCell.hideImageView()
-        var pontInView = CGRectZero
+        var pontInView = CGRect.zero
         if self.superview?.superview?.superview != nil {
-            pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview?.superview)
+            pontInView = (currentCell?.convert(currentCell!.productImage!.frame, to:  self.superview?.superview?.superview))!
         }else{
-            pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview)
+            pontInView = (currentCell?.convert(currentCell!.productImage!.frame, to:  self.superview?.superview))!
         }
         delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: "",isBundle: false)
         

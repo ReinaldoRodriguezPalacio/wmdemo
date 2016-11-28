@@ -17,7 +17,7 @@ class NewListSelectorViewCell: NewListTableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.inputNameList!.returnKeyType = .Default
+        self.inputNameList!.returnKeyType = .default
         
         self.scanTicketBtn?.removeFromSuperview()
         self.scanTicketBtn = nil
@@ -32,12 +32,12 @@ class NewListSelectorViewCell: NewListTableViewCell {
     override func layoutSubviews() {
         let bounds = self.frame.size
         self.inputNameList!.text = ""
-        self.inputNameList!.frame = CGRectMake(16.0, 8.0, bounds.width - 32.0, 40.0)
+        self.inputNameList!.frame = CGRect(x: 16.0, y: 8.0, width: bounds.width - 32.0, height: 40.0)
     }
     
     //MARK: - Actions
     
-    override func save(button:UIButton) {
+    override func save(_ button:UIButton) {
         if NewListTableViewCell.isValidName(self.inputNameList) {
             self.delegate?.createNewList(self.inputNameList!.text!)
         }
@@ -48,12 +48,12 @@ class NewListSelectorViewCell: NewListTableViewCell {
     //MARK: - UITextFieldDelegate
     
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "")
         return true
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.delegate?.cancelNewList()
         return true

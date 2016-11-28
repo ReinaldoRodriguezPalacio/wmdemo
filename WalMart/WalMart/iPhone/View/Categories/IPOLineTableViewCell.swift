@@ -45,11 +45,11 @@ class IPOLineTableViewCell : UITableViewCell {
         label!.font = WMFont.fontMyriadProLightOfSize(15)
         label!.textColor = WMColor.empty_gray
         label!.text = "desde"
-        label!.hidden =  true
+        label!.isHidden =  true
         
         priceLabel = CurrencyCustomLabel()
-        priceLabel!.textAlignment = .Left
-        priceLabel!.hidden =  true
+        priceLabel!.textAlignment = .left
+        priceLabel!.isHidden =  true
         
         separator = UIView()
         separator.backgroundColor = WMColor.light_gray
@@ -64,42 +64,42 @@ class IPOLineTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.viewBgSel!.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
+        self.viewBgSel!.frame =  CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height - 1.0)
 
-        titleLabel.frame = self.newFrame ? CGRectMake(16, 0, 182, self.bounds.height) : self.oneLine ? CGRectMake(16, 0, self.bounds.width - 32, self.bounds.height) : CGRectMake(40, 0, self.bounds.width - 40, self.bounds.height)
-        label.frame = CGRectMake(titleLabel.frame.maxX + 5, 0, 40, self.bounds.height)
-        priceLabel?.frame =  CGRectMake(label.frame.maxX + 5, 0, 50, self.bounds.height)
+        titleLabel.frame = self.newFrame ? CGRect(x: 16, y: 0, width: 182, height: self.bounds.height) : self.oneLine ? CGRect(x: 16, y: 0, width: self.bounds.width - 32, height: self.bounds.height) : CGRect(x: 40, y: 0, width: self.bounds.width - 40, height: self.bounds.height)
+        label.frame = CGRect(x: titleLabel.frame.maxX + 5, y: 0, width: 40, height: self.bounds.height)
+        priceLabel?.frame =  CGRect(x: label.frame.maxX + 5, y: 0, width: 50, height: self.bounds.height)
 
 
         if showSeparator {
             separator.alpha = 1
             let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-            separator.frame = CGRectMake(0, self.bounds.height - widthAndHeightSeparator, self.bounds.width, widthAndHeightSeparator)
+            separator.frame = CGRect(x: 0, y: self.bounds.height - widthAndHeightSeparator, width: self.bounds.width, height: widthAndHeightSeparator)
         }else{
             separator.alpha = 0
         }
         
     }
     
-    func setTitle(title:String){
+    func setTitle(_ title:String){
         titleLabel.text = title
     }
     
-    func setValues(price:String){
+    func setValues(_ price:String){
         self.newFrame  =  true
-        label!.hidden =  false
-        priceLabel?.hidden =  false
+        label!.isHidden =  false
+        priceLabel?.isHidden =  false
         let fmtTotal = CurrencyCustomLabel.formatString(price)
         priceLabel?.updateMount(fmtTotal, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         // super.setSelected(selected, animated: true)
-        viewBgSel.hidden = !selected
+        viewBgSel.isHidden = !selected
     }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         //super.setHighlighted(highlighted, animated: highlighted)
-        viewBgSel.hidden = true
+        viewBgSel.isHidden = true
     }
 }

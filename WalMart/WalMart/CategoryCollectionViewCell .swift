@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol CategoryCollectionViewCellDelegate {
-    func didSelectCategory(index:Int)
+    func didSelectCategory(_ index:Int)
 }
 
 class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCarouselDelegate {
@@ -40,18 +40,18 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
         
         carousel = iCarousel(frame: self.bounds)
         carousel.scrollSpeed = 0.70
-        carousel.autoresizingMask = .None
-        carousel.type = iCarouselType.Linear
+        carousel.autoresizingMask = UIViewAutoresizing()
+        carousel.type = iCarouselType.linear
         carousel.delegate = self
         carousel.dataSource = self
-        carousel.backgroundColor = UIColor.clearColor()
+        carousel.backgroundColor = UIColor.clear
         carousel.clipsToBounds = true
         carousel.bounceDistance = 0.3
         
         
         let initialW : CGFloat = 75.0
         let initialH : CGFloat = 4.0
-        selectorIndicator = UIView(frame: CGRectMake((self.frame.width / 2) - (initialW / 2), self.frame.height - initialH, initialW, initialH))
+        selectorIndicator = UIView(frame: CGRect(x: (self.frame.width / 2) - (initialW / 2), y: self.frame.height - initialH, width: initialW, height: initialH))
         selectorIndicator.backgroundColor = WMColor.yellow
         
         self.addSubview(carousel)
@@ -59,82 +59,82 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
         
     }
     
-    func setCategoriesAndReloadData(cat:[String]){
+    func setCategoriesAndReloadData(_ cat:[String]){
         categories = cat
         carousel.reloadData()
     }
     
     // MARK: - iCarouselDataSource
     
-    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
+    func numberOfItems(in carousel: iCarousel) -> Int {
         return categories.count
     }
     
     
     
     
-    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
+    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         let ix = Int(index)//Int(index)
         var lblView : CategorySelectorItemView? = nil
         let maxStrCat =  "Especiales " + categories[ix]
-        let size = maxStrCat.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
+        let size = maxStrCat.size(attributes: [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
         //if categoriesLabel.count <= ix || categoriesLabel.count == 0 {
         let arrayResult =  categoriesLabel.keys.filter {$0 == ix}
         if  Array(arrayResult).count != 0 && categoriesLabel[ix] != nil {
             lblView = categoriesLabel[ix]
-            lblView!.frame = CGRectMake(0, 0, size.width + 15, self.frame.height)
+            lblView!.frame = CGRect(x: 0, y: 0, width: size.width + 15, height: self.frame.height)
             lblView!.title.text = categories[ix]
-            lblView!.title.textColor = UIColor.whiteColor()
+            lblView!.title.textColor = UIColor.white
             //lblView!.centerText()
             if selectedCat != nil && self.selectedCat == categoriesLabel[ix] {
                 lblView!.setTextEspeciales()
-                self.selectorIndicator.frame = CGRectMake((self.frame.width / 2) - ((size.width + 10) / 2) , self.selectorIndicator.frame.minY, size.width + 10 , self.selectorIndicator.frame.height)
+                self.selectorIndicator.frame = CGRect(x: (self.frame.width / 2) - ((size.width + 10) / 2) , y: self.selectorIndicator.frame.minY, width: size.width + 10 , height: self.selectorIndicator.frame.height)
             } else {
                 lblView!.deleteEspeciales()
             }
         }else {
-            lblView = CategorySelectorItemView(frame: CGRectMake(0, 0, size.width + 15, self.frame.height))
+            lblView = CategorySelectorItemView(frame: CGRect(x: 0, y: 0, width: size.width + 15, height: self.frame.height))
             lblView!.clipsToBounds = true
             lblView!.title.text = categories[ix]
-            lblView!.title.textColor = UIColor.whiteColor()
+            lblView!.title.textColor = UIColor.white
             categoriesLabel[ix] = lblView!
             lblView!.deleteEspeciales()
         }
         return lblView!
     }
     
-    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+    func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         var cvalue: CGFloat? = nil
         switch (option) {
-        case .Wrap:         cvalue = 0.0
-        case .Tilt:         cvalue = 0.0
-        case .Spacing:      cvalue = value
-        case .VisibleItems: cvalue = visibleItems()
+        case .wrap:         cvalue = 0.0
+        case .tilt:         cvalue = 0.0
+        case .spacing:      cvalue = value
+        case .visibleItems: cvalue = visibleItems()
             //case .Arc:          cvalue = 10.0
-        case .FadeMax:      cvalue = 0.0
-        case .FadeMin:      cvalue = 0.0
-        case .FadeRange:    cvalue = 5.0
+        case .fadeMax:      cvalue = 0.0
+        case .fadeMin:      cvalue = 0.0
+        case .fadeRange:    cvalue = 5.0
         default:            cvalue = value
         }
         return cvalue!
     }
     
     
-    func carouselDidEndScrollingAnimation(carousel: iCarousel) {
+    func carouselDidEndScrollingAnimation(_ carousel: iCarousel) {
         changeSizeOfIndicator(carousel.currentItemIndex)
     }
     
-    func carousel(carousel: iCarousel, shouldSelectItemAtIndex index: Int) -> Bool {
+    func carousel(_ carousel: iCarousel, shouldSelectItemAt index: Int) -> Bool {
         return true;
     }
     
     
-    func carousel(carousel: iCarousel, didSelectItemAtIndex index: Int)  {
+    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int)  {
         //changeSizeOfIndicator(index)
     }
     
     
-    func changeSizeOfIndicator(index:Int) {
+    func changeSizeOfIndicator(_ index:Int) {
         if categories .count > 0 {
          UserCurrentSession.sharedInstance().nameListToTag = "Especiales " + categories[index]
         }
@@ -166,8 +166,8 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAROUSEL.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAROUSEL.rawValue, action:  WMGAIUtils.ACTION_CHANGE_ITEM.rawValue, label: self.selectedCat!.title!.text!)
                     
                     delegate.didSelectCategory(index)
-                    self.carousel.reloadItemAtIndex(index, animated: false)
-                    self.carousel.reloadItemAtIndex(index + 1, animated: false)
+                    self.carousel.reloadItem(at: index, animated: false)
+                    self.carousel.reloadItem(at: index + 1, animated: false)
                 }
             }
         }
@@ -175,7 +175,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     }
     
     func visibleItems() -> CGFloat {
-        let visibleItms : CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 3.0 : 7.0
+        let visibleItms : CGFloat = UIDevice.current.userInterfaceIdiom == .phone ? 3.0 : 7.0
         return visibleItms
     }
 

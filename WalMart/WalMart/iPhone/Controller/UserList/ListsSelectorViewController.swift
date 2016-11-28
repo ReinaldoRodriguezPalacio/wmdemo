@@ -8,19 +8,32 @@
 
 import UIKit
 import CoreData
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 protocol ListSelectorDelegate {
-    func listSelectorDidShowList(listId: String, andName name:String)
+    func listSelectorDidShowList(_ listId: String, andName name:String)
     func listSelectorDidAddProduct(inList listId:String)
     func listSelectorDidDeleteProduct(inList listId:String)
     
-    func listSelectorDidShowListLocally(list: List)
+    func listSelectorDidShowListLocally(_ list: List)
     func listSelectorDidAddProductLocally(inList list:List)
-    func listSelectorDidDeleteProductLocally(product:Product, inList list:List)
+    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List)
     
     func listSelectorDidClose()
     func shouldDelegateListCreation() -> Bool
-    func listSelectorDidCreateList(name:String)
+    func listSelectorDidCreateList(_ name:String)
 }
 
 class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableViewDataSource, ListSelectorCellDelegate, NewListTableViewCellDelegate , UIScrollViewDelegate{
@@ -46,7 +59,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
     
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
     }()
@@ -56,30 +69,30 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         
         self.titleLabel = UILabel()
         self.titleLabel!.text = NSLocalizedString("list.selector.title", comment:"")
-        self.titleLabel!.textColor = UIColor.whiteColor()
-        self.titleLabel!.textAlignment = .Center
+        self.titleLabel!.textColor = UIColor.white
+        self.titleLabel!.textAlignment = .center
         self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        self.titleLabel!.backgroundColor = UIColor.clearColor()
+        self.titleLabel!.backgroundColor = UIColor.clear
         self.view.addSubview(self.titleLabel!)
         
-        self.closeBtn = UIButton(type: .Custom)
-        self.closeBtn!.setImage(UIImage(named:"close"), forState: .Normal)
-        self.closeBtn!.addTarget(self, action: #selector(ListsSelectorViewController.closeSelector), forControlEvents: .TouchUpInside)
+        self.closeBtn = UIButton(type: .custom)
+        self.closeBtn!.setImage(UIImage(named:"close"), for: UIControlState())
+        self.closeBtn!.addTarget(self, action: #selector(ListsSelectorViewController.closeSelector), for: .touchUpInside)
         self.view.addSubview(self.closeBtn!)
         
-        self.tableView = UITableView(frame: CGRectMake(0, 200, 320, 400))
-        self.tableView!.backgroundColor = UIColor.clearColor()
-        self.tableView!.separatorStyle = UITableViewCellSeparatorStyle.None
-        self.tableView!.autoresizingMask = UIViewAutoresizing.None
+        self.tableView = UITableView(frame: CGRect(x: 0, y: 200, width: 320, height: 400))
+        self.tableView!.backgroundColor = UIColor.clear
+        self.tableView!.separatorStyle = UITableViewCellSeparatorStyle.none
+        self.tableView!.autoresizingMask = UIViewAutoresizing()
         self.tableView!.delegate = self
         self.tableView!.dataSource = self
-        self.tableView!.backgroundColor = UIColor.clearColor()
+        self.tableView!.backgroundColor = UIColor.clear
         self.view.addSubview(self.tableView!)
         
-        self.tableView!.registerClass(ListSelectorViewCell.self, forCellReuseIdentifier: self.CELL_ID)
-        self.tableView!.registerClass(NewListSelectorViewCell.self, forCellReuseIdentifier: self.NEWCELL_ID)
+        self.tableView!.register(ListSelectorViewCell.self, forCellReuseIdentifier: self.CELL_ID)
+        self.tableView!.register(NewListSelectorViewCell.self, forCellReuseIdentifier: self.NEWCELL_ID)
         
-        self.loading = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        self.loading = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         self.loading!.startAnnimating(true)
         self.view.addSubview(self.loading!)
 
@@ -88,13 +101,13 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     
     override func viewWillLayoutSubviews() {
         let frame = self.view.bounds
-        self.titleLabel!.frame = CGRectMake(15.0, 0.0, frame.size.width - 30.0, 48.0)
-        self.closeBtn!.frame = CGRectMake(frame.width - 44.0, 2.0, 44.0, 44.0)
-        self.tableView!.frame = CGRectMake(0.0, 48.0, frame.size.width, frame.size.height - 48.0)
-        self.loading!.frame = CGRectMake(0,0, frame.size.width, frame.size.height)
+        self.titleLabel!.frame = CGRect(x: 15.0, y: 0.0, width: frame.size.width - 30.0, height: 48.0)
+        self.closeBtn!.frame = CGRect(x: frame.width - 44.0, y: 2.0, width: 44.0, height: 44.0)
+        self.tableView!.frame = CGRect(x: 0.0, y: 48.0, width: frame.size.width, height: frame.size.height - 48.0)
+        self.loading!.frame = CGRect(x: 0,y: 0, width: frame.size.width, height: frame.size.height)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.loadLocalList()
     }
@@ -112,15 +125,15 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     
     // MARK: - Utils
     func showLoadingIfNeeded() {
-        self.tableView!.hidden = self.list == nil
-        self.titleLabel!.hidden = self.list == nil
-        self.loading!.hidden = self.list != nil
+        self.tableView!.isHidden = self.list == nil
+        self.titleLabel!.isHidden = self.list == nil
+        self.loading!.isHidden = self.list != nil
     }
     
     func loadLocalList() {
         if let user = UserCurrentSession.sharedInstance().userSigned {
             self.list = self.retrieveItems(forUser: user)
-            self.list =  self.list?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+            self.list =  self.list?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -131,7 +144,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         else {
             let service = GRUserListService()
             self.list = service.retrieveNotSyncList()
-            self.list =  self.list?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+            self.list =  self.list?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -142,20 +155,20 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.showLoadingIfNeeded()
     }
 
-    func generateBlurImage(viewBg:UIView, frame:CGRect) {
+    func generateBlurImage(_ viewBg:UIView, frame:CGRect) {
         self.imageBlurView = self.createBlurImage(viewBg, frame: frame)
-        self.view.insertSubview(self.imageBlurView!, atIndex: 0)
+        self.view.insertSubview(self.imageBlurView!, at: 0)
         
         let bg = UIView(frame: frame)
-        bg.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
+        bg.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
         self.view.insertSubview(bg, aboveSubview: self.imageBlurView!)
     }
     
-    func createBlurImage(viewBg:UIView, frame:CGRect) -> UIImageView {
+    func createBlurImage(_ viewBg:UIView, frame:CGRect) -> UIImageView {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 2.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
         
-        let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
+        let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
         UIGraphicsEndImageContext();
         
         let blurredImage = cloneImage.applyLightEffect()
@@ -179,26 +192,26 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
     // MARK: - TableView
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (self.list != nil ? self.list!.count : 0) + 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID, forIndexPath: indexPath) as! NewListSelectorViewCell
-            listCell.backgroundColor = UIColor.clearColor()
-            listCell.contentView.backgroundColor = UIColor.clearColor()
+            let listCell = tableView.dequeueReusableCell(withIdentifier: self.NEWCELL_ID, for: indexPath) as! NewListSelectorViewCell
+            listCell.backgroundColor = UIColor.clear
+            listCell.contentView.backgroundColor = UIColor.clear
             listCell.delegate = self
             return listCell
         }
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListSelectorViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID) as! ListSelectorViewCell
         cell.delegate = self
-        cell.backgroundColor = UIColor.clearColor()
-        cell.contentView.backgroundColor = UIColor.clearColor()
+        cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
         cell.hiddenOpenList = self.hiddenOpenList
         let idx = indexPath.row - 1
-        if let item = self.list![idx] as? NSDictionary {
+        if let item = self.list![idx] as? [String:Any] {
             let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
             cell.setListObject(item, productIncluded: isIncluded)
         }
@@ -211,17 +224,17 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 56.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             return
         }
 
         let idx = indexPath.row - 1
-        if let item = self.list![idx] as? NSDictionary {
+        if let item = self.list![idx] as? [String:Any] {
             let listId = item["id"] as? String
             let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
             if product != nil {
@@ -264,18 +277,18 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     // MARK: - DB
     
     func retrieveItems(forUser user:User) -> [List]? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "user == %@", user)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "registryDate", ascending: false)]
-        let result: [List] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [List]
+        let result: [List] = (try! self.managedContext!.fetch(fetchRequest)) as! [List]
         return result
     }
 
     func retrieveItemsFromService(){
         let userListsService = GRUserListService()
         userListsService.callService([:],
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 self.list = result["responseArray"] as? [AnyObject]
                 //println(self.itemsUserList)
                 self.tableView!.reloadData()
@@ -294,10 +307,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func retrieveProductInList(forProduct upc:String?, inListWithId listId:String) -> Product? {
         var detail: Product? = nil
         if upc != nil {
-            let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list.idList == %@", upc!, listId)
-            var result: [Product] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Product]
+            var result: [Product] = (try! self.managedContext!.fetch(fetchRequest)) as! [Product]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -314,10 +327,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func retrieveProductInList(forProduct upc:String?, inList entity:List) -> Product? {
         var detail: Product? = nil
         if upc != nil {
-            let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list == %@", upc!, entity)
-            var result: [Product] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Product]
+            var result: [Product] = (try! self.managedContext!.fetch(fetchRequest)) as! [Product]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -342,10 +355,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
     //MARK: - ListSelectorCellDelegate
     
-    func didShowListDetail(cell: ListSelectorViewCell) {
-        if let indexPath = self.tableView!.indexPathForCell(cell) {
+    func didShowListDetail(_ cell: ListSelectorViewCell) {
+        if let indexPath = self.tableView!.indexPath(for: cell) {
             let idx = indexPath.row - 1
-            if let item = self.list![idx] as? NSDictionary {
+            if let item = self.list![idx] as? [String:Any] {
                 self.delegate!.listSelectorDidShowList(item["id"] as! String, andName: item["name"] as! String)
             }
             else if let entity = self.list![idx] as? List {
@@ -369,7 +382,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
      
      - parameter value: name new list
      */
-    func createNewList(value:String) {
+    func createNewList(_ value:String) {
         if self.list?.count < 12{
             if self.delegate != nil {
                 if self.delegate!.shouldDelegateListCreation() {
@@ -382,7 +395,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
             let svcList = GRSaveUserListService()
             svcList.callService(svcList.buildParams(value),
-                successBlock: { (result:NSDictionary) -> Void in
+                successBlock: { (result:[String:Any]) -> Void in
                 
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
                 
@@ -411,7 +424,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
     
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
 

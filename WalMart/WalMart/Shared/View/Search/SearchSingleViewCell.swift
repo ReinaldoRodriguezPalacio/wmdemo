@@ -17,21 +17,21 @@ class SearchSingleViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
-        self.backgroundColor = UIColor.clearColor()
+        self.selectionStyle = .none
+        self.backgroundColor = UIColor.clear
         
         let bounds = self.frame.size
         
-        self.priceLabel = CurrencyCustomLabel(frame: CGRectMake(bounds.width - 80 - 15 , 0.0, 80 , bounds.height - 1.0))
-        self.priceLabel?.textAlignment =  NSTextAlignment.Right
+        self.priceLabel = CurrencyCustomLabel(frame: CGRect(x: bounds.width - 80 - 15 , y: 0.0, width: 80 , height: bounds.height - 1.0))
+        self.priceLabel?.textAlignment =  NSTextAlignment.right
         self.title = UILabel()
         
         self.title!.textColor = WMColor.light_blue
-        self.title!.backgroundColor = UIColor.clearColor()
+        self.title!.backgroundColor = UIColor.clear
         self.contentView.addSubview(self.title!)
         self.contentView.addSubview(priceLabel!)
         
-        self.contentView.backgroundColor = UIColor.clearColor()
+        self.contentView.backgroundColor = UIColor.clear
         self.fontTitle = WMFont.fontMyriadProRegularOfSize(14)
         self.fontTitleKey = WMFont.fontMyriadProBoldOfSize(14)
     }
@@ -40,51 +40,51 @@ class SearchSingleViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func setValueTitle(value:AnyObject, forKey key:String, andPrice price:String) {
-        self.priceLabel?.textAlignment =  NSTextAlignment.Right
+    func setValueTitle(_ value:AnyObject, forKey key:String, andPrice price:String) {
+        self.priceLabel?.textAlignment =  NSTextAlignment.right
         if let keyword = value as? String {
-            self.title!.attributedText = SearchSingleViewCell.attributedText(key, value: keyword, fontKey: self.fontTitleKey!, fontValue: self.fontTitle!)
+            self.title!.attributedText = SearchSingleViewCell.attributedText(key as NSString, value: keyword as NSString, fontKey: self.fontTitleKey!, fontValue: self.fontTitle!)
         }
         let formatedPrice = CurrencyCustomLabel.formatString(price)
         self.priceLabel?.updateMount(formatedPrice, font: fontTitle!, color:self.title!.textColor, interLine: false)
-        self.priceLabel!.textAlignment = .Right
+        self.priceLabel!.textAlignment = .right
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     override func layoutSubviews() {
         let bounds = self.frame.size
-        self.contentView.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
-        self.title!.frame = CGRectMake(15.0, 0.0, bounds.width - 80.0 - 30.0, bounds.height - 1.0)
-        self.priceLabel!.frame = CGRectMake(bounds.width - 80 - 15 , 0.0, 80 , bounds.height - 1.0)
+        self.contentView.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height)
+        self.title!.frame = CGRect(x: 15.0, y: 0.0, width: bounds.width - 80.0 - 30.0, height: bounds.height - 1.0)
+        self.priceLabel!.frame = CGRect(x: bounds.width - 80 - 15 , y: 0.0, width: 80 , height: bounds.height - 1.0)
     }
     
     //MARK: - Utils
-    class func attributedText(key:NSString, value:NSString, fontKey:UIFont, fontValue:UIFont) -> NSMutableAttributedString {
+    class func attributedText(_ key:NSString, value:NSString, fontKey:UIFont, fontValue:UIFont) -> NSMutableAttributedString {
         let attributedTxt = NSMutableAttributedString(string:value as String)
         attributedTxt.addAttribute(NSFontAttributeName, value: fontValue, range: NSMakeRange (0, value.length))
-        let range = value.rangeOfString(key as String, options: .CaseInsensitiveSearch)
+        let range = value.range(of: key as String, options: .caseInsensitive)
         if range.location != NSNotFound {
             attributedTxt.addAttribute(NSFontAttributeName, value: fontKey, range: NSMakeRange (range.location, key.length))
         }
         return attributedTxt
     }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         var color : UIColor!
         if highlighted == true {
-            color = UIColor.whiteColor()
+            color = UIColor.white
         }else{
-            color = UIColor.clearColor()
+            color = UIColor.clear
         }
         let codeChange = {() -> Void  in
             self.backgroundColor = color
             self.contentView.backgroundColor = color
         }
 
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 codeChange()
             })
     }

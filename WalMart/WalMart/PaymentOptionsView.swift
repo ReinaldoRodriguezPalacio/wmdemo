@@ -14,7 +14,7 @@ class PaymentOptionsView : UIView {
     
     var paymentItems : [AnyObject] = []
     var afterButton :UIButton?
-    var selectedOption : ((selected:String, stringSelected:String) -> Void)? = nil
+    var selectedOption : ((_ selected:String, _ stringSelected:String) -> Void)? = nil
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -43,30 +43,30 @@ class PaymentOptionsView : UIView {
         if paymentItems.count > 0 {
             
             for payment in self.paymentItems{
-                let paymentTupeItem = payment as! NSDictionary
+                let paymentTupeItem = payment as! [String:Any]
                 if paymentTupeItem["paymentType"] as! String != "Paypal" {
-                    let titleLabel = UILabel(frame:CGRectMake(22, 0, widthField - 22,22))
+                    let titleLabel = UILabel(frame:CGRect(x: 22, y: 0, width: widthField - 22,height: 22))
                     titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
                     titleLabel.text = paymentTupeItem["paymentType"] as? String
                     titleLabel.numberOfLines = 2
-                    titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+                    titleLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
                     titleLabel.textColor = WMColor.dark_gray
                     titleLabel.tag = count
                 
-                    let promSelect = UIButton(frame: CGRectMake(0,posY,widthField,22))
-                    promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-                    promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-                    promSelect.addTarget(self, action: #selector(PaymentOptionsView.paymentCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                    let promSelect = UIButton(frame: CGRect(x: 0,y: posY,width: widthField,height: 22))
+                    promSelect.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
+                    promSelect.setImage(UIImage(named:"checkAddressOn"), for: UIControlState.selected)
+                    promSelect.addTarget(self, action: #selector(PaymentOptionsView.paymentCheckSelected(_:)), for: UIControlEvents.touchUpInside)
                     promSelect.addSubview(titleLabel)
-                    promSelect.selected = false
+                    promSelect.isSelected = false
                     promSelect.tag = count
                     promSelect.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,widthField - 20)
                     self.addSubview(promSelect)
                 
-                    let descriptionLabel = UILabel(frame:CGRectMake(22,promSelect.frame.maxY , widthField - 22,14))
+                    let descriptionLabel = UILabel(frame:CGRect(x: 22,y: promSelect.frame.maxY , width: widthField - 22,height: 14))
                     descriptionLabel.font = WMFont.fontMyriadProRegularOfSize(12)
                     descriptionLabel.text = ""//self.assingDescription(titleLabel.text!)Se comenta descripcion por peticion de usuario
-                    descriptionLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+                    descriptionLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
                     descriptionLabel.textColor = WMColor.light_gray
                     descriptionLabel.tag = count
                     self.addSubview(descriptionLabel)
@@ -92,7 +92,7 @@ class PaymentOptionsView : UIView {
     
     - returns:description to payment type
     */
-    func assingDescription(value:String) -> String{
+    func assingDescription(_ value:String) -> String{
         
         var descripcion = ""
         
@@ -127,7 +127,7 @@ class PaymentOptionsView : UIView {
     
     override func layoutSubviews() {
         for viewF in self.subviews {
-            if viewF.isKindOfClass(UIButton) {
+            if viewF.isKind(of: UIButton.self) {
                 if viewF.tag == 0{
                     self.paymentCheckSelected(viewF as! UIButton)
                 }
@@ -142,27 +142,27 @@ class PaymentOptionsView : UIView {
      
      - parameter sender: payment type button
      */
-    func paymentCheckSelected(sender: UIButton){
-        if(sender.selected){
-            sender.selected = sender == afterButton ? true : false
+    func paymentCheckSelected(_ sender: UIButton){
+        if(sender.isSelected){
+            sender.isSelected = sender == afterButton ? true : false
         }
         else{
             if afterButton != nil{
-                afterButton!.selected = false
+                afterButton!.isSelected = false
             }
-            sender.selected = true
+            sender.isSelected = true
             afterButton = sender
         }
         
-        let paymentItemSelect = self.paymentItems[sender.tag] as! NSDictionary
+        let paymentItemSelect = self.paymentItems[sender.tag] as! [String:Any]
         let selected = paymentItemSelect["id"] as! String
-        self.selectedOption!(selected: selected,stringSelected:paymentItemSelect["paymentType"] as! String)
+        self.selectedOption!(selected,paymentItemSelect["paymentType"] as! String)
        
         let btnSelected : UIButton =  sender
 
         
         for viewF in self.subviews {
-            if viewF.isKindOfClass(UILabel) {
+            if viewF.isKind(of: UILabel.self) {
                 let labelFont : UILabel = viewF as! UILabel
                 if sender.tag  ==  labelFont.tag{
                     labelFont.textColor = WMColor.light_blue
@@ -170,9 +170,9 @@ class PaymentOptionsView : UIView {
                      labelFont.textColor = WMColor.empty_gray
                 }
             }
-            if viewF.isKindOfClass(UIButton) {
+            if viewF.isKind(of: UIButton.self) {
                 for btnView in viewF.subviews {
-                    if  btnView.isKindOfClass(UILabel) {
+                    if  btnView.isKind(of: UILabel.self) {
                         let view : UILabel  = btnView as! UILabel
                         view.textColor = WMColor.dark_gray
                     }
@@ -181,7 +181,7 @@ class PaymentOptionsView : UIView {
         }
         
         for viewF in btnSelected.subviews {
-            if  viewF.isKindOfClass(UILabel) {
+            if  viewF.isKind(of: UILabel.self) {
                 let view : UILabel  = viewF as! UILabel
                 view.textColor = WMColor.light_blue
             }
@@ -196,16 +196,16 @@ class PaymentOptionsView : UIView {
      */
     func deselectOptions(){
         if afterButton != nil{
-            afterButton!.selected = false
+            afterButton!.isSelected = false
             
             for viewF in self.subviews {
-                if viewF.isKindOfClass(UILabel) {
+                if viewF.isKind(of: UILabel.self) {
                     let labelFont : UILabel = viewF as! UILabel
                         labelFont.textColor = WMColor.empty_gray
                 }
-                if viewF.isKindOfClass(UIButton) {
+                if viewF.isKind(of: UIButton.self) {
                     for btnView in viewF.subviews {
-                        if  btnView.isKindOfClass(UILabel) {
+                        if  btnView.isKind(of: UILabel.self) {
                             let view : UILabel  = btnView as! UILabel
                             view.textColor = WMColor.dark_gray
                         }

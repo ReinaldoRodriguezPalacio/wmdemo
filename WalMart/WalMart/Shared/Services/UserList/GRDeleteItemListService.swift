@@ -10,18 +10,18 @@ import UIKit
 
 class GRDeleteItemListService: GRAddItemListService {
 
-    func buildParams(upc:String?) -> [String:AnyObject]! {
+    func buildParams(_ upc:String?) -> [String:Any]! {
         //{"parameter":["0750179163767"]}
         return ["parameter":[upc!]]
     }
     
-    func buildParamsArray(upcs:[String]?) -> [String:AnyObject]! {
+    func buildParamsArray(_ upcs:[String]?) -> [String:Any]! {
         return ["parameter":upcs!]
     }
     
-    override func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    override func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 self.manageList(resultCall)
                 successBlock?(resultCall)

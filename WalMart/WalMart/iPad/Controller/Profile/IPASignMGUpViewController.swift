@@ -22,22 +22,22 @@ class IPASignMGUpViewController: IPASignUpViewController {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
             
             let service = SignUpService()
-            let dateFmtBD = NSDateFormatter()
+            let dateFmtBD = DateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
             
-            let dateOfBirth = dateFmtBD.stringFromDate(self.dateVal!)
-            let gender = femaleButton!.selected ? "Female" : "Male"
-            let allowTransfer = "\(self.acceptSharePersonal!.selected)"
-            let allowPub = "\(self.promoAccept!.selected)"
+            let dateOfBirth = dateFmtBD.string(from: self.dateVal! as Date)
+            let gender = femaleButton!.isSelected ? "Female" : "Male"
+            let allowTransfer = "\(self.acceptSharePersonal!.isSelected)"
+            let allowPub = "\(self.promoAccept!.isSelected)"
             
             self.addressMGView = IPAAddressViewController()
-            self.addressMGView.view?.frame.size = CGSizeMake(self.view.frame.width, self.view.frame.height - 60)
-            self.addressMGView.typeAddress = TypeAddress.Shiping
-            self.addressMGView.item =  NSDictionary()
+            self.addressMGView.view?.frame.size = CGSize(width: self.view.frame.width, height: self.view.frame.height - 60)
+            self.addressMGView.typeAddress = TypeAddress.shiping
+            self.addressMGView.item =  [String:Any]()
             self.addressMGView.addFRomMg =  true
             self.addressMGView.showSaveAlert = false
-            self.addressMGView.backButton?.hidden =  true
-            self.addressMGView.saveButton?.titleLabel?.textAlignment = .Center
+            self.addressMGView.backButton?.isHidden =  true
+            self.addressMGView.saveButton?.titleLabel?.textAlignment = .center
             
             self.addressMGView.successCallBackRegistry = {() in
                 let params = service.buildParamsWithMembership(self.email!.text!,password:  self.password!.text!,name: self.name!.text!,lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
@@ -57,11 +57,11 @@ class IPASignMGUpViewController: IPASignUpViewController {
                     let params = service.buildParamsWithMembership(self.email!.text!,password:  self.password!.text!,name: self.name!.text!,lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
                     
                     
-                    service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+                    service.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
                         self.addressMGView.closeAlert()
                         let login = LoginService()
                         var firstEnter = true
-                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:[String:Any]) -> Void in
                             
                             // Event -- Succesful Registration
                             BaseController.sendAnalyticsSuccesfulRegistration()

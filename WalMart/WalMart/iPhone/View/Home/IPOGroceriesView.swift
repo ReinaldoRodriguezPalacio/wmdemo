@@ -33,15 +33,15 @@ class IPOGroceriesView : UIView {
         self.addSubview(bgView)
         self.clipsToBounds = true
         
-        descLabel = UILabel(frame: CGRectMake(16, 0, 197, self.frame.height))
+        descLabel = UILabel(frame: CGRect(x: 16, y: 0, width: 197, height: self.frame.height))
         descLabel.text = NSLocalizedString("home.youarein",comment:"")
         descLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        descLabel.textColor = UIColor.whiteColor()
+        descLabel.textColor = UIColor.white
         self.addSubview(descLabel)
         
-        gotoGroceries = UIButton(frame: CGRectMake(descLabel.frame.maxX + 9, (self.frame.height / 2) - (24 / 2), 80, 24))
-        gotoGroceries.setTitle( NSLocalizedString("home.gotosuper",comment:""), forState: UIControlState.Normal)
-        gotoGroceries.addTarget(self, action: #selector(IPOGroceriesView.openGroceriesApp), forControlEvents: UIControlEvents.TouchUpInside)
+        gotoGroceries = UIButton(frame: CGRect(x: descLabel.frame.maxX + 9, y: (self.frame.height / 2) - (24 / 2), width: 80, height: 24))
+        gotoGroceries.setTitle( NSLocalizedString("home.gotosuper",comment:""), for: UIControlState())
+        gotoGroceries.addTarget(self, action: #selector(IPOGroceriesView.openGroceriesApp), for: UIControlEvents.touchUpInside)
         gotoGroceries.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         gotoGroceries.backgroundColor = WMColor.green
         gotoGroceries.layer.cornerRadius = gotoGroceries.frame.height / 2
@@ -50,7 +50,7 @@ class IPOGroceriesView : UIView {
         
     }
     
-    func generateBlurImageWithView(viewToBlur:UIView?) {
+    func generateBlurImageWithView(_ viewToBlur:UIView?) {
         if  self.bluredImage == nil {
             self.bluredImage = UIImageView()
             self.bluredImage!.frame = self.bounds
@@ -60,12 +60,12 @@ class IPOGroceriesView : UIView {
         if viewToBlur != nil {
             autoreleasepool {
                 UIGraphicsBeginImageContextWithOptions(self.frame.size, false, 1.0);
-                viewToBlur!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-                let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
+                viewToBlur!.layer.render(in: UIGraphicsGetCurrentContext()!)
+                let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
                 UIGraphicsEndImageContext();
                 viewToBlur!.layer.contents = nil
                 self.bluredImage!.image = cloneImage.applyLightEffect()
-                self.sendSubviewToBack(self.bluredImage!)
+                self.sendSubview(toBack: self.bluredImage!)
             }
         }
     }
@@ -74,13 +74,13 @@ class IPOGroceriesView : UIView {
     func openGroceriesApp() {
         
         let appScheme = "walmartGroceries://"
-        let appStoreURL = NSURL(string: appScheme)
-        if UIApplication.sharedApplication().canOpenURL(appStoreURL!) {
-            UIApplication.sharedApplication().openURL(appStoreURL!)
+        let appStoreURL = URL(string: appScheme)
+        if UIApplication.shared.canOpenURL(appStoreURL!) {
+            UIApplication.shared.openURL(appStoreURL!)
         } else {
-            let appStoreURL = NSURL(string: "itms-apps://itunes.apple.com/app/id919747235")
-            if UIApplication.sharedApplication().canOpenURL(appStoreURL!) {
-                UIApplication.sharedApplication().openURL(appStoreURL!)
+            let appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/id919747235")
+            if UIApplication.shared.canOpenURL(appStoreURL!) {
+                UIApplication.shared.openURL(appStoreURL!)
             }
         }
     }

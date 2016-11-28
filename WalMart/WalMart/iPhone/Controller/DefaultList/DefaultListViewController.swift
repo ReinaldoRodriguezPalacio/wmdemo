@@ -25,8 +25,8 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         self.tableView = UITableView()
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
-        self.tableView?.registerClass(DefaultListTableViewCell.self, forCellReuseIdentifier: "SuperlistasCell")
-        self.tableView?.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView?.register(DefaultListTableViewCell.self, forCellReuseIdentifier: "SuperlistasCell")
+        self.tableView?.separatorStyle = UITableViewCellSeparatorStyle.none
         self.view.addSubview(self.tableView!)
         
         loadDefaultLists()
@@ -36,7 +36,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.tableView!.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+        self.tableView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
     }
     
     
@@ -45,8 +45,8 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         self.showLoadingView()
        
         let svcDefaulLists = DefaultListService()
-        svcDefaulLists.callService({ (result:NSDictionary) -> Void in
-                self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
+        svcDefaulLists.callService({ (result:[String:Any]) -> Void in
+                self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
                 self.tableView?.reloadData()
                 self.removeLoadingView()
             }, errorBlock: { (error:NSError) -> Void in
@@ -63,8 +63,8 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
-        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
+        self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(self.isVisibleTab)
     }
@@ -77,16 +77,16 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     }
 
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.itemsLists.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellreturn = tableView.dequeueReusableCellWithIdentifier("SuperlistasCell", forIndexPath: indexPath) as! DefaultListTableViewCell
-        let itemList = itemsLists[indexPath.row] as! NSDictionary
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellreturn = tableView.dequeueReusableCell(withIdentifier: "SuperlistasCell", for: indexPath) as! DefaultListTableViewCell
+        let itemList = itemsLists[indexPath.row] as! [String:Any]
         
         let listName = itemList["name"] as? String
-        let items = itemList["items"] as? [[String:AnyObject]]
+        let items = itemList["items"] as? [[String:Any]]
         var totalInList = 0.0
         for itmProduct in items! {
             if let itmPrice = itmProduct["price"] as? NSNumber {
@@ -100,13 +100,13 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         return cellreturn
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let itemList = itemsLists[indexPath.row] as! [String:AnyObject]
+        let itemList = itemsLists[indexPath.row] as! [String:Any]
         
         let destDetailList =  DefaultListDetailViewController()
         destDetailList.defaultListName = itemList["name"] as? String
-        destDetailList.detailItems = itemList["items"] as? [[String:AnyObject]]
+        destDetailList.detailItems = itemList["items"] as? [[String:Any]]
         
         //Event
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA.rawValue, action: WMGAIUtils.ACTION_OPEN_PRACTILISTA.rawValue, label: itemList["name"] as! String)
@@ -115,7 +115,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     }
     
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 108
     }
     

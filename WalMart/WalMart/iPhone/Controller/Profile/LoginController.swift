@@ -60,22 +60,22 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.email?.imageSelected = UIImage(named: "fieldEmailOn")
         self.email?.imageNotSelected = UIImage(named: "fieldEmailOn")
         self.email!.setPlaceholderEdge(NSLocalizedString("profile.email",comment:""))
-        self.email!.keyboardType = UIKeyboardType.EmailAddress
-        self.email!.typeField = TypeField.Email
+        self.email!.keyboardType = UIKeyboardType.emailAddress
+        self.email!.typeField = TypeField.email
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
-        self.email!.autocapitalizationType = UITextAutocapitalizationType.None
+        self.email!.autocapitalizationType = UITextAutocapitalizationType.none
         self.email!.delegate = self
-        self.email!.returnKeyType = .Next
+        self.email!.returnKeyType = .next
         
         self.password = UIEdgeTextFieldImage()
         self.password?.imageNotSelected = UIImage(named: "fieldPasswordOn")
         self.password?.imageSelected = UIImage(named: "fieldPasswordOn")
         self.password!.setPlaceholderEdge(NSLocalizedString("profile.password",comment:""))
-        self.password!.secureTextEntry = true
-        self.password!.typeField = TypeField.Password
+        self.password!.isSecureTextEntry = true
+        self.password!.typeField = TypeField.password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.delegate = self
-        self.password!.returnKeyType = .Done
+        self.password!.returnKeyType = .done
         //self.password!.minLength = 5
         //self.password!.maxLength = 15
         
@@ -84,50 +84,50 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
        
         //Login button setup
         registryButton = UIButton()
-        registryButton!.setTitle(NSLocalizedString("profile.create.an.account", comment: ""), forState: UIControlState.Normal)
-        registryButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        registryButton!.setTitle(NSLocalizedString("profile.create.an.account", comment: ""), for: UIControlState())
+        registryButton!.setTitleColor(UIColor.white, for: UIControlState())
         registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         registryButton!.backgroundColor = WMColor.blue
         registryButton!.layer.cornerRadius = 20.0
-        registryButton?.addTarget(self, action: #selector(LoginController.registryUser), forControlEvents: .TouchUpInside)
+        registryButton?.addTarget(self, action: #selector(LoginController.registryUser), for: .touchUpInside)
   
         signInButton = UIButton()
-        signInButton!.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
-        signInButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        signInButton!.setTitle(NSLocalizedString("profile.signIn", comment: ""), for: UIControlState())
+        signInButton!.setTitleColor(UIColor.white, for: UIControlState())
         signInButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         signInButton!.backgroundColor = WMColor.green
-        signInButton!.addTarget(self, action: #selector(LoginController.signIn(_:)), forControlEvents: .TouchUpInside)
+        signInButton!.addTarget(self, action: #selector(LoginController.signIn(_:)), for: .touchUpInside)
         signInButton!.layer.cornerRadius = 20.0
 
         //Button forgot password setup
         forgotPasswordButton = UIButton()
-        forgotPasswordButton!.setTitle(NSLocalizedString("profile.forgot.password", comment: ""), forState: UIControlState.Normal)
-        forgotPasswordButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        forgotPasswordButton!.setTitle(NSLocalizedString("profile.forgot.password", comment: ""), for: UIControlState())
+        forgotPasswordButton!.setTitleColor(UIColor.white, for: UIControlState())
         forgotPasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        forgotPasswordButton!.titleLabel!.textAlignment = .Right
-        forgotPasswordButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-        forgotPasswordButton?.addTarget(self, action: #selector(LoginController.forgot(_:)), forControlEvents: .TouchUpInside)
+        forgotPasswordButton!.titleLabel!.textAlignment = .right
+        forgotPasswordButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.right
+        forgotPasswordButton?.addTarget(self, action: #selector(LoginController.forgot(_:)), for: .touchUpInside)
        
         self.noAccount = UILabel()
         self.noAccount!.text = NSLocalizedString("profile.no.account",comment:"")
         self.noAccount!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.noAccount!.textColor = WMColor.light_blue
         self.noAccount!.numberOfLines = 0
-        self.noAccount!.textAlignment =  .Center
+        self.noAccount!.textAlignment =  .center
         self.noAccount!.textColor = WMColor.light_light_gray
         
         self.titleLabel = UILabel()
-        self.titleLabel!.textColor =  UIColor.whiteColor()
+        self.titleLabel!.textColor =  UIColor.white
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel!.numberOfLines = 2
         self.titleLabel!.text = "Ingresa a tu cuenta"
-        self.titleLabel!.textAlignment = NSTextAlignment.Center
+        self.titleLabel!.textAlignment = NSTextAlignment.center
         
         viewLine = UIView()
         viewLine!.backgroundColor = WMColor.light_gray
         
         self.content!.addSubview(self.titleLabel!)
-        self.content.backgroundColor = UIColor.clearColor()
+        self.content.backgroundColor = UIColor.clear
       
         self.content!.addSubview(forgotPasswordButton!)
         self.content?.addSubview(viewbg!)
@@ -138,17 +138,17 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.content?.addSubview(noAccount!)
         self.content?.addSubview(viewLine!)
         
-        self.content!.backgroundColor = UIColor.clearColor()
+        self.content!.backgroundColor = UIColor.clear
         
         self.viewCenter = UIView()
-        self.viewCenter!.backgroundColor = UIColor.clearColor()
+        self.viewCenter!.backgroundColor = UIColor.clear
         self.viewCenter!.clipsToBounds = true
         self.viewCenter.addSubview(self.content!)
         
-        self.close = UIButton(type: .Custom)
-        self.close!.setImage(UIImage(named: "close"), forState: .Normal)
-        self.close!.addTarget(self, action: #selector(LoginController.closeModal), forControlEvents: .TouchUpInside)
-        self.close!.backgroundColor = UIColor.clearColor()
+        self.close = UIButton(type: .custom)
+        self.close!.setImage(UIImage(named: "close"), for: UIControlState())
+        self.close!.addTarget(self, action: #selector(LoginController.closeModal), for: .touchUpInside)
+        self.close!.backgroundColor = UIColor.clear
         self.view.addSubview(self.viewCenter!)
         self.view.addSubview(self.close!)
         
@@ -165,7 +165,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.content!.addSubview(self.loginFacebookButton)*/
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if valueEmail != nil {
             self.email?.text = valueEmail
@@ -189,48 +189,48 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 //self.generateBlurImage()
             }
         
-            self.viewCenter!.frame = CGRectMake((self.view.bounds.width / 2) - (456 / 2) ,0, 456, self.view.bounds.height)
-            self.content.frame = CGRectMake( (self.viewCenter!.frame.width / 2) - (320 / 2) , 50 , 320 , bounds.height - 50)
-            self.titleLabel!.frame =  CGRectMake(0 , 0, self.content.frame.width , 16)
-            self.email?.frame = CGRectMake(leftRightPadding,  40 , self.content.frame.width-(leftRightPadding*2), fieldHeight)
-            self.password?.frame = CGRectMake(leftRightPadding, email!.frame.maxY+1, self.email!.frame.width , fieldHeight)
-            self.viewLine?.frame = CGRectMake(leftRightPadding, email!.frame.maxY, self.email!.frame.width, 1)
-            self.viewbg?.frame = CGRectMake(leftRightPadding, email!.frame.maxY-5, self.email!.frame.width, 10)
+            self.viewCenter!.frame = CGRect(x: (self.view.bounds.width / 2) - (456 / 2) ,y: 0, width: 456, height: self.view.bounds.height)
+            self.content.frame = CGRect( x: (self.viewCenter!.frame.width / 2) - (320 / 2) , y: 50 , width: 320 , height: bounds.height - 50)
+            self.titleLabel!.frame =  CGRect(x: 0 , y: 0, width: self.content.frame.width , height: 16)
+            self.email?.frame = CGRect(x: leftRightPadding,  y: 40 , width: self.content.frame.width-(leftRightPadding*2), height: fieldHeight)
+            self.password?.frame = CGRect(x: leftRightPadding, y: email!.frame.maxY+1, width: self.email!.frame.width , height: fieldHeight)
+            self.viewLine?.frame = CGRect(x: leftRightPadding, y: email!.frame.maxY, width: self.email!.frame.width, height: 1)
+            self.viewbg?.frame = CGRect(x: leftRightPadding, y: email!.frame.maxY-5, width: self.email!.frame.width, height: 10)
             
-            self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
+            self.forgotPasswordButton?.frame = CGRect(x: self.content.frame.width - 150 , y: password!.frame.maxY+15, width: 150 - leftRightPadding, height: 28)
             
             if UserCurrentSession.hasLoggedUser(){
-                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
+                self.signInButton?.frame = CGRect(x: leftRightPadding, y: password!.frame.maxY+56, width: self.password!.frame.width, height: 40)
+                self.noAccount?.frame = CGRect(x: leftRightPadding, y: signInButton!.frame.maxY + 20, width: self.password!.frame.width, height: 20)
             }else{
-                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
+                self.signInButton?.frame = CGRect(x: leftRightPadding, y: password!.frame.maxY+56, width: self.password!.frame.width, height: 40)
                 //self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
+                self.noAccount?.frame = CGRect(x: leftRightPadding, y: self.signInButton!.frame.maxY + 20, width: self.password!.frame.width, height: 20)
             }
             
             self.bgView!.frame = self.view.bounds
-            self.registryButton?.frame = CGRectMake(self.password!.frame.minX,  self.noAccount!.frame.maxY + 20 , self.password!.frame.width, 40)
-            self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
+            self.registryButton?.frame = CGRect(x: self.password!.frame.minX,  y: self.noAccount!.frame.maxY + 20 , width: self.password!.frame.width, height: 40)
+            self.close!.frame = CGRect(x: 0, y: 20, width: 40.0, height: 40.0)
             
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if UserCurrentSession.hasLoggedUser() && self.controllerTo != nil {
             let storyboard = self.loadStoryboardDefinition()
-            let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+            let vc = storyboard!.instantiateViewController(withIdentifier: self.controllerTo)
             self.navigationController!.pushViewController(vc, animated: false)
         }
     }
     
     class func showLogin() -> LoginController! {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let newAlert = LoginController()
         vc!.addChildViewController(newAlert)
         newAlert.view.frame = vc!.view.bounds
         vc!.view.addSubview(newAlert.view)
-        newAlert.didMoveToParentViewController(vc)
+        newAlert.didMove(toParentViewController: vc)
         //vc!.addChildViewController(newAlert)
         newAlert.view.tag = 5000
         return newAlert
@@ -240,10 +240,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         var cloneImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parentViewController!.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+            self.parent!.view.layer.render(in: UIGraphicsGetCurrentContext()!)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
-            self.parentViewController!.view.layer.contents = nil
+            self.parent!.view.layer.contents = nil
         }
         let blurredImage = cloneImage!.applyLightEffect()
         self.imageblur = UIImageView()
@@ -251,14 +251,14 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.imageblur!.clipsToBounds = true
         self.imageblur!.image = blurredImage
         self.view.addSubview(self.imageblur!)
-        self.view.sendSubviewToBack(self.imageblur!)
+        self.view.sendSubview(toBack: self.imageblur!)
     }
 
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize{
-         return CGSizeMake( content.contentSize.width, content.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize{
+         return CGSize( width: content.contentSize.width, height: content.contentSize.height)
     }
    
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if errorView != nil{
             if errorView!.focusError == textField &&  errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -279,18 +279,18 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             
             self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
             
-            self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
+            self.signUp!.view.frame = CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.content!.frame.width, height: self.content!.frame.height)
             
             self.signUp.viewClose = {(hidden : Bool) in
-                self.close!.hidden = hidden
+                self.close!.isHidden = hidden
             }
             
             self.signUp.cancelSignUp = {() in
                 self.viewAnimated = true
-                UIView.animateWithDuration(0.4, animations: {
-                    self.signUp!.view.frame =  CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.viewCenter!.frame.width, self.view.bounds.height)
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.signUp!.view.frame =  CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.view.bounds.height)
                     self.signUp.view.alpha = 0
-                    self.content!.frame = CGRectMake((self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2) , self.content!.frame.minY ,  self.content!.frame.width , self.content!.frame.height)
+                    self.content!.frame = CGRect(x: (self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2) , y: self.content!.frame.minY ,  width: self.content!.frame.width , height: self.content!.frame.height)
                     self.content!.alpha = 100
                     }, completion: {(bool : Bool) in
                         if bool {
@@ -315,10 +315,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         signUp.view.alpha = 0
         self.viewAnimated = true
         
-        UIView.animateWithDuration(0.4, animations: {
-            self.signUp!.view.frame =  CGRectMake((self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2), self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
+        UIView.animate(withDuration: 0.4, animations: {
+            self.signUp!.view.frame =  CGRect(x: (self.viewCenter!.frame.width / 2) - (self.content!.frame.width / 2), y: self.content!.frame.minY, width: self.content!.frame.width, height: self.content!.frame.height)
             self.signUp.view.alpha = 100
-            self.content!.frame = CGRectMake(-self.content!.frame.width, 50, self.content!.frame.width ,  self.content!.frame.height)
+            self.content!.frame = CGRect(x: -self.content!.frame.width, y: 50, width: self.content!.frame.width ,  height: self.content!.frame.height)
             self.content!.alpha = 0
             }, completion: {(bool : Bool) in
                 if bool {
@@ -344,8 +344,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.removeFromSuperview()
     }
     
-    func signIn(sender:UIButton) {
-        signInButton!.enabled = false
+    func signIn(_ sender:UIButton) {
+        signInButton!.isEnabled = false
         if validateUser() {
          
             self.view.endEditing(true)
@@ -371,27 +371,27 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             let params  = service.buildParams(emails!.trim(), password: password!.text!)
             self.callService(params, alertViewService: self.alertView)
         }else{
-            signInButton!.enabled = true
+            signInButton!.isEnabled = true
         }
     }
     
     
-    func callService(params:NSDictionary, alertViewService : IPOWMAlertViewController?) {
+    func callService(_ params:[String:Any], alertViewService : IPOWMAlertViewController?) {
         let service = LoginService()
-        service.callService(params, successBlock:{ (resultCall:NSDictionary?) in
+        service.callService(params, successBlock:{ (resultCall:[String:Any]?) in
             
-//            let profile = resultCall!["profile"] as? NSDictionary
+//            let profile = resultCall!["profile"] as? [String:Any]
 //            let gender = profile!["gender"] as? String
 //            let email = resultCall!["email"] as? String
 //            let idUser = resultCall!["idUser"] as? String
             
             //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email!, userName: email!, gender: gender!, idUser: idUser!, itesShop: nil,total:0,refId:"")
             
-            self.signInButton!.enabled = true
+            self.signInButton!.isEnabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {
                     let storyboard = self.loadStoryboardDefinition()
-                    let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+                    let vc = storyboard!.instantiateViewController(withIdentifier: self.controllerTo)
                     self.navigationController!.pushViewController(vc, animated: true)
                 }
             }else {
@@ -409,10 +409,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             , errorBlock: {(error: NSError) in
                 print("error")
                 if error.code == -300 {
-                    self.signInButton!.enabled = true
+                    self.signInButton!.isEnabled = true
                     let addressService = AddressByUserService()
                     addressService.setManagerTempHeader()
-                    addressService.callService({ (address:NSDictionary) -> Void in
+                    addressService.callService({ (address:[String:Any]) -> Void in
                         if let shippingAddress = address["shippingAddresses"] as? NSArray
                         {
                             if shippingAddress.count > 0 {
@@ -420,7 +420,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                                 for dictAddress in shippingAddress {
                                     if let pref = dictAddress["preferred"] as? NSNumber{
                                         if pref == 1{
-                                            alertAddress.setData(dictAddress as! NSDictionary)
+                                            alertAddress.setData(dictAddress as! [String:Any])
                                         }
                                     }
                                 }
@@ -461,7 +461,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 if error.code == -3 {
                     strToUse = error.localizedDescription
                 }
-                self.signInButton!.enabled = true
+                self.signInButton!.isEnabled = true
                 alertViewService!.okCancelCallBack = nil
                 if alertViewService != nil {
                     alertViewService!.setMessage(strToUse)
@@ -470,7 +470,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         })
     }
     
-    func showAddressForm(params:NSDictionary,  alertViewService : IPOWMAlertViewController?) {
+    func showAddressForm(_ params:[String:Any],  alertViewService : IPOWMAlertViewController?) {
         let alertAddress = GRFormAddressAlertView.initAddressAlert()!
         alertAddress.showAddressAlert()
         alertAddress.alertSaveSuccess = {() in
@@ -493,7 +493,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
-    func closeAlert(closeModal: Bool, messageSucesss: Bool){
+    func closeAlert(_ closeModal: Bool, messageSucesss: Bool){
         if self.alertView != nil {
             if messageSucesss {
                 self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
@@ -506,7 +506,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
 
     func validateUser () -> Bool{
-        self.view.bringSubviewToFront(self.content)
+        self.view.bringSubview(toFront: self.content)
         var error = viewError(self.email!)
         if !error{
             error = viewError(self.password!)
@@ -517,7 +517,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
     
-    func viewError(field: UIEdgeTextFieldImage)-> Bool{
+    func viewError(_ field: UIEdgeTextFieldImage)-> Bool{
         let message = field.validate()
         if message.characters.count > 0 {
             if self.errorView == nil{
@@ -529,7 +529,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return false
     }
     
-    func forgot(sender:UIButton) {
+    func forgot(_ sender:UIButton) {
         self.textFieldDidEndEditing(self.email!)
         let error = viewError(self.email!)
         if !error {
@@ -545,7 +545,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
 
             self.alertView!.setMessage(NSLocalizedString("profile.message.sending",comment:""))
             let service = ForgotPasswordService()
-            service.callService(self.email!.text!, successBlock: { (result: NSDictionary) -> Void in
+            service.callService(self.email!.text!, successBlock: { (result: [String:Any]) -> Void in
                 if let message = result["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
@@ -560,11 +560,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text! as NSString
-        let resultingString = text.stringByReplacingCharactersInRange(range, withString: string) as NSString
-        let whitespaceSet = NSCharacterSet.whitespaceCharacterSet()
-        if resultingString.rangeOfCharacterFromSet(whitespaceSet).location != NSNotFound {
+        let resultingString = text.replacingCharacters(in: range, with: string) as NSString
+        let whitespaceSet = CharacterSet.whitespaces
+        if resultingString.rangeOfCharacter(from: whitespaceSet).location != NSNotFound {
             return false
         }
         if textField == password {
@@ -573,7 +573,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == email { // Switch focus to other text field
             password!.becomeFirstResponder()
@@ -598,18 +598,18 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.alertView = nil
         }
         self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
-        if (FBSDKAccessToken.currentAccessToken()) == nil {
+        if (FBSDKAccessToken.current()) == nil {
             self.view.endEditing(true)
             fbLoginMannager = FBSDKLoginManager()
-            fbLoginMannager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], fromViewController: self,  handler: { (result, error) -> Void in
+            fbLoginMannager.logIn(withReadPermissions: ["public_profile", "email", "user_friends", "user_birthday"], from: self,  handler: { (result, error) -> Void in
                 if error != nil {
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
-                } else if result.isCancelled {
+                } else if (result?.isCancelled)! {
                     self.alertView!.close()
                     self.fbLoginMannager.logOut()
                 } else {
-                    if(result.grantedPermissions.contains("email"))
+                    if(result?.grantedPermissions.contains("email"))!
                     {
                         self.getFBUserData()
                         self.fbLoginMannager.logOut()
@@ -624,8 +624,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func getFBUserData(){
-        if((FBSDKAccessToken.currentAccessToken()) != nil){
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+        if((FBSDKAccessToken.current()) != nil){
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil){
                     print(result)
                     self.loginWithEmail(result["email"] as! String, firstName: result["first_name"] as! String, lastName: result["last_name"] as! String, gender: result["gender"] as! String, birthDay:result["birthday"] as? String  == nil ? "" : result["birthday"] as! String)
@@ -637,16 +637,16 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
-    func loginWithEmail(email:String, firstName: String, lastName: String, gender: String, birthDay: String){
+    func loginWithEmail(_ email:String, firstName: String, lastName: String, gender: String, birthDay: String){
         self.email?.text = email
         let service = LoginWithEmailService()
-        service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
+        service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:[String:Any]?) in
 
-            self.signInButton!.enabled = true
+            self.signInButton!.isEnabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {
                     let storyboard = self.loadStoryboardDefinition()
-                    let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+                    let vc = storyboard!.instantiateViewController(withIdentifier: self.controllerTo)
                     self.navigationController!.pushViewController(vc, animated: true)
                 }
             }else {
@@ -669,20 +669,20 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.signUp.email?.text = email
                 self.signUp.name?.text = firstName
                 self.signUp.lastName?.text = lastName
-                let dateFormatter = NSDateFormatter()
+                let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MM/dd/yyyy"
             if birthDay != ""{
-                let date = dateFormatter.dateFromString(birthDay)
+                let date = dateFormatter.date(from: birthDay)
                 self.signUp.inputBirthdateView?.date = date!
                 dateFormatter.dateFormat = "d MMMM yyyy"
-                self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
+                self.signUp.birthDate!.text = dateFormatter.string(from: date!)
                 self.signUp.dateVal = date
             }
                 
                 if(gender == "male"){
-                   self.signUp.maleButton?.selected = true
+                   self.signUp.maleButton?.isSelected = true
                 }else{
-                    self.signUp.femaleButton?.selected = true
+                    self.signUp.femaleButton?.isSelected = true
                 }
             })
     }

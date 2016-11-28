@@ -7,6 +7,41 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate ,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate,UIGestureRecognizerDelegate {
 
@@ -59,8 +94,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var type : ResultObjectType!
     var cellRelated : UICollectionViewCell? = nil
     var cellCharacteristics : UICollectionViewCell? = nil
-    var facets: [[String:AnyObject]]? = nil
-    var facetsDetails: [String:AnyObject]? = nil
+    var facets: [[String:Any]]? = nil
+    var facetsDetails: [String:Any]? = nil
     var selectedDetailItem: [String:String]? = nil
     
     var fromSearch =  false
@@ -77,40 +112,40 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         self.view.addSubview(viewLoad)
         
         viewLoad.startAnnimating(self.isVisibleTab)
         isLoading = true
         self.loadDataFromService()
         
-        detailCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
-        detailCollectionView.registerClass(ProductDetailBannerCollectionViewCell.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
-        detailCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell")
-        detailCollectionView.registerClass(ProductDetailMSICollectionViewCell.self, forCellWithReuseIdentifier: "msiCell")
-        detailCollectionView.registerClass(ProductDetailCharacteristicsCollectionViewCell.self, forCellWithReuseIdentifier: "cellCharacteristics")
-        detailCollectionView.registerClass(ProductDetailBundleCollectionViewCell.self, forCellWithReuseIdentifier: "cellBundleitems")
-        detailCollectionView.registerClass(ProductDetailCrossSellCollectionViewCell.self, forCellWithReuseIdentifier: "crossSellCell")
+        detailCollectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        detailCollectionView.register(ProductDetailBannerCollectionViewCell.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
+        detailCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell")
+        detailCollectionView.register(ProductDetailMSICollectionViewCell.self, forCellWithReuseIdentifier: "msiCell")
+        detailCollectionView.register(ProductDetailCharacteristicsCollectionViewCell.self, forCellWithReuseIdentifier: "cellCharacteristics")
+        detailCollectionView.register(ProductDetailBundleCollectionViewCell.self, forCellWithReuseIdentifier: "cellBundleitems")
+        detailCollectionView.register(ProductDetailCrossSellCollectionViewCell.self, forCellWithReuseIdentifier: "crossSellCell")
         
         if let layout = detailCollectionView.collectionViewLayout as? CSStickyHeaderFlowLayout {
-            layout.parallaxHeaderReferenceSize = CGSizeMake(self.view.frame.size.width, 314)
-            layout.parallaxHeaderMinimumReferenceSize = CGSizeMake(self.view.frame.size.width, 314)
-            layout.itemSize = CGSizeMake(self.view.frame.size.width, layout.itemSize.height)
+            layout.parallaxHeaderReferenceSize = CGSize(width: self.view.frame.size.width, height: 314)
+            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: self.view.frame.size.width, height: 314)
+            layout.itemSize = CGSize(width: self.view.frame.size.width, height: layout.itemSize.height)
             layout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
             layout.disableStickyHeaders = false
 
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductDetailViewController.closeContainerDetail), name: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.closeContainerDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: nil)
         }
         
-        headerView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 46))
+        headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
         headerView.backgroundColor = WMColor.light_light_gray
-        let buttonBk = UIButton(frame: CGRectMake(0, 0, 46, 46))
-        buttonBk.setImage(UIImage(named:"BackProduct"), forState: UIControlState.Normal)
-        buttonBk.addTarget(self, action: #selector(ProductDetailViewController.backButton), forControlEvents: UIControlEvents.TouchUpInside)
+        let buttonBk = UIButton(frame: CGRect(x: 0, y: 0, width: 46, height: 46))
+        buttonBk.setImage(UIImage(named:"BackProduct"), for: UIControlState())
+        buttonBk.addTarget(self, action: #selector(ProductDetailViewController.backButton), for: UIControlEvents.touchUpInside)
         headerView.addSubview(buttonBk)
         
-        titlelbl = UILabel(frame: CGRectMake(46, 0, self.view.frame.width - (46 * 2), 46))
-        titlelbl.textAlignment = .Center
+        titlelbl = UILabel(frame: CGRect(x: 46, y: 0, width: self.view.frame.width - (46 * 2), height: 46))
+        titlelbl.textAlignment = .center
         titlelbl.text = self.name as String
         titlelbl.numberOfLines = 2
         titlelbl.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -122,7 +157,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(headerView)
         
         gestureCloseDetail = UITapGestureRecognizer(target: self, action: #selector(ProductDetailViewController.closeActionView))
-        gestureCloseDetail.enabled = false
+        gestureCloseDetail.isEnabled = false
         
         self.containerinfo = UIView()
         self.containerinfo.clipsToBounds = true
@@ -131,18 +166,18 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     /**
@@ -153,24 +188,24 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             closeProductDetail()
         }
         if isShowShoppingCart {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
-                self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                self.selectQuantity!.imageBlurView.frame = CGRect(x: 0, y: -360, width: 320, height: 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
                         self.selectQuantity!.removeFromSuperview()
                         self.selectQuantity = nil
-                        self.detailCollectionView.scrollEnabled = true
-                        self.gestureCloseDetail.enabled = false
+                        self.detailCollectionView.isScrollEnabled = true
+                        self.gestureCloseDetail.isEnabled = false
                     }
             })
         }
     }
     
     //MARK: TableViewDelegate
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
@@ -182,7 +217,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: CGFloat
      */
-    func sizeForIndexPath (point:(Int,Int),indexPath: NSIndexPath!)  -> CGFloat {
+    func sizeForIndexPath (_ point:(Int,Int),indexPath: IndexPath!)  -> CGFloat {
         switch point {
         case (0,0) :
             if  bundleItems.count != 0 {
@@ -207,11 +242,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
-    func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
+    func tableView(_ tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
         let headerView = UIView()
         switch section {
         case 0:
-            headerView.frame = CGRectMake(0, 0, self.view.frame.width, 46)
+            headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
             break;
         default:
             
@@ -219,7 +254,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 return UIView()
             }
             
-            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
+            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
             productDetailButton!.upc = self.upc as String
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
@@ -229,7 +264,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.isPreorderable = self.strisPreorderable
             productDetailButton!.productDepartment = self.productDeparment
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
@@ -247,11 +282,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Return to the last viewController
      */
     func backButton (){
-        self.navigationController!.popViewControllerAnimated(true)
+        self.navigationController!.popViewController(animated: true)
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
     }
     
-    func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
             return 0.0
@@ -263,7 +298,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.viewLoad.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.viewLoad.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
 
     // MARK: - Collection view config
@@ -277,9 +312,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter point:        point
      - parameter idList:       list identifier
      */
-    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
+    func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = items
+        controller.itemsToShow = items as [AnyObject]
         controller.ixSelected = index
         controller.detailOf = isBundle ? "Bundle" : "CrossSell"
         self.navigationController!.pushViewController(controller, animated: true)
@@ -334,16 +369,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func showProductDetail() {
         if isShowShoppingCart {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
                         self.selectQuantity!.removeFromSuperview()
                         self.selectQuantity = nil
-                        self.detailCollectionView.scrollEnabled = true
-                        self.gestureCloseDetail.enabled = false
+                        self.detailCollectionView.isScrollEnabled = true
+                        self.gestureCloseDetail.isEnabled = false
                     }
             })
         }
@@ -352,11 +387,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(self.name) - \(self.upc)")
         
         self.detailCollectionView.scrollsToTop = true
-        self.detailCollectionView.scrollEnabled = false
-        gestureCloseDetail.enabled = true
+        self.detailCollectionView.isScrollEnabled = false
+        gestureCloseDetail.isEnabled = true
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
             }, completion: { (complete:Bool) -> Void in
                 if self.viewDetail == nil {
                     self.isShowProductDetail = true
@@ -381,7 +416,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter isPreorderable:  is preorderable product
      - parameter added:           added block
      */
-    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
+    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
         
         self.isWishListProcess = true
         
@@ -399,15 +434,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }else{*/
-                let frameWishListbtn = self.view.convertRect(self.view.frame, fromView:self.productDetailButton?.listButton)
-                let addedAlertWL = WishlistAddProductStatus(frame: CGRectMake(0, frameWishListbtn.origin.y - 48, 320, 0))
-                addedAlertWL.generateBlurImage(self.view,frame:CGRectMake(0, frameWishListbtn.origin.y, 320, 360))
+                let frameWishListbtn = self.view.convert(self.view.frame, from:self.productDetailButton?.listButton)
+                let addedAlertWL = WishlistAddProductStatus(frame: CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 0))
+                addedAlertWL.generateBlurImage(self.view,frame:CGRect(x: 0, y: frameWishListbtn.origin.y, width: 320, height: 360))
                 
                 addedAlertWL.clipsToBounds = true
-                addedAlertWL.imageBlurView.frame = CGRectMake(0, -312, 320, 360)
+                addedAlertWL.imageBlurView.frame = CGRect(x: 0, y: -312, width: 320, height: 360)
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
-                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:NSDictionary) -> Void in
+                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                         added(true)
             
@@ -416,12 +451,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         
                         self.view.addSubview(addedAlertWL)
                         self.isWishListProcess = false
-                        UIView.animateWithDuration(0.3, animations: { () -> Void in
+                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
                             
-                            addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48 , 320, 48)
+                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48 , width: 320, height: 48)
                             addedAlertWL.prepareToClose()
-                            self.gestureCloseDetail.enabled = false
-                            self.detailCollectionView.scrollEnabled = true
+                            self.gestureCloseDetail.isEnabled = false
+                            self.detailCollectionView.isScrollEnabled = true
                         })
                         
                         
@@ -431,26 +466,26 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 added(false)
                                 addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
-                                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48, 320 , 48)
+                                UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320 , height: 48)
                                     addedAlertWL.prepareToClose()
-                                    self.gestureCloseDetail.enabled = false
-                                    self.detailCollectionView.scrollEnabled = true
+                                    self.gestureCloseDetail.isEnabled = false
+                                    self.detailCollectionView.isScrollEnabled = true
                                 })
                             }
                     }
                 } else {
                     let serviceWishListDelete = DeleteItemWishlistService()
-                    serviceWishListDelete.callService(upc, successBlock: { (result:NSDictionary) -> Void in
+                    serviceWishListDelete.callService(upc, successBlock: { (result:[String:Any]) -> Void in
                         added(true)
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.deleted",comment:"")
                         self.view.addSubview(addedAlertWL)
                         self.isWishListProcess = false
-                        UIView.animateWithDuration(0.3, animations: { () -> Void in
-                            addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48, 320, 48)
+                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
                             addedAlertWL.prepareToClose()
-                            self.gestureCloseDetail.enabled = false
-                            self.detailCollectionView.scrollEnabled = true
+                            self.gestureCloseDetail.isEnabled = false
+                            self.detailCollectionView.isScrollEnabled = true
                         })
                         
                         //Event
@@ -463,11 +498,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                             if error.code != -100 {
                                 addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
-                                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48, 320, 48)
+                                UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
                                     addedAlertWL.prepareToClose()
-                                    self.gestureCloseDetail.enabled = false
-                                    self.detailCollectionView.scrollEnabled = true
+                                    self.gestureCloseDetail.isEnabled = false
+                                    self.detailCollectionView.isScrollEnabled = true
                                 })
                             }
                     })
@@ -476,16 +511,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         
         if isShowShoppingCart {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
                         self.selectQuantity!.removeFromSuperview()
                         self.selectQuantity = nil
-                        self.gestureCloseDetail.enabled = false
-                        self.detailCollectionView.scrollEnabled = true
+                        self.gestureCloseDetail.isEnabled = false
+                        self.detailCollectionView.isScrollEnabled = true
                     }
             })
         }
@@ -493,8 +528,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         closeProductDetail()
         
         
-        self.detailCollectionView.scrollEnabled = false
-        gestureCloseDetail.enabled = true
+        self.detailCollectionView.isScrollEnabled = false
+        gestureCloseDetail.isEnabled = true
         //if  self.detailCollectionView.contentOffset.y != 0.0 {
             //self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.tabledetail.frame.width,  self.tabledetail.frame.height ), animated: true)
         //}
@@ -512,7 +547,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter imageURL: product image
      - parameter comments: product comments
      */
-    func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String)
+    func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String)
     {
         if selectQuantity == nil {
             if isShowProductDetail == true {
@@ -520,26 +555,26 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             
             isShowShoppingCart = true
-             let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
+             let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
             
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRectMake(0, 360, 320, 360),priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:upc)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRect(x: 0, y: 360, width: 320, height: 360),priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:upc)
             //selectQuantity!.priceProduct = NSNumber(double:self.price.doubleValue)
-            selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
+            selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
             selectQuantity!.closeAction =
                 { () in
-                    UIView.animateWithDuration(0.5,
+                    UIView.animate(withDuration: 0.5,
                         animations: { () -> Void in
                             self.productDetailButton?.reloadShoppinhgButton()
                             self.isShowShoppingCart = false
-                            self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
+                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
                             //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                         },
                         completion: { (animated:Bool) -> Void in
                             if self.selectQuantity != nil {
                                 self.selectQuantity!.removeFromSuperview()
                                 self.selectQuantity = nil
-                                self.gestureCloseDetail.enabled = false
-                                self.detailCollectionView.scrollEnabled = true
+                                self.gestureCloseDetail.isEnabled = false
+                                self.detailCollectionView.isScrollEnabled = true
                             }
                         }
                     )
@@ -557,8 +592,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     if maxProducts >= Int(quantity) {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
                         let params = self.buildParamsUpdateShoppingCart(quantity)
-                        self.gestureCloseDetail.enabled = false
-                        self.detailCollectionView.scrollEnabled = true
+                        self.gestureCloseDetail.isEnabled = false
+                        self.detailCollectionView.isScrollEnabled = true
                         self.isShowShoppingCart = false
                         
                         if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(String(self.upc)) {
@@ -569,18 +604,18 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
 
                 
-                        UIView.animateWithDuration(0.2,
+                        UIView.animate(withDuration: 0.2,
                             animations: { () -> Void in
                                 self.productDetailButton?.reloadShoppinhgButton()
-                                self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0	)
+                                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
                                // self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                             },
                             completion: { (animated:Bool) -> Void in
                                 self.selectQuantity!.removeFromSuperview()
                                 self.selectQuantity = nil
-                                self.gestureCloseDetail.enabled = false
-                                self.detailCollectionView.scrollEnabled = true
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                                self.gestureCloseDetail.isEnabled = false
+                                self.detailCollectionView.isScrollEnabled = true
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                             }
                         )
                     }
@@ -596,15 +631,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     }
             }
             
-            self.detailCollectionView.scrollEnabled = false
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
+            self.detailCollectionView.isScrollEnabled = false
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
                 }, completion: { (complete:Bool) -> Void in
                     self.selectQuantity!.clipsToBounds = true
                     self.view.addSubview(self.selectQuantity!)
                     
                     //self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
                         self.productDetailButton?.setOpenQuantitySelector()
                         self.selectQuantity!.frame = finalFrameOfQuantity
                         //self.selectQuantity!.imageBlurView.frame = finalFrameOfQuantity
@@ -617,13 +652,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     //MARK: Shopping cart
     /**
-     Builds an NSDictionary with data to add product to shopping cart
+     Builds an [String:Any] with data to add product to shopping cart
      
      - parameter quantity: quantity of product
      
-     - returns: NSDictionary
+     - returns: [String:Any]
      */
-    func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+    func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
@@ -635,8 +670,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func closeContainerDetail(){
         if selectQuantity != nil {
             
-        gestureCloseDetail.enabled = false
-        self.detailCollectionView.scrollEnabled = true
+        gestureCloseDetail.isEnabled = false
+        self.detailCollectionView.isScrollEnabled = true
         self.closeContainer({ () -> Void in
             
             }, completeClose: { () -> Void in
@@ -663,7 +698,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     //MARK: scrollViewDelegate
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
        
         if isShowProductDetail == true &&  isShowShoppingCart == false{
             if viewDetail == nil {
@@ -674,20 +709,20 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         if isShowShoppingCart == true && isShowProductDetail == false{
             if selectQuantity != nil {
-                let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
+                let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
                 
                 selectQuantity!.clipsToBounds = true
                 self.view.addSubview(selectQuantity!)
-                self.detailCollectionView.scrollEnabled = false
-                gestureCloseDetail.enabled = true
+                self.detailCollectionView.isScrollEnabled = false
+                gestureCloseDetail.isEnabled = true
                 //self.selectQuantity!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
                
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     self.productDetailButton?.setOpenQuantitySelector()
                     self.selectQuantity!.frame = finalFrameOfQuantity
                     self.selectQuantity!.imageBlurView.frame = finalFrameOfQuantity
                     }, completion: { (complete:Bool) -> Void in
-                        self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
+                        self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
                 })
             }
         }
@@ -702,8 +737,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Animates product detail view
      */
     func startAnimatingProductDetail() {
-        let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
-        viewDetail = ProductDetailTextDetailView(frame: CGRectMake(0,360, 320, 0))
+        let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
+        viewDetail = ProductDetailTextDetailView(frame: CGRect(x: 0,y: 360, width: 320, height: 0))
         viewDetail!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
         //self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
         viewDetail.setTextDetail(detail as String)
@@ -714,11 +749,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(viewDetail)
         
         self.productDetailButton?.reloadButton()
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.viewDetail!.frame = finalFrameOfQuantity
             self.viewDetail!.imageBlurView.frame = finalFrameOfQuantity
             //self.viewDetail.frame = CGRectMake(0, 0, self.tabledetail.frame.width, self.tabledetail.frame.height - 145)
-            self.productDetailButton?.deltailButton.selected = true
+            self.productDetailButton?.deltailButton.isSelected = true
         })
     }
     
@@ -728,20 +763,20 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func closeProductDetail () {
         if isShowProductDetail == true {
         isShowProductDetail = false
-            gestureCloseDetail.enabled = false
-        self.detailCollectionView.scrollEnabled = true
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            gestureCloseDetail.isEnabled = false
+        self.detailCollectionView.isScrollEnabled = true
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             
-            self.viewDetail?.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
-            self.viewDetail.frame = CGRectMake(0,360, 320, 0)
-            }) { (ended:Bool) -> Void in
+            self.viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: 320, height: 360)
+            self.viewDetail.frame = CGRect(x: 0,y: 360, width: 320, height: 0)
+            }, completion: { (ended:Bool) -> Void in
                 if self.viewDetail != nil {
                 self.viewDetail.removeFromSuperview()
                 self.viewDetail = nil
-                self.productDetailButton?.deltailButton.selected = false
+                self.productDetailButton?.deltailButton.isSelected = false
                 //self.productDetailButton?.reloadButton()
                 }
-        }
+        }) 
         }
     }
     
@@ -750,7 +785,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - parameter indexPath: indexPath or image to show
      */
-    func sleectedImage(indexPath: NSIndexPath) {
+    func sleectedImage(_ indexPath: IndexPath) {
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_PRODUCT_DETAIL_IMAGE_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
         let controller = ImageDisplayCollectionViewController()
@@ -758,24 +793,24 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         controller.imagesToDisplay = imageUrl
         controller.currentItem = indexPath.row
         controller.type = self.type.rawValue
-        self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        self.navigationController?.present(controller, animated: true, completion: nil)
     }
     
     /**
      Shows not aviable product message
      */
     func showMessageProductNotAviable() {
-        self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
-        let addedAlertNA = WishlistAddProductStatus(frame: CGRectMake(0, 360, 320, 0))
-        addedAlertNA.generateBlurImage(self.view,frame:CGRectMake(0, 312, 320, 360))
+        self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
+        let addedAlertNA = WishlistAddProductStatus(frame: CGRect(x: 0, y: 360, width: 320, height: 0))
+        addedAlertNA.generateBlurImage(self.view,frame:CGRect(x: 0, y: 312, width: 320, height: 360))
         addedAlertNA.clipsToBounds = true
-        addedAlertNA.imageBlurView.frame = CGRectMake(0, -312, 320, 360)
+        addedAlertNA.imageBlurView.frame = CGRect(x: 0, y: -312, width: 320, height: 360)
         addedAlertNA.textView.text = NSLocalizedString("productdetail.notaviable",comment:"")
 
         self.view.addSubview(addedAlertNA)
         self.isWishListProcess = false
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            addedAlertNA.frame = CGRectMake(0, 312, 320, 48)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            addedAlertNA.frame = CGRect(x: 0, y: 312, width: 320, height: 48)
             addedAlertNA.prepareToClose()
         })
 
@@ -791,14 +826,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.type = ResultObjectType.Mg
         
-            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let productService = ProductDetailService(dictionary: signalsDictionary)
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
             let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
-            productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
+            productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
                 self.reloadViewWithData(result)
                 
-                if let facets = result["facets"] as? [[String:AnyObject]] {
+                if let facets = result["facets"] as? [[String:Any]] {
                     self.facets = facets
                     self.facetsDetails = self.getFacetsDetails()
                     let filteredKeys = self.getFilteredKeys(self.facetsDetails!)
@@ -817,12 +852,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 
                 }) { (error:NSError) -> Void in
                     //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
-                    let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+                    let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
                     
                     self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                     empty.returnAction = { () in
                         print("")
-                        self.navigationController!.popViewControllerAnimated(true)
+                        self.navigationController!.popViewController(animated: true)
                     }
                     self.view.addSubview(empty)
                     self.viewLoad.stopAnnimating()
@@ -832,16 +867,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     /**
-     Reloads product detail view with a NSDIctionary
+     Reloads product detail view with a [String:Any]
      
      - parameter result: product detail data
      */
-    func reloadViewWithData(result:NSDictionary){
+    func reloadViewWithData(_ result:[String:Any]){
         self.name = result["description"] as! NSString
         self.price = result["price"] as! NSString
         self.detail = result["detail"] as! NSString
         self.saving = ""
-        self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
+        self.detail = self.detail.replacingOccurrences(of: "^", with: "\n") as NSString
         self.upc = result["upc"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
@@ -881,7 +916,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         if let msiResult =  result["msi"] as? NSString {
             if msiResult != "" {
-                self.msi = msiResult.componentsSeparatedByString(",")
+                self.msi = msiResult.components(separatedBy: ",")
             }else{
                 self.msi = []
             }
@@ -934,7 +969,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.loadCrossSell()
         
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
         
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
@@ -954,11 +989,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     //MARK: - Collection view Data Source
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var inCountRows = 1
         if bundleItems.count != 0
         {
@@ -974,10 +1009,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return inCountRows
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath)
-        cellEmpty.frame =  CGRectMake(0, 0, 2, 2)
+        let cellEmpty = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "emptyCell", for: indexPath)
+        cellEmpty.frame =  CGRect(x: 0, y: 0, width: 2, height: 2)
         var cell : UICollectionViewCell? = nil
         let point = (indexPath.section,indexPath.row)
         if isLoading {
@@ -1010,19 +1045,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     return cellEmpty
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let reusableView : UICollectionReusableView? = nil
         
         if kind == CSStickyHeaderParallaxHeader{
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
+            let view = detailCollectionView.dequeueReusableSupplementaryView(ofKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", for: indexPath) as! ProductDetailBannerCollectionViewCell
             if self.isPreorderable {
-                view.imagePresale.hidden = false
+                view.imagePresale.isHidden = false
             }
 
             
             if self.isLowStock {
-                view.lowStock?.hidden = false
+                view.lowStock?.isHidden = false
             }
             
             view.items = self.imageUrl
@@ -1038,9 +1073,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             return view
         }
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) 
+            let view = detailCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) 
             
-            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
+            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
             productDetailButton!.upc = self.upc as String
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
@@ -1049,10 +1084,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.isActive = self.strisActive
             productDetailButton!.onHandInventory = self.onHandInventory as String
             productDetailButton!.isPreorderable = self.strisPreorderable
-            productDetailButton!.listButton.enabled = !self.isGift
+            productDetailButton!.listButton.isEnabled = !self.isGift
             
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
@@ -1071,7 +1106,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return reusableView!
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
         var hForCell : CGFloat = 0.0
         let point = (indexPath.section,indexPath.row)
         var rowChose = indexPath.row
@@ -1093,7 +1128,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         default :
             hForCell = 0
         }
-        return CGSizeMake(self.view.frame.width , hForCell);
+        return CGSize(width: self.view.frame.width , height: hForCell);
     }
     
  
@@ -1114,19 +1149,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
     }*/
     
-    class func validateUpcPromotion(upc:String) -> Bool{
+    class func validateUpcPromotion(_ upc:String) -> Bool{
         let upcs =  UserCurrentSession.sharedInstance().upcSearch
-        return upcs.containsObject(upc)
+        return upcs!.contains(upc)
     }
     
-    func cellForPoint(point:(Int,Int),indexPath: NSIndexPath) -> UICollectionViewCell? {
+    func cellForPoint(_ point:(Int,Int),indexPath: IndexPath) -> UICollectionViewCell? {
         var cell : UICollectionViewCell? = nil
         switch point {
         case (0,0) :
             if bundleItems.count != 0 {
-                let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellBundleitems", forIndexPath: indexPath) as? ProductDetailBundleCollectionViewCell
+                let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "cellBundleitems", for: indexPath) as? ProductDetailBundleCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = bundleItems
+                cellPromotion!.itemsUPC = bundleItems as NSArray
                 cellPromotion!.type = "MG"
                 //cell = cellPromotion
             } else {
@@ -1134,7 +1169,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         case (0,1) :
             if  msi.count != 0 {
-                let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("msiCell", forIndexPath: indexPath) as! ProductDetailMSICollectionViewCell
+                let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "msiCell", for: indexPath) as! ProductDetailMSICollectionViewCell
                 cellPromotion.priceProduct = self.price
                 cellPromotion.setValues(msi)
                 cell = cellPromotion
@@ -1143,16 +1178,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         case (0,2) :
             if characteristics.count != 0 {
-                let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
+                let cellCharacteristics = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "cellCharacteristics", for: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
                 cellCharacteristics.setValues(characteristics)
-                cellCharacteristics.superview?.userInteractionEnabled = true
+                cellCharacteristics.superview?.isUserInteractionEnabled = true
                 cell = cellCharacteristics
             }else{
                 return cellForPoint((indexPath.section,3),indexPath: indexPath)
             }
         case (0,3) :
             if cellRelated == nil {
-                let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("crossSellCell", forIndexPath: indexPath) as? ProductDetailCrossSellCollectionViewCell
+                let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "crossSellCell", for: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
                 cellPromotion!.idListSelectdFromSearch =  self.idListFromlistFind
                 cellPromotion!.itemsUPC = itemsCrossSellUPC
@@ -1173,7 +1208,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter additionalAnimationOpen:  animation open block
      - parameter additionalAnimationClose: anipation close block
      */
-    func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {
+    func opencloseContainer(_ open:Bool,viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void),additionalAnimationClose:(() -> Void)) {
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen)
         } else {
@@ -1188,24 +1223,24 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter viewShow:                view where present info
      - parameter additionalAnimationOpen: other animation block
      */
-    func openContainer(viewShow:UIView,additionalAnimationOpen:(() -> Void)) {
+    func openContainer(_ viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void)) {
         self.isContainerHide = false
         
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
              self.detailCollectionView.scrollRectToVisible(self.detailCollectionView.bounds, animated: false)
-            }) { (complete:Bool) -> Void in
-                self.detailCollectionView.scrollEnabled = false
+            }, completion: { (complete:Bool) -> Void in
+                self.detailCollectionView.isScrollEnabled = false
                 
-                let finalFrameOfQuantity = CGRectMake(self.detailCollectionView.frame.minX, 0, self.detailCollectionView.frame.width, self.heightDetail)
-                self.containerinfo.frame = CGRectMake(self.detailCollectionView.frame.minX, self.heightDetail, self.detailCollectionView.frame.width, 0)
+                let finalFrameOfQuantity = CGRect(x: self.detailCollectionView.frame.minX, y: 0, width: self.detailCollectionView.frame.width, height: self.heightDetail)
+                self.containerinfo.frame = CGRect(x: self.detailCollectionView.frame.minX, y: self.heightDetail, width: self.detailCollectionView.frame.width, height: 0)
                 self.containerinfo.addSubview(viewShow)
                 
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     self.containerinfo.frame = finalFrameOfQuantity
                     additionalAnimationOpen()
                 })
                 
-        }
+        }) 
     }
     
     /**
@@ -1214,25 +1249,25 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter additionalAnimationClose: <#additionalAnimationClose description#>
      - parameter completeClose:            <#completeClose description#>
      */
-    func closeContainer(additionalAnimationClose:(() -> Void),completeClose:(() -> Void)) {
-        let finalFrameOfQuantity = CGRectMake(self.detailCollectionView.frame.minX,  heightDetail, self.detailCollectionView.frame.width, 0)
-        UIView.animateWithDuration(0.5,
+    func closeContainer(_ additionalAnimationClose:@escaping (() -> Void),completeClose:@escaping (() -> Void)) {
+        let finalFrameOfQuantity = CGRect(x: self.detailCollectionView.frame.minX,  y: heightDetail, width: self.detailCollectionView.frame.width, height: 0)
+        UIView.animate(withDuration: 0.5,
             animations: { () -> Void in
                 self.containerinfo.frame = finalFrameOfQuantity
                 additionalAnimationClose()
-            }) { (comple:Bool) -> Void in
+            }, completion: { (comple:Bool) -> Void in
                 self.isContainerHide = true
                 self.isShowShoppingCart = false
                 self.isShowProductDetail = false
-                self.productDetailButton!.deltailButton.selected = false
-                self.detailCollectionView.scrollEnabled = true
+                self.productDetailButton!.deltailButton.isSelected = false
+                self.detailCollectionView.isScrollEnabled = true
                 completeClose()
                 for viewInCont in self.containerinfo.subviews {
                     viewInCont.removeFromSuperview()
                 }
                 self.selectQuantity = nil
                 //self.viewDetail = nil
-        }
+        }) 
     }
     
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
@@ -1241,10 +1276,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func shareProduct() {
         let imageHead = UIImage(named:"detail_HeaderMail")
-        let imageHeader = UIImage(fromView: self.headerView)
+        let imageHeader = UIImage(from: self.headerView)
         //let headers = [0]
         
-        let imagen = UIImage(fromView: currentHeaderView)
+        let imagen = UIImage(from: currentHeaderView)
         
         //Event
          ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
@@ -1252,21 +1287,21 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         //let screen = self.detailCollectionView.screenshotOfHeadersAtSections( NSSet(array:headers), footersAtSections: nil, rowsAtIndexPaths: NSSet(array: items))
         
         let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
-        let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,imagen])
+        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader,imagen])
         
         //let urlWmart = NSURL(string: "walmartMG://UPC_\(self.upc)")
         if urlWmart != nil {
             let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
-            self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+            self.navigationController!.present(controller, animated: true, completion: nil)
             if #available(iOS 8.0, *) {
                 controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                    if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                    if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -1276,15 +1311,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     //MARK: activityViewControllerDelegate
     
-    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
         return "Walmart"
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
         
         var toUseName = ""
         if self.name.length > 32 {
-            toUseName = self.name.substringToIndex(32)
+            toUseName = self.name.substring(to: 32)
             toUseName = "\(toUseName)..."
         }else {
             toUseName = self.name as String
@@ -1300,16 +1335,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
         //let urlapp  = url?.absoluteURL
 
-        if activityType == UIActivityTypeMail {
+        if activityType == UIActivityType.mail {
             return "Hola, Me gustó este producto de Walmart.¡Te lo recomiendo!\n\(self.name) \nSiempre encuentra todo y pagas menos."
-        }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
+        }else if activityType == UIActivityType.postToTwitter ||  activityType == UIActivityType.postToVimeo ||  activityType == UIActivityType.postToFacebook  {
             return "Chequen este producto: \(toUseName) #walmartapp #wow"
         }
         return "Checa este producto: \(toUseName)"
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
-        if activityType == UIActivityTypeMail {
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
             if UserCurrentSession.sharedInstance().userSigned == nil {
                   return "Encontré un producto que te puede interesar en www.walmart.com.mx"
             } else {
@@ -1324,7 +1359,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - parameter sender: sender
      */
-    func endUpdatingShoppingCart(sender:AnyObject) {
+    func endUpdatingShoppingCart(_ sender:AnyObject) {
         self.productDetailButton?.reloadShoppinhgButton()
     }
     
@@ -1335,12 +1370,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: dictionary wit facet details
      */
-    func getFacetsDetails() -> [String:AnyObject]{
-        var facetsDetails : [String:AnyObject] = [String:AnyObject]()
+    func getFacetsDetails() -> [String:Any]{
+        var facetsDetails : [String:Any] = [String:Any]()
         self.selectedDetailItem = [:]
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
-            let selected = productUpc == self.upc
+            let selected = productUpc == self.upc as String
             let details = product["details"] as! [AnyObject]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
@@ -1350,9 +1385,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let unit = detail["unit"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
                 if values == nil{ values = []}
-                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false]
-                if !(values! as NSArray).containsObject(itemToAdd) {
-                    values!.append(itemToAdd)
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
+                if !(values! as NSArray).contains(itemToAdd) {
+                    values!.append(itemToAdd as AnyObject)
                 }
                 facetsDetails[label] = values
                 itemDetail[label] = detail["unit"] as? String
@@ -1363,7 +1398,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
             if detailsValues == nil{ detailsValues = []}
-            detailsValues!.append(itemDetail)
+            detailsValues!.append(itemDetail as AnyObject)
             facetsDetails["itemDetails"] = detailsValues
         }
         return self.marckSelectedDetails(facetsDetails)
@@ -1376,11 +1411,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: dictionary wit facet details
      */
-    func marckSelectedDetails(facetsDetails: [String:AnyObject]) -> [String:AnyObject] {
-        var selectedDetails: [String:AnyObject] = [:]
+    func marckSelectedDetails(_ facetsDetails: [String:Any]) -> [String:Any] {
+        var selectedDetails: [String:Any] = [:]
         let filteredKeys = self.getFilteredKeys(facetsDetails)
         // Primer elemento
-        let itemsFirst: [[String:AnyObject]] = facetsDetails[filteredKeys.first!] as! [[String:AnyObject]]
+        let itemsFirst: [[String:Any]] = facetsDetails[filteredKeys.first!] as! [[String:Any]]
         let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
         var values: [AnyObject] = []
         for item in itemsFirst{
@@ -1391,7 +1426,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         selectedDetails[selecteFirst] = values
         
         if filteredKeys.count > 1 {
-            let itemsSecond: [[String:AnyObject]] = facetsDetails[filteredKeys.last!] as! [[String:AnyObject]]
+            let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
             let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
             
             let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
@@ -1423,12 +1458,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: String array with keys in order
      */
-    func getFilteredKeys(facetsDetails: [String:AnyObject]) -> [String] {
+    func getFilteredKeys(_ facetsDetails: [String:Any]) -> [String] {
         let keys = Array(facetsDetails.keys)
         var filteredKeys = keys.filter(){
             return ($0 as String) != "itemDetails"
         }
-        filteredKeys = filteredKeys.sort({
+        filteredKeys = filteredKeys.sorted(by: {
             if $0 == "Color" {
                 return true
             } else {
@@ -1446,7 +1481,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: String upc
      */
-    func getUpc(itemsSelected: [String:String]) -> String
+    func getUpc(_ itemsSelected: [String:String]) -> String
     {
         var upc = ""
         var isSelected = false
@@ -1476,7 +1511,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: Dictionary with product data
      */
-    func getFacetWithUpc(upc:String) -> [String:AnyObject] {
+    func getFacetWithUpc(_ upc:String) -> [String:Any] {
         var facet = self.facets!.first
         for product in self.facets! {
             if (product["upc"] as! String) == upc {
@@ -1496,7 +1531,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: array of sting with details
      */
-    func getDetailsWithKey(key: String, value: String, keyToFind: String) -> [String]{
+    func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
         let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
         var findObj: [String] = []
         for item in itemDetails!{
@@ -1516,7 +1551,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter selected: selected detail
      - parameter itemType: item type
      */
-    func selectDetailItem(selected: String, itemType: String) {
+    func selectDetailItem(_ selected: String, itemType: String) {
         var detailOrderCount = 0
         let filteredKeys = self.getFilteredKeys(self.facetsDetails!)
         
@@ -1538,9 +1573,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let headerView = self.currentHeaderView as! ProductDetailBannerCollectionViewCell
                 for view in headerView.sizesView!.viewToInsert!.subviews {
                     if let button = view.subviews.first! as? UIButton {
-                     button.enabled = sizes.contains(button.titleLabel!.text!)
+                     button.isEnabled = sizes.contains(button.titleLabel!.text!)
                     if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
-                            button.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+                            button.sendActions(for: UIControlEvents.touchUpInside)
                     }
                     }
                 }

@@ -35,7 +35,7 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
     }
     
     func setup() {
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         backgroundColor = WMColor.light_light_gray
         
 
@@ -44,38 +44,38 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
         subtotalTitle.textColor = WMColor.gray
         subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        subtotalTitle.textAlignment = .Right
-        subtotalTitle.frame = CGRectMake(146, 18, 101, 12)
+        subtotalTitle.textAlignment = .right
+        subtotalTitle.frame = CGRect(x: 146, y: 18, width: 101, height: 12)
         
         iva = UILabel()
         iva.text = NSLocalizedString("shoppingcart.iva",comment:"")
         iva.textColor = WMColor.gray
         iva.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        iva.textAlignment = .Right
-        iva.frame = CGRectMake(146, subtotalTitle.frame.maxY + 6, 101, 12)
+        iva.textAlignment = .right
+        iva.frame = CGRect(x: 146, y: subtotalTitle.frame.maxY + 6, width: 101, height: 12)
         
         total = UILabel()
         total.text = NSLocalizedString("shoppingcart.total",comment:"")
         total.textColor = WMColor.gray
         total.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        total.textAlignment = .Right
-        total.frame = CGRectMake(146, iva.frame.maxY + 20, 101, 12)
+        total.textAlignment = .right
+        total.frame = CGRect(x: 146, y: iva.frame.maxY + 20, width: 101, height: 12)
         
         totalSavingTitle = UILabel()
         totalSavingTitle.text = NSLocalizedString("shoppingcart.saving",comment:"")
         totalSavingTitle.textColor =  WMColor.green
         totalSavingTitle.font = WMFont.fontMyriadProSemiboldOfSize(12)
-        totalSavingTitle.textAlignment = .Right
-        totalSavingTitle.frame = CGRectMake(146, iva.frame.maxY + 3, 101, 12)
+        totalSavingTitle.textAlignment = .right
+        totalSavingTitle.frame = CGRect(x: 146, y: iva.frame.maxY + 3, width: 101, height: 12)
         
-        valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 8, subtotalTitle.frame.minY, 50, 12))
-        valueSubtotal.textAlignment = .Right
-        valueIva = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 8, iva.frame.minY, 50, 12))
-        valueIva.textAlignment = .Right
-        valueTotal = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 8, total.frame.minY, 50, 12))
-        valueTotal.textAlignment = .Right
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 8, totalSavingTitle.frame.minY, 50, 12))
-        valueTotalSaving.textAlignment = .Right
+        valueSubtotal = CurrencyCustomLabel(frame: CGRect(x: subtotalTitle.frame.maxX + 8, y: subtotalTitle.frame.minY, width: 50, height: 12))
+        valueSubtotal.textAlignment = .right
+        valueIva = CurrencyCustomLabel(frame: CGRect(x: iva.frame.maxX + 8, y: iva.frame.minY, width: 50, height: 12))
+        valueIva.textAlignment = .right
+        valueTotal = CurrencyCustomLabel(frame: CGRect(x: total.frame.maxX + 8, y: total.frame.minY, width: 50, height: 12))
+        valueTotal.textAlignment = .right
+        valueTotalSaving = CurrencyCustomLabel(frame: CGRect(x: iva.frame.maxX + 8, y: totalSavingTitle.frame.minY, width: 50, height: 12))
+        valueTotalSaving.textAlignment = .right
 
         
         self.addSubview(subtotalTitle)
@@ -92,23 +92,23 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         
     }
     
-    func setValues(subtotal: String,iva: String,total: String,totalSaving:String){
+    func setValues(_ subtotal: String,iva: String,total: String,totalSaving:String){
         
         if iva != "" {
             let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
             let formatedIVA = CurrencyCustomLabel.formatString(iva)
             valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
             valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
-            self.valueSubtotal.hidden = false
-            self.valueIva.hidden = false
-            self.subtotalTitle.hidden = false
-            self.iva.hidden = false
+            self.valueSubtotal.isHidden = false
+            self.valueIva.isHidden = false
+            self.subtotalTitle.isHidden = false
+            self.iva.isHidden = false
             
         }else{
-            self.valueSubtotal.hidden = true
-            self.valueIva.hidden = true
-            self.subtotalTitle.hidden = true
-            self.iva.hidden = true
+            self.valueSubtotal.isHidden = true
+            self.valueIva.isHidden = true
+            self.subtotalTitle.isHidden = true
+            self.iva.isHidden = true
         }
         let formatedTotal = CurrencyCustomLabel.formatString(total)
         valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
@@ -118,11 +118,11 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
             let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving)
             valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(12), color:  WMColor.green, interLine: false)
             
-            totalSavingTitle.hidden = false
-            valueTotalSaving.hidden = false
+            totalSavingTitle.isHidden = false
+            valueTotalSaving.isHidden = false
         }else{
-            totalSavingTitle.hidden = true
-            valueTotalSaving.hidden = true
+            totalSavingTitle.isHidden = true
+            valueTotalSaving.isHidden = true
         }
         
         

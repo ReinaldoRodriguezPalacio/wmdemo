@@ -14,7 +14,7 @@ class IPALineTableViewCell : IPOLineTableViewCell {
     override func setup() {
         super.setup()
         
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textColor = UIColor.white
         
         
         

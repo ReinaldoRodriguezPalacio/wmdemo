@@ -10,16 +10,16 @@ import Foundation
 
 
 protocol TermViewControllerDelegate {
-    func selectedDetail(row:Int, item: NSDictionary)
+    func selectedDetail(_ row:Int, item: [String:Any])
 }
 
 class TermViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate {// NavigationViewController,  UITableViewDelegate, UITableViewDataSource {
     
 
-    var selectedFamily : NSIndexPath! = nil
+    var selectedFamily : IndexPath! = nil
     var delegate:TermViewControllerDelegate!
     var familyTable: UITableView!
-    var families : [[String:AnyObject]] = []
+    var families : [[String:Any]] = []
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TERMSANDCONDITIONS.rawValue
@@ -29,24 +29,24 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         super.viewDidLoad()
         
         familyTable = UITableView()
-        familyTable.registerClass(IPOFamilyTableViewCell.self, forCellReuseIdentifier: "familyCell")
-        familyTable.registerClass(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
+        familyTable.register(IPOFamilyTableViewCell.self, forCellReuseIdentifier: "familyCell")
+        familyTable.register(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
         
-        familyTable.backgroundColor = UIColor.whiteColor()
+        familyTable.backgroundColor = UIColor.white
         
-        familyTable.separatorStyle = .None
-        familyTable.autoresizingMask = UIViewAutoresizing.None
+        familyTable.separatorStyle = .none
+        familyTable.autoresizingMask = UIViewAutoresizing()
         self.titleLabel!.text = NSLocalizedString("help.item.terms.condition", comment: "")
 
-        let filePath =  NSBundle.mainBundle().pathForResource("termAndConditions", ofType: "json")
-        let jsonData: NSData?
+        let filePath =  Bundle.main.path(forResource: "termAndConditions", ofType: "json")
+        let jsonData: Data?
         do {
-            jsonData = try NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+            jsonData = try Data(contentsOf: URL(fileURLWithPath: filePath!), options: NSData.ReadingOptions.mappedIfSafe)
         } catch let error as NSError {
             print(error.localizedDescription)
             jsonData = nil
         }
-        let resultArray = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! [[String:AnyObject]]
+        let resultArray = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [[String:Any]]
         
         families = resultArray
 
@@ -58,7 +58,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
-        familyTable.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
+        familyTable.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: bounds.width, height: bounds.height - self.header!.frame.maxY )
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,10 +69,10 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
          let bounds = self.view.bounds
-        familyTable.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
+        familyTable.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: bounds.width, height: bounds.height - self.header!.frame.maxY )
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if delegate == nil || familyTable.delegate == nil {
             familyTable.delegate = self
@@ -82,11 +82,11 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return families.count + 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectedFamily != nil {
             if selectedFamily.section == section {
                 return numberOfRowsInSection(section) + 1
@@ -95,36 +95,36 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell! = nil
         
         if indexPath.section == 3 {
-            let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as! IPOFamilyTableViewCell
-            let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
-            let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
+            let cellFamily = familyTable.dequeueReusableCell(withIdentifier: familyReuseIdentifier(), for: indexPath) as! IPOFamilyTableViewCell
+            let majorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+            let minorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
            
             let nameFamily = "Versión \(majorVersion) (\(minorVersion))"
             cellFamily.setTitle(nameFamily)
             cell = cellFamily
-            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
             return cell!
         }
         
         if indexPath.row == 0 {
-            let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as! IPOFamilyTableViewCell
+            let cellFamily = familyTable.dequeueReusableCell(withIdentifier: familyReuseIdentifier(), for: indexPath) as! IPOFamilyTableViewCell
             let selectedSection = families[indexPath.section]
             let nameFamily = selectedSection["name"] as! String
             cellFamily.setTitle(nameFamily)
             cell = cellFamily
         } else {
-            let cellLine = familyTable.dequeueReusableCellWithIdentifier(lineReuseIdentifier(), forIndexPath: indexPath) as! IPOLineTableViewCell
+            let cellLine = familyTable.dequeueReusableCell(withIdentifier: lineReuseIdentifier(), for: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[indexPath.section]
             let linesArr = selectedSection["line"] as! NSArray
-            let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
+            let itemLine = linesArr[indexPath.row - 1] as! [String:Any]
             cellLine.setTitle(itemLine["title"] as! String)
             cellLine.showSeparator =  linesArr.count == indexPath.row
             cell = cellLine
@@ -135,7 +135,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     
 
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0  {
             let changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedFamily.section != indexPath.section) )
@@ -144,7 +144,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             }
             if changeSelection {
                 selectSection(indexPath)
-                self.familyTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
+                self.familyTable.scrollToRow(at: indexPath, at: .top, animated: true)
             }
             
         }
@@ -155,7 +155,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             
             let selectedSection = families[indexPath.section]
             let linesArr = selectedSection["line"] as! NSArray
-            let item = linesArr[indexPath.row - 1] as! NSDictionary
+            let item = linesArr[indexPath.row - 1] as! [String:Any]
             
             
             if delegate != nil {
@@ -164,24 +164,24 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             else {
                 let controller = PreviewHelpViewController()
                 let name = item["title"] as! String
-                controller.titleText = NSLocalizedString(name, comment: "")
-                controller.resource = item["resource"] as! String
-                controller.type = item["type"] as! String
+                controller.titleText = NSLocalizedString(name, comment: "") as NSString!
+                controller.resource = item["resource"] as! String as NSString!
+                controller.type = item["type"] as! String as NSString!
                 
                 if  let imgFile = item["imgFile"] as? String{
-                    controller.imgFile = imgFile
+                    controller.imgFile = imgFile as NSString?
                 }
                 self.navigationController!.pushViewController(controller, animated: true)
             }
             
             var action : String = item["title"] as! String
-            action =  action.stringByReplacingOccurrencesOfString(" ", withString:"")
+            action =  action.replacingOccurrences(of: " ", with:"")
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:"A_\(action)" , label:"")
         }
         
     }
     
-    func numberOfRowsInSection(section:Int) -> Int {
+    func numberOfRowsInSection(_ section:Int) -> Int {
         if section < families.count {
             let selectedSection = families[section]
             let nameLine = selectedSection["line"] as! NSArray
@@ -195,28 +195,28 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         return 1
     }
     
-    func selectSection(indexPath: NSIndexPath!) {
+    func selectSection(_ indexPath: IndexPath!) {
         selectedFamily = indexPath
         let numberOfItems = numberOfRowsInSection(indexPath.section)
         
-        var arratIndexes : [NSIndexPath] = []
+        var arratIndexes : [IndexPath] = []
         if numberOfItems > 0 {
             for index in 1...numberOfItems {
-                arratIndexes.append(NSIndexPath(forRow: index, inSection: indexPath.section))
+                arratIndexes.append(IndexPath(row: index, section: indexPath.section))
             }
-            self.familyTable.insertRowsAtIndexPaths(arratIndexes, withRowAnimation: .Automatic)
+            self.familyTable.insertRows(at: arratIndexes, with: .automatic)
         }
     }
     
-    func deSelectSection(indexPath: NSIndexPath!) {
+    func deSelectSection(_ indexPath: IndexPath!) {
         selectedFamily = nil
         let numberOfItems = numberOfRowsInSection(indexPath.section)
-        var arratIndexes : [NSIndexPath] = []
+        var arratIndexes : [IndexPath] = []
         if numberOfItems > 0 {
             for index in 1...numberOfItems {
-                arratIndexes.append(NSIndexPath(forRow: index, inSection: indexPath.section))
+                arratIndexes.append(IndexPath(row: index, section: indexPath.section))
             }
-            self.familyTable.deleteRowsAtIndexPaths(arratIndexes, withRowAnimation: .Automatic)
+            self.familyTable.deleteRows(at: arratIndexes, with: .automatic)
         }
     }
     

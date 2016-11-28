@@ -9,7 +9,7 @@
 import UIKit
 
 protocol UIEdgeTextFieldImageProtocol {
-    func fieldChangeValue(value:String)
+    func fieldChangeValue(_ value:String)
 }
 
 class UIEdgeTextFieldImage : UITextField {
@@ -19,7 +19,7 @@ class UIEdgeTextFieldImage : UITextField {
     var imageSelected : UIImage?
     var imageIcon : UIImageView?
     var customRightView = false
-    var typeField : TypeField = TypeField.None
+    var typeField : TypeField = TypeField.none
     var nameField : String!
     
     override init(frame: CGRect) {
@@ -36,29 +36,29 @@ class UIEdgeTextFieldImage : UITextField {
         self.backgroundColor =  WMColor.light_light_gray
         self.font = WMFont.fontMyriadProRegularOfSize(14)
         imageIcon = UIImageView()
-        imageIcon?.frame = CGRectMake (0 ,0, 45, 45 )
+        imageIcon?.frame = CGRect (x: 0 ,y: 0, width: 45, height: 45 )
         self.addSubview(imageIcon!)
     }
     
     
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 45, 11);
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: 45, dy: 11);
     }
     
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 45 , 11);
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: 45 , dy: 11);
     }
     
-    override func rightViewRectForBounds(bounds: CGRect) -> CGRect {
+    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         if self.customRightView {
-            return CGRectMake(bounds.size.width - 30, 12, 20, 20)
+            return CGRect(x: bounds.size.width - 30, y: 12, width: 20, height: 20)
         }
         return bounds
     }
     
     override func becomeFirstResponder() -> Bool {
-        if self.secureTextEntry {
-            self.font = UIFont.systemFontOfSize(14)
+        if self.isSecureTextEntry {
+            self.font = UIFont.systemFont(ofSize: 14)
               self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
         }
         imageIcon?.image = imageSelected
@@ -70,8 +70,8 @@ class UIEdgeTextFieldImage : UITextField {
             self.font = WMFont.fontMyriadProRegularOfSize(14)
             
         }
-        if self.secureTextEntry {
-            self.font = UIFont.systemFontOfSize(14)
+        if self.isSecureTextEntry {
+            self.font = UIFont.systemFont(ofSize: 14)
             self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
             
         }
@@ -84,7 +84,7 @@ class UIEdgeTextFieldImage : UITextField {
         return resign;
     }
     
-    func setPlaceholderEdge(placeholder : String){
+    func setPlaceholderEdge(_ placeholder : String){
         imageIcon?.image = imageNotSelected
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.dark_gray , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
     }
@@ -100,12 +100,12 @@ class UIEdgeTextFieldImage : UITextField {
         
         if isValid {
             switch (typeField) {
-            case .Email:
+            case .email:
                 isValid =  SignUpViewController.isValidEmail(self.text!)
                 if !isValid{
                     message = NSLocalizedString("field.validate.text.invalid",comment:"")
                 }
-            case .Password:
+            case .password:
                 if self.text!.characters.count == 0
                 {
                     isValid = false
@@ -123,12 +123,12 @@ class UIEdgeTextFieldImage : UITextField {
                 
                 var regExVal: NSRegularExpression?
                 do {
-                    regExVal = try NSRegularExpression(pattern: validatePass() as String, options: NSRegularExpressionOptions.CaseInsensitive)
+                    regExVal = try NSRegularExpression(pattern: validatePass() as String, options: NSRegularExpression.Options.caseInsensitive)
                 } catch let error1 as NSError {
                     print(error1.description)
                     regExVal = nil
                 }
-                let matches = regExVal!.numberOfMatchesInString(self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))
+                let matches = regExVal!.numberOfMatches(in: self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))
                 
                 if matches > 0 {
                     isValid = true
@@ -137,7 +137,7 @@ class UIEdgeTextFieldImage : UITextField {
                     message = NSLocalizedString("field.validate.password.length",comment:"")
                 }
                 
-            case .None:
+            case .none:
                 isValid = true
             default:
                 break
@@ -149,7 +149,7 @@ class UIEdgeTextFieldImage : UITextField {
     
     func validatePass()-> NSString {
         let regString : String = "^[A-Za-z0-9]{5,20}$";
-        return regString
+        return regString as NSString
     }
 
     

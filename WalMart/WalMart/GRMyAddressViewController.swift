@@ -17,20 +17,20 @@ class GRMyAddressViewController: MyAddressViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewBgSelectorBtn.hidden = true
+        self.viewBgSelectorBtn.isHidden = true
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.text = NSLocalizedString("gr.address.MyAddress", comment: "")
         
-        self.okButton = UIButton(frame: CGRectMake(0, 0, 98, 34))
+        self.okButton = UIButton(frame: CGRect(x: 0, y: 0, width: 98, height: 34))
         self.okButton!.backgroundColor = WMColor.light_blue
         self.okButton!.layer.cornerRadius = 17
         self.okButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
-        self.okButton!.center = CGPointMake(self.view.frame.width / 2, 32)
-        self.okButton!.addTarget(self, action: #selector(GRMyAddressViewController.okAction), forControlEvents: UIControlEvents.TouchUpInside)
+        self.okButton!.setTitle("Ok", for: UIControlState())
+        self.okButton!.center = CGPoint(x: self.view.frame.width / 2, y: 32)
+        self.okButton!.addTarget(self, action: #selector(GRMyAddressViewController.okAction), for: UIControlEvents.touchUpInside)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if self.hasCloseButton! {
             self.addCloseButton()
@@ -46,20 +46,20 @@ class GRMyAddressViewController: MyAddressViewController {
         
         let bounds = self.view.bounds
         //tamaño
-        self.newAddressButton!.frame = CGRectMake(self.view.bounds.width - (buttonWidth + 16.0), (header!.bounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
-        self.titleLabel!.frame = CGRectMake(self.newAddressButton!.frame.width - 10 , 0, self.view.bounds.width - (self.newAddressButton!.frame.width * 2), self.header!.frame.maxY)
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.newAddressButton!.frame = CGRect(x: self.view.bounds.width - (buttonWidth + 16.0), y: (header!.bounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+        self.titleLabel!.frame = CGRect(x: self.newAddressButton!.frame.width - 10 , y: 0, width: self.view.bounds.width - (self.newAddressButton!.frame.width * 2), height: self.header!.frame.maxY)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
         if self.hasCloseButton! {
-            self.table!.frame =  CGRectMake(0,  self.header!.frame.maxY, bounds.width, bounds.height - self.header!.frame.maxY - bottomSpace)
-            self.okButton!.frame = CGRectMake((bounds.width / 2) - 49,  self.table!.frame.maxY + 15, 98, 34)
+            self.table!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.maxY - bottomSpace)
+            self.okButton!.frame = CGRect(x: (bounds.width / 2) - 49,  y: self.table!.frame.maxY + 15, width: 98, height: 34)
             let line: CALayer = CALayer()
-            line.frame = CGRectMake(0.0, self.table!.frame.maxY, bounds.width,1.0)
-            line.backgroundColor = WMColor.light_light_gray.CGColor
-            self.view.layer.insertSublayer(line, atIndex: 0)
+            line.frame = CGRect(x: 0.0, y: self.table!.frame.maxY, width: bounds.width,height: 1.0)
+            line.backgroundColor = WMColor.light_light_gray.cgColor
+            self.view.layer.insertSublayer(line, at: 0)
         }
         else{
-            self.table!.frame =  CGRectMake(0,  self.header!.frame.maxY, bounds.width, bounds.height - self.header!.frame.maxY)
+            self.table!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.maxY)
         }
     }
     
@@ -67,26 +67,26 @@ class GRMyAddressViewController: MyAddressViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.addressController = IPAAddressViewController()
         self.showGRAddressForm = self.hasCloseButton
-        super.tableView(tableView, didSelectRowAtIndexPath:indexPath)
+        super.tableView(tableView, didSelectRowAt:indexPath)
     }
     
-    override func deleteAddress(idAddress:String){
+    override func deleteAddress(_ idAddress:String){
         self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         super.deleteAddress(idAddress)
     }
 
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36))
-        let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36))
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let generic : UIView = UIView(frame: CGRect(x: 0,y: 0,width: tableView.frame.width,height: 36))
+        let titleView : UILabel = UILabel(frame:CGRect(x: 16,y: 0,width: tableView.frame.width,height: 36))
         titleView.textColor = WMColor.light_blue
         titleView.font = WMFont.fontMyriadProLightOfSize(14)
         titleView.text = NSLocalizedString("gr.address.table.header", comment: "")
         generic.addSubview(titleView)
-        generic.backgroundColor = UIColor.whiteColor()
+        generic.backgroundColor = UIColor.white
         return generic
     }
     
@@ -94,8 +94,8 @@ class GRMyAddressViewController: MyAddressViewController {
         self.hasCloseButton = true
         //self.hiddenBack = true
         self.backButton = UIButton()
-        self.backButton!.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
-        self.backButton!.addTarget(self, action: #selector(GRMyAddressViewController.closeAddressView), forControlEvents: UIControlEvents.TouchUpInside)
+        self.backButton!.setImage(UIImage(named: "detail_close"), for: UIControlState())
+        self.backButton!.addTarget(self, action: #selector(GRMyAddressViewController.closeAddressView), for: UIControlEvents.touchUpInside)
         self.header?.addSubview(self.backButton!)
         self.view.addSubview(self.okButton!)
     }
@@ -110,7 +110,7 @@ class GRMyAddressViewController: MyAddressViewController {
         self.navigationController!.pushViewController(self.superAddressController, animated: true)
     }
     
-    override func deleteAddressGR(idAddress:String){
+    override func deleteAddressGR(_ idAddress:String){
         if self.hasCloseButton!
         {
             self.alertView = IPOWMAlertViewController.showAlert(self,imageWaiting: UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
@@ -124,7 +124,7 @@ class GRMyAddressViewController: MyAddressViewController {
         let service = GRAddressAddService()
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = idAddress
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
             
             let name = result["name"] as! String!
             let outerNumber = result["outerNumber"] as! String!
@@ -142,7 +142,7 @@ class GRMyAddressViewController: MyAddressViewController {
             
             let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "B", preferred: false)
             
-            service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
+            service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
                                 
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label:"")
                 
@@ -153,14 +153,14 @@ class GRMyAddressViewController: MyAddressViewController {
                     }
                     let serviceAddress = GRAddressesByIDService()
                     serviceAddress.addressId = result["addressID"] as? String
-                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                    serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
                         UserCurrentSession.sharedInstance().getStoreByAddress(result)
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }
                 self.alertView = nil
                 
-                if self.btnSuper.selected {
+                if self.btnSuper.isSelected {
                     self.callServiceAddressGR()
                 }else{
                     self.callServiceAddress()

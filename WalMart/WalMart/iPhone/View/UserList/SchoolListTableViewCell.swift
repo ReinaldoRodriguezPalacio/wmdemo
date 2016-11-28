@@ -30,13 +30,13 @@ class SchoolListTableViewCell : UITableViewCell {
     
     
     override func layoutSubviews() {
-        self.schoolLogo!.frame = CGRectMake(16, 16, 72, 66)
-        self.schoolNameLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, 16, self.frame.width - (self.schoolLogo!.frame.maxX + 32), 14)
-        self.gradeDescLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, self.schoolNameLabel!.frame.maxY + 4, self.frame.width - (self.schoolLogo!.frame.maxX + 32), 12)
-        self.numElementsLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, self.gradeDescLabel!.frame.maxY + 4, 113, 12)
-        self.total!.frame = CGRectMake(self.frame.width - 106, self.numElementsLabel!.frame.maxY - 5, 90, 18)
-        self.saving!.frame = CGRectMake(self.frame.width - 106, self.total!.frame.maxY + 4, 90, 14)
-        self.separator.frame = CGRectMake(0, 97, self.frame.width, 1)
+        self.schoolLogo!.frame = CGRect(x: 16, y: 16, width: 72, height: 66)
+        self.schoolNameLabel!.frame = CGRect(x: self.schoolLogo!.frame.maxX + 16, y: 16, width: self.frame.width - (self.schoolLogo!.frame.maxX + 32), height: 14)
+        self.gradeDescLabel!.frame = CGRect(x: self.schoolLogo!.frame.maxX + 16, y: self.schoolNameLabel!.frame.maxY + 4, width: self.frame.width - (self.schoolLogo!.frame.maxX + 32), height: 12)
+        self.numElementsLabel!.frame = CGRect(x: self.schoolLogo!.frame.maxX + 16, y: self.gradeDescLabel!.frame.maxY + 4, width: 113, height: 12)
+        self.total!.frame = CGRect(x: self.frame.width - 106, y: self.numElementsLabel!.frame.maxY - 5, width: 90, height: 18)
+        self.saving!.frame = CGRect(x: self.frame.width - 106, y: self.total!.frame.maxY + 4, width: 90, height: 14)
+        self.separator.frame = CGRect(x: 0, y: 97, width: self.frame.width, height: 1)
     }
     
     func setup(){
@@ -56,19 +56,19 @@ class SchoolListTableViewCell : UITableViewCell {
         self.numElementsLabel?.textColor = WMColor.dark_gray
         
         self.total = CurrencyCustomLabel()
-        self.total!.backgroundColor = UIColor.clearColor()
-        self.total!.textAlignment = .Right
+        self.total!.backgroundColor = UIColor.clear
+        self.total!.textAlignment = .right
         self.total!.updateMount("199.00", font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         self.saving = CurrencyCustomLabel()
-        self.saving!.backgroundColor = UIColor.clearColor()
-        self.saving!.textAlignment = .Right
+        self.saving!.backgroundColor = UIColor.clear
+        self.saving!.textAlignment = .right
         self.saving!.updateMount("Ahorras $217.70", font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.green, interLine: false)
         
         self.separator = CALayer()
-        self.separator.backgroundColor = WMColor.light_light_gray.CGColor
-        self.separator.frame = CGRectMake(0,97, self.frame.width, 1)
-        self.layer.insertSublayer(separator, atIndex: 100)
+        self.separator.backgroundColor = WMColor.light_light_gray.cgColor
+        self.separator.frame = CGRect(x: 0,y: 97, width: self.frame.width, height: 1)
+        self.layer.insertSublayer(separator, at: 100)
         
         self.addSubview(schoolNameLabel!)
         self.addSubview(gradeDescLabel!)
@@ -78,9 +78,9 @@ class SchoolListTableViewCell : UITableViewCell {
         self.addSubview(total!)
     }
     
-    func setValues(name:String,grade:String,listPrice:String,numArticles:Int,savingPrice:String)
+    func setValues(_ name:String,grade:String,listPrice:String,numArticles:Int,savingPrice:String)
     {
-        self.saving!.hidden = true 
+        self.saving!.isHidden = true 
         self.schoolNameLabel?.text = name
         self.gradeDescLabel?.text = grade.trim()
         self.numElementsLabel?.text = "\(numArticles) artículos"

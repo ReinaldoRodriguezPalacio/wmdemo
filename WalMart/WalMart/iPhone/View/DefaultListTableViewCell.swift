@@ -31,11 +31,11 @@ class DefaultListTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         
-        self.iconView.frame = CGRectMake(8, 8, 81, 81)
-        self.nameView!.frame = CGRectMake(self.iconView.frame.maxX + 16, 16, self.frame.width - (self.iconView.frame.maxX + 32), 32)
-        self.articlesView!.frame = CGRectMake(self.iconView.frame.maxX + 16,self.nameView!.frame.maxY +  2, 81, 14)
-        self.priceView!.frame = CGRectMake(self.iconView.frame.maxX + 16, self.articlesView!.frame.maxY + 8, 81, 18)
-        self.separator!.frame = CGRectMake(self.iconView.frame.maxX, self.bounds.height - 1,self.frame.width - 16, 1)
+        self.iconView.frame = CGRect(x: 8, y: 8, width: 81, height: 81)
+        self.nameView!.frame = CGRect(x: self.iconView.frame.maxX + 16, y: 16, width: self.frame.width - (self.iconView.frame.maxX + 32), height: 32)
+        self.articlesView!.frame = CGRect(x: self.iconView.frame.maxX + 16,y: self.nameView!.frame.maxY +  2, width: 81, height: 14)
+        self.priceView!.frame = CGRect(x: self.iconView.frame.maxX + 16, y: self.articlesView!.frame.maxY + 8, width: 81, height: 18)
+        self.separator!.frame = CGRect(x: self.iconView.frame.maxX, y: self.bounds.height - 1,width: self.frame.width - 16, height: 1)
         
     
     
@@ -44,28 +44,28 @@ class DefaultListTableViewCell : UITableViewCell {
     
     func setup(){
         
-        self.iconView = UIImageView(frame: CGRectMake(8, 8, 81, 81))
+        self.iconView = UIImageView(frame: CGRect(x: 8, y: 8, width: 81, height: 81))
         self.iconView.image = UIImage(named: "superlist")
-        self.iconView.contentMode = UIViewContentMode.Center
+        self.iconView.contentMode = UIViewContentMode.center
         self.addSubview(self.iconView)
         
-        self.nameView = UILabel(frame: CGRectMake(self.iconView.frame.maxX + 16, 17, self.frame.width - (self.iconView.frame.maxX + 32), 14))
+        self.nameView = UILabel(frame: CGRect(x: self.iconView.frame.maxX + 16, y: 17, width: self.frame.width - (self.iconView.frame.maxX + 32), height: 14))
         self.nameView!.font =  WMFont.fontMyriadProLightOfSize(16) //WMFont.fontMyriadProRegularOfSize(14)
         self.nameView!.textColor = WMColor.gray
         self.nameView!.numberOfLines = 2
         self.addSubview(self.nameView)
         
-        self.articlesView = UILabel(frame: CGRectMake(self.iconView.frame.maxX + 14, self.nameView!.frame.maxY + 16, 81, 14))
+        self.articlesView = UILabel(frame: CGRect(x: self.iconView.frame.maxX + 14, y: self.nameView!.frame.maxY + 16, width: 81, height: 14))
         self.articlesView!.font = WMFont.fontMyriadProRegularOfSize(14)// WMFont.fontMyriadProSemiboldSize(14)
         self.articlesView!.textColor = WMColor.gray
         self.addSubview(self.articlesView)
         
-        self.priceView = UILabel(frame: CGRectMake(self.iconView.frame.maxX + 16, self.articlesView!.frame.maxY + 8, 81, 18))
+        self.priceView = UILabel(frame: CGRect(x: self.iconView.frame.maxX + 16, y: self.articlesView!.frame.maxY + 8, width: 81, height: 18))
         self.priceView!.font = WMFont.fontMyriadProSemiboldSize(18)
         self.priceView!.textColor = WMColor.orange
         self.addSubview(self.priceView)
         
-        self.separator = UIView(frame:CGRectMake(16, 108,self.frame.width - 16, 1.0))
+        self.separator = UIView(frame:CGRect(x: 16, y: 108,width: self.frame.width - 16, height: 1.0))
         self.separator!.backgroundColor = WMColor.light_light_gray
         self.addSubview(self.separator!)
 
@@ -75,7 +75,7 @@ class DefaultListTableViewCell : UITableViewCell {
 
     
     
-    func setValues(nameList:String,numberItems:String,total:String) {
+    func setValues(_ nameList:String,numberItems:String,total:String) {
         self.nameView!.text = nameList
         self.articlesView!.text = String(format: NSLocalizedString("list.articles", comment:""), numberItems)
         self.priceView!.text = total

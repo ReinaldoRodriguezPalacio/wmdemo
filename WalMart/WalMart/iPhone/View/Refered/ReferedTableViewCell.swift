@@ -39,37 +39,37 @@ class ReferedTableViewCell : UITableViewCell {
         countLabel.textColor = WMColor.light_blue
         
         separator = CALayer()
-        separator.backgroundColor = WMColor.light_light_gray.CGColor
+        separator.backgroundColor = WMColor.light_light_gray.cgColor
         
         self.addSubview(self.viewBgSel!)
         self.addSubview(self.countLabel)
-        self.layer.insertSublayer(separator, atIndex: 0)
+        self.layer.insertSublayer(separator, at: 0)
         self.addSubview(titleLabel)
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.viewBgSel!.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
-        titleLabel.frame = CGRectMake(16, 0, self.bounds.width - 32, self.bounds.height)
-        countLabel.frame = CGRectMake(self.bounds.width - 32, 0, 32, self.bounds.height)
+        self.viewBgSel!.frame =  CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height - 1.0)
+        titleLabel.frame = CGRect(x: 16, y: 0, width: self.bounds.width - 32, height: self.bounds.height)
+        countLabel.frame = CGRect(x: self.bounds.width - 32, y: 0, width: 32, height: self.bounds.height)
         let widthAndHeightSeparator = CGFloat(1.0)
-        separator.frame = CGRectMake(0, self.bounds.height - 1.2, self.bounds.width, widthAndHeightSeparator)
+        separator.frame = CGRect(x: 0, y: self.bounds.height - 1.2, width: self.bounds.width, height: widthAndHeightSeparator)
     }
     
-    func setTitleAndCount(title:String,count: String){
+    func setTitleAndCount(_ title:String,count: String){
         titleLabel.text = title
         countLabel.text = count
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         // super.setSelected(selected, animated: true)
-        viewBgSel.hidden = !selected
+        viewBgSel.isHidden = !selected
     }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         //super.setHighlighted(highlighted, animated: highlighted)
-        viewBgSel.hidden = true
+        viewBgSel.isHidden = true
     }
     
 }

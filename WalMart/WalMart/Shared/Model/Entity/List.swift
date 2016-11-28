@@ -15,7 +15,7 @@ class List: NSManagedObject {
     @NSManaged var name: String
     @NSManaged var countItem: NSNumber
     @NSManaged var user: WalmartMG.User
-    @NSManaged var registryDate: NSDate
+    @NSManaged var registryDate: Date
 
     @NSManaged var products: NSMutableSet
 }

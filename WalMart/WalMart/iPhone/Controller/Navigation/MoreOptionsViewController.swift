@@ -56,59 +56,59 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         super.viewDidLoad()
         
         userName?.font = WMFont.fontMyriadProLightOfSize(25)
-        userName?.textColor = UIColor.whiteColor()
+        userName?.textColor = UIColor.white
         
         emailLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
-        emailLabel?.textColor = UIColor.whiteColor()
+        emailLabel?.textColor = UIColor.white
         
         let circleLetter: Character = "\u{25CF}"
         let finalPassword = "\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)"
         passwordLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        passwordLabel?.textColor = UIColor.whiteColor()
+        passwordLabel?.textColor = UIColor.white
         passwordLabel?.text = finalPassword
         
         
         self.signInOrClose = WMRoundButton()
-        let sizeImage = CGSizeMake(90, 24)
+        let sizeImage = CGSize(width: 90, height: 24)
         self.signInOrClose?.setFontTitle(WMFont.fontMyriadProRegularOfSize(12))
-        self.signInOrClose?.setBackgroundColor(WMColor.blue, size: sizeImage, forUIControlState: UIControlState.Selected)
-        self.signInOrClose?.setTitle("cerrar sesión", forState: UIControlState.Selected)
-        self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState.Normal)
-        self.signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
+        self.signInOrClose?.setBackgroundColor(WMColor.blue, size: sizeImage, forUIControlState: UIControlState.selected)
+        self.signInOrClose?.setTitle("cerrar sesión", for: UIControlState.selected)
+        self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState())
+        self.signInOrClose?.setTitle("iniciar sesión", for: UIControlState())
         //self.signInOrClose?.setTitle(" ", forState: UIControlState.Highlighted)
-        self.signInOrClose?.addTarget(self, action: #selector(MoreOptionsViewController.openLoginOrProfile), forControlEvents: UIControlEvents.TouchUpInside)
+        self.signInOrClose?.addTarget(self, action: #selector(MoreOptionsViewController.openLoginOrProfile), for: UIControlEvents.touchUpInside)
         self.view.addSubview(signInOrClose!)
        
         
         self.editProfileButton = UIButton()
-        self.editProfileButton.addTarget(self, action: #selector(MoreOptionsViewController.editProfile(_:)), forControlEvents: .TouchUpInside)
-        self.editProfileButton.setImage(UIImage(named: "editProfile"), forState: UIControlState.Normal)
-        self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Selected)
-        self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Highlighted)
+        self.editProfileButton.addTarget(self, action: #selector(MoreOptionsViewController.editProfile(_:)), for: .touchUpInside)
+        self.editProfileButton.setImage(UIImage(named: "editProfile"), for: UIControlState())
+        self.editProfileButton.setImage(UIImage(named: "editProfile_active"), for: UIControlState.selected)
+        self.editProfileButton.setImage(UIImage(named: "editProfile_active"), for: UIControlState.highlighted)
         self.editProfileButton.alpha = 0
         self.view.addSubview(editProfileButton)
         
         self.reloadButtonSession()
         
-               tableView  = UITableView(frame: CGRectZero)
-        tableView!.registerClass(MoreMenuViewCell.self, forCellReuseIdentifier: "Cell")
+               tableView  = UITableView(frame: CGRect.zero)
+        tableView!.register(MoreMenuViewCell.self, forCellReuseIdentifier: "Cell")
         tableView?.delegate = self
         tableView?.dataSource = self
-        tableView?.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView?.separatorStyle = UITableViewCellSeparatorStyle.none
 
         self.view.addSubview(tableView!)
         
-        self.showCamfind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
+        self.showCamfind = Bundle.main.object(forInfoDictionaryKey: "showCamFind") as! Bool
         
         if !self.showCamfind {
            options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         }
             
-       NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadProfileData), name: ProfileNotification.updateProfile.rawValue, object: nil)
-       NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadTable), name: CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(MoreOptionsViewController.reloadProfileData), name: NSNotification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(MoreOptionsViewController.reloadTable), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.reloadButtonSession()
         self.tableView?.reloadData()
@@ -118,10 +118,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     override func viewWillLayoutSubviews() {
         let bounds = self.view.bounds.size
-        self.tableView!.frame = CGRectMake(0.0, profileView!.frame.maxY, bounds.width, bounds.height - profileView!.frame.maxY)
+        self.tableView!.frame = CGRect(x: 0.0, y: profileView!.frame.maxY, width: bounds.width, height: bounds.height - profileView!.frame.maxY)
         self.profileView?.backgroundColor = WMColor.light_blue
-        self.editProfileButton!.frame = CGRectMake(bounds.width - 63, -13 , 63, 63 )
-         signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45, 109, 90, 24)
+        self.editProfileButton!.frame = CGRect(x: bounds.width - 63, y: -13 , width: 63, height: 63 )
+         signInOrClose?.frame = CGRect(x: (self.view.frame.width / 2) - 45, y: 109, width: 90, height: 24)
     }
 
     override func didReceiveMemoryWarning() {
@@ -133,7 +133,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
@@ -143,11 +143,11 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     // MARK: - TableView
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
                 return 3
@@ -161,9 +161,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell: MoreMenuViewCell! = tableView.dequeueReusableCellWithIdentifier("Cell") as! MoreMenuViewCell
+        let cell: MoreMenuViewCell! = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MoreMenuViewCell
         
         
         var currentOption : Int = 0
@@ -224,7 +224,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
             //CAMBIO
@@ -249,23 +249,23 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         
        
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
         let optionTxt = self.options[currentOption]
 
         switch (OptionsController(rawValue: optionTxt)!) {
-        case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
+        case .Help : self.performSegue(withIdentifier: "showHelp", sender: self)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HOW_USE_APP.rawValue, label: "")
         case .Profile :
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
             let controller = EditProfileViewController()
             self.navigationController!.pushViewController(controller, animated: true)
-        case .Terms: self.performSegueWithIdentifier("termsHelp", sender: self)
+        case .Terms: self.performSegue(withIdentifier: "termsHelp", sender: self)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_TERMS_AND_CONDITIONS.rawValue, label: "")
-        case .Contact: self.performSegueWithIdentifier("supportHelp", sender: self)
+        case .Contact: self.performSegue(withIdentifier: "supportHelp", sender: self)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SUPPORT.rawValue, label: "")
-        case .StoreLocator: self.performSegueWithIdentifier("storeLocator", sender: self)
+        case .StoreLocator: self.performSegue(withIdentifier: "storeLocator", sender: self)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_STORE_LOCATOR.rawValue, label: "")
-        case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
+        case .Notification: self.performSegue(withIdentifier: "notificationController", sender: self)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
         case .Recents:
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_ITEMES_PURCHASED.rawValue, label: "")
@@ -283,12 +283,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .CamFind:
             let cameraController = CameraViewController()
             cameraController.delegate = self
-            self.presentViewController(cameraController, animated: true, completion: nil)
+            self.present(cameraController, animated: true, completion: nil)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         case .Invoice:
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
-            self.presentViewController(webCtrl,animated:true,completion:nil)
+            self.present(webCtrl,animated:true,completion:nil)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
         case .TicketList:
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_TICKET.rawValue, label: "")
@@ -305,17 +305,17 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         let notificationOptions = (self.showCamfind! ? 8 : 7)
         if currentOption == notificationOptions {
             //Se elimina Badge de notificaciones
-            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+            UIApplication.shared.applicationIconBadgeNumber = 0
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         }
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             return 0.0
         }
@@ -323,7 +323,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             return UIView()
         }
@@ -351,7 +351,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let cont = LoginController.showLogin()
             cont!.successCallBack = {() in
                 self.tableView?.reloadData()
-                if cont.alertView != nil {
+                if cont?.alertView != nil {
                     cont!.closeAlert(true, messageSucesss: true)
                 }else {
                     cont!.closeModal()
@@ -367,7 +367,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
     }
     
-    func signOut(sender:UIButton?) {
+    func signOut(_ sender:UIButton?) {
         
         if sender == nil {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -387,17 +387,17 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 
                 self.reloadButtonSession()
                 let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: { (result:NSDictionary) -> Void in
+                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
                     
                     self.alertView!.setMessage("Ok")
                     self.alertView!.showDoneIcon()
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                     
                     } , errorBlock: { (error:NSError) -> Void in
                         print("")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
-                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                 })
                 
             }
@@ -406,14 +406,14 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         let logoutService = LogoutService()
         logoutService.callService(Dictionary<String, String>(),
-                                  successBlock: { (response:NSDictionary) -> Void in print("Call service LogoutService success") },
+                                  successBlock: { (response:[String:Any]) -> Void in print("Call service LogoutService success") },
                                   errorBlock: { (error:NSError) -> Void in print("Call service LogoutService error \(error)") }
         )
 
     }
     
     //MARK CameraViewControllerDelegate
-    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void))
+    func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void))
     {
        if value != nil && value?.trim() != "" {
               //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
@@ -422,8 +422,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 upcArray = []
             }
 
-            let params = ["upcs": upcArray!, "keyWord":value!]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
+            let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
             done()
         }
     }
@@ -438,7 +438,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             self.passwordLabel?.alpha = 0
             userName?.text = "¡Hola!"
             
-            signInOrClose?.selected = false
+            signInOrClose?.isSelected = false
         } else {
             self.editProfileButton.alpha = 1
             self.emailLabel?.alpha = 1
@@ -450,7 +450,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             
             emailLabel?.text = emailStr
             
-            signInOrClose?.selected = true
+            signInOrClose?.isSelected = true
         }
         self.tableView?.reloadData()
     }
@@ -460,7 +460,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
      
      - parameter sender: button send action
      */
-    func editProfile(sender:UIButton) {
+    func editProfile(_ sender:UIButton) {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
@@ -473,7 +473,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.searchProduct = false
-        self.presentViewController(barCodeController, animated: true, completion: nil)
+        self.present(barCodeController, animated: true, completion: nil)
     }
     
     /**
@@ -505,7 +505,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             NSLog("Inicia llamado de  Servicios:::::")
             self.loadGRServices { (bussines:String) in
                 NSLog("termina llamado de Servicios:::")
-                let window = UIApplication.sharedApplication().keyWindow
+                let window = UIApplication.shared.keyWindow
                 if let customBar = window!.rootViewController as? CustomBarViewController {
                     customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
                     self.showPromos = true
@@ -518,12 +518,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
      
      - parameter successBlock: finish service an retun bussines
      */
-    func loadGRServices(successBlock:((String) -> Void)?){
+    func loadGRServices(_ successBlock:((String) -> Void)?){
        
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
-        service.callService(params, successBlock: { (respose:NSArray,resultDic:[String:AnyObject]) in
+        service.callService(params, successBlock: { (respose:NSArray,resultDic:[String:Any]) in
             print("temina")
             if respose.count > 0 {
                 successBlock!("gr")

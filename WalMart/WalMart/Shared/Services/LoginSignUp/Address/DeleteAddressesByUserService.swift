@@ -12,13 +12,13 @@ class DeleteAddressesByUserService : BaseService {
     
     var idAddress : String? = nil
     
-    func buildParams(idAddressParam:String) {
+    func buildParams(_ idAddressParam:String) {
         self.idAddress = idAddressParam
     }
     
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

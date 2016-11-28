@@ -9,9 +9,9 @@
 import UIKit
 
 protocol ListTableViewCellDelegate {
-    func duplicateList(cell:ListTableViewCell)
-    func didListChangeName(cell:ListTableViewCell, text:String?)
-    func editCell(cell:SWTableViewCell)
+    func duplicateList(_ cell:ListTableViewCell)
+    func didListChangeName(_ cell:ListTableViewCell, text:String?)
+    func editCell(_ cell:SWTableViewCell)
 }
 
 class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
@@ -31,7 +31,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     
     
     var listDelegate: ListTableViewCellDelegate?
-    var currencyFmt: NSNumberFormatter? = nil
+    var currencyFmt: NumberFormatter? = nil
     var isCopyEnabled = false
     var enableEditing = true
     var canDelete = true
@@ -47,25 +47,25 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
+        self.selectionStyle = .none
 
-        self.currencyFmt = NSNumberFormatter()
-        self.currencyFmt!.numberStyle = .CurrencyStyle
+        self.currencyFmt = NumberFormatter()
+        self.currencyFmt!.numberStyle = .currency
         self.currencyFmt!.minimumFractionDigits = 2
         self.currencyFmt!.maximumFractionDigits = 2
-        self.currencyFmt!.locale = NSLocale(localeIdentifier: "es_MX")
+        self.currencyFmt!.locale = Locale(identifier: "es_MX")
         
-        self.iconView = UIImageView(frame: CGRectMake(23.0, 8.0, 40.0, 40.0))
-        self.iconView?.contentMode = UIViewContentMode.Center
+        self.iconView = UIImageView(frame: CGRect(x: 23.0, y: 8.0, width: 40.0, height: 40.0))
+        self.iconView?.contentMode = UIViewContentMode.center
         self.contentView.addSubview(self.iconView!)
         
-        self.textField = ListFieldSearch(frame: CGRectMake(10.0, 0.0, 200.0, 40.0))
+        self.textField = ListFieldSearch(frame: CGRect(x: 10.0, y: 0.0, width: 200.0, height: 40.0))
         self.textField!.backgroundColor = WMColor.light_light_gray
         self.textField!.layer.cornerRadius = 5.0
         self.textField!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textField!.delegate =  self
         self.textField!.placeholder = NSLocalizedString("list.new.placeholder", comment:"")
-        self.textField!.hidden = true
+        self.textField!.isHidden = true
         self.textField!.alpha = 0.0
         self.contentView.addSubview(self.textField!)
 
@@ -81,15 +81,15 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.articlesTitle!.text = NSLocalizedString("list.articles",comment:"")
         self.contentView.addSubview(self.articlesTitle!)
         
-        self.copyBtn = UIButton(type: .Custom)
-        self.copyBtn!.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
-        self.copyBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.copyBtn = UIButton(type: .custom)
+        self.copyBtn!.setTitle(NSLocalizedString("list.copy", comment:""), for: UIControlState())
+        self.copyBtn!.setTitleColor(UIColor.white, for: UIControlState())
         self.copyBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.copyBtn!.backgroundColor = WMColor.light_blue
-        self.copyBtn!.addTarget(self, action: #selector(ListTableViewCell.duplicate), forControlEvents: .TouchUpInside)
+        self.copyBtn!.addTarget(self, action: #selector(ListTableViewCell.duplicate), for: .touchUpInside)
         self.copyBtn!.layer.cornerRadius = 9.0
         self.copyBtn!.alpha = 0.0
-        self.copyBtn!.hidden = true
+        self.copyBtn!.isHidden = true
         self.copyBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         self.contentView.addSubview(self.copyBtn!)
 
@@ -98,21 +98,21 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.separatorView!)
         
         var buttonDelete = UIButton()
-        buttonDelete.setTitle(NSLocalizedString("wishlist.delete", comment:""), forState: .Normal)
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete", comment:""), for: UIControlState())
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelete.backgroundColor = WMColor.red
         
         let buttonDuplicate = UIButton()
-        buttonDuplicate.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
+        buttonDuplicate.setTitle(NSLocalizedString("list.copy", comment:""), for: UIControlState())
         buttonDuplicate.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDuplicate.backgroundColor = WMColor.light_blue
 
         self.rightUtilityButtons = [buttonDuplicate,buttonDelete]
         
         buttonDelete = UIButton()
-        buttonDelete.setImage(UIImage(named:"myList_delete"), forState: .Normal)
+        buttonDelete.setImage(UIImage(named:"myList_delete"), for: UIControlState())
         //buttonDelete.backgroundColor = WMColor.light_gray
-        buttonDelete.backgroundColor = UIColor.whiteColor()
+        buttonDelete.backgroundColor = UIColor.white
 
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
         
@@ -120,7 +120,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         viewBgSel?.backgroundColor = WMColor.light_light_gray
         viewBgSel?.alpha = 1
         self.addSubview(self.viewBgSel!)
-        self.sendSubviewToBack(viewBgSel!)
+        self.sendSubview(toBack: viewBgSel!)
         
     }
     
@@ -128,31 +128,31 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         super.layoutSubviews()
         let bounds = self.frame.size
         let sep: CGFloat = 16.0
-        self.iconView!.frame = CGRectMake(sep, 12, 40.0, 40.0)
+        self.iconView!.frame = CGRect(x: sep, y: 12, width: 40.0, height: 40.0)
         let x = self.iconView!.frame.maxX + sep
         var width = bounds.width - x
         let copyWidth: CGFloat = 55.0
 
-        self.textField!.frame = CGRectMake(x, sep, width - sep, 40.0)
-        if self.editing {
-            self.textField!.frame = CGRectMake(x, sep, width - (sep + self.leftBtnWidth), 40.0)
+        self.textField!.frame = CGRect(x: x, y: sep, width: width - sep, height: 40.0)
+        if self.isEditing {
+            self.textField!.frame = CGRect(x: x, y: sep, width: width - (sep + self.leftBtnWidth), height: 40.0)
         }
-        self.copyBtn!.frame = CGRectMake(bounds.width - (copyWidth + sep), (bounds.height - 18.0)/2, 55.0, 18.0)
-        self.separatorView!.frame = CGRectMake(self.iconView!.frame.maxX, bounds.height - 1.0, bounds.width, 1.0)
+        self.copyBtn!.frame = CGRect(x: bounds.width - (copyWidth + sep), y: (bounds.height - 18.0)/2, width: 55.0, height: 18.0)
+        self.separatorView!.frame = CGRect(x: self.iconView!.frame.maxX, y: bounds.height - 1.0, width: bounds.width, height: 1.0)
 
         if self.isCopyEnabled {
             width -= (copyWidth + (2*sep))
         }
         
-        self.listName!.frame = CGRectMake(x, sep, width, 20.0)
-        self.articlesTitle!.frame = CGRectMake(x, self.listName!.frame.maxY, width, 20.0)
-        self.viewBgSel?.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
+        self.listName!.frame = CGRect(x: x, y: sep, width: width, height: 20.0)
+        self.articlesTitle!.frame = CGRect(x: x, y: self.listName!.frame.maxY, width: width, height: 20.0)
+        self.viewBgSel?.frame =  CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height - 1.0)
     }
     
     
     //MARK: - Utils
     
-    func setValues(listObject object:NSDictionary) {
+    func setValues(listObject object:[String:Any]) {
         var title = ""
         if let name = object["name"] as? String {
             title = name
@@ -195,12 +195,12 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.enableEditing = enableEditing
     }
     
-    func enableDuplicateListAnimated(flag:Bool) {
-        self.copyBtn!.hidden = !flag
+    func enableDuplicateListAnimated(_ flag:Bool) {
+        self.copyBtn!.isHidden = !flag
         self.isCopyEnabled = flag
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
             delay: 0.0,
-            options: .LayoutSubviews,
+            options: .layoutSubviews,
             animations: { () -> Void in
                 self.copyBtn!.alpha = flag ? 1.0 : 0.0
             },
@@ -211,26 +211,26 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         )
     }
     
-    func enableDuplicateList(flag:Bool) {
-        self.copyBtn!.hidden = !flag
+    func enableDuplicateList(_ flag:Bool) {
+        self.copyBtn!.isHidden = !flag
         self.isCopyEnabled = flag
         self.copyBtn!.alpha = flag ? 1.0 : 0.0
         self.setNeedsLayout()
     }
 
-    func enableEditListAnimated(flag:Bool) {
+    func enableEditListAnimated(_ flag:Bool) {
         if self.enableEditing {
-            self.textField!.hidden = !flag
-            UIView.animateWithDuration(0.25,
+            self.textField!.isHidden = !flag
+            UIView.animate(withDuration: 0.25,
                 animations: { () -> Void in
                     self.listName!.alpha = flag ? 0.0 : 1.0
                     self.articlesTitle!.alpha = flag ? 0.0 : 1.0
                     self.textField!.alpha = flag ? 1.0 : 0.0
                 }, completion: { (finished:Bool) -> Void in
                     if finished {
-                        self.listName!.hidden = flag
-                        self.articlesTitle!.hidden = flag
-                        if self.textField!.isFirstResponder() {
+                        self.listName!.isHidden = flag
+                        self.articlesTitle!.isHidden = flag
+                        if self.textField!.isFirstResponder {
                             self.textField!.resignFirstResponder()
                         }
                     }
@@ -239,14 +239,14 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         }
     }
     
-    func enableEditList(flag:Bool) {
-        self.textField!.hidden = !flag
+    func enableEditList(_ flag:Bool) {
+        self.textField!.isHidden = !flag
         self.textField!.alpha = flag ? 1.0 : 0.0
-        self.listName!.hidden = flag
+        self.listName!.isHidden = flag
         self.listName!.alpha = flag ? 0.0 : 1.0
-        self.articlesTitle!.hidden = flag
+        self.articlesTitle!.isHidden = flag
         self.articlesTitle!.alpha = flag ? 0.0 : 1.0
-        if self.textField!.isFirstResponder() {
+        if self.textField!.isFirstResponder {
             self.textField!.resignFirstResponder()
         }
     }
@@ -259,14 +259,14 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     
     //MARK: - UITextFieldDelegate
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.listDelegate?.editCell(self)
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let keyword = strNSString.replacingCharacters(in: range, with: string)
         
         if lenghtNameList > 26 {
             if (keyword.characters.count <= lenghtNameList + 1) {
@@ -283,7 +283,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         let originalName = self.listName!.text
         if textField.text != nil && originalName != textField.text! {
             if NewListTableViewCell.isValidName(textField) {
@@ -292,16 +292,16 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
-        viewBgSel?.hidden = !selected
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        viewBgSel?.isHidden = !selected
     }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
     }
     
     

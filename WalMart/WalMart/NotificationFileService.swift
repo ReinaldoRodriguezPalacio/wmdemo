@@ -12,29 +12,29 @@ class NotificationFileService : BaseService {
     
     let fileNotification = "nots.json"
     
-    func saveNotification(notificationParams:[NSObject : AnyObject]) {
+    func saveNotification(_ notificationParams:[AnyHashable: Any]) {
         
         
         var notificationParamsToSave = notificationParams
         
-        let dateFmt = NSDateFormatter()
+        let dateFmt = DateFormatter()
         dateFmt.dateFormat  = "d / MMM / yyyy"
         
-        let dateFmtHr = NSDateFormatter()
+        let dateFmtHr = DateFormatter()
         dateFmtHr.dateFormat  = "HH:mm"
         
-        let dateToday = NSDate()
+        let dateToday = Date()
         
         let currentNots = getAllNotifications()
         var itemsInDictionary = currentNots["items"] as! [AnyObject]
-        notificationParamsToSave["date"] = dateFmt.stringFromDate(dateToday)
-        notificationParamsToSave["hour"] = dateFmtHr.stringFromDate(dateToday)
-        itemsInDictionary.append(notificationParamsToSave)
+        notificationParamsToSave["date"] = dateFmt.string(from: dateToday)
+        notificationParamsToSave["hour"] = dateFmtHr.string(from: dateToday)
+        itemsInDictionary.append(notificationParamsToSave as AnyObject)
         self.saveDictionaryToFile(["items":itemsInDictionary], fileName: fileNotification)
         
     }
     
-    func getAllNotifications() -> NSDictionary {
+    func getAllNotifications() -> [String:Any] {
         if let returnDict = self.getDataFromFile(fileNotification) {
             return returnDict
         }

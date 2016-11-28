@@ -11,17 +11,17 @@ import CoreData
 
 class GRShoppingCartProductsService : GRBaseService {
 
-    func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //if !ShoppingCartService.isSynchronizing {
             if UserCurrentSession.hasLoggedUser() {
                 synchronizeWebShoppingCartFromCoreData({ () -> Void in
                     self.callGETService(params,
-                        successBlock: { (resultCall:NSDictionary) -> Void in
+                        successBlock: { (resultCall:[String:Any]) -> Void in
                             
                             
                             let itemsInShoppingCart =  resultCall["items"] as! NSArray
                             
-                            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                             
                             
@@ -35,7 +35,7 @@ class GRShoppingCartProductsService : GRBaseService {
                             let predicate = NSPredicate(format: "user == %@ AND type == %@", user!,ResultObjectType.Groceries.rawValue)
                             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                             for cart in array {
-                                context.deleteObject(cart)
+                                context.delete(cart)
                             }
                             
                             do {
@@ -70,9 +70,9 @@ class GRShoppingCartProductsService : GRBaseService {
                                 
                                 
                                 
-                                carProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
+                                carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
                                 
-                                carProductItem = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
+                                carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
                                 
                                 carProductItem.upc = upc
                                 carProductItem.desc = desc
@@ -80,7 +80,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 carProductItem.baseprice = baseprice
                                 carProductItem.img = imageUrl
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
-                                    carProductItem.type = NSNumber(integer:pesable.integerValue)
+                                    carProductItem.type = NSNumber(value: pesable.integerValue as Int)
                                 }
 
                                 
@@ -95,14 +95,14 @@ class GRShoppingCartProductsService : GRBaseService {
                                 }
                                 
                                 if let comment  = shoppingCartProduct["comments"] as? NSString {
-                                      carProduct.note = comment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                                      carProduct.note = comment.trimmingCharacters(in: CharacterSet.whitespaces)
                                 }
                                 
-                                carProduct.quantity = NSNumber(integer: quantity)
+                                carProduct.quantity = NSNumber(value: quantity as Int)
                                 carProduct.product = carProductItem
                                 carProduct.user = user!
                                 carProduct.type = ResultObjectType.Groceries.rawValue
-                                carProduct.status = NSNumber(integer:CartStatus.Synchronized.rawValue)
+                                carProduct.status = NSNumber(value: CartStatus.synchronized.rawValue as Int)
                                 
                             }
                             
@@ -119,18 +119,18 @@ class GRShoppingCartProductsService : GRBaseService {
                 })
             }
             else{
-                callCoreDataService(params as! NSDictionary,successBlock:successBlock, errorBlock:errorBlock )
+                callCoreDataService(params as! [String:Any],successBlock:successBlock, errorBlock:errorBlock )
         }
     
         //}
     }
     
-    func callCoreDataService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
+        var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
+            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         }
         var arrayUPCQuantity : [[String:String]] = []
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
@@ -139,7 +139,7 @@ class GRShoppingCartProductsService : GRBaseService {
             arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
         }
         
-        service.callService(requestParams: arrayUPCQuantity, successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: arrayUPCQuantity as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             print("")
             self.saveItemsAndSuccess(arrayUPCQuantity,resultCall: response,successBlock: successBlock)
             }) { (error:NSError) -> Void in
@@ -179,20 +179,20 @@ class GRShoppingCartProductsService : GRBaseService {
     }
     
     
-    func synchronizeWebShoppingCartFromCoreData(successBlock:(() -> Void), errorBlock:((NSError) -> Void)?){
+    func synchronizeWebShoppingCartFromCoreData(_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?){
         ShoppingCartService.isSynchronizing = true
-        let predicateDeleted = NSPredicate(format: "status == %@  AND type == %@", NSNumber(integer:CartStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
+        let predicateDeleted = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         let deteted = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateDeleted)
         if deteted.count > 0 {
             let serviceDelete = GRShoppingCartDeleteProductsService()
             //var arratUpcsDelete : [String] = []
             var currentItem = 0
-            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             for itemDeleted in deteted {
                 currentItem += 1
                 
-                itemDeleted.status = CartStatus.Synchronized.rawValue
+                itemDeleted.status = CartStatus.synchronized.rawValue
                 do {
                     try context.save()
                 } catch let error1 as NSError {
@@ -201,10 +201,10 @@ class GRShoppingCartProductsService : GRBaseService {
                 
                 //arratUpcsDelete.append(itemDeleted.product.upc)
                 if currentItem == deteted.count {
-                    serviceDelete.callService(requestParams: ["parameter":[itemDeleted.product.upc]], successBlock: { (result:NSDictionary) -> Void in
+                    serviceDelete.callService(requestParams: ["parameter":[itemDeleted.product.upc]], successBlock: { (result:[String:Any]) -> Void in
                         self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                         WishlistService.shouldupdate = true
-                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
                         
                         }, errorBlock: { (error:NSError) -> Void in
                             if error.code != -100 {
@@ -223,9 +223,9 @@ class GRShoppingCartProductsService : GRBaseService {
         
     }
     
-    func synchronizeUpdateWebShoppingCartFromCoreData (successBlock:(() -> Void), errorBlock:((NSError) -> Void)?) {
-        let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(integer:CartStatus.Updated.rawValue),ResultObjectType.Groceries.rawValue)
-        let updated = Array(UserCurrentSession.sharedInstance().userSigned!.productsInCart.filteredSetUsingPredicate(predicateUpdated)) as! [Cart]
+    func synchronizeUpdateWebShoppingCartFromCoreData (_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?) {
+        let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.updated.rawValue as Int),ResultObjectType.Groceries.rawValue)
+        let updated = Array(UserCurrentSession.sharedInstance().userSigned!.productsInCart.filtered(using: predicateUpdated)) as! [Cart]
         if updated.count > 0 {
             let serviceUpdate = GRShoppingCartUpdateProductsService()
             var arrayUpcsUpdate : [AnyObject] = []
@@ -233,7 +233,7 @@ class GRShoppingCartProductsService : GRBaseService {
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: ""))
             }
-            serviceUpdate.callService(requestParams: arrayUpcsUpdate, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                     if error.code != -100 {
@@ -247,8 +247,8 @@ class GRShoppingCartProductsService : GRBaseService {
     }
     
     
-    func synchronizeAddedWebShoppingCartFromCoreData (successBlock:(() -> Void), errorBlock:((NSError) -> Void)?) {
-        let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(integer:CartStatus.Created.rawValue),ResultObjectType.Groceries.rawValue)
+    func synchronizeAddedWebShoppingCartFromCoreData (_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?) {
+        let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.created.rawValue as Int),ResultObjectType.Groceries.rawValue)
         let updated = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             
@@ -263,11 +263,11 @@ class GRShoppingCartProductsService : GRBaseService {
             }
             
             
-            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
             for itemUpdated in updated {
-                itemUpdated.status = CartStatus.Synchronized.rawValue
+                itemUpdated.status = CartStatus.synchronized.rawValue
             }
             do {
                 try context.save()
@@ -277,7 +277,7 @@ class GRShoppingCartProductsService : GRBaseService {
             
             print(arrayUpcsUpdate)
             
-            serviceUpdate.callService(requestParams: arrayUpcsUpdate, successBlock: { (result:NSDictionary) -> Void in
+            serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 ShoppingCartService.isSynchronizing = false
                 successBlock()
                 
@@ -298,10 +298,10 @@ class GRShoppingCartProductsService : GRBaseService {
     
     
     
-    func saveItemsAndSuccess(params:[[String:String]],resultCall:NSDictionary, successBlock:((NSDictionary) -> Void)?) {
+    func saveItemsAndSuccess(_ params:[[String:String]],resultCall:[String:Any], successBlock:(([String:Any]) -> Void)?) {
         let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? NSArray : []
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         //let user = UserCurrentSession.sharedInstance().userSigned
@@ -325,8 +325,8 @@ class GRShoppingCartProductsService : GRBaseService {
 //        var error: NSError? = nil
 //        context.save(&error)
 //        
-        var resultServiceCall : [String:AnyObject] = [:]
-        var resultItems : [NSDictionary] = []
+        var resultServiceCall : [String:Any] = [:]
+        var resultItems : [[String:Any]] = []
         
         for shoppingCartProduct in itemsInShoppingCart! {
 
@@ -352,19 +352,19 @@ class GRShoppingCartProductsService : GRBaseService {
             
             let cartResult = array.filter{$0.product.upc == upc}
             if cartResult.count == 0 {
-                carProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart" as String, inManagedObjectContext: context) as! Cart
+                carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart" as String, into: context) as! Cart
             }else {
                 carProduct = cartResult[0]
             }
             
-            carProductItem = NSEntityDescription.insertNewObjectForEntityForName("Product" as String, inManagedObjectContext: context) as! Product
+            carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product" as String, into: context) as! Product
             
             let filtredByUpc = params.filter {$0["upc"] == upc}
             if filtredByUpc.count > 0 {
                 let paramUse = filtredByUpc[0] as [String:String]
                 let quantity = paramUse["quantity"]
-                carProduct.quantity = NSNumber(integer: Int(quantity!)!)
-                let newItemQ = NSMutableDictionary(dictionary: shoppingCartProduct as! NSDictionary)
+                carProduct.quantity = NSNumber(value: Int(quantity!)! as Int)
+                let newItemQ = NSMutableDictionary(dictionary: shoppingCartProduct as! [String:Any])
                 newItemQ.setValue(quantity, forKey: "quantity")
                 newItemQ.setValue(carProduct.note,forKey: "comments")
                 resultItems.append(newItemQ )
@@ -372,11 +372,11 @@ class GRShoppingCartProductsService : GRBaseService {
 
             carProductItem.upc = upc
             carProductItem.desc = desc
-            carProductItem.price = price
+            carProductItem.price = price as NSString
             carProductItem.baseprice = baseprice
             carProductItem.img = imageUrl
             if let pesable = shoppingCartProduct["type"] as?  NSString {
-                carProductItem.type = NSNumber(integer:pesable.integerValue)
+                carProductItem.type = NSNumber(value: pesable.integerValue as Int)
             }
             
             if let active = shoppingCartProduct["isActive"] as? String {

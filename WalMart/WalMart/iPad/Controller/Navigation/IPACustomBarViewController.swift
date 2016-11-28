@@ -33,40 +33,40 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: CustomBarNotification.ShowHomeSelected.rawValue, object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: NSNotification.Name(rawValue: CustomBarNotification.ShowHomeSelected.rawValue), object: nil)
         
         self.buttonContainer!.backgroundColor = WMColor.blue
         
         let storyboard = self.loadStoryboardDefinition()
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "shoppingCartVC") as? UINavigationController {
             shoppingCartVC = vc
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
                 vcRoot.delegate = self
             }
         }
         
-        buttonContainer?.frame = CGRectMake(0, 64, 1024, 46)
+        buttonContainer?.frame = CGRect(x: 0, y: 64, width: 1024, height: 46)
         
         
-        self.view.bringSubviewToFront(self.buttonContainer!)
+        self.view.bringSubview(toFront: self.buttonContainer!)
         //self.view.bringSubviewToFront(self.viewSuper)
-        self.view.bringSubviewToFront(self.headerView)
+        self.view.bringSubview(toFront: self.headerView)
         if self.helpView != nil {
-            self.view.bringSubviewToFront(self.helpView!)
+            self.view.bringSubview(toFront: self.helpView!)
         }
         
         if updateAviable != nil {
-            self.view.bringSubviewToFront(updateAviable)
+            self.view.bringSubview(toFront: updateAviable)
         }
-        self.view.bringSubviewToFront(self.splashVC.view)
+        self.view.bringSubview(toFront: self.splashVC.view)
         self.searchBackView = UIView()
-        self.searchBackView.backgroundColor = UIColor.blackColor()
+        self.searchBackView.backgroundColor = UIColor.black
         self.searchBackView.alpha = 0.35
         self.searchBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.removePop(_:))))
         
     }
     
-    func removePop(sender:UITapGestureRecognizer) {
+    func removePop(_ sender:UITapGestureRecognizer) {
         self.searchView.closeSearch()
     }
     
@@ -75,15 +75,15 @@ class IPACustomBarViewController :  CustomBarViewController {
         return ["home_ipad", "mg_ipad","wishlist_ipad","super_ipad",  "list_ipad","ubicacion_ipad","more_menu_ipad"]
     }
     
-    override func setTabBarHidden(hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
+    override func setTabBarHidden(_ hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
     }
     
-    override func hideTabBar(notification:NSNotification) {
+    override func hideTabBar(_ notification:Notification) {
         // EN IPAD NO SE VA A ESCONDER LA BARRA CON EL SCROLL
         //self.setTabBarHidden(true, animated: true, delegate:notification.object as CustomBarDelegate?)
     }
     
-    override func showTabBar(notification:NSNotification) {
+    override func showTabBar(_ notification:Notification) {
         //self.setTabBarHidden(false, animated: true, delegate:notification.object as CustomBarDelegate?)
     }
     
@@ -91,10 +91,10 @@ class IPACustomBarViewController :  CustomBarViewController {
         let space = (320 - (5 * TABBAR_HEIGHT))/7
         var x: CGFloat = ((self.view.bounds.width / 2) - (435 / 2))  + CGFloat(space)
         for button in  self.buttonList {
-            button.frame = CGRectMake(x, 2, TABBAR_HEIGHT, TABBAR_HEIGHT)
+            button.frame = CGRect(x: x, y: 2, width: TABBAR_HEIGHT, height: TABBAR_HEIGHT)
             //var spacing: CGFloat = 1.0 // the space between the image and text
             //var imageSize: CGSize = button.imageView!.frame.size
-            x = CGRectGetMaxX(button.frame) + space
+            x = button.frame.maxX + space
         }
     }
     
@@ -113,7 +113,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         })
     }*/
     
-    override func editSearch(notification:NSNotification){
+    override func editSearch(_ notification:Notification){
         let searchKey = notification.object as! String
         self.openSearchProduct()
         self.searchView.field.text = searchKey
@@ -122,29 +122,29 @@ class IPACustomBarViewController :  CustomBarViewController {
     
    
     
-    override func camFindSearch(notification:NSNotification){
-        let searchDic = notification.object as! [String:AnyObject]
+    override func camFindSearch(_ notification:Notification){
+        let searchDic = notification.object as! [String:Any]
         let upcs = searchDic["upcs"] as! [String]
         let keyWord = searchDic["keyWord"] as! String
         let controller = IPASearchProductViewController()
-        contextSearch = .WithTextForCamFind
-        controller.searchContextType = .WithTextForCamFind
+        contextSearch = .withTextForCamFind
+        controller.searchContextType = .withTextForCamFind
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
         controller.upcsToShow = upcs
         let controllernav = self.currentController as? UINavigationController
         if (controllernav?.topViewController as? IPASearchProductViewController != nil){
-            controllernav?.popViewControllerAnimated(false)
+            controllernav?.popViewController(animated: false)
             
             isEditingSearch = false
         }
         if ((controllernav?.topViewController as? IPAWishlistViewController) != nil) {
             isOpenWishlist = false
-            self.buttonList[2].selected = isOpenWishlist
+            self.buttonList[2].isSelected = isOpenWishlist
             if  self.vcWishlist != nil {
-                self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
+                self.vcWishlist.view.frame = CGRect(x: 0, y: -self.vcWishlist.view.frame.height, width: self.vcWishlist.view.frame.width, height: self.vcWishlist.view.frame.height)
                 self.viewBgWishlist.alpha = 0
-                self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
+                self.buttonList[self.selectedBeforeWishlistIx].isSelected = !self.isOpenWishlist
                 self.vcWishlist.view.removeFromSuperview()
                 self.vcWishlist.removeFromParentViewController()
                 self.viewBgWishlist.removeFromSuperview()
@@ -165,39 +165,39 @@ class IPACustomBarViewController :  CustomBarViewController {
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         
-        if (self.btnShopping!.selected){
+        if (self.btnShopping!.isSelected){
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
                 vcRoot.delegate = self
                 vcRoot.closeShoppingCart()
             }
         }
         
-        searchView = IPASearchView(frame: CGRectMake(self.btnSearch!.frame.minX,20,350,self.headerView.frame.height - 20))
+        searchView = IPASearchView(frame: CGRect(x: self.btnSearch!.frame.minX,y: 20,width: 350,height: self.headerView.frame.height - 20))
         searchView.clipsToBounds = true
         searchView.delegate = self
-        searchView.camfine =  contextSearch == SearchServiceContextType.WithTextForCamFind ? true : false
+        searchView.camfine =  contextSearch == SearchServiceContextType.withTextForCamFind ? true : false
         searchView.viewContent.clipsToBounds = true
-        searchView.viewContent.frame = CGRectMake(40,searchView.viewContent.frame.minY,searchView.frame.width - 40,self.btnSearch!.frame.height)
+        searchView.viewContent.frame = CGRect(x: 40,y: searchView.viewContent.frame.minY,width: searchView.frame.width - 40,height: self.btnSearch!.frame.height)
         self.headerView.addSubview(searchView)
         
         searchView.closeanimation =  {() -> Void in
             self.searchBackView.removeFromSuperview()
             self.btnSearch!.alpha = 1.0
-            self.btnSearch!.frame = CGRectMake(0,self.btnSearch!.frame.minY,self.btnSearch!.frame.width,self.btnSearch!.frame.height)
+            self.btnSearch!.frame = CGRect(x: 0,y: self.btnSearch!.frame.minY,width: self.btnSearch!.frame.width,height: self.btnSearch!.frame.height)
             self.searchView = nil
-            self.btnSearch!.selected = false
+            self.btnSearch!.isSelected = false
         }
         
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.btnSearch!.alpha = 0.0
-            }) { (com:Bool) -> Void in
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
+            }, completion: { (com:Bool) -> Void in
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     if self.searchView != nil {
-                        self.searchView.field.frame = CGRectMake(0,self.searchView.field.frame.minY,self.searchView.field.frame.width,self.searchView.field.frame.height)
+                        self.searchView.field.frame = CGRect(x: 0,y: self.searchView.field.frame.minY,width: self.searchView.field.frame.width,height: self.searchView.field.frame.height)
                         //searchView.viewContent.frame = CGRectMake(0,searchView.viewContent.frame.minY, searchView.frame.width - searchView.viewContent.frame.minX ,self.btnSearch!.frame.height)
                     }
-                    }) { (complete:Bool) -> Void in
-                        UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    }, completion: { (complete:Bool) -> Void in
+                        UIView.animate(withDuration: 0.2, animations: { () -> Void in
                             if self.searchView != nil {
                                 self.searchView.backButton.alpha = 1
                                 self.searchView.viewContent.clipsToBounds = false
@@ -205,29 +205,29 @@ class IPACustomBarViewController :  CustomBarViewController {
                             }
                         })
                         
-                }
-                self.searchBackView.frame = CGRectMake(0, 65, self.view!.frame.width, self.view!.frame.height - 65)
+                }) 
+                self.searchBackView.frame = CGRect(x: 0, y: 65, width: self.view!.frame.width, height: self.view!.frame.height - 65)
                 self.view.addSubview(self.searchBackView)
-        }
+        }) 
     }
 
-    override func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]?){
+    override func selectKeyWord(_ keyWord:String, upc:String?, truncate:Bool,upcs:[String]?){
         if upc != nil {
             let contDetail = IPAProductDetailPageViewController()
             contDetail.idListSeleted = self.idListSelected
             //contDetail.upc = upc!
-            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let useSignalsService : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let svcValidate = GRProductDetailService(dictionary: useSignalsService)
             //let svcValidate = GRProductDetailService()
             
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
             if upcDesc.length < 13 {
-                let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
-                paddedUPC = "\(toFill)\(paddedUPC)"
+                let toFill = "".padding(toLength: 13 - upcDesc.length, withPad: "0", startingAt: 0)
+                paddedUPC = "\(toFill)\(paddedUPC)" as NSString
             }
             let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position:"")//position
-            svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
+            svcValidate.callService(requestParams:params, successBlock: { (result:[String:Any]) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 contDetail.detailOf = "Search results"
                 let controllernav = self.currentController as? UINavigationController
@@ -237,7 +237,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                   controllernav?.pushViewController(contDetail, animated: true)
                 }, errorBlock: { (error:NSError) -> Void in
                     if upcDesc.length < 14 {
-                        let toFill = "".stringByPaddingToLength(14 - upcDesc.length, withString: "0", startingAtIndex: 0)
+                        let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
                         paddedUPC = "\(toFill)\(upcDesc)"
                     }
                     contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
@@ -251,22 +251,22 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         else{
             let controller = IPASearchProductViewController()
-            controller.searchContextType = .WithText
+            controller.searchContextType = .withText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
             let controllernav = self.currentController as? UINavigationController
             if (controllernav?.topViewController as? IPASearchProductViewController != nil){
-                controllernav?.popViewControllerAnimated(false)
+                controllernav?.popViewController(animated: false)
 
                 isEditingSearch = false
             }
             if ((controllernav?.topViewController as? IPAWishlistViewController) != nil) {
                 isOpenWishlist = false
-                self.buttonList[2].selected = isOpenWishlist
+                self.buttonList[2].isSelected = isOpenWishlist
                 if  self.vcWishlist != nil {
-                    self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
+                    self.vcWishlist.view.frame = CGRect(x: 0, y: -self.vcWishlist.view.frame.height, width: self.vcWishlist.view.frame.width, height: self.vcWishlist.view.frame.height)
                     self.viewBgWishlist.alpha = 0
-                    self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
+                    self.buttonList[self.selectedBeforeWishlistIx].isSelected = !self.isOpenWishlist
                     self.vcWishlist.view.removeFromSuperview()
                     self.vcWishlist.removeFromParentViewController()
                     self.viewBgWishlist.removeFromSuperview()
@@ -281,7 +281,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                 controllernav?.pushViewController(controller, animated: true)
             }
         }
-        self.btnSearch!.selected = false
+        self.btnSearch!.isSelected = false
     }
     
     override func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
@@ -291,10 +291,10 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
-        controller.searchFromContextType = SearchServiceFromContext.FromSearchTextSelect
+        controller.searchFromContextType = SearchServiceFromContext.fromSearchTextSelect
         let controllernav = self.currentController as? UINavigationController
         if (controllernav?.topViewController as? IPASearchProductViewController != nil){
-            controllernav?.popViewControllerAnimated(false)
+            controllernav?.popViewController(animated: false)
             
             isEditingSearch = false
         }
@@ -304,7 +304,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
             controllernav?.pushViewController(controller, animated: true)
         }
-        self.btnSearch!.selected = true
+        self.btnSearch!.isSelected = true
         self.closeSearch(false, sender: nil)
     }
     
@@ -315,9 +315,9 @@ class IPACustomBarViewController :  CustomBarViewController {
          let controllerIdentifiers : [String] = ["categoriesVC", "wishlistVC","GRCategoriesVC", "userListsVC", "storeLocatorVC","moreVC"] // "profileVC",
         
         for item in controllerIdentifiers {
-            let components = item.componentsSeparatedByString("-")
+            let components = item.components(separatedBy: "-")
             let strController = components[0] as String
-            let vc = storyboard!.instantiateViewControllerWithIdentifier(strController)
+            let vc = storyboard!.instantiateViewController(withIdentifier: strController)
                 if let navVC = vc as? UINavigationController {
                     if let loginVC = navVC.viewControllers.first as? LoginController {
                         if components.count > 1 {
@@ -333,46 +333,46 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
 
     
-    override func buttonSelected(sender:UIButton) {
-        let index = self.buttonList.indexOf(sender)
+    override func buttonSelected(_ sender:UIButton) {
+        let index = self.buttonList.index(of: sender)
         if index == 2 {
-            sender.selected = !isOpenWishlist
+            sender.isSelected = !isOpenWishlist
             if !self.isOpenWishlist {
                 if self.viewBgWishlist == nil {
                     self.viewBgWishlist = UIView(frame: self.currentController!.view.bounds)
-                    self.viewBgWishlist.userInteractionEnabled = true
+                    self.viewBgWishlist.isUserInteractionEnabled = true
                     self.viewBgWishlist.alpha = 0
-                    self.viewBgWishlist.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+                    self.viewBgWishlist.backgroundColor = UIColor.black.withAlphaComponent(0.2)
                     
                     self.viewBgWishlist.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList)))
                     
                     let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList))
-                    gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.Up
+                    gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.up
                     self.viewBgWishlist.addGestureRecognizer(gestureSwipeUp)
                 }
                 
-                if let vcwishlist = storyboard!.instantiateViewControllerWithIdentifier("wishlistVC") as? IPAWishlistViewController {
+                if let vcwishlist = storyboard!.instantiateViewController(withIdentifier: "wishlistVC") as? IPAWishlistViewController {
                     vcWishlist = vcwishlist
                     vcWishlist.closewl = {() in
                         self.closeWishList()
                     }
                     BaseController.setOpenScreenTagManager(titleScreen: "wishlist", screenName: "WishList")
                     self.currentController?.addChildViewController(vcWishlist)
-                    vcWishlist.view.frame = CGRectMake(0, -270, 1024,334)
+                    vcWishlist.view.frame = CGRect(x: 0, y: -270, width: 1024,height: 334)
                     self.currentController?.view.addSubview(vcWishlist.view)
                     vcWishlist.registerNotification()
                     let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList))
-                    gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.Up
+                    gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.up
                     vcWishlist.view.addGestureRecognizer(gestureSwipeUp)
                 }
                 
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.vcWishlist.view.frame = CGRectMake(0, 0, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.vcWishlist.view.frame = CGRect(x: 0, y: 0, width: self.vcWishlist.view.frame.width, height: self.vcWishlist.view.frame.height)
                     self.viewBgWishlist.alpha = 1
                     self.currentController?.view.addSubview(self.viewBgWishlist)
-                    self.currentController?.view.bringSubviewToFront(self.vcWishlist.view)
+                    self.currentController?.view.bringSubview(toFront: self.vcWishlist.view)
                     self.isOpenWishlist = true
-                    self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
+                    self.buttonList[self.selectedBeforeWishlistIx].isSelected = !self.isOpenWishlist
                 })
             }
             else {
@@ -410,7 +410,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             if let navController = self.currentController as? UINavigationController {
                 if index! > 0 {
                     let newIndex = index! - 1
-                    let vc = storyboard!.instantiateViewControllerWithIdentifier(controllerIdentifiers[newIndex])
+                    let vc = storyboard!.instantiateViewController(withIdentifier: controllerIdentifiers[newIndex])
                         
                         self.displayContentController(vc)
                         if self.currentController != nil  {
@@ -437,12 +437,12 @@ class IPACustomBarViewController :  CustomBarViewController {
    
     func closeWishList() {
 
-        self.buttonList[2].selected = !isOpenWishlist
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        self.buttonList[2].isSelected = !isOpenWishlist
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             if  self.vcWishlist != nil {
-                self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
+                self.vcWishlist.view.frame = CGRect(x: 0, y: -self.vcWishlist.view.frame.height, width: self.vcWishlist.view.frame.width, height: self.vcWishlist.view.frame.height)
                 self.viewBgWishlist.alpha = 0
-                self.buttonList[self.selectedBeforeWishlistIx].selected = self.isOpenWishlist
+                self.buttonList[self.selectedBeforeWishlistIx].isSelected = self.isOpenWishlist
             }
             }, completion: { (complete:Bool) -> Void in
                 if  self.vcWishlist != nil {
@@ -469,21 +469,21 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         
         self.addChildViewController(shoppingCartVC)
-        shoppingCartVC.view.frame = CGRectMake(0,self.buttonContainer!.frame.minY,self.container!.frame.width,self.container!.frame.height + self.buttonContainer!.frame.height )
+        shoppingCartVC.view.frame = CGRect(x: 0,y: self.buttonContainer!.frame.minY,width: self.container!.frame.width,height: self.container!.frame.height + self.buttonContainer!.frame.height )
         self.view.addSubview(shoppingCartVC.view)
-        self.view.bringSubviewToFront(self.headerView)
-        shoppingCartVC.didMoveToParentViewController(self)
-        shoppingCartVC.view.backgroundColor = UIColor.clearColor()
+        self.view.bringSubview(toFront: self.headerView)
+        shoppingCartVC.didMove(toParentViewController: self)
+        shoppingCartVC.view.backgroundColor = UIColor.clear
         if let vcRoot = shoppingCartVC.viewControllers.first as? IPAPreShoppingCartViewController {
             vcRoot.delegate = self
             vcRoot.openShoppingCart()
-            vcRoot.view.userInteractionEnabled = false
+            vcRoot.view.isUserInteractionEnabled = false
             vcRoot.finishAnimation = {() -> Void in
                 print("")
                 vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
-                self.btnShopping?.userInteractionEnabled = true
-                self.btnCloseShopping?.enabled = true
-                vcRoot.view.userInteractionEnabled = true
+                self.btnShopping?.isUserInteractionEnabled = true
+                self.btnCloseShopping?.isEnabled = true
+                vcRoot.view.isUserInteractionEnabled = true
             }
             
 //            self.btnShopping?.userInteractionEnabled = true
@@ -498,22 +498,22 @@ class IPACustomBarViewController :  CustomBarViewController {
         let barCodeController = IPABarCodeViewController()
         barCodeController.searchProduct = true
         
-        self.presentViewController(barCodeController, animated: true, completion: nil)
+        self.present(barCodeController, animated: true, completion: nil)
     }
     
     override func returnToView() {
         
-        self.btnShopping?.selected = false
+        self.btnShopping?.isSelected = false
         self.btnCloseShopping?.alpha = 0
         self.showBadge()
         self.btnShopping?.alpha = 1
 
         
         if shoppingCartVC != nil {
-            self.btnShopping!.selected = false
+            self.btnShopping!.isSelected = false
             shoppingCartVC.removeFromParentViewController()
             shoppingCartVC.view.removeFromSuperview()
-            self.btnShopping?.userInteractionEnabled = true
+            self.btnShopping?.isUserInteractionEnabled = true
             if (openSearch){
                 if !camFind{
                 self.openSearchProduct()
@@ -526,7 +526,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         if self.emptyGroceriesTap {
             buttonSelected(self.buttonList[3])
             if let navController = self.currentController as? UINavigationController {
-                navController.popToRootViewControllerAnimated(false)
+                navController.popToRootViewController(animated: false)
                 if let categoriesVC = navController.viewControllers.first as? IPOCategoriesViewController {
                     if categoriesVC.currentIndexSelected  != nil {
                         categoriesVC.closeSelectedDepartment()
@@ -538,7 +538,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         if self.emptyMgTap {
             buttonSelected(self.buttonList[1])
             if let navController = self.currentController as? UINavigationController {
-                navController.popToRootViewControllerAnimated(false)
+                navController.popToRootViewController(animated: false)
                 if let categoriesVC = navController.viewControllers.first as? IPOCategoriesViewController {
                     if categoriesVC.currentIndexSelected  != nil {
                         categoriesVC.closeSelectedDepartment()
@@ -551,23 +551,23 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.emptyGroceriesTap  = false
     }
     
-    override func userLogOut(not:NSNotification) {
+    override func userLogOut(_ not:Notification) {
         self.removeAllCookies()
         self.removeChildViewControllers(self.viewControllers[0].childViewControllers)
         self.closeWishList()
         if let navController = self.viewControllers[0] as? UINavigationController {
-            let vc = storyboard!.instantiateViewControllerWithIdentifier("homeVC")
-            navController.popToRootViewControllerAnimated(false)
+            let vc = storyboard!.instantiateViewController(withIdentifier: "homeVC")
+            navController.popToRootViewController(animated: false)
             navController.viewControllers[0] = vc
             self.viewControllers[0] = navController
         }
         self.buttonSelected(self.buttonList[0])
-        self.viewControllers.removeRange(1..<self.viewControllers.count)
+        self.viewControllers.removeSubrange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CustomBarViewController.sendHomeNotification), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CustomBarViewController.sendHomeNotification), userInfo: nil, repeats: false)
     }
     
-    func removeChildViewControllers(controllers:[UIViewController]) {
+    func removeChildViewControllers(_ controllers:[UIViewController]) {
         var count = 0
         for controller in controllers {
             if count == 0 {
@@ -575,42 +575,42 @@ class IPACustomBarViewController :  CustomBarViewController {
                 continue
             }
             count += 1
-            controller.willMoveToParentViewController(nil)
+            controller.willMove(toParentViewController: nil)
             controller.view.removeFromSuperview()
             controller.removeFromParentViewController()
         }
     }
     
     override func sendHomeNotification(){
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
     }
     
     override func showListsGR() {
         buttonSelected(self.buttonList[4])
-        NSNotificationCenter.defaultCenter().postNotificationName("ReloadListFormUpdate", object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "ReloadListFormUpdate"), object: self)
     }
    
-    override func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
-        let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+    override func handleNotification(_ type:String,name:String,value:String,bussines:String) -> Bool {
+        let trimValue = value.trimmingCharacters(in: CharacterSet.whitespaces)
         
         if type != "CF" {
-            if btnShopping!.selected {
+            if btnShopping!.isSelected {
                 closeShoppingCart()
-                btnShopping!.selected = !btnShopping!.selected
+                btnShopping!.isSelected = !btnShopping!.isSelected
             }
         }
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
-        switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
+        switch(type.trimmingCharacters(in: CharacterSet.whitespaces)) {
         case "": self.buttonSelected(self.buttonList[0])
         case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
         case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
-        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG )
-        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
-        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
+        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG )
+        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
+        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[4])
         case "URL": self.openURLNotification(trimValue)
-        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "",andGrade:"", andSearchContextType: .WithCategoryForMG)
+        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "",andGrade:"", andSearchContextType: .withCategoryForMG)
         case "SH":
             if self.splashVC == nil {
                 self.openSearchProduct()
@@ -623,10 +623,10 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         
         if splashVC != nil {
-            self.view.bringSubviewToFront(splashVC.view)
+            self.view.bringSubview(toFront: splashVC.view)
         }
         
-         self.btnSearch?.selected =  false
+         self.btnSearch?.isSelected =  false
         
         return true
     }
@@ -640,7 +640,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.gradeName = grade
         controller.showInPopover = true
         controller.showWishList = false
-        controller.view.backgroundColor = UIColor.whiteColor()
+        controller.view.backgroundColor = UIColor.white
         
         let controllernav = self.currentController as? UINavigationController
         controller.parentNavigationController = controllernav
@@ -649,23 +649,23 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
 
     func showHomeSelected(){
-        self.buttonList[0].selected = true
+        self.buttonList[0].isSelected = true
     }
     
     override func showHelpHomeView(){
         let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
-        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"]! as! String
         if param != nil {
             self.showHelpHome = (appVersion != param!.value)
         }else{
             self.showHelpHome = true
         }
         if self.showHelpHome {
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 let helpView = IPAHelpHomeView.initView()
                 helpView.showView()
                 helpView.onClose = {(Void) -> Void in
-                    CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
+                    CustomBarViewController.addOrUpdateParam("appVersion", value:"\(Bundle.main.infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
                 }
             })
         }

@@ -18,8 +18,8 @@ class LineViewController : FamilyViewController {
     override func viewDidLoad() {
       
         familyTable = UITableView()
-        familyTable.registerClass(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
-        familyTable.separatorStyle = UITableViewCellSeparatorStyle.None
+        familyTable.register(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
+        familyTable.separatorStyle = UITableViewCellSeparatorStyle.none
         familyTable.delegate = self
         familyTable.dataSource = self
         familyTable.frame = self.view.bounds
@@ -32,29 +32,29 @@ class LineViewController : FamilyViewController {
         if IS_IPAD {
             familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(((self.families.count + 1 ) * 64) + 40))
         }else{
-            familyTable.frame = CGRectMake(0,0,familyTable.frame.size.width,familyTable.frame.size.height - 80)
+            familyTable.frame = CGRect(x: 0,y: 0,width: familyTable.frame.size.width,height: familyTable.frame.size.height - 80)
             familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(self.families.count * 46))
         }
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int{
+    override func numberOfSections(in tableView: UITableView) -> Int{
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         return families.count
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell! = nil
      
     
-            let cellLine = familyTable.dequeueReusableCellWithIdentifier(lineReuseIdentifier(), forIndexPath: indexPath) as! IPOLineTableViewCell
+            let cellLine = familyTable.dequeueReusableCell(withIdentifier: lineReuseIdentifier(), for: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[indexPath.row]
             let selectedItem = selectedSection["id"] as! String
             cellLine.setTitle(selectedSection["name"] as! String)
@@ -69,22 +69,22 @@ class LineViewController : FamilyViewController {
             }
             else
             {
-                cell.backgroundColor = UIColor.whiteColor()
+                cell.backgroundColor = UIColor.white
             }
         
         return cell
     }
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
             let selectedSection = families[indexPath.row]
             let controller = SearchProductViewController()
-            controller.searchContextType = .WithCategoryForMG
+            controller.searchContextType = .withCategoryForMG
             if self.categoriesType != nil {
                 switch self.categoriesType! {
-                case .CategoryForGR : controller.searchContextType = .WithCategoryForGR
-                case .CategoryForMG : controller.searchContextType = .WithCategoryForMG
+                case .categoryForGR : controller.searchContextType = .withCategoryForGR
+                case .categoryForMG : controller.searchContextType = .withCategoryForMG
                 //default : print("No se ha indicado tipo de categorias.")
                 }
              

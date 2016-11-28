@@ -9,8 +9,8 @@
 import Foundation
 
 enum AnimationType {
-    case Present
-    case Dismiss
+    case present
+    case dismiss
 }
 
 class ProductDetailNavigatinAnimationController : NSObject, UIViewControllerAnimatedTransitioning{
@@ -25,29 +25,29 @@ class ProductDetailNavigatinAnimationController : NSObject, UIViewControllerAnim
         navController = navigationcontroller
     }
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.4;
     }
 
-    func setImage(image:UIImage) {
+    func setImage(_ image:UIImage) {
         if imageTranslate == nil {
-            imageTranslate = UIImageView(frame:CGRectZero)
-            imageTranslate.contentMode = UIViewContentMode.ScaleAspectFit
-            imageTranslate.backgroundColor = UIColor.whiteColor()
+            imageTranslate = UIImageView(frame:CGRect.zero)
+            imageTranslate.contentMode = UIViewContentMode.scaleAspectFit
+            imageTranslate.backgroundColor = UIColor.white
             self.navController.view.addSubview(imageTranslate)
         }
         imageTranslate.image = image
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let containerView = transitionContext.containerView()
-        var fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        let containerView = transitionContext.containerView
+        var fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
         
         
         
-        if (self.type == AnimationType.Present) {
+        if (self.type == AnimationType.present) {
             //Add 'to' view to the hierarchy with 0.0 scale
             if let productViewController = toViewController as? IPAProductDetailPageViewController {
                 imageTranslate.frame = originPoint
@@ -55,14 +55,14 @@ class ProductDetailNavigatinAnimationController : NSObject, UIViewControllerAnim
                 productViewController.view.alpha = 1.0
                 //toViewController!.view.frame = originPoint
                 //toViewController!.view.transform = CGAffineTransformMakeScale(0.2, 0.2);
-                containerView!.insertSubview(productViewController.view, aboveSubview:fromViewController!.view)
-                UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
+                containerView.insertSubview(productViewController.view, aboveSubview:fromViewController!.view)
+                UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { () -> Void in
                     fromViewController!.view.alpha = 0.0
                     //toViewController!.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                    self.imageTranslate.frame = CGRectMake(0, 60, 682, 340)
+                    self.imageTranslate.frame = CGRect(x: 0, y: 60, width: 682, height: 340)
                     //toViewController!.view.frame = containerView.frame
                     }, completion: { (complete:Bool) -> Void in
-                        UIView.animateWithDuration(0.3, animations: { () -> Void in
+                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
                            
                             productViewController.view.alpha = 1.0
                             }, completion: { (complete:Bool) -> Void in
@@ -74,11 +74,11 @@ class ProductDetailNavigatinAnimationController : NSObject, UIViewControllerAnim
             }
             
             
-        } else if (self.type == AnimationType.Dismiss) {
+        } else if (self.type == AnimationType.dismiss) {
         
-            containerView!.insertSubview(toViewController!.view, aboveSubview:fromViewController!.view)
+            containerView.insertSubview(toViewController!.view, aboveSubview:fromViewController!.view)
             self.imageTranslate.alpha = 1.0
-            UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
+            UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { () -> Void in
                 toViewController!.view.alpha = 1.0
                 self.imageTranslate.frame = self.originPoint
                 
@@ -86,8 +86,8 @@ class ProductDetailNavigatinAnimationController : NSObject, UIViewControllerAnim
                 fromViewController!.view.alpha = 0.0
                 }, completion: { (complete:Bool) -> Void in
                     
-                    if toViewController!.respondsToSelector(Selector("reloadSelectedCell")){
-                        NSTimer.scheduledTimerWithTimeInterval(0.0, target: toViewController!, selector: Selector("reloadSelectedCell"), userInfo: nil, repeats: false)
+                    if toViewController!.responds(to: Selector("reloadSelectedCell")){
+                        Timer.scheduledTimer(timeInterval: 0.0, target: toViewController!, selector: Selector("reloadSelectedCell"), userInfo: nil, repeats: false)
                     }
                     if let contProduct =  toViewController as? IPAProductDetailPageViewController {
                         toViewController?.navigationController?.delegate = contProduct

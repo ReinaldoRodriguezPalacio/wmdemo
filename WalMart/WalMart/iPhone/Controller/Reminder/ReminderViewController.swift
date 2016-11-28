@@ -22,13 +22,13 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     
     var listId: String?
     var listName: String?
-    var currentOriginalFireDate: NSDate?
+    var currentOriginalFireDate: Date?
     var currentOriginalFireHour:Int! = 0
     var currentOriginalFireMin:Int! = 0
     var selectedPeriodicity: Int?
     var reminderService: ReminderNotificationService?
-    var fmtDisplay: NSDateFormatter?
-    var timeDisplay: NSDateFormatter?
+    var fmtDisplay: DateFormatter?
+    var timeDisplay: DateFormatter?
     var alertView: IPOWMAlertViewController?
     var delegate: ReminderViewControllerDelegate?
     var frequencyLabel:UILabel?
@@ -56,31 +56,31 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         super.viewDidLoad()
         
         self.content = TPKeyboardAvoidingScrollView()
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - (46))
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - (46))
         self.content!.delegate = self
         self.content!.scrollDelegate = self
-        self.content!.backgroundColor = UIColor.whiteColor()
+        self.content!.backgroundColor = UIColor.white
         self.view.addSubview(self.content!)
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view.layer.insertSublayer(layerLine, atIndex: 1000)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view.layer.insertSublayer(layerLine, at: 1000)
         
-        self.view.backgroundColor = UIColor.whiteColor()
-        self.fmtDisplay = NSDateFormatter()
+        self.view.backgroundColor = UIColor.white
+        self.fmtDisplay = DateFormatter()
         self.fmtDisplay!.dateFormat = "EEEE dd, MMMM"
         
-        self.timeDisplay = NSDateFormatter()
+        self.timeDisplay = DateFormatter()
         self.timeDisplay!.dateFormat = "HH:mm"
         
         self.titleLabel?.text = NSLocalizedString("list.reminder.title", comment:"")
         self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
         self.reminderService?.findNotificationForCurrentList()
         self.deleteButton = UIButton()
-        self.deleteButton!.setTitle("eliminar", forState: .Normal)
-        self.deleteButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.deleteButton!.setTitle("eliminar", for: UIControlState())
+        self.deleteButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.deleteButton!.titleLabel?.font =  WMFont.fontMyriadProRegularOfSize(12)
-        self.deleteButton!.addTarget(self, action: #selector(ReminderViewController.deleteReminder), forControlEvents: UIControlEvents.TouchUpInside)
+        self.deleteButton!.addTarget(self, action: #selector(ReminderViewController.deleteReminder), for: UIControlEvents.touchUpInside)
         self.deleteButton!.backgroundColor = WMColor.red
         self.deleteButton!.layer.cornerRadius = 11.0
         self.header!.addSubview(deleteButton!)
@@ -88,48 +88,48 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.frequencyLabel = UILabel()
         self.frequencyLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         self.frequencyLabel?.textColor = WMColor.light_light_blue
-        self.frequencyLabel?.textAlignment = .Left
+        self.frequencyLabel?.textAlignment = .left
         self.frequencyLabel?.text = "Frecuencia del recordatorio"
         self.content!.addSubview(self.frequencyLabel!)
         
         self.dateLabel = UILabel()
         self.dateLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         self.dateLabel?.textColor = WMColor.light_light_blue
-        self.dateLabel?.textAlignment = .Left
+        self.dateLabel?.textAlignment = .left
         self.dateLabel?.text = "Fecha de inicio"
         self.content!.addSubview(self.dateLabel!)
         
         self.hourLabel = UILabel()
         self.hourLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         self.hourLabel?.textColor = WMColor.light_light_blue
-        self.hourLabel?.textAlignment = .Left
+        self.hourLabel?.textAlignment = .left
         self.hourLabel?.text = "Horario"
         self.content!.addSubview(self.hourLabel!)
         
-        self.frequencyField = FormFieldView(frame: CGRectMake(16, self.frequencyLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40))
+        self.frequencyField = FormFieldView(frame: CGRect(x: 16, y: self.frequencyLabel!.frame.maxY + 8,  width: self.view.frame.width - 32, height: 40))
         self.frequencyField!.isRequired = true
         self.frequencyField!.setCustomPlaceholder("Semanal")
-        self.frequencyField!.typeField = TypeField.List
+        self.frequencyField!.typeField = TypeField.list
         self.frequencyField!.setImageTypeField()
         self.frequencyField!.nameField = "Frecuencia del recordatorio"
         self.frequencyField!.minLength = 3
         self.frequencyField!.maxLength = 25
         self.content!.addSubview(self.frequencyField!)
         
-        self.dateField = FormFieldView(frame:CGRectMake(16, self.dateLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40))
+        self.dateField = FormFieldView(frame:CGRect(x: 16, y: self.dateLabel!.frame.maxY + 8,  width: self.view.frame.width - 32, height: 40))
         self.dateField!.isRequired = true
         self.dateField!.setCustomPlaceholder("Fecha")
-        self.dateField!.typeField = TypeField.List
+        self.dateField!.typeField = TypeField.list
         self.dateField!.setImageTypeField()
         self.dateField!.nameField = "Fecha de inicio"
         self.dateField!.minLength = 3
         self.dateField!.maxLength = 25
         self.content!.addSubview(self.dateField!)
         
-        self.hourField = FormFieldView(frame:CGRectMake(16, self.hourLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40))
+        self.hourField = FormFieldView(frame:CGRect(x: 16, y: self.hourLabel!.frame.maxY + 8,  width: self.view.frame.width - 32, height: 40))
         self.hourField!.isRequired = true
         self.hourField!.setCustomPlaceholder("Hora")
-        self.hourField!.typeField = TypeField.List
+        self.hourField!.typeField = TypeField.list
         self.hourField!.setImageTypeField()
         self.hourField!.nameField = "Horario"
         self.hourField!.minLength = 3
@@ -138,48 +138,48 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.content!.addSubview(self.hourField!)
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.setTitle("Cancelar", for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), for: UIControlEvents.touchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Guardar", forState:.Normal)
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.setTitle("Guardar", for:UIControlState())
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(ReminderViewController.save), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(ReminderViewController.save), for: UIControlEvents.touchUpInside)
         self.view.addSubview(saveButton!)
     
         
         if !self.reminderService!.existNotificationForCurrentList(){
-            self.deleteButton!.hidden = true
+            self.deleteButton!.isHidden = true
         }else{
-            self.deleteButton!.hidden = false
+            self.deleteButton!.isHidden = false
             self.frequencyField?.text = self.reminderService!.options[self.selectedPeriodicity!]
-            self.dateField?.text = self.fmtDisplay!.stringFromDate(self.currentOriginalFireDate!).capitalizedString
-            self.hourField?.text = self.timeDisplay!.stringFromDate(self.currentOriginalFireDate!)
+            self.dateField?.text = self.fmtDisplay!.string(from: self.currentOriginalFireDate!).capitalized
+            self.hourField?.text = self.timeDisplay!.string(from: self.currentOriginalFireDate!)
         }
         
         self.picker = AlertPickerView.initPickerWithDefaultCancelButton()
         
         self.frequencyField?.onBecomeFirstResponder = { () in
-            self.picker!.selected = NSIndexPath(forRow: self.selectedPeriodicity ?? 0, inSection: 0)
+            self.picker!.selected = IndexPath(row: self.selectedPeriodicity ?? 0, section: 0)
             self.picker!.sender = self.frequencyField!
             self.picker!.selectOptionDelegate = self
             self.picker!.setValues("Frecuencia del recordatorio", values: self.reminderService!.options)
             self.picker!.hiddenRigthActionButton(true)
-            self.picker!.cellType = TypeField.Check
+            self.picker!.cellType = TypeField.check
             self.picker!.showPicker()
 
         }
         
         self.dateField?.onBecomeFirstResponder = { () in
-            let calendarView = CalendarView(frame: CGRectMake(0, 0,  288, 434))
+            let calendarView = CalendarView(frame: CGRect(x: 0, y: 0,  width: 288, height: 434))
             calendarView.delegate = self
             if self.reminderService!.existNotificationForCurrentList(){
                calendarView.originalDate = self.currentOriginalFireDate
@@ -190,15 +190,15 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         }
         
         self.timePicker = UIDatePicker()
-        self.timePicker!.datePickerMode = .Time
-        self.timePicker!.locale = NSLocale(localeIdentifier: "da_DK")
+        self.timePicker!.datePickerMode = .time
+        self.timePicker!.locale = Locale(identifier: "da_DK")
         self.timePicker!.minuteInterval = 15
-        self.timePicker!.date = NSDate()
-        self.timePicker!.addTarget(self, action: #selector(ReminderViewController.timeChanged), forControlEvents: .ValueChanged)
+        self.timePicker!.date = Date()
+        self.timePicker!.addTarget(self, action: #selector(ReminderViewController.timeChanged), for: .valueChanged)
         self.hourField!.inputView = self.timePicker!
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44),
-            inputViewStyle: .Keyboard,
+        let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width , height: 44),
+            inputViewStyle: .keyboard,
             titleSave: "Ok",
             save: { (field:UITextField?) -> Void in
                 field?.resignFirstResponder()
@@ -215,31 +215,31 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let lineHeight: CGFloat = TabBarHidden.isTabBarHidden ? 67 : 113
-        self.deleteButton!.frame = CGRectMake(self.header!.frame.width - 80, 12, 65, 22)
-        self.frequencyLabel!.frame = CGRectMake(16, 16,  self.view.frame.width - 32, 20)
-        self.frequencyField!.frame = CGRectMake(16, self.frequencyLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
-        self.dateLabel!.frame = CGRectMake(16, self.frequencyField!.frame.maxY + 16,  self.view.frame.width - 32, 20)
-        self.dateField!.frame = CGRectMake(16, self.dateLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
-        self.hourLabel!.frame = CGRectMake(16, self.dateField!.frame.maxY + 16,  self.view.frame.width - 32, 20)
-        self.hourField!.frame = CGRectMake(16, self.hourLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height)
-        self.layerLine.frame = CGRectMake(0, self.view.frame.height - lineHeight,  self.view.frame.width, 1)
-        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
-        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
+        self.deleteButton!.frame = CGRect(x: self.header!.frame.width - 80, y: 12, width: 65, height: 22)
+        self.frequencyLabel!.frame = CGRect(x: 16, y: 16,  width: self.view.frame.width - 32, height: 20)
+        self.frequencyField!.frame = CGRect(x: 16, y: self.frequencyLabel!.frame.maxY + 8,  width: self.view.frame.width - 32, height: 40)
+        self.dateLabel!.frame = CGRect(x: 16, y: self.frequencyField!.frame.maxY + 16,  width: self.view.frame.width - 32, height: 20)
+        self.dateField!.frame = CGRect(x: 16, y: self.dateLabel!.frame.maxY + 8,  width: self.view.frame.width - 32, height: 40)
+        self.hourLabel!.frame = CGRect(x: 16, y: self.dateField!.frame.maxY + 16,  width: self.view.frame.width - 32, height: 20)
+        self.hourField!.frame = CGRect(x: 16, y: self.hourLabel!.frame.maxY + 8,  width: self.view.frame.width - 32, height: 40)
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height)
+        self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - lineHeight,  width: self.view.frame.width, height: 1)
+        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
+        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
     }
     
-    override func shouldAutomaticallyForwardAppearanceMethods() -> Bool {
+    override var shouldAutomaticallyForwardAppearanceMethods : Bool {
         return !IS_IPAD
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if IS_IPAD{
             self.beginAppearanceTransition(true, animated: true)
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.hourField!.setImageTypeField()
@@ -251,14 +251,14 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if IS_IPAD{
             self.beginAppearanceTransition(false, animated: true)
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if IS_IPAD{
             self.endAppearanceTransition()
@@ -268,10 +268,10 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     override func back() {
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
         if IS_IPAD{
-            UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
-                self.view.frame = CGRectMake(self.view.bounds.maxX, 0.0, self.view.bounds.width, self.view.bounds.height)
+            UIView.animate(withDuration: 0.4, delay: 0.1, options: [], animations: {
+                self.view.frame = CGRect(x: self.view.bounds.maxX, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height)
                 }, completion: {(finish) in
-                    self.willMoveToParentViewController(nil)
+                    self.willMove(toParentViewController: nil)
                     self.view.removeFromSuperview()
                     self.removeFromParentViewController()
             })
@@ -287,18 +287,18 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "done"), imageError: UIImage(named: "reminder_alert"))
         self.alertController!.setMessage("Eliminando recordatorio ...")
         let delaySec:Double = IS_IPAD ? 2.0 : 1.0
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delaySec * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
+        let delayTime = DispatchTime.now() + Double(Int64(delaySec * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
             self.reminderService!.removeNotificationsFromCurrentList()
             self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
             self.alertController!.setMessage("Recordatorio eliminado")
             self.alertController!.showDoneIcon()
             if IS_IPAD{
-                self.willMoveToParentViewController(nil)
+                self.willMove(toParentViewController: nil)
                 self.view.removeFromSuperview()
                 self.removeFromParentViewController()
             }else{
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -312,8 +312,8 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "done"), imageError: UIImage(named: "reminder_alert"))
             self.alertController!.setMessage("Guardando recordatorio ...")
             let delaySec:Double = IS_IPAD ? 2.0 : 1.0
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delaySec * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
+            let delayTime = DispatchTime.now() + Double(Int64(delaySec * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: delayTime) {
                 if self.reminderService!.existNotificationForCurrentList(){
                     self.reminderService!.removeNotificationsFromCurrentList()
                 }
@@ -322,11 +322,11 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
                 self.alertController!.setMessage("Tu recordatorio se ha guardado.")
                 self.alertController!.showDoneIcon()
                 if IS_IPAD{
-                    self.willMoveToParentViewController(nil)
+                    self.willMove(toParentViewController: nil)
                     self.view.removeFromSuperview()
                     self.removeFromParentViewController()
                 }else{
-                    self.navigationController?.popViewControllerAnimated(true)
+                    self.navigationController?.popViewController(animated: true)
                 }
             }
         }
@@ -341,14 +341,14 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             self.errorView = nil
         }
         let date = self.timePicker!.date
-        let dateString = self.timeDisplay!.stringFromDate(date)
-        let timeArray = dateString.componentsSeparatedByString(":")
+        let dateString = self.timeDisplay!.string(from: date)
+        let timeArray = dateString.components(separatedBy: ":")
         self.currentOriginalFireHour = Int(timeArray.first!)
         self.currentOriginalFireMin = Int(timeArray.last!)
         let minInterval = abs((self.currentOriginalFireMin % 15) - self.currentOriginalFireMin)
         let minString = minInterval == 0 ? "00" : "\(minInterval)"
         self.hourField!.text = "\(self.currentOriginalFireHour):\(minString)"
-        let fireDate = self.currentOriginalFireDate ?? NSDate()
+        let fireDate = self.currentOriginalFireDate ?? Date()
         self.currentOriginalFireDate = self.reminderService!.createDateFrom(fireDate, forHour: self.currentOriginalFireHour, andMinute: self.currentOriginalFireMin)
         //self.selectedDate = date
     }
@@ -362,16 +362,16 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         var message = ""
         let frequencyMessage = self.frequencyField!.validate()
         let timeMessage = self.hourField!.validate()
-        self.currentOriginalFireDate = self.currentOriginalFireDate ?? NSDate()
+        self.currentOriginalFireDate = self.currentOriginalFireDate ?? Date()
         if #available(iOS 8.0, *) {
-            let compare = NSCalendar.currentCalendar().compareDate(NSDate(), toDate: self.currentOriginalFireDate!,
-                toUnitGranularity: .Second)
-            if  compare != NSComparisonResult.OrderedAscending {
+            let compare = (Calendar.current as NSCalendar).compare(Date(), to: self.currentOriginalFireDate!,
+                toUnitGranularity: .second)
+            if  compare != ComparisonResult.orderedAscending {
                 field = hourField!
                 message = "Selecciona una hora superior a la actual"
             }
         } else {
-            if NSDate().compare(self.currentOriginalFireDate!) != NSComparisonResult.OrderedAscending {
+            if Date().compare(self.currentOriginalFireDate!) != ComparisonResult.orderedAscending {
                     field = hourField!
                     message = "Selecciona una hora superior a la actual"
             }
@@ -403,7 +403,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     }
     
     //MARK: -CalendarViewDelegate
-    func selectedDate(date: NSDate?) {
+    func selectedDate(_ date: Date?) {
         if self.errorView != nil{
             self.errorView!.removeFromSuperview()
             self.errorView!.focusError = nil
@@ -412,18 +412,18 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
        self.modalView?.closePicker()
         if date != nil{
             self.currentOriginalFireDate = self.reminderService!.createDateFrom(date!, forHour: self.currentOriginalFireHour, andMinute: self.currentOriginalFireMin)
-            self.dateField?.text = self.fmtDisplay!.stringFromDate(self.currentOriginalFireDate!).capitalizedString
+            self.dateField?.text = self.fmtDisplay!.string(from: self.currentOriginalFireDate!).capitalized
             self.dateField?.layer.borderWidth = 0
         }
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.view.frame.width, self.content!.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: self.content!.contentSize.height)
     }
     
     //MARK: - AlertPickerSelectOptionDelegate
-    func didSelectOptionAtIndex(indexPath: NSIndexPath){
+    func didSelectOptionAtIndex(_ indexPath: IndexPath){
         if self.errorView != nil{
             self.errorView!.removeFromSuperview()
             self.errorView!.focusError = nil

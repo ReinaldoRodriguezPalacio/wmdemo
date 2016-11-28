@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol HelpViewControllerDelegate {
-    func selectedDetail(row:Int, item: NSDictionary)
+    func selectedDetail(_ row:Int, item: [String:Any])
 }
 
 class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITableViewDataSource {
@@ -29,22 +29,22 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
        
         
         self.table = UITableView()
-        self.table.registerClass(HelpViewCell.self, forCellReuseIdentifier: "labelCell")
+        self.table.register(HelpViewCell.self, forCellReuseIdentifier: "labelCell")
         
-        self.table?.backgroundColor = UIColor.whiteColor()
+        self.table?.backgroundColor = UIColor.white
         
-        self.table.separatorStyle = .None
-        self.table.autoresizingMask = UIViewAutoresizing.None
+        self.table.separatorStyle = .none
+        self.table.autoresizingMask = UIViewAutoresizing()
         self.titleLabel!.text = NSLocalizedString("moreoptions.title.Help", comment: "")
         
-        let filePath =  NSBundle.mainBundle().pathForResource("help", ofType: "json")
-        let jsonData: NSData?
+        let filePath =  Bundle.main.path(forResource: "help", ofType: "json")
+        let jsonData: Data?
         do {
-            jsonData = try NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+            jsonData = try Data(contentsOf: URL(fileURLWithPath: filePath!), options: NSData.ReadingOptions.mappedIfSafe)
         } catch {
             jsonData = nil
         }
-        let resultArray = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! NSArray
+        let resultArray = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! NSArray
         
         array = resultArray
         
@@ -54,7 +54,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
-        self.table!.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
+        self.table!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: bounds.width, height: bounds.height - self.header!.frame.maxY )
     }
     
     override func didReceiveMemoryWarning() {
@@ -62,7 +62,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if delegate == nil || self.table.delegate == nil {
             self.table.delegate = self
@@ -80,28 +80,28 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     /*
     *@method: Obtain number of sections on menu
     */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     /*
     *@method: Obtain the number of rows for table view
     */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        return self.array!.count + 2
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let height: CGFloat = 46
         return height
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.setSelected(indexPath.row == selected, animated: false)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? HelpViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? HelpViewCell
         
 
         
@@ -111,9 +111,9 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                 numberOfLines: 2,
                 textColor: WMColor.dark_gray,
                 padding: 12,
-                align:NSTextAlignment.Left)
+                align:NSTextAlignment.left)
             
-            cell!.selectionStyle = UITableViewCellSelectionStyle.None
+            cell!.selectionStyle = UITableViewCellSelectionStyle.none
 
             return cell!
         }
@@ -123,51 +123,51 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                 numberOfLines: 2,
                 textColor: WMColor.dark_gray,
                 padding: 12,
-                align:NSTextAlignment.Left)
+                align:NSTextAlignment.left)
             
-            cell!.selectionStyle = UITableViewCellSelectionStyle.None
+            cell!.selectionStyle = UITableViewCellSelectionStyle.none
             
             return cell!
         }
 
-        let item = self.array![0] as! NSDictionary
+        let item = self.array![0] as! [String:Any]
         let name = item["title"] as! String
         
-        cell!.setValues(NSLocalizedString(name, comment: ""), font: WMFont.fontMyriadProLightOfSize(16), numberOfLines: 2, textColor: WMColor.dark_gray, padding: 12,align:NSTextAlignment.Left)
+        cell!.setValues(NSLocalizedString(name, comment: ""), font: WMFont.fontMyriadProLightOfSize(16), numberOfLines: 2, textColor: WMColor.dark_gray, padding: 12,align:NSTextAlignment.left)
 
         return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selected = indexPath.row
 
         if  indexPath.row  == 2 {
              //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_RATE_APP.rawValue , label:"")
             
-            let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
-            if UIApplication.sharedApplication().canOpenURL(url!) == true  {
-                UIApplication.sharedApplication().openURL(url!)
+            let url  = URL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+            if UIApplication.shared.canOpenURL(url!) == true  {
+                UIApplication.shared.openURL(url!)
             }
         }
         else  if  indexPath.row  == 0 {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHelp.rawValue, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowHelp.rawValue), object: nil)
         } else {
-            let item = self.array![0] as! NSDictionary
+            let item = self.array![0] as! [String:Any]
             if delegate != nil {
                 delegate!.selectedDetail(indexPath.row, item: item)
             }
             else {
                 let controller = PreviewHelpViewController()
                 let name = item["title"] as! String
-                controller.titleText = NSLocalizedString(name, comment: "")
-                controller.resource = item["resource"] as! String
-                controller.type = item["type"] as! String
+                controller.titleText = NSLocalizedString(name, comment: "") as NSString!
+                controller.resource = item["resource"] as! String as NSString!
+                controller.type = item["type"] as! String as NSString!
                 //controller.actionLabel = WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue
                 //controller.categoryLabel = WMGAIUtils.CATEGORY_FREQUENT_QUESTIONS.rawValue
         
                 if  let imgFile = item["imgFile"] as? String{
-                    controller.imgFile = imgFile
+                    controller.imgFile = imgFile as NSString?
                 }
                 
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_QUESTIONS.rawValue , label:name)

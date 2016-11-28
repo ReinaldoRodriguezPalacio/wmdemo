@@ -33,7 +33,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
         descLabel.textColor = WMColor.gray
         descLabel.numberOfLines = 0
         
-        downBorder = UIView(frame: CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth()))
+        downBorder = UIView(frame: CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth()))
         downBorder.backgroundColor = WMColor.light_light_gray
 
         
@@ -44,10 +44,10 @@ class ProductDetailMSITableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-         downBorder.frame = CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth())
+         downBorder.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth())
     }
     
-    func setValues(msi:NSArray){
+    func setValues(_ msi:NSArray){
         //var first = true
         clearView(self)
         var currntY : CGFloat = 5.0
@@ -56,18 +56,18 @@ class ProductDetailMSITableViewCell : UITableViewCell {
         
         for msiVal in msi {
 
-            let payDetailPrice = NSNumber(double:(priceProduct.doubleValue/msiVal.doubleValue)).stringValue
+            let payDetailPrice = NSNumber(value: (priceProduct.doubleValue/(msiVal as AnyObject).doubleValue) as Double).stringValue
             let formattedStr = CurrencyCustomLabel.formatString(payDetailPrice)
             
-            let lblPay = UILabel(frame: CGRectMake(16, currntY, 55, 14))
-            lblPay.textAlignment = NSTextAlignment.Right
+            let lblPay = UILabel(frame: CGRect(x: 16, y: currntY, width: 55, height: 14))
+            lblPay.textAlignment = NSTextAlignment.right
             lblPay.font = WMFont.fontMyriadProSemiboldOfSize(14)
             lblPay.textColor = WMColor.gray
             lblPay.text = "\(msiVal) \(lblPagos)"
             lblPay.tag = 101
             
-            let lblDesc = CurrencyCustomLabel(frame: CGRectMake(lblPay.frame.maxX + 4, currntY, 150, 14))
-            lblDesc.textAlignment = NSTextAlignment.Left
+            let lblDesc = CurrencyCustomLabel(frame: CGRect(x: lblPay.frame.maxX + 4, y: currntY, width: 150, height: 14))
+            lblDesc.textAlignment = NSTextAlignment.left
             lblDesc.updateMount("\(lblOf) \(formattedStr)", font:  WMFont.fontMyriadProLightOfSize(14), color:  WMColor.dark_gray, interLine: false)
             lblDesc.tag = 102
             
@@ -78,9 +78,9 @@ class ProductDetailMSITableViewCell : UITableViewCell {
         
     }
     
-    func clearView(view: UIView){
+    func clearView(_ view: UIView){
         for subview in view.subviews{
-            if subview.isKindOfClass(CurrencyCustomLabel) {
+            if subview.isKind(of: CurrencyCustomLabel.self) {
                 subview.removeFromSuperview()
             }
         }

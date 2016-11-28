@@ -42,15 +42,15 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.titleLabel?.text = NSLocalizedString("moreoptions.title.Invoice",comment:"")
         self.showInfoAlert()
         
         self.content = TPKeyboardAvoidingScrollView()
-        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
+        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
         self.content.scrollDelegate = self
-        self.content.backgroundColor = UIColor.whiteColor()
+        self.content.backgroundColor = UIColor.white
         self.view.addSubview(self.content)
         
         let margin: CGFloat = 15.0
@@ -63,120 +63,120 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         
         
         //Inician secciones
-        self.sectionTitle = self.buildSectionTitle(NSLocalizedString("invoice.section.actionToDo",comment:""), frame: CGRectMake(margin, 5.0, width, lheight))
+        self.sectionTitle = self.buildSectionTitle(NSLocalizedString("invoice.section.actionToDo",comment:""), frame: CGRect(x: margin, y: 5.0, width: width, height: lheight))
         self.content.addSubview(sectionTitle)
         
-        invoiceSelect = UIButton(frame: CGRectMake(margin,sectionTitle.frame.maxY,80,fheight))
-        invoiceSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        invoiceSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        invoiceSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        invoiceSelect!.setTitle(NSLocalizedString("invoice.button.invoice",comment:""), forState: UIControlState.Normal)
+        invoiceSelect = UIButton(frame: CGRect(x: margin,y: sectionTitle.frame.maxY,width: 80,height: fheight))
+        invoiceSelect!.setImage(checkTermEmpty, for: UIControlState())
+        invoiceSelect!.setImage(checkTermFull, for: UIControlState.selected)
+        invoiceSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), for: UIControlEvents.touchUpInside)
+        invoiceSelect!.setTitle(NSLocalizedString("invoice.button.invoice",comment:""), for: UIControlState())
         invoiceSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        invoiceSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        invoiceSelect!.setTitleColor(WMColor.gray, for: UIControlState())
         invoiceSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
-        invoiceSelect!.selected = true
+        invoiceSelect!.isSelected = true
         self.content.addSubview(self.invoiceSelect!)
         
-        self.consultSelect = UIButton(frame: CGRectMake(invoiceSelect!.frame.maxX + 31,sectionTitle.frame.maxY,90,fheight))
-        consultSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
-        consultSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
+        self.consultSelect = UIButton(frame: CGRect(x: invoiceSelect!.frame.maxX + 31,y: sectionTitle.frame.maxY,width: 90,height: fheight))
+        consultSelect!.setImage(checkTermEmpty, for: UIControlState())
+        consultSelect!.setImage(checkTermFull, for: UIControlState.selected)
         consultSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        consultSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        consultSelect!.setTitle(NSLocalizedString("invoice.button.consult",comment:""), forState: UIControlState.Normal)
+        consultSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), for: UIControlEvents.touchUpInside)
+        consultSelect!.setTitle(NSLocalizedString("invoice.button.consult",comment:""), for: UIControlState())
         consultSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
-        consultSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+        consultSelect!.setTitleColor(WMColor.gray, for: UIControlState())
         self.content.addSubview(self.consultSelect!)
         
-        self.sectionUserInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.yourdata",comment:""), frame: CGRectMake(margin, self.invoiceSelect!.frame.maxY + 5.0, width, lheight))
+        self.sectionUserInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.yourdata",comment:""), frame: CGRect(x: margin, y: self.invoiceSelect!.frame.maxY + 5.0, width: width, height: lheight))
         self.content.addSubview(sectionUserInfo)
         
-        self.rfc = FormFieldView(frame: CGRectMake(margin, self.sectionUserInfo!.frame.maxY + 10.0, width, fheight))
+        self.rfc = FormFieldView(frame: CGRect(x: margin, y: self.sectionUserInfo!.frame.maxY + 10.0, width: width, height: fheight))
         self.rfc!.isRequired = true
         self.rfc!.setCustomPlaceholder(NSLocalizedString("invoice.field.rfc",comment:""))
-        self.rfc!.typeField = TypeField.String
+        self.rfc!.typeField = TypeField.string
         self.rfc!.nameField = "rfc"
         self.rfc!.maxLength = 13
         self.content.addSubview(self.rfc!)
-        self.zipCode = FormFieldView(frame: CGRectMake(margin, self.rfc!.frame.maxY + 5.0, width, fheight))
+        self.zipCode = FormFieldView(frame: CGRect(x: margin, y: self.rfc!.frame.maxY + 5.0, width: width, height: fheight))
         self.zipCode!.isRequired = true
         self.zipCode!.setCustomPlaceholder(NSLocalizedString("invoice.field.zipcode",comment:""))
-        self.zipCode!.typeField = TypeField.String
+        self.zipCode!.typeField = TypeField.string
         self.zipCode!.nameField = "zipCodce"
         self.zipCode!.maxLength = 6
         self.content.addSubview(self.zipCode!)
         
-        self.sectionTicketInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.purchase.data",comment:""), frame: CGRectMake(margin, self.zipCode!.frame.maxY + 10.0, width, lheight))
+        self.sectionTicketInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.purchase.data",comment:""), frame: CGRect(x: margin, y: self.zipCode!.frame.maxY + 10.0, width: width, height: lheight))
         self.content.addSubview(sectionTicketInfo)
         
-        self.scanTicketButton = UIButton(frame: CGRectMake(margin, self.sectionTicketInfo!.frame.maxY + 10.0, width, 30.0))
-        self.scanTicketButton!.setTitle(NSLocalizedString("invoice.button.scan",comment:""), forState: UIControlState.Normal)
+        self.scanTicketButton = UIButton(frame: CGRect(x: margin, y: self.sectionTicketInfo!.frame.maxY + 10.0, width: width, height: 30.0))
+        self.scanTicketButton!.setTitle(NSLocalizedString("invoice.button.scan",comment:""), for: UIControlState())
         self.scanTicketButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 15)
-        self.scanTicketButton!.setImage(UIImage(named: "invoice_scan_ticket"), forState: UIControlState.Normal)
-        self.scanTicketButton!.titleLabel!.textColor = UIColor.whiteColor()
-        self.scanTicketButton!.titleLabel!.textAlignment = NSTextAlignment.Center
+        self.scanTicketButton!.setImage(UIImage(named: "invoice_scan_ticket"), for: UIControlState())
+        self.scanTicketButton!.titleLabel!.textColor = UIColor.white
+        self.scanTicketButton!.titleLabel!.textAlignment = NSTextAlignment.center
         self.scanTicketButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.scanTicketButton!.backgroundColor = WMColor.light_blue
         self.scanTicketButton!.layer.cornerRadius = 12
         self.content.addSubview(self.scanTicketButton!)
         
-        self.infoMessage = UILabel(frame:  CGRectMake(margin, self.scanTicketButton!.frame.maxY + 10.0, width, lheight))
-        infoMessage!.textColor = UIColor.grayColor()
+        self.infoMessage = UILabel(frame:  CGRect(x: margin, y: self.scanTicketButton!.frame.maxY + 10.0, width: width, height: lheight))
+        infoMessage!.textColor = UIColor.gray
         infoMessage!.font = WMFont.fontMyriadProLightOfSize(14)
         infoMessage!.text = NSLocalizedString("invoice.section.write",comment:"")
-        infoMessage!.backgroundColor = UIColor.whiteColor()
+        infoMessage!.backgroundColor = UIColor.white
         self.content.addSubview(infoMessage)
         
-        self.ticketNumber = FormFieldView(frame: CGRectMake(margin, infoMessage.frame.maxY + 10.0, width - 24, fheight))
+        self.ticketNumber = FormFieldView(frame: CGRect(x: margin, y: infoMessage.frame.maxY + 10.0, width: width - 24, height: fheight))
         self.ticketNumber!.isRequired = true
         var placeholder = NSMutableAttributedString()
-        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.ticketnumber",comment:"")
+        placeholder.append(NSAttributedString(string: NSLocalizedString("invoice.field.ticketnumber",comment:"")
 , attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
-        placeholder.appendAttributedString(NSAttributedString(string:NSLocalizedString("invoice.field.tc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
+        placeholder.append(NSAttributedString(string:NSLocalizedString("invoice.field.tc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
         self.ticketNumber!.setCustomAttributedPlaceholder(placeholder)
-        self.ticketNumber!.typeField = TypeField.String
+        self.ticketNumber!.typeField = TypeField.string
         self.ticketNumber!.nameField = "ticketNumber"
         self.ticketNumber!.maxLength = 13
         self.content.addSubview(self.ticketNumber!)
         
-        self.transactionNumber = FormFieldView(frame: CGRectMake(margin, self.ticketNumber!.frame.maxY + 5.0, width - 24, fheight))
+        self.transactionNumber = FormFieldView(frame: CGRect(x: margin, y: self.ticketNumber!.frame.maxY + 5.0, width: width - 24, height: fheight))
         self.transactionNumber!.isRequired = true
         placeholder = NSMutableAttributedString()
-        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.transactionnumber",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
-        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.tr",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
+        placeholder.append(NSAttributedString(string: NSLocalizedString("invoice.field.transactionnumber",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
+        placeholder.append(NSAttributedString(string: NSLocalizedString("invoice.field.tr",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
         self.transactionNumber!.setCustomAttributedPlaceholder(placeholder)
-        self.transactionNumber!.typeField = TypeField.String
+        self.transactionNumber!.typeField = TypeField.string
         self.transactionNumber!.nameField = "transactionNumber"
         self.transactionNumber!.maxLength = 13
         self.content.addSubview(self.transactionNumber!)
         
-        self.infoTCButton = UIButton(frame: CGRectMake(widthLessMargin - 16, infoMessage.frame.maxY + 20.0, 16, 16))
-        self.infoTCButton!.setBackgroundImage(UIImage(named:"invoice_info"), forState: UIControlState.Normal)
-        self.infoTCButton!.addTarget(self, action: #selector(InvoiceViewController.infoImage(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.infoTCButton = UIButton(frame: CGRect(x: widthLessMargin - 16, y: infoMessage.frame.maxY + 20.0, width: 16, height: 16))
+        self.infoTCButton!.setBackgroundImage(UIImage(named:"invoice_info"), for: UIControlState())
+        self.infoTCButton!.addTarget(self, action: #selector(InvoiceViewController.infoImage(_:)), for: UIControlEvents.touchUpInside)
         self.content.addSubview(self.infoTCButton!)
         
-        self.infoTRButton = UIButton(frame: CGRectMake(widthLessMargin - 16, self.ticketNumber!.frame.maxY + 20.0, 16, 16))
-        self.infoTRButton!.setBackgroundImage(UIImage(named:"invoice_info"), forState: UIControlState.Normal)
-        self.infoTRButton!.addTarget(self, action: #selector(InvoiceViewController.infoImage(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.infoTRButton = UIButton(frame: CGRect(x: widthLessMargin - 16, y: self.ticketNumber!.frame.maxY + 20.0, width: 16, height: 16))
+        self.infoTRButton!.setBackgroundImage(UIImage(named:"invoice_info"), for: UIControlState())
+        self.infoTRButton!.addTarget(self, action: #selector(InvoiceViewController.infoImage(_:)), for: UIControlEvents.touchUpInside)
         self.content.addSubview(self.infoTRButton!)
         
-        self.content.contentSize = CGSizeMake(self.view.frame.width, transactionNumber!.frame.maxY + 5.0)
+        self.content.contentSize = CGSize(width: self.view.frame.width, height: transactionNumber!.frame.maxY + 5.0)
         
-        self.cancelButton = UIButton(frame: CGRectMake(margin, self.content!.frame.maxY + 5.0, 140.0, fheight))
-        self.cancelButton!.setTitle(NSLocalizedString("invoice.button.cancel",comment:""), forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton = UIButton(frame: CGRect(x: margin, y: self.content!.frame.maxY + 5.0, width: 140.0, height: fheight))
+        self.cancelButton!.setTitle(NSLocalizedString("invoice.button.cancel",comment:""), for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.light_blue
         self.cancelButton!.layer.cornerRadius = 20
-        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), for: UIControlEvents.touchUpInside)
         self.view.addSubview(cancelButton!)
         
-        self.nextButton = UIButton(frame: CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY + 5.0, 140.0, fheight))
-        self.nextButton!.setTitle(NSLocalizedString("invoice.button.next",comment:""), forState:.Normal)
-        self.nextButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.nextButton = UIButton(frame: CGRect(x: widthLessMargin - 140 , y: self.content!.frame.maxY + 5.0, width: 140.0, height: fheight))
+        self.nextButton!.setTitle(NSLocalizedString("invoice.button.next",comment:""), for:UIControlState())
+        self.nextButton!.titleLabel!.textColor = UIColor.white
         self.nextButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.nextButton!.backgroundColor = WMColor.green
         self.nextButton!.layer.cornerRadius = 20
-        self.nextButton!.addTarget(self, action: #selector(InvoiceViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
+        self.nextButton!.addTarget(self, action: #selector(getter: InvoiceViewController.next), for: UIControlEvents.touchUpInside)
         self.view.addSubview(nextButton!)
 
     }
@@ -184,7 +184,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.content = TPKeyboardAvoidingScrollView()
-        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
+        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
         
         let margin: CGFloat = 15.0
         let width = self.view.frame.width - (2*margin)
@@ -193,51 +193,51 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         let widthLessMargin = self.view.frame.width - margin
         
         //Inician secciones
-        self.sectionTitle!.frame = CGRectMake(margin, 5.0, width, lheight)
-        self.invoiceSelect!.frame = CGRectMake(margin,sectionTitle.frame.maxY,80,fheight)
-        self.consultSelect!.frame = CGRectMake(invoiceSelect!.frame.maxX + 31,sectionTitle.frame.maxY,90,fheight)
-        self.sectionUserInfo.frame = CGRectMake(margin, self.invoiceSelect!.frame.maxY + 5.0, width, lheight)
-        self.rfc!.frame = CGRectMake(margin, self.sectionUserInfo!.frame.maxY + 10.0, width, fheight)
-        self.zipCode!.frame = CGRectMake(margin, self.rfc!.frame.maxY + 5.0, width, fheight)
-        self.sectionTicketInfo.frame = CGRectMake(margin, self.zipCode!.frame.maxY + 10.0, width, lheight)
-        self.scanTicketButton!.frame = CGRectMake(margin, self.sectionTicketInfo!.frame.maxY + 10.0, width, 30.0)
-        self.infoMessage.frame =  CGRectMake(margin, self.scanTicketButton!.frame.maxY + 10.0, width, lheight)
-        self.ticketNumber!.frame = CGRectMake(margin, infoMessage.frame.maxY + 10.0, width - 24, fheight)
-        self.transactionNumber!.frame = CGRectMake(margin, self.ticketNumber!.frame.maxY + 5.0, width - 24, fheight)
-        self.infoTCButton!.frame = CGRectMake(widthLessMargin - 16, infoMessage.frame.maxY + 20.0, 16, 16)
-        self.infoTRButton!.frame = CGRectMake(widthLessMargin - 16, self.ticketNumber!.frame.maxY + 20.0, 16, 16)
-        self.content.contentSize = CGSizeMake(self.view.frame.width, transactionNumber!.frame.maxY + 5.0)
+        self.sectionTitle!.frame = CGRect(x: margin, y: 5.0, width: width, height: lheight)
+        self.invoiceSelect!.frame = CGRect(x: margin,y: sectionTitle.frame.maxY,width: 80,height: fheight)
+        self.consultSelect!.frame = CGRect(x: invoiceSelect!.frame.maxX + 31,y: sectionTitle.frame.maxY,width: 90,height: fheight)
+        self.sectionUserInfo.frame = CGRect(x: margin, y: self.invoiceSelect!.frame.maxY + 5.0, width: width, height: lheight)
+        self.rfc!.frame = CGRect(x: margin, y: self.sectionUserInfo!.frame.maxY + 10.0, width: width, height: fheight)
+        self.zipCode!.frame = CGRect(x: margin, y: self.rfc!.frame.maxY + 5.0, width: width, height: fheight)
+        self.sectionTicketInfo.frame = CGRect(x: margin, y: self.zipCode!.frame.maxY + 10.0, width: width, height: lheight)
+        self.scanTicketButton!.frame = CGRect(x: margin, y: self.sectionTicketInfo!.frame.maxY + 10.0, width: width, height: 30.0)
+        self.infoMessage.frame =  CGRect(x: margin, y: self.scanTicketButton!.frame.maxY + 10.0, width: width, height: lheight)
+        self.ticketNumber!.frame = CGRect(x: margin, y: infoMessage.frame.maxY + 10.0, width: width - 24, height: fheight)
+        self.transactionNumber!.frame = CGRect(x: margin, y: self.ticketNumber!.frame.maxY + 5.0, width: width - 24, height: fheight)
+        self.infoTCButton!.frame = CGRect(x: widthLessMargin - 16, y: infoMessage.frame.maxY + 20.0, width: 16, height: 16)
+        self.infoTRButton!.frame = CGRect(x: widthLessMargin - 16, y: self.ticketNumber!.frame.maxY + 20.0, width: 16, height: 16)
+        self.content.contentSize = CGSize(width: self.view.frame.width, height: transactionNumber!.frame.maxY + 5.0)
         //self.cancelButton!.frame = CGRectMake(margin, self.content!.frame.maxY + 5.0, 140.0, fheight)
         //self.nextButton!.frame = CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY + 5.0, 140.0, fheight)
     }
 
     
-    func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
+    func buildSectionTitle(_ title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
-        sectionTitle.backgroundColor = UIColor.whiteColor()
+        sectionTitle.backgroundColor = UIColor.white
         return sectionTitle
     }
     
-    func checkSelected(sender:UIButton) {
-        if sender.selected{
+    func checkSelected(_ sender:UIButton) {
+        if sender.isSelected{
             return
         }
         if sender == self.invoiceSelect{
-            self.consultSelect!.selected = false
+            self.consultSelect!.isSelected = false
         }else{
-            self.invoiceSelect!.selected = false
+            self.invoiceSelect!.isSelected = false
         }
-        sender.selected = !(sender.selected)
+        sender.isSelected = !(sender.isSelected)
     }
     
     override func back() {
         self.showCancelAlert()
     }
     
-    func infoImage(sender:UIButton){
+    func infoImage(_ sender:UIButton){
         var title = ""
         var imageName = ""
         if sender == self.infoTCButton{
@@ -252,23 +252,23 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     func showCancelAlert(){
         let message = NSMutableAttributedString()
-        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.message.exit",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.append(NSAttributedString(string: NSLocalizedString("invoice.message.exit",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.white]))
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
-        self.alertView?.messageLabel.textAlignment = .Center
+        self.alertView?.messageLabel.textAlignment = .center
         self.alertView?.setMessageLabelToCenter(225.0)
         self.alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
             self.alertView?.close() }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
             self.alertView?.close()
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         },isNewFrame: false)
     }
     
     func showInfoAlert(){
         let message = NSMutableAttributedString()
-        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.validity",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.validity.desc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.guard",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.guard.desc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.append(NSAttributedString(string: NSLocalizedString("invoice.info.validity",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.white]))
+        message.append(NSAttributedString(string: NSLocalizedString("invoice.info.validity.desc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.white]))
+        message.append(NSAttributedString(string: NSLocalizedString("invoice.info.guard",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.white]))
+        message.append(NSAttributedString(string: NSLocalizedString("invoice.info.guard.desc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.white]))
         
         
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert(NSLocalizedString("invoice.advice",comment:""), message: message)
@@ -282,8 +282,8 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        let val = CGSizeMake(self.view.frame.width, self.content.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        let val = CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
         return val
     }
 }

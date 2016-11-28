@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddressViewCellDelegate {
-    func applyPrefered (addressID:String )
+    func applyPrefered (_ addressID:String )
 }
 
 
@@ -47,15 +47,15 @@ class AddressViewCell: SWTableViewCell {
         preferedButton = UIButton()
         
         imageDisclousure = UIImageView(image: UIImage(named: "disclosure"))
-        imageDisclousure.contentMode = UIViewContentMode.Center
+        imageDisclousure.contentMode = UIViewContentMode.center
         
         imageErrorField = UIImageView(image: UIImage(named: "profile_field_error"))
-        imageErrorField.contentMode = UIViewContentMode.Center
-        imageErrorField.hidden = true
+        imageErrorField.contentMode = UIViewContentMode.center
+        imageErrorField.isHidden = true
 
-        self.preferedButton.setImage(UIImage(named:"favorite_empty"), forState: UIControlState.Normal)
-        self.preferedButton.setImage(UIImage(named:"favorite_selected"), forState: UIControlState.Selected)
-        self.preferedButton.addTarget(self , action: #selector(AddressViewCell.applyPrefered), forControlEvents:UIControlEvents.TouchUpInside)
+        self.preferedButton.setImage(UIImage(named:"favorite_empty"), for: UIControlState())
+        self.preferedButton.setImage(UIImage(named:"favorite_selected"), for: UIControlState.selected)
+        self.preferedButton.addTarget(self , action: #selector(AddressViewCell.applyPrefered), for:UIControlEvents.touchUpInside)
         
         self.contentView.addSubview(preferedButton)
         self.contentView.addSubview(titleLabel)
@@ -69,20 +69,20 @@ class AddressViewCell: SWTableViewCell {
         
         if(self.showPreferedButton) {
             preferedButton.alpha = 1
-            preferedButton.frame =  CGRectMake(0 , 1, 48, self.bounds.height - 2)
-            titleLabel.frame = CGRectMake(preferedButton.frame.maxX , 1, self.bounds.width - 85  , self.bounds.height - 1)
+            preferedButton.frame =  CGRect(x: 0 , y: 1, width: 48, height: self.bounds.height - 2)
+            titleLabel.frame = CGRect(x: preferedButton.frame.maxX , y: 1, width: self.bounds.width - 85  , height: self.bounds.height - 1)
         }else{
             preferedButton.alpha = 0
-            titleLabel.frame = CGRectMake(0 , 1, self.bounds.width - 41  , self.bounds.height - 1)
+            titleLabel.frame = CGRect(x: 0 , y: 1, width: self.bounds.width - 41  , height: self.bounds.height - 1)
         }
-        imageDisclousure.frame = CGRectMake(self.frame.width - 48 , 1, 48, self.frame.height)
-        imageErrorField.frame = CGRectMake(self.frame.width - 72 , 1, 48, self.frame.height)
+        imageDisclousure.frame = CGRect(x: self.frame.width - 48 , y: 1, width: 48, height: self.frame.height)
+        imageErrorField.frame = CGRect(x: self.frame.width - 72 , y: 1, width: 48, height: self.frame.height)
         
     }
     
-    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment,isViewLine:Bool, isPrefered:Bool,addressID: String ){
+    func setValues(_ title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment,isViewLine:Bool, isPrefered:Bool,addressID: String ){
         
-        viewLine.frame =  CGRectMake(padding, self.bounds.height - AppDelegate.separatorHeigth() , self.bounds.width - padding, AppDelegate.separatorHeigth() )
+        viewLine.frame =  CGRect(x: padding, y: self.bounds.height - AppDelegate.separatorHeigth() , width: self.bounds.width - padding, height: AppDelegate.separatorHeigth() )
         titleLabel.text  = title
         titleLabel.font = font
         titleLabel.numberOfLines = numberOfLines
@@ -93,20 +93,20 @@ class AddressViewCell: SWTableViewCell {
         if isViewLine{
             viewLine.backgroundColor = WMColor.light_gray
         }else{
-            viewLine.backgroundColor = UIColor.clearColor()
+            viewLine.backgroundColor = UIColor.clear
         }
        
-        self.preferedButton.selected = isPrefered
+        self.preferedButton.isSelected = isPrefered
     }
     
     func applyPrefered (){
-        if !self.preferedButton.selected {
+        if !self.preferedButton.isSelected {
             delegateAddres.applyPrefered(self.addressID)
         }
     }
     
-    func showErrorFieldImage(show:Bool){
-        self.imageErrorField.hidden = !show
+    func showErrorFieldImage(_ show:Bool){
+        self.imageErrorField.isHidden = !show
         
     }
     

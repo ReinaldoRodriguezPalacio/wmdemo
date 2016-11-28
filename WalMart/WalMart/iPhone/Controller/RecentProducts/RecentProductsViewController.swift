@@ -31,14 +31,14 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         recentProducts = UITableView()
         
-        recentProducts.registerClass(RecentProductsTableViewCell.self, forCellReuseIdentifier: "recentCell")
+        recentProducts.register(RecentProductsTableViewCell.self, forCellReuseIdentifier: "recentCell")
         recentProducts.delegate = self
         recentProducts.dataSource = self
-        recentProducts.separatorStyle = UITableViewCellSeparatorStyle.None
+        recentProducts.separatorStyle = UITableViewCellSeparatorStyle.none
         self.view.addSubview(recentProducts)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        emptyView = IPOGenericEmptyView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109))
+        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109))
         emptyView.returnAction = {() in
             self.back()
         }
@@ -49,14 +49,14 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.recentProducts.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.recentProducts.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRectMake(self.view.bounds.minX,46, self.view.bounds.width, self.view.bounds.height -  self.header!.frame.maxY))
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX,y: 46, width: self.view.bounds.width, height: self.view.bounds.height -  self.header!.frame.maxY))
+            viewLoad.backgroundColor = UIColor.white
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
             recentProducts.reloadData()
@@ -66,16 +66,16 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         }
         
         if IS_IOS8_OR_LESS {
-            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         }else{
-            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109)
+            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109)
         }
     }
 
    
     func invokeRecentProducts(){
         let service = GRRecentProductsService()
-        service.callService({ (resultado:NSDictionary) -> Void in
+        service.callService({ (resultado:[String:Any]) -> Void in
             self.recentProductItems = resultado["responseArray"] as! [AnyObject]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
@@ -83,7 +83,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
             self.invokeStop = true
             self.viewLoad = nil
-            self.emptyView!.hidden = true
+            self.emptyView!.isHidden = true
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.viewLoad.stopAnnimating()
@@ -93,13 +93,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.recentProductItems.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cellRecentProducts = tableView.dequeueReusableCellWithIdentifier("recentCell") as! RecentProductsTableViewCell
-        let objProduct = recentProductItems[indexPath.row] as! NSDictionary
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
+        let objProduct = recentProductItems[indexPath.row] as! [String:Any]
         let img = objProduct["imageUrl"] as! String
         let description = objProduct["description"] as! String
         let price = objProduct["price"] as! NSNumber
@@ -118,17 +118,17 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         return cellRecentProducts
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 109
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: self.recentProductItems[indexPath.row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems()
+        controller.itemsToShow = getUPCItems() as [AnyObject]
         controller.ixSelected = indexPath.row
         controller.detailOf = "Recent Products"
         self.navigationController!.pushViewController(controller, animated: true)

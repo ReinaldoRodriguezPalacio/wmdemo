@@ -31,8 +31,8 @@ class IPASupportViewController: SupportViewController {
                 NSForegroundColorAttributeName:WMColor.light_blue])
         
         let valuesDescItem = NSMutableAttributedString()
-        valuesDescItem.appendAttributedString(attrStringLab)
-        valuesDescItem.appendAttributedString(attrStringVal)
+        valuesDescItem.append(attrStringLab)
+        valuesDescItem.append(attrStringVal)
         
         self.labelQuestion1.text = NSLocalizedString("Support.label.question.comment" , comment: "")
         self.labelQuestion2.attributedText = valuesDescItem
@@ -46,39 +46,39 @@ class IPASupportViewController: SupportViewController {
         
         self.labelQuestion1!.font = WMFont.fontMyriadProLightOfSize(18)
         self.labelQuestion1!.textColor = WMColor.light_blue
-        self.labelQuestion1!.backgroundColor = UIColor.clearColor()
-        self.labelQuestion1!.textAlignment = .Center
+        self.labelQuestion1!.backgroundColor = UIColor.clear
+        self.labelQuestion1!.textAlignment = .center
         
         //self.labelQuestion2!.font = WMFont.fontMyriadProLightOfSize(18)
         self.labelQuestion2!.textColor = WMColor.light_blue
-        self.labelQuestion2!.backgroundColor = UIColor.clearColor()
-        self.labelQuestion2!.textAlignment = .Center
+        self.labelQuestion2!.backgroundColor = UIColor.clear
+        self.labelQuestion2!.textAlignment = .center
         
         self.callme!.font = WMFont.fontMyriadProRegularOfSize(18)
         self.callme!.textColor = WMColor.gray
-        self.callme!.backgroundColor = UIColor.clearColor()
-        self.callme!.textAlignment = .Center
+        self.callme!.backgroundColor = UIColor.clear
+        self.callme!.textAlignment = .center
         
         self.callmeNumber!.font = WMFont.fontMyriadProBoldItOfSize(18)
         self.callmeNumber!.textColor = WMColor.gray
-        self.callmeNumber!.backgroundColor = UIColor.clearColor()
-        self.callmeNumber!.textAlignment = .Center
+        self.callmeNumber!.backgroundColor = UIColor.clear
+        self.callmeNumber!.textAlignment = .center
         
         self.sendmeMail!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.sendmeMail!.textColor = WMColor.gray
-        self.sendmeMail!.backgroundColor = UIColor.clearColor()
-        self.sendmeMail!.textAlignment = .Center
+        self.sendmeMail!.backgroundColor = UIColor.clear
+        self.sendmeMail!.textAlignment = .center
         
         
-        self.buttomCall.setImage(UIImage(named:"support-call"), forState: UIControlState.Normal)
-        self.buttomCall.setImage(UIImage(named:"support-call."), forState: UIControlState.Selected)
-        self.buttomCall.addTarget(self , action: Selector("selectecButton:"), forControlEvents:UIControlEvents.TouchUpInside)
-        self.buttomCall.backgroundColor = UIColor.clearColor()
+        self.buttomCall.setImage(UIImage(named:"support-call"), for: UIControlState())
+        self.buttomCall.setImage(UIImage(named:"support-call."), for: UIControlState.selected)
+        self.buttomCall.addTarget(self , action: Selector("selectecButton:"), for:UIControlEvents.touchUpInside)
+        self.buttomCall.backgroundColor = UIColor.clear
         
-        self.buttomMail.setImage(UIImage(named:"support-email-iPad"), forState: UIControlState.Normal)
-        self.buttomMail.setImage(UIImage(named:"support-email-iPad"), forState: UIControlState.Selected)
-        self.buttomMail.addTarget(self , action: Selector("selectecButton:"), forControlEvents:UIControlEvents.TouchUpInside)
-        self.buttomMail.backgroundColor = UIColor.clearColor()
+        self.buttomMail.setImage(UIImage(named:"support-email-iPad"), for: UIControlState())
+        self.buttomMail.setImage(UIImage(named:"support-email-iPad"), for: UIControlState.selected)
+        self.buttomMail.addTarget(self , action: Selector("selectecButton:"), for:UIControlEvents.touchUpInside)
+        self.buttomMail.backgroundColor = UIColor.clear
         
         self.view.addSubview(imgConfirm)
         
@@ -99,7 +99,7 @@ class IPASupportViewController: SupportViewController {
 //        var fheight: CGFloat = 44.0
 //        var lheight: CGFloat = 25.0
         
-        self.selectedType = NSIndexPath(forRow: 0, inSection: 0)
+        self.selectedType = IndexPath(row: 0, section: 0)
 
         self.pikerBtn!.delegate = self
         self.pikerBtn!.setValues(NSLocalizedString("Support.label.write.to", comment:""), values: self.stores)
@@ -112,12 +112,12 @@ class IPASupportViewController: SupportViewController {
         
         let bounds = self.view.bounds
         
-        self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 48 , bounds.width, 18 )
-        self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY + 5  , bounds.width, 15 )
+        self.labelQuestion1.frame = CGRect(x: 0,  y: self.header!.frame.maxY + 48 , width: bounds.width, height: 18 )
+        self.labelQuestion2.frame = CGRect(x: 0,  y: self.labelQuestion1.frame.maxY + 5  , width: bounds.width, height: 15 )
         
        // callmeNumber.frame =  CGRectMake(32 , bounds.maxY - 114 , 130, 15)
-        sendmeMail.frame =  CGRectMake(bounds.midX - 43 , bounds.maxY - 100 , 85, 15)//label
-        buttomMail.frame =  CGRectMake(bounds.midX - 43 , sendmeMail.frame.midY - 100 , 85, 85)//btn
+        sendmeMail.frame =  CGRect(x: bounds.midX - 43 , y: bounds.maxY - 100 , width: 85, height: 15)//label
+        buttomMail.frame =  CGRect(x: bounds.midX - 43 , y: sendmeMail.frame.midY - 100 , width: 85, height: 85)//btn
     
         
     }

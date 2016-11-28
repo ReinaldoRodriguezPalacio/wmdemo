@@ -7,6 +7,30 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 class IPAShoppingCartViewController : ShoppingCartViewController {
     
@@ -16,13 +40,13 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     var beforeLeave : IPAShoppingCartBeforeToLeave!
     var viewSeparator : UIView!
     var popup : UIPopoverController?
-    var onClose : ((isClose:Bool) -> Void)? = nil
+    var onClose : ((_ isClose:Bool) -> Void)? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewFooter.backgroundColor  =  WMColor.light_light_gray
         
-        viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
+        viewShoppingCart.register(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
         
         
         imagePromotion = UIImageView()
@@ -32,13 +56,13 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.viewContent.addSubview(imagePromotion)
         
         
-        totalsView = IPAShoppingCartTotalView(frame: CGRectMake(0, 0, 0, 0))
+        totalsView = IPAShoppingCartTotalView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         self.viewContent.addSubview(totalsView)
         
       
         
-        beforeLeave = IPAShoppingCartBeforeToLeave(frame:CGRectMake(0, 0, 682, 0))
-        beforeLeave.backgroundColor = UIColor.whiteColor()
+        beforeLeave = IPAShoppingCartBeforeToLeave(frame:CGRect(x: 0, y: 0, width: 682, height: 0))
+        beforeLeave.backgroundColor = UIColor.white
         self.viewContent.addSubview(beforeLeave)
         
         
@@ -53,10 +77,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
  
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let url = NSURL(string: serviceUrl("WalmartMG.CartPromo"))
-        imagePromotion.setImageWithURL(url!, placeholderImage: UIImage(named:"cart_promo"))
+        let url = URL(string: serviceUrl("WalmartMG.CartPromo"))
+        imagePromotion.setImageWith(url!, placeholderImage: UIImage(named:"cart_promo"))
     }
 
     
@@ -65,43 +89,43 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
 //        self.viewLoad.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
 //        self.viewLoad.setNeedsLayout()
         
-        self.viewHerader.frame = CGRectMake(0, 0, self.view.frame.width, 46)
-        self.viewContent.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-        self.viewFooter.frame = CGRectMake(self.viewContent.frame.width - 341, viewContent.frame.height - 72 , 341 , 72)
-        self.viewShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.viewContent.frame.width - 341, 434)
-        self.beforeLeave.frame = CGRectMake(0,self.viewShoppingCart.frame.maxY,self.viewContent.frame.width - 341, viewContent.frame.height - self.viewShoppingCart.frame.maxY)
-        self.imagePromotion.frame = CGRectMake(self.viewContent.frame.width - 341, self.viewHerader.frame.maxY, 341, 434)
-        self.totalsView.frame = CGRectMake(self.viewContent.frame.width - 341, self.imagePromotion.frame.maxY, 341, 168)
+        self.viewHerader.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
+        self.viewContent.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.viewFooter.frame = CGRect(x: self.viewContent.frame.width - 341, y: viewContent.frame.height - 72 , width: 341 , height: 72)
+        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
+        self.beforeLeave.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewContent.frame.width - 341, height: viewContent.frame.height - self.viewShoppingCart.frame.maxY)
+        self.imagePromotion.frame = CGRect(x: self.viewContent.frame.width - 341, y: self.viewHerader.frame.maxY, width: 341, height: 434)
+        self.totalsView.frame = CGRect(x: self.viewContent.frame.width - 341, y: self.imagePromotion.frame.maxY, width: 341, height: 168)
         
-        self.viewSeparator.frame = CGRectMake(0,self.viewShoppingCart.frame.maxY,self.viewShoppingCart.frame.width,AppDelegate.separatorHeigth())
+        self.viewSeparator.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewShoppingCart.frame.width,height: AppDelegate.separatorHeigth())
         
         var x : CGFloat = 16
         var wShop : CGFloat =  341 - 82
         if UserCurrentSession.sharedInstance().userSigned != nil {
             if UserCurrentSession.sharedInstance().isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRectMake(16, 16, 34, 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRectMake(16, 16, 40, 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 40, height: 40)
                 }
                 x = buttonAsociate.frame.maxX + 16
                 wShop = 341 - 135
             }
         }
         
-        self.buttonWishlist.frame = CGRectMake(x,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
+        self.buttonWishlist.frame = CGRect(x: x,y: self.buttonWishlist.frame.minY,width: 40,height: self.buttonWishlist.frame.height)
         
-        self.buttonShop.frame = CGRectMake( buttonWishlist.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
+        self.buttonShop.frame = CGRect( x: buttonWishlist.frame.maxX + 16, y: self.buttonShop.frame.minY, width: wShop , height: self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
         
-        self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
-        self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
-        self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
+        self.titleView.frame = CGRect(x: 16, y: self.viewHerader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHerader.bounds.height)
+        self.editButton.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
+        self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height)
         if self.customlabel != nil {
             self.customlabel.frame = self.buttonShop.bounds
         }
         if self.deleteall != nil {
-            self.deleteall.frame = CGRectMake(editButton.frame.minX - 82, 12, 75, 22)
+            self.deleteall.frame = CGRect(x: editButton.frame.minX - 82, y: 12, width: 75, height: 22)
         }
         if UserCurrentSession.sharedInstance().userSigned != nil {
             if UserCurrentSession.sharedInstance().isAssociated == 1{
@@ -140,12 +164,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
         }
         if self.itemsInShoppingCart.count == 0 {
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
 
         
         if self.itemsInShoppingCart.count == 0 {
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
         
         if  self.itemsInShoppingCart.count > 0 {
@@ -153,9 +177,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
             self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
         }else{
-            self.subtotal = NSNumber(int: 0)
-            self.ivaprod = NSNumber(int: 0)
-            self.totalest = NSNumber(int: 0)
+            self.subtotal = NSNumber(value: 0 as Int32)
+            self.ivaprod = NSNumber(value: 0 as Int32)
+            self.totalest = NSNumber(value: 0 as Int32)
         }
         
         
@@ -182,39 +206,39 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemsInShoppingCart.count
     }
     
     func openShoppingCart(){
         if self.viewContent != nil {
             let originalY : CGFloat = self.navigationController!.view.frame.minY
-            self.navigationController!.view.frame = CGRectMake(self.navigationController!.view.frame.minX,-self.navigationController!.view.frame.height , self.navigationController!.view.frame.width,  self.navigationController!.view.frame.height)
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.navigationController!.view.frame = CGRectMake(self.navigationController!.view.frame.minX,originalY , self.navigationController!.view.frame.width,  self.navigationController!.view.frame.height)
-                }) { (completed:Bool) -> Void in
-            }
+            self.navigationController!.view.frame = CGRect(x: self.navigationController!.view.frame.minX,y: -self.navigationController!.view.frame.height , width: self.navigationController!.view.frame.width,  height: self.navigationController!.view.frame.height)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.navigationController!.view.frame = CGRect(x: self.navigationController!.view.frame.minX,y: originalY , width: self.navigationController!.view.frame.width,  height: self.navigationController!.view.frame.height)
+                }, completion: { (completed:Bool) -> Void in
+            }) 
             loadShoppingCartService()
             self.updateTotalItemsRow()
         }
     }
     
-    override func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+    override func deleteRowAtIndexPath(_ indexPath : IndexPath){
+        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:Any]
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
         }
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
-            self.itemsInShoppingCart.removeAtIndex(indexPath.row)
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
+            self.itemsInShoppingCart.remove(at: indexPath.row)
             
             if self.itemsInShoppingCart.count > 0 {
                 self.viewShoppingCart.reloadData()
                 self.updateTotalItemsRow()
             } else {
                  self.onClose?(isClose: true)
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
             
             }, errorBlock: { (error:NSError) -> Void in
@@ -225,11 +249,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
 
     override func showloginshop() {
         self.canceledAction = false
-        self.buttonShop.enabled = false
+        self.buttonShop.isEnabled = false
         self.buttonShop.alpha = 0.7
         //let storyboard = self.loadStoryboardDefinition()
         let addressService = AddressByUserService()
-        self.buttonShop.enabled = true
+        self.buttonShop.isEnabled = true
         self.buttonShop.alpha = 1.0
         let cont = IPALoginController.showLogin()
         var user = ""
@@ -243,23 +267,23 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
         
         if UserCurrentSession.hasLoggedUser() {
-            cont!.noAccount?.hidden = true
-            cont!.registryButton?.hidden = true
+            cont!.noAccount?.isHidden = true
+            cont!.registryButton?.isHidden = true
             cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
             cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email!.enabled = false
+            cont!.email!.isEnabled = false
             user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
         cont!.isMGLogin =  true
         cont!.successCallBack = {() in
             if UserCurrentSession.hasLoggedUser() {
-                if user !=  UserCurrentSession.sharedInstance().userSigned!.email {
-                     NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
+                if user !=  UserCurrentSession.sharedInstance().userSigned!.email as String {
+                     NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
                     self.reloadShoppingCart()
                 }
             }
            
-            addressService.callService({ (resultCall:NSDictionary) -> Void in
+            addressService.callService({ (resultCall:[String:Any]) -> Void in
                 if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
                 {
                     if shippingAddress.count > 0 {
@@ -286,7 +310,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     cont!.closeAlert(false, messageSucesss: true)
                 }
                 }, errorBlock: { (error:NSError) -> Void in
-                    self.buttonShop.enabled = true
+                    self.buttonShop.isEnabled = true
                     self.buttonShop.alpha = 1.0
                     cont!.showAddres()
                     cont!.addressViewController.successCallBack = {() in
@@ -313,7 +337,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
-                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
+                        arrayUPCS.sort(by: { (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
@@ -344,10 +368,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems()
+            controller.itemsToShow = getUPCItems() as [AnyObject]
             controller.ixSelected = indexPath.row
             controller.detailOf = "Shopping Cart"
             //self.navigationController!.delegate = nil
@@ -370,23 +394,23 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         return upcItems
     }
     
-    func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
-        let environmentServices = services.objectForKey(environment) as! NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
+    func serviceUrl(_ serviceName:String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMURLServices") as! [String:Any]
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     
-    override func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell) {
+    override func userShouldChangeQuantity(_ cell:ProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
-            let frameDetail = CGRectMake(0, 0, 320, 568)
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+            let frameDetail = CGRect(x: 0, y: 0, width: 320, height: 568)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),upcProduct:cell.upc as String)
             let text = String(cell.quantity).characters.count < 2 ? "0" : ""
             self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
             self.selectQuantity!.updateQuantityBtn()
             selectQuantity!.closeAction = { () in
-                self.popup!.dismissPopoverAnimated(true)
+                self.popup!.dismiss(animated: true)
             }
             selectQuantity!.addToCartAction = { (quantity:String) in
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
@@ -395,9 +419,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     updateService.isInCart = true
                     updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: nil,errorBlock: nil)
                     self.reloadShoppingCart()
-                    self.popup!.dismissPopoverAnimated(false)
+                    self.popup!.dismiss(animated: false)
                 } else {
-                     self.popup!.dismissPopoverAnimated(false)
+                     self.popup!.dismiss(animated: false)
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                     let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
@@ -411,17 +435,17 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             viewController.view = selectQuantity
             viewController.view.frame = frameDetail
             popup = UIPopoverController(contentViewController: viewController)
-            popup!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
+            popup!.setContentSize(CGSize(width: 320,height: 394), animated: true)
             popup!.backgroundColor = WMColor.light_blue
-            popup!.presentPopoverFromRect(cell.priceSelector.bounds, inView: cell.priceSelector, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+            popup!.present(from: cell.priceSelector.bounds, in: cell.priceSelector, permittedArrowDirections: UIPopoverArrowDirection.right, animated: true)
         }
     }
 
     
     //On Close
     override func closeShoppingCart() {
-        onClose?(isClose:false)
-        self.navigationController?.popViewControllerAnimated(true)
+        onClose?(false)
+        self.navigationController?.popViewController(animated: true)
     }
     
     
@@ -435,13 +459,13 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.backgroundColor = UIColor.white
             viewLoad.startAnnimating(false)
             self.view.addSubview(viewLoad)
         }
 
         BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsInShoppingCart , isAdd: false)
-        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
+        serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:[String:Any]) -> Void in
             print("Error not done")
             
             if self.viewLoad != nil {
@@ -450,7 +474,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             }
             
             self.onClose?(isClose:true)
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
             //self.navigationController!.popToRootViewControllerAnimated(true)
             }) { (error:NSError) -> Void in
                 print("error al eliminar todos los productos del carrito: ")
@@ -465,7 +489,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
    
    //alerta
-    override func associateDiscount (message: String ){
+    override func associateDiscount (_ message: String ){
         super.associateDiscount(message)
-        self.imageView?.frame = CGRectMake((self.view.frame.width/2) + 178, viewFooter.frame.minY - 28, self.viewFooter.frame.minY - 100, 38)  }
+        self.imageView?.frame = CGRect(x: (self.view.frame.width/2) + 178, y: viewFooter.frame.minY - 28, width: self.viewFooter.frame.minY - 100, height: 38)  }
 }

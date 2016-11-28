@@ -11,13 +11,13 @@ import Foundation
 
 class SearchItemsByUPCService : BaseService {
     
-    func buildParams(upcs:[String]) -> [String:AnyObject] {
+    func buildParams(_ upcs:[String]) -> [String:Any] {
         return ["upc":upcs]
     }
     
-    func callService(upcs:[String],successJSONBlock:((JSON) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ upcs:[String],successJSONBlock:((JSON) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.jsonFromObject(buildParams(upcs))
-        callPOSTService(buildParams(upcs), successBlock: { (result:NSDictionary) -> Void in
+        callPOSTService(buildParams(upcs), successBlock: { (result:[String:Any]) -> Void in
             
             
             var newItemsArray = Array<AnyObject>()
@@ -25,7 +25,7 @@ class SearchItemsByUPCService : BaseService {
                 //println(items)
                 self.saveKeywords(items) //Creating keywords
                 for idx in 0 ..< items.count {
-                    var item = items[idx] as! [String:AnyObject]
+                    var item = items[idx] as! [String:Any]
                     item["type"] = ResultObjectType.Mg.rawValue
                     newItemsArray.append(item)
                 }

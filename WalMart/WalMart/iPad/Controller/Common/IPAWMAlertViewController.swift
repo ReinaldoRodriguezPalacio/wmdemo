@@ -29,32 +29,32 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         titleLabel!.sizeToFit()
         
         if  self.isOtherFame {
-            spinImage.frame = CGRectMake((bounds.width - 84)  / 2, (bounds.height - 84 - 200)  / 2, 84, 84)
-            viewBgImage.frame = CGRectMake((bounds.width - 80)  / 2 , 192, 80, 80)
+            spinImage.frame = CGRect(x: (bounds.width - 84)  / 2, y: (bounds.height - 84 - 200)  / 2, width: 84, height: 84)
+            viewBgImage.frame = CGRect(x: (bounds.width - 80)  / 2 , y: 192, width: 80, height: 80)
             
             if imageIcon != nil && imageIcon.image != nil {
-                imageIcon.frame = CGRectMake( 0,0,imageIcon.image!.size.width,imageIcon.image!.size.height)
-                imageIcon.center = CGPointMake(viewBgImage.frame.width / 2, viewBgImage.frame.width / 2)
+                imageIcon.frame = CGRect( x: 0,y: 0,width: imageIcon.image!.size.width,height: imageIcon.image!.size.height)
+                imageIcon.center = CGPoint(x: viewBgImage.frame.width / 2, y: viewBgImage.frame.width / 2)
             }
         }
 
-        titleLabel.frame = self.isOtherFame ? CGRectMake((self.view.bounds.width / 2) - (321 / 2),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) :
-            CGRectMake((bounds.width - 370) / 2,  viewBgImage.frame.maxY + 16, 370, titleLabel!.frame.height)
+        titleLabel.frame = self.isOtherFame ? CGRect(x: (self.view.bounds.width / 2) - (321 / 2),  y: viewBgImage.frame.maxY + 24, width: 321, height: titleLabel!.frame.height) :
+            CGRect(x: (bounds.width - 370) / 2,  y: viewBgImage.frame.maxY + 16, width: 370, height: titleLabel!.frame.height)
       
         if self.doneButton != nil {
-            doneButton.frame = CGRectMake((bounds.width - 160 ) / 2, titleLabel.frame.maxY + 16, 160 , 40)
+            doneButton.frame = CGRect(x: (bounds.width - 160 ) / 2, y: titleLabel.frame.maxY + 16, width: 160 , height: 40)
         }
         
         
         if leftButton != nil {
-            leftButton.frame =  self.isOtherFame ? CGRectMake((self.view.bounds.width / 2) - (288 / 2),self.titleLabel.frame.maxY + 52 + 56, 288, 32) :
-                CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32)
+            leftButton.frame =  self.isOtherFame ? CGRect(x: (self.view.bounds.width / 2) - (288 / 2),y: self.titleLabel.frame.maxY + 52 + 56, width: 288, height: 32) :
+                CGRect(x: (self.view.bounds.width / 2) - 134, y: self.titleLabel.frame.maxY + 16, width: 128, height: 32)
         }
         
         
         if rightButton != nil {
-            rightButton.frame =  self.isOtherFame ? CGRectMake((self.view.bounds.width / 2) - (288 / 2), self.titleLabel.frame.maxY + 52, 288, 32) :
-                CGRectMake(leftButton.frame.maxX + 11, self.titleLabel.frame.maxY + 16, leftButton.frame.width, leftButton.frame.height)
+            rightButton.frame =  self.isOtherFame ? CGRect(x: (self.view.bounds.width / 2) - (288 / 2), y: self.titleLabel.frame.maxY + 52, width: 288, height: 32) :
+                CGRect(x: leftButton.frame.maxX + 11, y: self.titleLabel.frame.maxY + 16, width: leftButton.frame.width, height: leftButton.frame.height)
         }
         
         
@@ -67,8 +67,8 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
     
     }
     
-    override class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPAWMAlertViewController? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+    override class func showAlert(_ imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPAWMAlertViewController? {
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         //var frame = vc!.view.bounds
         if vc != nil {
             vc?.view.endEditing(true)
@@ -77,7 +77,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         return nil
     }
 
-    override class func showAlert(controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPAWMAlertViewController? {
+    override class func showAlert(_ controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPAWMAlertViewController? {
         let newAlert = IPAWMAlertViewController()
         newAlert.imageWaiting = imageWaiting
         newAlert.imageDone = imageDone
@@ -85,30 +85,30 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         controller.addChildViewController(newAlert)
         newAlert.view.frame = controller.view.bounds
         controller.view.addSubview(newAlert.view)
-        newAlert.didMoveToParentViewController(controller)
+        newAlert.didMove(toParentViewController: controller)
         return newAlert
     }
     
-    class func showAlertWithCancelButton(controller:UIViewController,delegate:IPAWMAlertViewControllerDelegate,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPAWMAlertViewController? {
+    class func showAlertWithCancelButton(_ controller:UIViewController,delegate:IPAWMAlertViewControllerDelegate,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPAWMAlertViewController? {
        let newAlert = showAlert(controller, imageWaiting: imageWaiting, imageDone: imageDone, imageError: imageError)
         newAlert?.delegate = delegate
         newAlert!.showCancelButton("Cancelar", colorButton:WMColor.dark_blue)
         return newAlert
     }
     
-     func showCancelButton(titleDone:String, colorButton: UIColor) {
+     func showCancelButton(_ titleDone:String, colorButton: UIColor) {
         if  self.doneButton != nil{
             self.doneButton.removeFromSuperview()
         }
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle(titleDone, forState: UIControlState.Normal)
-        self.cancelButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.cancelButton!.setTitle(titleDone, for: UIControlState())
+        self.cancelButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         
         self.cancelButton!.backgroundColor = colorButton
         
-        self.cancelButton!.addTarget(self, action: #selector(IPAWMAlertViewController.cancelBtn), forControlEvents: .TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(IPAWMAlertViewController.cancelBtn), for: .touchUpInside)
         self.cancelButton!.layer.cornerRadius = 20
         
         var bounds = self.view.bounds
@@ -116,7 +116,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
             bounds = self.view.superview!.bounds
         }
         
-        self.cancelButton!.frame = CGRectMake((bounds.width - 128 ) / 2, (bounds.height / 2) + 25, 128 , 40)
+        self.cancelButton!.frame = CGRect(x: (bounds.width - 128 ) / 2, y: (bounds.height / 2) + 25, width: 128 , height: 40)
         self.view.addSubview(cancelButton!)
     }
     
