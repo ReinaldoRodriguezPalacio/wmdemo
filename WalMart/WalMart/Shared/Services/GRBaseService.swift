@@ -47,33 +47,18 @@ class GRBaseService : BaseService {
             AFStatic.managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
             AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
             //session --
-            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
-            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
-            print("GR NSHTTPCookieStorage:::::")
-            for key in headers.keys {
-                let strKey = key as NSString
-                let strVal = headers[key]! as NSString
-                print("strVal : \(strVal)"  )
-                //AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
-            }
+            print("URL:: \(self.serviceUrl())")
+            print("sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
             
         } else{
-            let urlRequest = self.serviceUrl()
             //session --
-            let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: urlRequest)!)
-            let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
-            print("GR NSHTTPCookieStorageSession::::: .URL \(urlRequest)")
-            if urlRequest.contains("getItemByUpc") {//TODO Change value
-                for key in headers.keys {
-                    let strKey = key as NSString
-                    let strVal = headers[key]! as NSString
-                    print("strVal- Session : \(strVal) - strKey \(strKey )")
-                    
-                    //AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
-                }
-            }
-            
+            print("URL:: \(self.serviceUrl())")
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+            print("sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
         }
         return AFStatic.managerGR
     }
