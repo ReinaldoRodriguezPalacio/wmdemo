@@ -434,7 +434,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             buttonShop!.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(total as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }

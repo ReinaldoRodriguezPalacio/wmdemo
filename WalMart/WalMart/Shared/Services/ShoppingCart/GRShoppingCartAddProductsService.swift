@@ -68,28 +68,28 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return ["strArrImp":products]
     }
     
-    func buildProductObject(upc:String, quantity:String, comments:String) -> AnyObject {
+    func buildProductObject(upc:String, quantity:String, comments:String) -> Any {
         return ["quantity":quantity,"upc":upc,"comments":comments]
     }
     
-    func buildProductObject(_ upcsParams:[AnyObject]) -> AnyObject {
+    func buildProductObject(_ upcsParams:[Any]) -> Any {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]
             
         }
-        return upcsParams as AnyObject
+        return upcsParams as Any
     }
     
     
     
     
-    func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.jsonFromObject(params)
+    func callService(requestParams params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.jsonFromObject(params as AnyObject!)
         if UserCurrentSession.hasLoggedUser() {
-            var itemsSvc : [AnyObject] = []
+            var itemsSvc : [Any] = []
             var upcSend = ""
-            for itemSvc in params as! NSArray {
+            for itemSvc in params as! [[String:Any]] {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
@@ -104,11 +104,11 @@ class GRShoppingCartAddProductsService : GRBaseService {
             if !hasUPC {
               
                 
-                var send  : AnyObject?
+                var send  : Any?
                 if useSignals  && self.parameterSend != nil{
                 send = buildProductObject(itemsSvc)
                 }else{
-                    send = itemsSvc as AnyObject?
+                    send = itemsSvc as Any?
                 }
                 //self.jsonFromObject(send!)
                 self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
@@ -146,13 +146,13 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
     
     
-    func callCoreDataService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         //BaseController.sendAnalyticsAddOrRemovetoCart(params as! NSArray, isAdd: true)
         
-        for product in params as! NSArray {
+        for product in params as! [[String:Any]] {
             
             var cartProduct : Cart
             var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! NSString)
@@ -173,17 +173,17 @@ class GRShoppingCartAddProductsService : GRBaseService {
             print("Product in shopping cart: \(product)")
 
             var pesable : NSString = "0"
-            if let pesableP = product["pesable"] as? String {
+            if let pesableP = product["pesable"] as? NSString {
                 pesable = pesableP
             }
             cartProduct.product.upc = product["upc"] as! String
-            cartProduct.product.price = product["price"] as! String
+            cartProduct.product.price = product["price"] as! NSString
             cartProduct.product.desc = product["desc"] as! String
             cartProduct.product.img = product["imageURL"] as! String
             cartProduct.product.onHandInventory = product["onHandInventory"] as! String
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
-            cartProduct.product.type = NSNumber(pesable.integerValue)
+            cartProduct.product.type = NSNumber(value: pesable.integerValue)
             cartProduct.status = NSNumber(value: statusForProduct() as Int)
             cartProduct.type = ResultObjectType.Groceries.rawValue
             

@@ -18,7 +18,7 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
         return false
     }
     
-    func callService(_ params: AnyObject,updateSC:Bool, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    func callService(_ params: Any,updateSC:Bool, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:Any]] = []
             var upcSend = ""

@@ -216,32 +216,32 @@ class ReminderNotificationService {
      - returns: Bool
      */
     static func isEnableLocalNotificationForApp() -> Bool {
-        if(UIApplication.instancesRespond(to: #selector(getter: UIApplication.currentUserNotificationSettings)))
-        {
-            if #available(iOS 8.0, *) {
+        if #available(iOS 8.0, *) {
+            if(UIApplication.instancesRespond(to: #selector(getter: UIApplication.currentUserNotificationSettings)))
+            {
                 let settings = UIApplication.shared.currentUserNotificationSettings
-                
+                    
                 if settings == nil || settings!.types == UIUserNotificationType() {
                     //AlertController.presentViewController(NSLocalizedString("list.reminder.notification.validation",comment:""),
                     //    icon: nil,
-                      //  titleButton: NSLocalizedString("list.reminder.notification.settings", comment:""),
-                        //action: {() in
-                          //  if #available(iOS 8.0, *) {
-                            //    UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
-                            //} else {
-                                // Fallback on earlier versions
-                            //};
-                            //return
+                    //  titleButton: NSLocalizedString("list.reminder.notification.settings", comment:""),
+                    //action: {() in
+                    //  if #available(iOS 8.0, *) {
+                    //    UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
+                    //} else {
+                    // Fallback on earlier versions
+                    //};
+                    //return
                     //})
-                    
+                        
                     return false
                 }
+                    
                 
-            } else {
-                // Fallback on earlier versions
-                return false
             }
-            
+        } else {
+            // Fallback on earlier versions
+             return false
         }
         //do iOS 7 stuff, which is pretty much nothing for local notifications.
         return true

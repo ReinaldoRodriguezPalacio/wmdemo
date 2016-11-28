@@ -13,7 +13,7 @@ class AddItemWishlistService : BaseService {
     
     var mustUpdateWishList : Bool = true
     
-    func buildParams(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category: String) -> NSArray {
+    func buildParams(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category: String) -> [[String:Any]] {
         return [["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":isPreorderable,"onHandInventory":onHandInventory,"category":category]]
     }
     
@@ -33,12 +33,12 @@ class AddItemWishlistService : BaseService {
     }
 
     
-    func callService(_ params:NSArray, mustUpdateWishList:Bool, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[[String:Any]], mustUpdateWishList:Bool, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         WishlistService.shouldupdate = true
         if UserCurrentSession.hasLoggedUser() {
             //Se actualza la lista del usuario
             var itemsSvc : [[String:Any]] = []
-            for itemSvc in params as NSArray {
+            for itemSvc in params {
                 let upc = itemSvc["upc"] as! String
                 let quantity = itemSvc["quantity"] as! String
                 itemsSvc.append(self.builParamSvc(upc,quantity:quantity,comments:""))
@@ -62,12 +62,12 @@ class AddItemWishlistService : BaseService {
         }
     }
     
-    func callCoreDataService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         WishlistService.shouldupdate = true
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        for product in params as! NSArray {
+        for product in params as! [[String:Any]] {
             //Se actualza la lista del usuario
             
             let serviceWish = UserWishlistService()
@@ -90,7 +90,7 @@ class AddItemWishlistService : BaseService {
             }
 
             wishlistProduct.product.upc = product["upc"] as! String
-            wishlistProduct.product.price = product["price"] as! String
+            wishlistProduct.product.price = product["price"] as! NSString
             wishlistProduct.product.desc = product["desc"] as! String
             wishlistProduct.product.img = product["imageURL"] as! String
             

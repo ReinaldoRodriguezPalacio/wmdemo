@@ -166,14 +166,14 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         let cell: SelectorBandCell? = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? SelectorBandCell
         cell!.normalFont = self.selectorNormalFont
         cell!.selectedFont = self.selectorSelectedFont
-        cell!.setText("\(indexPath.item + 1)", selected: self.selectedOption == (indexPath.item + 1))
+        cell!.setText("\(indexPath.item + 1)" as NSString, selected: self.selectedOption == (indexPath.item + 1))
         return cell!
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if let cell = collectionView.cellForItem(at: indexPath) as? SelectorBandCell {
-            cell.setText("\(indexPath.item + 1)", selected: true)
+            cell.setText("\(indexPath.item + 1)" as NSString, selected: true)
         }
         
         let option = indexPath.item + 1
@@ -194,7 +194,7 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? SelectorBandCell {
-            cell.setText("\(indexPath.item + 1)", selected: false)
+            cell.setText("\(indexPath.item + 1)" as NSString, selected: false)
         }
     }
 

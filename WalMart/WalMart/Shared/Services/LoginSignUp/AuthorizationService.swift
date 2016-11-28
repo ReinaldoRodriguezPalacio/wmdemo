@@ -12,7 +12,7 @@ import Foundation
 class AuthorizationService : GRBaseService {
     
     
-    override func callGETService(_ params: AnyObject, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    override func callGETService(_ params: Any, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         super.callGETService(params, successBlock: { (response:[String:Any]) in
             print("ok Response Service")
             successBlock!(response)

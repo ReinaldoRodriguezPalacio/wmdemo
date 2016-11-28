@@ -15,8 +15,8 @@ class GRTimeBands: GRBaseService {
         return ["date":date,"addressId":addressId,"channelType":"20"]
     }
     
-    func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-          self.jsonFromObject(params)
+    func callService(requestParams params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+          self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
            
             successBlock!(resultCall)

@@ -20,7 +20,7 @@ class LoginService : BaseService {
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
-                if codeMessage.integerValue == 0 {
+                if codeMessage.intValue == 0 {
                     let resultCallMG = resultCall
 
                     let grLoginService = GRLoginService()

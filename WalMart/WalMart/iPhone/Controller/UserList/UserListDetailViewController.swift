@@ -208,7 +208,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             var position = 0
             var positionArray: [Int] = []
-            var productsArray: [[String: AnyObject]] = []
+            var productsArray: [[String: Any]] = []
             var params: [String:Any] = [:]
             
             for product in self.products! {

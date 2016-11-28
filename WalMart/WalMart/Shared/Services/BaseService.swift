@@ -189,7 +189,7 @@ class BaseService : NSObject {
     }
 
     
-    func callPOSTService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) -> URLSessionDataTask {
+    func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) -> URLSessionDataTask {
         let afManager = getManager()
         let url = serviceUrl()
    
@@ -197,7 +197,7 @@ class BaseService : NSObject {
             //session --
             //TODO Loginbyemail
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
-            let headers : [String:Any] = response.allHeaderFields
+            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             
             print(headers["Content-Type"] as! NSString)
@@ -225,22 +225,22 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: {(request:URLSessionDataTask?, error:NSError) in
+            }, failure: {(request:URLSessionDataTask?, error:Error) in
                 //TAG Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
-                if error.code == -1005 {
+                if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                if error.code == -1001 || error.code == -1003 || error.code == -1009 {
+                if (error as NSError).code == -1001 || (error as NSError).code == -1003 || (error as NSError).code == -1009 {
                     let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
                     errorBlock!(newError)
                     return
                 }
                 
                 print("Response Error : \(error) \n Response \(request!.response)")
-                errorBlock!(error)
+                errorBlock!((error as NSError))
         })
         
  
@@ -248,21 +248,21 @@ class BaseService : NSObject {
        return task!
     }
     
-    func callGETService(_ params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callGETService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callGETService(serviceUrl(),params:params,successBlock:successBlock, errorBlock:errorBlock)
     }
     
-    func callGETService(_ serviceURL:String,params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callGETService(_ serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         callGETService(afManager,serviceURL:serviceURL,params:params,successBlock:successBlock, errorBlock:errorBlock)
     }
     
-    func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:AnyObject?) in
+    func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             
             //session --
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
-            let headers : [String:Any] = response.allHeaderFields
+            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
            
@@ -296,18 +296,18 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: {(request:URLSessionDataTask?, error:NSError) in
+            }, failure: {(request:URLSessionDataTask?, error:Error) in
                 
-                if error.code == -1005 {
+                if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
                     BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
                     self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                print("Response Error : \(error)")
+                print("Response Error : \((error as NSError))")
                 //Tag Manager
                 BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
-                errorBlock!(error)
+                errorBlock!((error as NSError))
         })
     }
     
@@ -387,7 +387,7 @@ class BaseService : NSObject {
     func saveKeywords(_ items:NSArray) {
         //Creating keywords
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 for idx in 0 ..< items.count {
                     if let item = items[idx] as? [String:Any] {
                         if let desc = item[JSON_KEY_DESCRIPTION] as? String {
@@ -409,7 +409,7 @@ class BaseService : NSObject {
                             }
 
                             let select = WalMartSqliteDB.instance.buildFindProductKeywordQuery(description: description, price: price!)
-                            if let rs = db.executeQuery(select, withArgumentsIn:nil) {
+                            if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
                                 var exist = false
                                 while rs.next() {
                                     exist = true
@@ -423,7 +423,7 @@ class BaseService : NSObject {
                             }
                             
                             let query = WalMartSqliteDB.instance.buildInsertProductKeywordQuery(forUpc: upc!, andDescription: description, andPrice:price!)
-                            db.executeUpdate(query, withArgumentsIn: nil)
+                            db?.executeUpdate(query, withArgumentsIn: nil)
                         }
                     }
                 }
@@ -456,7 +456,7 @@ class BaseService : NSObject {
 
     func loadKeyFieldCategories( _ items:AnyObject!, type:String ) {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in items as! [AnyObject] {
                     let name = item["description"] as! String
@@ -471,7 +471,7 @@ class BaseService : NSObject {
                             let idLine =  itemLine["id"] as! String
                             let nameLine =  itemLine["name"] as! String
                             let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)
-                            if let rs = db.executeQuery(select, withArgumentsIn:nil) {
+                            if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
                                 var exist = false
                                 while rs.next() {
                                     exist = true
@@ -485,7 +485,7 @@ class BaseService : NSObject {
                             }
                             
                             let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:type, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
-                            db.executeUpdate(query, withArgumentsIn: nil)
+                            db?.executeUpdate(query, withArgumentsIn: nil)
                             
                             
                         }
@@ -507,9 +507,9 @@ class BaseService : NSObject {
             let imgData = params["image_request[image]"] as! Data
             let localeStr = params["image_request[locale]"] as! String
             let langStr = params["image_request[language]"] as! String
-            formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
-            formData.appendPartWithFormData(localeStr.dataUsingEncoding(String.Encoding.utf8)!, name:"image_request[locale]")
-            formData.appendPartWithFormData(langStr.dataUsingEncoding(String.Encoding.utf8)!, name:"image_request[language]")
+            formData.appendPart(withFileData: imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
+            formData.appendPart(withForm: localeStr.data(using: String.Encoding.utf8)!, name:"image_request[locale]")
+            formData.appendPart(withForm: langStr.data(using: String.Encoding.utf8)!, name:"image_request[language]")
             }, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
                 let resultJSON = json as! [String:Any]
                 if let errorResult = self.validateCodeMessage(resultJSON) {
@@ -525,7 +525,7 @@ class BaseService : NSObject {
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance().userSigned = nil
-                                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                             })
                         }
                         return
@@ -536,16 +536,16 @@ class BaseService : NSObject {
                 }
                 
                 successBlock!(resultJSON)
-            }, failure: {(request:URLSessionDataTask?, error:NSError) in
+            }, failure: {(request:URLSessionDataTask?, error:Error) in
                 //TAG manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
-                if error.code == -1005 {
+                if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 print("Response Error : \(error) \n Response \(request!.response)")
-                errorBlock!(error)
+                errorBlock!((error as NSError))
         })
     }
 

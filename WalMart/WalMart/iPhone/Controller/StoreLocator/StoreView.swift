@@ -53,7 +53,7 @@ class StoreView: UIView {
         self.distanceFmt = NumberFormatter()
         self.distanceFmt!.maximumFractionDigits = 2
         self.distanceFmt!.minimumFractionDigits = 2
-        self.distanceFmt!.locale = Locale.system
+        self.distanceFmt!.locale = nil
 
         let width:CGFloat = self.frame.width - (2*sep)
         

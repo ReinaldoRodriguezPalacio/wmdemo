@@ -16,7 +16,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
     var collection: UICollectionView!
     var delegate: ProductDetailCrossSellViewDelegate!
     var upc: String = ""
-    var itemsUPC: NSArray = [] {
+    var itemsUPC: [[String:Any]] = [] {
         didSet {
             collection.reloadData()
         }

@@ -56,11 +56,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var price : NSString = ""
     var listPrice : NSString = ""
     var comments : NSString = ""
-    var imageUrl : [AnyObject] = []
-    var characteristics : [AnyObject] = []
-    var bundleItems : [AnyObject] = []
-    var colorItems : [AnyObject] = []
-    var sizesItems : [AnyObject] = []
+    var imageUrl : [Any] = []
+    var characteristics : [Any] = []
+    var bundleItems : [Any] = []
+    var colorItems : [Any] = []
+    var sizesItems : [Any] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var viewDetail : ProductDetailTextDetailView!

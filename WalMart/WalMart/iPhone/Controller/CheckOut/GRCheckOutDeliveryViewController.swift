@@ -50,10 +50,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var shipmentType: FormFieldView?
     var deliveryDate: FormFieldView?
     var timeSlotsTable: UITableView?
-    var addressItems: [AnyObject]?
-    var shipmentItems: [AnyObject]?
-    var slotsItems: [AnyObject]? = []
-    var datesItems: [AnyObject]?
+    var addressItems: [[String:Any]]?
+    var shipmentItems: [[String:Any]]?
+    var slotsItems: [[String:Any]]? = []
+    var datesItems: [[String:Any]]?
     var datesToShow: [String]?
     var dateFmt: DateFormatter?
     var addressDesccription: String? = nil
@@ -375,7 +375,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             }
             
             let dateItem = ["dateString":stringDate,"date":newDate] as [String : Any]
-            self.datesItems!.append(dateItem as AnyObject)
+            self.datesItems!.append(dateItem)
             self.datesToShow!.append(stringDate)
         }
     }
@@ -386,7 +386,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      
      - returns: [String:Any]
      */
-    func returnAviableDate(_ date:Date) -> [String: AnyObject]{
+    func returnAviableDate(_ date:Date) -> [String: Any]{
         var aviableDate = self.datesItems!.last!
         var row = 0
         for item in self.datesItems! {
@@ -407,7 +407,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             row += 1
         }
         self.selectedDateTypeIx = IndexPath(row: row, section: 0)
-        return aviableDate as! [String : AnyObject]
+        return aviableDate
     }
     /**
      Converts an hour string in another format
@@ -419,7 +419,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func getHourToShow(_ hour:String) -> String{
         var cellText = hour
         let firstRange = cellText.range(of: "(")
-        cellText = cellText.substring(from: <#T##String.CharacterView corresponding to your index##String.CharacterView#>.index(firstRange!.lowerBound, offsetBy: 1))
+        cellText = cellText.substring(from: firstRange)
         cellText = cellText.replacingOccurrences(of: ")", with: "", options: NSString.CompareOptions.literal, range: nil)
         cellText = cellText.replacingOccurrences(of: "-", with: "y", options: NSString.CompareOptions.literal, range: nil)
         return "Entre \(cellText)"
@@ -447,13 +447,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let dateMonth = components.month
         let dateYear = components.year
         let dateDay = components.day
-        let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! [String:Any]
+        let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  
         let slotSelectedId = slotSel["id"] as! Int
         let slotHour = slotSel["displayText"] as! String
-        let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! [String:Any]
+        let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] 
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
-        self.paramsToOrder = ["month":dateMonth, "year":dateYear, "day":dateDay, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
+        self.paramsToOrder = ["month":dateMonth!, "year":dateYear!, "day":dateDay!, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
         self.paramsToConfirm = ["address":self.addressDesccription!.capitalized,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"shipmentAmount":"\(self.shipmentAmount)","pickingInstruction":""]
         nextController.paramsToOrder = self.paramsToOrder
         nextController.paramsToConfirm = self.paramsToConfirm
@@ -461,7 +461,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
  
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         if let scroll = sender as? TPKeyboardAvoidingScrollView {
             if scrollForm != nil {
                 if scroll == scrollForm {
@@ -483,7 +483,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.addViewLoad()
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
-                var option = self.addressItems![indexPath.row] as! [String:Any]
+                var option = self.addressItems![indexPath.row] 
                 if let addressId = option["id"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
@@ -497,7 +497,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
-                let shipment: AnyObject = self.shipmentItems![indexPath.row]
+                let shipment = self.shipmentItems![indexPath.row]
                 self.shipmentAmount = shipment["cost"] as! Double
             }
             if formFieldObj ==  self.deliveryDate! {
@@ -561,7 +561,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.sAddredssForm.street.text = result["street"] as! String!
                 let neighborhoodID = result["neighborhoodID"] as! String!
                 let storeID = result["storeID"] as! String!
-                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID!)
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
                 self.sAddredssForm.idAddress = result["addressID"] as! String!
                 }) { (error:NSError) -> Void in
             }
@@ -643,8 +643,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let service = GRAddressByUserService()
         service.callService(
             { (result:[String:Any]) -> Void in
-                if let items = result["responseArray"] as? NSArray {
-                    self.addressItems = items as [AnyObject]
+                if let items = result["responseArray"] as? [[String:Any]] {
+                    self.addressItems = items
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
@@ -733,7 +733,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         //Validar self.selectedAddress != nil
         if self.selectedAddress != nil {
             service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"false")
-            service.callService(requestParams: [:],
+            let empty: [String:Any] = [:]
+            service.callService(requestParams: empty as AnyObject,
                 successBlock: { (result:[String:Any]) -> Void in
                     self.shipmentItems = []
                     if let fixedDelivery = result["fixedDelivery"] as? String {
@@ -825,11 +826,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     let dateSlot = "\(day)/\(month)/\(year)"
                     let aviableDate = self.returnAviableDate(self.parseDateString(dateSlot))
                     self.deliveryDate!.text = aviableDate["dateString"] as? String
-                    self.selectedDate = aviableDate["date"] as! NSDate
+                    self.selectedDate = aviableDate["date"] as! Date
                 }
             }
         }
-        self.slotsItems = result["slots"] as! NSArray as [AnyObject]
+            self.slotsItems = result["slots"] as! [[String:Any]]
         //--self.addViewLoad()
         endCallTypeService()
         }) { (error:NSError) -> Void in
@@ -837,7 +838,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.slotsItems = []
             let aviableDate = self.returnAviableDate(self.parseDateString(date))
             self.deliveryDate!.text = aviableDate["dateString"] as? String
-            self.selectedDate = aviableDate["date"] as! NSDate
+            self.selectedDate = aviableDate["date"] as! Date
             endCallTypeService()
         }
     }

@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: NSError?) in
             if (error != nil) {
-                print("Received error while fetching deferred app link %@", error);
+                print("Received error while fetching deferred app link %@", error!);
             }
             if (url != nil) {
                 UIApplication.shared.openURL(url!)
@@ -76,9 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
 
         //Set url image cache to application
         let sharedCache  = URLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
-        URLCache.setSharedURLCache(sharedCache)
+        URLCache.shared = sharedCache
         
-     
         let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray!
         let docPath = paths?[0] as! String
         let todeletecloud =  URL(fileURLWithPath: docPath)
@@ -144,9 +143,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //PayPal
         let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! [String:Any]
-        let sandboxClientID = payPalEnvironment.objectForKey("SandboxClientID") as! String
-        let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
-        PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
+        let sandboxClientID = payPalEnvironment["SandboxClientID"] as! String
+        let productionClientID =  payPalEnvironment["ProductionClientID"] as! String
+        PayPalMobile.initializeWithClientIds(forEnvironments: [PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         
         
         //Tune.framework
@@ -332,7 +331,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
-            print(notService.jsonFromObject(params))
+            print(notService.jsonFromObject(params as AnyObject!))
         if UserCurrentSession.sharedInstance().finishConfig {
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
@@ -351,7 +350,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     }
     
     class func scaleFactor() -> CGFloat {
-        if UIScreen.main.responds(to: #selector(UIScreen.displayLink(withTarget:selector:)(_:selector:))) {
+        if UIScreen.main.responds(to: #selector(UIScreen.displayLink(withTarget:selector:))) {
             return UIScreen.main.scale
         }
         return 1.0
@@ -514,7 +513,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     
     func handleURLFacebook(_ url: URL,sourceApplication:String){
         let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
-        let stringCompare = parsedUrl?.targetURL.absoluteString as NSString
+        let stringCompare = parsedUrl!.targetURL.absoluteString as NSString
         let rangeEnd = stringCompare.range(of: "walmartmexicoapp://")
         
         if rangeEnd.location != NSNotFound {
@@ -551,9 +550,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                     
                     if components.count > 3 {
                         schoolName = components[3].components(separatedBy: "_")[1]
-                        schoolName = schoolName.replacingOccurrences(of: "-", with: " ").stringByRemovingPercentEncoding!
+                        schoolName = (schoolName.replacingOccurrences(of: "-", with: " ")as NSString).removingPercentEncoding!
                         grade = components[4].components(separatedBy: "_")[1]
-                        grade = grade.replacingOccurrences(of: "-", with: " ").stringByRemovingPercentEncoding!
+                        grade = (grade.replacingOccurrences(of: "-", with: " ")as NSString).removingPercentEncoding!
                     }
                     customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
                 }

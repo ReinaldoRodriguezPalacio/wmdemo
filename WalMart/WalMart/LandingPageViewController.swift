@@ -15,7 +15,7 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     var titleLabelEdit: UILabel? = nil
     var hiddenBack = false
     
-    var titleHeader = String?()
+    var titleHeader: String? = ""
     
     //var familyController : FamilyViewController!
     
