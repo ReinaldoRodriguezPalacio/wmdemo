@@ -160,7 +160,7 @@ class BaseService : NSObject {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    =  NSFetchRequest(entityName: entityName as NSString as String)
+        let request    =  NSFetchRequest<NSFetchRequestResult>(entityName: entityName as String)
         
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
@@ -193,7 +193,7 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
    
-        let task = afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:AnyObject?) in
+        let task = afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             //session --
             //TODO Loginbyemail
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
@@ -510,7 +510,7 @@ class BaseService : NSObject {
             formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
             formData.appendPartWithFormData(localeStr.dataUsingEncoding(String.Encoding.utf8)!, name:"image_request[locale]")
             formData.appendPartWithFormData(langStr.dataUsingEncoding(String.Encoding.utf8)!, name:"image_request[language]")
-            }, progress: nil, success: {(request:URLSessionDataTask, json:AnyObject?) in
+            }, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
                 let resultJSON = json as! [String:Any]
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     //TAG manager

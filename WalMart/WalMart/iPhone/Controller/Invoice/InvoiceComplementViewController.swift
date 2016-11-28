@@ -32,7 +32,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     var finishButton: UIButton?
     var returnButton: UIButton?
 
-    var arrayAddressFiscal: NSArray?
+    var arrayAddressFiscal: [[String:Any]]?
     var arrayAddressFiscalNames: [String]! = []
     var selectedAddress: [String:Any]?
     
@@ -299,7 +299,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressService.callService({ (resultCall:[String:Any]) -> Void in
             self.arrayAddressFiscal = []
             
-            if let fiscalAddress = resultCall["fiscalAddresses"] as? NSArray {
+            if let fiscalAddress = resultCall["fiscalAddresses"] as? [[String:Any]] {
                 self.arrayAddressFiscal = fiscalAddress
                 self.getAddressFiscalNames(fiscalAddress)
                 self.removeViewLoad()
@@ -310,7 +310,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         })
     }
     
-    func getAddressFiscalNames(_ fiscalAddresses:NSArray){
+    func getAddressFiscalNames(_ fiscalAddresses:[[String:Any]]){
         for address in fiscalAddresses{
             self.arrayAddressFiscalNames?.append(address["name"] as! String)
         }

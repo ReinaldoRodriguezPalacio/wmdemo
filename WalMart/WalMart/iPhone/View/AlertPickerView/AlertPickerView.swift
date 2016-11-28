@@ -174,7 +174,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }
     }
     
-    func setValues(_ title:NSString,values:[String]) {
+    func setValues(_ title:String,values:[String]) {
         self.titleHeader = title as String
         self.titleLabel.text = title as String
         self.itemsToShow = values

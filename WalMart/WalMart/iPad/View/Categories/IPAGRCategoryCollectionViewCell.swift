@@ -110,13 +110,13 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         })
         
         let svcUrlCar = serviceUrl("WalmartMG.GRHeaderCategoryIpad")
-        let imageBackgroundURL = "\(categoryId.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercased()).jpg"
+        let imageBackgroundURL = "\((categoryId as NSString).trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).lowercased()).jpg"
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
         imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
              self.imageBackground.image = image
-            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
+            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                 
         }
         
@@ -165,15 +165,15 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let jsonLines = JSON(products)
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 151, width, 123))
+            let product = GRProductSpecialCollectionViewCell(frame: CGRect(x:currentX, y:151, width:width, height:123))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["name"].stringValue
             product.jsonItemSelected = lineToShow
             product.setValues(imageProd,
                 productShortDescription: descProd,
                 productPrice: "")
-            product.productImage!.frame = CGRectMake(16, 0, 106, 110)
-            product.productShortDescriptionLabel!.frame = CGRectMake(16,  product.productImage!.frame.maxY + 14 , product.frame.width - 32, 33)
+            product.productImage!.frame = CGRect(x:16, y:0, width:106, height:110)
+            product.productShortDescriptionLabel!.frame = CGRect(x:16, y:product.productImage!.frame.maxY + 14 , width:product.frame.width - 32, height:33)
             product.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.addSubview(product)
             
@@ -314,8 +314,8 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
-            print(error)
+        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+            print(error.localizedDescription)
         }
         
         self.imageBackground.isHidden = false
