@@ -11,7 +11,7 @@ import UIKit
 class OrderViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate {
     
     var tableOrders : UITableView!
-    var items : [AnyObject] = []
+    var items : [[String:Any]] = []
     var viewLoad : WMLoadingView!
     var emptyView : IPOOrderEmptyView!
     var facturasToolBar : UIView!
@@ -155,9 +155,9 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         viewLoad.startAnnimating(self.isVisibleTab)
         
         let servicePrev = PreviousOrdersService()
-        servicePrev.callService({ (previous:NSArray) -> Void in
+        servicePrev.callService({ (previous:[Any]) -> Void in
             for orderPrev in previous {
-                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! [String:Any])
+                var dictMGOrder = orderPrev as! [String:Any]
                 dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
                 self.items.append(dictMGOrder)
             }
@@ -170,9 +170,9 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     func loadGROrders() {
         let servicePrev = GRPreviousOrdersService()
-        servicePrev.callService({ (previous:NSArray) -> Void in
+        servicePrev.callService({ (previous:[Any]) -> Void in
             for orderPrev in previous {
-                let dictGROrder = NSMutableDictionary(dictionary: orderPrev as! [String:Any])
+                var dictGROrder = orderPrev as! [String:Any]
                 dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
                 self.items.append(dictGROrder)
             }

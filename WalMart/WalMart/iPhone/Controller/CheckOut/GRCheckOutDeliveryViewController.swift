@@ -77,8 +77,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var viewContents : UIView?
     var lblInfo : UILabel?
     var imageIco : UIImageView?
-    var paramsToOrder : NSMutableDictionary?
-    var paramsToConfirm : NSMutableDictionary?
+    var paramsToOrder : [String:Any]?
+    var paramsToConfirm : [String:Any]?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -544,7 +544,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         if sAddredssForm == nil {
             sAddredssForm = FormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
         }
-        sAddredssForm.allAddress = self.addressItems as NSArray!
+        sAddredssForm.allAddress = self.addressItems as [Any]!
         sAddredssForm.idAddress = ""
         self.picker!.closeButton!.isHidden =  true
         if !self.selectedAddressHasStore{

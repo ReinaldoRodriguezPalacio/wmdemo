@@ -41,7 +41,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var viewLoad : WMLoadingView!
     
-    var itemsInShoppingCart : [AnyObject]! = []
+    var itemsInShoppingCart : [[String:Any]]! = []
     var subtotal : NSNumber!
     var ivaprod : NSNumber!
     var totalest : NSNumber!
@@ -78,7 +78,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var showCloseButton : Bool = true
 
-    var itemsUPC = []
+    var itemsUPC: [[String:Any]] = []
     
      var picker : AlertPickerView!
      var selectedConfirmation : IndexPath!
@@ -336,7 +336,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.itemsInShoppingCart =  []
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! [[String : Any]]!
         }
         
         if self.itemsInShoppingCart.count == 0 {
@@ -408,10 +408,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     onHandInventory = inventory
                 }
                 
-                let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
+                let imageArray = shoppingCartProduct["imageUrl"] as! [Any]
                 var imageUrl = ""
                 if imageArray.count > 0 {
-                    imageUrl = imageArray.object(at: 0) as! String
+                    imageUrl = imageArray[0] as! String
                 }
                 
                 var preorderable = "false"
@@ -510,10 +510,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
 
 
-            let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
+            let imageArray = shoppingCartProduct["imageUrl"] as! [Any]
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.object(at: 0) as! String
+                imageUrl = imageArray[0] as! String
             }
             
             let savingIndex = shoppingCartProduct.index(forKey: "saving")
@@ -529,7 +529,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             //updateItemSavingForUPC(indexPath,upc:upc)
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment)
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price as NSString, saving: savingVal as NSString,quantity:quantity.integerValue,onHandInventory:onHandInventory as NSString,isPreorderable: isPreorderable, category:productDeparment)
             //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()
@@ -562,18 +562,18 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                  var newTotal  = total
                  var newTotalSavings = totalSaving
                 if self.isEmployeeDiscount {
-                    newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-                    newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+                    newTotal = "\((total! as NSString).doubleValue - ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+                    newTotalSavings = "\((totalSaving! as NSString).doubleValue + ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
                 }
                 
-                cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
+                cellTotals.setValues(subTotalText!, iva: iva!, total:newTotal!,totalSaving:newTotalSavings!)
                 cell = cellTotals
             }
             if itemsInShoppingCart.count < indexPath.row  {
                 
                 let cellPromotion = viewShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = itemsUPC as NSArray
+                cellPromotion!.itemsUPC = itemsUPC
                 cellPromotion!.collection.reloadData()
                 cell = cellPromotion
             }
@@ -589,7 +589,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
             let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [AnyObject]
+            controller.itemsToShow = getUPCItems() as [Any]
             controller.ixSelected = indexPath.row
             controller.detailOf = "Shopping Cart"
             
@@ -741,9 +741,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func endUpdatingShoppingCart(_ cell:ProductShoppingCartTableViewCell) {
         let indexPath : IndexPath = self.viewShoppingCart.indexPath(for: cell)!
         
-        var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as! [String:Any]
+        var itemByUpc  = self.itemsInShoppingCart![indexPath.row] 
         itemByUpc.updateValue(String(cell.quantity) , forKey: "quantity")
-        self.itemsInShoppingCart[indexPath.row] = itemByUpc as AnyObject
+        self.itemsInShoppingCart[indexPath.row] = itemByUpc
         
         //viewLoad.stopAnnimating()
         self.updateTotalItemsRow()
@@ -1027,7 +1027,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      */
     func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = items as [AnyObject]
+        controller.itemsToShow = items as [Any]
         controller.ixSelected = index
         controller.detailOf = "Shopping Cart"
         self.navigationController!.pushViewController(controller, animated: true)
@@ -1111,7 +1111,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             addressService.callService({ (resultCall:[String:Any]) -> Void in
                 var presentAddres = true
-                if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
+                if let shippingAddress = resultCall["shippingAddresses"] as? [Any]
                 {
                     if shippingAddress.count > 0 {
                         presentAddres = false
@@ -1188,7 +1188,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.checkVC.username = loginController.email?.text
                     self.checkVC.password = loginController.password?.text
                     self.checkVC.isEmployeeDiscount = self.isEmployeeDiscount
-                    self.checkVC.itemsMG = itemsMG!["items"] as! NSArray
+                    self.checkVC.itemsMG = itemsMG!["items"] as! [Any]
                     self.checkVC.total = total
                     self.checkVC.finishLoadCheckOut = {() in
                        
@@ -1336,7 +1336,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(newTotal)
+        let fmtTotal = CurrencyCustomLabel.formatString(newTotal as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
@@ -1360,7 +1360,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if self.itemsInShoppingCart.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
-            crossService.callService(upcValue, successBlock: { (result:NSArray?) -> Void in
+            crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false
@@ -1370,17 +1370,17 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC as [AnyObject]
+                        var arrayUPCS = self.itemsUPC
                         arrayUPCS.sort(by: { (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
                         })
-                        var resultArray : [AnyObject] = []
+                        var resultArray : [[String:Any]] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
-                        self.itemsUPC = NSArray(array:resultArray)
+                        self.itemsUPC = resultArray
                         
                         
                         
@@ -1507,7 +1507,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         if response["codeMessage"] as? Int == 0 {
                             //Mostrar alerta y continua
                             self.alertView?.setMessage("Datos correctos")
-                            self.buttonAsociate.highlighted =  true
+                            self.buttonAsociate.isHighlighted =  true
                             self.alertView?.close()
                             self.isEmployeeDiscount =  true
                             self.loadShoppingCartService()
@@ -1518,7 +1518,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             self.isEmployeeDiscount =  false
                             self.alertView?.setMessage("Error en los datos del asociado")
                             self.alertView!.showErrorIcon("Ok")
-                            self.buttonAsociate.highlighted =  false
+                            self.buttonAsociate.isHighlighted =  false
                         }
                         
                     }) { (error:NSError) -> Void in
@@ -1526,7 +1526,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         self.isEmployeeDiscount =  false
                         self.alertView?.setMessage("Error en los datos del asociado")
                         self.alertView!.showErrorIcon("Ok")
-                         self.buttonAsociate.highlighted =  false
+                         self.buttonAsociate.isHighlighted =  false
                         print(error)
                 }
             }else{

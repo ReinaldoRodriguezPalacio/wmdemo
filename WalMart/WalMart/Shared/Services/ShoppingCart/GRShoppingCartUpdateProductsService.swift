@@ -22,7 +22,7 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:Any]] = []
             var upcSend = ""
-            for itemSvc in params as! NSArray {
+            for itemSvc in params as! [[String:Any]] {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String

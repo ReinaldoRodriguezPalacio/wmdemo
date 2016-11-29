@@ -207,8 +207,8 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.scrollHelp!.contentOffset.x / self.scrollHelp!.frame.size.width
         self.currentItem = Int(currentIndex)
-        let nsarray = self.pointButtons! as NSArray
-        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
+        let array = self.pointButtons! as [Any]
+        if let button = array[self.currentItem!] as? UIButton {
             for inner: UIButton in self.pointButtons! {
                 inner.isSelected = button === inner
             }

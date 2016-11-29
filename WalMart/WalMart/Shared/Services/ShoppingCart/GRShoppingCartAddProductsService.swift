@@ -24,7 +24,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.useSignals = self.useSignalsServices
     }
     
-    func buildParams(_ quantity:String,upc:String,comments:String) -> NSArray {
+    func buildParams(_ quantity:String,upc:String,comments:String) -> [Any] {
         let quantityInt : Int = Int(quantity)!
         return [["quantity":quantityInt,"upc":upc,"comments":comments]]
         //return [["items":["quantity":quantityInt,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]]
@@ -64,7 +64,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.callService(requestParams: buildParams(quantity,upc:upc,comments:comments), successBlock: successBlock,errorBlock:errorBlock)
     }
 
-    func buildParams(_ products:[AnyObject]) -> [String:Any] {
+    func buildParams(_ products:[Any]) -> [String:Any] {
         return ["strArrImp":products]
     }
     
@@ -112,7 +112,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 }
                 //self.jsonFromObject(send!)
                 self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
-                     //BaseController.sendAnalyticsAddOrRemovetoCart(send as! NSArray,isAdd: true)
+                     //BaseController.sendAnalyticsAddOrRemovetoCart(send as! [Any],isAdd: true)
                     if self.updateShoppingCart() {
 //                        let shoppingService = GRShoppingCartProductsService()
 //                        shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
@@ -129,7 +129,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             } else {
                 
                 let svcUpdateShoppingCart = GRShoppingCartUpdateProductsService()
-                BaseController.sendAnalyticsAddOrRemovetoCart(params as! NSArray,isAdd: true)
+                BaseController.sendAnalyticsAddOrRemovetoCart(params as! [Any],isAdd: true)
                 svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
 
 //                UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
@@ -150,7 +150,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        //BaseController.sendAnalyticsAddOrRemovetoCart(params as! NSArray, isAdd: true)
+        //BaseController.sendAnalyticsAddOrRemovetoCart(params as! [Any], isAdd: true)
         
         for product in params as! [[String:Any]] {
             

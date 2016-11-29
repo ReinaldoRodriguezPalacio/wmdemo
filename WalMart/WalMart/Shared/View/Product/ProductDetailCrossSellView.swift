@@ -20,7 +20,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     var delegate: ProductDetailCrossSellViewDelegate!
     var itemSize :CGSize! = CGSize(width: 106.66, height: 146)
     var upc: String = ""
-    var itemsUPC: NSArray = []
+    var itemsUPC: [[String:Any]] = []
     var cellClass: AnyClass? = nil
     
     var cellReuseid: String = ""
@@ -62,7 +62,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         self.addSubview(collection)
     }
     
-    func reloadData(_ itemsUPC: NSArray,upc:String){
+    func reloadData(_ itemsUPC: [[String:Any]],upc:String){
         self.itemsUPC = itemsUPC
         self.upc = upc
         collection.reloadData()
@@ -80,7 +80,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: self.cellReuseid, for: indexPath) as! ProductCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
+        let itemUPC = itemsUPC[indexPath.row] 
         
         let desc = itemUPC["description"] as! NSString
         
@@ -96,9 +96,9 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         var imageUrl = ""
 
         
-        if let imageArray = itemUPC["imageUrl"] as? NSArray{
+        if let imageArray = itemUPC["imageUrl"] as? [Any]{
             if imageArray.count > 0 {
-                imageUrl = imageArray.object(at: 0) as! String
+                imageUrl = imageArray[0] as! String
             }
         }
         else

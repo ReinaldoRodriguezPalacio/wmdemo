@@ -71,7 +71,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         
         if multipleItems != nil {
             if multipleItems?.count > 0 {
-                let allItems = multipleItems!["allitems"] as! NSArray
+                let allItems = multipleItems!["allitems"] as! [Any]
                 if allItems.count > 0 {
                     params = allItems[currentIndex] as? [String:Any]
                 }
@@ -197,9 +197,9 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             /*if multipleItems?.count > 0 {
             callItemsService()
             }*/
-            let allItems = multipleItems!["allitems"] as! NSArray
+            let allItems = multipleItems!["allitems"] as! [Any]
             let serviceAddProduct = GRShoppingCartAddProductsService()
-            var paramsitems : [AnyObject] = []
+            var paramsitems : [Any] = []
             var wishlistDelete : [String] = []
             
             var type : NSString = ""
@@ -446,7 +446,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     
     func callItemsService() {
-        let allItems = multipleItems!["allitems"] as! NSArray
+        let allItems = multipleItems!["allitems"] as! [Any]
         if allItems.count > currentIndex {
             params = allItems[currentIndex] as? [String:Any]
             

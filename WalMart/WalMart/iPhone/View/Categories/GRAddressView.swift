@@ -14,7 +14,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var tableAddress: UITableView?
     var titleLabel: UILabel?
     var layerLine: CALayer!
-    var addressArray: [AnyObject]! = []
+    var addressArray: [Any]! = []
     var viewLoad : WMLoadingView!
     var onCloseAddressView: (() -> Void)?
     var newAdressForm: (() -> Void)?
@@ -162,11 +162,11 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             let idAddress = result["addressID"] as! String!
             let addressName = result["name"] as! String!
             let serviceZip = GRZipCodeService()
-            serviceZip.buildParams(zipCode)
+            serviceZip.buildParams(zipCode!)
             serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
-                var stores = []
+                var stores: [[String:Any]] = []
                 stores = result["stores"] as! [[String:Any]]
-                self.addressSelected?(addressId: idAddress,addressName: addressName, selectedStore: storeID, stores: stores as! [[String:Any]])
+                self.addressSelected?(idAddress!,addressName!, storeID!, stores )
                 self.viewLoad.stopAnnimating()
                 }, errorBlock: { (error:NSError) -> Void in
                     print("error:: \(error)")
@@ -200,7 +200,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             
             self.addressArray = []
             
-            if  let resultAddress = resultCall["responseArray"] as? [AnyObject] {
+            if  let resultAddress = resultCall["responseArray"] as? [Any] {
                 self.addressArray = resultAddress
             }
 

@@ -24,7 +24,7 @@ class GRLoginService : GRBaseService {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.jsonFromObject(resultCall)
 
-            let newResultCall = NSMutableDictionary(dictionary: resultCall)
+            let newResultCall =  resultCall
             successBlock!(newResultCall)
            // successBlock!(resultCall)
             

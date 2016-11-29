@@ -38,7 +38,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var listId: String?
     var listName: String?
     var listEntity: List?
-    var products: [AnyObject]?
+    var products: [Any]?
     var isEdditing = false
     var enableScrollUpdateByTabBar = true
 
@@ -421,14 +421,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.contains("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.contains("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -498,7 +498,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if self.products != nil && self.products!.count > 0 {
             
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             var totalPrice: Int = 0
             
             for idxVal  in selectedItems! {
@@ -755,7 +755,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             total = self.calculateTotalAmount()
         }
         
-        let fmtTotal = CurrencyCustomLabel.formatString("\(total)")
+        let fmtTotal = CurrencyCustomLabel.formatString("\(total)" as NSString)
         let amount = String(format: NSLocalizedString("list.detail.buy",comment:""), fmtTotal)
         self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
@@ -899,7 +899,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if cell!.isKind(of: DetailListViewCell.self) {
 
             let controller = ProductDetailPageViewController()
-            var productsToShow:[AnyObject] = []
+            var productsToShow:[Any] = []
             for idx in 0 ..< self.products!.count {
                 if let product = self.products![idx] as? [String:Any] {
                     let upc = product["upc"] as! String
@@ -1052,7 +1052,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         detailService.buildParams(self.listId)
         detailService.callService([:],
             successBlock: { (result:[String:Any]) -> Void in
-                self.products = result["items"] as? [AnyObject]
+                self.products = result["items"] as? [Any]
                 
                 if !self.analyticsSent {
                     
@@ -1589,7 +1589,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("Agregando el producto a tu lista", comment:""))
         
-        let useSignalsService : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let useSignalsService : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let svcValidate = GRProductDetailService(dictionary: useSignalsService)
         
         let upcDesc : NSString = upc as NSString
@@ -1638,7 +1638,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     
-    func invokeAddproductTolist(_ response:[String:Any]?,products:[AnyObject]?,succesBlock:@escaping (() -> Void)){
+    func invokeAddproductTolist(_ response:[String:Any]?,products:[Any]?,succesBlock:@escaping (() -> Void)){
         
         let service = GRAddItemListService()
         var isPesable  = ""
@@ -1684,7 +1684,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             successBlock: { (result: [String:Any]) -> Void in
                 
                 
-                if let items = result["items"] as? [AnyObject] {
+                if let items = result["items"] as? [Any] {
                     if items.count == 0 {
                         self.alertView?.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
                         self.alertView?.showErrorIcon("Ok")
@@ -1692,7 +1692,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                     
                     let service = GRAddItemListService()
-                    var products: [AnyObject] = []
+                    var products: [Any] = []
                     for idx in 0 ..< items.count {
                         let item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String

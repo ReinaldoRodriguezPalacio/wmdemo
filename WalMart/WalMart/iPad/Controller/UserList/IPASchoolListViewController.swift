@@ -69,7 +69,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         }
         
         let controller = IPAProductDetailPageViewController()
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
@@ -185,7 +185,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
             self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
                     if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }

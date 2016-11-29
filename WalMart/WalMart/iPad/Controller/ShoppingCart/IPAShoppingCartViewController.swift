@@ -161,7 +161,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         self.itemsInShoppingCart =  []
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! [Any] as [Any]
         }
         if self.itemsInShoppingCart.count == 0 {
             self.navigationController?.popToRootViewController(animated: true)
@@ -284,7 +284,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             }
            
             addressService.callService({ (resultCall:[String:Any]) -> Void in
-                if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
+                if let shippingAddress = resultCall["shippingAddresses"] as? [Any]
                 {
                     if shippingAddress.count > 0 {
                         if(cont!.password?.text == nil || cont!.password?.text == "" ){
@@ -326,7 +326,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if self.itemsInShoppingCart.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
-            crossService.callService(upcValue, successBlock: { (result:NSArray?) -> Void in
+            crossService.callService(upcValue, successBlock: { (result:[Any]?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false
@@ -336,17 +336,17 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC as [AnyObject]
+                        var arrayUPCS = self.itemsUPC as [Any]
                         arrayUPCS.sort(by: { (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
                         })
-                        var resultArray : [AnyObject] = []
+                        var resultArray : [Any] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
-                        self.itemsUPC = NSArray(array:resultArray)
+                        self.itemsUPC = [Any](array:resultArray)
                         
                     }
                     if self.itemsInShoppingCart.count >  0  {
@@ -371,7 +371,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [AnyObject]
+            controller.itemsToShow = getUPCItems() as [Any]
             controller.ixSelected = indexPath.row
             controller.detailOf = "Shopping Cart"
             //self.navigationController!.delegate = nil

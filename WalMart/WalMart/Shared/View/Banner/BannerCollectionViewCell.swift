@@ -251,9 +251,9 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     }
     
     func reloadTermsAndPages() {
-        let nsarray = self.pointButtons! as NSArray
-        if nsarray.count > 0 {
-            if let button = nsarray.object(at: self.visibleItem!) as? UIButton {
+        let array = self.pointButtons! as [Any]
+        if array.count > 0 {
+            if let button = array[self.visibleItem!] as? UIButton {
                 for inner: UIButton in self.pointButtons! {
                     inner.isSelected = button === inner
                 }

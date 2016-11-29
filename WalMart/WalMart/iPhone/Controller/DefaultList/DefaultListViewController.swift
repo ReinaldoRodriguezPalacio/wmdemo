@@ -11,7 +11,7 @@ import Foundation
 class DefaultListViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate {
      
     var tableView: UITableView?
-    var itemsLists : [AnyObject] =  []
+    var itemsLists : [Any] =  []
     var viewLoad: WMLoadingView?
     
     override func getScreenGAIName() -> String {

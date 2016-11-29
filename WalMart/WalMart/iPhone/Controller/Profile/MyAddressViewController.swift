@@ -11,9 +11,9 @@ import Foundation
 class MyAddressViewController: NavigationViewController,  UITableViewDelegate, UITableViewDataSource , AddressViewCellDelegate, SWTableViewCellDelegate {
 
     var table: UITableView!
-    var arrayAddressShipping : NSArray!
-    var arrayAddressShippingGR : NSArray!
-    var arrayAddressFiscal : NSArray!
+    var arrayAddressShipping : [Any]!
+    var arrayAddressShippingGR : [Any]!
+    var arrayAddressFiscal : [Any]!
     
     var newAddressButton : WMRoundButton? = nil
     var viewLoad : WMLoadingView!
@@ -45,8 +45,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         self.table.separatorStyle = .none
         self.table.autoresizingMask = UIViewAutoresizing()
         self.titleLabel!.text = NSLocalizedString("profile.myAddress", comment: "")
-        self.arrayAddressShipping = NSArray()
-        self.arrayAddressFiscal = NSArray()
+        self.arrayAddressShipping = [Any]()
+        self.arrayAddressFiscal = [Any]()
         
         //let iconImage = UIImage(named:"button_bg")
         //let iconSelected = UIImage(named:"button_bg_active")
@@ -155,10 +155,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.arrayAddressFiscal = []
             self.arrayAddressShipping = []
             
-            if let fiscalAddress = resultCall["fiscalAddresses"] as? NSArray {
+            if let fiscalAddress = resultCall["fiscalAddresses"] as? [Any] {
                 self.arrayAddressFiscal = fiscalAddress
             }
-            if let shippingAddress = resultCall["shippingAddresses"] as? NSArray {
+            if let shippingAddress = resultCall["shippingAddresses"] as? [Any] {
                 self.arrayAddressShipping = shippingAddress
             }
             
@@ -207,7 +207,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             self.arrayAddressShippingGR = []
             
-            if  let resultAddress = resultCall["responseArray"] as? NSArray {
+            if  let resultAddress = resultCall["responseArray"] as? [Any] {
                  self.arrayAddressShippingGR = resultAddress
             }
 
@@ -423,8 +423,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.addressController = AddressViewController()
             }
             var item: [String:Any]!
-            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [AnyObject])
-            self.addressController!.allAddress =  allArray as NSArray!
+            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [Any])
+            self.addressController!.allAddress =  allArray as [Any]!
             
             if indexPath.section == 0{
                 item = self.arrayAddressShipping![indexPath.item] as! [String:Any]
@@ -469,8 +469,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.addressController!.defaultPrefered = true
             }
             
-            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [AnyObject])
-            self.addressController!.allAddress =  allArray as NSArray!
+            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [Any])
+            self.addressController!.allAddress =  allArray as [Any]!
             self.addressController!.typeAddress = TypeAddress.shiping
             self.addressController!.addressFiscalCount = self.arrayAddressFiscal.count
             self.addressController!.addressShippingCont = self.arrayAddressShipping!.count

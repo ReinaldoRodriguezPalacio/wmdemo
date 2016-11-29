@@ -12,7 +12,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
     
   override func setValuesDictionary(_ product:[String:Any],disabled:Bool) {
         var imageUrl: String? = ""
-        if let imageArray = product["imageUrl"] as? NSArray {
+        if let imageArray = product["imageUrl"] as? [Any] {
             if imageArray.count > 0 {
                 var imgSmall = NSString(string: imageArray[0] as! String)
                 imgSmall = imgSmall.replacingOccurrences(of: "img_large", with: "img_small") as NSString

@@ -82,7 +82,7 @@ class BaseController : UIViewController {
         return true
     }
 
-//    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
+//    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:[Any]?,total:NSNumber,refId:String){
 //        
 //        print("TUNE_EVENT_\(event)")
 //        switch(event){
@@ -130,7 +130,7 @@ class BaseController : UIViewController {
 //            Tune.setUserId(idUser)
 //            
 //            let event :TuneEvent = TuneEvent(name: event)
-//            event.eventItems = payPalItems as [AnyObject]
+//            event.eventItems = payPalItems as [Any]
 //            event.refId = refId
 //            event.revenue = CGFloat(total)
 //            event.currencyCode = "MXN"
@@ -242,7 +242,7 @@ extension BaseController {
         dataLayer.push(impression)
     }
     
-    class func sendAnalyticsTagImpressions(_ products:NSArray, positionArray:[Int], listName: String, mainCategory: String, subCategory: String, subSubCategory: String) {
+    class func sendAnalyticsTagImpressions(_ products:[Any], positionArray:[Int], listName: String, mainCategory: String, subCategory: String, subSubCategory: String) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
@@ -297,7 +297,7 @@ extension BaseController {
         
     }
     
-    class func sendAnalyticsAddOrRemovetoCart(_ items:NSArray,isAdd:Bool) {
+    class func sendAnalyticsAddOrRemovetoCart(_ items:[Any],isAdd:Bool) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         var productsAdd: [[String : String]] = []
@@ -357,7 +357,7 @@ extension BaseController {
     
     class func sendAnalyticsPreviewCart(_ paymentType:String) {
         let products =  UserCurrentSession.sharedInstance().itemsGR
-        let items = products!["items"] as? NSArray
+        let items = products!["items"] as? [Any]
         
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
@@ -391,7 +391,7 @@ extension BaseController {
         dataLayer.push(["ecommerce": NSNull()])
         
         let products =  UserCurrentSession.sharedInstance().itemsGR
-        let items = products!["items"] as? NSArray
+        let items = products!["items"] as? [Any]
         var productsAdd: [[String : String]] = []
         
         for item in items! {

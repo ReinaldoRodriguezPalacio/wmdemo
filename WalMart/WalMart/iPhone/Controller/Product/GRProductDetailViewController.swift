@@ -69,7 +69,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         print("parametro para signals GR Iphone :::\(self.indexRowSelected)")
         
         self.type = ResultObjectType.Groceries
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let productService = GRProductDetailService(dictionary:signalsDictionary )
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         let params = productService.buildParams(upc as String,eventtype:eventType,stringSearch: self.stringSearching,position:"\(self.indexRowSelected)")//position
@@ -78,7 +78,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.name = result["description"] as! NSString
             if let priceR =  result["price"] as? NSNumber {
-                self.price = "\(priceR)"
+                self.price = "\(priceR)" as NSString
             }
 
             self.detail = result["longDescription"] as! NSString
@@ -90,7 +90,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             //self.listPrice = result["original_listprice"] as NSString
             self.characteristics = []
-            var allCharacteristics : [AnyObject] = []
+            var allCharacteristics : [[String:Any]] = []
             
             let strLabel = "UPC"
             //let strValue = self.upc
@@ -113,14 +113,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.msi = []
                 }
             }
-            if let images = result["imageUrl"] as? [AnyObject] {
+            if let images = result["imageUrl"] as? [Any] {
                 self.imageUrl = images
             }
             if let images = result["imageUrl"] as? NSString {
                 var imgLarge = NSString(string: images)
-                imgLarge = imgLarge.replacingOccurrences(of: "img_small", with: "img_large")
+                imgLarge = imgLarge.replacingOccurrences(of: "img_small", with: "img_large") as NSString
                 let pathExtention = imgLarge.pathExtension
-                imgLarge = imgLarge.replacingOccurrences(of: "s.\(pathExtention)", with: "L.\(pathExtention)")
+                imgLarge = imgLarge.replacingOccurrences(of: "s.\(pathExtention)", with: "L.\(pathExtention)") as NSString
                 self.imageUrl = [imgLarge]
             }
             //let freeShippingStr  = result["freeShippingItem"] as NSString
@@ -169,8 +169,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.strisPreorderable  = "false"
             self.isPreorderable = false//"true" == self.strisPreorderable
             
-            self.bundleItems = [AnyObject]()
-            if let bndl = result["bundleItems"] as?  [AnyObject] {
+            self.bundleItems = [[String:Any]]()
+            if let bndl = result["bundleItems"] as?  [[String:Any]] {
                 self.bundleItems = bndl
             }
             
@@ -232,7 +232,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             },errorBlock: { (error:NSError) -> Void in
                 let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
-                self.name = NSLocalizedString("empty.productdetail.title",comment:"")
+                self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
                     print("")
                     self.navigationController!.popViewController(animated: true)
@@ -275,7 +275,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return view
         }
         
-        return super.collectionView(collectionView: collectionView, viewForSupplementaryElementOfKind: kind, atIndexPath: indexPath)
+        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         
     }
 
@@ -938,25 +938,25 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         NSLog("lcs 1")
         let service = GRProductBySearchService()
         let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6,brand:"")
-        service.callService(params,
-            successBlock: { (arrayProduct:NSArray?,resultDic:[String:Any]) -> Void in
+        service.callService(params!,
+                            successBlock: { (arrayProduct:[[String:Any]]?,resultDic:[String:Any]) -> Void in
                 NSLog("lcs 2")
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     NSLog("lcs 2")
-                    var keywords = Array<AnyObject>()
-                    for item in arrayProduct as! [AnyObject] {
+                    var keywords = Array<[String:Any]>()
+                    for item in arrayProduct! {
                         
-                        if self.upc !=  item["upc"] as! String {
+                        if self.upc !=  item["upc"] as! NSString {
                             
                             var urlArray : [String] = []
                             urlArray.append(item["imageUrl"] as! String)
                             
                             var price : NSString = ""
                             if let value = item["price"] as? String {
-                                price = value
+                                price = value as NSString
                             }
                             else if let value = item["price"] as? NSNumber {
-                                price = "\(value)"
+                                price = "\(value)" as NSString
                             }
                             
                             keywords.append(["codeMessage":"0","description":item["description"] as! String, "imageUrl":urlArray, "price" : price,  "upc" :item["upc"], "type" : ResultObjectType.Groceries.rawValue ])

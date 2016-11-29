@@ -11,7 +11,7 @@ import Foundation
 class IPAGRCategoriesViewController :  NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate,IPAGRCategoryCollectionViewCellDelegate
 {
     
-    var items : [AnyObject]? = []
+    var items : [Any]? = []
     @IBOutlet var colCategories : UICollectionView!
     var canfigData : [String:Any]! = [:]
     var animateView : UIView!
@@ -62,9 +62,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         }
     }
     
-    func loadDepartments() -> [AnyObject]? {
+    func loadDepartments() -> [Any]? {
         let serviceCategory = GRCategoryService()
-        self.items = serviceCategory.getCategoriesContent() as [AnyObject]?
+        self.items = serviceCategory.getCategoriesContent() as [Any]?
         colCategories.delegate = self
         colCategories.dataSource = self
         return self.items
@@ -235,7 +235,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
    
     
     func fillConfigData(_ depto:String,families:JSON) -> [[String:Any]]? {
-        var resultDict : [AnyObject] = []
+        var resultDict : [Any] = []
         if Array(canfigData.keys.filter {$0 == depto }).count > 0 {
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {
@@ -337,7 +337,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                 storeViewHeight = max(minViewHeigth,storeViewHeight)
                 let storeView = GRAddressStoreView(frame: CGRect(x: 0,y: 49,width: 338,height: min(storeViewHeight,270)))
                 storeView.selectedstoreId = selectedStore
-                storeView.storeArray = stores as [AnyObject]!
+                storeView.storeArray = stores as [Any]!
                 storeView.addressId = addressId
                 storeView.onClose = {void in
                     self.newModalView!.closePicker()

@@ -26,7 +26,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var viewAddressFisical: AddressView? = nil
     var viewAddressMoral: AddressView? = nil
     var item: [String:Any]? = nil
-    var allAddress: NSArray! = []
+    var allAddress: [Any]! = []
     var viewTypeAdress: UIView? = nil
     var viewTypeAdressFiscal: UIView? = nil
     var saveButton: WMRoundButton?
@@ -654,7 +654,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     if self.successCallBack == nil {
                         successBlock?(true)
                         self.closeAlert()
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popViewController(animated: true)
                     }else {
                         
                         self.successCallBack!()

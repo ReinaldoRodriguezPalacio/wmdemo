@@ -41,7 +41,7 @@ class ProductDetailService : BaseService {
     }
     
     
-    func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(requestParams params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("BEFORE CALLSERVICE::")
         //self.jsonFromObject(params)
         

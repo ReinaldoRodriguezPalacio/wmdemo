@@ -153,7 +153,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     override func filter(_ sender:UIButton){
         if self.filterController == nil {
             self.filterController = FilterProductsViewController()
-            self.filterController!.facet = self.facet as NSArray?
+            self.filterController!.facet = self.facet as [Any]?
             self.filterController!.hiddenBack = true
             self.filterController!.textToSearch = self.textToSearch
             self.filterController!.selectedOrder = self.idSort!

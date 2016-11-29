@@ -95,7 +95,7 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
     override func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
         service.callService(requestParams: ["id":self.departmentId], successBlock: { (response:[String:Any]) -> Void in
-            let schools  =  response["responseArray"] as! NSArray
+            let schools  =  response["responseArray"] as! [Any]
             self.schoolsList = schools as? [[String : AnyObject]]
             self.filterList = self.schoolsList
             self.schoolsTable.reloadData()

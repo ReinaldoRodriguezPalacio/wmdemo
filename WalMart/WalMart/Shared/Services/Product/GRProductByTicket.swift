@@ -15,7 +15,7 @@ class GRProductByTicket: GRBaseService {
         return ["number":ticket] as [String:Any]
     }
 
-    func callService(_ params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print(params)
         self.callPOSTService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in

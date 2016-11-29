@@ -42,7 +42,7 @@ class SearchCategoriesViewCell: UITableViewCell {
     }
     
     func setValueTitle(_ value:String, forKey key:String, andDepartament departament:String) {
-        self.title!.attributedText = SearchSingleViewCell.attributedText(key, value: value, fontKey: self.fontTitleKey!, fontValue: self.fontTitle!)
+        self.title!.attributedText = SearchSingleViewCell.attributedText(key as NSString, value: value as NSString, fontKey: self.fontTitleKey!, fontValue: self.fontTitle!)
         self.departament!.text = departament;
     }
     

@@ -42,7 +42,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
     var currentItem: Int? = nil
-    var imagesToDisplay: [AnyObject]?
+    var imagesToDisplay: [Any]?
     var index : Int = 0
     var header: UIView? = nil
     var titleLabel: UILabel? = nil
@@ -176,8 +176,8 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.collectionView!.contentOffset.x / self.collectionView!.frame.size.width
         self.currentItem = Int(currentIndex)
-        let nsarray = self.pointButtons! as NSArray
-        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
+        let array = self.pointButtons! as [Any]
+        if let button = array[self.currentItem!] as? UIButton {
             for inner: UIButton in self.pointButtons! {
                 inner.isSelected = button === inner
             }

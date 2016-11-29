@@ -9,7 +9,7 @@
 import Foundation
 class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,IPAWishListProductCollectionViewCellDelegate,UIActivityItemSource {
     
-    var items : [AnyObject]! = []
+    var items : [[String:Any]]! = []
     var currentCellSelected : IndexPath!
     var titleLabel : UILabel!
     var customlabel : CurrencyCustomLabel!
@@ -186,7 +186,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             buyWishlist.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("wishlist.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(total as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
@@ -204,7 +204,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let serviceWish = UserWishlistService()
         
         serviceWish.callService({ (wishlist:[String:Any]) -> Void in
-            self.items = wishlist["items"] as! [AnyObject]
+            self.items = wishlist["items"] as! [[String:Any]]
             
             var positionArray: [Int] = []
             var total : Double = 0
@@ -330,8 +330,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     func senditemsToShoppingCart() {
         
-        var params : [AnyObject] =  []
-        var paramsPreorderable : [AnyObject] =  []
+        var params : [Any] =  []
+        var paramsPreorderable : [Any] =  []
         var hasItemsNotAviable = false
         var wishlistTotalPrice = 0.0
 
@@ -340,7 +340,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             let upc = itemWishList["upc"] as! String
             let desc = itemWishList["description"] as! String
             let price = itemWishList["price"] as! NSString
-            let imageArray = itemWishList["imageUrl"] as! NSArray
+            let imageArray = itemWishList["imageUrl"] as! [Any]
             
             let active  = itemWishList["isActive"] as! String
             var isActive = "true" == active
@@ -367,7 +367,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.object(at: 0) as! String
+                imageUrl = imageArray[0] as! String
             }
             
             var category : String = ""
@@ -527,7 +527,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    func sendNewItemsToShoppingCart(_ params:[AnyObject]){
+    func sendNewItemsToShoppingCart(_ params:[Any]){
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"    ] as [String : Any]
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
@@ -564,14 +564,14 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         popup!.present(from: CGRect(x: self.shareWishlist.frame.origin.x + 13, y: self.shareWishlist.frame.maxY - 120, width: 10, height: 120), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                if completed && !activityType!.contains("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.contains("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -639,10 +639,10 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         let desc = itemWishlist["description"] == nil ? "" : itemWishlist["description"] as! String
         let price = itemWishlist["price"] as! NSString
-        let imageArray = itemWishlist["imageUrl"] as! NSArray
+        let imageArray = itemWishlist["imageUrl"] as! [Any]
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.object(at: 0) as! String
+            imageUrl = imageArray[0] as! String
         }
         
         let savingIndex = itemWishlist.index(forKey: "saving")

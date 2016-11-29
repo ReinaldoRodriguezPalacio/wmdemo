@@ -42,9 +42,9 @@ protocol SearchViewControllerDelegate {
 
 class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
-    var elements: [AnyObject]?
+    var elements: [Any]?
     var upcItems: [String]?
-    var elementsCategories: [AnyObject]?
+    var elementsCategories: [Any]?
     var currentKey: String?
     var header: UIView?
     var field: UITextField?
@@ -494,7 +494,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
         //        }else{
         let item = self.elementsCategories![indexPath.row] as? [String:Any]
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? NSString == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as? String, andFamilyId: item!["idFamily"] as? String, andLineId: item!["idLine"] as? String, andTitleHeader:item!["title"] as! String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
         //        }
     }
     
@@ -521,13 +521,13 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         }
         
         DispatchQueue.main.async(execute: {
-            self.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            self.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 let select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
                 var load = false
                 self.cancelSearch = false
-                if let rs = db.executeQuery(select, withArgumentsIn:nil) {
+                if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
                     
-                    var keywords = Array<AnyObject>()
+                    var keywords = Array<[String:Any]>()
                     while rs.next() {
                         if  self.cancelSearch {
                             break
@@ -546,8 +546,8 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 if  !self.cancelSearch {
                     let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
                     self.cancelSearch = false
-                    if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
-                        var keywords = Array<AnyObject>()
+                    if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
+                        var keywords = Array<[String:Any]>()
                         
                         while rs.next() {
                             if  self.cancelSearch {

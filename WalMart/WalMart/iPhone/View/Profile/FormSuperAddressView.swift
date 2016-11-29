@@ -33,7 +33,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var separatorField  : CGFloat = CGFloat(8)
     var neighborhoods : [String]! = []
     var stores : [String]! = []
-    var allAddress: NSArray! = []
+    var allAddress: [Any]! = []
     var titleLabelPhone : UILabel!
     var phoneWorkNumber : FormFieldView!
     var cellPhone : FormFieldView!
@@ -379,7 +379,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         if self.errorView == nil{
                             self.errorView = FormFieldErrorView()
                         }
-                        let stringToShow : NSString = error.localizedDescription
+                        let stringToShow : NSString = error.localizedDescription as NSString
                         let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
                         SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
                         
@@ -483,11 +483,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
     }
     
-    func getAddressDictionary(_ addressId:String , delete:Bool) -> NSMutableDictionary? {
+    func getAddressDictionary(_ addressId:String , delete:Bool) -> [String:Any]? {
         return getAddressDictionary(addressId , delete:delete,preferred:false)
     }
     
-    func getAddressDictionary(_ addressId:String , delete:Bool,preferred:Bool) -> NSMutableDictionary? {
+    func getAddressDictionary(_ addressId:String , delete:Bool,preferred:Bool) -> [String:Any]? {
         endEditing(true)
         let service = GRAddressAddService()
         

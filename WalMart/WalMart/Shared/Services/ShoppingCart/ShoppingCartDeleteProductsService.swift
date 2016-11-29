@@ -34,7 +34,7 @@ class ShoppingCartDeleteProductsService : BaseService {
                 //let shoppingService = ShoppingCartProductsService()
                 //shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
                 
-                //let parameter = params["parameter"] as! NSArray
+                //let parameter = params["parameter"] as! [Any]
                 if successBlock != nil {
                     successBlock!([:])
                 }
@@ -52,7 +52,7 @@ class ShoppingCartDeleteProductsService : BaseService {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let parameter = params["parameter"] as! NSArray
+        let parameter = params["parameter"] as! [Any]
         if parameter.count > 0 {
             for paramItem in parameter {
                 let upc = paramItem as! NSString

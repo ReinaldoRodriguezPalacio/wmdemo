@@ -30,10 +30,10 @@ class ProductDetailBundleTableViewCell : ProductDetailCrossSellTableViewCell {
         let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
         
         let desc = itemUPC["description"] as! String
-        let imageArray = itemUPC["imageUrl"] as! NSArray
+        let imageArray = itemUPC["imageUrl"] as! [Any]
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.object(at: 0) as! String
+            imageUrl = imageArray[0] as! String
         }
 
         cell.setValues(imageUrl, productShortDescription: desc)

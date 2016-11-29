@@ -29,8 +29,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var confirmCallButton: UIButton?
     var notConfirmCallButton: UIButton?
     var confirmCallOptionButton: UIButton?
-    var paramsToOrder : NSMutableDictionary?
-    var paramsToConfirm : NSMutableDictionary?
+    var paramsToOrder : [String:Any]?
+    var paramsToConfirm : [String:Any]?
     var confirmSelected: Int! = 3
     var confirmText: String! = ""
     var savePhoneButton: UIButton?
@@ -482,7 +482,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func findproductInCar(){
       let products =  UserCurrentSession.sharedInstance().itemsGR
         let upcsIncart : NSMutableArray =  []
-        let itemsInShoppingCart = products!["items"] as? NSArray
+        let itemsInShoppingCart = products!["items"] as? [Any]
         for items in itemsInShoppingCart! {
             upcsIncart.add(items["upc"] as! String)
         }

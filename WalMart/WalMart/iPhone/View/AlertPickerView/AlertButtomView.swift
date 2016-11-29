@@ -90,7 +90,7 @@ class AlertButtomView : AlertPickerView {
         return newAlert
     }
     
-    override func setValues(_ title:NSString,values:[String]) {
+    override func setValues(_ title:String,values:[String]) {
         
         self.titleLabel.text = title as String
         self.itemsToShow = values

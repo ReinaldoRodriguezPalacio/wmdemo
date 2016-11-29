@@ -285,7 +285,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if self.categories.count > 0 {
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-            //let arrayItemsResult =  arrayItems as! [AnyObject]
+            //let arrayItemsResult =  arrayItems as! [Any]
             return arrayItems.count
         }
         return 0
@@ -317,7 +317,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
                 let catNameFilter = self.categories[selectedIndexCategory]
                 let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-                let arrayItemsResult =  arrayItems as! [AnyObject]
+                let arrayItemsResult =  arrayItems as! [Any]
                 let recommendProduct = arrayItemsResult[indexPath.row] as! [String:Any]
                 
                 var desc = ""
@@ -333,10 +333,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 }
                 
                 var imageUrl = ""
-                if let imageArray = recommendProduct["imageUrl"] as? NSArray {
+                if let imageArray = recommendProduct["imageUrl"] as? [Any] {
                    
                     if imageArray.count > 0 {
-                        imageUrl = imageArray.object(at: 0) as! String
+                        imageUrl = imageArray[0] as! String
                     }
                 } else if let imageStr = recommendProduct["image"] as? String 	 {
                     imageUrl = imageStr
@@ -391,7 +391,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-            let arrayItemsResult =  arrayItems as! [AnyObject]
+            let arrayItemsResult =  arrayItems as! [Any]
             let recommendProduct = arrayItemsResult[indexPath.row] as! [String:Any]
             
             var upc = ""
@@ -464,7 +464,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             if val.range(of: ",") != nil {
                 let upcss :NSString = val as NSString
                 let myStringArr = upcss.components(separatedBy: ",")
-                self.showFindUpc(myStringArr as NSArray ,type: type)
+                self.showFindUpc(myStringArr as [Any] ,type: type)
                 
             }else{
                 showProductDetail(val,type: type)
@@ -518,14 +518,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
     }
     
-    func showFindUpc(_ upcs:NSArray,type:String){
+    func showFindUpc(_ upcs:[Any],type:String){
         let controller = SearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .withCategoryForMG
         }else {
             controller.searchContextType = .withCategoryForGR
         }
-        controller.findUpcsMg = upcs as? [String] as NSArray?
+        controller.findUpcsMg = upcs as? [String] as [Any]?
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         
@@ -559,7 +559,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
    
     func getCategories() -> [String]{
         
-        //let specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
+        //let specialsCat : [Any] = RecommendedCategory.cagtegories as [Any]
         self.categoryType = [:]
         var categories : [String] = []
         self.recommendCategoryItems = [:]
@@ -578,15 +578,15 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             categories.append(itemRec["name"] as! String)
            
-            let upcs = itemRec["upcs"] as? NSArray
+            let upcs = itemRec["upcs"] as? [Any]
 
                     nameCategory = itemRec["name"] as! String
                     if categories.filter({ (catName) -> Bool in return catName == nameCategory }).count == 0 {
                         categories.append(nameCategory)
                     }
                     
-                    if let catItem : AnyObject = recommendCategoryItems[nameCategory] {
-                        var array = catItem as! [AnyObject]
+                    if let catItem : Any = recommendCategoryItems[nameCategory] {
+                        var array = catItem as! [Any]
                         array.append(itemRec as AnyObject)
                         recommendCategoryItems.updateValue(array, forKey: nameCategory)
                     } else {
@@ -637,11 +637,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-            let arrayItemsResult =  arrayItems as! [AnyObject]
+            let arrayItemsResult =  arrayItems as! [Any]
             
             let catNameFilterNew = self.categories[index]
             let arrayItemsNew : AnyObject = self.recommendCategoryItems[catNameFilterNew]! as AnyObject
-            let arrayItemsResultNew =  arrayItemsNew as! [AnyObject]
+            let arrayItemsResultNew =  arrayItemsNew as! [Any]
             
             for ix in 0...arrayItemsResult.count - 1 {
                 if arrayItemsResultNew.count > ix {
@@ -713,7 +713,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
             }
             
-            if let upcs = recommendItem!["upcs"] as? NSArray {
+            if let upcs = recommendItem!["upcs"] as? [Any] {
                 
                 var position = 0
                 var positionArray: [Int] = []

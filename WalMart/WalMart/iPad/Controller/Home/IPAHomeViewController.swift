@@ -99,7 +99,7 @@ class IPAHomeViewController : HomeViewController {
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-            let arrayItemsResult =  arrayItems as! [AnyObject]
+            let arrayItemsResult =  arrayItems as! [Any]
           
             let paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = indexPath.row
@@ -145,14 +145,14 @@ class IPAHomeViewController : HomeViewController {
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
-    override func showFindUpc(_ upcs:NSArray,type:String){
+    override func showFindUpc(_ upcs:[Any],type:String){
         let controller = IPASearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .withCategoryForMG
         }else {
             controller.searchContextType = .withCategoryForGR
         }
-        controller.findUpcsMg = upcs as? [String] as NSArray?
+        controller.findUpcsMg = upcs as? [String] as [Any]?
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         

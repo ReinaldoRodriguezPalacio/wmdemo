@@ -12,7 +12,7 @@ import Foundation
 class UserListNavigationBaseViewController :  NavigationViewController {
     
     
-    var itemsUserList: [AnyObject]? = []
+    var itemsUserList: [Any]? = []
     var alertView: IPOWMAlertViewController?
     
     func invokeSaveListToDuplicateService(forListId listId:String, andName listName:String,successDuplicateList:@escaping (() -> Void)) {
@@ -25,8 +25,8 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             successBlock: { (result:[String:Any]) -> Void in
                 
                 let service = GRSaveUserListService()
-                var items: [AnyObject] = []
-                if let products = result["items"] as? NSArray {
+                var items: [Any] = []
+                if let products = result["items"] as? [Any] {
                     for idx in 0 ..< products.count {
                         var product = products[idx] as! [String:Any]
                         let quantity = product["quantity"] as! NSNumber

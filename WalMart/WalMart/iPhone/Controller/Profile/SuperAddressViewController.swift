@@ -17,7 +17,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var sAddredssForm : FormSuperAddressView!
     var viewLoad : WMLoadingView!
     var alertView : IPOWMAlertViewController? = nil
-    var allAddress: NSArray! = []
+    var allAddress: [Any]! = []
     var showGRAddressForm: Bool = false
     var isPreferred: Bool = false
     var saveButtonBottom: WMRoundButton?

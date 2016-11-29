@@ -47,7 +47,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
          downBorder.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth())
     }
     
-    func setValues(_ msi:NSArray){
+    func setValues(_ msi:[Any]){
         //var first = true
         clearView(self)
         var currntY : CGFloat = 5.0

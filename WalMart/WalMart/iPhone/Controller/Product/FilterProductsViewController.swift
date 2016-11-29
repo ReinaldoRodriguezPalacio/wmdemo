@@ -60,26 +60,26 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var textToSearch: String?
     var originalSearchContext: SearchServiceContextType?
     var searchContext: SearchServiceContextType?
-    var categories: [AnyObject]?
-    var tableElements: [AnyObject]?
+    var categories: [Any]?
+    var tableElements: [Any]?
     var selectedElements: [Bool]?
     var selectedElementsFacet: [IndexPath:Bool]?
     var selectedOrder: String?
     var isGroceriesSearch: Bool = true
-    var facetGr: NSArray? = nil
+    var facetGr: [Any]? = nil
     var selectedFacetGr: [String:Bool]?
 
     var delegate:FilterProductsViewControllerDelegate?
     var successCallBack : (() -> Void)? = nil
     var backFilter : (() -> Void)? = nil
     
-    var prices: NSArray?
-    var upcPrices: NSArray?
-    var upcByPrice: NSArray?
+    var prices: [Any]?
+    var upcPrices: [Any]?
+    var upcByPrice: [Any]?
     var brandFacets: [String] = []
     var isTextSearch: Bool = false
     var needsToValidateData = true
-    var facet: NSArray? = nil
+    var facet: [Any]? = nil
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_FILTER.rawValue
@@ -152,7 +152,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func validateFacetData() {
         if facet != nil {
-            var facetEnd : [AnyObject] = []
+            var facetEnd : [Any] = []
             for facetItemsCount in facet! {
                 let facetitem = facetItemsCount["itemsFacet"] as! [[String:Any]]
                 var newItemsFacet : [[String:Any]] = []
@@ -168,7 +168,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     facetEnd.append(["itemsFacet":newItemsFacet,"type":facetItemsCount["type"],"name":facetItemsCount["name"],"order":facetItemsCount["order"]])
                 }
             }
-            facet = facetEnd as NSArray?
+            facet = facetEnd as [Any]?
         }
     }
     
@@ -494,9 +494,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     
     func processPriceFacet(_ fitem:[String:Any]) {
-        if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? NSArray {
+        if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? [Any] {
             var array = Array<Double>()
-            var mirror = Array<NSArray>()
+            var mirror = Array<[Any]>()
             for idx in 0 ..< itemsFacet.count {
                 let item = itemsFacet[idx] as! [String:Any]
                 if let value = item[JSON_KEY_FACET_ITEMNAME] as? NSString {
@@ -512,10 +512,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         array.append(price.doubleValue)
                     }
                 }
-                mirror.append(item[JSON_KEY_FACET_UPCS] as! NSArray)
+                mirror.append(item[JSON_KEY_FACET_UPCS] as! [Any])
             }
-            self.prices = array as NSArray?
-            self.upcPrices = mirror as NSArray?
+            self.prices = array as [Any]?
+            self.upcPrices = mirror as [Any]?
         }
     }
 
@@ -651,7 +651,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         if itemLevel != 2 {
             var indexes:[IndexPath] = []
-            var filteredElements:[AnyObject] = []
+            var filteredElements:[Any] = []
             for idx in 0 ..< self.tableElements!.count {
                 var element = self.tableElements![idx] as! [String:Any]
                 let elementId = element["id"] as! String
@@ -767,9 +767,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
     }
     
-    func deleteItems(_ items:[AnyObject], atIndexPath indexPath:IndexPath) {
+    func deleteItems(_ items:[Any], atIndexPath indexPath:IndexPath) {
         if items.count > 0 {
-            var indexes:[AnyObject] = []
+            var indexes:[Any] = []
             for idx in 0 ..< items.count {
                 var itemToDelete = items[idx] as! [String:Any]
                 let id = itemToDelete["id"] as! String
@@ -878,11 +878,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         NSLog("self.categories = categories")
         let service = GRLinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!),
-            successBlock: { (categories: [AnyObject]) -> Void in
+            successBlock: { (categories: [Any]) -> Void in
                     NSLog("self.categories = categories")
                     self.categories = categories
-                    NSLog("self.tableElements = [AnyObject](categories)")
-                    self.tableElements = [AnyObject](categories)
+                    NSLog("self.tableElements = [Any](categories)")
+                    self.tableElements = [Any](categories)
                     NSLog("if self.tableElements?.count > 0 {")
                     if self.tableElements?.count > 0 {
                         NSLog("self.selectedElements = [Bool](count: self.tableElements!.count, repeatedValue: false)")
@@ -903,7 +903,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     func invokeRetrieveLinesForMG(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         let service = LinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!),
-            successBlock: { (categories:[AnyObject]) -> Void in
+            successBlock: { (categories:[Any]) -> Void in
                 NSLog("Inicia pintado de datos")
                 if self.categories != nil {
                     let array = self.categories! + categories
@@ -932,7 +932,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 //                    }
                 }
                 else {
-                    self.tableElements = [AnyObject](categories)
+                    self.tableElements = [Any](categories)
                 }
                 
                 if self.tableElements?.count > 0 {
@@ -974,7 +974,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         var array = Array<String>()
         for idx in low ..< high {
-            if let upcs = self.upcPrices![idx] as? NSArray {
+            if let upcs = self.upcPrices![idx] as? [Any] {
                 for upc in upcs {
                     if let string = upc as? String {
                         array.append(string)
@@ -985,7 +985,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
         }
-        self.upcByPrice = array as NSArray?
+        self.upcByPrice = array as [Any]?
     }
     
     func addBrandFacet(_ brand:String){

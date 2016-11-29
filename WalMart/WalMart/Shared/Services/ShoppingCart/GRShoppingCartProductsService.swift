@@ -11,7 +11,7 @@ import CoreData
 
 class GRShoppingCartProductsService : GRBaseService {
 
-    func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(requestParams params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //if !ShoppingCartService.isSynchronizing {
             if UserCurrentSession.hasLoggedUser() {
                 synchronizeWebShoppingCartFromCoreData({ () -> Void in
@@ -19,7 +19,7 @@ class GRShoppingCartProductsService : GRBaseService {
                         successBlock: { (resultCall:[String:Any]) -> Void in
                             
                             
-                            let itemsInShoppingCart =  resultCall["items"] as! NSArray
+                            let itemsInShoppingCart =  resultCall["items"] as! [[String:Any]]
                             
                             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -60,7 +60,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 }
                                 let baseprice = ""
                                 var imageUrl = ""
-                                if let images = shoppingCartProduct["imageUrl"] as? NSArray {
+                                if let images = shoppingCartProduct["imageUrl"] as? [Any] {
                                     imageUrl = images[0] as! String
                                 }
                                 
@@ -76,7 +76,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 
                                 carProductItem.upc = upc
                                 carProductItem.desc = desc
-                                carProductItem.price = price
+                                carProductItem.price = price as NSString
                                 carProductItem.baseprice = baseprice
                                 carProductItem.img = imageUrl
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
@@ -148,7 +148,7 @@ class GRShoppingCartProductsService : GRBaseService {
         }
         
 //        var returnDictionary = [:]
-//        var items : [AnyObject] = []
+//        var items : [Any] = []
 //        var subtotal : Double = 0.0
 //        var iva : Double = 0.0
 //        var totalest : Double = 0.0
@@ -192,7 +192,7 @@ class GRShoppingCartProductsService : GRBaseService {
             for itemDeleted in deteted {
                 currentItem += 1
                 
-                itemDeleted.status = CartStatus.synchronized.rawValue
+                itemDeleted.status = NSNumber(value: CartStatus.synchronized.rawValue)
                 do {
                     try context.save()
                 } catch let error1 as NSError {
@@ -228,7 +228,7 @@ class GRShoppingCartProductsService : GRBaseService {
         let updated = Array(UserCurrentSession.sharedInstance().userSigned!.productsInCart.filtered(using: predicateUpdated)) as! [Cart]
         if updated.count > 0 {
             let serviceUpdate = GRShoppingCartUpdateProductsService()
-            var arrayUpcsUpdate : [AnyObject] = []
+            var arrayUpcsUpdate : [Any] = []
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: ""))
@@ -256,7 +256,7 @@ class GRShoppingCartProductsService : GRBaseService {
           let serviceUpdate = GRShoppingCartAddProductsService()
             
             
-            var arrayUpcsUpdate : [AnyObject] = []
+            var arrayUpcsUpdate : [Any] = []
             for itemUpdated in updated {
                 let ntVal = itemUpdated.note != nil ? itemUpdated.note! : ""
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ntVal))
@@ -267,7 +267,7 @@ class GRShoppingCartProductsService : GRBaseService {
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
             for itemUpdated in updated {
-                itemUpdated.status = CartStatus.synchronized.rawValue
+                itemUpdated.status = NSNumber(value: CartStatus.synchronized.rawValue)
             }
             do {
                 try context.save()
@@ -299,7 +299,7 @@ class GRShoppingCartProductsService : GRBaseService {
     
     
     func saveItemsAndSuccess(_ params:[[String:String]],resultCall:[String:Any], successBlock:(([String:Any]) -> Void)?) {
-        let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? NSArray : []
+        let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? [[String:Any]] : []
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -342,7 +342,7 @@ class GRShoppingCartProductsService : GRBaseService {
             }
             let baseprice = ""
             var imageUrl = ""
-            if let images = shoppingCartProduct["imageUrl"] as? NSArray {
+            if let images = shoppingCartProduct["imageUrl"] as? [Any] {
                 imageUrl = images[0] as! String
             }
             
@@ -364,10 +364,10 @@ class GRShoppingCartProductsService : GRBaseService {
                 let paramUse = filtredByUpc[0] as [String:String]
                 let quantity = paramUse["quantity"]
                 carProduct.quantity = NSNumber(value: Int(quantity!)! as Int)
-                let newItemQ = NSMutableDictionary(dictionary: shoppingCartProduct as! [String:Any])
-                newItemQ.setValue(quantity, forKey: "quantity")
-                newItemQ.setValue(carProduct.note,forKey: "comments")
-                resultItems.append(newItemQ )
+                var newItemQ: [String:Any] = shoppingCartProduct
+                newItemQ["quantity"] = quantity
+                newItemQ["comments"] =  carProduct.note
+                resultItems.append(newItemQ)
             }
 
             carProductItem.upc = upc

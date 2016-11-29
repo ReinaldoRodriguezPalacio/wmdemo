@@ -33,7 +33,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     var telephone : FormFieldView? = nil
     var ieps : FormFieldView!
     var email : FormFieldView!
-    var allAddress: NSArray!
+    var allAddress: [Any]!
     
     var preferedLabel : UILabel? = nil
     var defaultPrefered : Bool = false

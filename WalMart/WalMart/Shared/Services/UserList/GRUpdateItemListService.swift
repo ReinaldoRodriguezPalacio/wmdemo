@@ -12,7 +12,7 @@ class GRUpdateItemListService: GRBaseService {
 
     //[{"upc": "0750105530007", "quantity": 3.0, "comments": "", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""}]
     
-    func buildParams(upc:String, quantity:Int) -> [AnyObject] {
+    func buildParams(upc:String, quantity:Int) -> [Any] {
         return [self.buildProductObject(upc: upc, quantity: quantity) as AnyObject]
     }
     
@@ -20,7 +20,7 @@ class GRUpdateItemListService: GRBaseService {
         return ["upc":upc, "quantity":quantity, "comments":"", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""]
     }
     
-    func callService(_ params:NSArray, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)

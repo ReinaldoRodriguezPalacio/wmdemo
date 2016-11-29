@@ -12,7 +12,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     
     
     @IBOutlet var categories: UICollectionView!
-    var items: [AnyObject] = []
+    var items: [Any] = []
     var selectedIndex: IndexPath!
     var selectedLine: Bool = false
     var controllerAnimateView : IPACategoriesResultViewController!
@@ -43,7 +43,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         
         
         let serviceCategory = CategoryService()
-        items = serviceCategory.getCategoriesContent() as [AnyObject]
+        items = serviceCategory.getCategoriesContent() as [Any]
         
         categories.register(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "categoryCell")
         categories.delegate = self

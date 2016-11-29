@@ -523,7 +523,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
-        service.callService(params, successBlock: { (respose:NSArray,resultDic:[String:Any]) in
+        service.callService(params, successBlock: { (respose:[Any],resultDic:[String:Any]) in
             print("temina")
             if respose.count > 0 {
                 successBlock!("gr")

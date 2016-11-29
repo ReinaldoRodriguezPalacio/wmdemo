@@ -19,7 +19,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     
     var addToListButton: UIButton!
     var buttonShare: UIButton!
-    var itemsInCart: NSArray!
+    var itemsInCart: [Any]!
     var listSelectorController: ListsSelectorViewController?
     var delegateCheckOut : IPAGRCheckOutViewControllerDelegate!
     var footer: UIView?
@@ -180,8 +180,8 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
         let service = GRAddItemListService()
-        var products: [AnyObject] = []
-        let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
+        var products: [Any] = []
+        let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [Any]
         for idx in 0 ..< itemsCart.count {
             
             let item = itemsCart[idx] as! [String:Any]
@@ -239,7 +239,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        //var products: [AnyObject] = []
+        //var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:Any]
             
@@ -371,7 +371,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         let service = GRSaveUserListService()
         
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:Any]
             

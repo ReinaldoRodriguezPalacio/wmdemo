@@ -190,7 +190,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         
         let controller = ProductDetailPageViewController()
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
@@ -232,12 +232,12 @@ class SchoolListViewController : DefaultListDetailViewController {
      Get products list
      */
     func getDetailItems(){
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
         let service = ProductbySearchService(dictionary:signalsDictionary)
         //let params = service.buildParamsForSearch(text: "", family:"f-papeleria-escolar", line: "l-escolar-cuadernos", sort:"rankingASC", departament: "d-papeleria", start: 0, maxResult: 20)
         let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100)
-        service.callService(params,
-                            successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:Any]) in
+        service.callService(params!,
+                            successBlock:{ (arrayProduct:[Any]?,facet:[Any],resultDic:[String:Any]) in
                                 self.detailItems = arrayProduct as? [[String:Any]]
                                 
                                 if self.detailItems?.count == 0 || self.detailItems == nil {
@@ -428,7 +428,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
                 var params: [String:Any] = [:]
@@ -436,7 +436,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                 params["upc"] = item["upc"] as! String
                 params["desc"] = item["description"] as! String
                 var imageUrl: String? = ""
-                if let imageArray = item["imageUrl"] as? NSArray {
+                if let imageArray = item["imageUrl"] as? [Any] {
                     if imageArray.count > 0 {
                         imageUrl = imageArray[0] as? String
                     }
@@ -569,10 +569,10 @@ class SchoolListViewController : DefaultListDetailViewController {
                     onHandInventory = inventory
                 }
                 
-                let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
+                let imageArray = shoppingCartProduct["imageUrl"] as! [Any]
                 var imageUrl = ""
                 if imageArray.count > 0 {
-                    imageUrl = imageArray.object(at: 0) as! String
+                    imageUrl = imageArray[0] as! String
                 }
                 
                 var preorderable = "false"

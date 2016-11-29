@@ -413,7 +413,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     let addressService = AddressByUserService()
                     addressService.setManagerTempHeader()
                     addressService.callService({ (address:[String:Any]) -> Void in
-                        if let shippingAddress = address["shippingAddresses"] as? NSArray
+                        if let shippingAddress = address["shippingAddresses"] as? [Any]
                         {
                             if shippingAddress.count > 0 {
                                 let alertAddress = GRFormAddressAlertView.initAddressAlert()!

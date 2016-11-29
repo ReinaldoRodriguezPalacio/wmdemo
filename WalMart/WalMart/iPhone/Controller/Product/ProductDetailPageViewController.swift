@@ -13,7 +13,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     var pageController : UIPageViewController!
     var ixSelected : Int = 0
     var ixAfterSelected : Int = 0
-    var itemsToShow : [AnyObject] = []
+    var itemsToShow : [Any] = []
     var storyBoard : UIStoryboard? = nil
     var countAfterBefore : Int = 0
     var ctrlToShow : UIViewController!

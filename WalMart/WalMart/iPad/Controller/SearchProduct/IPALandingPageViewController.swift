@@ -73,7 +73,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     var collection: UICollectionView?
     var titleHeader: String?
     var viewHeader: UIView?
-    var allProducts: NSMutableArray? = []
+    var allProducts: [[String:Any]]? = []
     var departmentId: String?
     var headerView: UIView?
     var itemsCategory: [[String:Any]]?
@@ -129,7 +129,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.imageBackground!.setImageWith(URLRequest(url:URL(string: "\(self.urlImage!)")!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground!.image = image
             self.collection?.reloadData()
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
             print("Error al presentar imagen")
         }
         
@@ -230,10 +230,10 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
     }
     
-    func loadDepartments() ->  [AnyObject]? {
+    func loadDepartments() ->  [Any]? {
         let serviceCategory = CategoryService()
         self.itemsCategory = serviceCategory.getCategoriesContent()
-        return self.itemsCategory as [AnyObject]?
+        return self.itemsCategory as [Any]?
     }
     
     func setValuesFamily(){
@@ -264,7 +264,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         
         if self.familyController.families.count > section {
             let selectedSection = self.familyController.families[section]
-            let linesArr = selectedSection["line"] as! NSArray
+            let linesArr = selectedSection["line"] as! [Any]
             
             if linesArr.count > 0 {
                 if let itemLine = linesArr[0] as? [String:Any] {
@@ -315,7 +315,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             self.filterController!.hiddenBack = true
             self.filterController!.selectedOrder = self.idSort!
             self.filterController!.textToSearch = ""
-            self.filterController!.facet = self.facet as NSArray?
+            self.filterController!.facet = self.facet as [Any]?
             self.filterController!.originalSearchContext = self.originalSearchContextType
             self.filterController!.delegate = self
             self.filterController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
@@ -367,16 +367,16 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             return
         }
         
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
         let service = ProductbySearchService(dictionary:signalsDictionary)
         self.familySelected = family
         self.lineSelected = line
         self.nameSelected = name
         let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
-        service.callService(params,
-                            successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:Any]) in
+        service.callService(params!,
+                            successBlock:{ (arrayProduct:[Any]?,facet:[Any],resultDic:[String:Any]) in
             //self.allProducts =  []
-            self.allProducts!.addObjects(from: arrayProduct! as [AnyObject])
+            self.allProducts!.addObjects(from: arrayProduct!)
                 self.collection?.reloadData()
             NotificationCenter.default.post(name: Notification.Name(rawValue: "FINISH_SEARCH"), object: nil)
             self.showLoadingIfNeeded(true)
@@ -502,7 +502,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
         
         //        }
         //
-        item = self.allProducts?[indexPath.item] as! [String:Any]
+        item = self.allProducts![indexPath.item]
         let upc = item["upc"] as! String
         let description = item["description"] as? String
         
@@ -521,7 +521,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
         }
         
         var imageUrl: String? = ""
-        if let imageArray = item["imageUrl"] as? NSArray {
+        if let imageArray = item["imageUrl"] as? [Any] {
             if imageArray.count > 0 {
                 imageUrl = imageArray[0] as? String
             }
@@ -815,7 +815,7 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
                 self.allProducts!.sort(using: [NSSortDescriptor(key: "description", ascending: false)])
             case .priceAsc :
                 //println("priceAsc")
-                self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
+                self.allProducts!.sort(comparator: { (dictionary1:Any, dictionary2:Any) -> ComparisonResult in
                     let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
                     let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
                     
@@ -833,7 +833,7 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
             case .none : print("Not sorted")
             case .priceDesc :
                 //println("priceDesc")
-                self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
+                self.allProducts!.sort(comparator: { (dictionary1:Any, dictionary2:Any) -> ComparisonResult in
                     let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
                     let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
                     

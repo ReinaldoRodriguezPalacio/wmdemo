@@ -26,20 +26,20 @@ class UserWishlistService : BaseService {
                     
                     
                     let itemResult = resultCall[self.JSON_WISHLIST_RESULT] as! [String:Any]
-                    let itemWishList = itemResult["items"] as! [AnyObject]
+                    let itemWishList = itemResult["items"] as! [[String:Any]]
                     
                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                     let user = UserCurrentSession.sharedInstance().userSigned
                     
                     let predicate = NSPredicate(format: "user == %@ ", user!)
-                    let array : [Wishlist] =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
+                    let array : [Wishlist] =  (self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
                     for itemWishlist in array {
                         context.delete(itemWishlist)
                     }
                     
                     let predicateSinUsr = NSPredicate(format: "user == nil ")
-                    let arraySinUsr : [Wishlist] =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicateSinUsr) as! [Wishlist]) as [Wishlist]
+                    let arraySinUsr : [Wishlist] =  (self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicateSinUsr) as! [Wishlist]) as [Wishlist]
                     for itemWishlist in arraySinUsr {
                         context.delete(itemWishlist)
                     }
@@ -52,7 +52,7 @@ class UserWishlistService : BaseService {
                         fatalError()
                     }
                     
-                    var itemsInWishlist : [AnyObject] = []
+                    var itemsInWishlist : [[String:Any]] = []
                     
                     for wishlistDicProduct in itemWishList {
                         
@@ -74,7 +74,7 @@ class UserWishlistService : BaseService {
                         }
                         
                         var imageUrl = ""
-                        if let images = wishlistDicProduct["imageUrl"] as? NSArray {
+                        if let images = wishlistDicProduct["imageUrl"] as? [Any] {
                             imageUrl = images[0] as! String
                         }
                         
@@ -95,7 +95,7 @@ class UserWishlistService : BaseService {
                         wishlistProduct.product = NSEntityDescription.insertNewObject(forEntityName: "Product" as String, into: context) as! Product
                         wishlistProduct.product.upc = upc
                         wishlistProduct.product.desc = desc
-                        wishlistProduct.product.price = price
+                        wishlistProduct.product.price = price as NSString
                         wishlistProduct.product.img = imageUrl
                         wishlistProduct.product.isActive = isActive
                         wishlistProduct.product.isPreorderable = isPreordeable
@@ -138,10 +138,10 @@ class UserWishlistService : BaseService {
         if UserCurrentSession.hasLoggedUser() {
             predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
         }
-        let array  =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
+        let array  =  (self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
         
         var returnDictionary = [:]
-        var items : [AnyObject] = []
+        var items : [Any] = []
         //var subtotal : Double = 0.0
         //var totalQuantity = 0
         for itemWL in array {
@@ -198,7 +198,7 @@ class UserWishlistService : BaseService {
         if added != nil {
         if added!.count > 0 {
             //let serviceUpdate = ShoppingCartAddProductsService()
-            //var arrayUpcsUpdate : [AnyObject] = []
+            //var arrayUpcsUpdate : [Any] = []
             
             for itemAdded in added! {
                 let serviceWishList = AddItemWishlistService()

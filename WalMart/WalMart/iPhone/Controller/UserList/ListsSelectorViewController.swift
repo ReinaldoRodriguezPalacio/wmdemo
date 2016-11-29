@@ -50,7 +50,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var alertView: IPOWMAlertViewController?
     
     var productUpc: String?
-    var list: [AnyObject]?
+    var list: [Any]?
     var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
@@ -133,7 +133,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func loadLocalList() {
         if let user = UserCurrentSession.sharedInstance().userSigned {
             self.list = self.retrieveItems(forUser: user)
-            self.list =  self.list?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.list =  self.list?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -144,7 +144,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         else {
             let service = GRUserListService()
             self.list = service.retrieveNotSyncList()
-            self.list =  self.list?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.list =  self.list?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -289,7 +289,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         let userListsService = GRUserListService()
         userListsService.callService([:],
             successBlock: { (result:[String:Any]) -> Void in
-                self.list = result["responseArray"] as? [AnyObject]
+                self.list = result["responseArray"] as? [Any]
                 //println(self.itemsUserList)
                 self.tableView!.reloadData()
             },

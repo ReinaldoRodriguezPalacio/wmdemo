@@ -44,7 +44,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     let itemsPayments = [NSLocalizedString("En linea", comment:""), NSLocalizedString("Contra entrega", comment:"")]
     
     //Services
-    var paymentOptionsItems: [AnyObject]?
+    var paymentOptionsItems: [Any]?
     //var paymentOptions: FormFieldView?
     var selectedPaymentType : IndexPath!
    
@@ -64,8 +64,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paymentOptionsView : PaymentOptionsView!
     var paymentId = "0"
     var paymentString = ""
-    var paramsToOrder : NSMutableDictionary?
-    var paramsToConfirm : NSMutableDictionary?
+    var paramsToOrder : [String:Any]?
+    var paramsToConfirm : [String:Any]?
     
     //Paypal
     var showOnilePayments: Bool = false
@@ -406,7 +406,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 //            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
 //            let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
             
-            let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
+            let purchaseOrderArray = resultCall["purchaseOrder"] as! [Any]
             let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
             
             let trakingNumber = purchaseOrder["trackingNumber"] as! String
@@ -669,7 +669,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.totalDiscountsOrder = totalDiscounts!
                 self.promotionsDesc = []
                 
-                if let listSamples = resultCall["listSamples"] as? [AnyObject]{
+                if let listSamples = resultCall["listSamples"] as? [[String:Any]]{
                     for promotionln in listSamples {
                         let isAsociate = promotionln["isAssociated"] as! Bool
                         self.isAssociateSend = isAsociate
@@ -678,7 +678,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                     }
                 }
-                if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
+                if let listPromotions = resultCall["listPromotions"] as? [[String:Any]]{
                     for promotionln in listPromotions {
                         let promotion = promotionln["idPromotion"] as! Int
                         self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(promotion)", with: "")
@@ -688,7 +688,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     }
                 }
                 
-                if let listFreeshippins = resultCall["listFreeshippins"] as? [AnyObject]{
+                if let listFreeshippins = resultCall["listFreeshippins"] as? [[String:Any]]{
                     for freeshippin in listFreeshippins {
                         self.idFreeShepping = freeshippin["idPromotion"] as! Int
                         self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(self.idFreeShepping)", with: "")
@@ -775,7 +775,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             if let res = result["discountsAssociated"] as? Bool {
                 self.showDiscountAsociate = res // TODO
             }
-            if let listPromotions = result["listPromotions"] as? [AnyObject]{
+            if let listPromotions = result["listPromotions"] as? [[String:Any]]{
                 for promotionln in listPromotions {
                     let promotionDiscount = promotionln["promotionDiscount"] as! Int
                     self.discountAssociateAply = Double(promotionDiscount) / 100.0
@@ -798,9 +798,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         let service = GRPaymentTypeService()
         service.callService("2",
-            successBlock: { (result:NSArray) -> Void in
+            successBlock: { (result:[Any]) -> Void in
                 print(result)
-                self.paymentOptionsItems = result as [AnyObject]
+                self.paymentOptionsItems = result as [Any]
                 //TODO: Borrar despues de validar paypal
                 //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])
                 
@@ -862,7 +862,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
-                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
+                    var items = UserCurrentSession.sharedInstance().itemsGR!
                     //if let savingGR = items["saving"] as? Double {
                     
                     items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate

@@ -38,7 +38,7 @@ class GRGetPromotionsService: GRBaseService{
         self.addressId = params["addressId"]
     }
     
-    func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:Any, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         
 //        self.jsonFromObject(buildParams(self.isAssociated!,associateNumber: self.idAssociated ==  nil ? "" :self.idAssociated!,
 //            startDate: self.dateAdmission == nil ? "": self.dateAdmission!, determinant: self.determinant == nil ? "" : self.determinant!,total: self.total!,storeID: self.addressId!))

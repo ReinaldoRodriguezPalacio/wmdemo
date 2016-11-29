@@ -12,7 +12,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
     var scrollForm: TPKeyboardAvoidingScrollView?
     var layerLine: CALayer!
     var sAddredssForm: GRFormSuperAddressView?
-    var addressArray: [AnyObject]?
+    var addressArray: [Any]?
     var saveButton: UIButton?
     var alertView: IPOWMAlertViewController?
     var onClose: (() -> Void)?
@@ -38,7 +38,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         self.addSubview(scrollForm!)
         
         self.sAddredssForm = GRFormSuperAddressView()
-        self.sAddredssForm!.allAddress = self.addressArray as NSArray!
+        self.sAddredssForm!.allAddress = self.addressArray as [Any]!
         self.sAddredssForm!.idAddress = ""
         self.scrollForm!.addSubview(sAddredssForm!)
         
@@ -64,7 +64,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
      */
     func save(){
         self.endEditing(true)
-        self.sAddredssForm!.allAddress = self.addressArray as NSArray!
+        self.sAddredssForm!.allAddress = self.addressArray as [Any]!
         let service = GRAddressAddService()
         let dictSend = sAddredssForm!.getAddressDictionary("", delete:false)
         if dictSend != nil {

@@ -30,7 +30,7 @@ struct ConfigServices {
 
 
 struct RecommendedCategory {
-    static var cagtegories : NSArray = []
+    static var cagtegories : [Any] = []
     static var groceriescategory : [String:Any] = [:]
     
 }
@@ -271,12 +271,12 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     
                     
                     
-                    if let privateNot = result["privaceNotice"] as? NSArray {
+                    if let privateNot = result["privaceNotice"] as? [[String:Any]] {
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "dd/MM/yyyy"
-                        let sinceDate = dateFormatter.date(from: privateNot.object(at: 0).object(forKey: "sinceDate") as! String)!
-                        let untilDate = dateFormatter.date(from: privateNot.object(at: 0).object(forKey: "untilDate") as! String)!
-                        let version = privateNot.object(at: 0).object(forKey: "version") as! NSNumber
+                        let sinceDate = dateFormatter.date(from: privateNot[0]["sinceDate"] as! String)!
+                        let untilDate = dateFormatter.date(from: privateNot[0]["untilDate"] as! String)!
+                        let version = privateNot[0]["version"] as! NSNumber
                         let versionAP = "AP\(version)" as String!
                         var isReviewActive : NSString = "false"
                         
@@ -290,14 +290,14 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         
                         UserCurrentSession.sharedInstance().isReviewActive = isReviewActive.boolValue
                         
-                        if let commensChck = result["alertComment"] as? NSArray {
-                            if let active = commensChck[0].object(forKey: "isActive") as? Bool {
+                        if let commensChck = result["alertComment"] as? [[String:Any]] {
+                            if let active = commensChck[0]["isActive"] as? Bool {
                                 UserCurrentSession.sharedInstance().activeCommens = active
                             }
-                            if let message = commensChck[0].object(forKey: "message") as? String {
+                            if let message = commensChck[0]["message"] as? String {
                                 UserCurrentSession.sharedInstance().messageInCommens = message
                             }
-                            if let upcs = commensChck[0].object(forKey: "upcs") as? NSArray {
+                            if let upcs = commensChck[0]["upcs"] as? [String] {
                                 UserCurrentSession.sharedInstance().upcSearch = upcs
                             }
                             
@@ -305,7 +305,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         
                         
                         var requiredAP = true
-                        if let param = self.retrieveParam(versionAP) {
+                        if let param = self.retrieveParam(versionAP!) {
                             requiredAP = !(param.value == "false")
                         }
                         
@@ -324,8 +324,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                                 }
                             }
                             
-                            let url = result["privaceNotice"]?.objectAtIndex(0)["url"] as! String
-                            let request = URLRequest(URL: URL(string:url)!)
+                            let urlArray = result["privaceNotice"] as! [[String:Any]]
+                            let url = urlArray[0]["url"] as! String
+                            let request = URLRequest(url: URL(string:url)!)
                             let configuration = URLSessionConfiguration.default
                             let manager = AFURLSessionManager(sessionConfiguration: configuration)
                             let downloadTask = manager.downloadTaskWithRequest(request, progress: nil, destination: { (url:URL, urlResponse:URLResponse) -> URL in
@@ -365,7 +366,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             
             let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: !showNotification)
             print("Splash")
-            print(notService.jsonFromObject(params))
+            print(notService.jsonFromObject(params as AnyObject!))
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
                 

@@ -41,7 +41,7 @@ class GRProductDetailService : GRBaseService {
     }
     
     
-    func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(requestParams params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             //let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as [String:Any]
             successBlock!(resultCall)

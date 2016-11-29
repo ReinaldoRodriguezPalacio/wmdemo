@@ -201,7 +201,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = ProductDetailPageViewController()
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
@@ -327,14 +327,14 @@ DetailListViewCellDelegate,UIActivityItemSource {
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.contains("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.contains("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -436,7 +436,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
             
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             var totalPrice: Int = 0
             
             for idxVal  in selectedItems! {
@@ -495,7 +495,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             total = self.calculateTotalAmount()
         }
         
-        let fmtTotal = CurrencyCustomLabel.formatString("\(total)")
+        let fmtTotal = CurrencyCustomLabel.formatString("\(total)" as NSString)
         let amount = String(format: NSLocalizedString("list.detail.buy",comment:""), fmtTotal)
         self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
@@ -575,7 +575,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             
             service.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 
-                let  itemsUserList = result["responseArray"] as? [AnyObject]
+                let  itemsUserList = result["responseArray"] as? [Any]
                 self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
                 
                 
@@ -601,9 +601,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     
     
-    func copyList(_ listName:String,itemsUserList:[AnyObject]?,successDuplicateList:@escaping (() -> Void)) {
+    func copyList(_ listName:String,itemsUserList:[Any]?,successDuplicateList:@escaping (() -> Void)) {
         let service = GRSaveUserListService()
-        var items: [AnyObject] = []
+        var items: [Any] = []
         if self.detailItems != nil {
             for idx in 0 ..< self.detailItems!.count {
                 var product = self.detailItems![idx]
@@ -639,7 +639,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         )
     }
     
-    func buildDuplicateNameList(_ theName:String, forListId listId:String?,itemsUserList:[AnyObject]?) -> String {
+    func buildDuplicateNameList(_ theName:String, forListId listId:String?,itemsUserList:[Any]?) -> String {
      
         
         var listName = "\(theName)" //Se crea una nueva instancia

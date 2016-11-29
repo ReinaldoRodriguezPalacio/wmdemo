@@ -13,7 +13,7 @@ import CoreData
 protocol ProductDetailButtonBarCollectionViewCellDelegate {
     func shareProduct()
     func showProductDetail()
-    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void)
+    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void)
     func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String)
     func showMessageProductNotAviable()
     //func showProductDetailOptions()

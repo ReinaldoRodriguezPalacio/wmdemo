@@ -15,7 +15,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     //@IBOutlet var recentProducts : UITableView!
     
     var recentProducts : UITableView!
-    var recentProductItems : [AnyObject] = [] 
+    var recentProductItems : [[String:Any]] = []
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
@@ -76,7 +76,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     func invokeRecentProducts(){
         let service = GRRecentProductsService()
         service.callService({ (resultado:[String:Any]) -> Void in
-            self.recentProductItems = resultado["responseArray"] as! [AnyObject]
+            self.recentProductItems = resultado["responseArray"]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -128,7 +128,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: self.recentProductItems[indexPath.row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems() as [AnyObject]
+        controller.itemsToShow = getUPCItems() as [Any]
         controller.ixSelected = indexPath.row
         controller.detailOf = "Recent Products"
         self.navigationController!.pushViewController(controller, animated: true)

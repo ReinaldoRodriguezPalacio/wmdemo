@@ -22,7 +22,7 @@ class SliderTableViewCell: UITableViewCell {
 
     var minValue: Double = 0.0
     var maxValue: Double = 0.0
-    var values: NSArray?
+    var values: [Any]?
     
     let labelColor =  WMColor.light_blue
     let numFont = WMFont.fontMyriadProRegularOfSize(12)
@@ -63,7 +63,7 @@ class SliderTableViewCell: UITableViewCell {
 
     }
     
-    func setValuesSlider(_ priceValues:NSArray) {
+    func setValuesSlider(_ priceValues:[Any]) {
         if  self.minValue == 0 && self.maxValue == 0 {
             self.minValue = priceValues.firstObject as! Double
             self.maxValue = priceValues.lastObject as! Double

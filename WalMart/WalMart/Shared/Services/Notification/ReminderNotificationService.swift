@@ -95,14 +95,14 @@ class ReminderNotificationService {
      - returns: Regresa la fecha con la hora especificada
      */
     func createDateFrom(_ date:Date, forHour hour:Int, andMinute minute:Int) -> Date? {
-        let calendar = Calendar(identifier: NSGregorianCalendar)
+        var calendar = Calendar(identifier: .gregorian)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-        calendar!.timeZone = TimeZone.autoupdatingCurrent
-        let components = (calendar! as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: date)
+        calendar.timeZone = TimeZone.autoupdatingCurrent
+        var components = (calendar as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: date)
         components.second = 00
         components.minute = minute
         components.hour = hour
-        let otherDate = calendar!.date(from: components)
+        let otherDate = calendar.date(from: components)
         return otherDate
     }
     

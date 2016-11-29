@@ -51,9 +51,9 @@ class ProductbySearchService : BaseService {
     }
     
     
-    func callService(_ params:[String:Any], successBlock:((NSArray,_ facet:NSArray,_ resultDic:[String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any], successBlock:(([Any],_ facet:[Any],_ resultDic:[String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("PARAMS FOR ProductbySearchService")
-        self.jsonFromObject(params)
+        self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
             successBlock: { (resultJSON:[String:Any]) -> Void in
 //                println("RESULT FOR ProductbySearchService")
@@ -69,21 +69,21 @@ class ProductbySearchService : BaseService {
                 let dic: [String:Any] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
                 let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEARRAY))
                 
-                var newItemsArray = Array<AnyObject>()
-                if let items = resultJSON[arrayKey] as? NSArray {
+                var newItemsArray = Array<[String:Any]>()
+                if let items = resultJSON[arrayKey] as? [[String:Any]] {
                     //println(items)
                     self.saveKeywords(items) //Creating keywords
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:Any]
+                        var item = items[idx] as! [String:[String:Any]]
                         item["type"] = ResultObjectType.Mg.rawValue
                         newItemsArray.append(item)
                     }
                 }
-                var facets = Array<AnyObject>()
-                if let itemsFacets = resultJSON["facet"] as? [AnyObject] {
+                var facets = Array<[String:Any]>()
+                if let itemsFacets = resultJSON["facet"] as? [[String:Any]] {
                     facets = itemsFacets
                 }
-                successBlock?(newItemsArray,facet: facets,resultDic: dic)
+                successBlock?(newItemsArray,facets,dic)
             },
             errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

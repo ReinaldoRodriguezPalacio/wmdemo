@@ -57,13 +57,13 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 struct SearchResult {
-    var products: NSArray? = nil
+    var products: [Any]? = nil
     var totalResults = -1
     var resultsInResponse = 0
    
-    mutating func addResults(_ otherProducts:NSArray) {
+    mutating func addResults(_ otherProducts:[[String:Any]]) {
         if self.products != nil {
-            self.products = self.products!.addingObjects(from: otherProducts as [AnyObject]) as NSArray?
+            self.products = self.products!.addingObjects(from: otherProducts)
         }
         else {
             self.products = otherProducts
@@ -104,7 +104,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var emptyMGGR: IPOSearchResultEmptyView!
     lazy var mgResults: SearchResult? = SearchResult()
     lazy var grResults: SearchResult? = SearchResult()
-    var allProducts: NSMutableArray? = []
+    var allProducts: [[String:Any]]? = []
     var upcsToShow : [String]? = []
     var upcsToShowApply : [String]? = []
     var flagtest = true
@@ -134,7 +134,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var btnSuper : UIButton!
     var btnTech : UIButton!
     var facet : [[String:Any]]!
-    var facetGr : NSArray? = nil
+    var facetGr : [Any]? = nil
     
     var controllerFilter : FilterProductsViewController!
     
@@ -142,10 +142,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var isLoading  = false
     var hasEmptyView = false
     
-    var itemsUPCMG: NSArray? = []
-    var itemsUPCGR: NSArray? = []
-    var itemsUPCMGBk: NSArray? = []
-    var itemsUPCGRBk: NSArray? = []
+    var itemsUPCMG: [Any]? = []
+    var itemsUPCGR: [Any]? = []
+    var itemsUPCMGBk: [Any]? = []
+    var itemsUPCGRBk: [Any]? = []
     
     var didSelectProduct =  false
     var finsihService =  false
@@ -155,7 +155,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var isTextSearch: Bool = false
     var isOriginalTextSearch: Bool = false
     
-    var findUpcsMg: NSArray? = []
+    var findUpcsMg: [Any]? = []
     
     var idListFromSearch : String? = ""
     var invokeServiceInError = false
@@ -586,7 +586,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         var imageUrl: String? = ""
-        if let imageArray = item["imageUrl"] as? NSArray {
+        if let imageArray = item["imageUrl"] as? [Any] {
             if imageArray.count > 0 {
                 imageUrl = imageArray[0] as? String
             }
@@ -749,7 +749,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
             controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
-            controller.itemsToShow = productsToShow as [AnyObject]
+            controller.itemsToShow = productsToShow as [Any]
             controller.ixSelected = indexPath.row
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
@@ -834,7 +834,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:[String:Any]) -> Void in
                 if result["items"] != nil {
-                 self.itemsUPCGR = result["items"] as? NSArray
+                 self.itemsUPCGR = result["items"] as? [Any]
                 }else {
                  self.itemsUPCGR = []
                 }
@@ -886,11 +886,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let startOffSet = self.mgResults!.resultsInResponse
         
         //TODO: Signals
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
-            successBlock:{ (arrayProduct:NSArray?,facet:NSArray,resultDic:[String:Any]) in
+            successBlock:{ (arrayProduct:[Any]?,facet:[Any],resultDic:[String:Any]) in
                 
                 let landingMg = resultDic["landingPage"] as! [String:Any]
                 self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
@@ -1016,12 +1016,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             startOffSet += 1
         }
         //TODO: Signals
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
-        service.callService(params, successBlock: { (arrayProduct:NSArray?, resultDic:[String:Any]) -> Void in
+        service.callService(params!, successBlock: { (arrayProduct:[Any]?, resultDic:[String:Any]) -> Void in
             
             self.landingPageGR = resultDic["landingPage"] as? [String:Any]
             if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -1220,8 +1220,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [AnyObject])
-                        var filtredProducts : [AnyObject] = []
+                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [Any])
+                        var filtredProducts : [Any] = []
                         for product in self.mgResults!.products! {
                             let productDict = product as! [String:Any]
                             if let productUPC =  productDict["upc"] as? String {
@@ -1233,7 +1233,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.allProducts?.addObjects(from: filtredProducts)
                     } else {
                         if self.mgResults!.products != nil{
-                            self.allProducts?.addObjects(from: self.mgResults!.products as! [AnyObject])
+                            self.allProducts?.addObjects(from: self.mgResults!.products as! [Any])
                         }
                     }
                 }
@@ -1244,8 +1244,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCGR as! [AnyObject])
-                        var filtredProducts : [AnyObject] = []
+                        self.allProducts?.addObjects(from: self.itemsUPCGR as! [Any])
+                        var filtredProducts : [Any] = []
                             for product in self.grResults!.products! {
                                 let productDict = product as! [String:Any]
                                 if let productUPC =  productDict["upc"] as? String {
@@ -1257,7 +1257,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         
                         self.allProducts?.addObjects(from: filtredProducts)
                     } else {
-                        self.allProducts?.addObjects(from: self.grResults!.products as! [AnyObject])
+                        self.allProducts?.addObjects(from: self.grResults!.products as! [Any])
                     }
                 }
             }
@@ -1268,8 +1268,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCGR as! [AnyObject])
-                        var filtredProducts : [AnyObject] = []
+                        self.allProducts?.addObjects(from: self.itemsUPCGR as! [Any])
+                        var filtredProducts : [Any] = []
                         for product in self.grResults!.products! {
                             let productDict = product as! [String:Any]
                             if let productUPC =  productDict["upc"] as? String {
@@ -1281,7 +1281,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.allProducts?.addObjects(from: filtredProducts)
                     } else {
                         if self.grResults!.products != nil{
-                            self.allProducts?.addObjects(from: self.grResults!.products as! [AnyObject])
+                            self.allProducts?.addObjects(from: self.grResults!.products as! [Any])
                         }
                     }
                 }
@@ -1292,8 +1292,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [AnyObject])
-                        var filtredProducts : [AnyObject] = []
+                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [Any])
+                        var filtredProducts : [Any] = []
                         for product in self.mgResults!.products! {
                             let productDict = product as! [String:Any]
                             if let productUPC =  productDict["upc"] as? String {
@@ -1304,11 +1304,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         self.allProducts?.addObjects(from: filtredProducts)
                     } else {
-                        self.allProducts?.addObjects(from: self.mgResults!.products as! [AnyObject])
+                        self.allProducts?.addObjects(from: self.mgResults!.products as! [Any])
                     }
                 }else{//new validate
                     if self.itemsUPCMG?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [AnyObject])
+                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [Any])
                     }
                 }
             }
@@ -1567,7 +1567,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func filter(_ sender:UIButton){
         if controllerFilter == nil {
             controllerFilter = FilterProductsViewController()
-            controllerFilter.facet = self.facet as NSArray?
+            controllerFilter.facet = self.facet as [Any]?
             controllerFilter.textToSearch = self.textToSearch
             controllerFilter.selectedOrder = self.idSort!//self.idSort! == "" ? "rating" :self.idSort!
             controllerFilter.isGroceriesSearch = self.btnSuper.isSelected
@@ -1592,7 +1592,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         serviceFacet.callService(idDepartament,stringSearch:textSearch == nil ? "" : textSearch!,idFamily: idFamily == nil ? "" : idFamily!,idLine:self.idLine == nil ? "":self.idLine!,
             successBlock: { (result:[String:Any]) -> Void in
-                let arrayCall = result["brands"] as! NSArray
+                let arrayCall = result["brands"] as! [Any]
                 
                 self.facetGr = arrayCall
                 print(result)
@@ -2006,9 +2006,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let serviceUPC = SearchItemsByUPCService()
             serviceUPC.callService(self.findUpcsMg as! [String], successJSONBlock: { (result:JSON) -> Void in
                 //self.itemsUPCMG = result.arrayObject
-                let upcs : NSArray = result.arrayObject!
+                let upcs : [Any] = result.arrayObject!
                 if upcs.count > 0 {
-                self.allProducts?.addObjects(from: upcs as [AnyObject])
+                self.allProducts?.addObjects(from: upcs as [Any])
                 self.finsihService =  true
                 self.invokeServiceUpc =  true
                 self.collection?.reloadData()

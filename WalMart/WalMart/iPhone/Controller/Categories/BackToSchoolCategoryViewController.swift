@@ -34,7 +34,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         let stringURl = urlTicer.contains("http") ?  urlTicer : "http://\(urlTicer)"
         self.imageBackground.setImageWith(URLRequest(url:URL(string: stringURl!)!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
             print("Error al presentar imagen")
         }
         
@@ -108,7 +108,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
         service.callService(requestParams: ["id":self.departmentId], successBlock: { (response:[String:Any]) -> Void in
-            let schools  =  response["responseArray"] as! NSArray
+            let schools  =  response["responseArray"] as! [Any]
             self.schoolsList = schools as? [[String : AnyObject]]
             self.filterList = self.schoolsList
             self.schoolsTable.reloadData()

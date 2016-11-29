@@ -59,11 +59,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var deliveryDatePicker: UIDatePicker?
     var confirmationPicker: UIPickerView?
     
-    var paymentOptionsItems: [AnyObject]?
-    var addressItems: [AnyObject]?
-    var shipmentItems: [AnyObject]?
-    var slotsItems: [AnyObject]?
-    var orderOptionsItems: [AnyObject]?
+    var paymentOptionsItems: [Any]?
+    var addressItems: [Any]?
+    var shipmentItems: [Any]?
+    var slotsItems: [Any]?
+    var orderOptionsItems: [Any]?
 
     var totalItems: String?
     var selectedAddress: String? = nil
@@ -363,7 +363,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         
         //Fill orders
-        self.orderOptionsItems = self.optionsConfirmOrder() as [AnyObject]?
+        self.orderOptionsItems = self.optionsConfirmOrder() as [Any]?
         
         if  self.orderOptionsItems?.count > 0 {
             self.selectedConfirmation  = IndexPath(row: 0, section: 0)
@@ -738,7 +738,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if let res = result["discountsAssociated"] as? Bool {
                 self.showDiscountAsociate = res//TODO validar flujo
             }
-            if let listPromotions = result["listPromotions"] as? [AnyObject]{
+            if let listPromotions = result["listPromotions"] as? [Any]{
                 for promotionln in listPromotions {
                     let promotionDiscount = promotionln["promotionDiscount"] as! Int
                     self.discountAssociateAply = Double(promotionDiscount) / 100.0
@@ -757,8 +757,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         let service = GRPaymentTypeService()
         service.callService("2",
-            successBlock: { (result:NSArray) -> Void in
-                self.paymentOptionsItems = result as [AnyObject]
+            successBlock: { (result:[Any]) -> Void in
+                self.paymentOptionsItems = result as [Any]
                 if result.count > 0 {
                     let option = result[0] as! [String:Any]
                     if let text = option["paymentType"] as? String {
@@ -827,7 +827,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.totalDiscountsOrder = totalDiscounts!
                     self.promotionsDesc = []
                     
-                    if let listSamples = resultCall["listSamples"] as? [AnyObject]{
+                    if let listSamples = resultCall["listSamples"] as? [Any]{
                         for promotionln in listSamples {
                             let isAsociate = promotionln["isAssociated"] as! Bool
                             self.isAssociateSend = isAsociate
@@ -836,7 +836,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                         }
                     }
-                    if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
+                    if let listPromotions = resultCall["listPromotions"] as? [Any]{
                         for promotionln in listPromotions {
                             let promotion = promotionln["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(promotion)", with: "")
@@ -846,7 +846,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                     
-                    if let listFreeshippins = resultCall["listFreeshippins"] as? [AnyObject]{
+                    if let listFreeshippins = resultCall["listFreeshippins"] as? [Any]{
                         for freeshippin in listFreeshippins {
                              self.idFreeShepping = freeshippin["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(self.idFreeShepping)", with: "")
@@ -1004,8 +1004,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let service = GRAddressByUserService()
         service.callService(
             { (result:[String:Any]) -> Void in
-                if let items = result["responseArray"] as? NSArray {
-                    self.addressItems = items as [AnyObject]
+                if let items = result["responseArray"] as? [Any] {
+                    self.addressItems = items as [Any]
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
@@ -1238,7 +1238,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                 }
-                self.slotsItems = result["slots"] as! NSArray as [AnyObject]
+                self.slotsItems = result["slots"] as! [Any] as [Any]
                 //--self.addViewLoad()
                 endCallTypeService()
                 }) { (error:NSError) -> Void in
@@ -1385,7 +1385,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.scrollForm.scrollDelegate = self
         scrollForm.contentSize = CGSize(width: frame.width, height: 720)
         sAddredssForm = FormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
-        sAddredssForm.allAddress = self.addressItems as NSArray!
+        sAddredssForm.allAddress = self.addressItems as [Any]!
         sAddredssForm.idAddress = ""
         if !self.selectedAddressHasStore{
                 let serviceAddress = GRAddressesByIDService()
@@ -1575,7 +1575,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
                 
                 
-                let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
+                let purchaseOrderArray = resultCall["purchaseOrder"] as! [Any]
                 let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
                 
                 let trakingNumber = purchaseOrder["trackingNumber"] as! String

@@ -54,7 +54,7 @@ class DeleteItemWishlistService : BaseService {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let parameter = params["parameter"] as! NSArray
+        let parameter = params["parameter"] as! [Any]
         if parameter.count > 0 {
             for upcVal in parameter {
                 let upc = upcVal as! String

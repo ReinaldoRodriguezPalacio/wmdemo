@@ -27,7 +27,7 @@ class ShoppingCartProductsService : BaseService {
                     
                     //println("Items in shoppingCart: \(resultCall)")
                     
-                    let itemsInShoppingCart = resultCall["items"] as! NSArray
+                    let itemsInShoppingCart = resultCall["items"] as! [Any]
                     
                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -81,7 +81,7 @@ class ShoppingCartProductsService : BaseService {
                         
                         
                         var imageUrl = ""
-                        if let images = shoppingCartProduct["imageUrl"] as? NSArray {
+                        if let images = shoppingCartProduct["imageUrl"] as? [Any] {
                             imageUrl = images[0] as! String
                         }
                         
@@ -167,7 +167,7 @@ class ShoppingCartProductsService : BaseService {
         }
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         var returnDictionary = [:]
-        var items : [AnyObject] = []
+        var items : [Any] = []
         var subtotal : Double = 0.0
         var iva : Double = 0.0
         var totalest : Double = 0.0
@@ -252,7 +252,7 @@ class ShoppingCartProductsService : BaseService {
         let updated = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             let serviceUpdate = ShoppingCartUpdateProductsService()
-            var arrayUpcsUpdate : [AnyObject] = []
+            var arrayUpcsUpdate : [Any] = []
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
@@ -276,7 +276,7 @@ class ShoppingCartProductsService : BaseService {
         let updated = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             let serviceUpdate = ShoppingCartAddProductsService()
-            var arrayUpcsUpdate : [AnyObject] = []
+            var arrayUpcsUpdate : [Any] = []
             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             

@@ -18,7 +18,7 @@ class LineService : BaseService {
         return ["id":familyId]
     }
     
-    func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(requestParams params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print("Call service :: ::LineService ")
         self.callPOSTService(buildParamsLine(params as! String), successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)

@@ -56,7 +56,7 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         downBorder.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth())
     }
     
-    func setValues(_ msi:NSArray){
+    func setValues(_ msi:[Any]){
 
         if doneValues  { return }
         doneValues = true

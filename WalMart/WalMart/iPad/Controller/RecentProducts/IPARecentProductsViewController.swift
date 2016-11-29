@@ -31,7 +31,7 @@ class IPARecentProductsViewController: RecentProductsViewController {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: self.recentProductItems[0]["description"] as! String)
         
         let controller = IPAProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems() as [AnyObject]
+        controller.itemsToShow = getUPCItems() as [Any]
         controller.ixSelected = indexPath.row
         controller.detailOf = "Recent Products"
        

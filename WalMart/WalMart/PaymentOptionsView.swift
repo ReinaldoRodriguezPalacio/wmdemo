@@ -12,7 +12,7 @@ import Foundation
 
 class PaymentOptionsView : UIView {
     
-    var paymentItems : [AnyObject] = []
+    var paymentItems : [Any] = []
     var afterButton :UIButton?
     var selectedOption : ((_ selected:String, _ stringSelected:String) -> Void)? = nil
     
@@ -20,7 +20,7 @@ class PaymentOptionsView : UIView {
         super.init(frame:frame)
     }
     
-    init(frame: CGRect,items: [AnyObject]) {
+    init(frame: CGRect,items: [Any]) {
         super.init(frame:frame)
         self.paymentItems = items
         setup()

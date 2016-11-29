@@ -27,7 +27,7 @@ class UpdateUserProfileService : BaseService {
                     
                     let email = params["email"] as! String;
                     let predicate = NSPredicate(format: "email == %@ ", email)
-                    let array =  self.retrieve("User" ,sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
+                    let array =  self.retrieve("User" ,sortBy:nil,isAscending:true,predicate:predicate) as! [Any]
         
                     if array.count > 0{
                         usr = array[0] as! User

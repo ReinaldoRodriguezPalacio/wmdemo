@@ -14,7 +14,7 @@ class LinesForSearchService: BaseService {
         return ["pText":string]
     }
 
-    func callService(_ params:[String:Any], successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //println("PARAMS FOR LinesForSearchService" )
         printTimestamp("servicio LinesForSearchService")
         self.jsonFromObject(params)
@@ -22,10 +22,10 @@ class LinesForSearchService: BaseService {
             success: {(request:URLSessionDataTask, json:AnyObject?) in
                 //println(json)
                 self.printTimestamp("success LinesForSearchService")
-                if let response = json!["responseArray"] as? [AnyObject] {
+                if let response = json!["responseArray"] as? [Any] {
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
-                            let values = [AnyObject](dictionary.values)
+                            let values = [Any](dictionary.values)
                             self.jsonFromObject(values)
                             dispatch_async(dispatch_get_main_queue(),  { () -> Void in
                                 print("")
@@ -59,7 +59,7 @@ class LinesForSearchService: BaseService {
 //            ["id":"l_cuidadopersonal_basculas", "name":"Control de Peso"]
         //]
 //        var dictionary = self.buildResponse(response)
-//        var values = [AnyObject](dictionary.values)
+//        var values = [Any](dictionary.values)
 //        values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
 //            var deptoOne = objectOne as [String:Any]
 //            var deptoTwo = objectTwo as [String:Any]
@@ -74,12 +74,12 @@ class LinesForSearchService: BaseService {
         
     }
     
-    func buildResponse(_ response:[AnyObject],successBuildBlock:(([String:Any]) -> Void)?) {
+    func buildResponse(_ response:[Any],successBuildBlock:(([String:Any]) -> Void)?) {
         
         printTimestamp("buildResponse LinesForSearchService")
         
         //let service = GRCategoryService()
-        //var categories = service.getCategoriesContent() as NSArray
+        //var categories = service.getCategoriesContent() as [Any]
         
         //var tmpArray : [[String:Any]] = []
         
@@ -130,11 +130,11 @@ class LinesForSearchService: BaseService {
                             "level" : NSNumber(value: 0 as Int),
                             "parentId" : "",
                             "path" : idDepto,
-                            "families" : NSMutableDictionary()]
+                            "families" : [String:Any]()]
                         dictionary[idDepto] = cdepto
                     }
                     
-                    let families = cdepto!["families"] as! NSMutableDictionary
+                    let families = cdepto!["families"] as! [String:Any]
                     var cfamily = families[idFamily] as? [String:Any]
                     if cfamily == nil {
                         families[idFamily] = [
@@ -144,11 +144,11 @@ class LinesForSearchService: BaseService {
                             "level" : NSNumber(value: 1 as Int),
                             "parentId" : idDepto,
                             "path" : "\(idDepto)|\(idFamily)",
-                            "lines" : NSMutableDictionary()]
+                            "lines" : [String:Any]()]
                         cfamily = families[idFamily] as? [String:Any]
                     }
                     
-                    let lines = cfamily!["lines"] as! NSMutableDictionary
+                    let lines = cfamily!["lines"] as! [String:Any]
                     
                     let cline = [
                         "id" : idLine,

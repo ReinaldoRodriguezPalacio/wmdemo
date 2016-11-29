@@ -14,7 +14,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     var startUrlUPCWalmart = "https://www.walmart.com.mx/Busqueda.aspx?Text="
     
     var idexesPath : [IndexPath]! = []
-    var items : [AnyObject]! = []
+    var items : [[String:Any]]! = []
     var wishLitsToolBar : UIView!
 
     @IBOutlet var wishlist: UITableView!
@@ -175,10 +175,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         let desc = itemWishlist["description"] as! String
         let price = itemWishlist["price"] as! NSString
-        let imageArray = itemWishlist["imageUrl"]as! NSArray
+        let imageArray = itemWishlist["imageUrl"]as! [Any]
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.object(at: 0) as! String
+            imageUrl = imageArray[0] as! String
         }
         
         let savingIndex = itemWishlist.index(forKey: "saving")
@@ -204,7 +204,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
         cell.moveRightImagePresale(isPreorderable)
-        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
+        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal as NSString, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable as NSString)
        
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
 
@@ -267,7 +267,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = itemsToSend as [AnyObject]
+        controller.itemsToShow = itemsToSend as [Any]
         controller.ixSelected = indexPath.row
         controller.detailOf = "Wish List"
         
@@ -312,7 +312,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
 //            var serviceWish = UserWishlistService()
 //            serviceWish.callService({ (wishlist:[String:Any]) -> Void in
-//                self.items = wishlist["items"] as [AnyObject]
+//                self.items = wishlist["items"] as [Any]
 //                
 //                
 //                self.emptyView.hidden = self.items.count > 0
@@ -382,7 +382,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             buttonShop.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("wishlist.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(totalStr)
+        let fmtTotal = CurrencyCustomLabel.formatString(totalStr as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
@@ -571,7 +571,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         //let image = UIImage(named:"navBar_cart")
         let headerImage = UIImage(named:"wishlist_headerMail")
         let image = self.wishlist.screenshot()
-        let imageWHeader =  UIImage.verticalImage(from: [headerImage!,image])
+        let imageWHeader =  UIImage.verticalImage(from: [headerImage!,image!])
         var strAllUPCs = ""
         for item in self.items {
             let strItemUpc = item["upc"]
@@ -584,18 +584,18 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let upcList = "\(strAllUPCs)"
         let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
         
-        let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader!], applicationActivities: nil)
         self.navigationController!.present(controller, animated: true, completion: nil)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                if completed && !activityType!.contains("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.contains("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -630,8 +630,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
     func senditemsToShoppingCart() {
         
-        var params : [AnyObject] =  []
-        var paramsPreorderable : [AnyObject] =  []
+        var params : [Any] =  []
+        var paramsPreorderable : [Any] =  []
         var hasItemsNotAviable = false
         var wishlistTotalPrice = 0.0
         
@@ -640,7 +640,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let upc = itemWishList["upc"] as! NSString
             let desc = itemWishList["description"] as! NSString
             let price = itemWishList["price"] as! NSString
-            let imageArray = itemWishList["imageUrl"] as! NSArray
+            let imageArray = itemWishList["imageUrl"] as! [Any]
             
             let active  = itemWishList["isActive"] as! NSString
             var isActive = "true" == active
@@ -671,7 +671,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.object(at: 0) as! String
+                imageUrl = imageArray[0] as! String
             }
             
             
@@ -844,7 +844,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
     
-    func sendNewItemsToShoppingCart(_ params:[AnyObject]){
+    func sendNewItemsToShoppingCart(_ params:[Any]){
         
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"] as [String : Any]
@@ -881,7 +881,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let service = UserWishlistService()
         service.callService(
             { (wishlist:[String:Any]) -> Void in
-                self.items = wishlist["items"] as! [AnyObject]
+                self.items = wishlist["items"] as! [[String:Any]]
             
                 self.emptyView.isHidden = self.items.count > 0
                 if self.items.count == 0 {
@@ -894,7 +894,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 
                 for itemWishList in self.items {
                     var price = NSString(string:"0")
-                    if let priceVal = itemWishList["price"] as? String {
+                    if let priceVal = itemWishList["price"] as? NSString {
                         price = priceVal
                     }
                     
@@ -955,7 +955,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     
     class func deleteAllShoppingCart(_ onFinish:@escaping (() -> Void) ) {
-        if let itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as? [AnyObject] {
+        if let itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as? [[String:Any]] {
             let serviceSCDelete = ShoppingCartDeleteProductsService()
             var upcs : [String] = []
             for itemSClist in itemsInShoppingCart {

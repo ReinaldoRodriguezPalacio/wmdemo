@@ -24,10 +24,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var showFedexGuide : Bool = false
     
     var itemDetail : [String:Any]!
-    var itemDetailProducts : NSArray!
+    var itemDetailProducts : [Any]!
     var type : ResultObjectType!
     
-    var detailsOrder : [AnyObject]!
+    var detailsOrder : [Any]!
     var detailsOrderGroceries : [String:Any]!
     
     var listSelectorController: ListsSelectorViewController?
@@ -179,7 +179,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func showProducDetail(_ indexPath: IndexPath){
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section) as [AnyObject]
+        controller.itemsToShow = getUPCItems(indexPath.section) as [Any]
         controller.ixSelected = indexPath.row
         if !showFedexGuide {
             controller.ixSelected = indexPath.row - 2
@@ -198,7 +198,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 return 1
             }
             let arrayProds = self.itemDetailProducts[section - 1] as! [String:Any]
-            let arrayProdsItems = arrayProds["items"] as! [AnyObject]
+            let arrayProdsItems = arrayProds["items"] as! [Any]
             return arrayProdsItems.count
         }
         
@@ -230,7 +230,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 
                 if showFedexGuide {
                     let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as! [String:Any]
-                    let productsArray = arrayProductsFed["items"] as! [AnyObject]
+                    let productsArray = arrayProductsFed["items"] as! [Any]
                     dictProduct = productsArray[indexPath.row] as! [String:Any]
                 } else {
                     dictProduct = itemDetailProducts[indexPath.row - 2] as! [String:Any]
@@ -246,7 +246,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     quantityStr = quantityProd.stringValue  
                 }
                 var urlImage = ""
-                if let imageURLArray = dictProduct["imageUrl"] as? NSArray {
+                if let imageURLArray = dictProduct["imageUrl"] as? [Any] {
                     if imageURLArray.count > 0 {
                         urlImage = imageURLArray[0] as! String
                     }
@@ -397,7 +397,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             return getUPCItems()
         }
         let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:Any]
-        if let  listUPCItems =  shoppingCartProduct["items"] as? NSArray {
+        if let  listUPCItems =  shoppingCartProduct["items"] as? [Any] {
              //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
             
             for shoppingCartProductDetail in  listUPCItems {
@@ -445,7 +445,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
                 var itemsFedex : [[String:Any]] = []
                 self.detailsOrder = details
-                let resultsProducts =  result["items"] as! NSArray
+                let resultsProducts =  result["items"] as! [Any]
                 
                 for itemProduct in resultsProducts {
                     let guide = itemProduct["fedexGuide"] as! String
@@ -470,7 +470,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                             return guide == itemTwo
                         })
                         var itemFound = itemFedexFound[0] as  [String:Any]
-                        var itemsFound = itemFound["items"] as!  [AnyObject]
+                        var itemsFound = itemFound["items"] as!  [Any]
                         itemsFound.append(itemProduct)
                         itemsFedex.remove(at: index!)
                         var itmNewProduct : [String:Any] = [:]
@@ -524,8 +524,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             //details.append(["label":addressLbl,"value":address])
            // details.append(["label":fedexLbl,"value":""])
             
-            self.detailsOrder = details as [AnyObject]!
-            self.itemDetailProducts = detailsOrderGroceries["items"] as! NSArray
+            self.detailsOrder = details as [Any]!
+            self.itemDetailProducts = detailsOrderGroceries["items"] as! [Any]
             self.tableDetailOrder.reloadData()
             self.removeLoadingView()
             
@@ -590,7 +590,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             }else {
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
             }
-            var upcs: [AnyObject] = []
+            var upcs: [Any] = []
             if !showFedexGuide {
                 for item in self.itemDetailProducts! {
                     upcs.append(getItemToShoppingCart(item as! [String:Any]) as AnyObject)
@@ -616,7 +616,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         params["desc"] = item["description"] as! String
         
         
-        if let images = item["imageUrl"] as? NSArray {
+        if let images = item["imageUrl"] as? [Any] {
             params["imgUrl"] = images[0] as! String
         }else
         {
@@ -665,7 +665,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
                     if completed && !activityType!.contains("com.apple")   {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
@@ -779,7 +779,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
         let service = GRAddItemListService()
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemDetailProducts.count {
             
             let item = self.itemDetailProducts[idx] as! [String:Any]
@@ -866,7 +866,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         let service = GRSaveUserListService()
         
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemDetailProducts.count {
             let item = self.itemDetailProducts[idx] as! [String:Any]
             

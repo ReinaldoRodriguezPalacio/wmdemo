@@ -24,7 +24,7 @@ class GRSaveUserListService : GRBaseService {
         return ["name":name!, "items":[]]
     }
 
-    func buildParams(_ name:String?, items:[AnyObject]) -> [String:Any]! {
+    func buildParams(_ name:String?, items:[Any]) -> [String:Any]! {
         return ["name":name!, "items":items]
     }
 
@@ -58,8 +58,8 @@ class GRSaveUserListService : GRBaseService {
             print(params["name"] as! String)
             var cleaned:[String:Any] = ["name":(params["name"] as! String)]
             //Se remueven atributos de los productos que sean innecesarios
-            if let items = params["items"] as? [AnyObject] {
-                var cleanedItems:[AnyObject] = []
+            if let items = params["items"] as? [Any] {
+                var cleanedItems:[Any] = []
                 for idx in 0 ..< items.count {
                     var item = items[idx] as! [String:Any]
                     item.removeValue(forKey: "imageUrl")
@@ -115,7 +115,7 @@ class GRSaveUserListService : GRBaseService {
         entity!.name = list["name"] as! String
         entity!.countItem = NSNumber(value: 0 as Int)
         
-        if let items = list["items"] as? [AnyObject] {
+        if let items = list["items"] as? [Any] {
             entity!.countItem = NSNumber(value: items.count as Int)
             for idx in 0 ..< items.count {
                 var item = items[idx] as! [String:Any]
@@ -156,7 +156,7 @@ class GRSaveUserListService : GRBaseService {
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
 
         let name = list["name"] as! String
-        let items = list["items"] as? [AnyObject]
+        let items = list["items"] as? [Any]
         var localList = self.retrieveListNotSync(name: name, inContext:context)
         if localList == nil {
             localList = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List

@@ -17,11 +17,11 @@ class AddItemWishlistService : BaseService {
         return [["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":isPreorderable,"onHandInventory":onHandInventory,"category":category]]
     }
     
-    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,successBlock: (([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category),mustUpdateWishList:true,successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,mustUpdateWishList:Bool,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,mustUpdateWishList:Bool,successBlock: (([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category),mustUpdateWishList:mustUpdateWishList,successBlock: successBlock, errorBlock: errorBlock)
     }
 

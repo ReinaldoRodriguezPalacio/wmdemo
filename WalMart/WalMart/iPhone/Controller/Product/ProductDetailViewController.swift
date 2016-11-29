@@ -48,7 +48,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
     var viewLoad : WMLoadingView!
-    var msi : NSArray = []
+    var msi : [Any] = []
     var upc : NSString = ""
     var name : NSString = ""
     var detail : NSString = ""
@@ -57,8 +57,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var listPrice : NSString = ""
     var comments : NSString = ""
     var imageUrl : [Any] = []
-    var characteristics : [Any] = []
-    var bundleItems : [Any] = []
+    var characteristics : [[String:Any]] = []
+    var bundleItems : [[String:Any]] = []
     var colorItems : [Any] = []
     var sizesItems : [Any] = []
     var freeShipping : Bool = false
@@ -73,7 +73,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var indexSelected  : Int = 0
     var addOrRemoveToWishListBlock : (() -> Void)? = nil
     var gestureCloseDetail : UITapGestureRecognizer!
-    var itemsCrossSellUPC : NSArray! = []
+    var itemsCrossSellUPC : [Any]! = []
     var isActive : Bool! = true
     var isPreorderable : Bool = false
     var onHandInventory : NSString = "0"
@@ -314,7 +314,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = items as [AnyObject]
+        controller.itemsToShow = items as [Any]
         controller.ixSelected = index
         controller.detailOf = isBundle ? "Bundle" : "CrossSell"
         self.navigationController!.pushViewController(controller, animated: true)
@@ -334,7 +334,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(requestParams:self.upc, successBlock: { (result:NSArray?) -> Void in
+        crossService.callService(requestParams:self.upc, successBlock: { (result:[[String:Any]]?) -> Void in
             
             if result != nil {
                 
@@ -416,7 +416,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter isPreorderable:  is preorderable product
      - parameter added:           added block
      */
-    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
+    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added: @escaping (Bool) -> Void) {
         
         self.isWishListProcess = true
         
@@ -442,7 +442,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 addedAlertWL.imageBlurView.frame = CGRect(x: 0, y: -312, width: 320, height: 360)
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
-                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
+                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void? in
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                         added(true)
             
@@ -826,7 +826,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.type = ResultObjectType.Mg
         
-            let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
             let productService = ProductDetailService(dictionary: signalsDictionary)
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
             let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
@@ -838,12 +838,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.facetsDetails = self.getFacetsDetails()
                     let filteredKeys = self.getFilteredKeys(self.facetsDetails!)
                     if self.facetsDetails?.count > 1 {
-                        if let colors = self.facetsDetails![filteredKeys.first!] as? [AnyObject]{
+                        if let colors = self.facetsDetails![filteredKeys.first!] as? [Any]{
                             self.colorItems = colors
                         }
                      }
                     if self.facetsDetails?.count > 2 {
-                        if let sizes = self.facetsDetails![filteredKeys[1]] as? [AnyObject]{
+                        if let sizes = self.facetsDetails![filteredKeys[1]] as? [Any]{
                             self.sizesItems = sizes
                         }
                     }
@@ -854,7 +854,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
                     let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
                     
-                    self.name = NSLocalizedString("empty.productdetail.title",comment:"")
+                    self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                     empty.returnAction = { () in
                         print("")
                         self.navigationController!.popViewController(animated: true)
@@ -888,8 +888,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let doubleVaule = NSString(string: savingResult).doubleValue
                 if doubleVaule > 0 {
                     let savingStr = NSLocalizedString("price.saving",comment:"")
-                    let formated = CurrencyCustomLabel.formatString("\(savingResult)")
-                    self.saving = "\(savingStr) \(formated)"
+                    let formated = CurrencyCustomLabel.formatString("\(savingResult)" as NSString)
+                    self.saving = "\(savingStr) \(formated)" as NSString
                 }
             }
         }
@@ -898,11 +898,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.listPrice = result["original_listprice"] as! NSString
         self.characteristics = []
-        if let cararray = result["characteristics"] as? NSArray {
-            self.characteristics = cararray as [AnyObject]
+        if let cararray = result["characteristics"] as? [[String:Any]] {
+            self.characteristics = cararray
         }
         
-        var allCharacteristics : [AnyObject] = []
+        var allCharacteristics : [[String:Any]] = []
         
         let strLabel = "UPC"
         //let strValue = self.upc
@@ -921,7 +921,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.msi = []
             }
         }
-        if let images = result["imageUrl"] as? [AnyObject] {
+        if let images = result["imageUrl"] as? [Any] {
             self.imageUrl = images
         }
         let freeShippingStr  = result["freeShippingItem"] as! NSString
@@ -943,8 +943,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.strisPreorderable  = result["isPreorderable"] as! String
         
         self.isPreorderable = "true" == self.strisPreorderable
-        self.bundleItems = [AnyObject]()
-        if let bndl = result["bundleItems"] as?  [AnyObject] {
+        self.bundleItems = [[String:Any]]()
+        if let bndl = result["bundleItems"] as?  [[String:Any]] {
             self.bundleItems = bndl
         }
         
@@ -1151,7 +1151,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     class func validateUpcPromotion(_ upc:String) -> Bool{
         let upcs =  UserCurrentSession.sharedInstance().upcSearch
-        return upcs!.contains(upc)
+        return upcs!.contains(where: { return $0 == upc})
     }
     
     func cellForPoint(_ point:(Int,Int),indexPath: IndexPath) -> UICollectionViewCell? {
@@ -1161,7 +1161,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if bundleItems.count != 0 {
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "cellBundleitems", for: indexPath) as? ProductDetailBundleCollectionViewCell
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = bundleItems as NSArray
+                cellPromotion!.itemsUPC = bundleItems 
                 cellPromotion!.type = "MG"
                 //cell = cellPromotion
             } else {
@@ -1190,7 +1190,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "crossSellCell", for: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
                 cellPromotion!.idListSelectdFromSearch =  self.idListFromlistFind
-                cellPromotion!.itemsUPC = itemsCrossSellUPC
+                cellPromotion!.itemsUPC = itemsCrossSellUPC as! [[String : Any]]
                 self.cellRelated = cellPromotion
             }
             cell = self.cellRelated
@@ -1208,7 +1208,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter additionalAnimationOpen:  animation open block
      - parameter additionalAnimationClose: anipation close block
      */
-    func opencloseContainer(_ open:Bool,viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void),additionalAnimationClose:(() -> Void)) {
+    func opencloseContainer(_ open:Bool,viewShow:UIView,additionalAnimationOpen: @escaping (() -> Void),additionalAnimationClose:(() -> Void)) {
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen)
         } else {
@@ -1223,7 +1223,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter viewShow:                view where present info
      - parameter additionalAnimationOpen: other animation block
      */
-    func openContainer(_ viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void)) {
+    func openContainer(_ viewShow:UIView,additionalAnimationOpen: @escaping (() -> Void)) {
         self.isContainerHide = false
         
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
@@ -1246,10 +1246,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     /**
      Animation where container info closed
      
-     - parameter additionalAnimationClose: <#additionalAnimationClose description#>
-     - parameter completeClose:            <#completeClose description#>
+     - parameter additionalAnimationClose: animationBlock
+     - parameter completeClose:            complete block
      */
-    func closeContainer(_ additionalAnimationClose:@escaping (() -> Void),completeClose:@escaping (() -> Void)) {
+    func closeContainer(_ additionalAnimationClose: @escaping (() -> Void),completeClose: @escaping (() -> Void)) {
         let finalFrameOfQuantity = CGRect(x: self.detailCollectionView.frame.minX,  y: heightDetail, width: self.detailCollectionView.frame.width, height: 0)
         UIView.animate(withDuration: 0.5,
             animations: { () -> Void in
@@ -1287,21 +1287,21 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         //let screen = self.detailCollectionView.screenshotOfHeadersAtSections( NSSet(array:headers), footersAtSections: nil, rowsAtIndexPaths: NSSet(array: items))
         
         let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
-        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader,imagen])
+        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,imagen!])
         
         //let urlWmart = NSURL(string: "walmartMG://UPC_\(self.upc)")
         if urlWmart != nil {
-            let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [self,imgResult!,urlWmart!], applicationActivities: nil)
             self.navigationController!.present(controller, animated: true, completion: nil)
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.contains("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.contains("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -1376,18 +1376,18 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
             let selected = productUpc == self.upc as String
-            let details = product["details"] as! [AnyObject]
+            let details = product["details"] as! [[String:Any]]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
             var count = 0
             for detail in details{
                 let label = detail["description"] as! String
                 let unit = detail["unit"] as! String
-                var values = facetsDetails[label] as? [AnyObject]
+                var values = facetsDetails[label] as? [[String:Any]]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
-                if !(values! as NSArray).contains(itemToAdd) {
-                    values!.append(itemToAdd as AnyObject)
+                if !values!.contains(where: {return $0["value"] as! String == itemToAdd["value"] as! String && $0["enabled"] as! Int == itemToAdd["enabled"] as! Int && $0["type"] as! String == itemToAdd["type"] as! String && $0["selected"] as! Bool == itemToAdd["selected"] as! Bool}) {
+                    values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values
                 itemDetail[label] = detail["unit"] as? String
@@ -1396,7 +1396,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.selectedDetailItem![label] = unit
                 }
             }
-            var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
+            var detailsValues = facetsDetails["itemDetails"] as? [Any]
             if detailsValues == nil{ detailsValues = []}
             detailsValues!.append(itemDetail as AnyObject)
             facetsDetails["itemDetails"] = detailsValues
@@ -1417,7 +1417,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         // Primer elemento
         let itemsFirst: [[String:Any]] = facetsDetails[filteredKeys.first!] as! [[String:Any]]
         let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
-        var values: [AnyObject] = []
+        var values: [Any] = []
         for item in itemsFirst{
             let label = item["type"] as! String
             let unit = item["value"] as! String
@@ -1429,7 +1429,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
             let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
             
-            let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
+            let itemDetails = facetsDetails["itemDetails"] as? [[String:Any]]
             var findObj: [String] = []
             for item in itemDetails!{
                 if(item[filteredKeys.first!] as! String == selecteFirst)
@@ -1438,7 +1438,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 }
             }
             
-            var valuesSecond: [AnyObject] = []
+            var valuesSecond: [Any] = []
             for item in itemsSecond{
                 let label = item["type"] as! String
                 let unit = item["value"] as! String
@@ -1485,7 +1485,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     {
         var upc = ""
         var isSelected = false
-        let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        let details = self.facetsDetails!["itemDetails"] as? [[String:Any]]
         for item in details! {
             isSelected = false
             for selectItem in itemsSelected{
@@ -1532,7 +1532,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - returns: array of sting with details
      */
     func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
-        let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        let itemDetails = self.facetsDetails!["itemDetails"] as? [[String:Any]]
         var findObj: [String] = []
         for item in itemDetails!{
             if(item[key] as! String == value)

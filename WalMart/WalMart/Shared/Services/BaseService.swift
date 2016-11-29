@@ -175,7 +175,7 @@ class BaseService : NSObject {
         }
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(request)
         } catch let error1 as NSError {
@@ -330,7 +330,7 @@ class BaseService : NSObject {
     // MARK: - File Manager
     
     func getFilePath(_ fileName:String) -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as NSArray!
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as [Any]!
         let docPath = paths?[0] as! NSString
         let path = docPath.appendingPathComponent(fileName)
         return path
@@ -384,7 +384,7 @@ class BaseService : NSObject {
 
     
     
-    func saveKeywords(_ items:NSArray) {
+    func saveKeywords(_ items:[Any]) {
         //Creating keywords
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
@@ -458,16 +458,16 @@ class BaseService : NSObject {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
-                for item in items as! [AnyObject] {
+                for item in items as! [Any] {
                     let name = item["description"] as! String
                     let idDepto = item["idDepto"] as! String
                     let famArray : AnyObject = item["family"] as AnyObject!
                     
-                    for itemFamily in famArray as! [AnyObject] {
+                    for itemFamily in famArray as! [Any] {
                         let idFamily = itemFamily["id"] as! String
                         let lineArray : AnyObject = itemFamily["line"] as AnyObject!
                         let namefamily = itemFamily["name"] as! String
-                        for itemLine in lineArray as! [AnyObject] {
+                        for itemLine in lineArray as! [Any] {
                             let idLine =  itemLine["id"] as! String
                             let nameLine =  itemLine["name"] as! String
                             let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)

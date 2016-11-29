@@ -40,7 +40,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     var viewHerader : UIView!
     var titleView : UILabel!
     var closeButton : UIButton!
-    var itemsInCart : [AnyObject] = []
+    var itemsInCart : [Any] = []
     var tableShoppingCart : UITableView!
     var viewFooter : UIView!
     var buttonShop : UIButton!
@@ -226,7 +226,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func loadGRShoppingCart() {
         if UserCurrentSession.sharedInstance().itemsGR != nil {
-            self.itemsInCart = UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
+            self.itemsInCart = UserCurrentSession.sharedInstance().itemsGR!["items"] as! [Any]
             self.tableShoppingCart.reloadData()
             self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
         }
@@ -362,7 +362,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
             
             let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [AnyObject]
+            controller.itemsToShow = getUPCItems() as [Any]
             controller.ixSelected = indexPath.row
             controller.detailOf = "Shopping Cart"
             if self.navigationController  != nil {
@@ -761,7 +761,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         fetchRequest.predicate = predicate
         
         var error: NSError? = nil
-        var fetchedResult: [AnyObject]?
+        var fetchedResult: [Any]?
         do {
             fetchedResult = try context.fetch(fetchRequest)
         } catch let error1 as NSError {
@@ -846,7 +846,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.navigationController!.present(controller, animated: true, completion: nil)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
                 if completed && !activityType!.contains("com.apple")   {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
@@ -946,7 +946,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
         let service = GRAddItemListService()
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:Any]
             
@@ -1086,7 +1086,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let service = GRSaveUserListService()
         
-        var products: [AnyObject] = []
+        var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:Any]
             

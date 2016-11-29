@@ -117,7 +117,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         print("familyId::::\(familyId)")
         let service =  LineService()
         service.callService(requestParams:familyId as AnyObject, successBlock: { (response:[String:Any]) -> Void in
-            let listLines  =  response["responseArray"] as! NSArray
+            let listLines  =  response["responseArray"] as! [Any]
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
             //self.removeLoadingView()

@@ -35,8 +35,8 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class IPASearchLastViewTableViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate  {
     
     var table: UITableView!
-    var elements: [AnyObject]?
-    var elementsCategories: [AnyObject]?
+    var elements: [Any]?
+    var elementsCategories: [Any]?
     var searchText: String! = ""
     var delegate:SearchViewControllerDelegate!
     var afterselect : (() -> Void)? = nil

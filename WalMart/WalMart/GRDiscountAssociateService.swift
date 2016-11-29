@@ -27,7 +27,7 @@ class GRDiscountAssociateService: GRBaseService{
         self.total = params[NSLocalizedString("checkout.discount.total", comment:"")]
     }
     
-    func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:Any, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
          //self.jsonFromObject(buildParams(self.associateNumber!, startDate: self.dateAdmission!, determinant: self.determinant!,total: self.total!))
         self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
            

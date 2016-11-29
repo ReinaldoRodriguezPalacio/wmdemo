@@ -10,14 +10,14 @@ import UIKit
 
 class GRUpdateListService: GRBaseService {
     
-    func buildParams(_ name:String) -> [AnyObject] {
+    func buildParams(_ name:String) -> [Any] {
         //{"newName":"PentonVillet30Mayo2014_Update"}
         //return ["newName":name]
         //{"CualquierOtroNombre"}
         return [name as AnyObject]
     }
 
-    func callService(_ params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         print(params)
         self.callPOSTService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in

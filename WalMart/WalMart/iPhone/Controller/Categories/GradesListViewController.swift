@@ -105,7 +105,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     func invokeServiceLines(){
         let service =  LineService()
         service.callService(requestParams: self.familyId as AnyObject, successBlock: { (response:[String:Any]) -> Void in
-            let grades  =  response["responseArray"] as! NSArray
+            let grades  =  response["responseArray"] as! [Any]
             self.gradesList = grades as? [[String : AnyObject]]
             if  self.gradesList.count == 0 {
                 self.loading?.stopAnnimating()

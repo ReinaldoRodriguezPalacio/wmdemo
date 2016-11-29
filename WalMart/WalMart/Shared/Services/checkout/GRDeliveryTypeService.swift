@@ -25,7 +25,7 @@ class GRDeliveryTypeService : GRBaseService {
         self.isFreeShiping = isFreeShiping
     }
     
-    func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(requestParams params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!) as AnyObject!)
         self.callPOSTService(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!), successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)

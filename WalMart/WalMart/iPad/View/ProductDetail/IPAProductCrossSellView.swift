@@ -48,7 +48,7 @@ class IPAProductCrossSellView : UIView {
         
     }
     
-    func reloadWithData(_ data:NSArray,upc:String) {
+    func reloadWithData(_ data:[Any],upc:String) {
         productCrossSell.reloadData(data, upc: upc)
     }
     

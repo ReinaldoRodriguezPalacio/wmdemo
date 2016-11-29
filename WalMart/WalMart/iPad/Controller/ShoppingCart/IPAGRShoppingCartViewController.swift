@@ -75,7 +75,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             ctrlCheckOut?.view.frame = containerGROrder.bounds
             //checkoutVC!.hiddenBack = true
             ctrlCheckOut!.isNavigationBarHidden = true
-            checkoutVC?.itemsInCart = itemsInCart as NSArray!
+            checkoutVC?.itemsInCart = itemsInCart as [Any]!
             checkoutVC?.delegateCheckOut = self
             self.addChildViewController(ctrlCheckOut!)
             containerGROrder.addSubview(ctrlCheckOut!.view)
@@ -226,7 +226,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         popup!.present(from: CGRect(x: 620, y: 650, width: 300, height: 250), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.down, animated: true)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
                 if completed && !activityType!.contains("com.apple")   {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
@@ -346,7 +346,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInCart.count > indexPath.row   {
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [AnyObject]
+            controller.itemsToShow = getUPCItems() as [Any]
             controller.detailOf = "Shopping Cart"
             controller.ixSelected = indexPath.row
             self.navigationController!.delegate = nil
@@ -376,7 +376,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.checkoutVC?.view.frame = self.containerGROrder.bounds
                     self.ctrlCheckOut = UINavigationController(rootViewController: self.checkoutVC!)
                     self.ctrlCheckOut?.view.frame = self.containerGROrder.bounds
-                    self.checkoutVC?.itemsInCart = self.itemsInCart as NSArray!
+                    self.checkoutVC?.itemsInCart = self.itemsInCart as [Any]!
                     self.checkoutVC?.delegateCheckOut = self
                     self.ctrlCheckOut!.isNavigationBarHidden = true
                     self.addChildViewController(self.ctrlCheckOut!)

@@ -39,9 +39,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var collection: UICollectionView!
     var colorsView: ProductDetailColorSizeView!
     var sizesView: ProductDetailColorSizeView!
-    var items: [AnyObject]! = []
-    var colors: [AnyObject]? = []
-    var sizes: [AnyObject]? = []
+    var items: [Any]! = []
+    var colors: [Any]? = []
+    var sizes: [Any]? = []
     var imagesRef: [UIImage]! = []
     var pointSection: UIView! = nil
     var pointContainer: UIView? = nil
@@ -73,7 +73,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         setup()
     }
     
-    init(frame: CGRect,items:[AnyObject]) {
+    init(frame: CGRect,items:[Any]) {
         super.init(frame: frame)
         self.items = items
         setup()
@@ -157,7 +157,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             self.price.isHidden = true
         } else {
             self.price.isHidden = false
-            let formatedValue = "\(CurrencyCustomLabel.formatString(price))"
+            let formatedValue = "\(CurrencyCustomLabel.formatString(price as NSString))"
             self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         }
         
@@ -165,7 +165,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             priceBefore.isHidden = true
         } else {
             priceBefore.isHidden = false
-            let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice))"
+            let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice as NSString))"
             self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
         }
         
@@ -173,7 +173,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             self.saving.isHidden = true
         } else {
             self.saving.isHidden = false
-            let formatedValue = "\(CurrencyCustomLabel.formatString(saving))"
+            let formatedValue = "\(CurrencyCustomLabel.formatString(saving as NSString))"
             self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.green, interLine: false)
         }
         
@@ -241,8 +241,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
-        let nsarray = self.pointButtons! as NSArray
-        if let button = nsarray.object(at: self.currentItem!) as? UIButton {
+        let array = self.pointButtons! as [Any]
+        if let button = array[self.currentItem!] as? UIButton {
             for inner: UIButton in self.pointButtons! {
                 inner.isSelected = button === inner
             }

@@ -11,7 +11,7 @@ import Foundation
 class NotificationViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate, CMSwitchViewDelegate {
     
     var notification: UITableView!
-    var allNotifications = []
+    var allNotifications: [[String:Any]] = []
     var selectable = true
     var emptyView : IPOEmptyNotificationView?
     var receiveNotificationButton: CMSwitchView?
@@ -184,9 +184,9 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
      
      - returns: array notificatios acording to device
      */
-    func getNotificationsForDevice(_ dict: [String:Any]) -> [AnyObject]{
-        var showNotifications: [AnyObject] = []
-        if let notifications = dict["notifications"] as? [AnyObject]{
+    func getNotificationsForDevice(_ dict: [String:Any]) -> [[String:Any]]{
+        var showNotifications: [[String:Any]] = []
+        if let notifications = dict["notifications"] as? [[String:Any]]{
             for notif in notifications{
                 let device = notif["device"] as! String
                 if IS_IPHONE && device == "iphone" {
@@ -213,14 +213,14 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     //MARK: CMSwitchViewDelegate
     
-    func switchValueChanged(_ sender: AnyObject!, andNewValue value: Bool) {
+    func switchValueChanged(_ sender: Any!, andNewValue value: Bool) {
         self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.gray
 
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
         let notService = NotificationService()
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: !value)
-            notService.jsonFromObject(params)
+            notService.jsonFromObject(params as AnyObject!)
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }) { (error:NSError) -> Void in

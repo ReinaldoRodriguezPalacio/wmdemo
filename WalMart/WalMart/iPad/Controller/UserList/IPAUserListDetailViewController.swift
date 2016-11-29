@@ -44,7 +44,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 protocol IPAUserListDetailDelegate {
-    func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int,listName:String)
+    func showProductListDetail(fromProducts products:[Any], indexSelected index:Int,listName:String)
     func reloadTableListUser()
     func closeUserListDetail()
     func reloadTableListUserSelectedRow()
@@ -240,22 +240,26 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
             let imgResult = UIImage.verticalImage(from: [imageHead!,image])
-            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
                 //self.sharePopover!.backgroundColor = UIColor.greenColor()
-            let rect = self.footerSection!.convert(self.shareButton!.frame, to: self.view.superview!)
-            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
+            if #available(iOS 8.0, *) {
+                let rect = self.footerSection!.convert(self.shareButton!.frame, to: self.view.superview!)
+                self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
+            } else {
+                // Fallback on earlier versions
+            }
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.contains("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.contains("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -318,7 +322,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     //MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var productsToShow:[AnyObject] = []
+        var productsToShow:[Any] = []
         if !tableView.cellForRow(at: indexPath)!.isKind(of: GRShoppingCartTotalsTableViewCell.self){
             for productObj  in self.products! {
                 if let product = productObj as? [String:Any] {
@@ -417,9 +421,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 388.0)
         self.sharePopover!.delegate = self
         self.sharePopover!.backgroundColor = WMColor.light_blue
-        let rect = cell.convert(cell.quantityIndicator!.frame, to: self.view.superview!)
-        self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
-
+        if #available(iOS 8.0, *) {
+            let rect = cell.convert(cell.quantityIndicator!.frame, to: self.view.superview!)
+            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     override func duplicate() {
@@ -473,7 +480,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
-    override func invokeDeleteProductFromListService(_ upc: String, succesDelete: (() -> Void)) {
+    override func invokeDeleteProductFromListService(_ upc: String, succesDelete: @escaping (() -> Void)) {
         super.invokeDeleteProductFromListService(upc) { () -> Void in
             self.delegate!.reloadTableListUser()
         }
@@ -551,7 +558,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
       
     }
     
-    override func invokeAddproductTolist(_ response:[String:Any]?,products:[AnyObject]?,succesBlock:(() -> Void)){
+    override func invokeAddproductTolist(_ response:[String:Any]?,products:[Any]?,succesBlock:@escaping (() -> Void)){
         super.invokeAddproductTolist(response, products: products) { () -> Void in
             self.reloadTableListUser()
         }

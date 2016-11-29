@@ -48,7 +48,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         self.isUserInteractionEnabled = true
     }
     
-    func setValues(_ values:[String:Any]){
+    func setValues(_ values:[[String:Any]]){
         var currentY = 40.0 as CGFloat
         var index = 0
         
@@ -57,9 +57,9 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         }
         setup()
         for dicValue in values {
-            //var valuesValues = NSMutableDictionary()
+            //var valuesValues = [String:Any]()
             let dicVal = dicValue
-            let strLabel = dicVal?["label"] as! String
+            let strLabel = dicVal["label"] as! String
             let strValue = dicVal["value"] as! String
                 
             let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size: 14)
@@ -93,7 +93,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         //var valuesDict = NSMutableArray()
         
         for dicValue in values {
-            //var valuesValues = NSMutableDictionary()
+            //var valuesValues = [String:Any]()
             if let dicVal = dicValue as? [String:Any] {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String

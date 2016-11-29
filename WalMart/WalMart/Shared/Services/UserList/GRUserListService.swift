@@ -25,7 +25,7 @@ class GRUserListService : GRBaseService {
             self.callGETService(params,
                 successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
-                    if let list = resultCall["responseArray"] as? [AnyObject] {
+                    if let list = resultCall["responseArray"] as? [Any] {
                         self.manageListData(list)
                     }
                     
@@ -55,7 +55,7 @@ class GRUserListService : GRBaseService {
             let list = notSyncList!.first
             var listToMerge: [String:Any]? = nil
 
-            let currentLists = response["responseArray"] as? [AnyObject]
+            let currentLists = response["responseArray"] as? [Any]
             if currentLists != nil && currentLists!.count > 0 {
                 for idx in 0 ..< currentLists!.count {
                     var innerList = currentLists![idx] as! [String:Any]
@@ -71,7 +71,7 @@ class GRUserListService : GRBaseService {
             if listToMerge == nil {
                 let service = GRSaveUserListService()
                 
-                var items:[AnyObject] = []
+                var items:[Any] = []
                 list!.products.enumerateObjects({ (obj:AnyObject, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
                     if let product = obj as? Product {
                         let param = service.buildProductObject(upc: product.upc, quantity: product.quantity.intValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)")
@@ -106,7 +106,7 @@ class GRUserListService : GRBaseService {
                 //Con la invocacion del mismo servicio se puede hacer add/update del producto
                 let array = list!.products.allObjects as! [Product]
                 let addItemService = GRAddItemListService()
-                var params:[AnyObject] = []
+                var params:[Any] = []
                 for product in array {
                     let param = addItemService.buildProductObject(upc: product.upc, quantity: product.quantity.intValue,pesable:product.type.stringValue)
                     params.append(param as AnyObject)
@@ -135,7 +135,7 @@ class GRUserListService : GRBaseService {
     
     //MARK: -
     
-    func manageListData(_ list:[AnyObject]) {
+    func manageListData(_ list:[Any]) {
         let user = UserCurrentSession.sharedInstance().userSigned
         if user == nil {
             print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
@@ -253,7 +253,7 @@ class GRUserListService : GRBaseService {
                 detailService.buildParams(listId)
                 detailService.callService([:],
                     successBlock: { (result:[String:Any]) -> Void in
-                        if let items = result["items"] as? NSArray {
+                        if let items = result["items"] as? [Any] {
                             
                             let parentList = self.findListById(listId)
                             if parentList == nil {
@@ -357,7 +357,7 @@ class GRUserListService : GRBaseService {
     
     func findListById(_ listId:String) -> List? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List" as NSString as String, in: self.managedContext!)
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List" as String, in: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == %@", listId)
         var result: [List] = (try! self.managedContext!.fetch(fetchRequest)) as! [List]
         var list: List? = nil

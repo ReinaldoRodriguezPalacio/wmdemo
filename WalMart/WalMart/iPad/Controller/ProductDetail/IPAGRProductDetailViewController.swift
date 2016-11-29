@@ -90,7 +90,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
             
             self.characteristics = []
-            var allCharacteristics : [AnyObject] = []
+            var allCharacteristics : [Any] = []
             
             let strLabel = "UPC"
             //let strValue = self.upc
@@ -112,7 +112,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     self.msi = []
                 }
             }
-            if let images = result["imageUrl"] as? [AnyObject] {
+            if let images = result["imageUrl"] as? [Any] {
                 self.imageUrl = images
             }
             if let images = result["imageUrl"] as? String {
@@ -155,8 +155,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.strisPreorderable  = "false"
             self.isPreorderable = false//"true" == self.strisPreorderable
             
-            self.bundleItems = [AnyObject]()
-            if let bndl = result["bundleItems"] as?  [AnyObject] {
+            self.bundleItems = [Any]()
+            if let bndl = result["bundleItems"] as?  [Any] {
                 self.bundleItems = bndl
             }
             
@@ -272,12 +272,12 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         let service = GRProductBySearchService()
         let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6,brand:"")
         service.callService(params,
-            successBlock: { (arrayProduct:NSArray?,resultDic:[String:Any]) -> Void in
+            successBlock: { (arrayProduct:[Any]?,resultDic:[String:Any]) -> Void in
                 NSLog("lcs 2")
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     NSLog("lcs 2")
                     var keywords = Array<AnyObject>()
-                    for item in arrayProduct as! [AnyObject] {
+                    for item in arrayProduct as! [Any] {
                         
                         if self.upc !=  item["upc"] as! String {
                         
@@ -791,7 +791,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     //MARK: - IPAUserListDetailDelegate
-    func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int,listName:String) {
+    func showProductListDetail(fromProducts products:[Any], indexSelected index:Int,listName:String) {
         let controller = IPAProductDetailPageViewController()
         controller.ixSelected = index
         controller.itemsToShow = products
@@ -992,7 +992,7 @@ override func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: 
             imagesLarge.append(imageurl)
         }
         
-        controller.imagesToDisplay = imagesLarge as [AnyObject]?
+        controller.imagesToDisplay = imagesLarge as [Any]?
         controller.currentItem = indexPath.row
         controller.type = self.type as String
         self.navigationController?.present(controller, animated: true, completion: nil)

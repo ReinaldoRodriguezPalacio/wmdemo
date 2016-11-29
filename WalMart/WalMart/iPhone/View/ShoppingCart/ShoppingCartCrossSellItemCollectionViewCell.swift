@@ -35,7 +35,7 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
     
     func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String,grayScale:Bool) {
         
-        let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
+        let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         
         let request = NSMutableURLRequest(url: URL(string: productImageURL)!)
         request.addValue("image/*", forHTTPHeaderField: "Accept")

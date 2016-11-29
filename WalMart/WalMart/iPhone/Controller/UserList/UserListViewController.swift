@@ -287,7 +287,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:[String:Any]) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    self.itemsUserList = result["responseArray"] as? [Any]
                     
                     self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
                         
@@ -377,7 +377,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 successBlock: { (result:[String:Any]) -> Void in
                     self.isShowingWishList = !self.isEditingUserList
                     self.isShowingSuperlists = !self.isEditingUserList
-                    self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    self.itemsUserList = result["responseArray"] as? [Any]
                     if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
@@ -1419,7 +1419,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             
             let alphanumericset = CharacterSet(charactersIn: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").inverted
-            let cleanedName = (trimmedString.components(separatedBy: alphanumericset) as NSArray).componentsJoined(by: "")
+            let cleanedName = (trimmedString.components(separatedBy: alphanumericset) as [Any]).componentsJoined(by: "")
             if trimmedString != cleanedName {
                 self.alertView!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
@@ -1529,7 +1529,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let service = GRProductByTicket()
         service.callService(service.buildParams(value!),
             successBlock: { (result: [String:Any]) -> Void in
-                if let items = result["items"] as? [AnyObject] {
+                if let items = result["items"] as? [Any] {
                     
                     if items.count == 0 {
                         self.alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
@@ -1541,7 +1541,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
                     
-                    var products:[AnyObject] = []
+                    var products:[Any] = []
                     for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String

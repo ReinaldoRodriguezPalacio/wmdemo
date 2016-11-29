@@ -19,7 +19,7 @@ class GRLinesForSearchService: GRBaseService {
         return ["storeId":"","expression":string,"departmentName":"","family":""] as [String:Any]
     }
     
-    func callService(_ params:[String:Any], successBlock:(([AnyObject]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
 //        println("PARAMS FOR GRProductBySearchService")
         //self.jsonFromObject(params)
         self.getManager().POST(serviceUrl(), parameters: params,
@@ -27,11 +27,11 @@ class GRLinesForSearchService: GRBaseService {
                //self.jsonFromObject(json)
                 self.printTimestamp("success GRLinesForSearchService")
                 
-                    if let response = json as? [AnyObject] {
+                    if let response = json as? [Any] {
                         
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
                             // var dictionary = self.buildResponse(response)
-                            let values = [AnyObject](dictionary.values)
+                            let values = [Any](dictionary.values)
                             
 //                            values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
 //                                var deptoOne = objectOne as [String:Any]
@@ -66,12 +66,12 @@ class GRLinesForSearchService: GRBaseService {
         })
     }
 
-    func buildResponse(_ response:[AnyObject],successBuildBlock:(([String : AnyObject]) -> Void)?) {
+    func buildResponse(_ response:[Any],successBuildBlock:(([String : AnyObject]) -> Void)?) {
 
         printTimestamp("buildResponse GRLinesForSearchService")
         
         //let service = GRCategoryService()
-        //var categories = service.getCategoriesContent() as NSArray
+        //var categories = service.getCategoriesContent() as [Any]
         
         //var tmpArray : [[String:Any]] = []
         
@@ -119,11 +119,11 @@ class GRLinesForSearchService: GRBaseService {
                                 "level" : NSNumber(value: 0 as Int),
                                 "parentId" : "",
                                 "path" : idDepto,
-                                "families" : NSMutableDictionary()]
+                                "families" : [String:Any]()]
                             dictionary[idDepto] = cdepto
                         }
                         
-                        let families = cdepto!["families"] as! NSMutableDictionary
+                        let families = cdepto!["families"] as! [String:Any]
                         var cfamily = families[idFamily] as? [String:Any]
                         if cfamily == nil {
                             families[idFamily] = [
@@ -133,11 +133,11 @@ class GRLinesForSearchService: GRBaseService {
                                 "level" : NSNumber(value: 1 as Int),
                                 "parentId" : idDepto,
                                 "path" : "\(idDepto)|\(idFamily)",
-                                "lines" : NSMutableDictionary()]
+                                "lines" : [String:Any]()]
                             cfamily = families[idFamily] as? [String:Any]
                         }
                         
-                        let lines = cfamily!["lines"] as! NSMutableDictionary
+                        let lines = cfamily!["lines"] as! [String:Any]
                         
                         let cline = [
                             "id" : idLine,
@@ -197,21 +197,21 @@ class GRLinesForSearchService: GRBaseService {
                             cdepto = [
                                 "name" : depName,
                                 "id" : idDepto,
-                                "families" : NSMutableDictionary()]
+                                "families" : [String:Any]()]
                             dictionary[idDepto] = cdepto
                         }
                         
-                        let families = cdepto!["families"] as! NSMutableDictionary
+                        let families = cdepto!["families"] as! [String:Any]
                         var cfamily = families[idFamily] as? [String:Any]
                         if cfamily == nil {
                             families[idFamily] = [
                                 "id" : idFamily,
-                                "lines" : NSMutableDictionary()
+                                "lines" : [String:Any]()
                             ]
                             cfamily = families[idFamily] as? [String:Any]
                         }
                         
-                        let lines = cfamily!["lines"] as! NSMutableDictionary
+                        let lines = cfamily!["lines"] as! [String:Any]
                         
                         let cline = [
                             "id" : idLine,

@@ -11,7 +11,7 @@ import CoreData
 
 class GRAddItemListService: GRBaseService {
     
-    func buildParams(idList:String, upcs:[AnyObject]?) -> [String:Any]! {
+    func buildParams(idList:String, upcs:[Any]?) -> [String:Any]! {
         //{"idList":"26e50bc7-3644-48d8-a51c-73d7536ab30d","itemArrImp":[{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}]}
         return ["idList":idList, "itemArrImp":upcs!]
     }
@@ -28,7 +28,7 @@ class GRAddItemListService: GRBaseService {
     
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         var toSneditem : [String:Any] = [:]
-        let arrayItems = params["itemArrImp"] as! NSArray
+        let arrayItems = params["itemArrImp"] as! [Any]
         var arrayToSend : [[String:Any]] = []
         for item in arrayItems {
             let paramUpc = item["upc"] as! String
@@ -110,7 +110,7 @@ class GRAddItemListService: GRBaseService {
                 }
             }
             
-            if let items = list["items"] as? [AnyObject] {
+            if let items = list["items"] as? [Any] {
                 entity!.countItem = NSNumber(value: items.count as Int)
                 
                 for idx in 0 ..< items.count {
