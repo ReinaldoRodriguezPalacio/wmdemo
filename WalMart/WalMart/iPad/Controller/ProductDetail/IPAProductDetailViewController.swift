@@ -1338,6 +1338,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         var selectedDetails: [String:AnyObject] = [:]
         let filteredKeys = self.getFilteredKeys(facetsDetails)
         // Primer elemento
+        if filteredKeys.count > 0 {
         let itemsFirst: [[String:AnyObject]] = facetsDetails[filteredKeys.first!] as! [[String:AnyObject]]
         let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
         var values: [AnyObject] = []
@@ -1371,6 +1372,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             selectedDetails[selectedSecond] = valuesSecond
         }
         selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
+        }
         return selectedDetails
     }
     /**

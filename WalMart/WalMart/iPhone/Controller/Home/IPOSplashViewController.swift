@@ -175,7 +175,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             ShoppingCartParams.maxProducts = maxproducts
         }
         
-        if let serviceapp = itemsconfig["erviceUrl"] as? String {
+        if let serviceapp = itemsconfig["newServiceUrl"] as? String {
             if serviceapp == "standalone" {
                 ConfigServices.ConfigIdMG = "WMURLServices"
                 ConfigServices.ConfigIdGRSign = "WMGroceriesURLServicesSession"

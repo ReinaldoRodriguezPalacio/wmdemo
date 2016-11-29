@@ -294,7 +294,7 @@ class FormFieldView : UIEdgeTextField {
     }
     
     func validatePass()-> NSString{
-        let regString : String = "^[A-Za-z0-9]{5,20}$";
+        let regString : String = "^[a-zA-Z0-9_ ,ÑñÁÉÍÓÚáéíóú./()*-]{8,20}$"//"^[A-Za-z0-9]{5,20}$";
         return regString
     }
 
