@@ -250,7 +250,7 @@ class FormFieldView : UIEdgeTextField {
                 let sqlReservedKeys = [ "select", "from", "insert", "update", "delete", "drop", "create", "where", "values", "null", "declare", "script", "xp_", "CRLF", "%3A", "%3B", "%3C", "%3D", "%3E", "%3F", "&quot;", "&amp;", "&lt;", "&gt;", "exec", "waitfor", "delay", "onvarchar"]
                 
                 for sqlReservedkey in sqlReservedKeys {
-                    if self.text!.contains(sqlReservedkey) {
+                    if self.text!.lowercaseString.contains(sqlReservedkey) {
                         self.isValid = false
                     }
                 }
