@@ -247,9 +247,7 @@ class FormFieldView : UIEdgeTextField {
             
             if typeField == .Password {
                 
-                let sqlReservedKeys = [ " select ", " from ", " or ", "union ", " union", " union ", " insert ", " update ", " delete ", " drop ", " alter ", " create "
-                    , " and ", " into ", " where ", " values ", "null", "declare", "script", "xp_", "CRLF", "%3A", "%3B", "%3C", "%3D", "%3E"
-                    , "%3F", "&quot;", "&amp;", "&lt;", "&gt;", "exec", "delete ", "select ", "insert ", "update ", "waitfor ", "delay ", "onvarchar"]
+                let sqlReservedKeys = [ "select", "from", "insert", "update", "delete", "drop", "create", "where", "values", "null", "declare", "script", "xp_", "CRLF", "%3A", "%3B", "%3C", "%3D", "%3E", "%3F", "&quot;", "&amp;", "&lt;", "&gt;", "exec", "waitfor", "delay", "onvarchar"]
                 
                 for sqlReservedkey in sqlReservedKeys {
                     if self.text!.contains(sqlReservedkey) {
