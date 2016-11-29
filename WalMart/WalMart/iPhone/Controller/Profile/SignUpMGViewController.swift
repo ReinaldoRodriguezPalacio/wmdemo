@@ -11,7 +11,7 @@ import Foundation
 
 
 class SignUpMGViewController: SignUpViewController {
-
+    
     var checkVC : CheckOutViewController!
     var canceledAction : Bool = false
     var addressMgView:AddressViewController!
@@ -26,7 +26,7 @@ class SignUpMGViewController: SignUpViewController {
         if validateTerms() {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
             
-            let service = SignUpService()
+            let signUpService = SignUpService()
             let dateFmtBD = NSDateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
             
@@ -42,7 +42,7 @@ class SignUpMGViewController: SignUpViewController {
             self.addressMgView.backButton?.hidden =  true
             self.addressMgView.showSaveAlert = false
             self.addressMgView.successCallBackRegistry = {() in
-
+                
                 self.aAddredssForm = GRFormSuperAddressView()
                 
                 var aPhoneHomeNumber =  self.aAddredssForm.getPhoneHomeNumber()
@@ -55,17 +55,17 @@ class SignUpMGViewController: SignUpViewController {
                     aPhoneHomeNumber = p!["TelNumber"]as! String
                 }
                 
-                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
+                let params = signUpService.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
                 
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 if self.addressMgView.viewAddress!.validateAddress(){
-                    service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+                    signUpService.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                         self.addressMgView.closeAlert()
-                        let login = LoginService()
+                        let loginService = LoginService()
                         var firstEnter = true
-                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                        loginService.callService(loginService.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
                             // Event -- Succesful Registration
                             BaseController.sendAnalyticsSuccesfulRegistration()
@@ -92,12 +92,12 @@ class SignUpMGViewController: SignUpViewController {
                                         self.backRegistry(self.backButton!)
                                         self.alertView!.setMessage("Error")
                                         self.alertView!.showErrorIcon("Ok")
-                                         BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Direcciones")
+                                        BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(error.localizedDescription, stepError: "Direcciones")
                                     }
                                 })
                         })
                         
-                       
+                        
                         
                         }, errorBlock: {(error: NSError) in
                             
@@ -120,8 +120,8 @@ class SignUpMGViewController: SignUpViewController {
         }
     }
     
-
-
-
-
+    
+    
+    
+    
 }

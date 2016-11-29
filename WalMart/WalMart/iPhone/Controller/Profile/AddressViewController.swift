@@ -539,12 +539,12 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     
     func registryAddress(userName:String,password:String,successBlock:((Bool) -> Void)?){
         
-        let service = GRAddressAddService()
+        let grAddressAddService = GRAddressAddService()
         var params = self.viewAddress!.getParams()
         
-        let paramsSend =  service.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" ,storeName: "", operationType:"A" , preferred: true)
+        let paramsSend =  grAddressAddService.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" ,storeName: "", operationType:"A" , preferred: true)
         
-            service.callService(requestParams: paramsSend, successBlock: { (resultCall:NSDictionary) -> Void  in
+            grAddressAddService.callService(requestParams: paramsSend, successBlock: { (resultCall:NSDictionary) -> Void  in
             print("Se realizao la direccion")
             
             if let message = resultCall["message"] as? String {
@@ -553,9 +553,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
 
             // agregar login antes de agregar la direccion 
                 
-                let service = LoginService()
-                let params  = service.buildParams(userName, password: password)
-                service.callService(params, successBlock: { (result:NSDictionary) -> Void in
+                let loginService = LoginService()
+                let params  = loginService.buildParams(userName, password: password)
+                loginService.callService(params, successBlock: { (result:NSDictionary) -> Void in
                     self.saveBock(self.saveButton,successBlock:successBlock)
                      successBlock!(true)
                     }, errorBlock: { (error:NSError) -> Void in
@@ -582,7 +582,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
  
     func saveBock(sender:UIButton?,successBlock:((Bool) -> Void)?) {
         var params : NSDictionary? = nil
-        var service :  BaseService!
+        var addresService :  BaseService!
         
             switch (typeAddress) {
             case .Shiping:
@@ -590,9 +590,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     params = self.viewAddress!.getParams()
                     
                     if self.idAddress == nil{
-                        service = AddShippingAddressService()
+                        addresService = AddShippingAddressService()
                     }else{
-                        service = UpdateShippingAddressService()
+                        addresService = UpdateShippingAddressService()
                     }
                     
                 }
@@ -600,18 +600,18 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 if self.viewAddressFisical!.validateAddress(){
                     params = self.viewAddressFisical?.getParams()
                     if self.idAddress == nil{
-                        service = AddFiscalAddressService()
+                        addresService = AddFiscalAddressService()
                     }else{
-                        service = UpdateFiscalAddressService()
+                        addresService = UpdateFiscalAddressService()
                     }
                 }
             case .FiscalMoral:
                 if self.viewAddressMoral!.validateAddress(){
                     params = self.viewAddressMoral?.getParams()
                     if self.idAddress == nil{
-                        service = AddFiscalAddressService()
+                        addresService = AddFiscalAddressService()
                     }else{
-                        service = UpdateFiscalAddressService()
+                        addresService = UpdateFiscalAddressService()
                     }
                 }
                 //default:
@@ -642,7 +642,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 }
                 
-                service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
+                addresService.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                     if let message = resultCall!["message"] as? String {
                          if self.showSaveAlert {
                             let addres  = params!["AddressID"] as? String

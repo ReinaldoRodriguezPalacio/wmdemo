@@ -180,6 +180,7 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
    
+        
         let task = afManager.POST(url, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
             //session --
             //TODO Loginbyemail
@@ -201,11 +202,12 @@ class BaseService : NSObject {
                 }
               
             }
-            print("Response JSESSIONID:: \(atgSession)")
+            print("Response JSESSIONATG:: \(atgSession)")
             print("UserCurrentSession.sharedInstance().JSESSIONATG::  \(UserCurrentSession.sharedInstance().JSESSIONATG)")
             UserCurrentSession.sharedInstance().JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance().JSESSIONATG
             
             let resultJSON = json as! NSDictionary
+            self.jsonFromObject(resultJSON)
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
@@ -289,8 +291,9 @@ class BaseService : NSObject {
             
            
             
-            
+           
             let resultJSON = json as! NSDictionary
+            self.jsonFromObject(resultJSON)
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
