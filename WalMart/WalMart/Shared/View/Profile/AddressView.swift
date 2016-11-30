@@ -284,27 +284,30 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
         let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         
         if self.delegate != nil{
             self.delegate!.textModify(textField)
         }
-        if textField == self.telephone{
+        
+        if textField == self.telephone {
             telipad = self.telephone!.text!
             if keyword.characters.count == 10{
                 textField.text = keyword
                 self.shortNameField?.becomeFirstResponder()
                 return false
             }
-            else  if keyword.characters.count > 10 {
+            else if keyword.characters.count > 10 {
                 return false
             }
             else {
                 return true
             }
         }
-        if textField == zipcode{
+        
+        if textField == zipcode {
             
             if Int(keyword) == nil && keyword != "" {
                 return false
@@ -316,6 +319,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 return false
             }
         }
+        
         return true
     }
     

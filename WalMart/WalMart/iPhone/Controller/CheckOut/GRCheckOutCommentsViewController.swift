@@ -549,8 +549,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     //MARK: - UITextFieldDelegate
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
         var txtAfterUpdate : NSString = textField.text! as String
         txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
+        
         if txtAfterUpdate.length >= 11 {
             return false
         }

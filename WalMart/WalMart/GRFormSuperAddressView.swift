@@ -182,6 +182,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.cellPhone!.maxLength = 10
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
+        self.cellPhone.delegate = self
         
         
         if UserCurrentSession.hasLoggedUser() {
@@ -438,8 +439,10 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
     
    //MARK: textFieldDelegate
     override func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
         let strNSString : NSString = textField.text!
         let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        
         if textField == self.zipcode {
             if fieldString.characters.count > 5{
                 return false
@@ -452,11 +455,14 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                 self.selectedStore = nil
             }
         }
-        if textField == self.phoneHomeNumber{
-            if fieldString.characters.count == 11{
-                return false }
-            
+        
+        if textField == self.phoneHomeNumber || textField == self.cellPhone {
+            if fieldString.characters.count == 11 {
+                return false
+            }
         }
+        
         return true
     }
+    
 }

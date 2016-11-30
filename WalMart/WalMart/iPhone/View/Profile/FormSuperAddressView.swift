@@ -220,6 +220,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.cellPhone!.maxLength = 10
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
+        self.cellPhone.delegate = self
         
         
         if UserCurrentSession.hasLoggedUser() {
@@ -769,6 +770,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        
         if textField == self.zipcode {
             if fieldString.characters.count > 5{
                 return false
@@ -783,13 +785,15 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.selectedStore = nil
             }
         }
-        if textField == self.phoneHomeNumber{
-            if fieldString.characters.count == 11{
+        
+        if textField == self.phoneHomeNumber || textField == self.cellPhone {
+            if fieldString.characters.count == 11 {
                 return false
             }else{
                 self.delegateFormAdd?.showUpdate()
             }
         }
+        
         return true
     }
     
