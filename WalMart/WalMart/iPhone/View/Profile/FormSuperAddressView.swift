@@ -209,6 +209,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 0
         self.phoneWorkNumber!.maxLength = 5
+        self.phoneWorkNumber!.delegate = self
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneWorkNumber!.inputAccessoryView = viewAccess
         
@@ -791,6 +792,12 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return false
             }else{
                 self.delegateFormAdd?.showUpdate()
+            }
+        }
+        
+        if textField == self.phoneWorkNumber {
+            if fieldString.characters.count == 6 {
+                return false
             }
         }
         
