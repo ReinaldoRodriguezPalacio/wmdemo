@@ -113,7 +113,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         }
         
         
-        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price.stringValue, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
+        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price.stringValue, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc),pesable:pesable)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
     }

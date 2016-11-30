@@ -88,8 +88,8 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.saveButton!.tag = 0
         self.header?.addSubview(self.saveButton!)
 
-        let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
-        let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
+        let allowMarketing =  UserCurrentSession.sharedInstance.userSigned?.profile.allowMarketingEmail
+        let allowTransfer = UserCurrentSession.sharedInstance.userSigned?.profile.allowTransfer
         
         self.promoAccept?.isSelected = allowMarketing!.uppercased == "TRUE"
         self.acceptSharePersonal?.isSelected = allowTransfer!.uppercased == "TRUE"
@@ -127,7 +127,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         let service = UpdateUserProfileService()
        
         
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if let user = UserCurrentSession.sharedInstance.userSigned {
             let name = user.profile.name
             let mail = user.email
             let lastMame = user.profile.lastName
@@ -137,8 +137,8 @@ class ChangeInfoLegalViewController : NavigationViewController {
             let allowMarketing = "\( self.promoAccept!.isSelected)"
             let allowTransfer = "\( self.acceptSharePersonal!.isSelected)"
             
-            UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail = allowMarketing as NSString
-            UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer = allowTransfer as NSString
+            UserCurrentSession.sharedInstance.userSigned?.profile.allowMarketingEmail = allowMarketing as NSString
+            UserCurrentSession.sharedInstance.userSigned?.profile.allowTransfer = allowTransfer as NSString
             
             
             let params  = service.buildParamsWithMembership(mail as String, password: "", newPassword: "", name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer,allowMarketingEmail:allowMarketing)

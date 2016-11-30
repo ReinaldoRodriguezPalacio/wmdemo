@@ -30,7 +30,7 @@ class UserWishlistService : BaseService {
                     
                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    let user = UserCurrentSession.sharedInstance().userSigned
+                    let user = UserCurrentSession.sharedInstance.userSigned
                     
                     let predicate = NSPredicate(format: "user == %@ ", user!)
                     let array : [Wishlist] =  (self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
@@ -136,7 +136,7 @@ class UserWishlistService : BaseService {
         
         var predicate = NSPredicate(format: "user == nil AND status != %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int))
         if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
+            predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance.userSigned!,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
         }
         let array  =  (self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
         
@@ -157,7 +157,7 @@ class UserWishlistService : BaseService {
     
     func synchronizeWishListFromCoreData(_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?){
         let predicateDeleted = NSPredicate(format: "status == %@", NSNumber(value: WishlistStatus.deleted.rawValue as Int))
-        let deteted = Array(UserCurrentSession.sharedInstance().userSigned!.wishlist.filtered(using: predicateDeleted)) as! [Wishlist]
+        let deteted = Array(UserCurrentSession.sharedInstance.userSigned!.wishlist.filtered(using: predicateDeleted)) as! [Wishlist]
         if deteted.count > 0 {
             let serviceDelete = DeleteItemWishlistService()
             for itemDeleted in deteted {
@@ -194,7 +194,7 @@ class UserWishlistService : BaseService {
     
     func synchronizeAddedWishlistFromCoreData (_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?) {
         //let predicateUpdated = NSPredicate(format: "status == %@", NSNumber(integer:WishlistStatus.Created.rawValue))
-        let added = UserCurrentSession.sharedInstance().WishlistWithoutUser()
+        let added = UserCurrentSession.sharedInstance.WishlistWithoutUser()
         if added != nil {
         if added!.count > 0 {
             //let serviceUpdate = ShoppingCartAddProductsService()

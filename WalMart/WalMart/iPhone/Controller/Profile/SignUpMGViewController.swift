@@ -79,7 +79,7 @@ class SignUpMGViewController: SignUpViewController {
                                 self.addressMgView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout
                                     if finish{
-                                        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.addressMgView.viewAddress!.telephone!.text!, work: "", cellPhone: "")
+                                        UserCurrentSession.sharedInstance.setMustUpdatePhoneProfile(self.addressMgView.viewAddress!.telephone!.text!, work: "", cellPhone: "")
                                         self.addressMgView.view.removeFromSuperview()
                                         if firstEnter{
                                             self.successCallBack?()

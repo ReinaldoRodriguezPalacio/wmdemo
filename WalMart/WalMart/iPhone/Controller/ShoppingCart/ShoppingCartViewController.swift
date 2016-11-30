@@ -192,7 +192,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         loadShoppingCartService()
         
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
-        UserCurrentSession.sharedInstance().nameListToTag = "Shopping Cart"
+        UserCurrentSession.sharedInstance.nameListToTag = "Shopping Cart"
         
     }
     
@@ -237,7 +237,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         editButton.tintColor = WMColor.light_blue
         deleteall.alpha = 0
         
-        UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
+        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
             self.loadShoppingCartService()
         }
        
@@ -270,8 +270,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         self.editButton.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
         self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height)
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
+        if UserCurrentSession.sharedInstance.userSigned != nil {
+            if UserCurrentSession.sharedInstance.isAssociated == 1{
                     self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
             }
         }
@@ -282,8 +282,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func showDiscountAsociate(){
         var x:CGFloat = 16
         self.loadShoppingCartService()
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
+        if UserCurrentSession.sharedInstance.userSigned != nil {
+            if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate == nil {
                     buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
@@ -306,8 +306,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), for: UIControlEvents.touchUpInside)
         viewFooter.addSubview(buttonWishlist)
         var wShop : CGFloat =  341 - 82
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
+        if UserCurrentSession.sharedInstance.userSigned != nil {
+            if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
                     buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
@@ -335,8 +335,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         idexesPath = []
         
         self.itemsInShoppingCart =  []
-        if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! [[String : Any]]!
+        if UserCurrentSession.sharedInstance.itemsMG != nil {
+            self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! [[String : Any]]!
         }
         
         if self.itemsInShoppingCart.count == 0 {
@@ -344,9 +344,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
-            self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
-            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
+            self.subtotal = UserCurrentSession.sharedInstance.itemsMG!["subtotal"] as! NSNumber
+            self.ivaprod = UserCurrentSession.sharedInstance.itemsMG!["ivaSubtotal"] as! NSNumber
+            self.totalest = UserCurrentSession.sharedInstance.itemsMG!["totalEstimado"] as! NSNumber
         }else{
             self.subtotal = NSNumber(value: 0 as Int32)
             self.ivaprod = NSNumber(value: 0 as Int32)
@@ -562,8 +562,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                  var newTotal  = total
                  var newTotalSavings = totalSaving
                 if self.isEmployeeDiscount {
-                    newTotal = "\((total! as NSString).doubleValue - ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-                    newTotalSavings = "\((totalSaving! as NSString).doubleValue + ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+                    newTotal = "\((total! as NSString).doubleValue - ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
+                    newTotalSavings = "\((totalSaving! as NSString).doubleValue + ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
                 }
                 
                 cellTotals.setValues(subTotalText!, iva: iva!, total:newTotal!,totalSaving:newTotalSavings!)
@@ -885,7 +885,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func updateTotalItemsRow() {
         let totalIndexPath =  IndexPath(row: itemsInShoppingCart.count, section: 0)
         self.viewShoppingCart.reloadRows(at: [totalIndexPath], with: UITableViewRowAnimation.none)
-        UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+        UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
     }
     
     /**
@@ -1089,10 +1089,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.hasLoggedUser() {
             cont!.noAccount?.isHidden = true
             cont!.registryButton?.isHidden = true
-            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
+            cont!.valueEmail = UserCurrentSession.sharedInstance.userSigned!.email as String
+            cont!.email?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
             cont!.email!.isEnabled = false
-            user = UserCurrentSession.sharedInstance().userSigned!.email as String
+            user = UserCurrentSession.sharedInstance.userSigned!.email as String
         }
         cont?.isMGLogin =  true
         cont!.closeAlertOnSuccess = false
@@ -1103,7 +1103,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         cont!.successCallBack = {() in
             if UserCurrentSession.hasLoggedUser() {
-                if user !=  UserCurrentSession.sharedInstance().userSigned!.email as String {
+                if user !=  UserCurrentSession.sharedInstance.userSigned!.email as String {
                     NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
                     //self.reloadShoppingCart()
                 }
@@ -1174,12 +1174,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
 
         
-        UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
+        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
             let serviceReview = ReviewShoppingCartService()
             serviceReview.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 if !self.canceledAction  {
-                    print(UserCurrentSession.sharedInstance().itemsMG)
-                    let itemsMG = UserCurrentSession.sharedInstance().itemsMG
+                    print(UserCurrentSession.sharedInstance.itemsMG)
+                    let itemsMG = UserCurrentSession.sharedInstance.itemsMG
                     let totalsItems = self.totalItems()
                     let total = totalsItems["total"] as String!
                     
@@ -1308,7 +1308,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         //self.viewContent.addSubview(viewLoad)
         //viewLoad.startAnnimating()
         idexesPath = []
-        UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
+        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
             self.loadShoppingCartService()
         }
         
@@ -1331,7 +1331,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         customlabel.frame = self.buttonShop.bounds
         var newTotal  = total
         if self.isEmployeeDiscount {
-            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
             self.totalest = (newTotal as NSString).doubleValue as NSNumber!
         }
         
@@ -1465,7 +1465,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.reloadShoppingCart()
             self.navigationController!.popToRootViewControllerAnimated(true)
             */
-            UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
+            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                 //self.reloadShoppingCart()
                 self.removeLoadingView()
               

@@ -28,7 +28,7 @@ class GRProductsByUPCService : GRBaseService {
     
     
     func callService(requestParams params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        if params.count > 0 {
+        if (params as! [String:Any]).count > 0 {
             //self.jsonFromObject(params)
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)

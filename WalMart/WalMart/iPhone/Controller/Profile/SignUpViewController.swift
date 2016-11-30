@@ -132,13 +132,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             }
         })
         
-        let calendar = Calendar(identifier: NSGregorianCalendar)
+        let calendar = Calendar(identifier: .gregorian)
         let currentDate = Date()
         var comps = DateComponents()
         comps.year = -18
-        let maxDate = (calendar! as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
+        let maxDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
         comps.year = -100
-        let minDate = (calendar! as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
+        let minDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
 
         self.inputBirthdateView = UIDatePicker()
         self.inputBirthdateView!.datePickerMode = .date

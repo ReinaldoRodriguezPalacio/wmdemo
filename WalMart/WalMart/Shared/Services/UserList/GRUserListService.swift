@@ -136,7 +136,7 @@ class GRUserListService : GRBaseService {
     //MARK: -
     
     func manageListData(_ list:[Any]) {
-        let user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance.userSigned
         if user == nil {
             print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
             return
@@ -201,7 +201,7 @@ class GRUserListService : GRBaseService {
                 toUseList = NSEntityDescription.insertNewObject(forEntityName: "List", into: self.managedContext!) as? List
                 
                 toUseList!.idList = listId
-                toUseList!.user = UserCurrentSession.sharedInstance().userSigned!
+                toUseList!.user = UserCurrentSession.sharedInstance.userSigned!
                 toUseList!.registryDate = Date()
                 //println("Creating user list \(listId)")
             }

@@ -184,7 +184,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.view.addSubview(self.addProductsView!)
 
         }
-        UserCurrentSession.sharedInstance().nameListToTag = self.listName!
+        UserCurrentSession.sharedInstance.nameListToTag = self.listName!
         BaseController.setOpenScreenTagManager(titleScreen: self.listName!, screenName: self.getScreenGAIName())
         
         // self.showLoadingView()
@@ -281,7 +281,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      - parameter complete: complete block
      */
     func loadServiceItems(_ complete:(()->Void)?) {
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if let _ = UserCurrentSession.sharedInstance.userSigned {
             self.showLoadingView()
             self.invokeDetailListService({ () -> Void in
                 if self.loading != nil {

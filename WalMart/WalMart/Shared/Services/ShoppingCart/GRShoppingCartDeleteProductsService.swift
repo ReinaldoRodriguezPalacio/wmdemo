@@ -27,8 +27,8 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
     func callService(requestParams params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-                UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
-                    UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                     if successBlock != nil {
                         successBlock!(resultCall)
                     }
@@ -58,7 +58,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                 for upc in parameter {
                     var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
                     if UserCurrentSession.hasLoggedUser() {
-                        predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
+                        predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance.userSigned!)
                     }
                     let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                     
@@ -77,7 +77,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                 }
             }
         }
-        UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+        UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
                 successBlock!([:])
         }
         

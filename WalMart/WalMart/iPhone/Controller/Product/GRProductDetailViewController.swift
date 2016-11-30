@@ -262,7 +262,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             productDetailButtonGR.idListSelect =  self.idListFromlistFind
             productDetailButton = productDetailButtonGR
             
-            //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc)
+            //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
@@ -419,7 +419,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             self.isShowShoppingCart = false
                             //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
                             let params = self.buildParamsUpdateShoppingCart(quantity)
-                            if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(String(self.upc)) {
+                            if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(String(self.upc)) {
                                 //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
                             } else {
                                 //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: self.name as String)
@@ -469,7 +469,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
                 
                 self.productDetailButton?.reloadShoppinhgButton()
-//                UserCurrentSession.sharedInstance().loadGRShoppingCart
+//                UserCurrentSession.sharedInstance.loadGRShoppingCart
 //                    { () -> Void in
 //                        self.productDetailButton.reloadShoppinhgButton()
 //                }
@@ -478,7 +478,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.selectQuantityGR = nil
             })
         }else{
-            UserCurrentSession.sharedInstance().loadGRShoppingCart
+            UserCurrentSession.sharedInstance.loadGRShoppingCart
                 { () -> Void in
                     if self.productDetailButton != nil {
                         self.productDetailButton?.reloadShoppinhgButton()
@@ -671,7 +671,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             //TODO: Add message
             self.showMessageWishList("Se agregó a la lista")
             
-            self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+            self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
             
             // 360 Event
             BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
@@ -763,7 +763,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 self.listSelectorContainer = nil
                                 
                                 //self.productDetailButton!.listButton.selected = false
-                                self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+                                self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                                 
                                 action?()
                                 self.detailCollectionView.isScrollEnabled = true

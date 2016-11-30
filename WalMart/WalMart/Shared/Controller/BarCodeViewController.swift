@@ -356,26 +356,26 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue)
                         products.append(param)
                     }
                     
-                    let fmt = NSDateFormatter()
+                    let fmt = DateFormatter()
                     fmt.dateFormat = "MMM d"
-                    var name = fmt.stringFromDate(NSDate())
+                    var name = fmt.string(from: Date())
                     
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    let fetchRequest = NSFetchRequest()
-                    fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+                    fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
                     fetchRequest.predicate = NSPredicate(format:"idList != nil")
                     
                     var number = 0;
                     do{
-                        let resultList: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
+                        let resultList: [List]? = try context.fetch(fetchRequest) as? [List]
                         if resultList != nil && resultList!.count > 0 {
                             for listName: List in resultList!{
-                                if listName.name.uppercaseString.hasPrefix(name.uppercaseString) {
+                                if listName.name.uppercased().hasPrefix(name.uppercased()) {
                                     number = number+1
                                 }
                             }
@@ -395,7 +395,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                             //TODO
                             alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
                             alertView!.showDoneIcon()
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.ShowGRLists.rawValue), object: nil)
                         },
                         errorBlock: { (error:NSError) -> Void in
                             alertView!.setMessage(error.localizedDescription)

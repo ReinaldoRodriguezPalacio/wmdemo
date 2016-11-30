@@ -131,7 +131,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
     
     func loadLocalList() {
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if let user = UserCurrentSession.sharedInstance.userSigned {
             self.list = self.retrieveItems(forUser: user)
             self.list =  self.list?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List

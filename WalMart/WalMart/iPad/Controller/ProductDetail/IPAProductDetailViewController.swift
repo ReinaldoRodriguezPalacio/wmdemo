@@ -60,8 +60,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var listPrice : NSString = ""
     var type : NSString = ResultObjectType.Mg.rawValue as NSString
     var imageUrl : [Any] = []
-    var characteristics : [Any] = []
-    var bundleItems : [Any] = []
+    var characteristics : [[String:Any]] = []
+    var bundleItems : [[String:Any]] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var productDetailButton: ProductDetailButtonBarCollectionViewCell?
@@ -72,7 +72,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var indexSelected  : Int = 0
     var addOrRemoveToWishListBlock : (() -> Void)? = nil
     var gestureCloseDetail : UITapGestureRecognizer!
-    var itemsCrossSellUPC : [Any]! = []
+    var itemsCrossSellUPC : [[String:Any]]! = []
     var bannerImagesProducts : IPAProductDetailBannerView!
     var productCrossSell : IPAProductCrossSellView!
     var tabledetail : UITableView!
@@ -223,7 +223,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(self.upc as String, successBlock: { (result:[Any]?) -> Void in
+        crossService.callService(self.upc as String, successBlock: { (result:[[String:Any]]?) -> Void in
             if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0{
@@ -391,8 +391,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     let doubleVaule = self.saving.doubleValue
                     if doubleVaule > 0 {
                         let savingStr = NSLocalizedString("price.saving",comment:"")
-                        let formated = CurrencyCustomLabel.formatString("\(savingSend)")
-                        savingSend = "\(savingStr) \(formated)"
+                        let formated = CurrencyCustomLabel.formatString("\(savingSend)" as NSString)
+                        savingSend = "\(savingStr) \(formated)" as NSString
                     }
                     
                     cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
@@ -446,7 +446,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "cellBundleitems", for: indexPath) as? IPAProductDetailBundleTableViewCell
                 cellBundle = cellPromotion
                 cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = bundleItems as [Any]
+                cellPromotion!.itemsUPC = bundleItems as [[String:Any]]
                 cell = cellPromotion
             } else {
                 return cellForPoint((indexPath.section,5),indexPath: indexPath)
@@ -604,7 +604,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton!.isPreorderable = self.strisPreorderable as String
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton!.reloadButton()
-            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
             productDetailButton!.listButton.isEnabled = !self.isGift
             productDetailButton!.productDepartment = self.productDeparment
             var imageUrl = ""
@@ -907,7 +907,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.isShowProductDetail = false
                     self.productDetailButton!.deltailButton.isSelected = false
                     self.tabledetail.isScrollEnabled = true
-                    self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+                    self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
                     self.listSelectorController = nil
                     self.listSelectorBackgroundView = nil
                     
@@ -1029,7 +1029,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         print("parametro para signals MG :::\(self.indexRowSelected)")
         
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let productService = ProductDetailService(dictionary: signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
@@ -1066,7 +1066,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             
             }) { (error:NSError) -> Void in
                 let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.headerView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.headerView.frame.maxY))
-                self.name = NSLocalizedString("empty.productdetail.title",comment:"")
+                self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
                     print("Return Button")
                     self.backButton()
@@ -1093,11 +1093,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         self.listPrice = result["original_listprice"] as! String as NSString
         self.characteristics = []
-        if let cararray = result["characteristics"] as? [Any] {
+        if let cararray = result["characteristics"] as? [[String:Any]] {
             self.characteristics = cararray
         }
         
-        var allCharacteristics : [Any] = []
+        var allCharacteristics : [[String:Any]] = []
         
         let strLabel = "UPC"
         //let strValue = self.upc
@@ -1152,8 +1152,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
          //bannerImagesProducts.lowStock?.hidden =  false
         
         
-        self.bundleItems = [Any]()
-        if let bndl = result["bundleItems"] as?  [Any] {
+        self.bundleItems = [[String:Any]]()
+        if let bndl = result["bundleItems"] as?  [[String:Any]] {
             self.bundleItems = bndl
         }
         
@@ -1255,28 +1255,28 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let product = self.bannerImagesProducts.collection.cellForItem(at: IndexPath(row: 0, section: 0)) as! ProductDetailBannerMediaCollectionViewCell!
         
         print(imageHead!.size)
-        print(imageHeader?.size)
-        print(product?.imageView!.image!.size)
-        print(screen?.size)
+        print(imageHeader!.size)
+        print(product!.imageView!.image!.size)
+        print(screen!.size)
         
         
         let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
         if urlWmart != nil {
-            let imgResult = UIImage.verticalImage(fromArrayProdDetail: [imageHead!,imageHeader,product?.imageView!.image!,screen])
+            let imgResult = UIImage.verticalImage(fromArrayProdDetail: [imageHead!,imageHeader!,product!.imageView!.image!,screen!])
             //let imgResult = UIImage.verticalImageFromArray([imageHead!,product.imageView!.image!,screen],andWidth:320)
-            let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [self,imgResult!,urlWmart!], applicationActivities: nil)
             popup = UIPopoverController(contentViewController: controller)
             popup!.present(from: CGRect(x: 700, y: 100, width: 300, height: 100), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
-                    if completed && !activityType!.contains("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.contains("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -1312,10 +1312,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
         if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Encontré un producto que te puede interesar en www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) encontró un producto que te puede interesar en www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) encontró un producto que te puede interesar en www.walmart.com.mx"
             }
         }
         return ""
@@ -1334,18 +1334,18 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
             let selected = productUpc == self.upc as String
-            let details = product["details"] as! [Any]
+            let details = product["details"] as! [[String:Any]]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
             var count = 0
             for detail in details{
                 let label = detail["description"] as! String
                 let unit = detail["unit"] as! String
-                var values = facetsDetails[label] as? [Any]
+                var values = facetsDetails[label] as? [[String:Any]]
                 if values == nil{ values = []}
                 let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
-                if !(values! as [Any]).contains(itemToAdd) {
-                    values!.append(itemToAdd as AnyObject)
+                if !values!.contains(where: { return $0["value"] as! String == itemToAdd["value"] as! String && $0["enabled"] as! Int == itemToAdd["enabled"] as! Int && $0["type"] as! String == itemToAdd["type"] as! String && $0["selected"] as! Bool == itemToAdd["selected"] as! Bool}) {
+                    values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values
                 itemDetail[label] = detail["unit"] as? String
@@ -1387,7 +1387,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
             let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
             
-            let itemDetails = facetsDetails["itemDetails"] as? [Any]
+            let itemDetails = facetsDetails["itemDetails"] as? [[String:Any]]
             var findObj: [String] = []
             for item in itemDetails!{
                 if(item[filteredKeys.first!] as! String == selecteFirst)
@@ -1436,8 +1436,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     {
         var upc = ""
         var isSelected = false
-        let details = self.facetsDetails!["itemDetails"] as? [Any]
-        for item in details! {
+        let details: [[String:Any]] = self.facetsDetails!["itemDetails"] as! [[String : Any]]
+        for item in details {
             isSelected = false
             for selectItem in itemsSelected{
                 if item[selectItem.0] as! String == selectItem.1{
@@ -1467,9 +1467,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
-        let itemDetails = self.facetsDetails!["itemDetails"] as? [Any]
+        let itemDetails: [[String:Any]] = self.facetsDetails!["itemDetails"] as! [[String : Any]]
         var findObj: [String] = []
-        for item in itemDetails!{
+        for item in itemDetails{
             if(item[key] as! String == value)
             {
                 findObj.append(item[keyToFind] as! String)

@@ -191,7 +191,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         let passNew = (self.password==nil ? "" : self.password!.text!) as String
         
         
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if let user = UserCurrentSession.sharedInstance.userSigned {
             let name = user.profile.name
             let mail = user.email
             let lastMame = user.profile.lastName
@@ -200,8 +200,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
             
             
             
-            let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
-            let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
+            let allowMarketing =  UserCurrentSession.sharedInstance.userSigned?.profile.allowMarketingEmail
+            let allowTransfer = UserCurrentSession.sharedInstance.userSigned?.profile.allowTransfer
             
             let params  = service.buildParamsWithMembership(mail as String, password: passCurrent, newPassword:passNew, name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
             

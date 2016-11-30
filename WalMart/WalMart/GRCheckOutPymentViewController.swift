@@ -372,7 +372,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         serviceDetail = OrderConfirmDetailView.initDetail()
         serviceDetail?.delegate = self
         serviceDetail!.showDetail()
-        let total = UserCurrentSession.sharedInstance().estimateTotalGR()
+        let total = UserCurrentSession.sharedInstance.estimateTotalGR()
         
         let freeShipping = discountsFreeShippingAssociated
         let discount : Double = self.totalDiscountsOrder
@@ -401,10 +401,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
             // deliveryAmount
-//            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-//            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
-//            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
-//            let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
+//            let userEmail = UserCurrentSession.sharedInstance.userSigned!.email as String
+//            let userName = UserCurrentSession.sharedInstance.userSigned!.profile.name as String
+//            let idUser = UserCurrentSession.sharedInstance.userSigned!.profile.user.idUser as String
+//            let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
             
             let purchaseOrderArray = resultCall["purchaseOrder"] as! [Any]
             let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
@@ -421,7 +421,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
             
-            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
+            let discountsAssociated:Double = UserCurrentSession.sharedInstance.estimateTotalGR() * self.discountAssociateAply //
             
             
             if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
@@ -434,10 +434,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             if self.idFreeShepping != 0 || self.idReferido != 0{
                 deliveryAmount =  0.0
             }
-            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
-            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
-            let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
-            let formattedDate = deliveryDate.substringToIndex(10)
+            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue as NSString)
+            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
+            let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)" as NSString)
+            let formattedDate = deliveryDate.substring(to: 10)
             let slot = purchaseOrder["slot"] as! [String:Any]
             
             self.confirmOrderDictionary = ["paymentType": self.paymentId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
@@ -450,7 +450,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             let shipmentAmount = self.paramsToConfirm!["shipmentAmount"] as! String
             
             
-           BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "Groceries", revenue: String(total), tax: "", shipping: shipmentAmount, coupon: "")
+           BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "Groceries", revenue: String(describing: total), tax: "", shipping: shipmentAmount, coupon: "")
             
             //PayPal
             if self.paymentId == "-1"{
@@ -531,7 +531,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     */
     func showPayPalPaymentController()
     {
-        let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
+        let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
         var payPalItems: [PayPalItem] = []
         for item in items {
             var itemPrice = item["price"] as! Double
@@ -546,7 +546,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             payPalItems.append(payPalItem)
         }
         // Los cupones y descuentos se agregan como item negativo.
-        let discounts = 0.0 - UserCurrentSession.sharedInstance().estimateSavingGR()
+        let discounts = 0.0 - UserCurrentSession.sharedInstance.estimateSavingGR()
         if discounts < 0
         {
             payPalItems.append(PayPalItem(name: "Descuentos", withQuantity:1 , withPrice: NSDecimalNumber(value: discounts as Double), withCurrency: "MXN", withSku: "0000000000001"))
@@ -637,7 +637,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func invokeGetPromotionsService(_ pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:@escaping ((Bool) -> Void))
     {
         var savinAply : Double = 0.0
-        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
+        var items = UserCurrentSession.sharedInstance.itemsGR!
         if let savingGR = items["saving"] as? NSNumber {
             savinAply =  savingGR.doubleValue
             
@@ -645,7 +645,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         var paramsDic: [String:String] = pickerValues
         paramsDic["isAssociated"] =  self.isAssociateSend ? "1":"0"
-        paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
+        paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance.estimateTotalGR() - savinAply)"
         paramsDic["addressId"] = self.paramsToOrder!["AddressID"] as? String
         
         let promotionsService = GRGetPromotionsService()
@@ -725,11 +725,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     print("Boton Comprar :: \(self.newTotal)")
                     //self.updateShopButton("\(self.newTotal)")
                     var savinAply : Double = 0.0
-                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
+                    var items = UserCurrentSession.sharedInstance.itemsGR!
                     if let savingGR = items["saving"] as? NSNumber {
                         savinAply =  savingGR.doubleValue
                     }
-                    let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
+                    let total = "\(UserCurrentSession.sharedInstance.numberOfArticlesGR())"
                     let subTotal = String(format: "%.2f", self.newTotal)
                     let saving = String(format: "%.2f", self.totalDiscountsOrder + savinAply)
                     
@@ -848,7 +848,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
-            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
+            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance.estimateTotalGR()-UserCurrentSession.sharedInstance.estimateSavingGR())"
             paramsDic["addressId"] = self.selectedAddress == nil ? "" : self.selectedAddress
             
             let discountAssociateService = GRDiscountAssociateService()
@@ -862,20 +862,20 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
-                    var items = UserCurrentSession.sharedInstance().itemsGR!
+                    var items = UserCurrentSession.sharedInstance.itemsGR!
                     //if let savingGR = items["saving"] as? Double {
                     
                     items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
                     
                     print("\(resultCall["saving"] as? Double)")
                     
-                    UserCurrentSession.sharedInstance().itemsGR = items as [String:Any]
+                    UserCurrentSession.sharedInstance.itemsGR = items as [String:Any]
                     
-                    print("# de productos:: \(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
-                    print("Subtotal:: \(UserCurrentSession.sharedInstance().estimateTotalGR())")
-                    print("Saving:: \( UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")")
+                    print("# de productos:: \(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
+                    print("Subtotal:: \(UserCurrentSession.sharedInstance.estimateTotalGR())")
+                    print("Saving:: \( UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")")
                     self.shipmentAmount = self.paramsToOrder!["shipmentAmount"] as! Double
-                    print("Comprar:: \(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR() + self.shipmentAmount)")
+                    print("Comprar:: \(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR() + self.shipmentAmount)")
                     
                     
                     self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { (finish) -> Void in

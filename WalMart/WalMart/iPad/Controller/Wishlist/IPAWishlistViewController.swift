@@ -378,7 +378,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
-                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
                     //params.append(paramsItem)
@@ -419,7 +419,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             if self.items.count > 1 {
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
-                    let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                    let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                     if hasUPC {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                         alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
@@ -434,8 +434,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
 
         }
-        let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
-        let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
+        let identicalMG = UserCurrentSession.sharedInstance.identicalMG()
+        let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
         
         if paramsPreorderable.count == 0 && params.count == 0 {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
@@ -592,10 +592,10 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
         if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
             }
         }
         return ""
@@ -665,7 +665,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
         
-        let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+        let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         
         productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, productPriceThrough: savingVal,isEditting:self.isEditingWishList, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart)
         

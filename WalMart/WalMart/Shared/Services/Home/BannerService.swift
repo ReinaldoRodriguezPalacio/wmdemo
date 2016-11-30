@@ -39,7 +39,7 @@ class BannerService : BaseService {
         print(params)
         self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
-            NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+            NotificationCenter.defaultCenter.post(name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
             
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
@@ -51,7 +51,7 @@ class BannerService : BaseService {
     func getBannerContent() -> [[String:String]] {
         var bannerItems : [[String:String]] = []
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return bannerItems
         }
@@ -124,7 +124,7 @@ class BannerService : BaseService {
     
     func getLanding() -> [[String:String]]? {
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return nil
         }
@@ -136,7 +136,7 @@ class BannerService : BaseService {
     
     func getPleca() -> [String:Any]? {
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return nil
         }

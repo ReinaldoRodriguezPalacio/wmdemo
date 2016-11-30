@@ -197,9 +197,9 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             /*if multipleItems?.count > 0 {
             callItemsService()
             }*/
-            let allItems = multipleItems!["allitems"] as! [Any]
+            let allItems = multipleItems!["allitems"] as! [[String:Any]]
             let serviceAddProduct = GRShoppingCartAddProductsService()
-            var paramsitems : [Any] = []
+            var paramsitems : [[String:Any]] = []
             var wishlistDelete : [String] = []
             
             var type : NSString = ""
@@ -328,7 +328,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
         }else{
             let signalParametrer = params["parameter"] as? [String:Any]
-            let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
+            let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
             let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
             
             var numOnHandInventory : NSString = "0"
@@ -353,7 +353,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     //TODO Signals
                     let signalParametrer = params["parameter"] as? [String:Any]
                     
-                    let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
+                    let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
                     let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
                     
                     if let commentsParams = params["comments"] as? NSString{
@@ -376,8 +376,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         
                         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
                         
-                            UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
-                                UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                             })
                         
                         
@@ -419,8 +419,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
                  NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
                 
-                 UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
-                    UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                 UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                  })
                 
                 }) { (error:NSError) -> Void in

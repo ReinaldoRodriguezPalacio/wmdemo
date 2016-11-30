@@ -34,17 +34,16 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
         selected = 0
         self.viewControllers = [profile, navigation];
         
-        if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
-        {
-            if #available(iOS 8.0, *) {
+        if #available(iOS 8.0, *) {
+            if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
+            {
                 self.maximumPrimaryColumnWidth = 342.0
                 self.minimumPrimaryColumnWidth = 342.0
-            } else {
-                // Fallback on earlier versions
+                
             }
+        } else {
+            // Fallback on earlier versions
         }
-       // self.view.addSubview(self.split.view)
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

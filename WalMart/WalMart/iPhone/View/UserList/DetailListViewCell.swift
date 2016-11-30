@@ -159,7 +159,7 @@ class DetailListViewCell: ProductTableViewCell {
             self.quantityIndicator!.setTitle(text!, for: UIControlState())
             
             
-            let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
+            let formatedPrice = CurrencyCustomLabel.formatString("\(total)" as NSString)
             self.total = formatedPrice
             self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             
@@ -251,7 +251,7 @@ class DetailListViewCell: ProductTableViewCell {
             total = (kgrams * price)
         }
         self.quantityIndicator!.setTitle(text!, for: UIControlState())
-        let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
+        let formatedPrice = CurrencyCustomLabel.formatString("\(total)" as NSString)
         self.total = formatedPrice
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         

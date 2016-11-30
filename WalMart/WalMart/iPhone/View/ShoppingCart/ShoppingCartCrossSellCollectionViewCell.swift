@@ -44,7 +44,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         if imageArray.count > 0 {
             imageUrl = imageArray[0] as! String
         }
-        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc))
+        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
         
         return cell
     }
@@ -54,8 +54,8 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
         let upc = itemUPC["upc"] as! String
         
-        UserCurrentSession.sharedInstance().nameListToTag = NSLocalizedString("shoppingcart.beforeleave", comment: "")
-        let shoppingCartItems  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? [Any]
+        UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("shoppingcart.beforeleave", comment: "")
+        let shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [Any]
         for itemInCart in shoppingCartItems! {
             if let dictItem = itemInCart as? [String:Any] {
                 if let preorderable = dictItem["isPreorderable"] {
@@ -85,7 +85,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         //
         
         
-        if (!UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)) {
+        if (!UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)) {
             //let itemUPC = itemsUPC[indexPath.row] as [String:Any]
             let upc = itemUPC["upc"] as! String
             let desc = itemUPC["description"] as! String

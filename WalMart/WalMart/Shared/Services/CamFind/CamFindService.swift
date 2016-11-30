@@ -13,7 +13,7 @@ class CamFindService : BaseService {
     func buildParams(_ image: UIImage) -> [String:Any] {
         let data = UIImageJPEGRepresentation(image, 1.0) as AnyObject
         let language = "es-MX"
-        let params: [String:Any]  = [String:Any](dictionary: ["image_request[image]": data,"image_request[language]": language,"image_request[locale]": language])
+        let params: [String:Any]  = ["image_request[image]": data,"image_request[language]": language,"image_request[locale]": language]
         return params
     }
     

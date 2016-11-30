@@ -139,7 +139,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     
     func addToShoppingCart() {
         if !isDisabled {
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
                 //Event
                 ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "\(self.desc) - \(self.upc)")

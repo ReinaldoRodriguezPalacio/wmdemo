@@ -16,7 +16,7 @@ class GRLoginService : GRBaseService {
     }
     
     func buildParamsUserId() -> [String:Any] {
-        return ["email":"","password":"","idUser":UserCurrentSession.sharedInstance().userSigned!.idUserGR]
+        return ["email":"","password":"","idUser":UserCurrentSession.sharedInstance.userSigned!.idUserGR]
     }
 
     

@@ -25,10 +25,10 @@ class GRShoppingCartProductsService : GRBaseService {
                             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                             
                             
-                            if UserCurrentSession.sharedInstance().userSigned == nil {
+                            if UserCurrentSession.sharedInstance.userSigned == nil {
                                 return
                             }
-                            let user = UserCurrentSession.sharedInstance().userSigned
+                            let user = UserCurrentSession.sharedInstance.userSigned
                             
                             //var currentQuantity = 0
                             
@@ -130,7 +130,7 @@ class GRShoppingCartProductsService : GRBaseService {
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
+            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance.userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         }
         var arrayUPCQuantity : [[String:String]] = []
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
@@ -182,7 +182,7 @@ class GRShoppingCartProductsService : GRBaseService {
     func synchronizeWebShoppingCartFromCoreData(_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?){
         ShoppingCartService.isSynchronizing = true
         let predicateDeleted = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
-        let deteted = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateDeleted)
+        let deteted = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateDeleted)
         if deteted.count > 0 {
             let serviceDelete = GRShoppingCartDeleteProductsService()
             //var arratUpcsDelete : [String] = []
@@ -225,7 +225,7 @@ class GRShoppingCartProductsService : GRBaseService {
     
     func synchronizeUpdateWebShoppingCartFromCoreData (_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?) {
         let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.updated.rawValue as Int),ResultObjectType.Groceries.rawValue)
-        let updated = Array(UserCurrentSession.sharedInstance().userSigned!.productsInCart.filtered(using: predicateUpdated)) as! [Cart]
+        let updated = Array(UserCurrentSession.sharedInstance.userSigned!.productsInCart.filtered(using: predicateUpdated)) as! [Cart]
         if updated.count > 0 {
             let serviceUpdate = GRShoppingCartUpdateProductsService()
             var arrayUpcsUpdate : [Any] = []
@@ -249,7 +249,7 @@ class GRShoppingCartProductsService : GRBaseService {
     
     func synchronizeAddedWebShoppingCartFromCoreData (_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?) {
         let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.created.rawValue as Int),ResultObjectType.Groceries.rawValue)
-        let updated = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateUpdated)
+        let updated = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             
             
@@ -304,7 +304,7 @@ class GRShoppingCartProductsService : GRBaseService {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        //let user = UserCurrentSession.sharedInstance().userSigned
+        //let user = UserCurrentSession.sharedInstance.userSigned
         
         //var currentQuantity = 0
         //var error: NSError? = nil

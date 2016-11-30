@@ -86,7 +86,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         }
         
         BaseController.setOpenScreenTagManager(titleScreen: self.defaultListName!, screenName: self.getScreenGAIName())
-        UserCurrentSession.sharedInstance().nameListToTag = self.defaultListName!
+        UserCurrentSession.sharedInstance.nameListToTag = self.defaultListName!
         
     }
     
@@ -382,10 +382,10 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
         if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Encontré estos productos te pueden interesar en www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) encontró unos productos que te pueden interesar en www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) encontró unos productos que te pueden interesar en www.walmart.com.mx"
             }
         }
         return ""
@@ -571,7 +571,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         let service = GRUserListService()
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.sharedInstance.userSigned != nil {
             
             service.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 

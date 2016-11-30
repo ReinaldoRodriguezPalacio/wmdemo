@@ -65,8 +65,8 @@ class SliderTableViewCell: UITableViewCell {
     
     func setValuesSlider(_ priceValues:[Any]) {
         if  self.minValue == 0 && self.maxValue == 0 {
-            self.minValue = priceValues.firstObject as! Double
-            self.maxValue = priceValues.lastObject as! Double
+            self.minValue = priceValues.first as! Double
+            self.maxValue = priceValues.last as! Double
             self.values = priceValues
         
             self.setAmountLabels(forMinAmount: self.minValue, andMaxAmount: self.maxValue)
@@ -137,10 +137,10 @@ class SliderTableViewCell: UITableViewCell {
     
     func setAmountLabels(forMinAmount min:Double, andMaxAmount max:Double) {
         self.minLabel!.updateMount(self.currencyFmt!.string(from: NSNumber(value: min as Double))!,
-            fontInt:self.numFont, colorInt:self.labelColor, fontDecimal:self.centFont, colorDecimal:self.labelColor)
+            fontInt:self.numFont!, colorInt:self.labelColor, fontDecimal:self.centFont!, colorDecimal:self.labelColor)
         
         self.maxLabel!.updateMount(self.currencyFmt!.string(from: NSNumber(value: max as Double))!,
-            fontInt:self.numFont, colorInt:self.labelColor, fontDecimal:self.centFont, colorDecimal:self.labelColor)
+            fontInt:self.numFont!, colorInt:self.labelColor, fontDecimal:self.centFont!, colorDecimal:self.labelColor)
     }
     
     func report(_ slide: NMRangeSlider){

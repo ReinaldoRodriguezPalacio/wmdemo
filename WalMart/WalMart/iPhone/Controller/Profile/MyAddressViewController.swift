@@ -516,7 +516,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                     }, errorBlock: { (error:NSError) -> Void in
                         print("error")
                 })
-                UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                UserCurrentSession.sharedInstance.getStoreByAddress(result)
                 }, errorBlock: { (error:NSError) -> Void in
                 
             })
@@ -574,7 +574,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                     let serviceAddress = GRAddressesByIDService()
                     serviceAddress.addressId = result["addressID"] as? String
                     serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
-                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        UserCurrentSession.sharedInstance.getStoreByAddress(result)
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }

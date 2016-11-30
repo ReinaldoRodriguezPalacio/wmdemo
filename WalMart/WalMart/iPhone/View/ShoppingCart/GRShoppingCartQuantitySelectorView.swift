@@ -100,7 +100,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
         
-        if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
+        if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(self.upcProduct) {
             isUpcInShoppingCart = true
         } else {
             isUpcInShoppingCart = false
@@ -213,7 +213,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         }
     }
     
-    func userSelectValue(_ value:String) {
+    func userSelectValue(_ value:String!) {
         var resultText : NSString = ""
         
         if first {

@@ -283,13 +283,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      - parameter failure: faild block return
      */
     func reloadList(success:(()->Void)?, failure:((_ error:NSError)->Void)?){
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if let _ = UserCurrentSession.sharedInstance.userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:[String:Any]) -> Void in
                     self.itemsUserList = result["responseArray"] as? [Any]
                     
-                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                         
                         let dicFirst = first as! [String:Any]
                         let dicSecond = second as! [String:Any]
@@ -324,7 +324,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 errorBlock: { (error:NSError) -> Void in
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
                     self.changeFrameEditBtn(true, side: "left")
-                    failure?(error: error)
+                    failure?(error)
                     return
                 }
             )
@@ -334,7 +334,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
-            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -371,7 +371,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      - parameter failure: faild block return
      */
     func reloadWithoutTableReload(success:(()->Void)?, failure:((_ error:NSError)->Void)?){
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if let _ = UserCurrentSession.sharedInstance.userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:[String:Any]) -> Void in
@@ -389,7 +389,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 },
                 errorBlock: { (error:NSError) -> Void in
                     //                    self.editBtn!.hidden = true
-                    failure?(error: error)
+                    failure?(error)
                     return
                 }
             )
@@ -472,7 +472,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
                     
-                    if let _ = UserCurrentSession.sharedInstance().userSigned {
+                    if let _ = UserCurrentSession.sharedInstance.userSigned {
                         self.alertView = nil
                         self.invokeUpdateListService()
                     }
@@ -653,7 +653,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.alertView!.showDoneIcon()
                         var count = 0
                         if UserCurrentSession.hasLoggedUser() {
-                            for itemList in self.itemsUserList! {
+                            for itemList in self.itemsUserList! as! [[String:Any]] {
                                 if (itemList["name"] as! String) == value {
                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
                                     return
@@ -999,7 +999,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         
-        if requiredHelp && UserCurrentSession.sharedInstance().userSigned != nil {
+        if requiredHelp && UserCurrentSession.sharedInstance.userSigned != nil {
             self.helpView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
             self.helpView!.backgroundColor = UIColor.black.withAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
@@ -1172,7 +1172,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             listCell.listDelegate = self
             
             if (indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList)  {
-                listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance().userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
+                listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance.userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
                 listCell.canDelete = false
                 listCell.enableDuplicateList(self.newListEnabled)
                 listCell.shouldChangeState = !self.isEditingUserList
@@ -1419,7 +1419,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             
             let alphanumericset = CharacterSet(charactersIn: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").inverted
-            let cleanedName = (trimmedString.components(separatedBy: alphanumericset) as [Any]).componentsJoined(by: "")
+            let cleanedName = (trimmedString.components(separatedBy: alphanumericset) as NSArray).componentsJoined(by: "")
             if trimmedString != cleanedName {
                 self.alertView!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
@@ -1546,7 +1546,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue)
                         products.append(param)
                         
                         guard let name = item["description"] as? String,
@@ -1559,15 +1559,15 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         BaseController.sendAnalyticsProductToList(id, desc: name, price: "\(price as! Int)")
                     }
                     
-                    let fmt = NSDateFormatter()
+                    let fmt = DateFormatter()
                     fmt.dateFormat = "MMM d"
-                    var name = fmt.stringFromDate(NSDate())
+                    var name = fmt.string(from: Date())
                     var number = 0;
                     
                     if self.itemsUserList != nil {
                         for item in  self.itemsUserList as! [[String:Any]]{
                             if let nameList = item["name"] as? String {
-                                if nameList.uppercaseString.hasPrefix(name.uppercaseString) {
+                                if nameList.uppercased().hasPrefix(name.uppercased()) {
                                     number = number+1
                                 }
                             }
@@ -1581,14 +1581,15 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     saveService.callService(saveService.buildParams(name, items: products),
                         successBlock: { (result:[String:Any]) -> Void in
-                            if let cell = self.tableuserlist!.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? NewListTableViewCell {
+
+                            if let cell = self.tableuserlist!.cellForRow(at: IndexPath(row: 0, section:0)) as? NewListTableViewCell {
                                 cell.scanning = false
                             }
                             self.newListEnabled = false
                             self.isShowingWishList  = true
                             self.isShowingSuperlists = true
                             
-                            self.newListBtn!.selected = false
+                            self.newListBtn!.isSelected = false
                             self.newListBtn!.backgroundColor = WMColor.green
                             self.reloadList(
                                 success: { () -> Void in
@@ -1678,7 +1679,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     //MARK: - DB
     
     func retrieveParam(_ key:String) -> Param? {
-        let user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance.userSigned
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: self.managedContext!)
         if user != nil {
@@ -1707,7 +1708,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
         else {
             let param = NSEntityDescription.insertNewObject(forEntityName: "Param", into: self.managedContext!) as? Param
-            if let user = UserCurrentSession.sharedInstance().userSigned {
+            if let user = UserCurrentSession.sharedInstance.userSigned {
                 param!.user = user
             }
             param!.key = key

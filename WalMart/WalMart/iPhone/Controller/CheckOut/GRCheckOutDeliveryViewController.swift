@@ -733,7 +733,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let service = GRDeliveryTypeService()
         //Validar self.selectedAddress != nil
         if self.selectedAddress != nil {
-            service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"false")
+            service.setParams("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"false")
             let empty: [String:Any] = [:]
             service.callService(requestParams: empty as AnyObject,
                 successBlock: { (result:[String:Any]) -> Void in

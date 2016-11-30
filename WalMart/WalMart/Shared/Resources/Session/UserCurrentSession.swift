@@ -36,10 +36,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class UserCurrentSession : NSObject {
     
-    private static var __once: () = {
-            Static.instance = self.init()
-        }()
-    
     var userSigned : User? = nil
     
     var userSignedOnService  = false
@@ -84,23 +80,12 @@ class UserCurrentSession : NSObject {
 
     
     //Singleton init
-    class func sharedInstance()-> UserCurrentSession! {
-        struct Static {
-            static var instance : UserCurrentSession? = nil
-            static var onceToken : Int = 0
-        }
-        
-        _ = UserCurrentSession.__once
-        
-        return Static.instance!
-    }
-    
-    required override init() {
-        
-    }
+    static let sharedInstance = UserCurrentSession()
+    private override init() {}
+
     
     class func hasLoggedUser() -> Bool{
-        return !(UserCurrentSession.sharedInstance().userSigned == nil)
+        return !(UserCurrentSession.sharedInstance.userSigned == nil)
     }
 
     class func currentDevice() -> String{
@@ -142,16 +127,16 @@ class UserCurrentSession : NSObject {
                 
                 let cadUserId : NSString? = userSigned.idUserGR
                 if cadUserId == nil || cadUserId == "" || cadUserId?.length == 0 {
-                    UserCurrentSession.sharedInstance().userSigned = nil
-                    UserCurrentSession.sharedInstance().deleteAllUsers()
+                    UserCurrentSession.sharedInstance.userSigned = nil
+                    UserCurrentSession.sharedInstance.deleteAllUsers()
                     return
                 }
                 
                 self.userSigned = userSigned
-                self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
+                self.validateUserAssociate(UserCurrentSession.sharedInstance.isAssociated == 0 ? true : false)
                 
                 let loginService = LoginWithEmailService()
-                let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                 
                 
                 loginService.callService(["email":emailUser], successBlock: { (result:[String:Any]) -> Void in
@@ -273,21 +258,21 @@ class UserCurrentSession : NSObject {
         self.userSigned = usr
         
         updatePhoneProfile(true)
-        self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
-        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String as NSString
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString
+        self.validateUserAssociate(UserCurrentSession.sharedInstance.isAssociated == 0 ? true : false)
+        UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String as NSString
+        UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
+        UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString
 
         
-        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String as NSString
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString
+        UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String as NSString
+        UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
+        UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString
         
         let homeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
         if homeNumber !=  "" {
-            UserCurrentSession.sharedInstance().cellPhone = resultProfileJSONGR!["cellPhone"] as! String
-            UserCurrentSession.sharedInstance().workNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
-            UserCurrentSession.sharedInstance().phoneNumber = homeNumber
+            UserCurrentSession.sharedInstance.cellPhone = resultProfileJSONGR!["cellPhone"] as! String
+            UserCurrentSession.sharedInstance.workNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
+            UserCurrentSession.sharedInstance.phoneNumber = homeNumber
         }
 
 
@@ -589,7 +574,7 @@ class UserCurrentSession : NSObject {
             self.loadGRShoppingCart({ () -> Void in
                 //TODO: Decide shop preShopping Cart, Empty or cart
               NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateShoppingCartEnd.rawValue), object: nil)
-                UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
               result()
             })
         }
@@ -831,7 +816,7 @@ class UserCurrentSession : NSObject {
     func validateUserAssociate(_ validate:Bool){
         
         if  UserCurrentSession.hasLoggedUser() {
-           // if UserCurrentSession.sharedInstance().isAssociated == 0 {
+           // if UserCurrentSession.sharedInstance.isAssociated == 0 {
             if validate {
                 let servicePromotion = PromotionsMgService()
                 let paramsRec = Dictionary<String, String>()
@@ -843,13 +828,13 @@ class UserCurrentSession : NSObject {
                         let porcentangeDiscount = promo["percentageDiscount"] as! Double
                         
                         print(isActive)
-                        UserCurrentSession.sharedInstance().isAssociated = isActive
-                        UserCurrentSession.sharedInstance().porcentageAssociate = porcentangeDiscount
+                        UserCurrentSession.sharedInstance.isAssociated = isActive
+                        UserCurrentSession.sharedInstance.porcentageAssociate = porcentangeDiscount
                         
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info
-                          UserCurrentSession.sharedInstance().isAssociated = 0
-                         UserCurrentSession.sharedInstance().porcentageAssociate = 0.0
+                          UserCurrentSession.sharedInstance.isAssociated = 0
+                         UserCurrentSession.sharedInstance.porcentageAssociate = 0.0
                         print(error)
                 }
             }
@@ -863,10 +848,10 @@ class UserCurrentSession : NSObject {
             
             let svcProfile = GRUpdateUserProfileService()
             let profileParams = svcProfile.buildParams(
-                UserCurrentSession.sharedInstance().userSigned!.profile.name as String,
-                lastName: UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String,
+                UserCurrentSession.sharedInstance.userSigned!.profile.name as String,
+                lastName: UserCurrentSession.sharedInstance.userSigned!.profile.lastName as String,
                 sex: "",
-                birthDate: UserCurrentSession.sharedInstance().userSigned!.profile.birthDate as String,
+                birthDate: UserCurrentSession.sharedInstance.userSigned!.profile.birthDate as String,
                 maritalStatus: "",
                 profession: "",
                 phoneWorkNumber:  self.workNumber,
@@ -886,9 +871,9 @@ class UserCurrentSession : NSObject {
                 
                 //if !newProfile {
                     if UserCurrentSession.hasLoggedUser() {
-                        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = self.cellPhone as NSString
-                        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = self.workNumber as NSString
-                        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber as NSString
+                        UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = self.cellPhone as NSString
+                        UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = self.workNumber as NSString
+                        UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = self.phoneNumber as NSString
                     }
                 //}
                 }, errorBlock: { (error:NSError) -> Void in

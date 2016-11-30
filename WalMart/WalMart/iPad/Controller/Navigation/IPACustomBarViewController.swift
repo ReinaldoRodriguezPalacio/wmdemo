@@ -216,7 +216,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let contDetail = IPAProductDetailPageViewController()
             contDetail.idListSeleted = self.idListSelected
             //contDetail.upc = upc!
-            let useSignalsService : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let useSignalsService : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
             let svcValidate = GRProductDetailService(dictionary: useSignalsService)
             //let svcValidate = GRProductDetailService()
             
@@ -238,7 +238,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                 }, errorBlock: { (error:NSError) -> Void in
                     if upcDesc.length < 14 {
                         let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
-                        paddedUPC = "\(toFill)\(upcDesc)"
+                        paddedUPC = "\(toFill)\(upcDesc)" as NSString
                     }
                     contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
                     let controllernav = self.currentController as? UINavigationController
@@ -388,7 +388,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         
         self.selectedBeforeWishlistIx = index!
        
-//        if index == 5 &&  UserCurrentSession.sharedInstance().userSigned == nil{
+//        if index == 5 &&  UserCurrentSession.sharedInstance.userSigned == nil{
 //            var cont = IPALoginController.showLogin()
 //            cont!.successCallBack = {() in
 //                if cont.alertView != nil {

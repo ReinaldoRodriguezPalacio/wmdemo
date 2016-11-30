@@ -172,7 +172,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     func addProductToShoping(){
         if !isDisabled {
-            var hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            var hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if serachFromList {
                 hasUPC =  false
             }

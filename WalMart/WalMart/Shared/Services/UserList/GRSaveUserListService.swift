@@ -98,20 +98,20 @@ class GRSaveUserListService : GRBaseService {
     
     func manageListData(_ list:[String:Any])  {
         
-        if  UserCurrentSession.sharedInstance().userSigned == nil {
+        if  UserCurrentSession.sharedInstance.userSigned == nil {
             return
         }
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        //let user = UserCurrentSession.sharedInstance().userSigned
+        //let user = UserCurrentSession.sharedInstance.userSigned
         let listId = list["id"] as! String
         
         let entity = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List
         entity!.registryDate = Date()
         entity!.idList = listId
-        entity!.user = UserCurrentSession.sharedInstance().userSigned!
+        entity!.user = UserCurrentSession.sharedInstance.userSigned!
         entity!.name = list["name"] as! String
         entity!.countItem = NSNumber(value: 0 as Int)
         

@@ -64,12 +64,10 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.titleLabel?.text = NSLocalizedString("moreoptions.title.StoreLocator",comment:"")
         
         self.coreLocationManager = CLLocationManager()
-        if(CLLocationManager.instancesRespond(to: #selector(CLLocationManager.requestWhenInUseAuthorization)))
-        {
-            if #available(iOS 8.0, *) {
+        if #available(iOS 8.0, *) {
+            if(CLLocationManager.instancesRespond(to: #selector(CLLocationManager.requestWhenInUseAuthorization)))
+            {
                 self.coreLocationManager.requestWhenInUseAuthorization()
-            } else {
-                // Fallback on earlier versions
             }
         }
         
@@ -660,14 +658,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.navigationController?.present(controller, animated: true, completion: nil)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
-                if completed && !activityType!.contains("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.contains("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -769,7 +767,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         var result: [Store]? =  nil
         do{
             result =  try context.fetch(fetchRequest) as? [Store]
-            print(result)
+            print(result!)
             
         }catch{
             print("searchForItems Error")

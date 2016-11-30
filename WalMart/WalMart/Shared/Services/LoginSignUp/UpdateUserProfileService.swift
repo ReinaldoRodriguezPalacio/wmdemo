@@ -43,7 +43,7 @@ class UpdateUserProfileService : BaseService {
                         } catch {
                             fatalError()
                         }
-                        UserCurrentSession.sharedInstance().userSigned = usr
+                        UserCurrentSession.sharedInstance.userSigned = usr
                         successBlock!(resultCall)
                     }
                 }

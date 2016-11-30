@@ -59,11 +59,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var deliveryDatePicker: UIDatePicker?
     var confirmationPicker: UIPickerView?
     
-    var paymentOptionsItems: [Any]?
-    var addressItems: [Any]?
-    var shipmentItems: [Any]?
-    var slotsItems: [Any]?
-    var orderOptionsItems: [Any]?
+    var paymentOptionsItems: [[String:Any]]?
+    var addressItems: [[String:Any]]?
+    var shipmentItems: [[String:Any]]?
+    var slotsItems: [[String:Any]]?
+    var orderOptionsItems: [[String:String]]?
 
     var totalItems: String?
     var selectedAddress: String? = nil
@@ -290,14 +290,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         totalView = IPOCheckOutTotalView(frame:CGRect(x: 0, y: self.confirmation!.frame.maxY + 10, width: self.view.frame.width, height: 60))
         
-        totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+        totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
         
-        self.savings = UserCurrentSession.sharedInstance().estimateSavingGR()
+        self.savings = UserCurrentSession.sharedInstance.estimateSavingGR()
         
         self.content.addSubview(totalView)
-        self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
+        self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR()-UserCurrentSession.sharedInstance.estimateSavingGR()+self.shipmentAmount)")
         
         self.content.contentSize = CGSize(width: self.view.frame.width, height: totalView.frame.maxY + 20.0)
         
@@ -363,12 +363,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         
         //Fill orders
-        self.orderOptionsItems = self.optionsConfirmOrder() as [Any]?
+        self.orderOptionsItems = self.optionsConfirmOrder()
         
         if  self.orderOptionsItems?.count > 0 {
             self.selectedConfirmation  = IndexPath(row: 0, section: 0)
-            let first = self.orderOptionsItems![0] as! [String:Any]
-            if let text = first["desc"] as? String {
+            let first = self.orderOptionsItems![0]
+            if let text = first!["desc"] as? String {
                 self.confirmation!.text = text
             }
             
@@ -382,7 +382,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
                 var itemsOrderOptions : [String] = []
                 for option in self.orderOptionsItems! {
-                    if let text = option["desc"] as? String {
+                    if let text = option!["desc"] as? String {
                         itemsOrderOptions.append(text)
                     }
                 }
@@ -620,7 +620,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func paymentOption(atIndex index:Int) -> String {
         if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
-            var option = self.paymentOptionsItems![index] as! [String:Any]
+            var option = self.paymentOptionsItems![index] 
             if let text = option["paymentType"] as? String {
                 return text
             }
@@ -630,7 +630,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func addressOption(atIndex index:Int) -> String {
         if self.addressItems != nil && self.addressItems!.count > 0 {
-            var option = self.addressItems![index] as! [String:Any]
+            var option = self.addressItems![index] 
             if let text = option["name"] as? String {
                 return text
             }
@@ -640,7 +640,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func shipmentOption(atIndex index:Int) -> String {
         if self.shipmentItems != nil && self.shipmentItems!.count > 0 {
-            var option = self.shipmentItems![index] as! [String:Any]
+            var option = self.shipmentItems![index] 
             if let text = option["name"] as? String {
                 return text
             }
@@ -650,7 +650,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
 
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         if let scroll = sender as? TPKeyboardAvoidingScrollView {
             if scrollForm != nil {
                 if scroll == scrollForm {
@@ -696,7 +696,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.errorView = nil
                     self.deliverySchedule!.layer.borderColor = self.deliverySchedule!.textBorderOff
                 }
-                let selectedSlot = self.slotsItems![0] as! [String:Any]
+                let selectedSlot = self.slotsItems![0] 
                 self.selectedTimeSlotTypeIx = IndexPath(row: 0, section: 0)
                 self.deliverySchedule!.text = selectedSlot["displayText"] as? String
             }
@@ -738,7 +738,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if let res = result["discountsAssociated"] as? Bool {
                 self.showDiscountAsociate = res//TODO validar flujo
             }
-            if let listPromotions = result["listPromotions"] as? [Any]{
+            if let listPromotions = result["listPromotions"] as? [[String:Any]]{
                 for promotionln in listPromotions {
                     let promotionDiscount = promotionln["promotionDiscount"] as! Int
                     self.discountAssociateAply = Double(promotionDiscount) / 100.0
@@ -758,7 +758,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:[Any]) -> Void in
-                self.paymentOptionsItems = result as [Any]
+                self.paymentOptionsItems = result as! [[String:Any]]
                 if result.count > 0 {
                     let option = result[0] as! [String:Any]
                     if let text = option["paymentType"] as? String {
@@ -792,7 +792,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             //self.addViewLoad()
         var savinAply : Double = 0.0
-        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
+        var items = UserCurrentSession.sharedInstance.itemsGR!
         if let savingGR = items["saving"] as? NSNumber {
           savinAply =  savingGR.doubleValue
         
@@ -800,7 +800,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
             var paramsDic: [String:String] = pickerValues
             paramsDic["isAssociated"] = self.isAssociateSend ? "1":"0"//self.showDiscountAsociate ? "1":"0"
-            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
+            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance.estimateTotalGR() - savinAply)"
         paramsDic["addressId"] = self.selectedAddress == nil ? "" : self.selectedAddress
             let promotionsService = GRGetPromotionsService()
         
@@ -827,7 +827,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.totalDiscountsOrder = totalDiscounts!
                     self.promotionsDesc = []
                     
-                    if let listSamples = resultCall["listSamples"] as? [Any]{
+                    if let listSamples = resultCall["listSamples"] as? [[String:Any]]{
                         for promotionln in listSamples {
                             let isAsociate = promotionln["isAssociated"] as! Bool
                             self.isAssociateSend = isAsociate
@@ -836,7 +836,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                         }
                     }
-                    if let listPromotions = resultCall["listPromotions"] as? [Any]{
+                    if let listPromotions = resultCall["listPromotions"] as? [[String:Any]]{
                         for promotionln in listPromotions {
                             let promotion = promotionln["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(promotion)", with: "")
@@ -846,7 +846,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                     
-                    if let listFreeshippins = resultCall["listFreeshippins"] as? [Any]{
+                    if let listFreeshippins = resultCall["listFreeshippins"] as? [[String:Any]]{
                         for freeshippin in listFreeshippins {
                              self.idFreeShepping = freeshippin["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.replacingOccurrences(of: ",\(self.idFreeShepping)", with: "")
@@ -885,12 +885,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     if self.newTotal != nil {
                         self.updateShopButton("\(self.newTotal)")
                         var savinAply : Double = 0.0
-                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
+                        var items = UserCurrentSession.sharedInstance.itemsGR!
                         if let savingGR = items["saving"] as? NSNumber {
                             savinAply =  savingGR.doubleValue
                         }
                         //NSDecimalNumber(string: String(format: "%.2f", itemPrice)
-                        let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
+                        let total = "\(UserCurrentSession.sharedInstance.numberOfArticlesGR())"
                         let subTotal = String(format: "%.2f", self.newTotal)//"\(self.newTotal)"
                         let saving = String(format: "%.2f", self.totalDiscountsOrder + savinAply)//"\(self.totalDiscountsOrder + savinAply)"
                         
@@ -923,7 +923,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
-            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
+            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance.estimateTotalGR()-UserCurrentSession.sharedInstance.estimateSavingGR())"
             paramsDic["addressId"] = self.selectedAddress == nil ? "" : self.selectedAddress
             
             let discountAssociateService = GRDiscountAssociateService()
@@ -937,19 +937,19 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             discountAssociateService.callService(requestParams: paramsDic as AnyObject, succesBlock: { (resultCall:[String:Any]) -> Void in
                // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
-                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
+                    var items = UserCurrentSession.sharedInstance.itemsGR!
                     //if let savingGR = items["saving"] as? Double {
                     
                     items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
                     
                     print("\(resultCall["saving"] as? Double)")
            
-                    UserCurrentSession.sharedInstance().itemsGR = items as [String:Any]
+                    UserCurrentSession.sharedInstance.itemsGR = items as [String:Any]
                     
-                    self.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                        subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
-                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR() + self.shipmentAmount)")
+                    self.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                        subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                        saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
+                    self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR() + self.shipmentAmount)")
                     
                
                     
@@ -1004,8 +1004,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let service = GRAddressByUserService()
         service.callService(
             { (result:[String:Any]) -> Void in
-                if let items = result["responseArray"] as? [Any] {
-                    self.addressItems = items as [Any]
+                if let items = result["responseArray"] as? [[String:Any]] {
+                    self.addressItems = items as [[String:Any]]
                     if items.count > 0 {
                         let ixCurrent = 0
                         for dictDir in items {
@@ -1087,7 +1087,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let shouldFreeShepping = (discountsFreeShippingAssociated && asociateDiscount) || (discountsFreeShippingNotAssociated && !asociateDiscount)
         //Validar self.selectedAddress != nil
         if self.selectedAddress != nil {
-            service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"\(shouldFreeShepping)")
+            service.setParams("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"\(shouldFreeShepping)")
             service.callService(requestParams: [:],
                 successBlock: { (result:[String:Any]) -> Void in
                     self.shipmentItems = []
@@ -1130,20 +1130,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     
                     if self.shipmentItems!.count > 0 {
-                        let shipName = self.shipmentItems![0] as! [String:Any]
+                        let shipName = self.shipmentItems![0] 
                         self.selectedShipmentTypeIx = IndexPath(row: 0, section: 0)
                         self.shipmentType!.text = shipName["name"] as? String
                     }
-                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
+                    self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR()-UserCurrentSession.sharedInstance.estimateSavingGR()+self.shipmentAmount)")
                     
                     if self.newTotal != nil {
                         var savinAply : Double = 0.0
-                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:Any]
+                        var items = UserCurrentSession.sharedInstance.itemsGR!
                         if let savingGR = items["saving"] as? NSNumber {
                             savinAply =  savingGR.doubleValue
                         }
                         
-                        let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
+                        let total = "\(UserCurrentSession.sharedInstance.numberOfArticlesGR())"
                         let subTotal = String(format: "%.2f", self.newTotal)//"\(self.newTotal)"
                         let saving = String(format: "%.2f", self.totalDiscountsOrder + savinAply)//"\(self.totalDiscountsOrder + savinAply)"
                         
@@ -1232,13 +1232,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         if let year = result["year"] as? String {
                             let dateSlot = "\(day)/\(month)/\(year)"
                             let date = self.parseDateString(dateSlot)
-                            self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
+                            self.deliveryDate!.text = self.dateFmt!.string(from: date)
                             self.selectedDate = date
                             self.deliveryDatePicker!.date = date
                         }
                     }
                 }
-                self.slotsItems = result["slots"] as! [Any] as [Any]
+                self.slotsItems = result["slots"] as! [[String:Any]]
                 //--self.addViewLoad()
                 endCallTypeService()
                 }) { (error:NSError) -> Void in
@@ -1265,7 +1265,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.addViewLoad()//--ok
                 self.paymentOptions!.text = selectedStr
                 self.selectedPaymentType = indexPath
-                let paymentType: AnyObject = self.paymentOptionsItems![indexPath.row]
+                let paymentType: [String:Any] = self.paymentOptionsItems![indexPath.row]
                 let paymentId = paymentType["id"] as! String
                 if paymentId == "-1"{
                     self.showPayPalFuturePayment = true
@@ -1317,7 +1317,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                   //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
-                let shipment: AnyObject = self.shipmentItems![indexPath.row]
+                let shipment: [String:Any] = self.shipmentItems![indexPath.row]
                 self.shipmentAmount = shipment["cost"] as! Double
             }
             if formFieldObj ==  self.deliverySchedule! {
@@ -1400,7 +1400,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.sAddredssForm.street.text = result["street"] as! String!
                 let neighborhoodID = result["neighborhoodID"] as! String!
                 let storeID = result["storeID"] as! String!
-                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
                 self.sAddredssForm.idAddress = result["addressID"] as! String!
                 }) { (error:NSError) -> Void in
             }
@@ -1488,7 +1488,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             buttonShop!.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(total as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
@@ -1529,7 +1529,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             
             let serviceCheck = GRSendOrderService()
-            let total = UserCurrentSession.sharedInstance().estimateTotalGR() //- self.savings
+            let total = UserCurrentSession.sharedInstance.estimateTotalGR() //- self.savings
             
             let components : DateComponents = (Calendar.current as NSCalendar).components([NSCalendar.Unit.NSYearCalendarUnit, NSCalendar.Unit.NSMonthCalendarUnit, NSCalendar.Unit.NSDayCalendarUnit], from: self.selectedDate)
             
@@ -1538,17 +1538,17 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let dateYear = components.year
             let dateDay = components.day
             
-            let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! [String:Any]
+            let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]
             let slotSelectedId = slotSel["id"] as! Int
             
-            let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! [String:Any]
+            let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row]
             let shipmentType = shipmentTypeSel["key"] as! String
             self.shipmentAmount = shipmentTypeSel["cost"] as! Double
             
-            let confirmTypeSel = self.orderOptionsItems![selectedConfirmation.row] as! [String:Any]
-            let confirmation = confirmTypeSel["key"] as! String
+            let confirmTypeSel = self.orderOptionsItems![selectedConfirmation.row]
+            let confirmation = confirmTypeSel!["key"] as! String
             
-            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! [String:Any]
+            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row]
             let paymentSelectedId = paymentSel["id"] as! String
             
             serviceDetail = OrderConfirmDetailView.initDetail()
@@ -1568,10 +1568,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
                 // deliveryAmount
-//                let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-//                let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
-//                let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
-//                let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
+//                let userEmail = UserCurrentSession.sharedInstance.userSigned!.email as String
+//                let userName = UserCurrentSession.sharedInstance.userSigned!.profile.name as String
+//                let idUser = UserCurrentSession.sharedInstance.userSigned!.profile.user.idUser as String
+//                let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
 
                 
                 
@@ -1590,7 +1590,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
                 
-                let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
+                let discountsAssociated:Double = UserCurrentSession.sharedInstance.estimateTotalGR() * self.discountAssociateAply //
                 
                 
                 if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
@@ -1603,10 +1603,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if self.idFreeShepping != 0 || self.idReferido != 0{
                     deliveryAmount =  0.0
                 }
-                let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
-                let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
-                let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
-                let formattedDate = deliveryDate.substringToIndex(10)
+                let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue as NSString)
+                let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
+                let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)" as NSString)
+                let formattedDate = deliveryDate.substring(to: 10)
                 let slot = purchaseOrder["slot"] as! [String:Any]
                 
                 self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
@@ -1632,17 +1632,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
                 
                 }
-            
-
-                                self.buttonShop?.enabled = false
-         
-                
+               self.buttonShop?.isEnabled = false
                 //self.performSegueWithIdentifier("showOrderDetail", sender: self)
-                
                 }) { (error:NSError) -> Void in
                     
                                      
-                    self.buttonShop?.enabled = true
+                    self.buttonShop?.isEnabled = true
                    // println("Error \(error)")
                     
                     if error.code == -400 {
@@ -1757,7 +1752,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     //MARK: - PayPal
     func showPayPalPaymentController()
     {
-        let items :[[String:Any]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:Any]]
+        let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
         var payPalItems: [PayPalItem] = []
         for item in items {
             var itemPrice = item["price"] as! Double
@@ -1772,7 +1767,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             payPalItems.append(payPalItem)
         }
         // Los cupones y descuentos se agregan como item negativo.
-        let discounts = 0.0 - UserCurrentSession.sharedInstance().estimateSavingGR()
+        let discounts = 0.0 - UserCurrentSession.sharedInstance.estimateSavingGR()
         if discounts < 0
         {
             payPalItems.append(PayPalItem(name: "Descuentos", withQuantity:1 , withPrice: NSDecimalNumber(value: discounts as Double), withCurrency: "MXN", withSku: "0000000000001"))

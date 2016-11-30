@@ -90,7 +90,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
             
             self.characteristics = []
-            var allCharacteristics : [Any] = []
+            var allCharacteristics : [[String:Any]] = []
             
             let strLabel = "UPC"
             //let strValue = self.upc
@@ -155,8 +155,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.strisPreorderable  = "false"
             self.isPreorderable = false//"true" == self.strisPreorderable
             
-            self.bundleItems = [Any]()
-            if let bndl = result["bundleItems"] as?  [Any] {
+            self.bundleItems = [[String:Any]]()
+            if let bndl = result["bundleItems"] as?  [[String:Any]] {
                 self.bundleItems = bndl
             }
             
@@ -252,7 +252,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             productDetailButtonGR!.isActive = self.strisActive as String
             productDetailButtonGR!.isPreorderable = self.strisPreorderable as String
             productDetailButtonGR!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButtonGR!.listButton.isSelected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButtonGR!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
             productDetailButtonGR!.idListSelect =  self.idListSelected
             var imageUrl = ""
             if self.imageUrl.count > 0 {

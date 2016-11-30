@@ -15,7 +15,7 @@ class LogoutService : BaseService {
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
                             successBlock: { (resultCall:[String:Any]) -> Void in
-                                self.jsonFromObject(resultCall)
+                                self.jsonFromObject(resultCall as AnyObject!)
                                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                                 successBlock?(resultCall)
 

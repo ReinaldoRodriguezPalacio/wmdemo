@@ -88,8 +88,8 @@ class IPAShoppingCartTotalView : UIView {
     
     func setValues(_ subtotal: String,iva: String,total: String,totalSaving:String){
         if iva != "" {
-            let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-            let formatedIVA = CurrencyCustomLabel.formatString(iva)
+            let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
+            let formatedIVA = CurrencyCustomLabel.formatString(iva as NSString)
             valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray, interLine: false)
             valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray, interLine: false)
             self.valueSubtotal.isHidden = false
@@ -103,8 +103,8 @@ class IPAShoppingCartTotalView : UIView {
             self.subtotalTitle.isHidden = true
             self.iva.isHidden = true
         }
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
-        let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
+        let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving as NSString)
         valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(18), color: WMColor.gray, interLine: false)
         
         var convertSaving = totalSaving

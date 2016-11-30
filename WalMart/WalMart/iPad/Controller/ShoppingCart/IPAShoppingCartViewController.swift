@@ -101,8 +101,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         var x : CGFloat = 16
         var wShop : CGFloat =  341 - 82
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
+        if UserCurrentSession.sharedInstance.userSigned != nil {
+            if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
                     buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
@@ -127,8 +127,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if self.deleteall != nil {
             self.deleteall.frame = CGRect(x: editButton.frame.minX - 82, y: 12, width: 75, height: 22)
         }
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
+        if UserCurrentSession.sharedInstance.userSigned != nil {
+            if UserCurrentSession.sharedInstance.isAssociated == 1{
                 self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
 
             }
@@ -148,8 +148,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         var newTotal = total
         var newTotalSavings = totalSaving
         if self.isEmployeeDiscount {
-            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-            newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
+            newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
         }
         
         totalsView.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
@@ -160,8 +160,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         idexesPath = []
         
         self.itemsInShoppingCart =  []
-        if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! [Any] as [Any]
+        if UserCurrentSession.sharedInstance.itemsMG != nil {
+            self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! [Any] as [Any]
         }
         if self.itemsInShoppingCart.count == 0 {
             self.navigationController?.popToRootViewController(animated: true)
@@ -173,9 +173,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
-            self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
-            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
+            self.subtotal = UserCurrentSession.sharedInstance.itemsMG!["subtotal"] as! NSNumber
+            self.ivaprod = UserCurrentSession.sharedInstance.itemsMG!["ivaSubtotal"] as! NSNumber
+            self.totalest = UserCurrentSession.sharedInstance.itemsMG!["totalEstimado"] as! NSNumber
         }else{
             self.subtotal = NSNumber(value: 0 as Int32)
             self.ivaprod = NSNumber(value: 0 as Int32)
@@ -269,15 +269,15 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if UserCurrentSession.hasLoggedUser() {
             cont!.noAccount?.isHidden = true
             cont!.registryButton?.isHidden = true
-            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
+            cont!.valueEmail = UserCurrentSession.sharedInstance.userSigned!.email as String
+            cont!.email?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
             cont!.email!.isEnabled = false
-            user = UserCurrentSession.sharedInstance().userSigned!.email as String
+            user = UserCurrentSession.sharedInstance.userSigned!.email as String
         }
         cont!.isMGLogin =  true
         cont!.successCallBack = {() in
             if UserCurrentSession.hasLoggedUser() {
-                if user !=  UserCurrentSession.sharedInstance().userSigned!.email as String {
+                if user !=  UserCurrentSession.sharedInstance.userSigned!.email as String {
                      NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
                     self.reloadShoppingCart()
                 }

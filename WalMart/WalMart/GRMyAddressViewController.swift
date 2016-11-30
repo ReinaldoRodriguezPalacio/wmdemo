@@ -140,7 +140,7 @@ class GRMyAddressViewController: MyAddressViewController {
             let neighborhoodID = result["neighborhoodID"] as! String!
             let storeID = result["storeID"] as! String!
             
-            let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "B", preferred: false)
+            let dictSend = service.buildParams(city!, addressID: idAddress, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: storeID!,storeName: "", operationType: "B", preferred: false)
             
             service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
                                 
@@ -154,7 +154,7 @@ class GRMyAddressViewController: MyAddressViewController {
                     let serviceAddress = GRAddressesByIDService()
                     serviceAddress.addressId = result["addressID"] as? String
                     serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
-                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        UserCurrentSession.sharedInstance.getStoreByAddress(result)
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }

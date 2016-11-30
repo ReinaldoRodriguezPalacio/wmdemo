@@ -282,7 +282,7 @@ class IPAUserListViewController: UserListViewController {
             userListsService.callService([:],
                 successBlock: { (result:[String:Any]) -> Void in
                     self.itemsUserList = result["responseArray"] as? [Any]
-                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                         
                         let dicFirst = first as! [String:Any]
                         let dicSecond = second as! [String:Any]
@@ -331,7 +331,7 @@ class IPAUserListViewController: UserListViewController {
                 errorBlock: { (error:NSError) -> Void in
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
                     self.changeFrameEditBtn(true, side: "left")
-                    failure?(error: error)
+                    failure?(error)
                     return
                 }
             )
@@ -340,7 +340,7 @@ class IPAUserListViewController: UserListViewController {
             
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
-            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -411,7 +411,7 @@ class IPAUserListViewController: UserListViewController {
                                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                                         self.alertView!.showDoneIcon()
                                         var count = 0
-                                        for itemList in self.itemsUserList! {
+                                        for itemList in self.itemsUserList! as! [[String:Any]] {
                                             if UserCurrentSession.hasLoggedUser() {
                                                 if (itemList["name"] as! String) == value {
                                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))

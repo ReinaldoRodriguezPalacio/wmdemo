@@ -66,7 +66,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         self.distanceFmt = NumberFormatter()
         self.distanceFmt!.maximumFractionDigits = 2
         self.distanceFmt!.minimumFractionDigits = 2
-        self.distanceFmt!.locale = Locale.system
+        self.distanceFmt!.locale = nil
         
         self.buildToolbar()
     }

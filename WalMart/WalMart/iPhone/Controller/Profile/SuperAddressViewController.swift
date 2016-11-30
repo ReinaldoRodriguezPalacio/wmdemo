@@ -176,7 +176,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                     self.alertView!.setMessage("\(message)")
                 }
                 if self.isPreferred {
-                    UserCurrentSession.sharedInstance().getStoreByAddress(address)
+                    UserCurrentSession.sharedInstance.getStoreByAddress(address)
                 }
                 self.alertView!.showDoneIcon()
                 }) { (error:NSError) -> Void in
@@ -252,7 +252,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                     let serviceAddress = GRAddressesByIDService()
                     serviceAddress.addressId = resultCall["addressID"] as? String
                     serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
-                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        UserCurrentSession.sharedInstance.getStoreByAddress(result)
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }

@@ -646,7 +646,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             isActive: isActive,
             onHandInventory: onHandDefault,
             isPreorderable:isPreorderable,
-            isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),
+            isInShoppingCart: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc),
             type:type as String,
             pesable : isPesable,
             isFormList: idListFromSearch != "" ?  true :  false,
@@ -979,7 +979,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.position += 1
                             positionArray.append(self.position)
                         }
-                        UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+                        UserCurrentSession.sharedInstance.nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                         
                         let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
                         let category = self.eventCode != nil ? "banner" : ""
@@ -1074,7 +1074,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.position += 1
                         positionArray.append(self.position)
                     }
-                    UserCurrentSession.sharedInstance().nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+                    UserCurrentSession.sharedInstance.nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                     
                     let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
                     let category = self.eventCode != nil ? "banner" : ""

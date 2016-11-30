@@ -45,7 +45,7 @@ class SearchSingleViewCell: UITableViewCell {
         if let keyword = value as? String {
             self.title!.attributedText = SearchSingleViewCell.attributedText(key as NSString, value: keyword as NSString, fontKey: self.fontTitleKey!, fontValue: self.fontTitle!)
         }
-        let formatedPrice = CurrencyCustomLabel.formatString(price)
+        let formatedPrice = CurrencyCustomLabel.formatString(price as NSString)
         self.priceLabel?.updateMount(formatedPrice, font: fontTitle!, color:self.title!.textColor, interLine: false)
         self.priceLabel!.textAlignment = .right
     }

@@ -40,7 +40,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     var viewHerader : UIView!
     var titleView : UILabel!
     var closeButton : UIButton!
-    var itemsInCart : [Any] = []
+    var itemsInCart : [[String:Any]] = []
     var tableShoppingCart : UITableView!
     var viewFooter : UIView!
     var buttonShop : UIButton!
@@ -218,17 +218,17 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func reloadGRShoppingCart(){
-        UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+        UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
             self.loadGRShoppingCart()
         }
     }
     
     
     func loadGRShoppingCart() {
-        if UserCurrentSession.sharedInstance().itemsGR != nil {
-            self.itemsInCart = UserCurrentSession.sharedInstance().itemsGR!["items"] as! [Any]
+        if UserCurrentSession.sharedInstance.itemsGR != nil {
+            self.itemsInCart = UserCurrentSession.sharedInstance.itemsGR!["items"] as! [[String:Any]]
             self.tableShoppingCart.reloadData()
-            self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+            self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
         }
         
     }
@@ -244,13 +244,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         if indexPath.row == itemsInCart.count {
         let tblTotalCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "totals", for: indexPath) as! GRShoppingCartTotalsTableViewCell
-            let subtotal = UserCurrentSession.sharedInstance().estimateTotalGR()
-            let saving = UserCurrentSession.sharedInstance().estimateSavingGR()
+            let subtotal = UserCurrentSession.sharedInstance.estimateTotalGR()
+            let saving = UserCurrentSession.sharedInstance.estimateSavingGR()
             
             tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "",
                 total: "\(subtotal - saving)",
                 totalSaving: "\(saving)",
-                numProds:"\(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
+                numProds:"\(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
             
             return tblTotalCell
         }
@@ -261,7 +261,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         tblShoppingCell.rightUtilityButtons = getRightButton()
         tblShoppingCell.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
         
-        let itemProduct = itemsInCart[indexPath.row] as! [String:Any]
+        let itemProduct = itemsInCart[indexPath.row] 
         
         let upc = itemProduct["upc"] as! String
         var quantity : Int = 0
@@ -331,9 +331,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         tblShoppingCell.delegate = self
         
         if typeProdVal != 1 {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr, saving: saving, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece)
         } else {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr, saving: saving, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece)
         }
         
         
@@ -373,11 +373,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func showshoppingcart() {
         self.buttonShop!.isEnabled = false
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.sharedInstance.userSigned != nil {
             self.addViewload()
             //FACEBOOKLOG
             FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
-            UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+            UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
                 self.buttonShop!.isEnabled = true
                 self.performSegue(withIdentifier: "checkoutVC", sender: self)
             }
@@ -386,7 +386,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.buttonShop!.isEnabled = true
             cont!.closeAlertOnSuccess = false
             cont!.successCallBack = {() in
-                UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+                UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
                     self.loadGRShoppingCart()
                     
                     
@@ -428,7 +428,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     
-                    NotificationCenter.default.postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
@@ -523,7 +523,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             buttonShop.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(total as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
@@ -725,7 +725,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     //MARK: Delete item 
     
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemGRSC = itemsInCart[indexPath.row] as! [String:Any]
+        let itemGRSC = itemsInCart[indexPath.row] 
         let upc = itemGRSC["upc"] as! String
         //360 delete
         BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
@@ -735,14 +735,14 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.addViewload()
             
             serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-                UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
+                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                     self.itemsInCart.remove(at: indexPath.row)
                     self.removeViewLoad()
                 if self.itemsInCart.count == 0 {
                     self.navigationController!.popToRootViewController(animated: true)
                 } else {
                     self.tableShoppingCart.reloadData()
-                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR())")
+                    self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
                 }
             })
             }, errorBlock: { (error:NSError) -> Void in
@@ -784,7 +784,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
+            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance.userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         }
         var arrayUPCQuantity : [[String:String]] = []
         var arrayDeleteItems: [[String:Any]] = []
@@ -811,14 +811,14 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.addViewload()
         
         serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-            UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
+            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                 //self.loadGRShoppingCart()
                 
                 self.removeViewLoad()
                 
                 print("done")
                 if self.onClose != nil {
-                    self.onClose?(isClose:true)
+                    self.onClose?(true)
                     self.navigationController?.popViewController(animated: true)
                 }
                 else {
@@ -841,19 +841,19 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let imageHead = UIImage(named:"detail_HeaderMail")
         let imageHeader = UIImage(from: self.viewHerader)
         let screen = self.tableShoppingCart.screenshot()
-        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader,screen])
-        let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,screen!])
+        let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
         self.navigationController!.present(controller, animated: true, completion: nil)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
-                if completed && !activityType!.contains("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.contains("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -948,7 +948,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let service = GRAddItemListService()
         var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:Any]
+            let item = self.itemsInCart[idx] 
             
             let upc = item["upc"] as! String
             let desc = item["description"] as! String
@@ -998,7 +998,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
 
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:Any]
+            let item = self.itemsInCart[idx] 
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -1088,7 +1088,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:Any]
+            let item = self.itemsInCart[idx] 
             
             let upc = item["upc"] as! String
             var quantity: Int = 0

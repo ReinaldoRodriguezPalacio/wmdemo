@@ -20,27 +20,27 @@ class LoginWithEmailService : BaseService {
     }
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        if !UserCurrentSession.sharedInstance().userSignedOnService {
-            UserCurrentSession.sharedInstance().userSignedOnService = true
+        if !UserCurrentSession.sharedInstance.userSignedOnService {
+            UserCurrentSession.sharedInstance.userSignedOnService = true
             self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
                 if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                     if codeMessage.integerValue == 0 &&  UserCurrentSession.hasLoggedUser(){
                         let resultCallMG = resultCall
-                        let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUserGR
+                        let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
                             let serviceGr = GRLoginService()
                             serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
-                                UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                                UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                                 successBlock!(resultCall!)
-                                UserCurrentSession.sharedInstance().userSignedOnService = false
+                                UserCurrentSession.sharedInstance.userSignedOnService = false
                                 }
                                 , errorBlock: {(error: NSError) in
                                     errorBlock!(error)
-                                    UserCurrentSession.sharedInstance().userSignedOnService = false
+                                    UserCurrentSession.sharedInstance.userSignedOnService = false
                             })
                         }else {
-                            UserCurrentSession.sharedInstance().userSigned = nil
-                            UserCurrentSession.sharedInstance().deleteAllUsers()
+                            UserCurrentSession.sharedInstance.userSigned = nil
+                            UserCurrentSession.sharedInstance.deleteAllUsers()
                         }
                     }
                     else{
@@ -53,7 +53,7 @@ class LoginWithEmailService : BaseService {
                 }
                 }) { (error:NSError) -> Void in
                     errorBlock!(error)
-                    UserCurrentSession.sharedInstance().userSignedOnService = false
+                    UserCurrentSession.sharedInstance.userSignedOnService = false
             }
         } else {
             successBlock?([:])
@@ -69,13 +69,13 @@ class LoginWithEmailService : BaseService {
                     let resultCallMG = resultCall
                     let serviceGr = GRLoginService()
                     serviceGr.callService(["email":"","password":"","idUser":resultCall["idUser"] as! String], successBlock:{ (resultCall:[String:Any]?) in
-                        UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                        UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                         successBlock!(resultCall!)
-                        UserCurrentSession.sharedInstance().userSignedOnService = false
+                        UserCurrentSession.sharedInstance.userSignedOnService = false
                         }
                         , errorBlock: {(error: NSError) in
                             errorBlock!(error)
-                            UserCurrentSession.sharedInstance().userSignedOnService = false
+                            UserCurrentSession.sharedInstance.userSignedOnService = false
                     })                }
                 else{
                     let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)

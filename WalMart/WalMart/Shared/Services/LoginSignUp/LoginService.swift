@@ -25,7 +25,7 @@ class LoginService : BaseService {
 
                     let grLoginService = GRLoginService()
                     grLoginService.callService(params, successBlock: { (resultCallGR:[String:Any]) -> Void in
-                         UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
+                         UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
                         successBlock!(resultCall)
                         }, errorBlock: { (errorGR:NSError) -> Void in
                             errorBlock!(errorGR)

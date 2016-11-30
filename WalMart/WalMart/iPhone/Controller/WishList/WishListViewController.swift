@@ -89,7 +89,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UserCurrentSession.sharedInstance().nameListToTag = "WishList"
+        UserCurrentSession.sharedInstance.nameListToTag = "WishList"
         self.idexesPath = []
         reloadWishlist()
         
@@ -202,7 +202,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
 
-        let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+        let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         cell.moveRightImagePresale(isPreorderable)
         cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal as NSString, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable as NSString)
        
@@ -340,7 +340,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 //                    //alertView.setMessage(NSLocalizedString("wishlist.readyload",comment:""))
 //                    //alertView.showDoneIcon()
             
-            UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
+            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                 self.invokeWishlistService()
 
             })
@@ -619,10 +619,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
         if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
             }
         }
         return ""
@@ -677,7 +677,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 
-                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
                     //params.append(paramsItem)
@@ -700,7 +700,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             if self.items.count == 1 {
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
-                    let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                    let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                     if hasUPC {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                         alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
@@ -731,8 +731,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             return
         }
     
-        let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
-        let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
+        let identicalMG = UserCurrentSession.sharedInstance.identicalMG()
+        let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
         
         if paramsPreorderable.count == 0 && params.count == 0 {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
@@ -955,7 +955,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     
     class func deleteAllShoppingCart(_ onFinish:@escaping (() -> Void) ) {
-        if let itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as? [[String:Any]] {
+        if let itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [[String:Any]] {
             let serviceSCDelete = ShoppingCartDeleteProductsService()
             var upcs : [String] = []
             for itemSClist in itemsInShoppingCart {
@@ -969,7 +969,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 self.reloadShoppingCart()
                 self.navigationController!.popToRootViewControllerAnimated(true)
                 */
-                UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
+                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                     
                     //self.startAddingToShoppingCart()
                     

@@ -218,8 +218,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
 
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
         let notService = NotificationService()
-        if  UserCurrentSession.sharedInstance().deviceToken != "" {
-            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: !value)
+        if  UserCurrentSession.sharedInstance.deviceToken != "" {
+            let params = notService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !value)
             notService.jsonFromObject(params as AnyObject!)
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)

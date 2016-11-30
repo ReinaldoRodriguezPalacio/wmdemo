@@ -73,7 +73,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
                                 self.addressMGView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout
                                     if finish{
-                                        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.addressMGView!.viewAddress!.telephone!.text!, work: "", cellPhone: "")
+                                        UserCurrentSession.sharedInstance.setMustUpdatePhoneProfile(self.addressMGView!.viewAddress!.telephone!.text!, work: "", cellPhone: "")
                                         self.addressMGView.view.removeFromSuperview()
                                         //self.alertView!.setMessage("Registro exitoso")
                                         //self.alertView!.showDoneIcon()

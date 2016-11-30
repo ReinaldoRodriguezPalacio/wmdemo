@@ -134,7 +134,7 @@ class StoreView: UIView {
         
         //Event
 //        //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
+//        if let tracker = GAI.sharedInstance.defaultTracker {
 //            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
 //                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHOWSTOREDETAIL.rawValue,
 //                label: self.store!.name,
@@ -205,7 +205,7 @@ class StoreView: UIView {
     func showStepRoute() {
         //Event
         //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
+//        if let tracker = GAI.sharedInstance.defaultTracker {
 //            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
 //                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_DIRECTION.rawValue,
 //                label: self.store!.name,

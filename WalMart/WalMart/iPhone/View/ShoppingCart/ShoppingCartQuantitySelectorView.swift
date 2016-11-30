@@ -71,7 +71,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnOkAdd = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: self.keyboardView.frame.maxY + 15 , width: 142, height: 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
-        let strPrice = CurrencyCustomLabel.formatString(priceProduct.stringValue)
+        let strPrice = CurrencyCustomLabel.formatString(priceProduct.stringValue as NSString)
         
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
@@ -80,7 +80,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         var rectSize = CGRect.zero
         
-        if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
+        if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(self.upcProduct) {
             btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
             let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
@@ -109,17 +109,17 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     
     
-    func chngequantity(_ sender:AnyObject) {
+    func chngequantity(_ sender:Any) {
         
         if let btnSender = sender as? UIButton {
-            var resultText : NSString = ""
+            var resultText : String = ""
             resultText = lblQuantity.text! + btnSender.titleLabel!.text!
-            resultText = resultText.substring(from: 1) as NSString
-            if resultText.integerValue > 0 && resultText.integerValue <= 10 {
+            resultText = (resultText as NSString).substring(from: 1)
+            if (resultText as NSString).integerValue > 0 && (resultText as NSString).integerValue <= 10 {
                 lblQuantity.text = resultText as String
             }else {
-                let tmpResult : NSString = "0" + btnSender.titleLabel!.text!
-                if tmpResult.integerValue > 0 {
+                let tmpResult : String = "0" + btnSender.titleLabel!.text!
+                if (tmpResult as NSString).integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }
             }
@@ -140,13 +140,13 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         }
     }
     
-    func deletequantity(_ sender:AnyObject) {
+    func deletequantity(_ sender:Any) {
         
         
         
     }
     
-    func addtoshoppingcart(_ sender:AnyObject) {
+    func addtoshoppingcart(_ sender:Any) {
         
         addToCartAction(lblQuantity.text!)
     }
@@ -179,8 +179,8 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func userSelectValue(_ value:String!) {
         var resultText : NSString = ""
         if first {
-            var tmpResult : NSString = value as NSString
-            tmpResult = tmpResult.integerValue < 10 ? "0\(value)" : value
+            var tmpResult : String = value as String
+            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value)" : value
             if tmpResult != "00"{
                 lblQuantity.text = tmpResult as String
                 first = false
@@ -204,8 +204,8 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 
     
     func userSelectDelete() {
-        let resultText : NSString = "0" + lblQuantity.text!
-        lblQuantity.text = resultText.substring(to: 2)
+        let resultText : String = "0" + lblQuantity.text!
+        lblQuantity.text = (resultText as NSString).substring(to: 2)
         if lblQuantity.text == "00" {
             lblQuantity.text = "01"
             first = true
@@ -216,7 +216,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func updateQuantityBtn(){
         let intQuantity = Int(lblQuantity.text!)
         let result = priceProduct.doubleValue * Double(intQuantity!)
-        let strPrice = CurrencyCustomLabel.formatString("\(result)")
+        let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
         

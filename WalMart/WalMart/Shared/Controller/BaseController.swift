@@ -178,7 +178,7 @@ extension BaseController {
     class func sendAnalytics(_ category:String, action: String, label:String){
         ////////
         //        print("Category: \(category) Action: \(action) Label: \(label)")
-        //                if let tracker = GAI.sharedInstance().defaultTracker {
+        //                if let tracker = GAI.sharedInstance.defaultTracker {
         //                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
         //                        action: action,
         //                        label: label, value: nil).build() as [NSObject : AnyObject])
@@ -306,9 +306,9 @@ extension BaseController {
             
            let newItem = self.itemsToTag(item as! [String:Any])
             
-            print(UserCurrentSession.sharedInstance().nameListToTag)
+            print(UserCurrentSession.sharedInstance.nameListToTag)
             
-            let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
+            let sendCategory = isAdd ? UserCurrentSession.sharedInstance.nameListToTag : "Shopping Cart"
             
             let product = ["name":newItem.name , "price": newItem.price, "id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.variant ? "1" : newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
             
@@ -329,22 +329,22 @@ extension BaseController {
     class func setOpenScreenTagManager(titleScreen:String,screenName:String){
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        UserCurrentSession.sharedInstance().screenSubSubCategory = UserCurrentSession.sharedInstance().screenSubCategory
-        UserCurrentSession.sharedInstance().screenSubCategory = UserCurrentSession.sharedInstance().screenCategory
-        UserCurrentSession.sharedInstance().screenCategory = screenName
+        UserCurrentSession.sharedInstance.screenSubSubCategory = UserCurrentSession.sharedInstance.screenSubCategory
+        UserCurrentSession.sharedInstance.screenSubCategory = UserCurrentSession.sharedInstance.screenCategory
+        UserCurrentSession.sharedInstance.screenCategory = screenName
         print("setOpenScreenTagManager")
-        print(" screenName \(screenName) - \(subCategory: UserCurrentSession.sharedInstance().screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance().screenSubSubCategory)")
+        print(" screenName \(screenName) - \(subCategory: UserCurrentSession.sharedInstance.screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance.screenSubSubCategory)")
         
         dataLayer.push([
             "event":"openScreen",
             "screenName":screenName,
-            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "",
-            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser as String : UIDevice.current.identifierForVendor!.uuidString,
+            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance.userSigned!.idUser : "",
+            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance.userSigned!.idUser as String : UIDevice.current.identifierForVendor!.uuidString,
             "typePage":screenName,
             "pageTitle":titleScreen,
             "category":screenName,
-            "subCategory": UserCurrentSession.sharedInstance().screenSubCategory,
-            "subsubCategory": UserCurrentSession.sharedInstance().screenSubSubCategory,
+            "subCategory": UserCurrentSession.sharedInstance.screenSubCategory,
+            "subsubCategory": UserCurrentSession.sharedInstance.screenSubSubCategory,
             "visitorLoginStatus":UserCurrentSession.hasLoggedUser(),
             "estatusArticulo":""
             ])
@@ -356,7 +356,7 @@ extension BaseController {
     //MARK: Checkout - Revisar pedido 
     
     class func sendAnalyticsPreviewCart(_ paymentType:String) {
-        let products =  UserCurrentSession.sharedInstance().itemsGR
+        let products =  UserCurrentSession.sharedInstance.itemsGR
         let items = products!["items"] as? [Any]
         
         
@@ -390,7 +390,7 @@ extension BaseController {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         
-        let products =  UserCurrentSession.sharedInstance().itemsGR
+        let products =  UserCurrentSession.sharedInstance.itemsGR
         let items = products!["items"] as? [Any]
         var productsAdd: [[String : String]] = []
         

@@ -177,7 +177,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
         
         
-        let  commentsDefault = NSMutableAttributedString(string: UserCurrentSession.sharedInstance().messageInCommens )
+        let  commentsDefault = NSMutableAttributedString(string: UserCurrentSession.sharedInstance.messageInCommens )
         commentsDefault.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsDefault.length))
         commentsDefault.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsDefault.length))
         
@@ -187,7 +187,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         commentsString!.append(commentsDefault)
         
         
-        if UserCurrentSession.sharedInstance().activeCommens {
+        if UserCurrentSession.sharedInstance.activeCommens {
             self.findproductInCar()
             if self.showMessageInCommens {
                 self.comments?.attributedText = commentsString
@@ -385,18 +385,18 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     func getDefaultPhone() -> String{
         var phone = ""
-        if UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber == "" {
-            if UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone == "" {
-                phone =  UserCurrentSession.sharedInstance().userSigned?.profile.phoneWorkNumber as! String
+        if UserCurrentSession.sharedInstance.userSigned?.profile.phoneHomeNumber == "" {
+            if UserCurrentSession.sharedInstance.userSigned?.profile.cellPhone == "" {
+                phone =  UserCurrentSession.sharedInstance.userSigned?.profile.phoneWorkNumber as! String
                 self.defaultPhoneType = 2
                 self.defaultPhone = phone
             }else{
-              phone =  UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String
+              phone =  UserCurrentSession.sharedInstance.userSigned?.profile.cellPhone as! String
               self.defaultPhoneType = 1
               self.defaultPhone = phone
             }
         }else{
-            phone = UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String
+            phone = UserCurrentSession.sharedInstance.userSigned?.profile.phoneHomeNumber as! String
             self.defaultPhoneType = 0
             self.defaultPhone = phone
         }
@@ -451,9 +451,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
         
         let phoneDefault = self.phoneField!.text!
-        let home = self.defaultPhoneType == 0 ? phoneDefault : UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String
-        let work = self.defaultPhoneType == 2 ? phoneDefault :UserCurrentSession.sharedInstance().userSigned?.profile.phoneWorkNumber as! String
-        let cellphone = self.defaultPhoneType == 1 ? phoneDefault :UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String
+        let home = self.defaultPhoneType == 0 ? phoneDefault : UserCurrentSession.sharedInstance.userSigned?.profile.phoneHomeNumber as! String
+        let work = self.defaultPhoneType == 2 ? phoneDefault :UserCurrentSession.sharedInstance.userSigned?.profile.phoneWorkNumber as! String
+        let cellphone = self.defaultPhoneType == 1 ? phoneDefault :UserCurrentSession.sharedInstance.userSigned?.profile.cellPhone as! String
         
         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"userProfile"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"userProfile"))
         alert?.showicon(UIImage(named:"userProfile"))
@@ -462,7 +462,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.resetPhoneField()
             alert?.close()
             }, rightText: NSLocalizedString("invoice.message.continue", comment: ""), rightAction: {
-                UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(home, work: work, cellPhone: cellphone)
+                UserCurrentSession.sharedInstance.setMustUpdatePhoneProfile(home, work: work, cellPhone: cellphone)
                 self.defaultPhone = phoneDefault
                 self.phoneField?.text = phoneDefault
                 
@@ -480,13 +480,13 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         Find products in car for paint promotions in commens
      */
     func findproductInCar(){
-      let products =  UserCurrentSession.sharedInstance().itemsGR
+      let products =  UserCurrentSession.sharedInstance.itemsGR
         let upcsIncart : NSMutableArray =  []
         let itemsInShoppingCart = products!["items"] as? [Any]
         for items in itemsInShoppingCart! {
             upcsIncart.add(items["upc"] as! String)
         }
-        for upc in UserCurrentSession.sharedInstance().upcSearch {
+        for upc in UserCurrentSession.sharedInstance.upcSearch {
             if upcsIncart.contains(upc) {
                 showMessageInCommens =  true
                 break
@@ -509,7 +509,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             textView.resignFirstResponder()
             textView.textColor = UIColor.gray
             
-            if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
+            if self.showMessageInCommens && UserCurrentSession.sharedInstance.activeCommens {
                 textView.attributedText =  commentsString
             }
             
@@ -540,7 +540,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         if textView.text == "" {
             textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
             textView.textColor = UIColor.gray
-            if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
+            if self.showMessageInCommens && UserCurrentSession.sharedInstance.activeCommens {
                 textView.attributedText =  commentsString
             }
         }

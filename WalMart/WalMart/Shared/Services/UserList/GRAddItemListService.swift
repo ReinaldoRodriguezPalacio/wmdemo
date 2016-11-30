@@ -28,7 +28,7 @@ class GRAddItemListService: GRBaseService {
     
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         var toSneditem : [String:Any] = [:]
-        let arrayItems = params["itemArrImp"] as! [Any]
+        let arrayItems = params["itemArrImp"] as! [[String:Any]]
         var arrayToSend : [[String:Any]] = []
         for item in arrayItems {
             let paramUpc = item["upc"] as! String
@@ -62,7 +62,7 @@ class GRAddItemListService: GRBaseService {
         
         if  let listId = list["id"] as? String {
             
-            let user = UserCurrentSession.sharedInstance().userSigned
+            let user = UserCurrentSession.sharedInstance.userSigned
             var entity : List?  = nil
             if user!.lists != nil {
                 let userLists : [List] = user!.lists!.allObjects as! [List]
@@ -77,7 +77,7 @@ class GRAddItemListService: GRBaseService {
             if entity == nil {
                 entity = NSEntityDescription.insertNewObject(forEntityName: "List", into: context) as? List
                 entity!.idList = listId
-                entity!.user = UserCurrentSession.sharedInstance().userSigned!
+                entity!.user = UserCurrentSession.sharedInstance.userSigned!
                 entity!.registryDate = Date()
                 entity!.name = list["name"] as! String
                 //println("Creating user list \(listId)")

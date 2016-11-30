@@ -185,9 +185,9 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         
         
         if UserCurrentSession.hasLoggedUser() {
-            self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
-            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
-            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
+            self.cellPhone!.text = UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone as String
+            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber as String
+            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber as String
         }
         
         self.addSubview(self.titleLabelAddress)
@@ -327,7 +327,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                         if self.errorView == nil{
                             self.errorView = FormFieldErrorView()
                         }
-                        let stringToShow : NSString = error.localizedDescription
+                        let stringToShow : NSString = error.localizedDescription as NSString
                         let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
                         SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false)
                         

@@ -24,7 +24,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var showFedexGuide : Bool = false
     
     var itemDetail : [String:Any]!
-    var itemDetailProducts : [Any]!
+    var itemDetailProducts : [[String:Any]]!
     var type : ResultObjectType!
     
     var detailsOrder : [Any]!
@@ -101,7 +101,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         showLoadingView()
         
-            UserCurrentSession.sharedInstance().nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
+            UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
     }
     
@@ -197,7 +197,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if section == 0 {
                 return 1
             }
-            let arrayProds = self.itemDetailProducts[section - 1] as! [String:Any]
+            let arrayProds = self.itemDetailProducts[section - 1] 
             let arrayProdsItems = arrayProds["items"] as! [Any]
             return arrayProdsItems.count
         }
@@ -226,14 +226,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 cellOrderProduct.frame = CGRect(x: 0, y: 0, width: self.tableDetailOrder.frame.width, height: cellOrderProduct.frame.height)
                 cellOrderProduct.type = self.type
                 
-                var dictProduct = [:]
+                var dictProduct: [String:Any] = [:]
                 
                 if showFedexGuide {
-                    let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as! [String:Any]
+                    let arrayProductsFed = itemDetailProducts[indexPath.section - 1] 
                     let productsArray = arrayProductsFed["items"] as! [Any]
                     dictProduct = productsArray[indexPath.row] as! [String:Any]
                 } else {
-                    dictProduct = itemDetailProducts[indexPath.row - 2] as! [String:Any]
+                    dictProduct = itemDetailProducts[indexPath.row - 2] 
                 }
                 
                 let upcProduct = dictProduct["upc"] as! String
@@ -282,7 +282,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                    isActive = stockSvc
                 }
                 
-                cellOrderProduct.setValues(upcProduct,productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr , type: self.type, pesable:isPesable, onHandInventory: onHandDefault, isActive:isActive,isPreorderable:isPreorderable)
+                cellOrderProduct.setValues(upcProduct,productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr as NSString , type: self.type, pesable:isPesable, onHandInventory: onHandDefault, isActive:isActive,isPreorderable:isPreorderable)
                 cell = cellOrderProduct
 
         }
@@ -333,7 +333,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section > 0 {
             
-            let arrayProductsFed = itemDetailProducts[section - 1] as! [String:Any]
+            let arrayProductsFed = itemDetailProducts[section - 1] 
             let guide = arrayProductsFed["fedexGuide"] as! String
             let guideurl = arrayProductsFed["urlfedexGuide"] as! String
             let viewFedex = UIView()
@@ -364,7 +364,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func didSelectItem(_ sender:UIButton) {
-        let arrayProductsFed = itemDetailProducts[sender.tag - 1] as! [String:Any]
+        let arrayProductsFed = itemDetailProducts[sender.tag - 1] 
         let guideurl = arrayProductsFed["urlfedexGuide"] as! String
         
         
@@ -396,8 +396,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if !showFedexGuide {
             return getUPCItems()
         }
-        let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:Any]
-        if let  listUPCItems =  shoppingCartProduct["items"] as? [Any] {
+        let shoppingCartProduct  =   itemDetailProducts[section - 1] 
+        if let  listUPCItems =  shoppingCartProduct["items"] as? [[String:Any]] {
              //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
             
             for shoppingCartProductDetail in  listUPCItems {
@@ -445,7 +445,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
                 var itemsFedex : [[String:Any]] = []
                 self.detailsOrder = details
-                let resultsProducts =  result["items"] as! [Any]
+                let resultsProducts =  result["items"] as! [[String:Any]]
                 
                 for itemProduct in resultsProducts {
                     let guide = itemProduct["fedexGuide"] as! String
@@ -525,7 +525,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
            // details.append(["label":fedexLbl,"value":""])
             
             self.detailsOrder = details as [Any]!
-            self.itemDetailProducts = detailsOrderGroceries["items"] as! [Any]
+            self.itemDetailProducts = detailsOrderGroceries["items"] as! [[String:Any]]
             self.tableDetailOrder.reloadData()
             self.removeLoadingView()
             
@@ -590,10 +590,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             }else {
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
             }
-            var upcs: [Any] = []
+            var upcs: [[String:Any]] = []
             if !showFedexGuide {
                 for item in self.itemDetailProducts! {
-                    upcs.append(getItemToShoppingCart(item as! [String:Any]) as AnyObject)
+                    upcs.append(getItemToShoppingCart(item))
                 }
             } else {
                 for item in self.itemDetailProducts! {
@@ -665,14 +665,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
-                    if completed && !activityType!.contains("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.contains("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -782,7 +782,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         var products: [Any] = []
         for idx in 0 ..< self.itemDetailProducts.count {
             
-            let item = self.itemDetailProducts[idx] as! [String:Any]
+            let item = self.itemDetailProducts[idx] 
             
             let upc = item["upc"] as! String
             let desc = item["description"] as! String
@@ -868,7 +868,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         var products: [Any] = []
         for idx in 0 ..< self.itemDetailProducts.count {
-            let item = self.itemDetailProducts[idx] as! [String:Any]
+            let item = self.itemDetailProducts[idx] 
             
             let upc = item["upc"] as! String
             var quantity: Int = 0

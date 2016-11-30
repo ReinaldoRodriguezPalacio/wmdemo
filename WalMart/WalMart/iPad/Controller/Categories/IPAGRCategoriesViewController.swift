@@ -148,7 +148,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controllerAnimateView = IPACategoriesResultViewController()
         controllerAnimateView.setValues(idDepartment, family: idFamDefault, line: idLineDefault, name:nameLineDefault)
         
-        NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercased()))
+        NSLog("%@", ((idDepartment as NSString).trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).lowercased()))
         
         controllerAnimateView.frameStart = CGRect(x: (cellSelected?.frame.minX)!, y: 0, width: 330, height: 216)
         controllerAnimateView.frameEnd = self.view.bounds
@@ -305,7 +305,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance().addressId == nil{
+        if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance.addressId == nil{
             let noAddressView = GRAddressNoStoreView(frame: CGRect(x: 0,y: 0,width: 338,height: 210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRect(x: 0,y: 49,width: 338,height: self.view.frame.height - 90))
@@ -358,13 +358,13 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().storeName != nil {
+        if UserCurrentSession.sharedInstance.storeName != nil {
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
-            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalized)  ", attributes:attrs)
-            if UserCurrentSession.sharedInstance().storeName == "" {
+            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance.storeName!.capitalized)  ", attributes:attrs)
+            if UserCurrentSession.sharedInstance.storeName == "" {
                 boldString = NSMutableAttributedString(string:"Walmart Buenavista ", attributes:attrs)
             }
             boldString.append(attachmentString)

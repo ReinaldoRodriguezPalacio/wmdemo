@@ -96,7 +96,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance.userSigned
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
         if user != nil {
@@ -259,7 +259,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 var error: NSError?
                 self.configureWebView(result)
                 IPOSplashViewController.callUpdateServices()
-                UserCurrentSession.sharedInstance().finishConfig  = true
+                UserCurrentSession.sharedInstance.finishConfig  = true
                 
                 self.invokeServiceToken()
                 //TODO : Agrer todo lo de abajo a este succes
@@ -284,21 +284,21 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                             isReviewActive = value
                         }
                         
-                        UserCurrentSession.sharedInstance().dateStart = sinceDate
-                        UserCurrentSession.sharedInstance().dateEnd = untilDate
-                        UserCurrentSession.sharedInstance().version = versionAP
+                        UserCurrentSession.sharedInstance.dateStart = sinceDate
+                        UserCurrentSession.sharedInstance.dateEnd = untilDate
+                        UserCurrentSession.sharedInstance.version = versionAP
                         
-                        UserCurrentSession.sharedInstance().isReviewActive = isReviewActive.boolValue
+                        UserCurrentSession.sharedInstance.isReviewActive = isReviewActive.boolValue
                         
                         if let commensChck = result["alertComment"] as? [[String:Any]] {
                             if let active = commensChck[0]["isActive"] as? Bool {
-                                UserCurrentSession.sharedInstance().activeCommens = active
+                                UserCurrentSession.sharedInstance.activeCommens = active
                             }
                             if let message = commensChck[0]["message"] as? String {
-                                UserCurrentSession.sharedInstance().messageInCommens = message
+                                UserCurrentSession.sharedInstance.messageInCommens = message
                             }
                             if let upcs = commensChck[0]["upcs"] as? [String] {
-                                UserCurrentSession.sharedInstance().upcSearch = upcs
+                                UserCurrentSession.sharedInstance.upcSearch = upcs
                             }
                             
                         }
@@ -341,7 +341,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         
                     }
                     self.webViewSplash.loadRequest(URLRequest(url: URL(string:self.serviceUrl("WalmartMG.Splash"))!))
-                    UserCurrentSession.sharedInstance().searchForCurrentUser()
+                    UserCurrentSession.sharedInstance.searchForCurrentUser()
                 }
                 
                 // ---
@@ -362,9 +362,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
         
         let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
-        if  UserCurrentSession.sharedInstance().deviceToken != "" {
+        if  UserCurrentSession.sharedInstance.deviceToken != "" {
             
-            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: !showNotification)
+            let params = notService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !showNotification)
             print("Splash")
             print(notService.jsonFromObject(params as AnyObject!))
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
@@ -418,8 +418,8 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         //}
         })*/
         
-        UserCurrentSession.sharedInstance().loadShoppingCarts { () -> Void in
-            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+        UserCurrentSession.sharedInstance.loadShoppingCarts { () -> Void in
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
         }
         
         let banService = BannerService()

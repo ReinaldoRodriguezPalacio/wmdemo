@@ -207,12 +207,12 @@ class BaseService : NSObject {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
-                        loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
-                        let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                        loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
+                        let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                         loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
-                                UserCurrentSession.sharedInstance().userSigned = nil
+                                UserCurrentSession.sharedInstance.userSigned = nil
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                         })
                     }
@@ -266,8 +266,8 @@ class BaseService : NSObject {
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
            
-            //UserCurrentSession.sharedInstance().JSESSIONID = cookie as String
-            //UserCurrentSession.sharedInstance().JSESSIONATG = atgSession as String
+            //UserCurrentSession.sharedInstance.JSESSIONID = cookie as String
+            //UserCurrentSession.sharedInstance.JSESSIONATG = atgSession as String
             print(cookie)
             print(atgSession)
             
@@ -280,12 +280,12 @@ class BaseService : NSObject {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
-                        //loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
-                        let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                        //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
+                        let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                         loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
-                                UserCurrentSession.sharedInstance().userSigned = nil
+                                UserCurrentSession.sharedInstance.userSigned = nil
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                         })
                         return
@@ -454,20 +454,20 @@ class BaseService : NSObject {
     
     
 
-    func loadKeyFieldCategories( _ items:AnyObject!, type:String ) {
+    func loadKeyFieldCategories( _ items:Any!, type:String ) {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
-                for item in items as! [Any] {
+                for item in items as! [[String:Any]] {
                     let name = item["description"] as! String
                     let idDepto = item["idDepto"] as! String
                     let famArray : AnyObject = item["family"] as AnyObject!
                     
-                    for itemFamily in famArray as! [Any] {
+                    for itemFamily in famArray as! [[String:Any]] {
                         let idFamily = itemFamily["id"] as! String
                         let lineArray : AnyObject = itemFamily["line"] as AnyObject!
                         let namefamily = itemFamily["name"] as! String
-                        for itemLine in lineArray as! [Any] {
+                        for itemLine in lineArray as! [[String:Any]] {
                             let idLine =  itemLine["id"] as! String
                             let nameLine =  itemLine["name"] as! String
                             let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)
@@ -519,12 +519,12 @@ class BaseService : NSObject {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
                             let loginService = LoginWithEmailService()
-                            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
-                            let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                            loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
+                            let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                             loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
-                                    UserCurrentSession.sharedInstance().userSigned = nil
+                                    UserCurrentSession.sharedInstance.userSigned = nil
                                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                             })
                         }

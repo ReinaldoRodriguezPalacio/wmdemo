@@ -60,13 +60,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         self.viewFooter.isHidden = true
         self.view.backgroundColor = UIColor.clear
-        if UserCurrentSession.sharedInstance().userSigned == nil {
+        if UserCurrentSession.sharedInstance.userSigned == nil {
             viewShowLogin = IPAGRLoginUserOrderView(frame:containerGROrder.bounds)
             viewShowLogin!.delegate = self
             containerGROrder.addSubview(viewShowLogin!)
-            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
         } else {
             self.viewTitleCheckout.isHidden = true
             self.checkoutVC = IPAGRCheckOutViewController()
@@ -172,7 +172,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
             
         serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-            UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
+            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                 
                 self.itemsInCart.remove(at: indexPath.row)
                 if self.itemsInCart.count > 0 {
@@ -184,20 +184,20 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     }
                     
                     if self.viewShowLogin != nil {
-                        self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+                        self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
                         
                     }
                     
-                    self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                        subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+                    self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                        subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                        saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
                     
-                    self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+                    self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
                      NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
                     
-                    //self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR())")
+                    //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
                 } else {
                     self.navigationController!.popViewController(animated: true)
                     self.onClose?(true)
@@ -227,13 +227,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         if #available(iOS 8.0, *) {
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
-                if completed && !activityType!.contains("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.contains("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -362,7 +362,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         cont!.closeAlertOnSuccess = false
         cont!.successCallBack = {() in
                 NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
-                UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+                UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
                     
                     if cont!.alertView != nil {
                         cont!.closeAlert(true, messageSucesss: true)
@@ -391,7 +391,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
 
     override func reloadGRShoppingCart(){
-        UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+        UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
            
             self.loadGRShoppingCart()
         }
@@ -410,18 +410,18 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         
         if viewShowLogin != nil {
-            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
             
         }
         
-        self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+        self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
         
         
-        self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+        self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.post(name: Notification.Name(rawValue: "INVOKE_RELOAD_PROMOTION"), object: nil)

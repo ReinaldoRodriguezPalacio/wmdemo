@@ -93,7 +93,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if  UserCurrentSession.sharedInstance().userSigned == nil {
+        if  UserCurrentSession.sharedInstance.userSigned == nil {
             if self.navigationController != nil {
                 self.navigationController!.popToRootViewController(animated: false)
             }
@@ -129,7 +129,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
     func setValues(){
         var user: User?
         if UserCurrentSession.hasLoggedUser() {
-            user = UserCurrentSession.sharedInstance().userSigned!
+            user = UserCurrentSession.sharedInstance.userSigned!
             self.nameLabel!.text = (user!.profile.name as String) + " " + (user!.profile.lastName as String)
             self.emailLabel!.text = user!.email as String
         }//if UserCurrentSession.hasLoggedUser()
@@ -196,8 +196,8 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         
         delay(0.3) {
             if  UserCurrentSession.hasLoggedUser() {
-                UserCurrentSession.sharedInstance().userSigned = nil
-                UserCurrentSession.sharedInstance().deleteAllUsers()
+                UserCurrentSession.sharedInstance.userSigned = nil
+                UserCurrentSession.sharedInstance.deleteAllUsers()
                 self.signOutButton?.isEnabled = true
                 let shoppingService = ShoppingCartProductsService()
                 shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in

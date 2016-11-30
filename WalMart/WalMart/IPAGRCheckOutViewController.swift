@@ -56,10 +56,10 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         totalView = IPOCheckOutTotalView(frame:CGRect(x: 0, y: self.toolTipLabel!.frame.maxY + 10, width: self.view.frame.width, height: 60))
         totalView.backgroundColor = WMColor.light_light_gray
-        totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
-        self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
+        totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
+        self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR()-UserCurrentSession.sharedInstance.estimateSavingGR())")
         self.view.addSubview(totalView)
         self.view.addSubview(footer!)
         
@@ -181,7 +181,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         let service = GRAddItemListService()
         var products: [Any] = []
-        let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [Any]
+        let itemsCart =  UserCurrentSession.sharedInstance.itemsGR!["items"] as! [Any]
         for idx in 0 ..< itemsCart.count {
             
             let item = itemsCart[idx] as! [String:Any]

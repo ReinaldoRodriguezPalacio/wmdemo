@@ -96,11 +96,11 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
         self.emptyView!.isHidden = true
         self.emptyView.frame = CGRect(x: 0, y: -self.view.bounds.height, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
-        UserCurrentSession.sharedInstance().loadShoppingCarts({() -> Void in
+        UserCurrentSession.sharedInstance.loadShoppingCarts({() -> Void in
             
             //let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
             
-//            if UserCurrentSession.sharedInstance().isEmptyMG() && UserCurrentSession.sharedInstance().isEmptyGR() {
+//            if UserCurrentSession.sharedInstance.isEmptyMG() && UserCurrentSession.sharedInstance.isEmptyGR() {
 //                //Show emptyView
 //                self.emptyView!.hidden = false
 //                UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -113,14 +113,14 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
                 //let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
                 let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
-                let totArticlesGR = UserCurrentSession.sharedInstance().numberOfArticlesGR()
+                let totArticlesGR = UserCurrentSession.sharedInstance.numberOfArticlesGR()
                 let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
-                self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance().estimateTotalGR())",totalColor:WMColor.green, empty: totArticlesGR == 0 )
+                self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance.estimateTotalGR())",totalColor:WMColor.green, empty: totArticlesGR == 0 )
                 
-                let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
+                let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
             let noArticlesMgStr = NSLocalizedString("shoppingcart.noarticles.mg",comment:"")
                 let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)" : noArticlesMgStr
-                self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance().estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
+                self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance.estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
             
             self.viewMG.tapAction =  { () -> Void in
                 // self.yPointOpen = self.viewMG.imgBackground.convertRect(self.viewMG.imgBackground.frame, toView: self.view).maxY
@@ -149,7 +149,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 
 //            }
             
-            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
             self.loadImage.stopAnnimating()
             self.loadImage.removeFromSuperview()
             //self.loadImage = nil

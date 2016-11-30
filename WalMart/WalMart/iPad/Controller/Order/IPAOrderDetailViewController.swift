@@ -55,18 +55,22 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
-            let rect = self.self.viewFooter!.convert(self.shareButton!.frame, to: self.view.superview!)
-            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
+            if #available(iOS 8.0, *) {
+                let rect = self.self.viewFooter!.convert(self.shareButton!.frame, to: self.view.superview!)
+                self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
+            } else {
+                // Fallback on earlier versions
+            }
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
-                    if completed && !activityType!.contains("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.contains("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }

@@ -86,7 +86,7 @@ protocol GenerateOrderViewDelegate {
         let lblNumberItems = labelTitle(CGRect(x: marginViews, y: titleLabel.frame.maxY + 14, width: self.viewContent.frame.width - 32, height: 14))
         lblNumberItems.textColor = WMColor.blue
         lblNumberItems.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        lblNumberItems.text = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR()) \(NSLocalizedString("artículos", comment: ""))"
+        lblNumberItems.text = "\(UserCurrentSession.sharedInstance.numberOfArticlesGR()) \(NSLocalizedString("artículos", comment: ""))"
         
         
         //right
@@ -250,23 +250,23 @@ protocol GenerateOrderViewDelegate {
     func showGenerateOrder(_ paramsToOrder:[String:Any]) {
         //right
         
-        var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String)
+        var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! NSString)
         lblValueSubtotal.text = stringValue
         lblValueSubtotal.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueSubtotal.textColor = WMColor.dark_gray
         lblValueSubtotal.text = stringValue
         
-        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! NSString)
         lblValueTotal.text = stringValue
         lblValueTotal.font = WMFont.fontMyriadProSemiboldOfSize(14)
         lblValueTotal.textColor = WMColor.blue
         
-        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! NSString)
         lblValueDeliveryAmount.text = self.isFreshepping ? "sin costo" :  stringValue
         lblValueDeliveryAmount.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueDeliveryAmount.textColor = WMColor.dark_gray
 
-        stringValue =  CurrencyCustomLabel.formatNegativeString(paramsToOrder["Discounts"] as! String)
+        stringValue =  CurrencyCustomLabel.formatNegativeString(paramsToOrder["Discounts"] as! NSString)
         lblValueDiscounts.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueDiscounts.textAlignment = .right
         lblValueDiscounts.textColor = WMColor.dark_gray

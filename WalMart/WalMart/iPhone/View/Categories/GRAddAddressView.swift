@@ -66,7 +66,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         self.endEditing(true)
         self.sAddredssForm!.allAddress = self.addressArray as [Any]!
         let service = GRAddressAddService()
-        let dictSend = sAddredssForm!.getAddressDictionary("", delete:false)
+        var dictSend = sAddredssForm!.getAddressDictionary("", delete:false)
         if dictSend != nil {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             dictSend!["preferred"] = true
@@ -76,7 +76,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                 }
-                UserCurrentSession.sharedInstance().getStoreByAddress(address)
+                UserCurrentSession.sharedInstance.getStoreByAddress(address)
                 self.alertView!.showDoneIcon()
                 self.onClose?()
                 }) { (error:NSError) -> Void in

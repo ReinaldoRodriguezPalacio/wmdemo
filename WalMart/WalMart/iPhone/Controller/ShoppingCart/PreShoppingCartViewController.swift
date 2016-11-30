@@ -74,21 +74,21 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
         super.viewDidAppear(animated)
         
     
-        UserCurrentSession.sharedInstance().loadShoppingCarts({() -> Void in
-//            if UserCurrentSession.sharedInstance().isEmptyMG() && !UserCurrentSession.sharedInstance().isEmptyGR() {
+        UserCurrentSession.sharedInstance.loadShoppingCarts({() -> Void in
+//            if UserCurrentSession.sharedInstance.isEmptyMG() && !UserCurrentSession.sharedInstance.isEmptyGR() {
 //                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartGRVC") as GRShoppingCartViewController
 //                vcResult.showCloseButton = false
 //                self.navigationController?.pushViewController(vcResult, animated: false)
 //                
 //            }
-//            if !UserCurrentSession.sharedInstance().isEmptyMG() && UserCurrentSession.sharedInstance().isEmptyGR() {
+//            if !UserCurrentSession.sharedInstance.isEmptyMG() && UserCurrentSession.sharedInstance.isEmptyGR() {
 //                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as ShoppingCartViewController
 //                vcResult.showCloseButton = false
 //                
 //                self.navigationController?.pushViewController(vcResult, animated: false)
 //            }
             
-//            if UserCurrentSession.sharedInstance().isEmptyMG() && UserCurrentSession.sharedInstance().isEmptyGR() {
+//            if UserCurrentSession.sharedInstance.isEmptyMG() && UserCurrentSession.sharedInstance.isEmptyGR() {
 //                //Show emptyView
 //                self.emptyView!.hidden = false
 //                self.emptyView.frame = CGRectMake(0, 0 , self.view.bounds.width, self.view.bounds.height)
@@ -96,14 +96,14 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
             //let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
             let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
-            let totArticlesGR = UserCurrentSession.sharedInstance().numberOfArticlesGR()
+            let totArticlesGR = UserCurrentSession.sharedInstance.numberOfArticlesGR()
             let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
-            self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance().estimateTotalGR())",totalColor:WMColor.green,empty:totArticlesGR == 0)
+            self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance.estimateTotalGR())",totalColor:WMColor.green,empty:totArticlesGR == 0)
             
-            let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
+            let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
             let noArticlesMgStr = NSLocalizedString("shoppingcart.noarticles.mg",comment:"")
             let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)" : noArticlesMgStr
-            self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance().estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
+            self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance.estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
 //            }
             
             self.viewSuper.tapAction =  { () -> Void in
@@ -135,7 +135,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
                 }
             }
             
-            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
                 self.viewLoad = nil
@@ -154,7 +154,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     //Open from home
     func openShoppingCart(){
         
-        UserCurrentSession.sharedInstance().validateUserAssociate(true)
+        UserCurrentSession.sharedInstance.validateUserAssociate(true)
         
         self.view.isUserInteractionEnabled = false
         

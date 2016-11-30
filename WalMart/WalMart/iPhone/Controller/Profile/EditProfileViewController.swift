@@ -228,7 +228,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     //MARK: - Actions
     
     func setValues() {
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if let user = UserCurrentSession.sharedInstance.userSigned {
             self.name!.text = user.profile.name as String
             self.email!.text = user.email as String
             self.lastName!.text = user.profile.lastName as String
@@ -313,11 +313,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             let dateSlectedStr = self.parseFmt!.string(from: self.dateSelected)
             let gender = self.femaleButton!.isSelected ? "Female" : "Male"
            
-            UserCurrentSession.sharedInstance().userSigned!.profile.birthDate = dateSlectedStr as NSString
-            UserCurrentSession.sharedInstance().userSigned!.profile.sex = gender as NSString
+            UserCurrentSession.sharedInstance.userSigned!.profile.birthDate = dateSlectedStr as NSString
+            UserCurrentSession.sharedInstance.userSigned!.profile.sex = gender as NSString
             
-            let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
-            let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
+            let allowMarketing =  UserCurrentSession.sharedInstance.userSigned?.profile.allowMarketingEmail
+            let allowTransfer = UserCurrentSession.sharedInstance.userSigned?.profile.allowTransfer
             
             let params  = service.buildParamsWithMembership(self.email!.text!, password: passCurrent!, newPassword:passNew!, name: self.name!.text!, lastName: self.lastName!.text!,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
             

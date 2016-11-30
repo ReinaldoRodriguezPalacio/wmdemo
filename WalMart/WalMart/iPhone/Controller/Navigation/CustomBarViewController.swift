@@ -251,9 +251,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      */
     func checkPrivaceNotice(){
         
-        let sinceDate : Date = UserCurrentSession.sharedInstance().dateStart as Date
-        let untilDate : Date = UserCurrentSession.sharedInstance().dateEnd as Date
-        let version = UserCurrentSession.sharedInstance().version as String
+        let sinceDate : Date = UserCurrentSession.sharedInstance.dateStart as Date
+        let untilDate : Date = UserCurrentSession.sharedInstance.dateEnd as Date
+        let version = UserCurrentSession.sharedInstance.version as String
         
         let date = Date()
         let dateFormatter = DateFormatter()
@@ -307,7 +307,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance.userSigned
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
         if user != nil && forUser {
@@ -351,7 +351,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         else {
             let param = NSEntityDescription.insertNewObject(forEntityName: "Param", into: context) as? Param
-            if let user = UserCurrentSession.sharedInstance().userSigned {
+            if let user = UserCurrentSession.sharedInstance.userSigned {
                 if forUser {
                     param!.user = user
                 }
@@ -385,7 +385,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         
-        let user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance.userSigned
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
@@ -422,7 +422,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         else {
             let param = NSEntityDescription.insertNewObject(forEntityName: "Param", into: context) as? Param
-            if let user = UserCurrentSession.sharedInstance().userSigned {
+            if let user = UserCurrentSession.sharedInstance.userSigned {
                 param!.user = user
                 param!.idUser = user.idUser as String
             }
@@ -588,7 +588,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let storyboard = self.loadStoryboardDefinition()
         
         //var   = "loginVC-profileItemVC" as String
-       // if UserCurrentSession.sharedInstance().userSigned != nil{
+       // if UserCurrentSession.sharedInstance.userSigned != nil{
             //controllerProfile = "profileVC"
         //}
         
@@ -1228,7 +1228,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let showRating = CustomBarViewController.retrieveRateParam(self.KEY_RATING)
         let velue = showRating == nil ? "" :showRating?.value
         
-        if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
+        if UserCurrentSession.sharedInstance.isReviewActive && (velue == "" ||  velue == "true") {
             let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
             alert!.isCustomAlert = true
             alert!.spinImage.isHidden =  true
@@ -1454,9 +1454,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func userLogOut(_ not:Notification) {
         self.removeAllCookies()
         
-        UserCurrentSession.sharedInstance().phoneNumber = ""
-        UserCurrentSession.sharedInstance().workNumber =  ""
-        UserCurrentSession.sharedInstance().cellPhone = ""
+        UserCurrentSession.sharedInstance.phoneNumber = ""
+        UserCurrentSession.sharedInstance.workNumber =  ""
+        UserCurrentSession.sharedInstance.cellPhone = ""
         
         self.viewControllers.removeSubrange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()

@@ -32,7 +32,7 @@ class ShoppingCartProductsService : BaseService {
                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                     
-                    let user = UserCurrentSession.sharedInstance().userSigned
+                    let user = UserCurrentSession.sharedInstance.userSigned
                     
                     var currentQuantity = 0
                     if user != nil {
@@ -91,7 +91,7 @@ class ShoppingCartProductsService : BaseService {
                         
                         carProductItem.upc = upc
                         carProductItem.desc = desc
-                        carProductItem.price = price
+                        carProductItem.price = price as NSString
                         carProductItem.iva = iva
                         carProductItem.baseprice = baseprice
                         carProductItem.img = imageUrl
@@ -163,7 +163,7 @@ class ShoppingCartProductsService : BaseService {
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Mg.rawValue)
         if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Mg.rawValue)
+            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance.userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Mg.rawValue)
         }
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         var returnDictionary:[String:Any] = [:]
@@ -177,7 +177,7 @@ class ShoppingCartProductsService : BaseService {
             
             //let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory]
             
-            let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department]
+            let dictItem: [String:Any] = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department]
             
             
             
@@ -200,8 +200,8 @@ class ShoppingCartProductsService : BaseService {
     
        // NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
         if successBlock != nil {
-            successBlock!(returnDictionary as! [String : Any])
-            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+            successBlock!(returnDictionary)
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
         }
         
     }
@@ -210,7 +210,7 @@ class ShoppingCartProductsService : BaseService {
     func synchronizeWebShoppingCartFromCoreData(_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?){
         ShoppingCartService.isSynchronizing = true
         let predicateDeleted = NSPredicate(format: "status == %@ AND type == %@", NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Mg.rawValue)
-        let deteted = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateDeleted)
+        let deteted = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateDeleted)
         if deteted.count > 0 {
             let serviceDelete = ShoppingCartDeleteProductsService()
             var arratUpcsDelete : [String] = []
@@ -249,10 +249,10 @@ class ShoppingCartProductsService : BaseService {
     
     func synchronizeUpdateWebShoppingCartFromCoreData (_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?) {
         let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.updated.rawValue as Int),ResultObjectType.Mg.rawValue)
-        let updated = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateUpdated)
+        let updated = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             let serviceUpdate = ShoppingCartUpdateProductsService()
-            var arrayUpcsUpdate : [Any] = []
+            var arrayUpcsUpdate : [[String:Any]] = []
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
@@ -273,16 +273,16 @@ class ShoppingCartProductsService : BaseService {
     
     func synchronizeAddedWebShoppingCartFromCoreData (_ successBlock:@escaping (() -> Void), errorBlock:((NSError) -> Void)?) {
         let predicateUpdated = NSPredicate(format: "status == %@  AND type == %@", NSNumber(value: CartStatus.created.rawValue as Int),ResultObjectType.Mg.rawValue)
-        let updated = UserCurrentSession.sharedInstance().coreDataShoppingCart(predicateUpdated)
+        let updated = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             let serviceUpdate = ShoppingCartAddProductsService()
-            var arrayUpcsUpdate : [Any] = []
+            var arrayUpcsUpdate : [[String:Any]] = []
             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
-                itemUpdated.status = CartStatus.synchronized.rawValue
+                itemUpdated.status = NSNumber(value: CartStatus.synchronized.rawValue)
             }
             do {
                 try context.save()

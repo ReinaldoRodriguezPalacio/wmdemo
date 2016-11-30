@@ -116,7 +116,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     
     func addProductToShoping(){
         if !isDisabled {
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
                 let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0",isPreorderable:isPreorderable)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)

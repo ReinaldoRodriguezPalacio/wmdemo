@@ -100,7 +100,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 itemsSvc.append(buildProductObject(upc: upc,quantity:quantity,comments:comments))
             }
             
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
+            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upcSend)
             if !hasUPC {
               
                 
@@ -116,8 +116,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
                     if self.updateShoppingCart() {
 //                        let shoppingService = GRShoppingCartProductsService()
 //                        shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
-                        UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
-                            UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                        UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                             successBlock!([:])
                         })
                     }else{
@@ -132,8 +132,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 BaseController.sendAnalyticsAddOrRemovetoCart(params as! [Any],isAdd: true)
                 svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
 
-//                UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
-//                    UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+//                UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+//                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
 //                    successBlock!([:])
 //                })
             }
@@ -157,7 +157,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             var cartProduct : Cart
             var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! NSString)
             if UserCurrentSession.hasLoggedUser() {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance().userSigned!)
+                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance.userSigned!)
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
@@ -192,7 +192,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             }
             
             if UserCurrentSession.hasLoggedUser() {
-                cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
+                cartProduct.user  = UserCurrentSession.sharedInstance.userSigned!
             }
         }
         do {

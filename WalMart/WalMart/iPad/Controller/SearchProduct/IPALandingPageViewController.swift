@@ -581,7 +581,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                        isActive: isActive,
                        onHandInventory: onHandDefault,
                        isPreorderable:isPreorderable,
-                       isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),
+                       isInShoppingCart: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc),
                        type:type as String,
                        pesable : isPesable,
                        isFormList:  false,

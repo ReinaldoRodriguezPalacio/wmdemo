@@ -84,7 +84,7 @@ class SchoolListTableViewCell : UITableViewCell {
         self.schoolNameLabel?.text = name
         self.gradeDescLabel?.text = grade.trim()
         self.numElementsLabel?.text = "\(numArticles) artículos"
-        let totalPrice = CurrencyCustomLabel.formatString("\(listPrice)")
+        let totalPrice = CurrencyCustomLabel.formatString("\(listPrice)" as NSString)
         self.total!.updateMount(totalPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         self.saving!.updateMount(savingPrice, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.green, interLine: false)
     }
