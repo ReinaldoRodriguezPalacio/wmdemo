@@ -208,7 +208,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneWorkNumber!.typeField = TypeField.Number
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 0
-        self.phoneWorkNumber!.maxLength = 10
+        self.phoneWorkNumber!.maxLength = 5
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneWorkNumber!.inputAccessoryView = viewAccess
         
