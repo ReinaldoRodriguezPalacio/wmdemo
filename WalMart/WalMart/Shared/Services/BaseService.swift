@@ -111,6 +111,20 @@ class BaseService : NSObject {
         
         let lockQueue = dispatch_queue_create("com.test.LockQueue", nil)
         dispatch_sync(lockQueue) {
+            var jsessionIdSend = UserCurrentSession.sharedInstance().JSESSIONID
+            var jSessionAtgIdSend = UserCurrentSession.sharedInstance().JSESSIONATG
+            
+            if jsessionIdSend == "" {
+                if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
+                    print("PARAM JSESSIONID ::"+param.value)
+                    jsessionIdSend = param.value
+                }
+                if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONATG") {
+                    print("PARAM JSESSIONATG ::" + param.value)
+                    jSessionAtgIdSend = param.value
+                }
+            }
+            
             if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
                 let timeInterval = NSDate().timeIntervalSince1970
                 let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue)
@@ -121,16 +135,18 @@ class BaseService : NSObject {
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
                 //Session --
                 print("URL:: \(self.serviceUrl())")
-                AFStatic.manager.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
-                AFStatic.manager.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
+                AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+                AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
                 
                 
             } else{
                 //Session --
                 print("URL:: \(self.serviceUrl())")
+                print("SEND JSESSIONID::" + jsessionIdSend)
+                print("SEND JSESSIONATG::" + jSessionAtgIdSend)
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-                AFStatic.manager.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
-                AFStatic.manager.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
+                AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+                AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             }
             
         }
@@ -197,6 +213,7 @@ class BaseService : NSObject {
                     for cookie in cookies {
                         print("Response JSESSIONID:: \(cookie.value)")
                         UserCurrentSession.sharedInstance().JSESSIONID = cookie.value
+                        CustomBarViewController.addOrUpdateParamNoUser("JSESSIONID", value: cookie.value)
                         print("name: \(cookie.name) value: \(cookie.value)")
                     }
                 }
@@ -205,6 +222,7 @@ class BaseService : NSObject {
             print("Response JSESSIONATG:: \(atgSession)")
             print("UserCurrentSession.sharedInstance().JSESSIONATG::  \(UserCurrentSession.sharedInstance().JSESSIONATG)")
             UserCurrentSession.sharedInstance().JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance().JSESSIONATG
+            CustomBarViewController.addOrUpdateParamNoUser("JSESSIONID", value: UserCurrentSession.sharedInstance().JSESSIONATG)
             
             let resultJSON = json as! NSDictionary
             self.jsonFromObject(resultJSON)
@@ -278,6 +296,7 @@ class BaseService : NSObject {
                     NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookies(cookies, forURL: response.URL!, mainDocumentURL: nil)
                     for cookie in cookies {
                         UserCurrentSession.sharedInstance().JSESSIONID = cookie.value
+                        CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
                         print("name: \(cookie.name) value: \(cookie.value)")
                     }
                 }
@@ -288,6 +307,7 @@ class BaseService : NSObject {
             print("Regresa JSESSIONATG \(atgSession)")
              print("UserCurrentSession.sharedInstance().JSESSIONATG \(UserCurrentSession.sharedInstance().JSESSIONATG)")
             UserCurrentSession.sharedInstance().JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance().JSESSIONATG
+            CustomBarViewController.addOrUpdateParam("JSESSIONATG", value: UserCurrentSession.sharedInstance().JSESSIONATG)
             
            
             

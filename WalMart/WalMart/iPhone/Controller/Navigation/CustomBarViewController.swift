@@ -270,6 +270,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return self.retrieveParam(key, forUser: true)
     }
     
+    static func retrieveParamNoUser(key:String) -> Param? {
+        return self.retrieveParam(key, forUser: false)
+    }
+    
     
     /**
      Find param for key and use user to validate query
@@ -308,6 +312,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     static func addOrUpdateParam(key:String, value:String){
         self.addOrUpdateParam(key, value: value, forUser: true)
+    }
+    
+    static func addOrUpdateParamNoUser(key:String, value:String){
+        self.addOrUpdateParam(key, value: value, forUser: false)
     }
     
     

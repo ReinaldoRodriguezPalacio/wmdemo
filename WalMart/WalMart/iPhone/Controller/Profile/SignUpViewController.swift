@@ -395,7 +395,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
             
-            let service = SignUpService()
+            let signUpService = SignUpService()
             
             let dateFmtBD = NSDateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
@@ -423,9 +423,9 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                 self.aPhoneWorkNumber =  self.alertAddress!.sAddredssForm.getPhoneWorkNumber()
                 self.aCellPhone       =  self.alertAddress!.sAddredssForm.getCellPhone()
                 
-                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
+                let params = signUpService.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
 
-                service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+                signUpService.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                    
                     // Event -- Succesful Registration
                     BaseController.sendAnalyticsSuccesfulRegistration()

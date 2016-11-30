@@ -35,7 +35,24 @@ class GRBaseService : BaseService {
     }
 
     override func getManager() -> AFHTTPSessionManager {
+        
+        var jsessionIdSend = UserCurrentSession.sharedInstance().JSESSIONID
+        var jSessionAtgIdSend = UserCurrentSession.sharedInstance().JSESSIONATG
+        
+        if jsessionIdSend == "" {
+            if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
+                print("PARAM JSESSIONID ::"+param.value)
+                jsessionIdSend = param.value
+            }
+            if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONATG") {
+                print("PARAM JSESSIONATG ::" + param.value)
+                jSessionAtgIdSend = param.value
+            }
+        }
+        
+        
         if UserCurrentSession.hasLoggedUser() && shouldIncludeHeaders() {
+            
             let timeInterval = NSDate().timeIntervalSince1970
             let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue) // Time in milis "1400705132881"//
             let uuid  = NSUUID().UUIDString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
@@ -48,17 +65,17 @@ class GRBaseService : BaseService {
             AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
             //session --
             print("URL:: \(self.serviceUrl())")
-            print("sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
+            print("send::sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
+            AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
         } else{
             //session --
             print("URL:: \(self.serviceUrl())")
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-            print("sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
+            print("send::sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
+            AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         }
         return AFStatic.managerGR
     }
