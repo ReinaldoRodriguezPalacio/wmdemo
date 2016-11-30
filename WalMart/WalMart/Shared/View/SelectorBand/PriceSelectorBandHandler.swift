@@ -76,7 +76,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.selectedOption = quantity
         self.button!.setTitle("\(quantity)", for: UIControlState())
         let calculated: Double = value * Double(quantity)
-        let resultStr = CurrencyCustomLabel.formatString(NSNumber(value: calculated as Double).stringValue)
+        let resultStr = CurrencyCustomLabel.formatString(NSNumber(value: calculated as Double).stringValue as NSString)
         self.totalString = resultStr
         //var title = "Añadir \(resultStr)"
         /*self.price!.updateMount(title, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
@@ -152,7 +152,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         let cell: PriceSelectorBandCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PriceSelectorBandCell
         cell.normalFont = self.selectorNormalFont
         cell.selectedFont = self.selectorSelectedFont
-        cell.setText("\(indexPath.item)", selected: self.selectedOption == indexPath.item)
+        cell.setText("\(indexPath.item)" as NSString, selected: self.selectedOption == indexPath.item)
         return cell
     }
 
@@ -177,7 +177,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         }
 
         if let cell = collectionView.cellForItem(at: indexPath) as? SelectorBandCell {
-            cell.setText("\(indexPath.item)", selected: true)
+            cell.setText("\(indexPath.item)" as NSString, selected: true)
         }
         
         let option = indexPath.item

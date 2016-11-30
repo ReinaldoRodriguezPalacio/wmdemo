@@ -75,7 +75,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 12, width, 111))
+            let product = GRProductSpecialCollectionViewCell(frame: CGRect(x:currentX,y: 12, width:width, height:111))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["name"].stringValue
             

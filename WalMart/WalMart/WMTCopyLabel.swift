@@ -25,7 +25,7 @@ class WMTCopyLable: UILabel {
         isUserInteractionEnabled = true
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(WMTCopyLable.showMenu(_:))))
     }
-    func showMenu(_ sender: AnyObject?) {
+    func showMenu(_ sender: Any?) {
         becomeFirstResponder()
         let menu = UIMenuController.shared
         if !menu.isMenuVisible {
@@ -33,7 +33,7 @@ class WMTCopyLable: UILabel {
             menu.setMenuVisible(true, animated: true)
         }
     }
-    override func copy(_ sender: AnyObject?) {
+    override func copy(_ sender: Any?) {
         let board = UIPasteboard.general
         board.string = stringCopy
         let menu = UIMenuController.shared
@@ -43,7 +43,7 @@ class WMTCopyLable: UILabel {
         return true
     }
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(NSObject.copy(_:)) {
+        if action == #selector(NSObject.copy) {
             return true
         }
         return false

@@ -14,22 +14,23 @@ class LinesForSearchService: BaseService {
         return ["pText":string]
     }
 
-    func callService(_ params:[String:Any], successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([[String:Any]]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //println("PARAMS FOR LinesForSearchService" )
         printTimestamp("servicio LinesForSearchService")
-        self.jsonFromObject(params)
-        self.getManager().POST(serviceUrl(), parameters: params,
-            success: {(request:URLSessionDataTask, json:AnyObject?) in
+        self.jsonFromObject(params as AnyObject!)
+        self.getManager().post(serviceUrl(), parameters: params,
+            success: {(request:URLSessionDataTask, json:Any?) in
                 //println(json)
                 self.printTimestamp("success LinesForSearchService")
-                if let response = json!["responseArray"] as? [Any] {
-                    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-                        self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
+                let jsonResponce = json as! [String:Any]
+                if let response = jsonResponce["responseArray"] as? [Any] {
+                    DispatchQueue.global(priority: .background).async(execute: { () -> Void in
+                        self.buildResponse(response, successBuildBlock: { (dictionary:[String : Any]) -> Void in
                             let values = [Any](dictionary.values)
-                            self.jsonFromObject(values)
-                            dispatch_async(dispatch_get_main_queue(),  { () -> Void in
+                            self.jsonFromObject(values as AnyObject!)
+                            DispatchQueue.main.async(execute: { () -> Void in
                                 print("")
-                                successBlock?(values)
+                                successBlock?(values as! [[String : Any]])
                             });
                         })
                     })
@@ -39,14 +40,14 @@ class LinesForSearchService: BaseService {
                 }
                 
             },
-            failure: {(request:URLSessionDataTask?, error:NSError) in
-                if error.code == -1005 {
+            failure: {(request:URLSessionDataTask?, error:Error) in
+                if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 print("Response Error : \(error) \n Response \(request!.response)")
-                errorBlock!(error)
+                errorBlock!(error as NSError)
         })
         
         //TEST: ->
@@ -103,11 +104,11 @@ class LinesForSearchService: BaseService {
             return  successBuildBlock!(dictionary)
         }
         
-        WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+        WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
             var dictionary: [String:Any] = [:]
             //NSLog("Ejecuta busqueda")
             let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
-            if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
+            if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
                 //var keywords = Array<AnyObject>()
                 self.printTimestamp("query execute  LinesForSearchService")
                 while rs.next() {
@@ -121,43 +122,43 @@ class LinesForSearchService: BaseService {
                     let linName = rs.string(forColumn: "line")
                     
                     
-                    var cdepto = dictionary[idDepto] as? [String:Any]
+                    var cdepto = dictionary[idDepto!] as? [String:Any]
                     if cdepto == nil {
                         cdepto = [
-                            "name" : depName,
-                            "id" : idDepto,
+                            "name" : depName!,
+                            "id" : idDepto!,
                             "responseType" : ResultObjectType.Mg.rawValue,
                             "level" : NSNumber(value: 0 as Int),
                             "parentId" : "",
-                            "path" : idDepto,
+                            "path" : idDepto!,
                             "families" : [String:Any]()]
-                        dictionary[idDepto] = cdepto
+                        dictionary[idDepto!] = cdepto
                     }
                     
-                    let families = cdepto!["families"] as! [String:Any]
-                    var cfamily = families[idFamily] as? [String:Any]
+                    var families = cdepto!["families"] as! [String:Any]
+                    var cfamily = families[idFamily!] as? [String:Any]
                     if cfamily == nil {
-                        families[idFamily] = [
-                            "id" : idFamily,
-                            "name" : famName,
+                        families[idFamily!] = [
+                            "id" : idFamily!,
+                            "name" : famName!,
                             "responseType" : ResultObjectType.Mg.rawValue,
                             "level" : NSNumber(value: 1 as Int),
-                            "parentId" : idDepto,
+                            "parentId" : idDepto!,
                             "path" : "\(idDepto)|\(idFamily)",
                             "lines" : [String:Any]()]
-                        cfamily = families[idFamily] as? [String:Any]
+                        cfamily = families[idFamily!] as? [String:Any]
                     }
                     
-                    let lines = cfamily!["lines"] as! [String:Any]
+                    var lines = cfamily!["lines"] as! [String:Any]
                     
                     let cline = [
-                        "id" : idLine,
-                        "name" : (linName),
+                        "id" : idLine!,
+                        "name" : (linName)!,
                         "level" : NSNumber(value: 2 as Int),
-                        "parentId" : idFamily,
+                        "parentId" : idFamily!,
                         "path" : "\(idDepto)|\(idFamily)|\(idLine!)",
-                        "responseType" : ResultObjectType.Mg.rawValue]
-                    lines[idLine] = cline
+                        "responseType" : ResultObjectType.Mg.rawValue] as [String : Any]
+                    lines[idLine!] = cline
                     
                     //keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
                 }// while rs.next() {

@@ -82,7 +82,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         
         //upcProduct = productShortDescription
         
-        let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)")
+        let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)" as NSString)
 
         self.productImage!.contentMode = UIViewContentMode.center
         self.productImage!.setImageWith(URLRequest(url:URL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
@@ -91,7 +91,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
                 if self.completeimageaction != nil {
                     self.completeimageaction!()
                 }
-            }, failure: { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+            }, failure: { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                 if self.completeimageaction != nil {
                     self.completeimageaction!()
                 }

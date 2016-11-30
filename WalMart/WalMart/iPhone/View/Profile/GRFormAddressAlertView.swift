@@ -275,7 +275,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
             if self.beforeAddAddress == nil {
                 self.registryAddress(dictSend)
             } else {
-                self.beforeAddAddress?(dictSend: dictSend)
+                self.beforeAddAddress?(dictSend)
         }
         }
         

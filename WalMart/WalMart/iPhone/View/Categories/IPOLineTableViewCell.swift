@@ -89,7 +89,7 @@ class IPOLineTableViewCell : UITableViewCell {
         self.newFrame  =  true
         label!.isHidden =  false
         priceLabel?.isHidden =  false
-        let fmtTotal = CurrencyCustomLabel.formatString(price)
+        let fmtTotal = CurrencyCustomLabel.formatString(price as NSString)
         priceLabel?.updateMount(fmtTotal, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     }
     

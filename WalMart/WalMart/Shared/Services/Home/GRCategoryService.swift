@@ -30,13 +30,13 @@ class GRCategoryService: GRBaseService {
     
     func getCategoriesContent() -> [[String:Any]] {
         var response : [[String:Any]] = []
-        let values = self.getDataFromFile(self.fileName)
+        let values = self.getDataFromFile(self.fileName as NSString)
         if values != nil {
             response = values![JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
-            response.sortInPlace({ (one:[String : AnyObject], second:[String : AnyObject]) -> Bool in
+            response.sort(by: { (one:[String : Any], second:[String : Any]) -> Bool in
                 let firstString = one["description"] as! String?
                 let secondString = second["description"] as! String?
-                return firstString!.localizedCaseInsensitiveCompare(secondString!) == NSComparisonResult.OrderedAscending
+                return firstString!.localizedCaseInsensitiveCompare(secondString!) == ComparisonResult.orderedAscending
             })
         }
         return response

@@ -145,7 +145,7 @@ class GRUserListService : GRBaseService {
         let arryListLocal:NSMutableArray = []
         
         //Delete list deleting in other
-        for serviceList in list {
+        for serviceList in list as! [[String:Any]] {
             arryListLocal.add(serviceList["id"] as! String)
         }
         
@@ -164,7 +164,7 @@ class GRUserListService : GRBaseService {
                 }
                 
                 
-                for serviceList in list {
+                for serviceList in list as! [[String:Any]] {
                     let listId = serviceList["id"] as! String
                     if entity.idList == listId {
                         exist = true
@@ -183,7 +183,7 @@ class GRUserListService : GRBaseService {
         
         
 
-        for serviceList in list {
+        for serviceList in list as! [[String:Any]]{
             let listId = serviceList["id"] as! String
             
             var toUseList : List?  = nil
@@ -268,10 +268,10 @@ class GRUserListService : GRBaseService {
                                 detail!.img = item["imageUrl"] as! String
                                 detail!.desc = item["description"] as! String
                                 if let price = item["price"] as? NSNumber {
-                                    detail!.price = "\(price)"
+                                    detail!.price = "\(price)" as NSString
                                 }
                                 else if let price = item["price"] as? String {
-                                    detail!.price = price
+                                    detail!.price = price as NSString
                                 }
                                 if let quantity = item["quantity"] as? NSNumber {
                                     detail!.quantity = quantity

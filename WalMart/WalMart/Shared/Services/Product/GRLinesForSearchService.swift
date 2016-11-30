@@ -19,19 +19,19 @@ class GRLinesForSearchService: GRBaseService {
         return ["storeId":"","expression":string,"departmentName":"","family":""] as [String:Any]
     }
     
-    func callService(_ params:[String:Any], successBlock:(([Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[String:Any], successBlock:(([[String:Any]]) -> Void)?, errorBlock:((NSError) -> Void)?) {
 //        println("PARAMS FOR GRProductBySearchService")
         //self.jsonFromObject(params)
-        self.getManager().POST(serviceUrl(), parameters: params,
-            success: {(request:URLSessionDataTask, json:AnyObject?) in
+        self.getManager().post(serviceUrl(), parameters: params,
+            success: {(request:URLSessionDataTask, json:Any?) in
                //self.jsonFromObject(json)
                 self.printTimestamp("success GRLinesForSearchService")
                 
                     if let response = json as? [Any] {
                         
-                        self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
+                        self.buildResponse(response, successBuildBlock: { (dictionary:[String : Any]) -> Void in
                             // var dictionary = self.buildResponse(response)
-                            let values = [Any](dictionary.values)
+                            let values = dictionary.values as! [Any]
                             
 //                            values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
 //                                var deptoOne = objectOne as [String:Any]
@@ -44,7 +44,7 @@ class GRLinesForSearchService: GRBaseService {
 //                            }
 
                             //                    self.jsonFromObject(values)
-                            successBlock?(values)
+                            successBlock?(values as! [[String : Any]])
                             
                         })
                        
@@ -55,18 +55,18 @@ class GRLinesForSearchService: GRBaseService {
                     }
                 
             },
-            failure: {(request:URLSessionDataTask?, error:NSError) in
-                if error.code == -1005 {
+            failure: {(request:URLSessionDataTask?, error:Error) in
+                if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 print("Response Error : \(error) \n Response \(request!.response)")
-                errorBlock!(error)
+                errorBlock!(error as NSError)
         })
     }
 
-    func buildResponse(_ response:[Any],successBuildBlock:(([String : AnyObject]) -> Void)?) {
+    func buildResponse(_ response:[Any],successBuildBlock:(([String : Any]) -> Void)?) {
 
         printTimestamp("buildResponse GRLinesForSearchService")
         
@@ -92,13 +92,13 @@ class GRLinesForSearchService: GRBaseService {
          var dictionary: [String:Any] = [:]
         
         if strInLines == "" {
-            return  successBuildBlock!(dictionary as [String : AnyObject])
+            return  successBuildBlock!(dictionary as [String : Any])
         }
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 
                 let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
-                if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
+                if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
                     //var keywords = Array<AnyObject>()
                     while rs.next() {
                         let idDepto = rs.string(forColumn: "idDepto")
@@ -110,43 +110,43 @@ class GRLinesForSearchService: GRBaseService {
                         let linName = rs.string(forColumn: "line")
                         
                         
-                        var cdepto = dictionary[idDepto] as? [String:Any]
+                        var cdepto = dictionary[idDepto!] as? [String:Any]
                         if cdepto == nil {
                             cdepto = [
-                                "name" : depName,
-                                "id" : idDepto,
+                                "name" : depName!,
+                                "id" : idDepto!,
                                 "responseType" : ResultObjectType.Groceries.rawValue,
                                 "level" : NSNumber(value: 0 as Int),
                                 "parentId" : "",
-                                "path" : idDepto,
+                                "path" : idDepto!,
                                 "families" : [String:Any]()]
-                            dictionary[idDepto] = cdepto
+                            dictionary[idDepto!] = cdepto
                         }
                         
-                        let families = cdepto!["families"] as! [String:Any]
-                        var cfamily = families[idFamily] as? [String:Any]
+                        var families = cdepto!["families"] as! [String:Any]
+                        var cfamily = families[idFamily!] as? [String:Any]
                         if cfamily == nil {
-                            families[idFamily] = [
-                                "id" : idFamily,
-                                "name" : famName,
+                            families[idFamily!] = [
+                                "id" : idFamily!,
+                                "name" : famName!,
                                 "responseType" : ResultObjectType.Groceries.rawValue,
                                 "level" : NSNumber(value: 1 as Int),
-                                "parentId" : idDepto,
+                                "parentId" : idDepto!,
                                 "path" : "\(idDepto)|\(idFamily)",
                                 "lines" : [String:Any]()]
-                            cfamily = families[idFamily] as? [String:Any]
+                            cfamily = families[idFamily!] as? [String:Any]
                         }
                         
-                        let lines = cfamily!["lines"] as! [String:Any]
+                        var lines = cfamily!["lines"] as! [String:Any]
                         
                         let cline = [
-                            "id" : idLine,
-                            "name" : (linName),
+                            "id" : idLine!,
+                            "name" : (linName)!,
                             "level" : NSNumber(value: 2 as Int),
-                            "parentId" : idFamily,
+                            "parentId" : idFamily!,
                             "path" : "\(idDepto)|\(idFamily)|\(idLine!)",
-                            "responseType" : ResultObjectType.Groceries.rawValue]
-                        lines[idLine] = cline
+                            "responseType" : ResultObjectType.Groceries.rawValue] as [String : Any]
+                        lines[idLine!] = cline
                         
                         //keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
                     }// while rs.next() {
@@ -167,7 +167,7 @@ class GRLinesForSearchService: GRBaseService {
     }
     
     //MARK: 
-    func buildResponseFamily(_ idFamilies:[String],successBuildBlock:(([String : AnyObject]) -> Void)?) {
+    func buildResponseFamily(_ idFamilies:[String],successBuildBlock:(([String : Any]) -> Void)?) {
         
         
         var dictionary: [String:Any] = [:]
@@ -178,10 +178,10 @@ class GRLinesForSearchService: GRBaseService {
         
 
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
-            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+            WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 
                 let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdFamilyQuery(idFamily: idFamilyQuery as String)
-                if let rs = db.executeQuery(selectCategories, withArgumentsIn:nil) {
+                if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
                     //var keywords = Array<AnyObject>()
                     while rs.next() {
                         let idDepto = rs.string(forColumn: "idDepto")
@@ -192,33 +192,33 @@ class GRLinesForSearchService: GRBaseService {
                         let linName = rs.string(forColumn: "line")
                         
                         
-                        var cdepto = dictionary[idDepto] as? [String:Any]
+                        var cdepto = dictionary[idDepto!] as? [String:Any]
                         if cdepto == nil {
                             cdepto = [
-                                "name" : depName,
-                                "id" : idDepto,
+                                "name" : depName!,
+                                "id" : idDepto!,
                                 "families" : [String:Any]()]
-                            dictionary[idDepto] = cdepto
+                            dictionary[idDepto!] = cdepto
                         }
                         
-                        let families = cdepto!["families"] as! [String:Any]
-                        var cfamily = families[idFamily] as? [String:Any]
+                        var families = cdepto!["families"] as! [String:Any]
+                        var cfamily = families[idFamily!] as? [String:Any]
                         if cfamily == nil {
-                            families[idFamily] = [
-                                "id" : idFamily,
+                            families[idFamily!] = [
+                                "id" : idFamily!,
                                 "lines" : [String:Any]()
                             ]
-                            cfamily = families[idFamily] as? [String:Any]
+                            cfamily = families[idFamily!] as? [String:Any]
                         }
                         
-                        let lines = cfamily!["lines"] as! [String:Any]
+                        var lines = cfamily!["lines"] as! [String:Any]
                         
                         let cline = [
                             "id" : idLine,
                             "name" : (linName),
                           
                         ]
-                        lines[idLine] = cline
+                        lines[idLine!] = cline
                       
                     }// while rs.next() {
                     

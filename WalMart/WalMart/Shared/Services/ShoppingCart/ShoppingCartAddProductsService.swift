@@ -54,7 +54,7 @@ class ShoppingCartAddProductsService : BaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist]
     }
     
-    func buildProductObject(_ upcsParams:[String:Any]) -> Any {
+    func buildProductObject(_ upcsParams:Any) -> Any {
         
         if useSignals  && self.parameterSend != nil {
             return   ["items":upcsParams,"parameter":self.parameterSend!]

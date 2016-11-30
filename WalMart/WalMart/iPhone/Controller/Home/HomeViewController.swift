@@ -713,7 +713,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
             }
             
-            if let upcs = recommendItem!["upcs"] as? [Any] {
+            if let upcs = recommendItem!["upcs"] as? [[String : Any]] {
                 
                 var position = 0
                 var positionArray: [Int] = []
@@ -726,7 +726,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     positionArray.append(position)
                 }
                 
-                BaseController.sendAnalyticsTagImpressions(upcs, positionArray: positionArray, listName: listName, mainCategory: "carrusel", subCategory: subCategory, subSubCategory: subSubCategory)
+                BaseController.sendAnalyticsTagImpressions(upcs , positionArray: positionArray, listName: listName, mainCategory: "carrusel", subCategory: subCategory, subSubCategory: subSubCategory)
             }
             
         }

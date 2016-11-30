@@ -1052,7 +1052,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         detailService.buildParams(self.listId)
         detailService.callService([:],
             successBlock: { (result:[String:Any]) -> Void in
-                self.products = result["items"] as? [Any]
+                self.products = result["items"] as? [[String:Any]]
                 
                 if !self.analyticsSent {
                     
@@ -1067,7 +1067,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     let listName = self.listName!
                     let subCategory = ""
                     let subSubCategory = ""
-                    BaseController.sendAnalyticsTagImpressions(self.products!, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
+                    BaseController.sendAnalyticsTagImpressions(self.products! as! [[String : Any]], positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                     self.analyticsSent = true
                 }
                 

@@ -22,7 +22,7 @@ class GRFacets : GRBaseService {
     }
     
     func callService(requestParams params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.jsonFromObject(params)
+        self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in

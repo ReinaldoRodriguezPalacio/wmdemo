@@ -153,7 +153,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     override func filter(_ sender:UIButton){
         if self.filterController == nil {
             self.filterController = FilterProductsViewController()
-            self.filterController!.facet = self.facet as [Any]?
+            self.filterController!.facet = self.facet
             self.filterController!.hiddenBack = true
             self.filterController!.textToSearch = self.textToSearch
             self.filterController!.selectedOrder = self.idSort!
@@ -346,7 +346,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            NotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                             DispatchQueue.main.async {
                                 cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for: UIControlState())
                                 self.collection!.reloadData()

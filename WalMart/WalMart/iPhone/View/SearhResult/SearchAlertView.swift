@@ -68,7 +68,7 @@ class SearchAlertView: UIView {
         
         if underline != nil {
           let underlineString = NSMutableAttributedString(string:" \(underline!)  ", attributes:attrsUnderline)
-          messageString.appendAttributedString(underlineString)
+          messageString.append(underlineString)
         }
         
         if messageString.length > 48 && IS_IPHONE {

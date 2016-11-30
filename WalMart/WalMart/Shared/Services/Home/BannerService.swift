@@ -39,7 +39,7 @@ class BannerService : BaseService {
         print(params)
         self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
-            NotificationCenter.defaultCenter.post(name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
             
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in

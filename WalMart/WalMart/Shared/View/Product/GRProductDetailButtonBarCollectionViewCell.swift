@@ -64,7 +64,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         
         service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
             successBlock: { (result:[String:Any]) -> Void in
-                self.listButton.selected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc)
+                self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc)
                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                 alertView!.showDoneIcon()
               

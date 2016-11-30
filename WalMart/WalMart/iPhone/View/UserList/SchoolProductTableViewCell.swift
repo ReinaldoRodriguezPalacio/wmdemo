@@ -70,7 +70,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
         }
         total = (quantity * price.doubleValue)
         self.quantityIndicator!.setTitle(text!, for: UIControlState())
-        let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
+        let formatedPrice = CurrencyCustomLabel.formatString("\(total)" as NSString)
         self.total = formatedPrice
     
         self.productShortDescriptionLabel!.text = product["description"] as? String

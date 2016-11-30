@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         //Session --
         let authorizationService =  AuthorizationService()
         authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-            UserCurrentSession.sharedInstance().searchForCurrentUser()
+            UserCurrentSession.sharedInstance.searchForCurrentUser()
             },errorBlock:{ (error:NSError) in
                 print(error.localizedDescription)
                 
@@ -320,7 +320,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         NSLog("Device token: \(deviceTokenString)")
         print("Device token: \(deviceTokenString)")
         
-        UserCurrentSession.sharedInstance().deviceToken = deviceTokenString
+        UserCurrentSession.sharedInstance.deviceToken = deviceTokenString
         
         
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
@@ -332,7 +332,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
             print(notService.jsonFromObject(params as AnyObject!))
-        if UserCurrentSession.sharedInstance().finishConfig {
+        if UserCurrentSession.sharedInstance.finishConfig {
             notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
                 CustomBarViewController.addOrUpdateParam("showNotification", value: "true",forUser: false)

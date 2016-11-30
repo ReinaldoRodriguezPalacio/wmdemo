@@ -96,15 +96,15 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
                             return 1
                         }
                     case 4 :
-                        let calendar = Calendar(identifier: NSGregorianCalendar)
+                        var calendar = Calendar(identifier: .gregorian)
                         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-                        calendar!.timeZone = TimeZone.autoupdatingCurrent
-                        let closedDateComponents = (calendar! as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: closedDate!)
-                        let dayRangeClosedDate = (calendar! as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: closedDate!)
+                        calendar.timeZone = TimeZone.autoupdatingCurrent
+                        let closedDateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: closedDate!)
+                        let dayRangeClosedDate = (calendar as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: closedDate!)
                         //print("month:\(closedDateComponents.month) days:\(dayRangeClosedDate.length)")
                         
-                        let originalDateComponents = (calendar! as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: self.originalDate!)
-                        let originalRangeClosedDate = (calendar! as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: self.originalDate!)
+                        let originalDateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: self.originalDate!)
+                        let originalRangeClosedDate = (calendar as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: self.originalDate!)
                         //this day is last of month
                         
                         if closedDateComponents.day == originalDateComponents.day {
@@ -115,11 +115,11 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
                             return 1
                         }
                         
-                        if originalDateComponents.day == originalRangeClosedDate.length && originalDateComponents.day < dayRangeClosedDate.length {
+                        if originalDateComponents.day! == originalRangeClosedDate.length && originalDateComponents.day! < dayRangeClosedDate.length {
                             return 1
                         }
                         
-                        if closedDateComponents.day == dayRangeClosedDate.length && originalDateComponents.day > dayRangeClosedDate.length {
+                        if closedDateComponents.day! == dayRangeClosedDate.length && originalDateComponents.day! > dayRangeClosedDate.length {
                             return 1
                         }
                         
@@ -144,11 +144,11 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
      - returns: Bool returns true if the difference of days between the dates is equals to days parameter
      */
     func isDate(_ theDate:Date, partOfIntervalOfDays days:Int, fromDate:Date) -> Bool {
-        let calendar = Calendar(identifier: NSGregorianCalendar)
+        var calendar = Calendar(identifier: .gregorian)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-        calendar!.timeZone = TimeZone.autoupdatingCurrent
-        let components = (calendar! as NSCalendar).components(NSCalendar.Unit.day, from: fromDate, to: theDate, options: [])
-        return components.day % days == 0
+        calendar.timeZone = TimeZone.autoupdatingCurrent
+        let components = (calendar as NSCalendar).components(NSCalendar.Unit.day, from: fromDate, to: theDate, options: [])
+        return components.day! % days == 0
     }
     
     // MARK: - ABCalendarPickerDelegateProtocol
@@ -199,14 +199,14 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
      - returns: NSDate with date, hours and minutes
      */
     func createDateFrom(_ date:Date, forHour hour:Int, andMinute minute:Int) -> Date? {
-        let calendar = Calendar(identifier: NSGregorianCalendar)
+        var calendar = Calendar(identifier: .gregorian)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-        calendar!.timeZone = TimeZone.autoupdatingCurrent
-        let components = (calendar! as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: date)
+        calendar.timeZone = TimeZone.autoupdatingCurrent
+        var components = (calendar as NSCalendar).components([NSCalendar.Unit.year , NSCalendar.Unit.month , NSCalendar.Unit.day], from: date)
         components.second = 00
         components.minute = minute
         components.hour = hour
-        let otherDate = calendar!.date(from: components)
+        let otherDate = calendar.date(from: components)
         return otherDate
     }
     

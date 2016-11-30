@@ -73,8 +73,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         if loadImagefromUrl {
             self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIcon, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageIcon.image = image
-                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon!)
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
         }else{
@@ -95,8 +95,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         if loadImagefromUrl {
             self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageBackground.image = image
-                self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+                self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader!)
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
         }else{
@@ -118,7 +118,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                 print(error)
         }
         

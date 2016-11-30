@@ -76,8 +76,8 @@ class GRDepartmentTableViewCell : UITableViewCell {
         if loadHeader {
             self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageBackground.image = image
-                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
         }else{
@@ -87,8 +87,8 @@ class GRDepartmentTableViewCell : UITableViewCell {
         if loadImageIcon {
             self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageIcon.image = image
-                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
         }else{
@@ -107,7 +107,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
         self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
             print(error)
         }
         //self.titleLabel.text = title

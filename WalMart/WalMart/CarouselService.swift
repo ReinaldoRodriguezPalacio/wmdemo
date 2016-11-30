@@ -33,7 +33,7 @@ class CarouselService : BaseService {
         //print(params)
         self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
-            NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
 
             
             successBlock!(resultCall)
@@ -46,7 +46,7 @@ class CarouselService : BaseService {
     func getCarouselContent() -> [[String:Any]] {
         var carouselItems : [[String:Any]] = []
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return carouselItems
         }

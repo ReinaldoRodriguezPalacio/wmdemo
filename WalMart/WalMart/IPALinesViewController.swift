@@ -61,7 +61,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
                 self.imageBackground.image = image
                 self.searchProduct.imageBgCategory = image
                 
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     print("Error al presentar imagen")
             }
             self.searchProduct.imageIconCategory = UIImage(named: "default")

@@ -19,9 +19,9 @@ class UpdateUserProfileService : BaseService {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
-                if codeMessage.integerValue == 0 {
+                if codeMessage.intValue == 0 {
                   
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                     var usr : User
                     
@@ -34,8 +34,8 @@ class UpdateUserProfileService : BaseService {
                         
                         let resultProfileJSON = params["profile"] as! [String:Any]
                         
-                        usr.profile.name = resultProfileJSON["name"] as! String
-                        usr.profile.lastName = resultProfileJSON["lastName"] as! String
+                        usr.profile.name = resultProfileJSON["name"] as! NSString
+                        usr.profile.lastName = resultProfileJSON["lastName"] as! NSString
                         do {
                             try context.save()
                         } catch let error1 as NSError {

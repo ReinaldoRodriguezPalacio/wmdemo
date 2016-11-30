@@ -41,9 +41,9 @@ class WalMartSqliteDB: NSObject {
 
         
         var queueDB: FMDatabaseQueue = FMDatabaseQueue.dbQueue(withPath: dbPath)
-        queueDB.inDatabase({ (db:FMDatabase!) in
+        queueDB.inDatabase({ (db:FMDatabase?) in
             
-            if let rs = db.executeQuery(self.CREATE_PRODUCT_TABLE_QUERY, withArgumentsIn:nil) {
+            if let rs = db?.executeQuery(self.CREATE_PRODUCT_TABLE_QUERY, withArgumentsIn:nil) {
                 while rs.next() {
                     print(rs.resultDictionary())
                 }
@@ -51,7 +51,7 @@ class WalMartSqliteDB: NSObject {
                 rs.setParentDB(nil)
             }
         
-            if let rsCategories = db.executeQuery(self.CREATE_CATEGORIES_TABLE_QUERY, withArgumentsIn:nil) {
+            if let rsCategories = db?.executeQuery(self.CREATE_CATEGORIES_TABLE_QUERY, withArgumentsIn:nil) {
                 while rsCategories.next() {
                     print(rsCategories.resultDictionary())
                 }

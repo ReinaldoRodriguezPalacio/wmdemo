@@ -143,16 +143,16 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let iva = totalsItems["iva"] as String!
         let total = totalsItems["total"] as String!
         let totalSaving = totalsItems["totalSaving"] as String!
-        self.updateShopButton(total)
+        self.updateShopButton(total!)
         
         var newTotal = total
         var newTotalSavings = totalSaving
         if self.isEmployeeDiscount {
-            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
-            newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
+            newTotal = "\((total! as NSString).doubleValue - ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
+            newTotalSavings = "\((totalSaving! as NSString).doubleValue + ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
         }
         
-        totalsView.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
+        totalsView.setValues(subTotalText!, iva: iva!, total:newTotal!,totalSaving:newTotalSavings!)
     }
     
     override func loadShoppingCartService() {
@@ -161,7 +161,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         self.itemsInShoppingCart =  []
         if UserCurrentSession.sharedInstance.itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! [Any] as [Any]
+            self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! [[String : Any]]!
         }
         if self.itemsInShoppingCart.count == 0 {
             self.navigationController?.popToRootViewController(animated: true)
@@ -189,11 +189,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let subTotalText = totalsItems["subtotal"] as String!
         let iva = totalsItems["iva"] as String!
         if self.buttonShop != nil {
-            self.updateShopButton(total)
+            self.updateShopButton(total!)
         }
         
         if self.totalsView != nil {
-            self.totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
+            self.totalsView.setValues(subTotalText!, iva: iva!, total:total!,totalSaving:totalSaving!)
         }
         
         self.viewShoppingCart.delegate = self
@@ -237,7 +237,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 self.viewShoppingCart.reloadData()
                 self.updateTotalItemsRow()
             } else {
-                 self.onClose?(isClose: true)
+                 self.onClose?(true)
                 self.navigationController?.popViewController(animated: true)
             }
             
@@ -326,7 +326,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if self.itemsInShoppingCart.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
-            crossService.callService(upcValue, successBlock: { (result:[Any]?) -> Void in
+            crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false
@@ -336,7 +336,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC as [Any]
+                        var arrayUPCS = self.itemsUPC
                         arrayUPCS.sort(by: { (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
@@ -346,7 +346,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
-                        self.itemsUPC = [Any](array:resultArray)
+                        self.itemsUPC = resultArray as! [[String : Any]]
                         
                     }
                     if self.itemsInShoppingCart.count >  0  {
@@ -473,7 +473,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 self.viewLoad = nil
             }
             
-            self.onClose?(isClose:true)
+            self.onClose?(true)
             self.navigationController?.popViewController(animated: true)
             //self.navigationController!.popToRootViewControllerAnimated(true)
             }) { (error:NSError) -> Void in

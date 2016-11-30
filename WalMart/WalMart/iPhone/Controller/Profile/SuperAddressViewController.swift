@@ -225,7 +225,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             //self.sAddredssForm.defaultPrefered = false
             let neighborhoodID = result["neighborhoodID"] as! String!
             let storeID = result["storeID"] as! String!
-            self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+            self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
             }) { (error:NSError) -> Void in
         }
     }

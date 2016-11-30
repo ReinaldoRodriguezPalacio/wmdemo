@@ -1595,7 +1595,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func filter(_ sender:UIButton){
         if controllerFilter == nil {
             controllerFilter = FilterProductsViewController()
-            controllerFilter.facet = self.facet as [Any]?
+            controllerFilter.facet = self.facet as [[String:Any]]?
             controllerFilter.textToSearch = self.textToSearch
             controllerFilter.selectedOrder = self.idSort!//self.idSort! == "" ? "rating" :self.idSort!
             controllerFilter.isGroceriesSearch = self.btnSuper.isSelected

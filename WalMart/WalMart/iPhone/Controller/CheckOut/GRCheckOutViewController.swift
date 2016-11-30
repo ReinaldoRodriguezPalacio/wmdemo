@@ -368,10 +368,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if  self.orderOptionsItems?.count > 0 {
             self.selectedConfirmation  = IndexPath(row: 0, section: 0)
             let first = self.orderOptionsItems![0]
-            if let text = first!["desc"] as? String {
-                self.confirmation!.text = text
-            }
-            
+            let text = first["desc"]
+            self.confirmation!.text = text
         }
         
         self.confirmation!.onBecomeFirstResponder = {() in
@@ -382,9 +380,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
                 var itemsOrderOptions : [String] = []
                 for option in self.orderOptionsItems! {
-                    if let text = option!["desc"] as? String {
-                        itemsOrderOptions.append(text)
-                    }
+                    let text = option["desc"]
+                    itemsOrderOptions.append(text!)
                 }
                 
                 self.picker!.selected = self.selectedConfirmation
@@ -758,7 +755,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:[Any]) -> Void in
-                self.paymentOptionsItems = result as! [[String:Any]]
+                self.paymentOptionsItems = result as? [[String:Any]]
                 if result.count > 0 {
                     let option = result[0] as! [String:Any]
                     if let text = option["paymentType"] as? String {
@@ -1238,7 +1235,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                 }
-                self.slotsItems = result["slots"] as! [[String:Any]]
+                self.slotsItems = result["slots"] as? [[String:Any]]
                 //--self.addViewLoad()
                 endCallTypeService()
                 }) { (error:NSError) -> Void in
@@ -1280,7 +1277,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.addViewLoad()//--ok
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
-                var option = self.addressItems![indexPath.row] as! [String:Any]
+                var option = self.addressItems![indexPath.row] 
                 if let addressId = option["id"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
@@ -1546,7 +1543,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.shipmentAmount = shipmentTypeSel["cost"] as! Double
             
             let confirmTypeSel = self.orderOptionsItems![selectedConfirmation.row]
-            let confirmation = confirmTypeSel!["key"] as! String
+            let confirmation = confirmTypeSel["key"]
             
             let paymentSel = self.paymentOptionsItems![selectedPaymentType.row]
             let paymentSelectedId = paymentSel["id"] as! String
@@ -1562,7 +1559,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
            let totalDis = formatter.string(from: NSNumber(value: discount as Double))!
 
             
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
+            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation!, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:[String:Any]) -> Void in
                 

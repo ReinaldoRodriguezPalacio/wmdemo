@@ -63,7 +63,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     func setValuesWithSubtotal(_ subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
         super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
-        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
+        let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
         self.valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
         self.firstTotal = false
         self.subtotalY = totalSavingTitle.isHidden ? 0.0 : 18.0

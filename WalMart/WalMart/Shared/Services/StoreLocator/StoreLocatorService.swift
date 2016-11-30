@@ -27,7 +27,7 @@ class StoreLocatorService: BaseService {
                             
                             var store = self.findStoreById(storeID)
                             if store == nil {
-                                store = NSEntityDescription.insertNewObjectForEntityForName("Store", inManagedObjectContext: self.managedObjectContext!) as? Store
+                                store = NSEntityDescription.insertNewObject(forEntityName: "Store", into: self.managedObjectContext!) as? Store
                                 store!.storeID = storeID
                             }
                             
@@ -39,16 +39,16 @@ class StoreLocatorService: BaseService {
                             store!.opens = item["opens"] as? String
 
                             if let latSpanTxt = item["latSpan"] as? NSString {
-                                store!.latSpan = NSNumber(double: latSpanTxt.doubleValue)
+                                store!.latSpan = NSNumber(value: latSpanTxt.doubleValue)
                             }
                             if let lonSpanTxt = item["lonSpan"] as? NSString {
-                                store!.lonSpan = NSNumber(double: lonSpanTxt.doubleValue)
+                                store!.lonSpan = NSNumber(value: lonSpanTxt.doubleValue)
                             }
                             if let latPointTxt = item["latPoint"] as? NSString {
-                                store!.latitude = NSNumber(double: latPointTxt.doubleValue)
+                                store!.latitude = NSNumber(value: latPointTxt.doubleValue)
                             }
                             if let lonPointTxt = item["lonPoint"] as? NSString {
-                                store!.longitude = NSNumber(double: lonPointTxt.doubleValue)
+                                store!.longitude = NSNumber(value: lonPointTxt.doubleValue)
                             }
 
                         }

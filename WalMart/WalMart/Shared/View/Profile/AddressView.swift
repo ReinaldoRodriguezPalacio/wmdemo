@@ -394,7 +394,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                     if self.errorView == nil{
                         self.errorView = FormFieldErrorView()
                     }
-                    let stringToShow : NSString = error.localizedDescription
+                    let stringToShow : NSString = error.localizedDescription as NSString
                     let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
                     SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
                 }
@@ -536,7 +536,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     }
     
     func getParams() -> [String:Any]{
-        var paramsAddress : [String : AnyObject] = ["token":"token" as AnyObject,"city":self.city!.text! as AnyObject,"zipCode":self.zipcode!.text! as AnyObject,"street":self.street!.text! as AnyObject,"innerNumber":self.indoornumber!.text! as AnyObject,"state":self.state!.text! as AnyObject ,"county":self.city!.text! as AnyObject ,"neighborhoodID":self.idSuburb!,"name":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "preferred": self.defaultPrefered ? 1:0]
+        var paramsAddress : [String : Any] = ["token":"token","city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text! ,"innerNumber":self.indoornumber!.text!,"state":self.state!.text!,"county":self.city!.text!,"neighborhoodID":self.idSuburb!,"name":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "preferred": self.defaultPrefered ? 1:0]
         if idAddress != nil{
             paramsAddress.updateValue(self.idAddress! as AnyObject, forKey: "AddressID")
         }

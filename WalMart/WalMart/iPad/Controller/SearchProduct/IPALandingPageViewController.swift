@@ -315,7 +315,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
             self.filterController!.hiddenBack = true
             self.filterController!.selectedOrder = self.idSort!
             self.filterController!.textToSearch = ""
-            self.filterController!.facet = self.facet as [Any]?
+            self.filterController!.facet = self.facet as [[String:Any]]?
             self.filterController!.originalSearchContext = self.originalSearchContextType
             self.filterController!.delegate = self
             self.filterController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)

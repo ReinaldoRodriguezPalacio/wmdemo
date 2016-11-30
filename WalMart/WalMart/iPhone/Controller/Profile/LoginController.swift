@@ -413,7 +413,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     let addressService = AddressByUserService()
                     addressService.setManagerTempHeader()
                     addressService.callService({ (address:[String:Any]) -> Void in
-                        if let shippingAddress = address["shippingAddresses"] as? [Any]
+                        if let shippingAddress = address["shippingAddresses"] as? [[String:Any]]
                         {
                             if shippingAddress.count > 0 {
                                 let alertAddress = GRFormAddressAlertView.initAddressAlert()!
@@ -627,8 +627,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         if((FBSDKAccessToken.current()) != nil){
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil){
-                    print(result)
-                    self.loginWithEmail(result["email"] as! String, firstName: result["first_name"] as! String, lastName: result["last_name"] as! String, gender: result["gender"] as! String, birthDay:result["birthday"] as? String  == nil ? "" : result["birthday"] as! String)
+                    print(result!)
+                    let resultDic = result as! [String:Any]
+                    self.loginWithEmail(resultDic["email"] as! String, firstName: resultDic["first_name"] as! String, lastName: resultDic["last_name"] as! String, gender: resultDic["gender"] as! String, birthDay:resultDic["birthday"] as? String  == nil ? "" : resultDic["birthday"] as! String)
                 }else{
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")

@@ -22,7 +22,7 @@ class GRLoginService : GRBaseService {
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-            self.jsonFromObject(resultCall)
+            self.jsonFromObject(resultCall as AnyObject!)
 
             let newResultCall =  resultCall
             successBlock!(newResultCall)

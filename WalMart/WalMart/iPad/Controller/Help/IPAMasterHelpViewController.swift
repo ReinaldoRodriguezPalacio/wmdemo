@@ -35,14 +35,14 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         self.navigation.pushViewController(recent, animated: true)
         selected = 8 // 7
         
-        if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
-        {
-            if #available(iOS 8.0, *) {
+        if #available(iOS 8.0, *) {
+            if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
+            {
                 self.maximumPrimaryColumnWidth = 342
                 self.minimumPrimaryColumnWidth = 342
-            } else {
-                // Fallback on earlier versions
             }
+        } else {
+            // Fallback on earlier versions
         }
     }
     
@@ -227,10 +227,10 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
      */
     func loadGRServices(_ successBlock:((String) -> Void)?){
         
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
-        service.callService(params, successBlock: { (respose:[Any],resultDic:[String:Any]) in
+        service.callService(params!, successBlock: { (respose:[[String:Any]],resultDic:[String:Any]) in
             print("temina")
             if respose.count > 0 {
                 successBlock!("gr")

@@ -168,9 +168,9 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             let neighborhoodID = result["neighborhoodID"] as! String!
             let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode,"addressID":addressID] as [String:Any]
             
-            let dictSendpreferred = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
+            let dictSendpreferred = service.buildParams(city!, addressID: addressID, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
             
-            let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId,storeName: "", operationType: "C", preferred: false)
+            let dictSend = service.buildParams(city!, addressID: addressID, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: self.selectedstoreId,storeName: "", operationType: "C", preferred: false)
             service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
                 UserCurrentSession.sharedInstance.getStoreByAddress(address)  
                 service.callService(requestParams: dictSendpreferred, successBlock: { (result:[String:Any]) -> Void in

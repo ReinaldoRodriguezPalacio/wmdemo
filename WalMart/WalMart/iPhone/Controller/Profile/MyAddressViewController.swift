@@ -11,9 +11,9 @@ import Foundation
 class MyAddressViewController: NavigationViewController,  UITableViewDelegate, UITableViewDataSource , AddressViewCellDelegate, SWTableViewCellDelegate {
 
     var table: UITableView!
-    var arrayAddressShipping : [Any]!
-    var arrayAddressShippingGR : [Any]!
-    var arrayAddressFiscal : [Any]!
+    var arrayAddressShipping : [[String:Any]]!
+    var arrayAddressShippingGR : [[String:Any]]!
+    var arrayAddressFiscal : [[String:Any]]!
     
     var newAddressButton : WMRoundButton? = nil
     var viewLoad : WMLoadingView!
@@ -45,8 +45,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         self.table.separatorStyle = .none
         self.table.autoresizingMask = UIViewAutoresizing()
         self.titleLabel!.text = NSLocalizedString("profile.myAddress", comment: "")
-        self.arrayAddressShipping = [Any]()
-        self.arrayAddressFiscal = [Any]()
+        self.arrayAddressShipping = [[String:Any]]()
+        self.arrayAddressFiscal = [[String:Any]]()
         
         //let iconImage = UIImage(named:"button_bg")
         //let iconSelected = UIImage(named:"button_bg_active")
@@ -155,10 +155,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.arrayAddressFiscal = []
             self.arrayAddressShipping = []
             
-            if let fiscalAddress = resultCall["fiscalAddresses"] as? [Any] {
+            if let fiscalAddress = resultCall["fiscalAddresses"] as? [[String:Any]] {
                 self.arrayAddressFiscal = fiscalAddress
             }
-            if let shippingAddress = resultCall["shippingAddresses"] as? [Any] {
+            if let shippingAddress = resultCall["shippingAddresses"] as? [[String:Any]] {
                 self.arrayAddressShipping = shippingAddress
             }
             
@@ -207,7 +207,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             self.arrayAddressShippingGR = []
             
-            if  let resultAddress = resultCall["responseArray"] as? [Any] {
+            if  let resultAddress = resultCall["responseArray"] as? [[String:Any]] {
                  self.arrayAddressShippingGR = resultAddress
             }
 
@@ -281,15 +281,15 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         var item : [String:Any]
         if indexPath.section == 0{
             if btnSuper.isSelected {
-                item = self.arrayAddressShippingGR![indexPath.item] as! [String:Any]
+                item = self.arrayAddressShippingGR![indexPath.item] 
                 //isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
                 isViewLine = true
             } else {
-                item = self.arrayAddressShipping![indexPath.item] as! [String:Any]
+                item = self.arrayAddressShipping![indexPath.item] 
                 isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
             }
         }else{
-            item = self.arrayAddressFiscal![indexPath.item] as! [String:Any]
+            item = self.arrayAddressFiscal![indexPath.item] 
         }
         let name = item["name"] as! String
         if let pref = item["preferred"] as? NSNumber{
@@ -344,16 +344,16 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 var addressId = ""
                 var item : [String:Any]
                 if self.btnSuper.isSelected {
-                    item = self.arrayAddressShippingGR![indexPath!.row] as! [String:Any]
+                    item = self.arrayAddressShippingGR![indexPath!.row] 
                     if let addId =  item["id"] as? String {
                         addressId = addId
                         self.deleteAddressGR(addressId)
                     }
                 }else{
                     if indexPath!.section == 0{
-                        item = self.arrayAddressShipping![indexPath!.row] as! [String:Any]
+                        item = self.arrayAddressShipping![indexPath!.row] 
                     }else{
-                        item = self.arrayAddressFiscal![indexPath!.row] as! [String:Any]
+                        item = self.arrayAddressFiscal![indexPath!.row] 
                     }
                     if let addId =  item["addressID"] as? String {
                         addressId = addId
@@ -405,10 +405,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.superAddressController = SuperAddressViewController()
             self.superAddressController.showGRAddressForm = self.showGRAddressForm
             self.superAddressController!.allAddress =  self.arrayAddressShippingGR
-            let item = self.arrayAddressShippingGR![indexPath.item] as! [String:Any]
+            let item = self.arrayAddressShippingGR![indexPath.item] 
             self.superAddressController.addressId = item["id"] as! String
             self.superAddressController!.view.frame = self.view.frame
-            self.superAddressController.setValues(item["id"] as! String)
+            self.superAddressController.setValues(item["id"] as! NSString)
             self.superAddressController.isPreferred = (item["preferred"] as! Int) == 1
                       
             if let isAddressOK = item["isAddressOk"] as? String {
@@ -423,16 +423,17 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.addressController = AddressViewController()
             }
             var item: [String:Any]!
-            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [Any])
-            self.addressController!.allAddress =  allArray as [Any]!
+            var allArray = self.arrayAddressShipping
+            allArray!.append(array: arrayAddressFiscal)
+            self.addressController!.allAddress =  allArray
             
             if indexPath.section == 0{
-                item = self.arrayAddressShipping![indexPath.item] as! [String:Any]
+                item = self.arrayAddressShipping![indexPath.item] 
                 self.addressController!.typeAddress = TypeAddress.shiping
                  ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
             }else{
                 ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
-                item = self.arrayAddressFiscal![indexPath.item] as! [String:Any]
+                item = self.arrayAddressFiscal![indexPath.item] 
                 if let type = item["corporateName"] as? String{
                     if type == "" {
                         self.addressController!.typeAddress = TypeAddress.fiscalPerson
@@ -469,7 +470,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.addressController!.defaultPrefered = true
             }
             
-            let allArray = self.arrayAddressShipping!.addingObjects(from: arrayAddressFiscal as [Any])
+            var allArray = self.arrayAddressShipping
+            allArray!.append(array: arrayAddressFiscal)
             self.addressController!.allAddress =  allArray as [Any]!
             self.addressController!.typeAddress = TypeAddress.shiping
             self.addressController!.addressFiscalCount = self.arrayAddressFiscal.count
@@ -509,7 +511,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 let neighborhoodID = result["neighborhoodID"] as! String!
                 let storeID = result["storeID"] as! String!
                 
-                let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "C", preferred: true)
+                let dictSend = service.buildParams(city!, addressID: addressID, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: storeID!,storeName: "", operationType: "C", preferred: true)
                 
                 service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
                     self.callServiceAddressGR()
@@ -561,7 +563,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             let neighborhoodID = result["neighborhoodID"] as! String!
             let storeID = result["storeID"] as! String!
             
-            let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "B", preferred: false)
+            let dictSend = service.buildParams(city!, addressID: idAddress, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: storeID!,storeName: "", operationType: "B", preferred: false)
             
             service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
 
