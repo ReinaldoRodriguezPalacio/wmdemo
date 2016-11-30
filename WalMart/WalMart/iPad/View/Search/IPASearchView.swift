@@ -280,7 +280,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     
     
     func validateSearch(toValidate:String) -> Bool{
-        let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú /]{0,100}$";
+        let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú& /]{0,100}$";
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
     
