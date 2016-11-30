@@ -57,13 +57,13 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 struct SearchResult {
-    var products: [Any]? = nil
+    var products: [[String:Any]]? = nil
     var totalResults = -1
     var resultsInResponse = 0
    
     mutating func addResults(_ otherProducts:[[String:Any]]) {
         if self.products != nil {
-            self.products = self.products!.addingObjects(from: otherProducts)
+           self.products!.append(array: otherProducts)
         }
         else {
             self.products = otherProducts
@@ -142,10 +142,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var isLoading  = false
     var hasEmptyView = false
     
-    var itemsUPCMG: [Any]? = []
-    var itemsUPCGR: [Any]? = []
-    var itemsUPCMGBk: [Any]? = []
-    var itemsUPCGRBk: [Any]? = []
+    var itemsUPCMG: [[String:Any]]? = []
+    var itemsUPCGR: [[String:Any]]? = []
+    var itemsUPCMGBk: [[String:Any]]? = []
+    var itemsUPCGRBk: [[String:Any]]? = []
     
     var didSelectProduct =  false
     var finsihService =  false
@@ -567,7 +567,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
 //        }
 //        
-        item = self.allProducts?[indexPath.item] as! [String:Any]
+        item = self.allProducts![indexPath.item]
         let upc = item["upc"] as! String
         let description = item["description"] as? String
         
@@ -834,7 +834,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:[String:Any]) -> Void in
                 if result["items"] != nil {
-                 self.itemsUPCGR = result["items"] as? [Any]
+                    self.itemsUPCGR = result["items"] as? [[String:Any]]
                 }else {
                  self.itemsUPCGR = []
                 }
@@ -852,7 +852,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.upcsToShow?.count > 0 {
             let serviceUPC = SearchItemsByUPCService()
             serviceUPC.callService(self.upcsToShow!, successJSONBlock: { (result:JSON) -> Void in
-                self.itemsUPCMG = result.arrayObject
+                self.itemsUPCMG = result.arrayObject as? [[String : Any]]
                 actionSuccess?()
                 }) { (error:NSError) -> Void in
                     actionSuccess?()
@@ -889,8 +889,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
-        service.callService(params,
-            successBlock:{ (arrayProduct:[Any]?,facet:[Any],resultDic:[String:Any]) in
+        service.callService(params!,
+            successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
                 
                 let landingMg = resultDic["landingPage"] as! [String:Any]
                 self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
@@ -901,7 +901,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     
-                    if let item = arrayProduct?[0] as? [String:Any] {
+                    if let item = arrayProduct![0] as? [String:Any] {
                         //println(item)
                         if let results = item["resultsInResponse"] as? NSString {
                             self.mgResults!.resultsInResponse += results.integerValue
@@ -918,7 +918,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         let imageURL = IS_IPAD ? self.landingPageMG!["imgipad"] as! String : self.landingPageMG!["imgiphone"] as! String
                         self.bannerView.setImageWith(URLRequest(url:URL(string: imageURL)!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                             self.bannerView.image = image//"http://\(imageURL)"
-                        }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+                        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                             print("Error al presentar imagen")
                         }
                         
@@ -1021,7 +1021,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
-        service.callService(params!, successBlock: { (arrayProduct:[Any]?, resultDic:[String:Any]) -> Void in
+        service.callService(params!, successBlock: { (arrayProduct:[[String:Any]]?, resultDic:[String:Any]) -> Void in
             
             self.landingPageGR = resultDic["landingPage"] as? [String:Any]
             if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -1031,7 +1031,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     let imageURL = IS_IPAD ? self.landingPageGR!["imgipad"] as! String : self.landingPageGR!["imgiphone"] as! String
                     self.bannerView.setImageWith(URLRequest(url:URL(string: imageURL)!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                         self.bannerView.image = image //"http://\(imageURL)"
-                    }) { (request:URLRequest, response:HTTPURLResponse?, error:NSError) -> Void in
+                    }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                         print("Error al presentar imagen")
                     }
                     self.isLandingPage = true
@@ -1041,7 +1041,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.btnSuper.isSelected = true
                 }
                 
-                if let item = arrayProduct?[0] as? [String:Any] {
+                if let item = arrayProduct![0] as? [String:Any] {
                     //println(item)
                     if let results = item["resultsInResponse"] as? NSString {
                         self.grResults!.resultsInResponse += results.integerValue
@@ -1220,20 +1220,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [Any])
-                        var filtredProducts : [Any] = []
+                        self.allProducts?.append(array: self.itemsUPCMG!)
+                        var filtredProducts : [[String:Any]] = []
                         for product in self.mgResults!.products! {
-                            let productDict = product as! [String:Any]
+                            let productDict = product 
                             if let productUPC =  productDict["upc"] as? String {
-                                if !self.itemsUPCMG!.contains(productUPC) {
-                                    filtredProducts.append(productDict as AnyObject)
+                                if !self.itemsUPCMG!.contains(where:{ return ($0["upc"] as! String) == productUPC }) {
+                                    filtredProducts.append(productDict)
                                 }
                             }
                         }
-                        self.allProducts?.addObjects(from: filtredProducts)
+                        self.allProducts?.append(array: filtredProducts)
                     } else {
                         if self.mgResults!.products != nil{
-                            self.allProducts?.addObjects(from: self.mgResults!.products as! [Any])
+                            self.allProducts?.append(array: self.mgResults!.products!)
                         }
                     }
                 }
@@ -1244,20 +1244,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCGR as! [Any])
-                        var filtredProducts : [Any] = []
+                        self.allProducts?.append(array: self.itemsUPCGR!)
+                        var filtredProducts : [[String:Any]] = []
                             for product in self.grResults!.products! {
-                                let productDict = product as! [String:Any]
+                                let productDict = product 
                                 if let productUPC =  productDict["upc"] as? String {
-                                    if !self.itemsUPCGR!.contains(productUPC) {
-                                        filtredProducts.append(productDict as AnyObject)
+                                    if !self.itemsUPCGR!.contains(where: { return ($0["upc"] as! String) == productUPC }) {
+                                        filtredProducts.append(productDict)
                                     }
                                 }
                             }
                         
-                        self.allProducts?.addObjects(from: filtredProducts)
+                        self.allProducts?.append(array: filtredProducts)
                     } else {
-                        self.allProducts?.addObjects(from: self.grResults!.products as! [Any])
+                        self.allProducts?.append(array: self.grResults!.products!)
                     }
                 }
             }
@@ -1268,20 +1268,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCGR as! [Any])
-                        var filtredProducts : [Any] = []
+                        self.allProducts?.append(array: self.itemsUPCGR!)
+                        var filtredProducts : [[String:Any]] = []
                         for product in self.grResults!.products! {
-                            let productDict = product as! [String:Any]
+                            let productDict = product 
                             if let productUPC =  productDict["upc"] as? String {
-                                if !self.itemsUPCGR!.contains(productUPC) {
-                                    filtredProducts.append(productDict as AnyObject)
+                                if !self.itemsUPCGR!.contains(where: { return ($0["upc"] as! String) == productUPC }) {
+                                    filtredProducts.append(productDict)
                                 }
                             }
                         }
-                        self.allProducts?.addObjects(from: filtredProducts)
+                        self.allProducts?.append(array: filtredProducts)
                     } else {
                         if self.grResults!.products != nil{
-                            self.allProducts?.addObjects(from: self.grResults!.products as! [Any])
+                            self.allProducts?.append(array: self.grResults!.products!)
                         }
                     }
                 }
@@ -1292,23 +1292,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.allProducts = []
                 if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [Any])
-                        var filtredProducts : [Any] = []
+                        self.allProducts?.append(array: self.itemsUPCMG!)
+                        var filtredProducts : [[String:Any]] = []
                         for product in self.mgResults!.products! {
-                            let productDict = product as! [String:Any]
+                            let productDict = product
                             if let productUPC =  productDict["upc"] as? String {
-                                if !self.itemsUPCMG!.contains(productUPC) {
-                                    filtredProducts.append(productDict as AnyObject)
+                                if !self.itemsUPCMG!.contains(where: { return ($0["upc"] as! String) == productUPC }) {
+                                    filtredProducts.append(productDict)
                                 }
                             }
                         }
-                        self.allProducts?.addObjects(from: filtredProducts)
+                        self.allProducts?.append(array: filtredProducts)
                     } else {
-                        self.allProducts?.addObjects(from: self.mgResults!.products as! [Any])
+                        self.allProducts?.append(array: self.mgResults!.products!)
                     }
                 }else{//new validate
                     if self.itemsUPCMG?.count > 0 {
-                        self.allProducts?.addObjects(from: self.itemsUPCMG as! [Any])
+                        self.allProducts?.append(array: self.itemsUPCMG!)
                     }
                 }
             }
@@ -1337,49 +1337,77 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 switch (FilterType(rawValue: self.idSort!)!) {
                 case .descriptionAsc :
                     //println("descriptionAsc")
-                    self.allProducts?.sort(using: [NSSortDescriptor(key: "description", ascending: true)])
+                    self.allProducts?.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                        let description1:String = dictionary1["description"] as! String
+                        let description2:String = dictionary2["description"] as! String
+                        
+                        if description1 < description2 {
+                            return true
+                        }
+                        else if (description1 > description2) {
+                            return false
+                        }
+                        else {
+                            return false
+                        }
+                        
+                    })
                     //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
                 case .descriptionDesc :
                     //println("descriptionDesc")
-                    self.allProducts?.sort(using: [NSSortDescriptor(key: "description", ascending: false)])
+                    self.allProducts?.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                        let description1:String = dictionary1["description"] as! String
+                        let description2:String = dictionary2["description"] as! String
+                        
+                        if description1 < description2 {
+                            return false
+                        }
+                        else if (description1 > description2) {
+                            return true
+                        }
+                        else {
+                            return false
+                        }
+                        
+                    })
                     //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
                 case .priceAsc :
                     //println("priceAsc")
-                    self.allProducts?.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                        let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                    self.allProducts?.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                        let priceOne:Double = self.priceValueFrom(dictionary1)
+                        let priceTwo:Double = self.priceValueFrom(dictionary2)
                         
                         if priceOne < priceTwo {
-                            return ComparisonResult.orderedAscending
+                            return true
                         }
                         else if (priceOne > priceTwo) {
-                            return ComparisonResult.orderedDescending
+                            return false
                         }
                         else {
-                            return ComparisonResult.orderedSame
+                            return false
                         }
                         
-                    } as! (Any, Any) -> ComparisonResult)
+                    })
                    
                 case .none :
                     print("Not sorted")
                 default :
                     //println("priceDesc")
-                    self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                        let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                        let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                    self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                        let priceOne:Double = self.priceValueFrom(dictionary1)
+                        let priceTwo:Double = self.priceValueFrom(dictionary2)
                         
                         if priceOne > priceTwo {
-                            return ComparisonResult.orderedAscending
+                            return false
                         }
                         else if (priceOne < priceTwo) {
-                            return ComparisonResult.orderedDescending
+                            return true
                         }
                         else {
-                            return ComparisonResult.orderedSame
+                            return false
                         }
                         
-                    } as! (Any, Any) -> ComparisonResult)
+                    })
                 }
             }
             if self.emptyMGGR != nil {
@@ -1706,48 +1734,76 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if self.originalSearchContextType != .withTextForCamFind {
                 self.allProducts? = []
             }
-            self.allProducts?.addObjects(from: result.arrayObject!)
+            self.allProducts?.append(array: result.arrayObject! as! [[String:Any]])
             self.mgResults?.totalResults = self.allProducts!.count
             self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
                 //println("descriptionAsc")
-                self.allProducts!.sort(using: [NSSortDescriptor(key: "description", ascending: true)])
-            case .descriptionDesc :
-                //println("descriptionDesc")
-                self.allProducts!.sort(using: [NSSortDescriptor(key: "description", ascending: false)])
-            case .priceAsc :
-                //println("priceAsc")
-                self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let description1:String = dictionary1["description"] as! String
+                    let description2:String = dictionary2["description"] as! String
                     
-                    if priceOne < priceTwo {
-                        return ComparisonResult.orderedAscending
+                    if description1 < description2 {
+                        return true
                     }
-                    else if (priceOne > priceTwo) {
-                        return ComparisonResult.orderedDescending
+                    else if (description1 > description2) {
+                        return false
                     }
                     else {
-                        return ComparisonResult.orderedSame
+                        return false
+                    }
+                    
+                })
+            case .descriptionDesc :
+                //println("descriptionDesc")
+                self.allProducts!.sort(by:{ (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let description1:String = dictionary1["description"] as! String
+                    let description2:String = dictionary2["description"] as! String
+                    
+                    if description1 < description2 {
+                        return false
+                    }
+                    else if (description1 > description2) {
+                        return true
+                    }
+                    else {
+                        return false
+                    }
+                    
+                })
+            case .priceAsc :
+                //println("priceAsc")
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let priceOne:Double = self.priceValueFrom(dictionary1)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2)
+                    
+                    if priceOne < priceTwo {
+                        return true
+                    }
+                    else if (priceOne > priceTwo) {
+                        return false
+                    }
+                    else {
+                        return false
                     }
                     
                 })
             case .none : print("Not sorted")
             case .priceDesc :
                 //println("priceDesc")
-                self.allProducts!.sort(comparator: { (dictionary1:AnyObject!, dictionary2:AnyObject!) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let priceOne:Double = self.priceValueFrom(dictionary1)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2)
                     
                     if priceOne > priceTwo {
-                        return ComparisonResult.orderedAscending
+                        return false
                     }
                     else if (priceOne < priceTwo) {
-                        return ComparisonResult.orderedDescending
+                        return true
                     }
                     else {
-                        return ComparisonResult.orderedSame
+                        return false
                     }
                     
                 })
@@ -1860,7 +1916,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             prodQuantity = "50"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(Int(equivalence!)),upcProduct:cell.upc)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc)
             
         }else{
             prodQuantity = "1"
@@ -1885,7 +1941,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
-                    NotificationCenter.default.postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 }else{
                     self.addItemToList(cell, quantity:quantity)
                 }
@@ -1947,7 +2003,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            NotificationCenter.default.postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                            NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                         }
                     )
                 }
@@ -2006,9 +2062,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let serviceUPC = SearchItemsByUPCService()
             serviceUPC.callService(self.findUpcsMg as! [String], successJSONBlock: { (result:JSON) -> Void in
                 //self.itemsUPCMG = result.arrayObject
-                let upcs : [Any] = result.arrayObject!
+                let upcs : [[String:Any]] = result.arrayObject! as! [[String : Any]]
                 if upcs.count > 0 {
-                self.allProducts?.addObjects(from: upcs as [Any])
+                self.allProducts?.append(array: upcs)
                 self.finsihService =  true
                 self.invokeServiceUpc =  true
                 self.collection?.reloadData()
@@ -2115,3 +2171,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
 }
+ 
+ extension Array {
+    mutating func append(array:Array) {
+        for element in array {
+            self.append(element)
+        }
+    }
+ }
+ 
+ extension Dictionary {
+    mutating func update(from:Dictionary) {
+        for (key,value) in from {
+            self.updateValue(value, forKey:key)
+        }
+    }
+ }

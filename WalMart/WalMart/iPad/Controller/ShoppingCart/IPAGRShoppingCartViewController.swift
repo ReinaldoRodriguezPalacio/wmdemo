@@ -200,7 +200,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR())")
                 } else {
                     self.navigationController!.popViewController(animated: true)
-                    self.onClose?(isClose:true)
+                    self.onClose?(true)
                   
                 }
                 
@@ -220,13 +220,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         let imageHead = UIImage(named:"detail_HeaderMail")
         let imageHeader = UIImage(from: self.viewHerader)
         let screen = self.tableShoppingCart.screenshot()
-        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader,screen])
-        let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,screen!])
+        let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)
         popup!.present(from: CGRect(x: 620, y: 650, width: 300, height: 250), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.down, animated: true)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: NSError?) in
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
                 if completed && !activityType!.contains("com.apple")   {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
@@ -258,7 +258,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.selectQuantityGR?.closeAction()
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     
-                    NotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     

@@ -140,17 +140,17 @@ class UserWishlistService : BaseService {
         }
         let array  =  (self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
         
-        var returnDictionary = [:]
-        var items : [Any] = []
+        var returnDictionary: [String:Any] = [:]
+        var items : [[String:Any]] = []
         //var subtotal : Double = 0.0
         //var totalQuantity = 0
         for itemWL in array {
-            let dictItem = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable,"category":itemWL.product.department]
+            let dictItem: [String:Any] = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable,"category":itemWL.product.department]
             items.append(dictItem)
         }
         
         returnDictionary = ["items":items]
-        successBlock!(returnDictionary as! [String : Any])
+        successBlock!(returnDictionary)
     }
     
     

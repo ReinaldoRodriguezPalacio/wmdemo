@@ -81,7 +81,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         if (productPriceThrough as NSString).doubleValue > 0 {
-            let formatedSaving = CurrencyCustomLabel.formatString(productPriceThrough)
+            let formatedSaving = CurrencyCustomLabel.formatString(productPriceThrough as NSString)
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
             productPriceThroughLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)

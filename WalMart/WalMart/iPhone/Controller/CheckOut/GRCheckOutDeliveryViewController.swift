@@ -419,7 +419,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func getHourToShow(_ hour:String) -> String{
         var cellText = hour
         let firstRange = cellText.range(of: "(")
-        cellText = cellText.substring(from: firstRange)
+        //TODO: checar este substring
+        //cellText = cellText.substring(from: firstRange)
         cellText = cellText.replacingOccurrences(of: ")", with: "", options: NSString.CompareOptions.literal, range: nil)
         cellText = cellText.replacingOccurrences(of: "-", with: "y", options: NSString.CompareOptions.literal, range: nil)
         return "Entre \(cellText)"

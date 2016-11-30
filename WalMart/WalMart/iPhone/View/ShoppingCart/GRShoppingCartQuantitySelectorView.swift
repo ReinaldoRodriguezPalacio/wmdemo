@@ -147,16 +147,16 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func chngequantity(_ sender:AnyObject) {
         
         if let btnSender = sender as? UIButton {
-            var resultText : NSString = ""
+            var resultText : String = ""
             
             
             resultText = lblQuantity.text! + btnSender.titleLabel!.text!
-            resultText = resultText.substring(from: 1) as NSString
-            if resultText.integerValue > 0 && resultText.integerValue <= 10 {
+            resultText = (resultText as NSString).substring(from: 1) as String
+            if (resultText as NSString).integerValue > 0 && (resultText as NSString).integerValue <= 10 {
                 lblQuantity.text = resultText as String
             }else {
-                let tmpResult : NSString = "0" + btnSender.titleLabel!.text!
-                if tmpResult.integerValue > 0 {
+                let tmpResult : String = "0" + btnSender.titleLabel!.text!
+                if (tmpResult as NSString).integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }
             }
@@ -213,12 +213,12 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         }
     }
     
-    func userSelectValue(_ value:String!) {
+    func userSelectValue(_ value:String) {
         var resultText : NSString = ""
         
         if first {
-            var tmpResult : NSString = value as NSString
-            tmpResult = tmpResult.integerValue < 10 ? "0\(value)" : value
+            var tmpResult : String = value
+            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value)" : value
             if tmpResult != "00"{
             lblQuantity.text = tmpResult as String
                 first = false
@@ -242,8 +242,8 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 
     
     func userSelectDelete() {
-        let resultText : NSString = "0" + lblQuantity.text!
-        lblQuantity.text = resultText.substring(to: 2)
+        let resultText : String = "0" + lblQuantity.text!
+        lblQuantity.text = (resultText as NSString).substring(to: 2)
         if lblQuantity.text == "00" {
             lblQuantity.text = "01"
             first = true
@@ -254,7 +254,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func updateQuantityBtn(){
             let intQuantity = Int(lblQuantity.text!)
             let result = priceProduct.doubleValue * Double(intQuantity!)
-            let strPrice = CurrencyCustomLabel.formatString("\(result)")
+            let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
             let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
             let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
             

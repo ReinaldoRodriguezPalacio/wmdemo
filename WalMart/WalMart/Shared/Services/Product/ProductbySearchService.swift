@@ -51,7 +51,7 @@ class ProductbySearchService : BaseService {
     }
     
     
-    func callService(_ params:[String:Any], successBlock:(([Any],_ facet:[Any],_ resultDic:[String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any], successBlock:(([[String:Any]],_ facet:[[String:Any]],_ resultDic:[String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("PARAMS FOR ProductbySearchService")
         self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
@@ -74,7 +74,7 @@ class ProductbySearchService : BaseService {
                     //println(items)
                     self.saveKeywords(items) //Creating keywords
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:[String:Any]]
+                        var item = items[idx] 
                         item["type"] = ResultObjectType.Mg.rawValue
                         newItemsArray.append(item)
                     }

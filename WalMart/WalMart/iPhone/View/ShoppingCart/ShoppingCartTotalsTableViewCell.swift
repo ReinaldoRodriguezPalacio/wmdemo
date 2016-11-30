@@ -95,8 +95,8 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
     func setValues(_ subtotal: String,iva: String,total: String,totalSaving:String){
         
         if iva != "" {
-            let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-            let formatedIVA = CurrencyCustomLabel.formatString(iva)
+            let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
+            let formatedIVA = CurrencyCustomLabel.formatString(iva as NSString)
             valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
             valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
             self.valueSubtotal.isHidden = false
@@ -110,12 +110,12 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
             self.subtotalTitle.isHidden = true
             self.iva.isHidden = true
         }
-        let formatedTotal = CurrencyCustomLabel.formatString(total)
+        let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
         valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
         
         let totSaving = totalSaving as NSString
         if totSaving.doubleValue > 0 {
-            let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving)
+            let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving as NSString)
             valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(12), color:  WMColor.green, interLine: false)
             
             totalSavingTitle.isHidden = false

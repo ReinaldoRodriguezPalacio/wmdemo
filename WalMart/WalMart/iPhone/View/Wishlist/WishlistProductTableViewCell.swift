@@ -104,7 +104,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         self.isPreorderable = "\(isPreorderable)"
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
-        let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
+        let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         if saving.doubleValue > 0 {

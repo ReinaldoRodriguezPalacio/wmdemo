@@ -27,7 +27,7 @@ class ShoppingCartProductsService : BaseService {
                     
                     //println("Items in shoppingCart: \(resultCall)")
                     
-                    let itemsInShoppingCart = resultCall["items"] as! [Any]
+                    let itemsInShoppingCart = resultCall["items"] as! [[String:Any]]
                     
                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -166,7 +166,7 @@ class ShoppingCartProductsService : BaseService {
             predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Mg.rawValue)
         }
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
-        var returnDictionary = [:]
+        var returnDictionary:[String:Any] = [:]
         var items : [Any] = []
         var subtotal : Double = 0.0
         var iva : Double = 0.0
@@ -220,7 +220,7 @@ class ShoppingCartProductsService : BaseService {
             var productsDelete: [[String : String]] = []
             for itemDeleted in deteted {
                 
-                itemDeleted.status = CartStatus.synchronized.rawValue
+                itemDeleted.status = NSNumber(value: CartStatus.synchronized.rawValue)
                 print("\(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"Shopping Cart","quantity":"\(itemDeleted.product.quantity)"])")
                 productsDelete.append(["name":"\(itemDeleted.product.desc)","id":"\(itemDeleted.product.upc)","category":"Shopping Cart","quantity":"\(itemDeleted.product.quantity)"])
 

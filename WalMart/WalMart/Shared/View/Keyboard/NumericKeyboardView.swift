@@ -9,7 +9,7 @@
 import Foundation
 
 protocol KeyboardViewDelegate {
-    func userSelectValue(_ value:String!)
+    func userSelectValue(_ value:String)
     func userSelectDelete()
 }
 

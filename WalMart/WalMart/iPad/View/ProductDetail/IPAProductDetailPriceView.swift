@@ -45,11 +45,11 @@ class IPAProductDetailPriceView : UIView {
         
       
         
-        let originalPriceFormatedValue = "\(CurrencyCustomLabel.formatString(originalPrice))"
-        let currentPriceFormatedValue = "\(CurrencyCustomLabel.formatString(currentPrice))"
+        let originalPriceFormatedValue = "\(CurrencyCustomLabel.formatString(originalPrice as NSString))"
+        let currentPriceFormatedValue = "\(CurrencyCustomLabel.formatString(currentPrice as NSString))"
         
         let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
-        let savingPriceFormatedValue = "\(ahorrasLabel) \(CurrencyCustomLabel.formatString(savingPrice))"
+        let savingPriceFormatedValue = "\(ahorrasLabel) \(CurrencyCustomLabel.formatString(savingPrice as NSString))"
         
         originalPriceLabel.updateMount(originalPriceFormatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
         currentPriceLabel.updateMount(currentPriceFormatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.gray, interLine: false)

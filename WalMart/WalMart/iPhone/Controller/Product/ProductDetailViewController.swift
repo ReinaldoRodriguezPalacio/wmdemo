@@ -73,7 +73,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var indexSelected  : Int = 0
     var addOrRemoveToWishListBlock : (() -> Void)? = nil
     var gestureCloseDetail : UITapGestureRecognizer!
-    var itemsCrossSellUPC : [Any]! = []
+    var itemsCrossSellUPC : [[String:Any]]! = []
     var isActive : Bool! = true
     var isPreorderable : Bool = false
     var onHandInventory : NSString = "0"
@@ -442,7 +442,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 addedAlertWL.imageBlurView.frame = CGRect(x: 0, y: -312, width: 320, height: 360)
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
-                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void? in
+                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                         added(true)
             

@@ -403,7 +403,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             }
             if productDetailButton!.detailProductCart?.quantity != nil {
-                selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart?.quantity.stringValue)
+                selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
                 selectQuantityGR?.first = true
                 selectQuantityGR?.showNoteButton()
             }

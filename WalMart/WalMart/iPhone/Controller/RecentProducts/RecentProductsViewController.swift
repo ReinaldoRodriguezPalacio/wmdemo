@@ -76,7 +76,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     func invokeRecentProducts(){
         let service = GRRecentProductsService()
         service.callService({ (resultado:[String:Any]) -> Void in
-            self.recentProductItems = resultado["responseArray"]
+            self.recentProductItems = resultado["responseArray"] as! [[String : Any]]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -99,7 +99,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
-        let objProduct = recentProductItems[indexPath.row] as! [String:Any]
+        let objProduct = recentProductItems[indexPath.row] 
         let img = objProduct["imageUrl"] as! String
         let description = objProduct["description"] as! String
         let price = objProduct["price"] as! NSNumber

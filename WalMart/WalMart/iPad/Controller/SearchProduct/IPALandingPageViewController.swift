@@ -374,9 +374,9 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.nameSelected = name
         let params = service.buildParamsForSearch(text: "", family: family, line: line, sort: self.idSort, departament: department, start: startOffSet, maxResult: self.maxResult)
         service.callService(params!,
-                            successBlock:{ (arrayProduct:[Any]?,facet:[Any],resultDic:[String:Any]) in
+                            successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
             //self.allProducts =  []
-            self.allProducts!.addObjects(from: arrayProduct!)
+            self.allProducts!.append(array: arrayProduct!)
                 self.collection?.reloadData()
             NotificationCenter.default.post(name: Notification.Name(rawValue: "FINISH_SEARCH"), object: nil)
             self.showLoadingIfNeeded(true)
@@ -682,7 +682,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
                                                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.default.postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                         }
                     )
                 }
@@ -724,7 +724,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
                                                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.default.postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                                                 DispatchQueue.main.async {
                                                     cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for: UIControlState())
                                                     self.collection!.reloadData()
@@ -803,48 +803,72 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
             if self.originalSearchContextType != .withTextForCamFind {
                 self.allProducts? = []
             }
-            self.allProducts?.addObjects(from: result.arrayObject!)
+            self.allProducts?.append(array: result.arrayObject! as! Array<[String : Any]>)
            // self.mgResults?.totalResults = self.allProducts!.count
             self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
                 //println("descriptionAsc")
-                self.allProducts!.sort(using: [NSSortDescriptor(key: "description", ascending: true)])
-            case .descriptionDesc :
-                //println("descriptionDesc")
-                self.allProducts!.sort(using: [NSSortDescriptor(key: "description", ascending: false)])
-            case .priceAsc :
-                //println("priceAsc")
-                self.allProducts!.sort(comparator: { (dictionary1:Any, dictionary2:Any) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
-                    
-                    if priceOne < priceTwo {
-                        return ComparisonResult.orderedAscending
+                self.allProducts!.sort(by:{ (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    if (dictionary1["description"] as! String) < (dictionary2["description"] as! String) {
+                        return false
                     }
-                    else if (priceOne > priceTwo) {
-                        return ComparisonResult.orderedDescending
+                    else if (dictionary1["description"] as! String) > (dictionary2["description"] as! String) {
+                        return true
                     }
                     else {
-                        return ComparisonResult.orderedSame
+                        return true
+                    }
+                    
+                })
+
+            case .descriptionDesc :
+                //println("descriptionDesc")
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    if (dictionary1["description"] as! String) < (dictionary2["description"] as! String) {
+                        return true
+                    }
+                    else if (dictionary1["description"] as! String) > (dictionary2["description"] as! String) {
+                        return false
+                    }
+                    else {
+                        return false
+                    }
+                    
+                })
+
+            case .priceAsc :
+                //println("priceAsc")
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let priceOne:Double = self.priceValueFrom(dictionary1)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2)
+                    
+                    if priceOne < priceTwo {
+                        return false
+                    }
+                    else if (priceOne > priceTwo) {
+                        return true
+                    }
+                    else {
+                        return true
                     }
                     
                 })
             case .none : print("Not sorted")
             case .priceDesc :
                 //println("priceDesc")
-                self.allProducts!.sort(comparator: { (dictionary1:Any, dictionary2:Any) -> ComparisonResult in
-                    let priceOne:Double = self.priceValueFrom(dictionary1 as! [String:Any])
-                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! [String:Any])
+                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                    let priceOne:Double = self.priceValueFrom(dictionary1)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2)
                     
                     if priceOne > priceTwo {
-                        return ComparisonResult.orderedAscending
+                        return true
                     }
                     else if (priceOne < priceTwo) {
-                        return ComparisonResult.orderedDescending
+                        return false
                     }
                     else {
-                        return ComparisonResult.orderedSame
+                        return false
                     }
                     
                 })

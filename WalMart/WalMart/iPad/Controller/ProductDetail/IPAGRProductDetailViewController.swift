@@ -62,14 +62,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         print("parametro para signals GR:::\(self.indexRowSelected)")
         
-        let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let productService = GRProductDetailService(dictionary:signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         let params = productService.buildParams(upc as String, eventtype: eventType,stringSearch : self.stringSearch,position:"\(self.indexRowSelected)")//position
         productService.callService(requestParams: params, successBlock: { (result: [String:Any]) -> Void in
-            self.name = result["description"] as! String
+            self.name = result["description"] as! NSString
             if let priceR =  result["price"] as? NSNumber {
-                self.price = "\(priceR)"
+                self.price = "\(priceR)" as NSString
             }
             if let department = result["department"] as? [String:Any] {
                 self.idDepartment = department["idDepto"] as! String
@@ -80,7 +80,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             if let line = result["line"] as? [String:Any] {
                  self.idLine = line["id"] as! String
             }
-            self.detail = result["longDescription"] as! String
+            self.detail = result["longDescription"] as! NSString
             self.saving = ""
             
             if let savingResult = result["promoDescription"] as? NSString {
@@ -219,7 +219,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
               //  var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
                 let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
                
-                self.name = NSLocalizedString("empty.productdetail.title",comment:"")
+                self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
                     print("")
                     self.backButton()
@@ -271,28 +271,28 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         NSLog("lcs 1")
         let service = GRProductBySearchService()
         let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6,brand:"")
-        service.callService(params,
-            successBlock: { (arrayProduct:[Any]?,resultDic:[String:Any]) -> Void in
+        service.callService(params!,
+            successBlock: { (arrayProduct:[[String:Any]]?,resultDic:[String:Any]) -> Void in
                 NSLog("lcs 2")
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     NSLog("lcs 2")
-                    var keywords = Array<AnyObject>()
-                    for item in arrayProduct as! [Any] {
+                    var keywords = Array<[String:Any]>()
+                    for item in arrayProduct! {
                         
-                        if self.upc !=  item["upc"] as! String {
+                        if self.upc as String !=  item["upc"] as! String {
                         
                         var urlArray : [String] = []
                         urlArray.append(item["imageUrl"] as! String)
                  
                         var price : NSString = ""
                         if let value = item["price"] as? String {
-                            price = value
+                            price = value as NSString
                         }
                         else if let value = item["price"] as? NSNumber {
-                            price = "\(value)"
+                            price = "\(value)" as NSString
                         }
                         
-                        keywords.append(["codeMessage":"0","description":item["description"] as! String, "imageUrl":urlArray, "price" : price,  "upc" :item["upc"], "type" : ResultObjectType.Groceries.rawValue ])
+                        keywords.append(["codeMessage":"0","description":item["description"] as! String, "imageUrl":urlArray, "price" : price,  "upc" :item["upc"] as! String, "type" : ResultObjectType.Groceries.rawValue ])
                         }
                         
                         if keywords.count == 5 {
@@ -469,7 +469,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
         }
         if productDetailButton!.detailProductCart?.quantity != nil {
-            selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart?.quantity.stringValue)
+            selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
             selectQuantityGR?.first = true
             selectQuantityGR?.showNoteButton()
         }
