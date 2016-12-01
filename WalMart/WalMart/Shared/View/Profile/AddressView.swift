@@ -199,6 +199,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.telephone!.nameField = NSLocalizedString("profile.address.telephone",comment:"")
         self.telephone!.minLength = 10
         self.telephone!.maxLength = 10
+        self.telephone!.disablePaste = true
         self.telephone!.keyboardType = UIKeyboardType.NumberPad
         self.telephone!.delegate = self
         self.telephone!.inputAccessoryView = self.keyboardBar

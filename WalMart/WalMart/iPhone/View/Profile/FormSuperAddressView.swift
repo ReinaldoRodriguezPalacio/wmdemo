@@ -199,6 +199,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneHomeNumber!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHomeNumber!.minLength = 10
         self.phoneHomeNumber!.maxLength = 10
+        self.phoneHomeNumber!.disablePaste = true
         self.phoneHomeNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHomeNumber!.inputAccessoryView = viewAccess
         self.phoneHomeNumber!.delegate =  self
@@ -209,6 +210,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 0
         self.phoneWorkNumber!.maxLength = 5
+        self.phoneWorkNumber!.disablePaste = true
         self.phoneWorkNumber!.delegate = self
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneWorkNumber!.inputAccessoryView = viewAccess
@@ -219,6 +221,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
         self.cellPhone!.maxLength = 10
+        self.cellPhone!.disablePaste = true
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         self.cellPhone.delegate = self
