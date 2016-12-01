@@ -300,10 +300,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             }
             self.signUp.successCallBack =  {() in
                               
-                let service = LoginService()
+                let service = LoginService()//--
                 let params  = service.buildParams(self.signUp.email!.text!, password: self.signUp.password!.text!)
                 self.alertView = self.signUp.alertView!
                 self.callService(params, alertViewService:self.signUp.alertView!)
+                
+                //
+                //
 
             }// self.successCallBack
             self.signUp.closeModal = {() in
@@ -378,7 +381,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     func callService(params:NSDictionary, alertViewService : IPOWMAlertViewController?) {
         let service = LoginService()
-        service.callService(params, successBlock:{ (resultCall:NSDictionary?) in
+        service.callServiceByEmail(params, successBlock:{ (resultCall:NSDictionary?) in
             
 //            let profile = resultCall!["profile"] as? NSDictionary
 //            let gender = profile!["gender"] as? String

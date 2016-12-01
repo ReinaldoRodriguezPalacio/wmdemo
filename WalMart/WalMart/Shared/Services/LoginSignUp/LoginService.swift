@@ -42,6 +42,31 @@ class LoginService : BaseService {
         }
     }
     
+    func callServiceByEmail(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+            if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+                if codeMessage.integerValue == 0 {
+                    let resultCallMG = resultCall
+                    
+                    let grLoginWithEmailService = GRLoginWithEmailService()
+                    grLoginWithEmailService.callService(["email":params["email"]!], successBlock: { (resultCallGR:NSDictionary) -> Void in
+                        UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
+                        successBlock!(resultCall)
+                        }, errorBlock: { (errorGR:NSError) -> Void in
+                            errorBlock!(errorGR)
+                    })
+                }
+                else{
+                    let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
+                    errorBlock!(error)
+                }
+            }
+            
+        }) { (error:NSError) -> Void in
+            errorBlock!(error)
+        }
+    }
+    
     override func shouldIncludeHeaders() -> Bool {
         return false
     }

@@ -115,13 +115,13 @@ class BaseService : NSObject {
             var jSessionAtgIdSend = UserCurrentSession.sharedInstance().JSESSIONATG
             
             if jsessionIdSend == "" {
-                if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
-                    print("PARAM JSESSIONID ::"+param.value)
-                    jsessionIdSend = param.value
+                if let param2 = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
+                    print("PARAM JSESSIONID ::"+param2.value)
+                    jsessionIdSend = param2.value
                 }
-                if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONATG") {
-                    print("PARAM JSESSIONATG ::" + param.value)
-                    jSessionAtgIdSend = param.value
+                if let param3 = CustomBarViewController.retrieveParamNoUser("JSESSIONATG") {
+                    print("PARAM JSESSIONATG ::" + param3.value)
+                    jSessionAtgIdSend = param3.value
                 }
             }
             
@@ -134,6 +134,7 @@ class BaseService : NSObject {
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
                 //Session --
+                
                 print("URL:: \(self.serviceUrl())")
                 AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
@@ -222,7 +223,7 @@ class BaseService : NSObject {
             print("Response JSESSIONATG:: \(atgSession)")
             print("UserCurrentSession.sharedInstance().JSESSIONATG::  \(UserCurrentSession.sharedInstance().JSESSIONATG)")
             UserCurrentSession.sharedInstance().JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance().JSESSIONATG
-            CustomBarViewController.addOrUpdateParamNoUser("JSESSIONID", value: UserCurrentSession.sharedInstance().JSESSIONATG)
+            CustomBarViewController.addOrUpdateParamNoUser("JSESSIONATG", value: UserCurrentSession.sharedInstance().JSESSIONATG)
             
             let resultJSON = json as! NSDictionary
             self.jsonFromObject(resultJSON)
@@ -307,7 +308,9 @@ class BaseService : NSObject {
             print("Regresa JSESSIONATG \(atgSession)")
              print("UserCurrentSession.sharedInstance().JSESSIONATG \(UserCurrentSession.sharedInstance().JSESSIONATG)")
             UserCurrentSession.sharedInstance().JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance().JSESSIONATG
-            CustomBarViewController.addOrUpdateParam("JSESSIONATG", value: UserCurrentSession.sharedInstance().JSESSIONATG)
+            if UserCurrentSession.sharedInstance().JSESSIONATG != ""{
+                CustomBarViewController.addOrUpdateParam("JSESSIONATG", value: UserCurrentSession.sharedInstance().JSESSIONATG)
+            }
             
            
             

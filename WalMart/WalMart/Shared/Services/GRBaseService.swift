@@ -40,13 +40,13 @@ class GRBaseService : BaseService {
         var jSessionAtgIdSend = UserCurrentSession.sharedInstance().JSESSIONATG
         
         if jsessionIdSend == "" {
-            if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
-                print("PARAM JSESSIONID ::"+param.value)
-                jsessionIdSend = param.value
+            if let param1 = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
+                print("PARAM JSESSIONID ::"+param1.value)
+                jsessionIdSend = param1.value
             }
-            if let param = CustomBarViewController.retrieveParamNoUser("JSESSIONATG") {
-                print("PARAM JSESSIONATG ::" + param.value)
-                jSessionAtgIdSend = param.value
+            if let param2 = CustomBarViewController.retrieveParamNoUser("JSESSIONATG") {
+                print("PARAM JSESSIONATG ::" + param2.value)
+                jSessionAtgIdSend = param2.value
             }
         }
         
