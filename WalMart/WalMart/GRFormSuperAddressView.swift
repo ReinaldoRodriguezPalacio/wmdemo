@@ -181,7 +181,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.cellPhone!.minLength = 10
         self.cellPhone!.maxLength = 10
         self.cellPhone!.disablePaste = true
-        self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
+        self.cellPhone!.keyboardType = UIKeyboardType.numberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         self.cellPhone.delegate = self
         

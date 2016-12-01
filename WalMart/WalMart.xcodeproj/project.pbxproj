@@ -3921,7 +3921,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
 				STRIP_STYLE = debugging;
@@ -3980,7 +3980,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
 				STRIP_STYLE = debugging;

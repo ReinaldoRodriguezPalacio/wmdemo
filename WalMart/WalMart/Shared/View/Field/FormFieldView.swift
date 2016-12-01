@@ -245,12 +245,12 @@ class FormFieldView : UIEdgeTextField {
                 }
             }
             
-            if typeField == .Password {
+            if typeField == .password {
                 
                 let sqlReservedKeys = [ "select", "from", "insert", "update", "delete", "drop", "create", "where", "values", "null", "declare", "script", "xp_", "crlf", "%3A", "%3B", "%3C", "%3D", "%3E", "%3F", "&quot;", "&amp;", "&lt;", "&gt;", "exec", "waitfor", "delay", "onvarchar"]
                 
                 for sqlReservedkey in sqlReservedKeys {
-                    if self.text!.lowercaseString.contains(sqlReservedkey) {
+                    if self.text!.lowercased().contains(sqlReservedkey) {
                         self.isValid = false
                     }
                 }
@@ -295,7 +295,7 @@ class FormFieldView : UIEdgeTextField {
     
     func validatePass()-> NSString{
         let regString : String = "^[a-zA-Z0-9_ ,ÑñÁÉÍÓÚáéíóú./()*-]{8,20}$"//"^[A-Za-z0-9]{5,20}$";
-        return regString
+        return regString as NSString
     }
 
     func validateRFC ()-> String{

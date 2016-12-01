@@ -406,10 +406,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         let logoutService = LogoutService()
         logoutService.callService(Dictionary<String, String>(),
-                                  successBlock: { (response:NSDictionary) -> Void in
+                                  successBlock: { (response:[String:Any]) -> Void in
                                     
                                     let authorizationService =  AuthorizationService()
-                                    authorizationService.callGETService("", successBlock: { (response:NSDictionary) in
+                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
                                         print("::Call service AuthorizationService in LogoutService ::")
                                         
                                         },errorBlock:{ (error:NSError) in

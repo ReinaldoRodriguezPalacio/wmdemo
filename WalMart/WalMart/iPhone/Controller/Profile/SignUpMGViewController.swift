@@ -26,7 +26,7 @@ class SignUpMGViewController: SignUpViewController {
         if validateTerms() {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
             
-            let service = SignUpService()
+            let signUpService = SignUpService()
             let dateFmtBD = DateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
             
@@ -61,11 +61,11 @@ class SignUpMGViewController: SignUpViewController {
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 if self.addressMgView.viewAddress!.validateAddress(){
-                    service.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
+                    signUpService.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
                         self.addressMgView.closeAlert()
                         let loginService = LoginService()
                         var firstEnter = true
-                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:[String:Any]) -> Void in
+                        loginService.callService(loginService.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:[String:Any]) -> Void in
                             
                             // Event -- Succesful Registration
                             BaseController.sendAnalyticsSuccesfulRegistration()

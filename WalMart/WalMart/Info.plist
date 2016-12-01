@@ -185,10 +185,10 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.AuthorizationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.AuthorizationService</key>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -280,10 +280,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.AuthorizationService</key>
-			<string>https://dl.dropboxusercontent.com/s/o5og9sfdoih3694/AuthorizationService.txt?dl=0</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.AuthorizationService</key>
+			<string>https://dl.dropboxusercontent.com/s/o5og9sfdoih3694/AuthorizationService.txt?dl=0</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -694,10 +694,10 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.AuthorizationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.AuthorizationService</key>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -789,10 +789,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.AuthorizationService</key>
-			<string>https://dl.dropboxusercontent.com/s/o5og9sfdoih3694/AuthorizationService.txt?dl=0</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.AuthorizationService</key>
+			<string>https://dl.dropboxusercontent.com/s/o5og9sfdoih3694/AuthorizationService.txt?dl=0</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>

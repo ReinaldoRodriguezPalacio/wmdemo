@@ -200,7 +200,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.telephone!.minLength = 10
         self.telephone!.maxLength = 10
         self.telephone!.disablePaste = true
-        self.telephone!.keyboardType = UIKeyboardType.NumberPad
+        self.telephone!.keyboardType = UIKeyboardType.numberPad
         self.telephone!.delegate = self
         self.telephone!.inputAccessoryView = self.keyboardBar
         

@@ -48,17 +48,17 @@ class GRBaseService : BaseService {
             AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
             //session --
             print("URL:: \(self.serviceUrl())")
-            print("sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
+            print("sessionID -- \(UserCurrentSession.sharedInstance.JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance.JSESSIONATG)")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance.JSESSIONID, forHTTPHeaderField:"JSESSIONID")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance.JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
             
         } else{
             //session --
             print("URL:: \(self.serviceUrl())")
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-            print("sessionID -- \(UserCurrentSession.sharedInstance().JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance().JSESSIONATG)")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONID, forHTTPHeaderField:"JSESSIONID")
-            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance().JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
+            print("sessionID -- \(UserCurrentSession.sharedInstance.JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance.JSESSIONATG)")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance.JSESSIONID, forHTTPHeaderField:"JSESSIONID")
+            AFStatic.managerGR.requestSerializer.setValue(UserCurrentSession.sharedInstance.JSESSIONATG, forHTTPHeaderField:"JSESSIONATG")
         }
         return AFStatic.managerGR
     }

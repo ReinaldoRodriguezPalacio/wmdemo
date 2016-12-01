@@ -38,8 +38,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.passworCurrent = FormFieldView()
         self.passworCurrent!.isRequired = true
         self.passworCurrent!.setCustomPlaceholder(NSLocalizedString("profile.password.current",comment:""))
-        self.passworCurrent!.secureTextEntry = true
-        self.passworCurrent!.typeField = TypeField.None 
+        self.passworCurrent!.isSecureTextEntry = true
+        self.passworCurrent!.typeField = TypeField.none 
         self.passworCurrent!.nameField = NSLocalizedString("profile.password.current",comment:"")
         
         self.password = FormFieldView()

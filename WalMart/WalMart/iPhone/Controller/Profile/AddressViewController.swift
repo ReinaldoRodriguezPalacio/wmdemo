@@ -544,7 +544,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         let paramsSend =  grAddressAddService.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" ,storeName: "", operationType:"A" , preferred: true)
         
-            service.callService(requestParams: paramsSend, successBlock: { (resultCall:[String:Any]) -> Void  in
+            grAddressAddService.callService(requestParams: paramsSend, successBlock: { (resultCall:[String:Any]) -> Void  in
             print("Se realizao la direccion")
             
             if let message = resultCall["message"] as? String {
@@ -582,7 +582,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
  
     func saveBock(_ sender:UIButton?,successBlock:((Bool) -> Void)?) {
         var params : [String:Any]? = nil
-        var service :  BaseService!
+        var addresService :  BaseService!
         
             switch (typeAddress) {
             case .shiping:
@@ -642,7 +642,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 }
                 
-                service.callPOSTService(params!, successBlock:{ (resultCall:[String:Any]?) in
+                addresService.callPOSTService(params!, successBlock:{ (resultCall:[String:Any]?) in
                     if let message = resultCall!["message"] as? String {
                          if self.showSaveAlert {
                             let addres  = params!["AddressID"] as? String
