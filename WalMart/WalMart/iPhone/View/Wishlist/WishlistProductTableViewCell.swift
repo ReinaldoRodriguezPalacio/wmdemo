@@ -9,7 +9,7 @@
 import Foundation
 
 protocol WishlistProductTableViewCellDelegate {
-    func deleteFromWishlist(UPC:String)
+    func deleteFromWishlist(_ UPC:String)
 }
 
 class WishlistProductTableViewCell : ProductTableViewCell {
@@ -44,24 +44,24 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         productShortDescriptionLabel!.minimumScaleFactor = 9 / 12
         
         
-        productImage!.frame = CGRectMake(16, 0, 80, 109)
+        productImage!.frame = CGRect(x: 16, y: 0, width: 80, height: 109)
         //productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
         
         
         //self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
-        self.productPriceLabel!.textAlignment = NSTextAlignment.Left
+        self.productPriceLabel!.textAlignment = NSTextAlignment.left
         
-        self.productPriceLabel!.hidden = false
+        self.productPriceLabel!.isHidden = false
         
-        productPriceSavingLabel = CurrencyCustomLabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
-        productPriceSavingLabel!.textAlignment = NSTextAlignment.Left
+        productPriceSavingLabel = CurrencyCustomLabel(frame: CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19))
+        productPriceSavingLabel!.textAlignment = NSTextAlignment.left
         
         
-        btnShoppingCart = UIButton(frame: CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32))
-        btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
-        btnShoppingCart.addTarget(self, action: #selector(WishlistProductTableViewCell.addToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        btnShoppingCart = UIButton(frame: CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32))
+        btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
+        btnShoppingCart.addTarget(self, action: #selector(WishlistProductTableViewCell.addToShoppingCart), for: UIControlEvents.touchUpInside)
         
-        self.separatorView = UIView(frame:CGRectMake(16, 108,self.frame.width - 16, 1.0))
+        self.separatorView = UIView(frame:CGRect(x: 16, y: 108,width: self.frame.width - 16, height: 1.0))
         
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         
@@ -71,7 +71,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         
         
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
-        imagePresale.hidden =  true
+        imagePresale.isHidden =  true
         self.addSubview(imagePresale)
         
         
@@ -80,31 +80,31 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
+        self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
         
-        self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
-         self.productPriceSavingLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19)
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 16 , width: 100 , height: 19)
+         self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
         
         
-        self.btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
+        self.btnShoppingCart.frame = CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32)
         
       
     }
     
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString) {
-        imagePresale.hidden = !isPreorderable
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString) {
+        imagePresale.isHidden = !isPreorderable
 
         self.upc = upc
         self.desc = productShortDescription
         self.imageURL = productImageURL
         self.price = productPrice
-        self.onHandInventory = String(onHandInventory)
+        self.onHandInventory = String(onHandInventory) as NSString
         self.isPesable = pesable as String
         self.isPreorderable = "\(isPreorderable)"
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
-        let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
+        let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         if saving.doubleValue > 0 {
@@ -112,20 +112,20 @@ class WishlistProductTableViewCell : ProductTableViewCell {
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
             productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)
-            productPriceSavingLabel.hidden = false
+            productPriceSavingLabel.isHidden = false
         }else{
-            productPriceSavingLabel.hidden = true
+            productPriceSavingLabel.isHidden = true
         }
         
         isDisabled = false
         if isActive == false || onHandInventory == 0  {
-            self.btnShoppingCart.setImage(UIImage(named: "wishlist_cart_disabled"), forState: UIControlState.Normal)
+            self.btnShoppingCart.setImage(UIImage(named: "wishlist_cart_disabled"), for: UIControlState())
             isDisabled = true
         }else{
             if isInShoppingCart {
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), forState:UIControlState.Normal)
+                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
             }else {
-                btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
+                btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }
         }
         
@@ -139,13 +139,13 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     
     func addToShoppingCart() {
         if !isDisabled {
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
                 //Event
                 ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "\(self.desc) - \(self.upc)")
                 
                 let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable: isPreorderable)
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 
             }else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
@@ -159,14 +159,14 @@ class WishlistProductTableViewCell : ProductTableViewCell {
           
         }
     }
-    func moveRightImagePresale(moveRight:Bool){
+    func moveRightImagePresale(_ moveRight:Bool){
         if moveRight {
-            UIView.animateWithDuration( 0.3 , animations: {
-                self.imagePresale.frame = CGRectMake( 48, 0, 46, 46)
+            UIView.animate( withDuration: 0.3 , animations: {
+                self.imagePresale.frame = CGRect( x: 48, y: 0, width: 46, height: 46)
             })
         }
         else{
-            self.imagePresale.frame = CGRectMake( 0, 0, 46, 46)
+            self.imagePresale.frame = CGRect( x: 0, y: 0, width: 46, height: 46)
             
             
         }

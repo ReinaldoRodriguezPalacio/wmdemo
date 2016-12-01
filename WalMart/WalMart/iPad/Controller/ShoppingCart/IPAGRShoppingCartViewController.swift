@@ -7,6 +7,30 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckOutViewControllerDelegate,IPAGRLoginUserOrderViewDelegate {
     
@@ -30,39 +54,39 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         viewTitleCheckout.font = WMFont.fontMyriadProRegularOfSize(14)
         viewTitleCheckout.textColor = WMColor.light_blue
         viewTitleCheckout.text = "Verifica tu pedido"
-        viewTitleCheckout.textAlignment = .Center
+        viewTitleCheckout.textAlignment = .center
         viewTitleCheckout.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewTitleCheckout)
         
-        self.viewFooter.hidden = true
-        self.view.backgroundColor = UIColor.clearColor()
-        if UserCurrentSession.sharedInstance().userSigned == nil {
+        self.viewFooter.isHidden = true
+        self.view.backgroundColor = UIColor.clear
+        if UserCurrentSession.sharedInstance.userSigned == nil {
             viewShowLogin = IPAGRLoginUserOrderView(frame:containerGROrder.bounds)
             viewShowLogin!.delegate = self
             containerGROrder.addSubview(viewShowLogin!)
-            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
         } else {
-            self.viewTitleCheckout.hidden = true
+            self.viewTitleCheckout.isHidden = true
             self.checkoutVC = IPAGRCheckOutViewController()
             checkoutVC!.view.frame = containerGROrder.bounds
             ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
             ctrlCheckOut?.view.frame = containerGROrder.bounds
             //checkoutVC!.hiddenBack = true
-            ctrlCheckOut!.navigationBarHidden = true
-            checkoutVC?.itemsInCart = itemsInCart
+            ctrlCheckOut!.isNavigationBarHidden = true
+            checkoutVC?.itemsInCart = itemsInCart as [Any]!
             checkoutVC?.delegateCheckOut = self
             self.addChildViewController(ctrlCheckOut!)
             containerGROrder.addSubview(ctrlCheckOut!.view)
         }
-        viewSeparator = UIView(frame: CGRectZero)
+        viewSeparator = UIView(frame: CGRect.zero)
         viewSeparator.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewSeparator!)
         
         self.backgroundView = UIView()
-        self.backgroundView?.frame = CGRectMake(0.0, 0.0, 684.0, self.view.frame.height)
-        self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        self.backgroundView?.frame = CGRect(x: 0.0, y: 0.0, width: 684.0, height: self.view.frame.height)
+        self.backgroundView?.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         let tap = UITapGestureRecognizer(target: self, action: #selector(IPAGRShoppingCartViewController.hideBackgroundView))
         self.backgroundView?.addGestureRecognizer(tap)
     }
@@ -74,42 +98,42 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.viewHerader.frame = CGRectMake(0, 0, self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), 46)
-        self.tableShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), self.view.frame.height  - self.viewHerader.frame.maxY)
-        viewSeparator!.frame = CGRectMake(self.tableShoppingCart.frame.maxX, 0, 1.0, self.view.bounds.width)
+        self.viewHerader.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 46)
+        self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHerader.frame.maxY)
+        viewSeparator!.frame = CGRect(x: self.tableShoppingCart.frame.maxX, y: 0, width: 1.0, height: self.view.bounds.width)
         viewShowLogin?.frame = containerGROrder.bounds
         checkoutVC?.view.frame = containerGROrder.bounds
         ctrlCheckOut?.view.frame = containerGROrder.bounds
-        self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
-        self.viewTitleCheckout.frame = CGRectMake(self.viewSeparator.frame.maxX , 0, self.view.frame.width - self.viewSeparator.frame.maxX, self.viewHerader.frame.height )
-        self.deleteall.frame = CGRectMake(self.editButton.frame.minX - 80, 12, 75, 22)
-        self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
+        self.editButton.frame = CGRect(x: self.viewSeparator.frame.maxX - 71, y: 12, width: 55, height: 22)
+        self.viewTitleCheckout.frame = CGRect(x: self.viewSeparator.frame.maxX , y: 0, width: self.view.frame.width - self.viewSeparator.frame.maxX, height: self.viewHerader.frame.height )
+        self.deleteall.frame = CGRect(x: self.editButton.frame.minX - 80, y: 12, width: 75, height: 22)
+        self.titleView.frame = CGRect(x: 0, y: 0, width: self.viewSeparator.frame.maxX,height: self.viewHerader.frame.height)
 
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAGRShoppingCartViewController.openclose), name: "CLOSE_GRSHOPPING_CART", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAGRShoppingCartViewController.openclose), name: NSNotification.Name(rawValue: "CLOSE_GRSHOPPING_CART"), object: nil)
 
     }
-    override func viewDidDisappear(animated: Bool) {
-         NSNotificationCenter.defaultCenter().removeObserver(self, name: "CLOSE_GRSHOPPING_CART", object: nil)
+    override func viewDidDisappear(_ animated: Bool) {
+         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "CLOSE_GRSHOPPING_CART"), object: nil)
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemsInCart.count
     }
     
     
-    func showBackgroundView(show:Bool){
+    func showBackgroundView(_ show:Bool){
         if show {
             self.backgroundView?.alpha = 0.0
             self.view.addSubview(self.backgroundView!)
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.backgroundView?.alpha = 1
                 }, completion: nil)
         }else{
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.backgroundView?.alpha = 0.0
                 }, completion: {(complete) in
                  self.backgroundView!.removeFromSuperview()
@@ -121,18 +145,18 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     func hideBackgroundView() {
         self.showBackgroundView(false)
-        self.checkoutVC?.navigationController?.popToRootViewControllerAnimated(true)
+        self.checkoutVC?.navigationController?.popToRootViewController(animated: true)
     }
     
     override func closeShoppingCart() {
-        onClose?(isClose:false)
-        self.navigationController?.popViewControllerAnimated(true)
+        onClose?(false)
+        self.navigationController?.popViewController(animated: true)
         
     }
     
     
-    override func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemGRSC = itemsInCart[indexPath.row] as! [String:AnyObject]
+    override func deleteRowAtIndexPath(_ indexPath : IndexPath){
+        let itemGRSC = itemsInCart[indexPath.row] as! [String:Any]
         let upc = itemGRSC["upc"] as! String
         //360 delete
         BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
@@ -142,15 +166,15 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.backgroundColor = UIColor.white
             viewLoad.startAnnimating(false)
             self.view.addSubview(viewLoad)
         }
             
-        serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
-            UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
+        serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
+            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                 
-                self.itemsInCart.removeAtIndex(indexPath.row)
+                self.itemsInCart.remove(at: indexPath.row)
                 if self.itemsInCart.count > 0 {
                     self.tableShoppingCart.reloadData()
                     
@@ -160,23 +184,23 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     }
                     
                     if self.viewShowLogin != nil {
-                        self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+                        self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
                         
                     }
                     
-                    self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                        subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+                    self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                        subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                        saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
                     
-                    self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
-                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
+                    self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
+                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
                     
-                    //self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR())")
+                    //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
                 } else {
-                    self.navigationController!.popViewControllerAnimated(true)
-                    self.onClose?(isClose:true)
+                    self.navigationController!.popViewController(animated: true)
+                    self.onClose?(true)
                   
                 }
                 
@@ -194,36 +218,36 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func shareShoppingCart() {
         self.removeListSelector(action: nil)
         let imageHead = UIImage(named:"detail_HeaderMail")
-        let imageHeader = UIImage(fromView: self.viewHerader)
+        let imageHeader = UIImage(from: self.viewHerader)
         let screen = self.tableShoppingCart.screenshot()
-        let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,screen])
-        let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+        let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,screen!])
+        let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)
-        popup!.presentPopoverFromRect(CGRectMake(620, 650, 300, 250), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Down, animated: true)
+        popup!.present(from: CGRect(x: 620, y: 650, width: 300, height: 250), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.down, animated: true)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                if completed && !activityType!.containsString("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.containsString("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         }
     }
 
-    override func userShouldChangeQuantity(cell:GRProductShoppingCartTableViewCell) {
+    override func userShouldChangeQuantity(_ cell:GRProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
-            let frameDetail = CGRectMake(0, 0, 320, 568)
+            let frameDetail = CGRect(x: 0, y: 0, width: 320, height: 568)
             if cell.typeProd == 1 {
-                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
                 
             }else{
-                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,upcProduct:cell.upc)
+                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.upc)
             }
             
             
@@ -234,7 +258,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.selectQuantityGR?.closeAction()
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
@@ -255,10 +279,10 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             }
             
             selectQuantityGR?.addUpdateNote = {() in
-                let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+                let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                 var frame = vc!.view.frame
                 if (NSFoundationVersionNumber < NSFoundationVersionNumber_iOS_8_0) {
-                    frame = CGRectMake(0, 0, vc!.view.frame.height, vc!.view.frame.width)
+                    frame = CGRect(x: 0, y: 0, width: vc!.view.frame.height, height: vc!.view.frame.width)
                 }
                 
                 let addShopping = ShoppingCartUpdateController()
@@ -267,26 +291,26 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 vc!.addChildViewController(addShopping)
                 addShopping.view.frame = frame
                 vc!.view.addSubview(addShopping.view)
-                addShopping.didMoveToParentViewController(vc!)
+                addShopping.didMove(toParentViewController: vc!)
                 addShopping.typeProduct = ResultObjectType.Groceries
                 addShopping.comments = cell.comments
                 addShopping.goToShoppingCart = {() in }
                 addShopping.removeSpinner()
                 addShopping.addActionButtons()
                 addShopping.addNoteToProduct(nil)
-                self.popup?.dismissPopoverAnimated(true)
+                self.popup?.dismiss(animated: true)
                 
             }
             selectQuantityGR?.userSelectValue(String(cell.quantity))
             selectQuantityGR?.first = true
-            if cell.comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+            if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
                 selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
             }else {
                 selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
             }
             selectQuantityGR?.showNoteButtonComplete()
             selectQuantityGR?.closeAction = { () in
-                self.popup!.dismissPopoverAnimated(true)
+                self.popup!.dismiss(animated: true)
                 
             }
             
@@ -295,11 +319,11 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             viewController.view.frame = frameDetail
             popup = UIPopoverController(contentViewController: viewController)
             popup!.backgroundColor = WMColor.light_blue
-            popup!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
-            popup!.presentPopoverFromRect(cell.changeQuantity.bounds, inView: cell.changeQuantity, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+            popup!.setContentSize(CGSize(width: 320,height: 394), animated: true)
+            popup!.present(from: cell.changeQuantity.bounds, in: cell.changeQuantity, permittedArrowDirections: UIPopoverArrowDirection.right, animated: true)
             
         } else {
-            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+            let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
             
             
@@ -309,7 +333,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             vc!.addChildViewController(addShopping)
             addShopping.view.frame = frame
             vc!.view.addSubview(addShopping.view)
-            addShopping.didMoveToParentViewController(vc!)
+            addShopping.didMove(toParentViewController: vc!)
             addShopping.typeProduct = ResultObjectType.Groceries
             addShopping.comments = cell.comments
             addShopping.goToShoppingCart = {() in }
@@ -319,10 +343,10 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInCart.count > indexPath.row   {
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems()
+            controller.itemsToShow = getUPCItems() as [Any]
             controller.detailOf = "Shopping Cart"
             controller.ixSelected = indexPath.row
             self.navigationController!.delegate = nil
@@ -337,8 +361,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         var cont = IPALoginController.showLogin()
         cont!.closeAlertOnSuccess = false
         cont!.successCallBack = {() in
-                NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
-                UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+                NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
+                UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
                     
                     if cont!.alertView != nil {
                         cont!.closeAlert(true, messageSucesss: true)
@@ -352,9 +376,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.checkoutVC?.view.frame = self.containerGROrder.bounds
                     self.ctrlCheckOut = UINavigationController(rootViewController: self.checkoutVC!)
                     self.ctrlCheckOut?.view.frame = self.containerGROrder.bounds
-                    self.checkoutVC?.itemsInCart = self.itemsInCart
+                    self.checkoutVC?.itemsInCart = self.itemsInCart as [Any]!
                     self.checkoutVC?.delegateCheckOut = self
-                    self.ctrlCheckOut!.navigationBarHidden = true
+                    self.ctrlCheckOut!.isNavigationBarHidden = true
                     self.addChildViewController(self.ctrlCheckOut!)
                     self.containerGROrder.addSubview(self.ctrlCheckOut!.view)
                     self.viewShowLogin?.alpha = 0
@@ -367,7 +391,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
 
     override func reloadGRShoppingCart(){
-        UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
+        UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
            
             self.loadGRShoppingCart()
         }
@@ -386,21 +410,21 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         
         if viewShowLogin != nil {
-            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+            self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
             
         }
         
-        self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+        self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
         
         
-        self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+        self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName("INVOKE_RELOAD_PROMOTION", object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.post(name: Notification.Name(rawValue: "INVOKE_RELOAD_PROMOTION"), object: nil)
         /*if UserCurrentSession.hasLoggedUser() {
             self.ctrlCheckOut?.invokeGetPromotionsService(self.ctrlCheckOut!.picker.textboxValues!, discountAssociateItems: self.ctrlCheckOut!.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
                 print("End form Ipa Shpping cart")
@@ -416,13 +440,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
     
-    func showViewBackground(show:Bool){
+    func showViewBackground(_ show:Bool){
         self.showBackgroundView(show)
     }
     
     override func addCartToList(){
         if self.listSelectorController == nil {
-            self.addToListButton!.selected = true
+            self.addToListButton!.isSelected = true
             let frame = self.viewShowLogin!.frame
             let originX = self.view.frame.width - frame.width
             self.listSelectorController = ListsSelectorViewController()
@@ -430,20 +454,20 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRectMake(originX, frame.height, frame.width, frame.height)
+            self.listSelectorController!.view.frame = CGRect(x: originX, y: frame.height, width: frame.width, height: frame.height)
             //self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
-            self.listSelectorController!.didMoveToParentViewController(self)
+            self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRectMake(0, 0, frame.width, frame.height))
-            self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
+            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+            self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
             self.view.addSubview(self.listSelectorController!.view)
             
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRectMake(originX, 0, frame.width, frame.height)
-                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(originX, 0, frame.width, frame.height)
+                    self.listSelectorController!.view.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
+                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
                 },
                     completion: { (finished:Bool) -> Void in
                     if finished {
@@ -456,25 +480,25 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
     
-    override func removeListSelector(action action:(()->Void)?) {
+    override func removeListSelector(action:(()->Void)?) {
         if self.listSelectorController != nil {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                                        delay: 0.0,
-                                       options: .LayoutSubviews,
+                                       options: .layoutSubviews,
                                        animations: { () -> Void in
                                         let frame = self.viewShowLogin!.frame
                                         let originX = self.view.frame.width - frame.width
-                                        self.listSelectorController!.view.frame = CGRectMake(originX, frame.height, frame.width, 0.0)
-                                        self.listSelectorController!.imageBlurView!.frame = CGRectMake(originX, -frame.height, frame.width, frame.height)
+                                        self.listSelectorController!.view.frame = CGRect(x: originX, y: frame.height, width: frame.width, height: 0.0)
+                                        self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: -frame.height, width: frame.width, height: frame.height)
                 }, completion: { (complete:Bool) -> Void in
                     if complete {
                         if self.listSelectorController != nil {
-                            self.listSelectorController!.willMoveToParentViewController(nil)
+                            self.listSelectorController!.willMove(toParentViewController: nil)
                             self.listSelectorController!.view.removeFromSuperview()
                             self.listSelectorController!.removeFromParentViewController()
                             self.listSelectorController = nil
                         }
-                        self.addToListButton!.selected = false
+                        self.addToListButton!.isSelected = false
                         
                         action?()
                     }

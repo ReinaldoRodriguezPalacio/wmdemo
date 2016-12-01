@@ -17,15 +17,15 @@ protocol IPAUserListDelegate {
     func showEmptyViewForLists()
     func removeEmptyViewForLists()
     func showPractilistViewController()
-    func showBackground(show:Bool)
+    func showBackground(_ show:Bool)
 }
 
 class IPAUserListViewController: UserListViewController {
 
-    var selectedItem : NSIndexPath?
+    var selectedItem : IndexPath?
     var selectedId : String?
     var delegate: IPAUserListDelegate?
-    var rowSelected : NSIndexPath?
+    var rowSelected : IndexPath?
     var isTableNewFrame  =  false
     var heightTable: CGFloat = 0.0
     var didShowBackground: Bool = false
@@ -34,29 +34,29 @@ class IPAUserListViewController: UserListViewController {
         super.viewDidLoad()
         self.itemsUserList = []
         
-        tableuserlist?.multipleTouchEnabled = true
+        tableuserlist?.isMultipleTouchEnabled = true
         
-        self.tableuserlist!.registerClass(IPAListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
+        self.tableuserlist!.register(IPAListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         
         self.showWishlistBtn?.removeFromSuperview()
         self.showWishlistBtn = nil
         
         self.isShowingWishList = false
         self.needsToShowWishList = false
-        self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
-        self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: false, scrollPosition: .None)
+        self.selectedItem = IndexPath(row: 0, section: 0)
+        self.tableuserlist?.selectRow(at: self.selectedItem, animated: false, scrollPosition: .none)
         self.heightTable = self.view.frame.height - (self.header!.frame.height + 64.0)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
-        self.tableuserlist!.frame = CGRectMake(0.0, isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
+        self.searchContainer!.frame = CGRect(x: 0.0, y: self.header!.frame.height, width: self.view.frame.width, height: 64.0)
+        self.tableuserlist!.frame = CGRect(x: 0.0, y: isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, width: self.view.frame.width,height: self.heightTable )
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.newListEnabled = false
     }
@@ -79,19 +79,19 @@ class IPAUserListViewController: UserListViewController {
     
     // MARK: - Actions
     
-    override func showSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?, animated:Bool) {
+    override func showSearchField(_ aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?, animated:Bool) {
         self.isToggleBarEnabled = false
-        self.searchContainer!.hidden = false
+        self.searchContainer!.isHidden = false
         self.searchConstraint?.constant = self.SC_HEIGHT
         self.isTableNewFrame =  false
         self.heightTable = self.view.frame.height - (self.header!.frame.height + 64.0)
         self.didShowBackground = false
         if animated {
-            UIView.animateWithDuration(0.5,
+            UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
                     self.view.layoutIfNeeded()
-                    self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
-                    self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
+                    self.searchContainer!.frame = CGRect(x: 0.0, y: self.header!.frame.height, width: self.view.frame.width, height: 64.0)
+                    self.tableuserlist!.frame = CGRect(x: 0.0, y: self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, width: self.view.frame.width,height: self.heightTable )
                     self.delegate?.showBackground(false)
                     aditionalAnimations?()
                 }, completion: { (finished:Bool) -> Void in
@@ -103,28 +103,28 @@ class IPAUserListViewController: UserListViewController {
             )
         } else {
             //self.view.layoutIfNeeded()
-            self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
-            self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
+            self.searchContainer!.frame = CGRect(x: 0.0, y: self.header!.frame.height, width: self.view.frame.width, height: 64.0)
+            self.tableuserlist!.frame = CGRect(x: 0.0, y: self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, width: self.view.frame.width,height: self.heightTable )
             self.isToggleBarEnabled = true
             self.delegate?.showBackground(false)
         }
     }
     
-    override func hideSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?) {
+    override func hideSearchField(_ aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?) {
         self.isToggleBarEnabled = false
         self.isTableNewFrame =  true
         self.heightTable = self.view.frame.height
         self.didShowBackground = true
         //self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
             animations: { () -> Void in
-                self.searchContainer!.frame = CGRectMake(0.0, -0.5, self.view.frame.width, 64.0)
-                self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
+                self.searchContainer!.frame = CGRect(x: 0.0, y: -0.5, width: self.view.frame.width, height: 64.0)
+                self.tableuserlist!.frame = CGRect(x: 0.0, y: self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, width: self.view.frame.width,height: self.heightTable )
                 aditionalAnimations?()
             }, completion: { (finished:Bool) -> Void in
                 self.delegate?.showBackground(true)
                 if finished {
-                    self.searchContainer!.hidden = true
+                    self.searchContainer!.isHidden = true
                     action?()
                     self.isToggleBarEnabled = true
                 }
@@ -150,29 +150,29 @@ class IPAUserListViewController: UserListViewController {
                 view = self.delegate!.viewForContainer()
             }
 
-            self.helpView = UIView(frame: CGRectMake(0.0, 0.0, view.bounds.size.width, view.bounds.height))
-            self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
+            self.helpView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: (view?.bounds.size.width)!, height: (view?.bounds.height)!))
+            self.helpView!.backgroundColor = UIColor.black.withAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("removeHelpTicketView")))
-            view.addSubview(self.helpView!)
+            view?.addSubview(self.helpView!)
             
             let icon = UIImageView(image: UIImage(named: "list_scan_ticket_help"))
-            icon.frame = CGRectMake(12.0, self.header!.frame.maxY + 16.0, 48.0, 48.0)
+            icon.frame = CGRect(x: 12.0, y: self.header!.frame.maxY + 16.0, width: 48.0, height: 48.0)
             self.helpView!.addSubview(icon)
             
             let arrow = UIImageView(image: UIImage(named: "list_arrow_help"))
-            arrow.frame = CGRectMake(icon.frame.maxX - 10.0, icon.frame.maxY - 10.0, 80.0, 28.0)
+            arrow.frame = CGRect(x: icon.frame.maxX - 10.0, y: icon.frame.maxY - 10.0, width: 80.0, height: 28.0)
             self.helpView!.addSubview(arrow)
 
-            let message = UILabel(frame: CGRectMake(arrow.frame.maxX, self.header!.frame.maxY + 20.0, 350.0, 45.0))
+            let message = UILabel(frame: CGRect(x: arrow.frame.maxX, y: self.header!.frame.maxY + 20.0, width: 350.0, height: 45.0))
             message.numberOfLines = 0
-            message.textColor = UIColor.whiteColor()
-            message.textAlignment = .Center
+            message.textColor = UIColor.white
+            message.textAlignment = .center
             message.font = WMFont.fontMyriadProRegularOfSize(20.0)
             message.text = NSLocalizedString("list.message.help", comment:"")
             self.helpView!.addSubview(message)
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.helpView!.alpha = 1.0
             })
         }
@@ -190,31 +190,31 @@ class IPAUserListViewController: UserListViewController {
 
     //MARK: - UITableViewDataSource
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellTable = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellTable = super.tableView(tableView, cellForRowAt: indexPath)
         //cellTable.setSelected(selectedItem == indexPath, animated: true)
         return cellTable
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
          cell.setSelected(selectedItem == indexPath, animated: true)
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if self.selectedItem == indexPath &&  indexPath != NSIndexPath(forRow: 0, inSection: 0) {
+        if self.selectedItem == indexPath &&  indexPath != IndexPath(row: 0, section: 0) {
             return
         }
         
         if self.didShowBackground {
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
-            cell?.selected = false
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.isSelected = false
             return
         }
         
-        self.rowSelected = self.rowSelected ?? NSIndexPath(forRow: 0, inSection: 0)
-        let cell = self.tableuserlist?.cellForRowAtIndexPath(self.rowSelected!)
-        cell?.selected = false
+        self.rowSelected = self.rowSelected ?? IndexPath(row: 0, section: 0)
+        let cell = self.tableuserlist?.cellForRow(at: self.rowSelected!)
+        cell?.isSelected = false
         let lastSelected = self.rowSelected
         self.rowSelected = indexPath
         self.selectedIndex = indexPath
@@ -236,14 +236,14 @@ class IPAUserListViewController: UserListViewController {
                 selectedItem = indexPath
                 delegate?.showPractilistViewController()
                 if (lastSelected != nil){
-                    self.tableuserlist?.reloadRowsAtIndexPaths([lastSelected!], withRowAnimation: UITableViewRowAnimation.None)
+                    self.tableuserlist?.reloadRows(at: [lastSelected!], with: UITableViewRowAnimation.none)
                 }
                 return
             }
         }
         
         selectedItem = indexPath
-        if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
+        if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
             if let listId = listItem["id"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
@@ -260,32 +260,32 @@ class IPAUserListViewController: UserListViewController {
             self.delegate?.showListDetailAnimated(forId: listEntity.idList, orEntity: listEntity, andName: listEntity.name)
         }
         
-        let idxPath = NSIndexPath(forRow: 0, inSection: 0)
-        if let cell = self.tableuserlist!.cellForRowAtIndexPath(idxPath) as? NewListTableViewCell {
-            if cell.inputNameList!.isFirstResponder() {
+        let idxPath = IndexPath(row: 0, section: 0)
+        if let cell = self.tableuserlist!.cellForRow(at: idxPath) as? NewListTableViewCell {
+            if cell.inputNameList!.isFirstResponder {
                 cell.inputNameList!.resignFirstResponder()
             }
         }
         
         if (lastSelected != nil){
-            self.tableuserlist?.reloadRowsAtIndexPaths([lastSelected!], withRowAnimation: UITableViewRowAnimation.None)
+            self.tableuserlist?.reloadRows(at: [lastSelected!], with: UITableViewRowAnimation.none)
         }
    
     }
 
     //MARK: - Utils
     
-    override func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
+    override func reloadList(success:(()->Void)?, failure:((_ error:NSError)->Void)?){
         //Solo en caso de existir una sesion se consulta al backend por las listas del usuario
         if UserCurrentSession.hasLoggedUser() {
             let userListsService = GRUserListService()
             userListsService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [AnyObject]
-                    self.itemsUserList =  self.itemsUserList?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+                successBlock: { (result:[String:Any]) -> Void in
+                    self.itemsUserList = result["responseArray"] as? [Any]
+                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                         
-                        let dicFirst = first as! NSDictionary
-                        let dicSecond = second as! NSDictionary
+                        let dicFirst = first as! [String:Any]
+                        let dicSecond = second as! [String:Any]
                         let stringFirst  =  dicFirst["name"] as! String
                         let stringSecond  =  dicSecond["name"] as! String
                         
@@ -315,14 +315,14 @@ class IPAUserListViewController: UserListViewController {
                     if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
                         if !self.isEditingUserList {
                             if self.selectedItem != nil {
-                                self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
+                                self.tableView(self.tableuserlist!, didSelectRowAt: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
                             }
                         }
                         
                     }
                     else {
                         self.delegate?.showPractilistViewController()
-                        self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+                        self.selectedItem = IndexPath(row: 0, section: 0)
                     }
                
                     success?()
@@ -331,7 +331,7 @@ class IPAUserListViewController: UserListViewController {
                 errorBlock: { (error:NSError) -> Void in
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
                     self.changeFrameEditBtn(true, side: "left")
-                    failure?(error: error)
+                    failure?(error)
                     return
                 }
             )
@@ -340,7 +340,7 @@ class IPAUserListViewController: UserListViewController {
             
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
-            self.itemsUserList =  self.itemsUserList?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
                 return firstString.name < secondString.name
@@ -373,14 +373,14 @@ class IPAUserListViewController: UserListViewController {
             if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
                 if !self.isEditingUserList {
                     if self.selectedItem != nil {
-                        self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
+                        self.tableView(self.tableuserlist!, didSelectRowAt: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
                     }
                 }
                 
             }
             else {
                 self.delegate?.showPractilistViewController()
-                self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+                self.selectedItem = IndexPath(row: 0, section: 0)
             }
             success?()
         }
@@ -391,12 +391,12 @@ class IPAUserListViewController: UserListViewController {
      
      - parameter value: name new list
      */
-    override func createNewList(value:String) {
+    override func createNewList(_ value:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParams(value),
-                            successBlock: { (result:NSDictionary) -> Void in
+                            successBlock: { (result:[String:Any]) -> Void in
                                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
                                 
                                 self.checkEditBtn()
@@ -404,19 +404,19 @@ class IPAUserListViewController: UserListViewController {
                                 self.isShowingWishList  = true
                                 self.isShowingSuperlists = true
                                 
-                                self.newListBtn!.selected = false
+                                self.newListBtn!.isSelected = false
                                 self.newListBtn!.backgroundColor = WMColor.green
                                 self.reloadList(
                                     success: { () -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                                         self.alertView!.showDoneIcon()
                                         var count = 0
-                                        for itemList in self.itemsUserList! {
+                                        for itemList in self.itemsUserList! as! [[String:Any]] {
                                             if UserCurrentSession.hasLoggedUser() {
                                                 if (itemList["name"] as! String) == value {
-                                                    self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: NSIndexPath(forRow:count,inSection:1))
-                                                    let cell = self.tableuserlist!.cellForRowAtIndexPath(NSIndexPath(forRow:count,inSection:1))
-                                                    cell?.selected = true
+                                                    self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
+                                                    let cell = self.tableuserlist!.cellForRow(at: IndexPath(row:count,section:1))
+                                                    cell?.isSelected = true
                                                     return
                                                 }
                                             }
@@ -449,46 +449,46 @@ class IPAUserListViewController: UserListViewController {
         barCodeController.searchProduct = false
         barCodeController.useDelegate = true
         barCodeController.onlyCreateList = true
-        self.presentViewController(barCodeController, animated: true, completion: nil)
+        self.present(barCodeController, animated: true, completion: nil)
     }
     
     
 
     override func selectRowIfNeeded() {
-        self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: false, scrollPosition: UITableViewScrollPosition.None)
-        if selectedItem! == NSIndexPath(forRow: 0, inSection: 0) {
+        self.tableuserlist?.selectRow(at: self.selectedItem, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        if selectedItem! == IndexPath(row: 0, section: 0) {
             self.delegate?.showPractilistViewController()
         }
     }
     
-    func indexPathForPreferredFocusedViewInTableView(tableView: UITableView) -> NSIndexPath? {
+    func indexPathForPreferredFocusedViewInTableView(_ tableView: UITableView) -> IndexPath? {
         return self.selectedItem
     }
     
-    override func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+    override func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
         switch index {
         case 0://Duplicate list
             if let cellList = cell as? ListTableViewCell {
                 cellList.duplicate()
             }
         case 1://Delete list
-            if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
-                if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
+            if let indexPath = self.tableuserlist!.indexPath(for: cell) {
+                if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
                     if let listId = listItem["id"] as? String {
                         self.deleteListInDB(listId)
                         
                         self.invokeDeleteListService(listId)
-                        self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
-                        self.rowSelected = NSIndexPath(forRow: 0, inSection: 0)
+                        self.selectedItem = IndexPath(row: 0, section: 0)
+                        self.rowSelected = IndexPath(row: 0, section: 0)
                         self.selectRowIfNeeded()
                     }
                 }
                     //Si existe como entidad solo debe eliminarse de la BD
                 else if let listEntity = self.itemsUserList![indexPath.row] as? List {
-                    self.rowSelected = NSIndexPath(forRow: 0, inSection: 0)
+                    self.rowSelected = IndexPath(row: 0, section: 0)
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.deletingList", comment:""))
-                    self.managedContext!.deleteObject(listEntity)
+                    self.managedContext!.delete(listEntity)
                     self.saveContext()
                     //                        let delay = 15.7 * Double(NSEC_PER_SEC)
                     //                        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
@@ -496,7 +496,7 @@ class IPAUserListViewController: UserListViewController {
                     //                    self.reloadList(success: nil, failure: nil)
                     self.reloadWithoutTableReload(success: nil, failure: nil)
                     self.tableuserlist!.beginUpdates()
-                    self.tableuserlist!.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
+                    self.tableuserlist!.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
                     self.tableuserlist!.endUpdates()
                     
                     //EXTRA SI NO HAY MAS LISTAS
@@ -506,8 +506,8 @@ class IPAUserListViewController: UserListViewController {
                     self.checkEditBtn()
                     self.reloadList(success: { () -> Void in
                         let delaySec:Double = 2.0
-                        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delaySec * Double(NSEC_PER_SEC)))
-                        dispatch_after(delayTime, dispatch_get_main_queue(), {
+                        let delayTime = DispatchTime.now() + Double(Int64(delaySec * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                        DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
                             self.alertView?.close()
                         })
                         }, failure: { (error) -> Void in

@@ -15,8 +15,8 @@ class ConfigService : BaseService {
     
     
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
@@ -25,9 +25,9 @@ class ConfigService : BaseService {
     }
     
     
-    func getConfoigContent() -> [String:AnyObject] {
-        let values = getDataFromFile(fileName) as? [String:AnyObject]
-        if let grCategory = values?["groceriescategoryproduct"] as? [String:AnyObject] {
+    func getConfoigContent() -> [String:Any] {
+        let values = getDataFromFile(fileName as NSString)! 
+        if let grCategory = values["groceriescategoryproduct"] as? [String:Any] {
             return grCategory
         }
         return [:]

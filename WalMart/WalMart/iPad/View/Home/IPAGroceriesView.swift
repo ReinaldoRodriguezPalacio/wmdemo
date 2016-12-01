@@ -13,12 +13,12 @@ class IPAGroceriesView : IPOGroceriesView {
     
     override func setup() {
         super.setup()
-        bgView.backgroundColor = UIColor.whiteColor()
+        bgView.backgroundColor = UIColor.white
         
         descLabel.textColor = WMColor.light_blue
-        descLabel.frame = CGRectMake(368, 0, 197, self.frame.height)
+        descLabel.frame = CGRect(x: 368, y: 0, width: 197, height: self.frame.height)
         
-        gotoGroceries.frame = CGRectMake(descLabel.frame.maxX + 9, (self.frame.height / 2) - (24 / 2), 80, 24)
+        gotoGroceries.frame = CGRect(x: descLabel.frame.maxX + 9, y: (self.frame.height / 2) - (24 / 2), width: 80, height: 24)
         
     }
     

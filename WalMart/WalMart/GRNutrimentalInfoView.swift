@@ -17,39 +17,39 @@ class GRNutrimentalInfoView : UIView {
     var viewBg : UIView!
     var scrollView : UIScrollView!
     
-    func setup(ingredients:String,nutrimentals:[String]) {
+    func setup(_ ingredients:String,nutrimentals:[String]) {
     
         
         
         self.clipsToBounds = true
         
-        viewBg = UIView(frame:CGRectMake(0, 0,self.frame.width,0))
-        viewBg.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
+        viewBg = UIView(frame:CGRect(x: 0, y: 0,width: self.frame.width,height: 0))
+        viewBg.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
         self.addSubview(viewBg)
         
-        let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
-        closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: #selector(GRNutrimentalInfoView.closeProductDetail), forControlEvents: UIControlEvents.TouchUpInside)
+        let closeButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        closeButton.setImage(UIImage(named:"close"), for: UIControlState())
+        closeButton.addTarget(self, action: #selector(GRNutrimentalInfoView.closeProductDetail), for: UIControlEvents.touchUpInside)
         self.addSubview(closeButton)
         
-        scrollView = UIScrollView(frame: CGRectMake(0, closeButton.frame.maxY, self.frame.width, self.frame.height -  closeButton.frame.maxY))
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: closeButton.frame.maxY, width: self.frame.width, height: self.frame.height -  closeButton.frame.maxY))
         
         var startPointY : CGFloat = 0
         
-        if ingredients.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != "" {
-            let titleLabel = UILabel(frame: CGRectMake(0,startPointY,self.frame.width,14))
+        if ingredients.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) != "" {
+            let titleLabel = UILabel(frame: CGRect(x: 0,y: startPointY,width: self.frame.width,height: 14))
             titleLabel.font = WMFont.fontMyriadProSemiboldOfSize(14)
-            titleLabel.textColor = UIColor.whiteColor()
+            titleLabel.textColor = UIColor.white
             titleLabel.text = NSLocalizedString("productdetail.ingregients.title", comment: "")
-            titleLabel.textAlignment = .Center
+            titleLabel.textAlignment = .center
             self.scrollView.addSubview(titleLabel)
             
             startPointY = titleLabel.frame.maxY + 8
-            let ingredientsLabel = UILabel(frame: CGRectMake(16,startPointY,self.frame.width - 32,14))
+            let ingredientsLabel = UILabel(frame: CGRect(x: 16,y: startPointY,width: self.frame.width - 32,height: 14))
             ingredientsLabel.font = WMFont.fontMyriadProRegularOfSize(16)
-            ingredientsLabel.textColor = UIColor.whiteColor()
+            ingredientsLabel.textColor = UIColor.white
             ingredientsLabel.text = ingredients
-            ingredientsLabel.textAlignment = .Justified
+            ingredientsLabel.textAlignment = .justified
             ingredientsLabel.numberOfLines = 0
             ingredientsLabel.sizeToFit()
             self.scrollView.addSubview(ingredientsLabel)
@@ -59,11 +59,11 @@ class GRNutrimentalInfoView : UIView {
         }
         
         if nutrimentals.count > 0 {
-            let titleLabel = UILabel(frame: CGRectMake(0,startPointY + 8,self.frame.width,14))
+            let titleLabel = UILabel(frame: CGRect(x: 0,y: startPointY + 8,width: self.frame.width,height: 14))
             titleLabel.font = WMFont.fontMyriadProSemiboldOfSize(14)
-            titleLabel.textColor = UIColor.whiteColor()
+            titleLabel.textColor = UIColor.white
             titleLabel.text = NSLocalizedString("productdetail.infonut.title", comment: "")
-            titleLabel.textAlignment = .Center
+            titleLabel.textAlignment = .center
             self.scrollView.addSubview(titleLabel)
             
             startPointY = startPointY + 30
@@ -71,24 +71,24 @@ class GRNutrimentalInfoView : UIView {
             var white = true
             
             for nutItem in nutrimentals {
-                let viewItem = UIView(frame: CGRectMake(0, startPointY, self.frame.width, 20))
+                let viewItem = UIView(frame: CGRect(x: 0, y: startPointY, width: self.frame.width, height: 20))
                 if white {
-                    viewItem.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
+                    viewItem.backgroundColor = UIColor.white.withAlphaComponent(0.1)
                 }
                 white = !white
                 
-                let nutArray = nutItem.componentsSeparatedByString(":")
+                let nutArray = nutItem.components(separatedBy: ":")
 
-                let leftLabel = UILabel(frame: CGRectMake(16, 0, self.frame.width - 32, 20))
-                leftLabel.textAlignment = .Left
-                leftLabel.textColor = UIColor.whiteColor()
+                let leftLabel = UILabel(frame: CGRect(x: 16, y: 0, width: self.frame.width - 32, height: 20))
+                leftLabel.textAlignment = .left
+                leftLabel.textColor = UIColor.white
                 leftLabel.font = WMFont.fontMyriadProSemiboldOfSize(14)
                 leftLabel.text = "\(nutArray[0]):"
                 
                 if nutArray.count > 1 {
-                    let rigthLabel = UILabel(frame: CGRectMake(16, 0, self.frame.width - 32, 20))
-                    rigthLabel.textAlignment = .Right
-                    rigthLabel.textColor = UIColor.whiteColor()
+                    let rigthLabel = UILabel(frame: CGRect(x: 16, y: 0, width: self.frame.width - 32, height: 20))
+                    rigthLabel.textAlignment = .right
+                    rigthLabel.textColor = UIColor.white
                     rigthLabel.font = WMFont.fontMyriadProRegularOfSize(14)
                     rigthLabel.text = nutArray[1]
                     viewItem.addSubview(rigthLabel)
@@ -103,7 +103,7 @@ class GRNutrimentalInfoView : UIView {
             
         }
         
-        scrollView.contentSize = CGSizeMake(self.frame.width, startPointY + 16)
+        scrollView.contentSize = CGSize(width: self.frame.width, height: startPointY + 16)
         self.addSubview(scrollView)
 
         
@@ -113,7 +113,7 @@ class GRNutrimentalInfoView : UIView {
         super.layoutSubviews()
         if self.bounds.height > 0 {
             viewBg.frame = self.bounds
-            scrollView.frame =  CGRectMake(0,44, self.bounds.width, self.bounds.height -  44)
+            scrollView.frame =  CGRect(x: 0,y: 44, width: self.bounds.width, height: self.bounds.height -  44)
         }
 
     }
@@ -123,7 +123,7 @@ class GRNutrimentalInfoView : UIView {
      
      - parameter detail: Message text
      */
-    func setTextDetail(detail:String) {
+    func setTextDetail(_ detail:String) {
         self.textView.text = detail
     }
     
@@ -142,10 +142,10 @@ class GRNutrimentalInfoView : UIView {
      - parameter viewBg: view present
      - parameter frame:  frame view
      */
-    func generateBlurImage(viewBg:UIView,frame:CGRect) {
+    func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
         var cloneImage : UIImage? = nil
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
         cloneImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         viewBg.layer.contents = nil
@@ -156,7 +156,7 @@ class GRNutrimentalInfoView : UIView {
         cloneImage = nil
         
         self.addSubview(imageBlurView)
-        self.sendSubviewToBack(imageBlurView)
+        self.sendSubview(toBack: imageBlurView)
     }
 
     

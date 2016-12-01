@@ -11,10 +11,10 @@ import Foundation
 class IPAProductDetailCrossSellView : ProductDetailCrossSellView {
     
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         var upcItems : [[String:String]] = []
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell
         for upcStr in itemsUPC {
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String
@@ -27,7 +27,7 @@ class IPAProductDetailCrossSellView : ProductDetailCrossSellView {
             upcItems.append(["upc":upc,"description":desc, "type": typeProdVal ])
         }
         cell.hideImageView()
-        let pontInView = cell.convertRect(cell.productImage!.frame, toView:  self.superview?.superview)
+        let pontInView = cell.convert(cell.productImage!.frame, to:  self.superview?.superview)
         
         //Event
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_RELATED_PRODUCT.rawValue, label: "\(cell.upcProduct)")

@@ -9,8 +9,8 @@
 import Foundation
 class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,IPAWishListProductCollectionViewCellDelegate,UIActivityItemSource {
     
-    var items : [AnyObject]! = []
-    var currentCellSelected : NSIndexPath!
+    var items : [[String:Any]]! = []
+    var currentCellSelected : IndexPath!
     var titleLabel : UILabel!
     var customlabel : CurrencyCustomLabel!
     var loading: WMLoadingView? = nil
@@ -33,69 +33,69 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.wishlist.registerClass(IPAWishListProductCollectionViewCell.self, forCellWithReuseIdentifier: "productwishlist")
+        self.wishlist.register(IPAWishListProductCollectionViewCell.self, forCellWithReuseIdentifier: "productwishlist")
         
         self.wishlist.dataSource = self
         self.wishlist.delegate = self
         
-        self.editWishlist.addTarget(self, action: #selector(IPAWishlistViewController.editWishlist(_:)), forControlEvents: .TouchUpInside)
+        self.editWishlist.addTarget(self, action: #selector(IPAWishlistViewController.editWishlist(_:)), for: .touchUpInside)
         self.view.addSubview(self.editWishlist)
         
         titleWishlist.font = WMFont.fontMyriadProRegularOfSize(24)
-        titleWishlist.textColor = UIColor.whiteColor()
+        titleWishlist.textColor = UIColor.white
         
         articlesWishlist.font = WMFont.fontMyriadProRegularOfSize(14)
-        articlesWishlist.textColor = UIColor.whiteColor()
+        articlesWishlist.textColor = UIColor.white
         
         buyWishlist.backgroundColor = WMColor.green
         buyWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buyWishlist.layer.cornerRadius = self.buyWishlist.frame.height / 2
-        buyWishlist.addTarget(self, action: #selector(IPAWishlistViewController.senditemsToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        buyWishlist.addTarget(self, action: #selector(IPAWishlistViewController.senditemsToShoppingCart), for: UIControlEvents.touchUpInside)
         
        
         
         header.backgroundColor = WMColor.light_light_gray
         
-        titleLabel = UILabel(frame: CGRectMake((header.frame.width/2) - 75, 0, 150, header.frame.height))
+        titleLabel = UILabel(frame: CGRect(x: (header.frame.width/2) - 75, y: 0, width: 150, height: header.frame.height))
         titleLabel.text = NSLocalizedString("wishlist.title",comment:"")
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         
         titleLabel.numberOfLines = 2
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.textColor = WMColor.light_blue
         self.view.addSubview(titleLabel)
         
-        let borderBottom = UIView(frame: CGRectMake(0, self.wishlist.frame.maxY ,self.view.frame.width, AppDelegate.separatorHeigth() ))
+        let borderBottom = UIView(frame: CGRect(x: 0, y: self.wishlist.frame.maxY ,width: self.view.frame.width, height: AppDelegate.separatorHeigth() ))
         borderBottom.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(borderBottom)
         
 
-        editWishlist.setTitle(NSLocalizedString("wishlist.edit",comment:""), forState: UIControlState.Normal)
-        editWishlist.setTitle(NSLocalizedString("wishlist.endedit",comment:""), forState: UIControlState.Selected)
+        editWishlist.setTitle(NSLocalizedString("wishlist.edit",comment:""), for: UIControlState())
+        editWishlist.setTitle(NSLocalizedString("wishlist.endedit",comment:""), for: UIControlState.selected)
         editWishlist.backgroundColor = WMColor.light_blue
-        editWishlist.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        editWishlist.setTitleColor(UIColor.white, for: UIControlState())
         editWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editWishlist.layer.cornerRadius = 11
         editWishlist.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
         
         
-        deleteAllWishlist.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
+        deleteAllWishlist.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), for: UIControlState())
         deleteAllWishlist.backgroundColor = WMColor.red
-        deleteAllWishlist.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        deleteAllWishlist.setTitleColor(UIColor.white, for: UIControlState())
         deleteAllWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteAllWishlist.layer.cornerRadius = 11
         deleteAllWishlist.alpha = 0
         deleteAllWishlist.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
         
-        let closeWL = UIButton(frame: CGRectMake(0, 0, self.header.frame.height, self.header.frame.height))
-        closeWL.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
-        closeWL.addTarget(self, action: #selector(IPAWishlistViewController.close), forControlEvents: UIControlEvents.TouchUpInside)
+        let closeWL = UIButton(frame: CGRect(x: 0, y: 0, width: self.header.frame.height, height: self.header.frame.height))
+        closeWL.setImage(UIImage(named: "detail_close"), for: UIControlState())
+        closeWL.addTarget(self, action: #selector(IPAWishlistViewController.close), for: UIControlEvents.touchUpInside)
         self.view.addSubview(closeWL)
         
         if emptyView  != nil{
             emptyView.removeFromSuperview()
         }
-        emptyView = IPAEmptyWishlistView(frame: CGRectZero)
+        emptyView = IPAEmptyWishlistView(frame: CGRect.zero)
         self.view.addSubview(emptyView)
         
         WishlistService.shouldupdate = true
@@ -109,66 +109,66 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        wishlist.frame = CGRectMake(0, 46, self.view.frame.width, 224)
-        header.frame = CGRectMake(0, 0, self.view.frame.width, 46)
-        titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 75, 0, 150, header.frame.height)
-        editWishlist.frame = CGRectMake(954, 12, 55, 22)
-        deleteAllWishlist.frame = CGRectMake(866, 12, 75, 22)
-        buyWishlist.frame = CGRectMake((self.view.frame.width / 2) - (buyWishlist.frame.width / 2), buyWishlist.frame.minY, buyWishlist.frame.width, buyWishlist.frame.height)
-        titleLabel.frame = CGRectMake((header.frame.width/2) - 75, 0, 150, header.frame.height)
-        self.emptyView!.frame = CGRectMake(0, 46, wishlist.frame.width, wishlist.frame.height + 64)
-        self.view.frame = CGRectMake(0, 0, self.view.frame.width, 334)
+        wishlist.frame = CGRect(x: 0, y: 46, width: self.view.frame.width, height: 224)
+        header.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
+        titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - 75, y: 0, width: 150, height: header.frame.height)
+        editWishlist.frame = CGRect(x: 954, y: 12, width: 55, height: 22)
+        deleteAllWishlist.frame = CGRect(x: 866, y: 12, width: 75, height: 22)
+        buyWishlist.frame = CGRect(x: (self.view.frame.width / 2) - (buyWishlist.frame.width / 2), y: buyWishlist.frame.minY, width: buyWishlist.frame.width, height: buyWishlist.frame.height)
+        titleLabel.frame = CGRect(x: (header.frame.width/2) - 75, y: 0, width: 150, height: header.frame.height)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: wishlist.frame.width, height: wishlist.frame.height + 64)
+        self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 334)
         
     }
     
     func registerNotification() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAWishlistViewController.reloadWishlist), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAWishlistViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
 
         
     }
     
     func removeNotification(){
-         NSNotificationCenter.defaultCenter().removeObserver(self)
+         NotificationCenter.default.removeObserver(self)
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         reloadWishlist()
-        self.view.frame = CGRectMake(self.view.frame.minX, self.view.frame.minY, self.view.frame.width, 334)
+        self.view.frame = CGRect(x: self.view.frame.minX, y: self.view.frame.minY, width: self.view.frame.width, height: 334)
 
 
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
     }
 
-    func editWishlist(sender:AnyObject) {
+    func editWishlist(_ sender:AnyObject) {
    
         isEditingWishList = sender.tag == 1 ? true : !isEditingWishList
 
         if isEditingWishList {
-            editWishlist.selected = true
+            editWishlist.isSelected = true
             editWishlist.backgroundColor = WMColor.green
             editWishlist.tintColor = WMColor.dark_blue
             if self.items.count > 0 {
                 self.wishlist.reloadData()
             }
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.deleteAllWishlist.alpha = 1
                 self.editWishlist.tag = 0
             })
         }else {
-            editWishlist.selected = false
+            editWishlist.isSelected = false
             editWishlist.backgroundColor = WMColor.light_blue
             editWishlist.tintColor = WMColor.light_blue
             if self.items.count > 0 {
                 self.wishlist.reloadData()
             }
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.deleteAllWishlist.alpha = 0
                 self.editWishlist.tag = 0
             })
@@ -177,18 +177,18 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    func updateShopButton(total:String) {
+    func updateShopButton(_ total:String) {
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buyWishlist.bounds)
-            customlabel.backgroundColor = UIColor.clearColor()
+            customlabel.backgroundColor = UIColor.clear
             customlabel.setCurrencyUserInteractionEnabled(true)
             buyWishlist.addSubview(customlabel)
-            buyWishlist.sendSubviewToBack(customlabel)
+            buyWishlist.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("wishlist.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(total as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
-        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
     }
     
@@ -196,15 +196,15 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         if WishlistService.shouldupdate == true {
         WishlistService.shouldupdate = false
-        self.loading = WMLoadingView(frame: CGRectMake(0, 0, 1024, 334))
+        self.loading = WMLoadingView(frame: CGRect(x: 0, y: 0, width: 1024, height: 334))
         self.view.addSubview(self.loading!)
         self.loading!.startAnnimating(false)
         
             
         let serviceWish = UserWishlistService()
         
-        serviceWish.callService({ (wishlist:NSDictionary) -> Void in
-            self.items = wishlist["items"] as! [AnyObject]
+        serviceWish.callService({ (wishlist:[String:Any]) -> Void in
+            self.items = wishlist["items"] as! [[String:Any]]
             
             var positionArray: [Int] = []
             var total : Double = 0
@@ -220,11 +220,11 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
             
             let totalStr = String(format: "%.2f",total)
-            self.emptyView.hidden = self.items.count > 0
-            self.editWishlist.hidden = self.items.count == 0
-            self.buyWishlist.hidden = self.items.count == 0
-            self.articlesWishlist.hidden = self.items.count == 0
-            self.shareWishlist.hidden = self.items.count == 0
+            self.emptyView.isHidden = self.items.count > 0
+            self.editWishlist.isHidden = self.items.count == 0
+            self.buyWishlist.isHidden = self.items.count == 0
+            self.articlesWishlist.isHidden = self.items.count == 0
+            self.shareWishlist.isHidden = self.items.count == 0
             
             let articlesStr = NSLocalizedString("wishlist.articles",comment:"")
             self.articlesWishlist.text = "\(self.items.count) \(articlesStr)"
@@ -259,23 +259,23 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         self.updateShopButton(totalStr)
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return self.items.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let productCell = collectionView.dequeueReusableCellWithReuseIdentifier("productwishlist", forIndexPath: indexPath) as! IPAWishListProductCollectionViewCell
+        let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "productwishlist", for: indexPath) as! IPAWishListProductCollectionViewCell
         loadViewCellCollection(productCell,indexPath:indexPath)
         return productCell
         
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        return CGSizeMake(256, self.wishlist.frame.height);
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
+        return CGSize(width: 256, height: self.wishlist.frame.height);
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         
         let paginatedProductDetail = IPAProductDetailPageViewController()
@@ -288,40 +288,40 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }
         
         paginatedProductDetail.detailOf = "Wish List"
-        let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
+        let currentCell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell!
         currentCellSelected = indexPath
-        let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
+        let pontInView = currentCell?.convert(currentCell!.productImage!.frame, to:  self.view)
         paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
         paginatedProductDetail.animationController.originPoint =  pontInView
         paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
-        currentCell.hideImageView()
+        currentCell?.hideImageView()
         
         self.navigationController?.delegate = paginatedProductDetail
         self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
         
     }
     
-    func deleteProductWishList(cell:IPAWishListProductCollectionViewCell) {
+    func deleteProductWishList(_ cell:IPAWishListProductCollectionViewCell) {
         
-        let indexPath = self.wishlist.indexPathForCell(cell)
-        let itemWishlist = items[indexPath!.row] as! [String:AnyObject]
+        let indexPath = self.wishlist.indexPath(for: cell)
+        let itemWishlist = items[indexPath!.row] as! [String:Any]
         let upc = itemWishlist["upc"] as! NSString
         let deleteWishListService = DeleteItemWishlistService()
-        deleteWishListService.callCoreDataService(upc as String, successBlock: { (result:NSDictionary) -> Void in
-            self.items.removeAtIndex(indexPath!.row)
-            self.wishlist.deleteItemsAtIndexPaths([indexPath!])
+        deleteWishListService.callCoreDataService(upc as String, successBlock: { (result:[String:Any]) -> Void in
+            self.items.remove(at: indexPath!.row)
+            self.wishlist.deleteItems(at: [indexPath!])
             //self.wishlist.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
             //self.wishlist.reloadData()
-            self.emptyView.hidden = self.items.count > 0
-            self.deleteAllWishlist.hidden = self.items.count == 0 && self.isEditingWishList
+            self.emptyView.isHidden = self.items.count > 0
+            self.deleteAllWishlist.isHidden = self.items.count == 0 && self.isEditingWishList
             self.updateShopButton()
-            self.editWishlist.hidden = self.items.count == 0
+            self.editWishlist.isHidden = self.items.count == 0
             //self.isEditingWishList =  true
              self.editWishlist.tag = 1
             self.editWishlist(self.editWishlist)
-            self.deleteAllWishlist.hidden = self.items.count == 0
+            self.deleteAllWishlist.isHidden = self.items.count == 0
             if self.items.count == 0 {
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
             }
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")
@@ -330,8 +330,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     func senditemsToShoppingCart() {
         
-        var params : [AnyObject] =  []
-        var paramsPreorderable : [AnyObject] =  []
+        var params : [Any] =  []
+        var paramsPreorderable : [Any] =  []
         var hasItemsNotAviable = false
         var wishlistTotalPrice = 0.0
 
@@ -340,7 +340,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             let upc = itemWishList["upc"] as! String
             let desc = itemWishList["description"] as! String
             let price = itemWishList["price"] as! NSString
-            let imageArray = itemWishList["imageUrl"] as! NSArray
+            let imageArray = itemWishList["imageUrl"] as! [Any]
             
             let active  = itemWishList["isActive"] as! String
             var isActive = "true" == active
@@ -362,12 +362,12 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             var numOnHandInventory : NSString = "0"
             if let numberOf = itemWishList["onHandInventory"] as? String{
-                numOnHandInventory  = numberOf
+                numOnHandInventory  = numberOf as NSString
             }
             
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as! String
+                imageUrl = imageArray[0] as! String
             }
             
             var category : String = ""
@@ -378,7 +378,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
-                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
                     //params.append(paramsItem)
@@ -419,7 +419,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             if self.items.count > 1 {
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
-                    let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                    let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                     if hasUPC {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                         alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
@@ -434,8 +434,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
 
         }
-        let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
-        let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
+        let identicalMG = UserCurrentSession.sharedInstance.identicalMG()
+        let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
         
         if paramsPreorderable.count == 0 && params.count == 0 {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
@@ -449,10 +449,10 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             if paramsPreorderable.count > 1 && params.count == 0  &&  totArticlesMG == 0{
                
-                let itemImage = paramsPreorderable[0] as! NSDictionary
+                let itemImage = paramsPreorderable[0] as! [String:Any]
                 let alert = IPAWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                alert!.spinImage.hidden =  true
-                alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
+                alert!.spinImage.isHidden =  true
+                alert!.viewBgImage.backgroundColor =  UIColor.white
                 let messagePreorderable = NSLocalizedString("alert.presaletobuyback",comment:"")
                 alert!.setMessage(messagePreorderable)
                 alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
@@ -466,8 +466,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             } else if paramsPreorderable.count > 0 && params.count > 0 &&  totArticlesMG == 0{
                 
                 let alert = IPAWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                alert!.spinImage.hidden =  true
-                alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
+                alert!.spinImage.isHidden =  true
+                alert!.viewBgImage.backgroundColor =  UIColor.white
                 let messagePreorderable = NSLocalizedString("alert.presalewishlist",comment:"")
                 alert!.setMessage(messagePreorderable)
                 alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
@@ -481,15 +481,15 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 if totArticlesMG == 0 {
                     self.sendNewItemsToShoppingCart(paramsPreorderable)
                 }else{
-                    var itemImage =  NSDictionary()
+                    var itemImage =  [String:Any]()
                     if paramsPreorderable.count == 0{
-                        itemImage =  params[0] as! NSDictionary
+                        itemImage =  params[0] as! [String:Any]
                     }else{
-                        itemImage =  paramsPreorderable[0] as! NSDictionary
+                        itemImage =  paramsPreorderable[0] as! [String:Any]
                     }
                     let alert = IPAWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                    alert!.spinImage.hidden =  true
-                    alert!.viewBgImage.backgroundColor = UIColor.whiteColor()
+                    alert!.spinImage.isHidden =  true
+                    alert!.viewBgImage.backgroundColor = UIColor.white
 
                     var messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")
                     messagePreorderable =  NSLocalizedString("alert.presaleindependent",comment:"")
@@ -527,23 +527,23 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    func sendNewItemsToShoppingCart(params:[AnyObject]){
+    func sendNewItemsToShoppingCart(_ params:[Any]){
         if params.count > 0 {
-            let paramsAll = ["allitems":params, "image":"wishlist_addToCart"    ]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
+            let paramsAll = ["allitems":params, "image":"wishlist_addToCart"    ] as [String : Any]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
         }
 //       //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
     }
     
     func reloadSelectedCell() {
         if currentCellSelected != nil {
-            if let currentCell = wishlist.cellForItemAtIndexPath(currentCellSelected) as? IPAWishListProductCollectionViewCell {
+            if let currentCell = wishlist.cellForItem(at: currentCellSelected) as? IPAWishListProductCollectionViewCell {
                 currentCell.showImageView()
             }
         }
     }
     
-    @IBAction func shareWishList(sender: AnyObject) {
+    @IBAction func shareWishList(_ sender: AnyObject) {
         
         let imgResult = imageToShareWishList()
         var strAllUPCs = ""
@@ -561,17 +561,17 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imgResult], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)
         
-        popup!.presentPopoverFromRect(CGRectMake(self.shareWishlist.frame.origin.x + 13, self.shareWishlist.frame.maxY - 120, 10, 120), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popup!.present(from: CGRect(x: self.shareWishlist.frame.origin.x + 13, y: self.shareWishlist.frame.maxY - 120, width: 10, height: 120), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                if completed && !activityType!.containsString("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.containsString("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -579,23 +579,23 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
         return "Walmart"
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
-        if activityType == UIActivityTypeMail {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
             return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
         }
         return ""
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
-        if activityType == UIActivityTypeMail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
             }
         }
         return ""
@@ -606,17 +606,17 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let imageHeader = UIImage(named: "wishlist_shareheaderipad")
         let totalImageSize = self.getImageWislistShareSize(imageHeader!)
         UIGraphicsBeginImageContextWithOptions(totalImageSize, false, 0.0);
-        imageHeader?.drawInRect(CGRectMake(0, 0, imageHeader!.size.width, imageHeader!.size.height))
+        imageHeader?.draw(in: CGRect(x: 0, y: 0, width: imageHeader!.size.width, height: imageHeader!.size.height))
         var ixWidht : CGFloat = 0
         var ixYSpace : CGFloat = imageHeader!.size.height
         for ixItem  in 0...items.count - 1 {
             //var semaphore = dispatch_semaphore_create(0)
-            let cellNew = IPAWishListProductCollectionViewCell(frame:CGRectMake(0,0,totalImageSize.width/2, totalImageSize.width/2),loadImage:{() in
+            let cellNew = IPAWishListProductCollectionViewCell(frame:CGRect(x: 0,y: 0,width: totalImageSize.width/2, height: totalImageSize.width/2),loadImage:{() in
                 //let val = dispatch_semaphore_signal(semaphore)
             })
-            loadViewCellCollection(cellNew,indexPath:NSIndexPath(forRow: ixItem, inSection: 0))
+            loadViewCellCollection(cellNew,indexPath:IndexPath(row: ixItem, section: 0))
             //dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
-            cellNew.drawViewHierarchyInRect(CGRectMake(ixWidht, ixYSpace,totalImageSize.width/2, totalImageSize.width/2), afterScreenUpdates: true)
+            cellNew.drawHierarchy(in: CGRect(x: ixWidht, y: ixYSpace,width: totalImageSize.width/2, height: totalImageSize.width/2), afterScreenUpdates: true)
             if ixWidht == 0 {
                 ixWidht =  totalImageSize.width/2
             }else{
@@ -630,22 +630,22 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    func loadViewCellCollection(productCell:IPAWishListProductCollectionViewCell,indexPath:NSIndexPath) {
+    func loadViewCellCollection(_ productCell:IPAWishListProductCollectionViewCell,indexPath:IndexPath) {
 
         productCell.delegate = self
         
-        let itemWishlist = items[indexPath.row] as! [String:AnyObject]
+        let itemWishlist = items[indexPath.row] as! [String:Any]
         let upc = itemWishlist["upc"] as! String
         
         let desc = itemWishlist["description"] == nil ? "" : itemWishlist["description"] as! String
         let price = itemWishlist["price"] as! NSString
-        let imageArray = itemWishlist["imageUrl"] as! NSArray
+        let imageArray = itemWishlist["imageUrl"] as! [Any]
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as! String
+            imageUrl = imageArray[0] as! String
         }
         
-        let savingIndex = itemWishlist.indexForKey("saving")
+        let savingIndex = itemWishlist.index(forKey: "saving")
         var savingVal = "0.0"
         if savingIndex != nil {
             savingVal = itemWishlist["saving"]  as! String
@@ -665,13 +665,13 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
         
-        let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+        let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         
         productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, productPriceThrough: savingVal,isEditting:self.isEditingWishList, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart)
         
     }
     
-    func getImageWislistShareSize(header:UIImage) -> CGSize {
+    func getImageWislistShareSize(_ header:UIImage) -> CGSize {
         let modItems = (self.items.count / 2) + (self.items.count % 2)
         let widthItem : CGFloat = (header.size.width / 2)
         let height : CGFloat = header.size.height + CGFloat(modItems) * widthItem
@@ -679,13 +679,13 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
 
-    @IBAction func deleteAllItems(sender: AnyObject) {
+    @IBAction func deleteAllItems(_ sender: AnyObject) {
         
         let serviceWishDelete = DeleteItemWishlistService()
         
         for itemWishlist in self.items {
             let upc = itemWishlist["upc"] as! NSString
-            serviceWishDelete.callCoreDataService(upc as String, successBlock: { (result:NSDictionary) -> Void in
+            serviceWishDelete.callCoreDataService(upc as String, successBlock: { (result:[String:Any]) -> Void in
                 }) { (error:NSError) -> Void in
             }
         }

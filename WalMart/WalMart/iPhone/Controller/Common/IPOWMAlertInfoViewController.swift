@@ -18,7 +18,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         
         if imageWaiting != nil {
             imageIcon.removeFromSuperview()
-            imageIcon.hidden = false
+            imageIcon.isHidden = false
         }
     
         titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(24)
@@ -26,13 +26,13 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         messageLabel = UILabel()
         messageLabel.font = WMFont.fontMyriadProRegularOfSize(15)
         messageLabel.textColor = WMColor.light_gray
-        messageLabel.textAlignment = .Left
+        messageLabel.textAlignment = .left
         messageLabel.numberOfLines = 0
         
-        spinImage.hidden = true
+        spinImage.isHidden = true
         spinImage.removeFromSuperview()
         
-        viewBgImage.hidden = true
+        viewBgImage.isHidden = true
         viewBgImage.removeFromSuperview()
         
         self.view.addSubview(messageLabel)
@@ -42,7 +42,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
         
-        self.imageblur?.hidden = true
+        self.imageblur?.isHidden = true
         self.bgView.frame = bounds
 
        
@@ -51,18 +51,18 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         //messageLabel.frame = CGRectMake((bounds.width - 232) / 2, 100, 232, messageLabel!.frame.height)
         
         titleLabel!.sizeToFit()
-        titleLabel.frame = CGRectMake((bounds.width - 232) / 2,  60, 232, 40)
+        titleLabel.frame = CGRect(x: (bounds.width - 232) / 2,  y: 60, width: 232, height: 40)
         
         if self.doneButton != nil {
-            doneButton.frame = CGRectMake((bounds.width - 160 ) / 2, messageLabel.frame.maxY + 80, 160 , 40)
+            doneButton.frame = CGRect(x: (bounds.width - 160 ) / 2, y: messageLabel.frame.maxY + 80, width: 160 , height: 40)
         }
         
         if leftButton != nil {
-            leftButton.frame = CGRectMake((self.view.bounds.width / 2) - 134, self.messageLabel.frame.maxY + 28, 128, 32)
+            leftButton.frame = CGRect(x: (self.view.bounds.width / 2) - 134, y: self.messageLabel.frame.maxY + 28, width: 128, height: 32)
         }
         
         if rightButton != nil {
-            rightButton.frame =  CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height)
+            rightButton.frame =  CGRect(x: leftButton.frame.maxX + 11, y: leftButton.frame.minY, width: leftButton.frame.width, height: leftButton.frame.height)
         }
         
     }
@@ -72,9 +72,9 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
      
      - parameter message: message in alert info
      */
-    func setAttributedMessage(message:NSMutableAttributedString){
-        let size =  message.boundingRectWithSize(CGSizeMake(self.view.bounds.width - 50, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-        messageLabel.frame = CGRectMake(24, 130, self.view.bounds.width - 50, size.height)
+    func setAttributedMessage(_ message:NSMutableAttributedString){
+        let size =  message.boundingRect(with: CGSize(width: self.view.bounds.width - 50, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        messageLabel.frame = CGRect(x: 24, y: 130, width: self.view.bounds.width - 50, height: size.height)
         messageLabel.attributedText = message
     }
     
@@ -83,7 +83,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
      
      - parameter labelWidth: Width message
      */
-    func setMessageLabelToCenter(labelWidth: CGFloat){
+    func setMessageLabelToCenter(_ labelWidth: CGFloat){
         self.messageLabel.frame.size = CGSize(width: labelWidth, height: self.messageLabel.frame.height)
         let x = (self.view.frame.width - self.messageLabel.frame.width)/2
         let y = (self.view.frame.height - self.messageLabel.frame.height)/2
@@ -99,7 +99,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
      
      - returns: alert view controller type info.
      */
-    class func showAttributedAlert(controller:UIViewController, title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
+    class func showAttributedAlert(_ controller:UIViewController, title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
         let newAlert = IPOWMAlertInfoViewController()
         controller.addChildViewController(newAlert)
         controller.view.addSubview(newAlert.view)
@@ -118,7 +118,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
      
      - returns: Alert view controller type info.
      */
-     class func showAlert(controller:UIViewController, title: String, message:String)  -> IPOWMAlertInfoViewController? {
+     class func showAlert(_ controller:UIViewController, title: String, message:String)  -> IPOWMAlertInfoViewController? {
         let newAlert = IPOWMAlertInfoViewController()
         controller.addChildViewController(newAlert)
         controller.view.addSubview(newAlert.view)
@@ -137,8 +137,8 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
      
      - returns: Alert view controller type info.
      */
-    class func showAlert(title: String, message:String)  -> IPOWMAlertInfoViewController? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+    class func showAlert(_ title: String, message:String)  -> IPOWMAlertInfoViewController? {
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         if vc != nil {
             return showAlert(vc!,title:title,message:message)
         }
@@ -153,8 +153,8 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
      
      - returns: Alert view controller type info.
      */
-    class func showAttributedAlert(title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+    class func showAttributedAlert(_ title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         if vc != nil {
             return showAttributedAlert(vc!,title:title,message:message)
         }

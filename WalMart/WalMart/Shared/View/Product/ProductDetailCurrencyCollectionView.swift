@@ -23,12 +23,12 @@ class ProductDetailCurrencyCollectionView : UITableViewCell {
     }
     
     func setup() {
-        titleLabel = CurrencyCustomLabel(frame:CGRectMake(self.bounds.minX, self.bounds.minY , self.bounds.width,  self.bounds.height ))
+        titleLabel = CurrencyCustomLabel(frame:CGRect(x: self.bounds.minX, y: self.bounds.minY , width: self.bounds.width,  height: self.bounds.height ))
         
     }
     
-    func setValues(value:String,font:UIFont,textColor:UIColor,interLine:Bool){
-        titleLabel.frame = CGRectMake(self.bounds.minX, self.bounds.minY , self.bounds.width,  self.bounds.height )
+    func setValues(_ value:String,font:UIFont,textColor:UIColor,interLine:Bool){
+        titleLabel.frame = CGRect(x: self.bounds.minX, y: self.bounds.minY , width: self.bounds.width,  height: self.bounds.height )
         titleLabel.updateMount(value, font: font, color: textColor, interLine: interLine)
         /*titleLabel.text  = title
         titleLabel.font = font

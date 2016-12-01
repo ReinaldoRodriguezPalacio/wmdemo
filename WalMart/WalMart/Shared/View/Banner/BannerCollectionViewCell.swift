@@ -7,22 +7,46 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol BannerCollectionViewCellDelegate {
-    func bannerDidSelect(queryBanner:String,type:String,urlTteaser:String?, bannerName: String)
-    func termsSelect(url:String)
+    func bannerDidSelect(_ queryBanner:String,type:String,urlTteaser:String?, bannerName: String)
+    func termsSelect(_ url:String)
 }
 
 class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataSource,UIPageViewControllerDelegate {
     
-    var currentInterval: NSTimeInterval = 4.0
+    var currentInterval: TimeInterval = 4.0
     var delegate: BannerCollectionViewCellDelegate!
     var pointSection: UIView? = nil
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
     var currentItem: Int? = nil
     var visibleItem: Int? = nil
-    var timmerBanner : NSTimer!
+    var timmerBanner : Timer!
     var buttonTerms : UIButton!
     var viewTerms : BannerTermsView!
     var banners: [Banner]?
@@ -48,22 +72,22 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         self.visibleItem = 0
         self.currentItem = 0
         self.pointSection = UIView()
-        self.pointSection?.frame = CGRectMake(0, self.frame.height - 20 , self.frame.width, 20)
-        self.pointSection?.backgroundColor = UIColor.clearColor()
+        self.pointSection?.frame = CGRect(x: 0, y: self.frame.height - 20 , width: self.frame.width, height: 20)
+        self.pointSection?.backgroundColor = UIColor.clear
         buildButtonSection()
         
-        pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
+        pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options: nil)
         pageViewController.dataSource = self
         pageViewController.delegate = self
-        pageViewController.view.frame = CGRectMake(0, 0, self.frame.width, self.frame.height)
+        pageViewController.view.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 //        pageViewController.view.backgroundColor = UIColor.whiteColor()
         pageViewController.view.backgroundColor = WMColor.light_light_gray
         
         
-        buttonTerms = UIButton(frame: CGRectMake(self.frame.width - 128, self.frame.height - 18, 120, 16))
-        buttonTerms.setTitle(NSLocalizedString("home.banner.termsandconditions",comment:""), forState: UIControlState.Normal)
-        buttonTerms.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        buttonTerms.addTarget(self, action: #selector(BannerCollectionViewCell.termsclick), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonTerms = UIButton(frame: CGRect(x: self.frame.width - 128, y: self.frame.height - 18, width: 120, height: 16))
+        buttonTerms.setTitle(NSLocalizedString("home.banner.termsandconditions",comment:""), for: UIControlState())
+        buttonTerms.setTitleColor(UIColor.white, for: UIControlState())
+        buttonTerms.addTarget(self, action: #selector(BannerCollectionViewCell.termsclick), for: UIControlEvents.touchUpInside)
         buttonTerms.backgroundColor = WMColor.blue
         buttonTerms.layer.cornerRadius = 8
         buttonTerms.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(10)
@@ -71,7 +95,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
         
         let currrentController = getCurrentController()
-        pageViewController.setViewControllers([currrentController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        pageViewController.setViewControllers([currrentController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         
         self.addSubview(pageViewController.view)
         self.addSubview(self.pointSection!)
@@ -83,7 +107,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         self.currentItem =  viewController.view.tag
         if self.currentItem > 0 {
             self.currentItem = self.currentItem! - 1
@@ -94,7 +118,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         return getCurrentController()
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) ->
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) ->
         UIViewController? {
             self.currentItem =  viewController.view.tag
             if self.currentItem! + 1 < dataSource!.count {
@@ -152,15 +176,15 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             var x: CGFloat = 0.0
             let sep: CGFloat = 5.0
             for idx in 0 ..< size! {
-                let point = UIButton(type: .Custom)
-                point.frame = CGRectMake(x, 0, bsize, bsize)
-                point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Highlighted)
-                point.addTarget(self, action: #selector(BannerCollectionViewCell.pointSelected(_:)), forControlEvents: .TouchUpInside)
-                point.selected = idx == self.currentItem!
+                let point = UIButton(type: .custom)
+                point.frame = CGRect(x: x, y: 0, width: bsize, height: bsize)
+                point.setImage(UIImage(named: "bannerContentOff"), for: UIControlState())
+                point.setImage(UIImage(named: "bannerContentOn"), for: .selected)
+                point.setImage(UIImage(named: "bannerContentOn"), for: .highlighted)
+                point.addTarget(self, action: #selector(BannerCollectionViewCell.pointSelected(_:)), for: .touchUpInside)
+                point.isSelected = idx == self.currentItem!
                 point.tag = idx
-                x = CGRectGetMaxX(point.frame)
+                x = point.frame.maxX
                 if idx < size {
                     x += sep
                 }
@@ -168,7 +192,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 buttons.append(point)
             }
             let pbounds = self.pointSection!.frame
-            self.pointContainer!.frame = CGRectMake((pbounds.size.width - x)/2,  (20.0 - bsize)/2, x, 20.0)
+            self.pointContainer!.frame = CGRect(x: (pbounds.size.width - x)/2,  y: (20.0 - bsize)/2, width: x, height: 20.0)
         }
         self.pointButtons = buttons
     }
@@ -178,7 +202,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             if timmerBanner != nil {
                 timmerBanner.invalidate()
             }
-            timmerBanner = NSTimer.scheduledTimerWithTimeInterval(currentInterval, target: self, selector: #selector(BannerCollectionViewCell.changebanner), userInfo: nil, repeats: true)
+            timmerBanner = Timer.scheduledTimer(timeInterval: currentInterval, target: self, selector: #selector(BannerCollectionViewCell.changebanner), userInfo: nil, repeats: true)
         }
         
     }
@@ -198,24 +222,24 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         }
         
         self.visibleItem = currentItem!
-        self.pageViewController.setViewControllers([self.getCurrentController()], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+        self.pageViewController.setViewControllers([self.getCurrentController()], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil)
         self.reloadTermsAndPages()
     }
 
-    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]){
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]){
         stopTimmer()
         if plecaEnd != nil {
             plecaEnd!()
         }
 
         self.visibleItem = pendingViewControllers[0].view!.tag
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.buttonTerms.alpha =  0
         })
         
     }
     
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         startTimmer()
         let currentController = previousViewControllers.last!
             if !completed {
@@ -227,21 +251,21 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     }
     
     func reloadTermsAndPages() {
-        let nsarray = self.pointButtons! as NSArray
-        if nsarray.count > 0 {
-            if let button = nsarray.objectAtIndex(self.visibleItem!) as? UIButton {
+        let array = self.pointButtons! as [Any]
+        if array.count > 0 {
+            if let button = array[self.visibleItem!] as? UIButton {
                 for inner: UIButton in self.pointButtons! {
-                    inner.selected = button === inner
+                    inner.isSelected = button === inner
                 }
             }
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
+            UIView.animate(withDuration: 0.1, animations: { () -> Void in
                 self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
-                }) { (complete:Bool) -> Void in
-            }
+                }, completion: { (complete:Bool) -> Void in
+            }) 
         }
     }
     
-    func tapOnItembanner(sender:UITapGestureRecognizer) {
+    func tapOnItembanner(_ sender:UITapGestureRecognizer) {
         
         let selectedItem = sender.view!.tag
         let values = self.dataSource![selectedItem]
@@ -258,16 +282,16 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         delegate.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone, bannerName: values["eventCode"]!)
     }
     
-    func isUrl(temrs:String)-> Bool{
+    func isUrl(_ temrs:String)-> Bool{
         var isUrl =  false
-        if let url = NSURL(string: temrs) {
-          isUrl =  UIApplication.sharedApplication().canOpenURL(url)
+        if let url = URL(string: temrs) {
+          isUrl =  UIApplication.shared.canOpenURL(url)
         }
         return isUrl
     }
     
     func termsclick() {
-        if buttonTerms.selected {
+        if buttonTerms.isSelected {
             //Close details
             startTimmer()
             
@@ -307,15 +331,15 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             
             
         }
-        buttonTerms.selected  = !buttonTerms.selected
+        buttonTerms.isSelected  = !buttonTerms.isSelected
     }
     
-    func pointSelected(sender:UIButton) {
+    func pointSelected(_ sender:UIButton) {
         currentItem = sender.tag == dataSource?.count ? dataSource?.count : (sender.tag - 1)
         changebanner()
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         }
 
 }

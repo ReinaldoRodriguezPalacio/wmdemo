@@ -22,28 +22,28 @@ class WMTCopyLable: UILabel {
         sharedInit()
     }
     func sharedInit() {
-        userInteractionEnabled = true
+        isUserInteractionEnabled = true
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(WMTCopyLable.showMenu(_:))))
     }
-    func showMenu(sender: AnyObject?) {
+    func showMenu(_ sender: Any?) {
         becomeFirstResponder()
-        let menu = UIMenuController.sharedMenuController()
-        if !menu.menuVisible {
-            menu.setTargetRect(bounds, inView: self)
+        let menu = UIMenuController.shared
+        if !menu.isMenuVisible {
+            menu.setTargetRect(bounds, in: self)
             menu.setMenuVisible(true, animated: true)
         }
     }
-    override func copy(sender: AnyObject?) {
-        let board = UIPasteboard.generalPasteboard()
+    override func copy(_ sender: Any?) {
+        let board = UIPasteboard.general
         board.string = stringCopy
-        let menu = UIMenuController.sharedMenuController()
+        let menu = UIMenuController.shared
         menu.setMenuVisible(false, animated: true)
     }
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder : Bool {
         return true
     }
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == #selector(NSObject.copy(_:)) {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(NSObject.copy) {
             return true
         }
         return false

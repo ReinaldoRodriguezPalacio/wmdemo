@@ -12,8 +12,8 @@ import Foundation
 class AuthorizationService : GRBaseService {
     
     
-    override func callGETService(params: AnyObject, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
-        super.callGETService(params, successBlock: { (response:NSDictionary) in
+    override func callGETService(_ params: Any, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+        super.callGETService(params, successBlock: { (response:[String:Any]) in
             print("ok Response Service")
             successBlock!(response)
         }, errorBlock: { (error:NSError) in

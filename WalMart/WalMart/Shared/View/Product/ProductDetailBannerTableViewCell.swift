@@ -7,22 +7,46 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol ProductDetailBannerCollectionViewDelegate {
-    func sleectedImage(indexPath: NSIndexPath)
+    func sleectedImage(_ indexPath: IndexPath)
 }
 
 class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSource,UICollectionViewDelegate  {
     
     var delegate : ProductDetailBannerCollectionViewDelegate!
     var collection: UICollectionView!
-    var items: [AnyObject]! = []
+    var items: [Any]! = []
     var pointSection: UIView? = nil
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
     var currentItem: Int? = nil
     var freeShippingImage: UIImageView!
-    let contentModeOrig = UIViewContentMode.ScaleAspectFit
+    let contentModeOrig = UIViewContentMode.scaleAspectFit
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,16 +60,16 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
     
     func setup() {
         let collectionLayout = UICollectionViewFlowLayout()
-        collectionLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+        collectionLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
         collection = UICollectionView(frame: self.bounds, collectionViewLayout: collectionLayout)
-        collection.registerClass(ProductDetailBannerMediaCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
+        collection.register(ProductDetailBannerMediaCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         collection.dataSource = self
         collection.delegate = self
-        collection.pagingEnabled = true
-        collection.backgroundColor = UIColor.whiteColor()
+        collection.isPagingEnabled = true
+        collection.backgroundColor = UIColor.white
         collection.showsHorizontalScrollIndicator = false
         self.pointSection = UIView()
-        self.pointSection?.backgroundColor = UIColor.clearColor()
+        self.pointSection?.backgroundColor = UIColor.clear
         self.currentItem = 0
         self.addSubview(collection)
         self.addSubview(pointSection!)
@@ -54,16 +78,16 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
     }
     
     
-    func setFreeShiping(freeShipping:Bool) {
+    func setFreeShiping(_ freeShipping:Bool) {
         if (freeShipping) {
             if freeShippingImage == nil {
-                freeShippingImage = UIImageView(frame: CGRectMake(16, 177, 50, 50))
+                freeShippingImage = UIImageView(frame: CGRect(x: 16, y: 177, width: 50, height: 50))
                 freeShippingImage.image = UIImage(named:"detail_freeShipping")
                 self.addSubview(freeShippingImage)
             }
         }else{
             if freeShippingImage != nil {
-                freeShippingImage.hidden = true
+                freeShippingImage.isHidden = true
             }
         }
     }
@@ -82,14 +106,14 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
             var x: CGFloat = 0.0
             let sep: CGFloat = 2.0
             for idx in 0 ..< size! {
-                let point = UIButton(type: .Custom)
-                point.frame = CGRectMake(x, 5, bsize, bsize)
-                point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
-                point.setImage(UIImage(named: "bannerContentOn"), forState: .Highlighted)
-                point.addTarget(self, action: #selector(ProductDetailBannerTableViewCell.pointSelected(_:)), forControlEvents: .TouchUpInside)
-                point.selected = idx == self.currentItem!
-                x = CGRectGetMaxX(point.frame)
+                let point = UIButton(type: .custom)
+                point.frame = CGRect(x: x, y: 5, width: bsize, height: bsize)
+                point.setImage(UIImage(named: "bannerContentOff"), for: UIControlState())
+                point.setImage(UIImage(named: "bannerContentOn"), for: .selected)
+                point.setImage(UIImage(named: "bannerContentOn"), for: .highlighted)
+                point.addTarget(self, action: #selector(ProductDetailBannerTableViewCell.pointSelected(_:)), for: .touchUpInside)
+                point.isSelected = idx == self.currentItem!
+                x = point.frame.maxX
                 if idx < size {
                     x += sep
                 }
@@ -97,28 +121,28 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
                 buttons.append(point)
             }
             let pbounds = self.pointSection!.frame
-            self.pointContainer!.frame = CGRectMake((pbounds.size.width - x)/2,  (20.0 - bsize)/2, x, 20.0)
+            self.pointContainer!.frame = CGRect(x: (pbounds.size.width - x)/2,  y: (20.0 - bsize)/2, width: x, height: 20.0)
         }
         self.pointButtons = buttons
     }
     
-    func pointSelected(sender:UIButton) {
+    func pointSelected(_ sender:UIButton) {
         for button: UIButton in self.pointButtons! {
-            button.selected = button === sender
+            button.isSelected = button === sender
         }
-        if let idx = (self.pointButtons!).indexOf(sender) {
-            self.collection!.scrollToItemAtIndexPath(NSIndexPath(forItem: idx, inSection: 0),
-                atScrollPosition: .CenteredHorizontally, animated: false)
+        if let idx = (self.pointButtons!).index(of: sender) {
+            self.collection!.scrollToItem(at: IndexPath(item: idx, section: 0),
+                at: .centeredHorizontally, animated: false)
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
-        let nsarray = self.pointButtons! as NSArray
-        if let button = nsarray.objectAtIndex(self.currentItem!) as? UIButton {
+        let array = self.pointButtons! as [Any]
+        if let button = array[self.currentItem!] as? UIButton {
             for inner: UIButton in self.pointButtons! {
-                inner.selected = button === inner
+                inner.isSelected = button === inner
             }
         }
     }
@@ -126,39 +150,39 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
     override func layoutSubviews() {
         super.layoutSubviews()
         collection.frame = self.bounds
-        self.pointSection?.frame = CGRectMake(0, self.collection.frame.height - 20 , self.collection.frame.width, 20)
+        self.pointSection?.frame = CGRect(x: 0, y: self.collection.frame.height - 20 , width: self.collection.frame.width, height: 20)
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.buildButtonSection()
         return items.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as! ProductDetailBannerMediaCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ProductDetailBannerMediaCollectionViewCell
         let imageURL = items[indexPath.row] as! String
         
-        cell.imageView!.contentMode = UIViewContentMode.Center
-        cell.imageView!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        cell.imageView!.contentMode = UIViewContentMode.center
+        cell.imageView!.setImageWith(URLRequest(url:URL(string: imageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             cell.imageView!.contentMode = self.contentModeOrig
             cell.imageView!.image = image
             }, failure: nil)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate.sleectedImage(indexPath)
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
       return self.bounds.size
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
 

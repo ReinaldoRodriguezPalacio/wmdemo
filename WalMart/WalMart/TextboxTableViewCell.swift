@@ -30,13 +30,13 @@ class TextboxTableViewCell: UITableViewCell{
         self.textLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textLabel?.textColor = WMColor.gray
         self.textLabel?.numberOfLines = 0
-        self.textLabel?.hidden = true
-        textbox = FormFieldView(frame: CGRectMake(5,3, self.frame.width - 12, self.frame.height - 6))
+        self.textLabel?.isHidden = true
+        textbox = FormFieldView(frame: CGRect(x: 5,y: 3, width: self.frame.width - 12, height: self.frame.height - 6))
         textbox!.isRequired = true;
-        textbox!.typeField = TypeField.String
+        textbox!.typeField = TypeField.string
         self.addSubview(textbox!)
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width , 44),
-            inputViewStyle: .Keyboard,
+        let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 44),
+            inputViewStyle: .keyboard,
             titleSave: "Ok",
             save: { (field:UITextField?) -> Void in
                 field?.resignFirstResponder()
@@ -53,13 +53,13 @@ class TextboxTableViewCell: UITableViewCell{
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.textbox?.frame = CGRectMake(5,3, self.frame.width - 12, self.frame.height - 6)
+        self.textbox?.frame = CGRect(x: 5,y: 3, width: self.frame.width - 12, height: self.frame.height - 6)
     }
     
     
-    class func sizeText(text:String,width:CGFloat) -> CGFloat {
+    class func sizeText(_ text:String,width:CGFloat) -> CGFloat {
         let attrString = NSAttributedString(string:text, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)])
-        let rectSize = attrString.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         return rectSize.height + 32
         
     }
@@ -67,33 +67,33 @@ class TextboxTableViewCell: UITableViewCell{
     func setDatePickerInputView()
     {
         self.datePicker = UIDatePicker()
-        self.datePicker!.datePickerMode = .Date
-        self.datePicker!.date = NSDate()
-        self.datePicker!.maximumDate = NSDate()
+        self.datePicker!.datePickerMode = .date
+        self.datePicker!.date = Date()
+        self.datePicker!.maximumDate = Date()
         
-        self.datePicker!.addTarget(self, action: #selector(TextboxTableViewCell.dateChanged), forControlEvents: .ValueChanged)
+        self.datePicker!.addTarget(self, action: #selector(TextboxTableViewCell.dateChanged), for: .valueChanged)
         self.textbox!.inputView = self.datePicker!
         self.useDatePicker = true
         
 
     }
     
-    class func parseDateString(dateStr:String, format:String="dd/MM/yyyy") -> String {
-        let dateFmt = NSDateFormatter()
-        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+    class func parseDateString(_ dateStr:String, format:String="dd/MM/yyyy") -> String {
+        let dateFmt = DateFormatter()
+        dateFmt.timeZone = TimeZone.current
         dateFmt.dateFormat = format
-        let date = dateFmt.dateFromString(dateStr)!
-        let formatService  = NSDateFormatter()
+        let date = dateFmt.date(from: dateStr)!
+        let formatService  = DateFormatter()
         formatService.dateFormat = "dd/MM/yyyy"
-        return formatService.stringFromDate(date)
+        return formatService.string(from: date)
     }
     
     //MARK Date picker Delegate
      func dateChanged() {
-        let dateFmt = NSDateFormatter()
+        let dateFmt = DateFormatter()
         dateFmt.dateFormat = "d MMMM yyyy"
         let date = self.datePicker!.date
-        self.textbox!.text = dateFmt.stringFromDate(date)
+        self.textbox!.text = dateFmt.string(from: date)
         self.textbox!.delegate?.textFieldDidEndEditing!(self.textbox!)
     }
     

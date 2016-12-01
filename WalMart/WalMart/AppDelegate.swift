@@ -19,35 +19,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     var imgView: UIImageView? = nil
     var alertNoInternet: IPOWMAlertViewController? = nil
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         //White status bar
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
         
         //Push notifications
          if #available(iOS 8.0, *) {
-          if application.respondsToSelector(#selector(UIApplication.registerUserNotificationSettings(_:))) {
-                let type: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
-                let setting = UIUserNotificationSettings(forTypes: type, categories: nil);
-                UIApplication.sharedApplication().registerUserNotificationSettings(setting);
-                UIApplication.sharedApplication().registerForRemoteNotifications();
+          if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
+                let type: UIUserNotificationType = [UIUserNotificationType.badge, UIUserNotificationType.alert, UIUserNotificationType.sound]
+                let setting = UIUserNotificationSettings(types: type, categories: nil);
+                UIApplication.shared.registerUserNotificationSettings(setting);
+                UIApplication.shared.registerForRemoteNotifications();
             }
         }
          else {
-           application.registerForRemoteNotificationTypes( [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert] )
+           application.registerForRemoteNotifications( matching: [UIRemoteNotificationType.badge, UIRemoteNotificationType.sound, UIRemoteNotificationType.alert] )
         }
         
         
         //Facebook
-        FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
+        FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
        
         //Session --
         let authorizationService =  AuthorizationService()
-        authorizationService.callGETService("", successBlock: { (response:NSDictionary) in
-            UserCurrentSession.sharedInstance().searchForCurrentUser()
+        authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+            UserCurrentSession.sharedInstance.searchForCurrentUser()
             },errorBlock:{ (error:NSError) in
                 print(error.localizedDescription)
                 
@@ -62,12 +62,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
 //        // Initialize tracker. Replace with your tracking ID.
 //        //GAI.sharedInstance().trackerWithTrackingId(WMGAIUtils.GAI_APP_KEY.rawValue)
         
-        let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: NSURL?, error: NSError?) in
+        let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
             if (error != nil) {
-                print("Received error while fetching deferred app link %@", error);
+                print("Received error while fetching deferred app link %@", error!);
             }
             if (url != nil) {
-                UIApplication.sharedApplication().openURL(url!)
+                UIApplication.shared.openURL(url!)
             }
         }
         
@@ -75,39 +75,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
       
 
         //Set url image cache to application
-        let sharedCache  = NSURLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
-        NSURLCache.setSharedURLCache(sharedCache)
+        let sharedCache  = URLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
+        URLCache.shared = sharedCache
         
-     
-        let paths = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true) as NSArray!
-        let docPath = paths[0] as! String
-        let todeletecloud =  NSURL(fileURLWithPath: docPath)
+        let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as NSArray!
+        let docPath = paths?[0] as! String
+        let todeletecloud =  URL(fileURLWithPath: docPath)
         do {
-            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+            try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
         } catch let error1 as NSError {
             print(error1.description)
         }
         
         //Log request
-        AFNetworkActivityLogger.sharedLogger().startLogging()
+        AFNetworkActivityLogger.shared().startLogging()
         //AFNetworkActivityLogger.sharedLogger().level = AFHTTPRequestLoggerLevel.AFLoggerLevelDebug
 
         
-        AFNetworkReachabilityManager.sharedManager().setReachabilityStatusChangeBlock { (status:AFNetworkReachabilityStatus) -> Void in
+        AFNetworkReachabilityManager.shared().setReachabilityStatusChange { (status:AFNetworkReachabilityStatus) -> Void in
             switch (status) {
-            case AFNetworkReachabilityStatus.NotReachable:
+            case AFNetworkReachabilityStatus.notReachable:
                 if self.alertNoInternet == nil {
                     self.alertNoInternet = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
                      self.alertNoInternet?.setMessage("Por favor verifica tu conexión a internet")
                 }
                 break;
-            case AFNetworkReachabilityStatus.ReachableViaWiFi:
+            case AFNetworkReachabilityStatus.reachableViaWiFi:
                 if self.alertNoInternet != nil {
                     self.alertNoInternet?.close()
                     self.alertNoInternet = nil
                 }
                 break;
-            case AFNetworkReachabilityStatus.ReachableViaWWAN:
+            case AFNetworkReachabilityStatus.reachableViaWWAN:
                 if self.alertNoInternet != nil {
                     self.alertNoInternet?.close()
                     self.alertNoInternet = nil
@@ -123,34 +122,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
-        AFNetworkReachabilityManager.sharedManager().startMonitoring()
-        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
+        AFNetworkReachabilityManager.shared().startMonitoring()
+        AFNetworkActivityIndicatorManager.shared().isEnabled = true
         
         let storyboard = loadStoryboardDefinition()
-        let vc : AnyObject! = storyboard!.instantiateViewControllerWithIdentifier("principalVC")
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let vc : AnyObject! = storyboard!.instantiateViewController(withIdentifier: "principalVC")
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window!.rootViewController = vc as! UIViewController!
         self.window!.makeKeyAndVisible()
         
         if launchOptions != nil {
-            if let remoteNotifParam = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject:AnyObject] {
+            if let remoteNotifParam = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
                 handleNotification(application,userInfo: remoteNotifParam)
             }
             
-            if let localNotifParam = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification {
+            if let localNotifParam = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
                 handleLocalNotification(application, localNotification: localNotifParam)
             }
         }
         
         //PayPal
-        let payPalEnvironment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMPayPalEnvironment") as! NSDictionary
-        let sandboxClientID = payPalEnvironment.objectForKey("SandboxClientID") as! String
-        let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
-        PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
+        let payPalEnvironment =  Bundle.main.object(forInfoDictionaryKey: "WMPayPalEnvironment") as! [String:Any]
+        let sandboxClientID = payPalEnvironment["SandboxClientID"] as! String
+        let productionClientID =  payPalEnvironment["ProductionClientID"] as! String
+        PayPalMobile.initializeWithClientIds(forEnvironments: [PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         
         
         //Tune.framework
-        //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
+        //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! [String:Any]
         //let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
         //let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
         //Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
@@ -172,10 +171,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //TAGManager
         let GTM = TAGManager.instance()
-        GTM.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
+        GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
        
         
-        TAGContainerOpener.openContainerWithId("GTM-TCGRR6", 
+        TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", 
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
@@ -184,34 +183,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-        let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
-        presented?.dismissViewControllerAnimated(false, completion: nil)
+        presented?.dismiss(animated: false, completion: nil)
         if imgView == nil {
             imgView = UIImageView(frame: controller!.view.bounds)
             imgView!.image = UIImage(named:"spash_iphone")
         }
         controller!.view.addSubview(imgView!)
-        controller!.view.bringSubviewToFront(imgView!)
+        controller!.view.bringSubview(toFront: imgView!)
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         IPOSplashViewController.updateUserData(true)
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         //UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         //Facebook
         FBSDKAppEvents.activateApp()
 
@@ -225,7 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         //Tune.measureSession()
     }
     
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
@@ -233,33 +232,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
 
     // MARK: - Core Data stack
 
-    lazy var applicationDocumentsDirectory: NSURL = {
+    lazy var applicationDocumentsDirectory: URL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.bcg.dev.WalMart" in the application's documents Application Support directory.
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1] 
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = NSBundle.mainBundle().URLForResource("WalMart", withExtension: "momd")
-        return NSManagedObjectModel(contentsOfURL: modelURL!)!
+        let modelURL = Bundle.main.url(forResource: "WalMart", withExtension: "momd")
+        return NSManagedObjectModel(contentsOf: modelURL!)!
     }()
 
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("WalMart.sqlite")
+        let url = self.applicationDocumentsDirectory.appendingPathComponent("WalMart.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         var options = [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true]
         do {
-            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options)
+            try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
         } catch var error1 as NSError {
             error = error1
             coordinator = nil
             // Report any error we got.
-            var dict = [NSObject : AnyObject]()
+            var dict = [AnyHashable: Any]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
@@ -305,26 +304,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     
     
     func loadStoryboardDefinition() -> UIStoryboard? {
-        let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
+        let storyboardName = UIDevice.current.userInterfaceIdiom == .phone ? "Storyboard_iphone" : "Storyboard_ipad"
         let storyboard : UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil);
         return storyboard;
     }
     
 
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let characterSet: CharacterSet = CharacterSet( charactersIn: "<>" )
         
         let deviceTokenString: String = ( deviceToken.description as NSString )
-            .stringByTrimmingCharactersInSet( characterSet )
-            .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+            .trimmingCharacters( in: characterSet )
+            .replacingOccurrences( of: " ", with: "" ) as String
         
         NSLog("Device token: \(deviceTokenString)")
         print("Device token: \(deviceTokenString)")
         
-        UserCurrentSession.sharedInstance().deviceToken = deviceTokenString
+        UserCurrentSession.sharedInstance.deviceToken = deviceTokenString
         
         
-        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let idDevice = UIDevice.current.identifierForVendor!.uuidString
         let notService = NotificationService()
         
         let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
@@ -332,9 +331,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
-            print(notService.jsonFromObject(params))
-        if UserCurrentSession.sharedInstance().finishConfig {
-            notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
+            print(notService.jsonFromObject(params as AnyObject!))
+        if UserCurrentSession.sharedInstance.finishConfig {
+            notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
                 CustomBarViewController.addOrUpdateParam("showNotification", value: "true",forUser: false)
             }) { (error:NSError) -> Void in
@@ -345,14 +344,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         print("deviceTokenString \(deviceTokenString)" )
     }
     
-    func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
+    func application( _ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error ) {
         
         print( error.localizedDescription )
     }
     
     class func scaleFactor() -> CGFloat {
-        if UIScreen.mainScreen().respondsToSelector(#selector(UIScreen.displayLinkWithTarget(_:selector:))) {
-            return UIScreen.mainScreen().scale
+        if UIScreen.main.responds(to: #selector(UIScreen.displayLink(withTarget:selector:))) {
+            return UIScreen.main.scale
         }
         return 1.0
     }
@@ -361,31 +360,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         return 1.0 / scaleFactor()
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
-        presented?.dismissViewControllerAnimated(false, completion: nil)
-       UIApplication.sharedApplication().applicationIconBadgeNumber = 1
-       NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+        presented?.dismiss(animated: false, completion: nil)
+       UIApplication.shared.applicationIconBadgeNumber = 1
+       NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         self.handleNotification(application,userInfo: userInfo)
 
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
-        presented?.dismissViewControllerAnimated(false, completion: nil)
+        presented?.dismiss(animated: false, completion: nil)
         self.handleLocalNotification(application, localNotification: notification)
     }
     
-    func handleLocalNotification(application: UIApplication, localNotification notification: UILocalNotification){
+    func handleLocalNotification(_ application: UIApplication, localNotification notification: UILocalNotification){
         let name = notification.userInfo!["name"] as! String
         let value = notification.userInfo!["value"] as! String
         let bussines = notification.userInfo!["business"] as! String
         let listName =  notification.userInfo![REMINDER_PARAM_LISTNAME] as! String
         
         if let ipaCustomBar = self.window?.rootViewController as? IPACustomBarViewController{
-            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+            if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
                 ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
             }else{
@@ -408,7 +407,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         else if let customBar = self.window?.rootViewController as? CustomBarViewController{
-            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+            if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
                 customBar.handleNotification(value,name:name,value:value,bussines:bussines)
             }else{
@@ -432,12 +431,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
 
     }
 
-    func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
-        if let notiicationInfo = userInfo["notification"] as? NSDictionary {
+    func handleNotification(_ application: UIApplication,userInfo: [AnyHashable: Any]) {
+        if let notiicationInfo = userInfo["notification"] as? [String:Any] {
             
             print(userInfo)
-            //let notiicationInfo = userInfo["notification"] as! NSDictionary
-            let notiicationAPS = userInfo["aps"] as! NSDictionary
+            //let notiicationInfo = userInfo["notification"] as! [String:Any]
+            let notiicationAPS = userInfo["aps"] as! [String:Any]
             let type = notiicationInfo["type"] as! String
             let name = notiicationInfo["name"] as! String
             let value = notiicationInfo["value"] as! String
@@ -456,7 +455,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                 banner.creative = bussines
                 banner.position = "1"
                 
-                if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+                if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
                 {
                     customBar.helpView?.removeFromSuperview()
                     customBar.handleNotification(type,name:name,value:value,bussines:bussines)
@@ -464,7 +463,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                     BaseController.sendAnalyticsClickBanner(banner)
                     
                 }else{
-                    NSNotificationCenter.defaultCenter().postNotificationName("OPEN_TUTORIAL", object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "OPEN_TUTORIAL"), object: nil)
                     
                     let banners = [banner]
                     BaseController.sendAnalyticsBanners(banners)
@@ -494,13 +493,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     }
   
     
-    func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
         handleURL(url)
         return true
     }
     
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
        
         //Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         //Quitar para produccion
@@ -508,30 +507,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         
         handleURL(url)
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         //return true
     }
     
-    func handleURLFacebook(url: NSURL,sourceApplication:String){
+    func handleURLFacebook(_ url: URL,sourceApplication:String){
         let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
-        let stringCompare = parsedUrl.targetURL.absoluteString as NSString
-        let rangeEnd = stringCompare.rangeOfString("walmartmexicoapp://")
+        let stringCompare = parsedUrl!.targetURL.absoluteString as NSString
+        let rangeEnd = stringCompare.range(of: "walmartmexicoapp://")
         
         if rangeEnd.location != NSNotFound {
-            if (parsedUrl.appLinkData != nil) {
+            if (parsedUrl?.appLinkData != nil) {
             
-                let targetUrl:NSURL =  parsedUrl.targetURL
+                let targetUrl:URL =  parsedUrl!.targetURL
                 NSLog("targetUrl::\(targetUrl)")
                 
-                let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmexicoapp://", withString: "") as NSString
-                var components = strAction.componentsSeparatedByString("/")
+                let strAction = stringCompare.replacingOccurrences(of: "walmartmexicoapp://", with: "") as NSString
+                var components = strAction.components(separatedBy: "/")
                 
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
-                    let srtBussines  = components[0].componentsSeparatedByString("_")[1]
-                    let srtType  = components[1].componentsSeparatedByString("_")[1]
-                    let srtValue  = components[2].componentsSeparatedByString("_")[1]
+                    let srtBussines  = components[0].components(separatedBy: "_")[1]
+                    let srtType  = components[1].components(separatedBy: "_")[1]
+                    let srtValue  = components[2].components(separatedBy: "_")[1]
                 //TODO validar como llegara los links
-                    customBar.handleNotification(srtType.uppercaseString,name:"",value:srtValue,bussines:srtBussines.lowercaseString)
+                    customBar.handleNotification(srtType.uppercased(),name:"",value:srtValue,bussines:srtBussines.lowercased())
                 }
                 //TODO quitar en produccion 
 //                UIAlertView(title: "Received link:",
@@ -539,21 +538,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
 //                    cancelButtonTitle: "ok").show()
             }else{
                 //let targetUrl:NSURL =  parsedUrl.targetURL
-                let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmexicoapp://", withString: "") as NSString
-                var components = strAction.componentsSeparatedByString("&")
+                let strAction = stringCompare.replacingOccurrences(of: "walmartmexicoapp://", with: "") as NSString
+                var components = strAction.components(separatedBy: "&")
                 
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
-                    let srtBussines  = components[0].componentsSeparatedByString("_")[1]
-                    let srtType  = components[1].componentsSeparatedByString("_")[1]
-                    let srtValue  = components[2].componentsSeparatedByString("_")[1]
+                    let srtBussines  = components[0].components(separatedBy: "_")[1]
+                    let srtType  = components[1].components(separatedBy: "_")[1]
+                    let srtValue  = components[2].components(separatedBy: "_")[1]
                     var schoolName = ""
                     var grade = ""
                     
                     if components.count > 3 {
-                        schoolName = components[3].componentsSeparatedByString("_")[1]
-                        schoolName = schoolName.stringByReplacingOccurrencesOfString("-", withString: " ").stringByRemovingPercentEncoding!
-                        grade = components[4].componentsSeparatedByString("_")[1]
-                        grade = grade.stringByReplacingOccurrencesOfString("-", withString: " ").stringByRemovingPercentEncoding!
+                        schoolName = components[3].components(separatedBy: "_")[1]
+                        schoolName = (schoolName.replacingOccurrences(of: "-", with: " ")as NSString).removingPercentEncoding!
+                        grade = components[4].components(separatedBy: "_")[1]
+                        grade = (grade.replacingOccurrences(of: "-", with: " ")as NSString).removingPercentEncoding!
                     }
                     customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
                 }
@@ -564,16 +563,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     
     
     
-    func handleURL(url: NSURL){
+    func handleURL(_ url: URL){
         let stringCompare = url.absoluteString as NSString
-        let rangeEnd = stringCompare.rangeOfString("walmartmg://")
+        let rangeEnd = stringCompare.range(of: "walmartmg://")
         if rangeEnd.location != NSNotFound {
-            let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmg://", withString: "") as NSString
-            var components = strAction.componentsSeparatedByString("_")
+            let strAction = stringCompare.replacingOccurrences(of: "walmartmg://", with: "") as NSString
+            var components = strAction.components(separatedBy: "_")
             if(components.count > 1){
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
                     let cmpStr  = components[0] 
-                    let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
+                    let strValue = strAction.replacingOccurrences(of: "\(cmpStr)_", with: "")
                     customBar.handleNotification(cmpStr,name:"",value:strValue,bussines:"mg")
                 }
             }
@@ -592,7 +591,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     
     
     @available(iOS 9.0, *)
-    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         
         var strType = ""
         if shortcutItem.type == "com.bcg.opensearch" {
@@ -608,7 +607,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         if let customBar = self.window?.rootViewController as? CustomBarViewController {
-            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+            if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
                 if self.alertNoInternet == nil{
                       customBar.handleNotification(strType,name:"",value:"",bussines:"")
@@ -619,19 +618,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     }
     
     //MARK: TuneDelegate
-    func tuneDidSucceedWithData(data: NSData!) {
-        let response = NSString(data: data, encoding:NSUTF8StringEncoding)
+    func tuneDidSucceedWithData(_ data: Data!) {
+        let response = NSString(data: data, encoding:String.Encoding.utf8.rawValue)
         NSLog("Tune.success: %@", response!);
 
     }
     
-    func tuneDidFailWithError(error: NSError!) {
+    func tuneDidFailWithError(_ error: NSError!) {
         NSLog("Tune.failure: %@", error);
     }
     
     //MARK: TAGContainerOpenerNotifier
     
-    func containerAvailable(container: TAGContainer!) {
+    func containerAvailable(_ container: TAGContainer!) {
         container.refresh()
     }
     

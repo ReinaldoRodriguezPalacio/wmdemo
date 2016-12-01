@@ -20,44 +20,44 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         super.setup()
         
         iconDiscount = UIImageView(image:UIImage(named:"saving_icon"))
-        iconDiscount.frame = CGRectMake(8,8,19,19)
+        iconDiscount.frame = CGRect(x: 8,y: 8,width: 19,height: 19)
         self.addSubview(iconDiscount)
         
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
-        imagePresale.hidden =  true
+        imagePresale.isHidden =  true
         self.addSubview(imagePresale)
 
         productShortDescriptionLabel!.numberOfLines = 3
         
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (75 / 2), 15, 75, 75)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 15, width: 75, height: 75)
         
-        self.productPriceLabel!.frame = CGRectMake(4, self.productImage!.frame.maxY  , self.frame.width - 8 , 14)
+        self.productPriceLabel!.frame = CGRect(x: 4, y: self.productImage!.frame.maxY  , width: self.frame.width - 8 , height: 14)
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(16, self.productPriceLabel!.frame.maxY  , self.frame.width - 32, 33)
-        self.productShortDescriptionLabel!.textAlignment = .Center
+        self.productShortDescriptionLabel!.frame = CGRect(x: 16, y: self.productPriceLabel!.frame.maxY  , width: self.frame.width - 32, height: 33)
+        self.productShortDescriptionLabel!.textAlignment = .center
         self.productShortDescriptionLabel!.numberOfLines = 3
         
         
         let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
         
-        let borderView = UIView(frame: CGRectMake(self.frame.width, 0, widthAndHeightSeparator, self.frame.height))
+        let borderView = UIView(frame: CGRect(x: self.frame.width, y: 0, width: widthAndHeightSeparator, height: self.frame.height))
         borderView.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderView)
         
-        borderViewTop = UIView(frame: CGRectMake(0,self.frame.height - widthAndHeightSeparator, self.frame.width,widthAndHeightSeparator ))
+        borderViewTop = UIView(frame: CGRect(x: 0,y: self.frame.height - widthAndHeightSeparator, width: self.frame.width,height: widthAndHeightSeparator ))
         borderViewTop.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderViewTop)
         
     }
     
-    func setValues(productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool,listPrice:Bool ) {
+    func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool,listPrice:Bool ) {
         super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
-        imagePresale.hidden = !preorderable
-        productPriceLabel!.label2?.hidden = false
+        imagePresale.isHidden = !preorderable
+        productPriceLabel!.label2?.isHidden = false
         if  saving != "" && saving != "null"  {
             productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.green, interLine: false)
-            productPriceLabel?.label1?.lineBreakMode = .ByTruncatingTail
+            productPriceLabel?.label1?.lineBreakMode = .byTruncatingTail
         }
         
         if listPrice {

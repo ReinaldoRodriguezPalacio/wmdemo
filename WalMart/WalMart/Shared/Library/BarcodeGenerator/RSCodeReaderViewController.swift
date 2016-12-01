@@ -9,74 +9,74 @@
 import UIKit
 import AVFoundation
 
-public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
-    public lazy var device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-    public lazy var output = AVCaptureMetadataOutput()
-    public lazy var session = AVCaptureSession()
+    open var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+    open lazy var output = AVCaptureMetadataOutput()
+    open lazy var session = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     
-    public lazy var focusMarkLayer = RSFocusMarkLayer()
-    public lazy var cornersLayer = RSCornersLayer()
+    open lazy var focusMarkLayer = RSFocusMarkLayer()
+    open lazy var cornersLayer = RSCornersLayer()
     
-    public var tapHandler: ((CGPoint) -> Void)?
-    public var barcodesHandler: ((Array<AVMetadataMachineReadableCodeObject>) -> Void)?
+    open var tapHandler: ((CGPoint) -> Void)?
+    open var barcodesHandler: ((Array<AVMetadataMachineReadableCodeObject>) -> Void)?
     
-    var ticker: NSTimer?
+    var ticker: Timer?
     
-    public var isCrazyMode = true
+    open var isCrazyMode = true
     var isCrazyModeStarted = false
     var lensPosition: Float = 0
     
     // MARK: Public methods
     
-    public func hasFlash() -> Bool {
+    open func hasFlash() -> Bool {
         if let d = self.device {
             return d.hasFlash
         }
         return false
     }
     
-    public func hasTorch() -> Bool {
+    open func hasTorch() -> Bool {
         if let d = self.device {
             return d.hasTorch
         }
         return false
     }
     
-    public func toggleTorch() {
+    open func toggleTorch() {
         if self.hasTorch() {
             self.session.beginConfiguration()
             do {
-                try self.device.lockForConfiguration()
+                try self.device?.lockForConfiguration()
             } catch _ {
             }
             
-            if self.device.torchMode == AVCaptureTorchMode.Off {
-                self.device.torchMode = AVCaptureTorchMode.On
-            } else if self.device.torchMode == AVCaptureTorchMode.On {
-                self.device.torchMode = AVCaptureTorchMode.Off
+            if self.device?.torchMode == AVCaptureTorchMode.off {
+                self.device?.torchMode = AVCaptureTorchMode.on
+            } else if self.device?.torchMode == AVCaptureTorchMode.on {
+                self.device?.torchMode = AVCaptureTorchMode.off
             }
             
-            self.device.unlockForConfiguration()
+            self.device?.unlockForConfiguration()
             self.session.commitConfiguration()
         }
     }
     
     // MARK: Private methods
     
-    class func interfaceOrientationToVideoOrientation(orientation : UIInterfaceOrientation) -> AVCaptureVideoOrientation {
+    class func interfaceOrientationToVideoOrientation(_ orientation : UIInterfaceOrientation) -> AVCaptureVideoOrientation {
         switch (orientation) {
-        case .Unknown:
+        case .unknown:
             fallthrough
-        case .Portrait:
-            return AVCaptureVideoOrientation.Portrait
-        case .PortraitUpsideDown:
-            return AVCaptureVideoOrientation.PortraitUpsideDown
-        case .LandscapeLeft:
-            return AVCaptureVideoOrientation.LandscapeLeft
-        case .LandscapeRight:
-            return AVCaptureVideoOrientation.LandscapeRight
+        case .portrait:
+            return AVCaptureVideoOrientation.portrait
+        case .portraitUpsideDown:
+            return AVCaptureVideoOrientation.portraitUpsideDown
+        case .landscapeLeft:
+            return AVCaptureVideoOrientation.landscapeLeft
+        case .landscapeRight:
+            return AVCaptureVideoOrientation.landscapeRight
         }
     }
     
@@ -86,18 +86,18 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             self.lensPosition = 0
         }
         do {
-            try device.lockForConfiguration()
+            try device?.lockForConfiguration()
             if #available(iOS 8.0, *) {
-                self.device.setFocusModeLockedWithLensPosition(self.lensPosition, completionHandler: nil)
+                self.device?.setFocusModeLockedWithLensPosition(self.lensPosition, completionHandler: nil)
             } else {
                 // Fallback on earlier versions
             }
-            device.unlockForConfiguration()
+            device?.unlockForConfiguration()
         } catch _ {
         }
-        if session.running {
-            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(USEC_PER_SEC)))
-            dispatch_after(when, dispatch_get_main_queue(), {
+        if session.isRunning {
+            let when = DispatchTime.now() + Double(Int64(10 * Double(USEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: when, execute: {
                 self.autoUpdateLensPosition()
             })
         }
@@ -110,43 +110,43 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         self.cornersLayer.cornersArray = []
     }
     
-    func onTap(gesture: UITapGestureRecognizer) {
-        let tapPoint = gesture.locationInView(self.view)
-        let focusPoint = CGPointMake(
-            tapPoint.x / self.view.bounds.size.width,
-            tapPoint.y / self.view.bounds.size.height)
+    func onTap(_ gesture: UITapGestureRecognizer) {
+        let tapPoint = gesture.location(in: self.view)
+        let focusPoint = CGPoint(
+            x: tapPoint.x / self.view.bounds.size.width,
+            y: tapPoint.y / self.view.bounds.size.height)
         
         if let d = self.device {
             do {
                 try d.lockForConfiguration()
-                if d.focusPointOfInterestSupported {
+                if d.isFocusPointOfInterestSupported {
                     d.focusPointOfInterest = focusPoint
                 } else {
                     print("Focus point of interest not supported.")
                 }
                 if self.isCrazyMode {
-                    if d.isFocusModeSupported(.Locked) {
-                        d.focusMode = .Locked
+                    if d.isFocusModeSupported(.locked) {
+                        d.focusMode = .locked
                     } else {
                         print("Locked focus not supported.")
                     }
                     if !self.isCrazyModeStarted {
                         self.isCrazyModeStarted = true
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             self.autoUpdateLensPosition()
                         })
                     }
                 } else {
-                    if d.isFocusModeSupported(.ContinuousAutoFocus) {
-                        d.focusMode = .ContinuousAutoFocus
-                    } else if d.isFocusModeSupported(.AutoFocus) {
-                        d.focusMode = .AutoFocus
+                    if d.isFocusModeSupported(.continuousAutoFocus) {
+                        d.focusMode = .continuousAutoFocus
+                    } else if d.isFocusModeSupported(.autoFocus) {
+                        d.focusMode = .autoFocus
                     } else {
                         print("Auto focus not supported.")
                     }
                 }
-                if d.autoFocusRangeRestrictionSupported {
-                    d.autoFocusRangeRestriction = .None
+                if d.isAutoFocusRangeRestrictionSupported {
+                    d.autoFocusRangeRestriction = .none
                 } else {
                     print("Auto focus range restriction not supported.")
                 }
@@ -177,26 +177,26 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     
     // MARK: View lifecycle
     
-    override public func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         if let l = self.videoPreviewLayer {
-            let videoOrientation = RSCodeReaderViewController.interfaceOrientationToVideoOrientation(UIApplication.sharedApplication().statusBarOrientation)
-            if l.connection.supportsVideoOrientation
+            let videoOrientation = RSCodeReaderViewController.interfaceOrientationToVideoOrientation(UIApplication.shared.statusBarOrientation)
+            if l.connection.isVideoOrientationSupported
                 && l.connection.videoOrientation != videoOrientation {
                     l.connection.videoOrientation = videoOrientation
             }
         }
     }
     
-    override public func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if #available(iOS 8.0, *) {
-            super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+            super.viewWillTransition(to: size, with: coordinator)
         } else {
             // Fallback on earlier versions
         }
         
-        let frame = CGRectMake(0, 0, size.width, size.height)
+        let frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         if let l = self.videoPreviewLayer {
             l.frame = frame
         }
@@ -208,10 +208,10 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
 //        }
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.clear
         
         var error : NSError?
         let input: AVCaptureDeviceInput!
@@ -229,13 +229,13 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         if let d = self.device {
             do {
                 try d.lockForConfiguration()
-                if self.device.isFocusModeSupported(.ContinuousAutoFocus) {
-                    self.device.focusMode = .ContinuousAutoFocus
+                if (self.device?.isFocusModeSupported(.continuousAutoFocus))! {
+                    self.device?.focusMode = .continuousAutoFocus
                 }
-                if self.device.autoFocusRangeRestrictionSupported {
-                    self.device.autoFocusRangeRestriction = .Near
+                if (self.device?.isAutoFocusRangeRestrictionSupported)! {
+                    self.device?.autoFocusRangeRestriction = .near
                 }
-                self.device.unlockForConfiguration()
+                self.device?.unlockForConfiguration()
             } catch _ {
             }
         }
@@ -251,7 +251,7 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             self.view.layer.addSublayer(l)
         }
         
-        let queue = dispatch_queue_create("com.pdq.rsbarcodes.metadata", DISPATCH_QUEUE_CONCURRENT)
+        let queue = DispatchQueue(label: "com.pdq.rsbarcodes.metadata", attributes: DispatchQueue.Attributes.concurrent)
         self.output.setMetadataObjectsDelegate(self, queue: queue)
         if self.session.canAddOutput(self.output) {
             self.session.addOutput(self.output)
@@ -268,33 +268,33 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         self.view.layer.addSublayer(self.cornersLayer)
     }
     
-    override public func viewWillAppear(animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RSCodeReaderViewController.onApplicationWillEnterForeground), name:UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RSCodeReaderViewController.onApplicationDidEnterBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(RSCodeReaderViewController.onApplicationWillEnterForeground), name:NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(RSCodeReaderViewController.onApplicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         self.session.startRunning()
     }
     
-    override public func viewDidDisappear(animated: Bool) {
+    override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         self.session.stopRunning()
     }
     
     // MARK: AVCaptureMetadataOutputObjectsDelegate
     
-    public func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+    open func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         var barcodeObjects : Array<AVMetadataMachineReadableCodeObject> = []
-        var cornersArray : Array<[AnyObject]> = []
-        for metadataObject : AnyObject in metadataObjects {
+        var cornersArray : Array<[Any]> = []
+        for metadataObject : Any in metadataObjects {
             if let l = self.videoPreviewLayer {
-                let transformedMetadataObject = l.transformedMetadataObjectForMetadataObject(metadataObject as! AVMetadataObject)
-                if transformedMetadataObject.isKindOfClass(AVMetadataMachineReadableCodeObject.self) {
+                let transformedMetadataObject = l.transformedMetadataObject(for: metadataObject as! AVMetadataObject)
+                if transformedMetadataObject!.isKind(of: AVMetadataMachineReadableCodeObject.self) {
                     let barcodeObject = transformedMetadataObject as! AVMetadataMachineReadableCodeObject
                     barcodeObjects.append(barcodeObject)
                     cornersArray.append(barcodeObject.corners)
@@ -302,7 +302,7 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             }
         }
         
-        self.cornersLayer.cornersArray = cornersArray
+        self.cornersLayer.cornersArray = cornersArray as Array<[AnyObject]>
         
         if barcodeObjects.count > 0 {
             if let h = self.barcodesHandler {
@@ -310,11 +310,11 @@ public class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             }
         }
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             if let t = self.ticker {
                 t.invalidate()
             }
-            self.ticker = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(RSCodeReaderViewController.onTick), userInfo: nil, repeats: true)
+            self.ticker = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(RSCodeReaderViewController.onTick), userInfo: nil, repeats: true)
         })
     }
 }

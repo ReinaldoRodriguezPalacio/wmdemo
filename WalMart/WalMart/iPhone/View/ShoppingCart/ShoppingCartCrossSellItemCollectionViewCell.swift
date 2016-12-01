@@ -16,34 +16,34 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
     override func setup() {
         super.setup()
         
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (75 / 2), 15, 75, 75)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 15, width: 75, height: 75)
         
         imageShoppingCart = UIImageView(image: UIImage(named: "ProductToShopingCart"))
-        imageShoppingCart.frame = CGRectMake((75 / 2) - (24 / 2), 75 - 24, 24, 24)
+        imageShoppingCart.frame = CGRect(x: (75 / 2) - (24 / 2), y: 75 - 24, width: 24, height: 24)
         self.productImage!.addSubview(imageShoppingCart)
         
-        self.productPriceLabel!.frame = CGRectMake(4, self.productImage!.frame.maxY  + 10 , self.frame.width - 8 , 14)
+        self.productPriceLabel!.frame = CGRect(x: 4, y: self.productImage!.frame.maxY  + 10 , width: self.frame.width - 8 , height: 14)
         //self.productPriceLabel!.textAlignment = .Center
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(4, self.productPriceLabel!.frame.maxY  , self.frame.width - 8, 44)
-        self.productShortDescriptionLabel!.textAlignment = .Center
+        self.productShortDescriptionLabel!.frame = CGRect(x: 4, y: self.productPriceLabel!.frame.maxY  , width: self.frame.width - 8, height: 44)
+        self.productShortDescriptionLabel!.textAlignment = .center
         self.productShortDescriptionLabel!.numberOfLines = 3
         
         
     }
     
     
-    func setValues(productImageURL:String,productShortDescription:String,productPrice:String,grayScale:Bool) {
+    func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String,grayScale:Bool) {
         
-        let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
+        let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         
-        let request = NSMutableURLRequest(URL: NSURL(string: productImageURL)!)
+        let request = NSMutableURLRequest(url: URL(string: productImageURL)!)
         request.addValue("image/*", forHTTPHeaderField: "Accept")
         
-        self.productImage!.contentMode = UIViewContentMode.Center
+        self.productImage!.contentMode = UIViewContentMode.center
         
-        self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.productImage!.contentMode = UIViewContentMode.center
+        self.productImage!.setImageWith(URLRequest(url:URL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.productImage!.contentMode = self.contentModeOrig
             if grayScale == true {
                 self.productImage!.image = self.convertImageToGrayScale(image)
@@ -57,8 +57,8 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
         
         
         if grayScale {
-            productShortDescriptionLabel?.textColor = UIColor.lightGrayColor()
-            productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: UIColor.lightGrayColor(), interLine: false)
+            productShortDescriptionLabel?.textColor = UIColor.lightGray
+            productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: UIColor.lightGray, interLine: false)
             imageShoppingCart.image = UIImage(named: "cart_desabled")
         } else {
             productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
@@ -67,14 +67,14 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
         
     }
     
-    func convertImageToGrayScale(image:UIImage) -> UIImage {
+    func convertImageToGrayScale(_ image:UIImage) -> UIImage {
         
-        let imageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        let imageRect = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
         let colorSpace = CGColorSpaceCreateDeviceGray()
-        let context = CGBitmapContextCreate(nil, Int(image.size.width), Int(image.size.height), 8, 0, colorSpace, CGBitmapInfo().rawValue)
-        CGContextDrawImage(context, imageRect,image.CGImage)
-        let imageRef = CGBitmapContextCreateImage(context)
-        let newImage = UIImage(CGImage: imageRef!)
+        let context = CGContext(data: nil, width: Int(image.size.width), height: Int(image.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: CGBitmapInfo().rawValue)
+        context?.draw(image.cgImage!, in: imageRect)
+        let imageRef = context?.makeImage()
+        let newImage = UIImage(cgImage: imageRef!)
         return newImage
     }
     

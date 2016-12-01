@@ -34,7 +34,7 @@ class IPOGenericEmptyView : IPOEmptyView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.descLabel.frame = CGRectMake(50, 28.0, self.bounds.width - 100, 42)
+        self.descLabel.frame = CGRect(x: 50, y: 28.0, width: self.bounds.width - 100, height: 42)
     }
     
     

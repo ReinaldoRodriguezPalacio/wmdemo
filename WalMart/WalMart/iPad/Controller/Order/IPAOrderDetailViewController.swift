@@ -16,34 +16,34 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     override func viewWillLayoutSubviews() {
         
         if self.titleLabel != nil && self.titleLabel!.frame.width == 0 {
-            self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-            self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
+            self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46)
+            self.titleLabel!.frame = CGRect(x: 46, y: 0, width: self.header!.frame.width - 92, height: self.header!.frame.maxY)
         }
         if backButton != nil{
-            self.backButton!.frame = CGRectMake(0, 0  ,46,46)
+            self.backButton!.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)
         }
         
-        self.tableDetailOrder.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
-        self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
+        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
         
         if self.type == ResultObjectType.Groceries {
-            self.addToListButton!.frame = CGRectMake((self.view.frame.width / 2) - 186, y, 34.0, 34.0)
-            self.shareButton!.frame = CGRectMake(self.addToListButton!.frame.maxX + 16.0, y, 34.0, 34.0)
+            self.addToListButton!.frame = CGRect(x: (self.view.frame.width / 2) - 186, y: y, width: 34.0, height: 34.0)
+            self.shareButton!.frame = CGRect(x: self.addToListButton!.frame.maxX + 16.0, y: y, width: 34.0, height: 34.0)
         }
         else {
-            self.shareButton!.frame = CGRectMake((self.view.frame.width/2) - 186, y, 34.0, 34.0)
+            self.shareButton!.frame = CGRect(x: (self.view.frame.width/2) - 186, y: y, width: 34.0, height: 34.0)
         }
         
-        self.addToCartButton!.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, y, (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, 34.0)
+        self.addToCartButton!.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: y, width: (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, height: 34.0)
         
-        self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
+        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
         
         
         let x = self.shareButton!.frame.maxX + 16.0
-        addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
+        addToCartButton?.frame = CGRect(x: x, y: y, width: 256, height: 34.0)//self.footerSection!.frame.width - (x + 16.0)
 
  
     }
@@ -55,18 +55,22 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
-            let rect = self.self.viewFooter!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
-            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            if #available(iOS 8.0, *) {
+                let rect = self.self.viewFooter!.convert(self.shareButton!.frame, to: self.view.superview!)
+                self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
+            } else {
+                // Fallback on earlier versions
+            }
             
             if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
             } else {
                 controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && !activityType!.containsString("com.apple")   {
+                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                         BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                     }
                 }
@@ -74,9 +78,9 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         }
     }
     
-    override func listSelectorDidShowList(listId: String, andName name:String) {
+    override func listSelectorDidShowList(_ listId: String, andName name:String) {
         let storyboard = self.loadStoryboardDefinition()
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? IPAUserListDetailViewController {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? IPAUserListDetailViewController {
             vc.listId = listId
             vc.listName = name
             vc.enableScrollUpdateByTabBar = false
@@ -90,8 +94,8 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             self.viewLoad!.removeFromSuperview()
             self.viewLoad = nil
         }
-            self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, 681.5, self.view.frame.height - 46))
-            self.viewLoad!.backgroundColor = UIColor.whiteColor()
+            self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: 681.5, height: self.view.frame.height - 46))
+            self.viewLoad!.backgroundColor = UIColor.white
             self.view.addSubview(self.viewLoad!)
             self.viewLoad!.startAnnimating(self.isVisibleTab)
     }
@@ -105,9 +109,9 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     }
 
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let _ = tableView.cellForRowAtIndexPath(indexPath) as? OrderProductTableViewCell {
+        if let _ = tableView.cellForRow(at: indexPath) as? OrderProductTableViewCell {
             
             let controller = IPAProductDetailPageViewController()
             controller.itemsToShow = getUPCItems(indexPath.section)
@@ -117,7 +121,7 @@ class IPAOrderDetailViewController: OrderDetailViewController {
                 controller.ixSelected = indexPath.row - 2
             }
             
-            if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
+            if let navCtrl = self.navigationController!.parent as UIViewController! {
                 navCtrl.navigationController!.pushViewController(controller, animated: true)
             }
         }

@@ -19,7 +19,7 @@ class PriceSelectorTrashCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.icon = UIImageView(frame: CGRectMake(0.0, 0.0, frame.size.width, frame.size.height))
+        self.icon = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: frame.size.width, height: frame.size.height))
         self.icon!.image = UIImage(named: "cart_delete")
         self.contentView.addSubview(self.icon!)
     }

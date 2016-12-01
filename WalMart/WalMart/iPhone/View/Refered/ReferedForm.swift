@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ReferedFormDelegate {
-    func selectSaveButton(name: String, mail: String)
+    func selectSaveButton(_ name: String, mail: String)
     func selectCloseButton()
 }
 
@@ -42,24 +42,24 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     
     func setup() {
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(layerLine, atIndex: 0)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(layerLine, at: 0)
         
         self.scrollForm = TPKeyboardAvoidingScrollView(frame: self.frame)
         self.scrollForm.delegate = self
         self.scrollForm.scrollDelegate = self
-        self.scrollForm.backgroundColor = UIColor.whiteColor()
+        self.scrollForm.backgroundColor = UIColor.white
         self.addSubview(self.scrollForm)
         
         self.titleSection = UILabel()
         self.titleSection!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleSection!.text =  NSLocalizedString("refered.form.title", comment: "")
         self.titleSection!.textColor = WMColor.light_blue
-        self.titleSection!.textAlignment = .Left
+        self.titleSection!.textAlignment = .left
         self.scrollForm.addSubview(self.titleSection!)
         
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, vc!.view.frame.width , 30), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
+        let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: vc!.view.frame.width , height: 30), inputViewStyle: .keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 field?.resignFirstResponder()
             }
@@ -68,7 +68,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.name = FormFieldView()
         self.name!.isRequired = true
         self.name!.setCustomPlaceholder(NSLocalizedString("refered.input.name", comment: ""))
-        self.name!.typeField = TypeField.Name
+        self.name!.typeField = TypeField.name
         self.name!.nameField = NSLocalizedString("refered.input.name", comment: "")
         self.name!.minLength = 3
         self.name!.maxLength = 25
@@ -78,45 +78,45 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.email = FormFieldView()
         self.email!.isRequired = true
         self.email!.setCustomPlaceholder(NSLocalizedString("profile.email",comment:""))
-        self.email!.keyboardType = UIKeyboardType.EmailAddress
-        self.email!.typeField = TypeField.Email
+        self.email!.keyboardType = UIKeyboardType.emailAddress
+        self.email!.typeField = TypeField.email
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
         self.email!.maxLength = 45
-        self.email!.autocapitalizationType = UITextAutocapitalizationType.None
+        self.email!.autocapitalizationType = UITextAutocapitalizationType.none
         self.email!.inputAccessoryView = viewAccess
         self.scrollForm.addSubview(self.email!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle(NSLocalizedString("refered.button.send",comment:""), forState:.Normal)
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.setTitle(NSLocalizedString("refered.button.send",comment:""), for:UIControlState())
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(ReferedForm.save), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(ReferedForm.save), for: UIControlEvents.touchUpInside)
         self.scrollForm.addSubview(saveButton!)
         
         self.confirmLabel = UILabel()
         self.confirmLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.confirmLabel!.text =  NSLocalizedString("refered.label.confirm",comment:"")
         self.confirmLabel!.textColor = WMColor.dark_gray
-        self.confirmLabel!.textAlignment = .Center
-        self.confirmLabel!.hidden = true
+        self.confirmLabel!.textAlignment = .center
+        self.confirmLabel!.isHidden = true
         self.scrollForm.addSubview(self.confirmLabel!)
         
-        self.layer.insertSublayer(layerLine, atIndex: 0)
+        self.layer.insertSublayer(layerLine, at: 0)
         self.addHeaderAndTitle(NSLocalizedString("refered.title.showrefered",comment:""))
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.scrollForm.frame = CGRectMake(0, 0, self.frame.width , self.frame.height)
-        self.titleSection.frame = CGRectMake(leftRightPadding,58,self.frame.width - leftRightPadding,16)
-        self.name.frame = CGRectMake(leftRightPadding,titleSection.frame.maxY + separatorField,self.frame.width - (leftRightPadding * 2),fieldHeight)
-        self.email.frame = CGRectMake(leftRightPadding,name.frame.maxY + separatorField,self.frame.width - (leftRightPadding * 2),fieldHeight)
+        self.scrollForm.frame = CGRect(x: 0, y: 0, width: self.frame.width , height: self.frame.height)
+        self.titleSection.frame = CGRect(x: leftRightPadding,y: 58,width: self.frame.width - leftRightPadding,height: 16)
+        self.name.frame = CGRect(x: leftRightPadding,y: titleSection.frame.maxY + separatorField,width: self.frame.width - (leftRightPadding * 2),height: fieldHeight)
+        self.email.frame = CGRect(x: leftRightPadding,y: name.frame.maxY + separatorField,width: self.frame.width - (leftRightPadding * 2),height: fieldHeight)
         self.scrollForm.contentSize = CGSize(width: self.frame.width,height: email.frame.maxY + separatorField - 2)
-        self.layerLine.frame = CGRectMake(0,email.frame.maxY + separatorField,self.frame.width,1)
-        self.saveButton!.frame = CGRectMake((self.frame.width - 98) / 2,layerLine.frame.maxY + 12,98,34)
-        self.confirmLabel!.frame = CGRectMake((self.frame.width - 98) / 2,layerLine.frame.maxY + 12,98,34)
+        self.layerLine.frame = CGRect(x: 0,y: email.frame.maxY + separatorField,width: self.frame.width,height: 1)
+        self.saveButton!.frame = CGRect(x: (self.frame.width - 98) / 2,y: layerLine.frame.maxY + 12,width: 98,height: 34)
+        self.confirmLabel!.frame = CGRect(x: (self.frame.width - 98) / 2,y: layerLine.frame.maxY + 12,width: 98,height: 34)
     }
     /**
      Validates the form data
@@ -141,7 +141,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
      
      - returns: Bool returns true if exist an error
      */
-    func viewError(field: FormFieldView)-> Bool{
+    func viewError(_ field: FormFieldView)-> Bool{
         let message = field.validate()
         if message != nil  {
             if self.errorView == nil{
@@ -155,8 +155,8 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        let val = CGSizeMake(self.frame.width, self.scrollForm.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        let val = CGSize(width: self.frame.width, height: self.scrollForm.contentSize.height)
         return val
     }
 
@@ -179,22 +179,22 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
      
      - parameter title: view title
      */
-    func addHeaderAndTitle(title:String){
-        headerView = UIView(frame: CGRectMake(0, 0, self.frame.width, 46))
+    func addHeaderAndTitle(_ title:String){
+        headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 46))
         headerView.backgroundColor = WMColor.light_light_gray
         self.scrollForm.addSubview(headerView)
         
         let titleLabel = UILabel(frame: headerView.bounds)
         titleLabel.textColor =  WMColor.light_blue
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2
         titleLabel.text = title
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         
-        let viewButton = UIButton(frame: CGRectMake(6, 3, 40, 40))
-        viewButton.addTarget(self, action: #selector(ReferedForm.close), forControlEvents: UIControlEvents.TouchUpInside)
-        viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        let viewButton = UIButton(frame: CGRect(x: 6, y: 3, width: 40, height: 40))
+        viewButton.addTarget(self, action: #selector(ReferedForm.close), for: UIControlEvents.touchUpInside)
+        viewButton.setImage(UIImage(named: "detail_close"), for: UIControlState())
         headerView.addSubview(viewButton)
         headerView.addSubview(titleLabel)
     }
@@ -205,12 +205,12 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
      - parameter name: refered name
      - parameter mail: refered mail
      */
-    func showReferedUser(name:String,mail:String){
+    func showReferedUser(_ name:String,mail:String){
         self.email.text = mail
         self.name.text = name
-        self.email.enabled = false
-        self.name.enabled = false
-        self.saveButton?.hidden = true
-        self.confirmLabel?.hidden = false
+        self.email.isEnabled = false
+        self.name.isEnabled = false
+        self.saveButton?.isHidden = true
+        self.confirmLabel?.isHidden = false
     }
 }

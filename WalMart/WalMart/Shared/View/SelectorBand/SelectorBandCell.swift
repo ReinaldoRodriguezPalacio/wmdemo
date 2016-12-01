@@ -23,15 +23,15 @@ class SelectorBandCell: UICollectionViewCell {
         super.init(frame: frame)
         
      
-        self.label = UILabel(frame: CGRectMake(0.0, 0.0, frame.size.width, frame.size.height))
-        self.label!.textColor = UIColor.whiteColor()
-        self.label!.backgroundColor = UIColor.clearColor()
+        self.label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: frame.size.width, height: frame.size.height))
+        self.label!.textColor = UIColor.white
+        self.label!.backgroundColor = UIColor.clear
         self.label!.font = WMFont.fontMyriadProRegularOfSize(16)
-        self.label!.textAlignment = .Center
+        self.label!.textAlignment = .center
         self.contentView.addSubview(self.label!)
     }
     
-    func setText(text:NSString, selected:Bool) {
+    func setText(_ text:NSString, selected:Bool) {
         self.label!.text = text as String
         if selected {
             self.label!.font = WMFont.fontMyriadProBlackOfSize(14)

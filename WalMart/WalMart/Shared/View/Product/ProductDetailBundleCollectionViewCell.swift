@@ -16,9 +16,9 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
     
     override func setup() {
         super.setup()
-        collection.registerClass(ProductDetailBundleItemCollectionViewCell.self, forCellWithReuseIdentifier: "productBundleCell")
+        collection.register(ProductDetailBundleItemCollectionViewCell.self, forCellWithReuseIdentifier: "productBundleCell")
         
-        downBorder = UIView(frame: CGRectMake(0, 169, self.frame.width, AppDelegate.separatorHeigth()))
+        downBorder = UIView(frame: CGRect(x: 0, y: 169, width: self.frame.width, height: AppDelegate.separatorHeigth()))
         downBorder.backgroundColor = WMColor.light_light_gray
         
         
@@ -29,19 +29,19 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
     }
     
     override func layoutSubviews() {
-        collection.frame = CGRectMake(self.bounds.minX,40,self.bounds.width,self.bounds.height - 40)
+        collection.frame = CGRect(x: self.bounds.minX,y: 40,width: self.bounds.width,height: self.bounds.height - 40)
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("productBundleCell", forIndexPath: indexPath) as! ProductDetailBundleItemCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: "productBundleCell", for: indexPath) as! ProductDetailBundleItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
         
         let desc = itemUPC["description"] as! String
-        let imageArray = itemUPC["imageUrl"] as! NSArray
+        let imageArray = itemUPC["imageUrl"] as! [Any]
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as! String
+            imageUrl = imageArray[0] as! String
         }
         
         cell.setValues(imageUrl, productShortDescription: desc)
@@ -49,7 +49,7 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var upcItems : [[String:String]] = []
         for upcStr in itemsUPC {
             let upc = upcStr["upc"] as! String
@@ -58,14 +58,14 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
             upcItems.append(["upc":upc,"description":desc,"type":type])
         }
         
-        let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
+        let currentCell = collectionView.cellForItem(at: indexPath) as! ProductCollectionViewCell!
         
         //currentCell.hideImageView()
-        var pontInView = CGRectZero
+        var pontInView = CGRect.zero
         if self.superview?.superview?.superview != nil {
-            pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview?.superview)
+            pontInView = (currentCell?.convert(currentCell!.productImage!.frame, to:  self.superview?.superview?.superview))!
         }else{
-            pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview)
+            pontInView = (currentCell?.convert(currentCell!.productImage!.frame, to:  self.superview?.superview))!
         }
         
         delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: self.idListSelectdFromSearch, isBundle: true)

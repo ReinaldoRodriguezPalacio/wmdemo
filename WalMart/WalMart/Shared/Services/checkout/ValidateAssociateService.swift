@@ -11,14 +11,14 @@ import Foundation
 
 class ValidateAssociateService : BaseService {
     
-    func buildParams(idAssociated:String?,dateAdmission: String?,determinant: String?) -> NSDictionary {
+    func buildParams(_ idAssociated:String?,dateAdmission: String?,determinant: String?) -> [String:Any] {
 
         return ["idAssociated":idAssociated!,"dateAdmission":dateAdmission!,"determinant":determinant!]
     }
     
-    func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:Any, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

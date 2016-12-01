@@ -7,6 +7,19 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 class CarouselService : BaseService {
     
     
@@ -16,11 +29,11 @@ class CarouselService : BaseService {
     
     
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //print(params)
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
-            NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
 
             
             successBlock!(resultCall)
@@ -30,21 +43,21 @@ class CarouselService : BaseService {
     }
    
     
-    func getCarouselContent() -> [[String:AnyObject]] {
-        var carouselItems : [[String:AnyObject]] = []
+    func getCarouselContent() -> [[String:Any]] {
+        var carouselItems : [[String:Any]] = []
         
-        let values = getDataFromFile(fileName)
+        let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return carouselItems
         }
         
         
         
-        carouselItems = values![JSON_BANNER_RESPONSEARRAY] as! [[String:AnyObject]]
+        carouselItems = values![JSON_BANNER_RESPONSEARRAY] as! [[String:Any]]
         
         if var moreCarousel = values![JSON_BANNER_RESPONSEARRAY] as? [[String:String]] {
             
-            moreCarousel.sortInPlace({ (one:[String : String], second:[String : String]) -> Bool in
+            moreCarousel.sort(by: { (one:[String : String], second:[String : String]) -> Bool in
                 let firstString = one["order"] as String?
                 let secondString = second["order"] as String?
                 return Int(firstString!) < Int(secondString!)

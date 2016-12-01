@@ -11,9 +11,9 @@ import Foundation
 class GRDiscountActiveService: GRBaseService{
     
     
-    func callService(succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(_ succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         
-        self.callGETService([:],successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService([:],successBlock: { (resultCall:[String:Any]) -> Void in
              succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

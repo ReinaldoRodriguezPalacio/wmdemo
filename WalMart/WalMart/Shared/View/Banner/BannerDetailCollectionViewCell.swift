@@ -16,7 +16,7 @@ class BannerDetailCollectionViewCell : UICollectionViewCell {
     var imageURL : String? {
         didSet {
 
-            imageBanner.setImageWithURL(NSURL(string: "http://\(imageURL!)")!)
+            imageBanner.setImageWith(URL(string: "http://\(imageURL!)")!)
         }
     }
     
@@ -32,7 +32,7 @@ class BannerDetailCollectionViewCell : UICollectionViewCell {
     
     
     func setup() {
-        imageBanner = UIImageView(frame:CGRectMake(0, 0, self.frame.width, self.frame.height))
+        imageBanner = UIImageView(frame:CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         self.addSubview(imageBanner)
     }
     

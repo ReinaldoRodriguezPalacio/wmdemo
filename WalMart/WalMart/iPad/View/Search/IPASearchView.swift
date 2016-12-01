@@ -38,31 +38,31 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     
     func setup() {
         field = FormFieldSearch()
-        field.returnKeyType = .Search
-        field.autocapitalizationType = .None
-        field.autocorrectionType = .No
+        field.returnKeyType = .search
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
         field.enablesReturnKeyAutomatically = true
         field.delegate = self
         field.placeholder = NSLocalizedString("search.info.placeholder",comment:"")
-        field.frame = CGRectMake( -self.frame.width + 40, (self.frame.height / 2) - 15, self.frame.width - 40,30)
-        self.field!.addTarget(self, action: #selector(IPASearchView.setPopOver), forControlEvents: UIControlEvents.EditingDidBegin)
+        field.frame = CGRect( x: -self.frame.width + 40, y: (self.frame.height / 2) - 15, width: self.frame.width - 40,height: 30)
+        self.field!.addTarget(self, action: #selector(IPASearchView.setPopOver), for: UIControlEvents.editingDidBegin)
         
         viewContent = UIView()
         viewContent.clipsToBounds = true
         self.addSubview(viewContent)
         
         backButton = UIButton()
-        backButton.frame = CGRectMake(0, 0, 40, 40)
-        backButton.setImage(UIImage(named: "search_back"), forState: UIControlState.Normal)
-        backButton.addTarget(self, action: #selector(IPASearchView.closeSearch), forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        backButton.setImage(UIImage(named: "search_back"), for: UIControlState())
+        backButton.addTarget(self, action: #selector(IPASearchView.closeSearch), for: UIControlEvents.touchUpInside)
         self.addSubview(backButton)
         
-        self.clearButton = UIButton(type: .Custom)
-        self.clearButton!.frame = CGRectMake(self.field.frame.width - 30, 0.0, 30, 30)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
-        self.clearButton!.addTarget(self, action: #selector(IPASearchView.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
+        self.clearButton = UIButton(type: .custom)
+        self.clearButton!.frame = CGRect(x: self.field.frame.width - 30, y: 0.0, width: 30, height: 30)
+        self.clearButton!.setImage(UIImage(named:"searchClear"), for: UIControlState())
+        self.clearButton!.setImage(UIImage(named:"searchClear"), for: .highlighted)
+        self.clearButton!.setImage(UIImage(named:"searchClear"), for: .selected)
+        self.clearButton!.addTarget(self, action: #selector(IPASearchView.clearSearch), for: UIControlEvents.touchUpInside)
         self.clearButton!.alpha = 0
         self.field.addSubview(self.clearButton!)
         
@@ -73,32 +73,32 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let showCamFind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
-        self.camButton!.hidden = !showCamFind
-        self.camLabel!.hidden = !showCamFind
+        let showCamFind = Bundle.main.object(forInfoDictionaryKey: "showCamFind") as! Bool
+        self.camButton!.isHidden = !showCamFind
+        self.camLabel!.isHidden = !showCamFind
         
         if showCamFind {
-            self.camButton!.frame = CGRectMake(128, 110.0, 64, 64)
-            self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28,  self.camButton!.frame.maxY + 16, 120, 34)
-            self.scanButton!.frame = CGRectMake(282, 110.0, 64, 64)
-            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.camButton!.frame.maxY + 16, 120, 34)
+            self.camButton!.frame = CGRect(x: 128, y: 110.0, width: 64, height: 64)
+            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28,  y: self.camButton!.frame.maxY + 16, width: 120, height: 34)
+            self.scanButton!.frame = CGRect(x: 282, y: 110.0, width: 64, height: 64)
+            self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.camButton!.frame.maxY + 16, width: 120, height: 34)
         }else{
-            self.scanButton!.frame = CGRectMake((self.frame.width + 64) / 2, 110.0, 64, 64)
-            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.maxY + 16, 120, 34)
+            self.scanButton!.frame = CGRect(x: (self.frame.width + 64) / 2, y: 110.0, width: 64, height: 64)
+            self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.maxY + 16, width: 120, height: 34)
         }
     }
     
     func setPopOver() {
         if searchctrl == nil {
             searchctrl =  IPASearchLastViewTableViewController()
-            searchctrl.view.frame = CGRectMake(0,0,474,500)
+            searchctrl.view.frame = CGRect(x: 0,y: 0,width: 474,height: 500)
             searchctrl.delegate = self.delegate
             if #available(iOS 8.0, *) {
-                searchctrl.modalPresentationStyle = .Popover
+                searchctrl.modalPresentationStyle = .popover
             } else {
-                searchctrl.modalPresentationStyle = .FormSheet
+                searchctrl.modalPresentationStyle = .formSheet
             }
-            searchctrl.preferredContentSize = CGSizeMake(474, 500)
+            searchctrl.preferredContentSize = CGSize(width: 474, height: 500)
             searchctrl.table.alpha = 0
             searchctrl.afterselect = {() in
                 self.field.resignFirstResponder()
@@ -107,37 +107,37 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             }
             searchctrl.endEditing = {() in
                 self.field.resignFirstResponder()
-                self.searchctrl.view.frame = CGRectMake(0,0,474,500)
-                self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
+                self.searchctrl.view.frame = CGRect(x: 0,y: 0,width: 474,height: 500)
+                self.searchctrl.preferredContentSize = CGSize(width: 474, height: 500)
             }
             
-            self.camButton = UIButton(type: .Custom)
-            self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
-            self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
-            self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Selected)
-            self.camButton!.addTarget(self, action: #selector(IPASearchView.showCamera(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            self.camButton = UIButton(type: .custom)
+            self.camButton!.setImage(UIImage(named:"search_by_photo"), for: UIControlState())
+            self.camButton!.setImage(UIImage(named:"search_by_photo_active"), for: .highlighted)
+            self.camButton!.setImage(UIImage(named:"search_by_photo"), for: .selected)
+            self.camButton!.addTarget(self, action: #selector(IPASearchView.showCamera(_:)), for: UIControlEvents.touchUpInside)
             searchctrl.view!.addSubview(self.camButton!)
             
             self.camLabel = UILabel()
-            self.camLabel!.textAlignment = .Center
+            self.camLabel!.textAlignment = .center
             self.camLabel!.numberOfLines = 2
             self.camLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            self.camLabel!.textColor = UIColor.whiteColor()
+            self.camLabel!.textColor = UIColor.white
             self.camLabel!.text = NSLocalizedString("search.info.button.camera",comment:"")
             searchctrl.view!.addSubview(self.camLabel!)
             
-            self.scanButton = UIButton(type: .Custom)
-            self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
-            self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
-            self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Selected)
-            self.scanButton!.addTarget(self, action: #selector(IPASearchView.showBarCode(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            self.scanButton = UIButton(type: .custom)
+            self.scanButton!.setImage(UIImage(named:"search_by_code"), for: UIControlState())
+            self.scanButton!.setImage(UIImage(named:"search_by_code_active"), for: .highlighted)
+            self.scanButton!.setImage(UIImage(named:"search_by_code"), for: .selected)
+            self.scanButton!.addTarget(self, action: #selector(IPASearchView.showBarCode(_:)), for: UIControlEvents.touchUpInside)
             searchctrl.view!.addSubview(self.scanButton!)
             
             self.scanLabel = UILabel()
-            self.scanLabel!.textAlignment = .Center
+            self.scanLabel!.textAlignment = .center
             self.scanLabel!.numberOfLines = 2
             self.scanLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            self.scanLabel!.textColor = UIColor.whiteColor()
+            self.scanLabel!.textColor = UIColor.white
             self.scanLabel!.text = NSLocalizedString("search.info.button.barcode",comment:"")
             searchctrl.view!.addSubview(self.scanLabel!)
         }
@@ -146,7 +146,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             popover = UIPopoverController(contentViewController: searchctrl)
             popover!.delegate = self
             popover!.backgroundColor = WMColor.light_blue
-            popover!.presentPopoverFromRect(CGRectMake(48, self.frame.maxY - 20 , 0, 0), inView: self, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+            popover!.present(from: CGRect(x: 48, y: self.frame.maxY - 20 , width: 0, height: 0), in: self, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         }
         
         self.showClearButtonIfNeeded(forTextValue: field.text!)
@@ -154,23 +154,23 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     
     func closeSearch() {
         self.field.resignFirstResponder()
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             // self.frame =  CGRectMake(-self.frame.width, self.frame.minY, self.frame.width, self.frame.height)
-            self.field!.frame = CGRectMake(-self.field!.frame.width, self.field!.frame.minY, self.field!.frame.width, self.field!.frame.height)
-            }) { (complete:Bool) -> Void in
+            self.field!.frame = CGRect(x: -self.field!.frame.width, y: self.field!.frame.minY, width: self.field!.frame.width, height: self.field!.frame.height)
+            }, completion: { (complete:Bool) -> Void in
                 self.removeFromSuperview()
-                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                UIView.animate(withDuration: 0.2, animations: { () -> Void in
                     if self.closeanimation != nil {
                         self.closeanimation()
                     }
                 })
-        }
+        }) 
         
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
-        if textField.text != nil && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
+        if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 0 {
             
             if !(validateText()) {
                 return false
@@ -178,24 +178,24 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             
             self.errorView?.removeFromSuperview()
             
-            if textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) >= 12 && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 16 {
+            if textField.text!.lengthOfBytes(using: String.Encoding.utf8) >= 12 && textField.text!.lengthOfBytes(using: String.Encoding.utf8) <= 16 {
                 
                 let strFieldValue = textField.text! as NSString
                 if strFieldValue.integerValue > 0 && textField.text!.isNumeric() {
-                    let code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    let code = textField.text!.trimmingCharacters(in: CharacterSet.whitespaces)
                     var character = code
-                    if self.isBarCodeUPC(code) {
-                        character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
+                    if self.isBarCodeUPC(code as NSString) {
+                        character = code.substring(to: code.characters.index(code.startIndex, offsetBy: code.characters.count-1))
                     }
                     delegate.selectKeyWord("", upc: character, truncate:true,upcs:nil)
                     closePopOver()
                     closeSearch()
                     return true
                 }
-                if strFieldValue.substringToIndex(1).uppercaseString == "B" {
-                    let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
+                if strFieldValue.substring(to: 1).uppercased() == "B" {
+                    let validateNumeric: NSString = strFieldValue.substring(from: 1) as NSString
                     if validateNumeric.doubleValue > 0 {
-                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false,upcs:nil)
+                        delegate.selectKeyWord("", upc: textField.text!.uppercased(), truncate:false,upcs:nil)
                         closePopOver()
                         closeSearch()
                         return true 
@@ -229,9 +229,9 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         return false
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let keyword = strNSString.replacingCharacters(in: range, with: string)
         if keyword.length() >= 2 {
             setPopOver()
         }
@@ -246,30 +246,30 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         return false
     }
     
-    func showMessageValidation(message:String){
+    func showMessageValidation(_ message:String){
         
         
         if self.errorView == nil{
             self.errorView = FormFieldErrorView()
         }
         
-        self.errorView!.frame = CGRectMake(self.field!.frame.minX + 20, 0, self.field!.frame.width, self.field!.frame.height )
+        self.errorView!.frame = CGRect(x: self.field!.frame.minX + 20, y: 0, width: self.field!.frame.width, height: self.field!.frame.height )
         self.errorView!.focusError = self.field!
         if self.field!.frame.minX < 20 {
             self.errorView!.setValues(280, strLabel:"Buscar", strValue: message)
-            self.errorView!.frame =  CGRectMake(self.field!.frame.minX + 20, self.field!.frame.minY , self.errorView!.frame.width , self.errorView!.frame.height)
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX + 20, y: self.field!.frame.minY , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
         }
         else{
             self.errorView!.setValues(field!.frame.width, strLabel:"Buscar", strValue: message)
-            self.errorView!.frame =  CGRectMake(field!.frame.minX + 20, field!.frame.minY, errorView!.frame.width , errorView!.frame.height)
+            self.errorView!.frame =  CGRect(x: field!.frame.minX + 20, y: field!.frame.minY, width: errorView!.frame.width , height: errorView!.frame.height)
         }
         let contentView = self.field!.superview!
         contentView.addSubview(self.errorView!)
-        UIView.animateWithDuration(0.2, animations: {
-            self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY , width: 48, height: 40)
             //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
             
-            self.errorView!.frame =  CGRectMake(self.field!.frame.minX + 20 , self.field!.frame.minY - self.errorView!.frame.height , self.errorView!.frame.width , self.errorView!.frame.height)
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX + 20 , y: self.field!.frame.minY - self.errorView!.frame.height , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
             
             }, completion: {(bool : Bool) in
                 if bool {
@@ -279,20 +279,20 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     }
     
     
-    func validateSearch(toValidate:String) -> Bool{
-        let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú& /]{0,100}$";
+    func validateSearch(_ toValidate:String) -> Bool{
+        let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú /]{0,100}$";
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
     
-    class func validateRegEx (pattern:String,toValidate:String) -> Bool {
+    class func validateRegEx (_ pattern:String,toValidate:String) -> Bool {
         
         var regExVal: NSRegularExpression?
         do {
-            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive)
+            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
         } catch {
             regExVal = nil
         }
-        let matches = regExVal!.numberOfMatchesInString(toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
+        let matches = regExVal!.numberOfMatches(in: toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
         
         if matches > 0 {
             return true
@@ -300,8 +300,8 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         return false
     }
     
-    func showBarCode(sender:UIButton) {
-        if self.field!.isFirstResponder() {
+    func showBarCode(_ sender:UIButton) {
+        if self.field!.isFirstResponder {
             self.field!.resignFirstResponder()
         }
         self.closeSearch()
@@ -309,8 +309,8 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         self.delegate.searchControllerScanButtonClicked()
     }
     
-    func showCamera(sender:UIButton) {
-        if self.field!.isFirstResponder() {
+    func showCamera(_ sender:UIButton) {
+        if self.field!.isFirstResponder {
             self.field!.resignFirstResponder()
         }
         
@@ -319,14 +319,14 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
+    func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void)) {
         if value != nil && value?.trim() != "" {
             var upcArray = upcs
             if upcArray == nil{
                 upcArray = []
             }
-            let params = ["upcs": upcArray!, "keyWord":value!]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
+            let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
             done()
         }
         self.closeSearch()
@@ -335,20 +335,20 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     }
     
     func showClearButtonIfNeeded(forTextValue text:String) {
-        if text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0{
-            UIView.animateWithDuration(0.5, animations: {
+        if text.lengthOfBytes(using: String.Encoding.utf8) > 0{
+            UIView.animate(withDuration: 0.5, animations: {
                 self.clearButton!.alpha = 1
                 self.camButton!.alpha = 0
                 self.scanButton!.alpha = 0
                 self.camLabel!.alpha = 0
                 self.scanLabel!.alpha = 0
                 
-                self.popover?.backgroundColor = UIColor.whiteColor()
+                self.popover?.backgroundColor = UIColor.white
                 self.searchctrl!.table.alpha = 0.8
             })
         }
         else {
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.clearButton!.alpha = 0
                 self.camButton!.alpha = 1
                 self.scanButton!.alpha = 1
@@ -411,21 +411,21 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     //
     //    }
     
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+    func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         popover = nil
     }
     
     func closePopOver (){
         if self.popover != nil {
-            self.popover!.dismissPopoverAnimated(true)
+            self.popover!.dismiss(animated: true)
             popover = nil
         }
     }
     
-    func isBarCodeUPC(codeUPC:NSString) -> Bool {
+    func isBarCodeUPC(_ codeUPC:NSString) -> Bool {
         var fullBarcode = codeUPC as String
         if codeUPC.length < 14 {
-            let toFill = "".stringByPaddingToLength(14 - codeUPC.length, withString: "0", startingAtIndex: 0)
+            let toFill = "".padding(toLength: 14 - codeUPC.length, withPad: "0", startingAt: 0)
             fullBarcode = "\(toFill)\(codeUPC)"
         }
         
@@ -454,11 +454,11 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         
     }
     
-    func popoverControllerShouldDismissPopover(popoverController: UIPopoverController) -> Bool {
+    func popoverControllerShouldDismissPopover(_ popoverController: UIPopoverController) -> Bool {
         return true
     }
     
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if validateText() {
             self.closeSearch()
             if popover != nil{
@@ -471,12 +471,12 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     }
    
     func validateText() -> Bool {
-        let toValidate : NSString = field.text!
-        let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if toValidate.isEqualToString(""){
+        let toValidate : NSString = field.text! as NSString
+        let trimValidate = toValidate.trimmingCharacters(in: CharacterSet.whitespaces)
+        if toValidate.isEqual(to: ""){
             return false
         }
-        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 2 {
+        if trimValidate.lengthOfBytes(using: String.Encoding.utf8) < 2 {
             showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
             return false
         }
@@ -484,7 +484,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             showMessageValidation("Texto no permitido")
             return false
         }
-        if field.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
+        if field.text!.lengthOfBytes(using: String.Encoding.utf8) > 50  {
             showMessageValidation("La longitud no puede ser mayor a 50 caracteres")
             return false
         }

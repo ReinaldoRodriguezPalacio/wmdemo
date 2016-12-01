@@ -35,14 +35,14 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         descLabel.textColor = WMColor.gray
         descLabel.numberOfLines = 0
         
-        downBorder = UIView(frame: CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth()))
+        downBorder = UIView(frame: CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth()))
         downBorder.backgroundColor = WMColor.light_light_gray
         
         titleLabel.text = NSLocalizedString("productdetail.msitext",comment:"")
-        titleLabel.frame = CGRectMake(12, 0, self.bounds.width - (12 * 2), 40.0)
+        titleLabel.frame = CGRect(x: 12, y: 0, width: self.bounds.width - (12 * 2), height: 40.0)
         titleLabel.font =  WMFont.fontMyriadProLightOfSize(14)
         titleLabel.numberOfLines = 1
-        titleLabel.textAlignment = .Left
+        titleLabel.textAlignment = .left
         titleLabel.textColor = WMColor.orange
         
         self.addSubview(titleLabel)
@@ -53,10 +53,10 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        downBorder.frame = CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth())
+        downBorder.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: AppDelegate.separatorHeigth())
     }
     
-    func setValues(msi:NSArray){
+    func setValues(_ msi:[Any]){
 
         if doneValues  { return }
         doneValues = true
@@ -69,17 +69,17 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         self.setup()
         for msiVal in msi {
             
-            let payDetailPrice = NSNumber(double:(priceProduct.doubleValue/msiVal.doubleValue)).stringValue
-            let formattedStr = CurrencyCustomLabel.formatString(payDetailPrice)
+            let payDetailPrice = NSNumber(value: (priceProduct.doubleValue/(msiVal as AnyObject).doubleValue) as Double).stringValue
+            let formattedStr = CurrencyCustomLabel.formatString(payDetailPrice as NSString)
             
-            let lblPay = UILabel(frame: CGRectMake(16, currntY, 55, 14))
-            lblPay.textAlignment = NSTextAlignment.Right
+            let lblPay = UILabel(frame: CGRect(x: 16, y: currntY, width: 55, height: 14))
+            lblPay.textAlignment = NSTextAlignment.right
             lblPay.font = WMFont.fontMyriadProSemiboldOfSize(14)
             lblPay.textColor = WMColor.gray
             lblPay.text = "\(msiVal) \(lblPagos)"
             
-            let lblDesc = CurrencyCustomLabel(frame: CGRectMake(lblPay.frame.maxX + 4, currntY, 150, 14))
-            lblDesc.textAlignment = NSTextAlignment.Left
+            let lblDesc = CurrencyCustomLabel(frame: CGRect(x: lblPay.frame.maxX + 4, y: currntY, width: 150, height: 14))
+            lblDesc.textAlignment = NSTextAlignment.left
             lblDesc.updateMount("\(lblOf) \(formattedStr)", font:  WMFont.fontMyriadProLightOfSize(14), color:  WMColor.dark_gray, interLine: false)
             
             self.addSubview(lblPay)

@@ -28,14 +28,14 @@ class FilterCategoryViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         self.check = UIImageView()
         self.contentView.addSubview(self.check!)
         
         self.name = UILabel()
         self.name!.font = WMFont.fontMyriadProLightOfSize(16)
-        self.name!.backgroundColor = UIColor.whiteColor()
+        self.name!.backgroundColor = UIColor.white
         self.contentView.addSubview(self.name!)
     }
     
@@ -51,29 +51,29 @@ class FilterCategoryViewCell: UITableViewCell {
             x += 64.0
         }
         
-        self.check!.frame = CGRectMake(x, (size.height - 16.0)/2, 16.0, 16.0)
-        self.name!.frame = CGRectMake(self.check!.frame.maxX + separation, 0.0, size.width - (self.check!.frame.maxX + separation), size.height)
+        self.check!.frame = CGRect(x: x, y: (size.height - 16.0)/2, width: 16.0, height: 16.0)
+        self.name!.frame = CGRect(x: self.check!.frame.maxX + separation, y: 0.0, width: size.width - (self.check!.frame.maxX + separation), height: size.height)
     }
     
     //MARK: - Actions
     
-    func setValues(item:[String:AnyObject], selected:Bool) {
+    func setValues(_ item:[String:Any], selected:Bool) {
         
         self.type = .department
         if let level = item["level"] as? NSNumber {
-            if level.integerValue == 0 {
+            if level.intValue == 0 {
                 self.type = .department
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_blue_selected")
             }
-            else if level.integerValue == 1 {
+            else if level.intValue == 1 {
                 self.type = .family
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
                 self.check!.highlightedImage = UIImage(named: "filter_check_blue_selected")
             }
-            else if level.integerValue == 2 {
+            else if level.intValue == 2 {
                 self.type = .line
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
@@ -88,10 +88,10 @@ class FilterCategoryViewCell: UITableViewCell {
                 self.name!.text = "\(self.name!.text!)"
             }
         }
-        self.check!.highlighted = selected
+        self.check!.isHighlighted = selected
     }
     
-    func setValuesFacets(item:[String:AnyObject]?,nameBrand:String, selected:Bool){
+    func setValuesFacets(_ item:[String:Any]?,nameBrand:String, selected:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor
@@ -99,20 +99,20 @@ class FilterCategoryViewCell: UITableViewCell {
         self.check!.highlightedImage = UIImage(named: "check_blue")
         
         if item?["itemName"] as? String == ""{
-            self.check!.hidden = true
+            self.check!.isHidden = true
             
         }
-        else{ self.check!.hidden = false
+        else{ self.check!.isHidden = false
             
         }
         self.name!.text = item != nil ? item!["itemName"] as? String : nameBrand
         if item != nil {
             self.upcs = item!["upcs"] as? [String]
         }
-        self.check!.highlighted = selected
+        self.check!.isHighlighted = selected
     }
     
-    func setValuesSelectAll( selected:Bool){
+    func setValuesSelectAll( _ selected:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor
@@ -120,7 +120,7 @@ class FilterCategoryViewCell: UITableViewCell {
         self.check!.highlightedImage = UIImage(named: "radio_full")
         
         self.name!.text = NSLocalizedString("product.search.filterall", comment: "")
-        self.check!.highlighted = selected
+        self.check!.isHighlighted = selected
     }
     
     

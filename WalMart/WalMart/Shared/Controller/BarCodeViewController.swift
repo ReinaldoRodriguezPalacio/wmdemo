@@ -12,8 +12,8 @@ import QuartzCore
 import CoreData
 
 @objc protocol BarCodeViewControllerDelegate{
-    func barcodeCaptured(value:String?)
-    optional func barcodeCapturedWithType(value:String?,isUpcSearch:Bool)
+    func barcodeCaptured(_ value:String?)
+    @objc optional func barcodeCapturedWithType(_ value:String?,isUpcSearch:Bool)
 }
 
 class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDelegate, UIAlertViewDelegate {
@@ -54,24 +54,24 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         bgImage.image = UIImage(named: "signIn_scanner_bg")
         self.view.addSubview(bgImage)
         
-        self.helpLabel = UILabel(frame: CGRectMake(40 , 160 ,self.view.frame.width - 80 ,30 ))
+        self.helpLabel = UILabel(frame: CGRect(x: 40 , y: 160 ,width: self.view.frame.width - 80 ,height: 30 ))
         self.helpLabel!.text =  NSLocalizedString("product.searh.help.barcode",comment:"")
         if self.helpText != nil {
             self.helpLabel!.text =  self.helpText
         }
-        self.helpLabel!.textColor = UIColor.whiteColor()
+        self.helpLabel!.textColor = UIColor.white
         self.helpLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.helpLabel!.textAlignment = .Center
+        self.helpLabel!.textAlignment = .center
         self.helpLabel!.numberOfLines = 2
         self.view.addSubview(helpLabel!)
         
-        close = UIButton(frame: CGRectMake((self.view.frame.width) - 48,16,48,48))
-        close.setImage(UIImage(named: "closeScan"), forState: UIControlState.Normal)
-        close.addTarget(self, action: #selector(BarCodeViewController.closeAlert), forControlEvents: UIControlEvents.TouchUpInside)
+        close = UIButton(frame: CGRect(x: (self.view.frame.width) - 48,y: 16,width: 48,height: 48))
+        close.setImage(UIImage(named: "closeScan"), for: UIControlState())
+        close.addTarget(self, action: #selector(BarCodeViewController.closeAlert), for: UIControlEvents.touchUpInside)
         self.view.addSubview(close)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BarCodeViewController.startRunning), name: UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BarCodeViewController.stopRunning), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BarCodeViewController.startRunning), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BarCodeViewController.stopRunning), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         allowedBarcodeTypes.append("org.iso.QRCode")
         allowedBarcodeTypes.append("org.iso.PDF417")
@@ -90,14 +90,14 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             previewLayer!.frame =  self.view.frame
         }
         self.bgImage.frame = self.view.bounds
-        self.helpLabel!.frame = CGRectMake( (self.view.bounds.width - 200) / 2  , (self.view.bounds.height / 2) - 150  , 200 ,30 )
+        self.helpLabel!.frame = CGRect( x: (self.view.bounds.width - 200) / 2  , y: (self.view.bounds.height / 2) - 150  , width: 200 ,height: 30 )
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         startRunning()
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopRunning()
     }
@@ -107,25 +107,25 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             return
         }
         
-        videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        videoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         if videoDevice == nil {
             //AlertController.presentViewController("No se encontro camara", icon: nil)
             return
         }
         
-        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         switch(status) {
-            case AVAuthorizationStatus.Authorized : // authorized
+            case AVAuthorizationStatus.authorized : // authorized
                 print("Authorized")
             break
-            case AVAuthorizationStatus.Denied: // denied
+            case AVAuthorizationStatus.denied: // denied
                 UIAlertView(title: "Permisos", message: "Walmart necesita permiso para accesar a la cámara", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Settings").show()
             return
-            case AVAuthorizationStatus.Restricted: // restricted
+            case AVAuthorizationStatus.restricted: // restricted
                 print("Restricted")
             return
-            case AVAuthorizationStatus.NotDetermined:  // not determined
-                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: { (granted:Bool) -> Void in
+            case AVAuthorizationStatus.notDetermined:  // not determined
+                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted:Bool) -> Void in
                     if granted {
                         
                     }else {
@@ -147,7 +147,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         
         metadataOutput = AVCaptureMetadataOutput()
         
-        let metadataQueue : dispatch_queue_t = dispatch_queue_create("com.1337labz.featurebuild.metadata", DISPATCH_QUEUE_CONCURRENT)
+        let metadataQueue : DispatchQueue = DispatchQueue(label: "com.1337labz.featurebuild.metadata", attributes: DispatchQueue.Attributes.concurrent)
        metadataOutput!.setMetadataObjectsDelegate(self, queue: metadataQueue)
         
         if captureSession!.canAddOutput(metadataOutput) == true {
@@ -174,19 +174,19 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     }
     
     //Handle notifications
-    func applicationWillEnterForeground(notification:NSNotification) {
+    func applicationWillEnterForeground(_ notification:Notification) {
         self.startRunning()
     }
     
-    func applicationDidEnterBackground(notification:NSNotification) {
+    func applicationDidEnterBackground(_ notification:Notification) {
         self.stopRunning()
     }
     
     // Delegate AVFoundation
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         for obj in metadataObjects {
             if let metaObj = obj as? AVMetadataMachineReadableCodeObject {
-                self.dismissViewControllerAnimated(true, completion:{ (Void) -> Void in
+                self.dismiss(animated: true, completion:{ (Void) -> Void in
                 if self.isAnyActionFromCode {
                     self.searchProduct(metaObj)
                     return
@@ -228,12 +228,12 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                                     let cont = LoginController.showLogin()
                                     cont!.closeAlertOnSuccess = true
                                     cont!.okCancelCallBack = {() in
-                                        NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
+                                        NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
                                         cont!.closeAlert(true, messageSucesss:false)
                                     }
                                     cont!.successCallBack = {() in
                                         cont!.closeAlert(true, messageSucesss:false)
-                                        NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
+                                        NotificationCenter.default.post(name: Notification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
                                         self.createList(metaObj)
                                     }
                             },isNewFrame: false)
@@ -275,7 +275,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     }
     
     func closeAlert(){
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismiss(animated: true, completion: { () -> Void in
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
             if self.useDelegate {
               self.delegate!.barcodeCaptured(nil)
@@ -284,26 +284,26 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     }
     
     //MARK: - Orientation
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return false
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
     }
     
-    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-        return UIInterfaceOrientation.Portrait
+    override var preferredInterfaceOrientationForPresentation : UIInterfaceOrientation {
+        return UIInterfaceOrientation.portrait
     }
     
-    override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+    override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         
     }
     
     //MARK: - Search and Creeate Functions
-    func searchProduct(barcode: AVMetadataMachineReadableCodeObject){
-        let code = barcode.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        let character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
+    func searchProduct(_ barcode: AVMetadataMachineReadableCodeObject){
+        let code = barcode.stringValue!.trimmingCharacters(in: CharacterSet.whitespaces)
+        let character = code.substring(to: code.characters.index(code.startIndex, offsetBy: code.characters.count-1))
         
         if useDelegate{
             if self.isAnyActionFromCode {
@@ -314,14 +314,14 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             }
             
         }else{
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ScanBarCode.rawValue, object: character, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ScanBarCode.rawValue), object: character, userInfo: nil)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
         }
     }
     
 
     
-    func createList(barcode: AVMetadataMachineReadableCodeObject){
+    func createList(_ barcode: AVMetadataMachineReadableCodeObject){
         let barcodeValue = barcode.stringValue!
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: barcodeValue)
         if useDelegate{
@@ -332,14 +332,14 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         }
     }
     
-    func createListWithServices(barcodeValue: String){
+    func createListWithServices(_ barcodeValue: String){
         print("Code \(barcodeValue)")
         let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
         let service = GRProductByTicket()
         service.callService(service.buildParams(barcodeValue),
-            successBlock: { (result: NSDictionary) -> Void in
-                if let items = result["items"] as? [AnyObject] {
+            successBlock: { (result: [String:Any]) -> Void in
+                if let items = result["items"] as? [Any] {
                     
                     if items.count == 0 {
                         alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
@@ -351,31 +351,31 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     
                     alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
                     
-                    var products:[AnyObject] = []
+                    var products:[Any] = []
                     for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:AnyObject]
+                        var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue)
                         products.append(param)
                     }
                     
-                    let fmt = NSDateFormatter()
+                    let fmt = DateFormatter()
                     fmt.dateFormat = "MMM d"
-                    var name = fmt.stringFromDate(NSDate())
+                    var name = fmt.string(from: Date())
                     
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    let fetchRequest = NSFetchRequest()
-                    fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+                    fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
                     fetchRequest.predicate = NSPredicate(format:"idList != nil")
                     
                     var number = 0;
                     do{
-                        let resultList: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
+                        let resultList: [List]? = try context.fetch(fetchRequest) as? [List]
                         if resultList != nil && resultList!.count > 0 {
                             for listName: List in resultList!{
-                                if listName.name.uppercaseString.hasPrefix(name.uppercaseString) {
+                                if listName.name.uppercased().hasPrefix(name.uppercased()) {
                                     number = number+1
                                 }
                             }
@@ -391,11 +391,11 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     
                     //var number = 0;
                     saveService.callService(saveService.buildParams(name, items: products),
-                        successBlock: { (result:NSDictionary) -> Void in
+                        successBlock: { (result:[String:Any]) -> Void in
                             //TODO
                             alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
                             alertView!.showDoneIcon()
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.ShowGRLists.rawValue), object: nil)
                         },
                         errorBlock: { (error:NSError) -> Void in
                             alertView!.setMessage(error.localizedDescription)
@@ -410,11 +410,11 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     }
 
     //MARK: Alert delegate
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if buttonIndex == 1 {
             if #available(iOS 8.0, *) {
-                if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
-                    UIApplication.sharedApplication().openURL(appSettings)
+                if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+                    UIApplication.shared.openURL(appSettings)
                 }
             }
         } else {

@@ -17,7 +17,7 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
     override func setup() {
         super.setup()
         
-        productPriceSavingLabelGR = UILabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
+        productPriceSavingLabelGR = UILabel(frame: CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19))
         productPriceSavingLabelGR!.font = WMFont.fontMyriadProSemiboldSize(14)
         productPriceSavingLabelGR!.textColor = WMColor.green
         self.contentView.addSubview(productPriceSavingLabelGR)
@@ -26,8 +26,8 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.separatorView!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
-        self.productPriceSavingLabelGR!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19)
+        self.separatorView!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 108,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
+        self.productPriceSavingLabelGR!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
     }
     
     
@@ -36,7 +36,7 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue , label:"\(self.desc)\(self.upc)")
             
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
                 
                 var quanty = "1"
@@ -45,8 +45,8 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
                 }
                
                 let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty,onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable:self.isPreorderable)
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), forState:UIControlState.Normal)
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 
             }else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
@@ -61,15 +61,15 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
         }
     }
     
-    override func setValues(upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString) {
+    override func setValues(_ upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString) {
         super.setValues(upc, productImageURL: productImageURL, productShortDescription: productShortDescription, productPrice: productPrice, saving: "", isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, isInShoppingCart: isInShoppingCart, pesable: pesable)
         
         if saving != "" {
             productPriceSavingLabelGR.text = saving as String
-            productPriceSavingLabelGR.hidden = false
+            productPriceSavingLabelGR.isHidden = false
         }else{
             productPriceSavingLabelGR.text = ""
-            productPriceSavingLabelGR.hidden = true
+            productPriceSavingLabelGR.isHidden = true
         }
     }
     

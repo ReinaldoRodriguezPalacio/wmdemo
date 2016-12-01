@@ -33,7 +33,7 @@ class HelpHomeView: UIView {
     }
     
     func setup() {
-        self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
+        self.backgroundColor = UIColor.black.withAlphaComponent(0.8)
        
         self.logo = UIImageView()
         self.logo?.image = UIImage(named:"navBar_logo")
@@ -45,9 +45,9 @@ class HelpHomeView: UIView {
         
         self.logoLabel = UILabel()
         self.logoLabel?.font = WMFont.fontMyriadProLightOfSize(12)
-        self.logoLabel?.textColor = UIColor.whiteColor()
+        self.logoLabel?.textColor = UIColor.white
         self.logoLabel?.text = NSLocalizedString("home_help.logo", comment: "")
-        self.logoLabel?.textAlignment = .Center
+        self.logoLabel?.textAlignment = .center
         self.addSubview(self.logoLabel!)
         
         self.searchIcon = UIImageView()
@@ -56,9 +56,9 @@ class HelpHomeView: UIView {
         
         self.searchLabel = UILabel()
         self.searchLabel?.font = WMFont.fontMyriadProLightOfSize(12)
-        self.searchLabel?.textColor = UIColor.whiteColor()
+        self.searchLabel?.textColor = UIColor.white
         self.searchLabel?.text = NSLocalizedString("home_help.search", comment: "")
-        self.searchLabel?.textAlignment = .Center
+        self.searchLabel?.textAlignment = .center
         self.addSubview(self.searchLabel!)
             
         self.shoppingCartIcon = UIImageView()
@@ -67,67 +67,67 @@ class HelpHomeView: UIView {
         
         self.shoppingCartLabel = UILabel()
         self.shoppingCartLabel?.font = WMFont.fontMyriadProLightOfSize(12)
-        self.shoppingCartLabel?.textColor = UIColor.whiteColor()
+        self.shoppingCartLabel?.textColor = UIColor.white
         self.shoppingCartLabel?.text = NSLocalizedString("home_help.shoppingCart", comment: "")
-        self.shoppingCartLabel?.textAlignment = .Center
+        self.shoppingCartLabel?.textAlignment = .center
         self.addSubview(self.shoppingCartLabel!)
         
         self.helloLabel = UILabel()
         self.helloLabel?.font = WMFont.fontMyriadProRegularOfSize(30)
-        self.helloLabel?.textColor = UIColor.whiteColor()
+        self.helloLabel?.textColor = UIColor.white
         self.helloLabel?.text = NSLocalizedString("home_help.hello", comment: "")
-        self.helloLabel?.textAlignment = .Center
+        self.helloLabel?.textAlignment = .center
         self.addSubview(self.helloLabel!)
         
         self.helpLabel = UILabel()
         self.helpLabel?.font = WMFont.fontMyriadProLightOfSize(18)
-        self.helpLabel?.textColor = UIColor.whiteColor()
+        self.helpLabel?.textColor = UIColor.white
         self.helpLabel?.text = NSLocalizedString("home_help.description", comment: "")
-        self.helpLabel?.textAlignment = .Center
+        self.helpLabel?.textAlignment = .center
         self.addSubview(self.helpLabel!)
         
         self.continueButton = UIButton()
-        self.continueButton?.setTitle("Continuar", forState: .Normal)
-        self.continueButton?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.continueButton?.setTitle("Continuar", for: UIControlState())
+        self.continueButton?.setTitleColor(UIColor.white, for: UIControlState())
         self.continueButton?.backgroundColor = WMColor.green
         self.continueButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.continueButton?.layer.cornerRadius = 20
-        self.continueButton?.addTarget(self, action: #selector(HelpHomeView.closeView), forControlEvents: UIControlEvents.TouchUpInside)
+        self.continueButton?.addTarget(self, action: #selector(HelpHomeView.closeView), for: UIControlEvents.touchUpInside)
         self.addSubview(self.continueButton!)
         
         self.createTabBarButtons()
     }
     
     override func layoutSubviews() {
-        self.logo?.frame = CGRectMake(104,29,112,28)
-        self.arrowImage?.frame = CGRectMake(self.logo!.frame.midX - 4,self.logo!.frame.maxY - 4,9,29)
-        self.logoLabel?.frame = CGRectMake(96,self.logo!.frame.maxY + 29,128,14)
-        self.searchIcon?.frame = CGRectMake(13,32,20,20)
-        self.searchLabel?.frame = CGRectMake(8,self.searchIcon!.frame.maxY + 15,35,14)
-        self.shoppingCartIcon?.frame = CGRectMake(269,24,35,35)
-        self.shoppingCartLabel?.frame = CGRectMake(269,self.shoppingCartIcon!.frame.maxY + 8,35,14)
-        self.continueButton?.frame = CGRectMake((self.frame.width - 140)/2,(self.frame.height - 40)/2,140,40)
-        self.helpLabel?.frame = CGRectMake((self.frame.width - 162)/2,self.continueButton!.frame.minY - 42,162,20)
-        self.helloLabel?.frame = CGRectMake((self.frame.width - 80)/2,self.helpLabel!.frame.minY - 40,80,32)
+        self.logo?.frame = CGRect(x: 104,y: 29,width: 112,height: 28)
+        self.arrowImage?.frame = CGRect(x: self.logo!.frame.midX - 4,y: self.logo!.frame.maxY - 4,width: 9,height: 29)
+        self.logoLabel?.frame = CGRect(x: 96,y: self.logo!.frame.maxY + 29,width: 128,height: 14)
+        self.searchIcon?.frame = CGRect(x: 13,y: 32,width: 20,height: 20)
+        self.searchLabel?.frame = CGRect(x: 8,y: self.searchIcon!.frame.maxY + 15,width: 35,height: 14)
+        self.shoppingCartIcon?.frame = CGRect(x: 269,y: 24,width: 35,height: 35)
+        self.shoppingCartLabel?.frame = CGRect(x: 269,y: self.shoppingCartIcon!.frame.maxY + 8,width: 35,height: 14)
+        self.continueButton?.frame = CGRect(x: (self.frame.width - 140)/2,y: (self.frame.height - 40)/2,width: 140,height: 40)
+        self.helpLabel?.frame = CGRect(x: (self.frame.width - 162)/2,y: self.continueButton!.frame.minY - 42,width: 162,height: 20)
+        self.helloLabel?.frame = CGRect(x: (self.frame.width - 80)/2,y: self.helpLabel!.frame.minY - 40,width: 80,height: 32)
     }
     
     class func initView() -> HelpHomeView {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let helpView = HelpHomeView(frame:vc!.view.bounds)
         return helpView
     }
     
     func showView() {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         self.alpha = 0.0
         vc!.view.addSubview(self)
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.alpha = 1.0
             }, completion: nil)
     }
     
     func closeView(){
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
                 self.alpha = 0.0
             }, completion: {(complete) in
                 self.removeFromSuperview()
@@ -149,21 +149,21 @@ class HelpHomeView: UIView {
         var xImage: CGFloat = 25.4
         for image in images {
             var title = NSString(format: "tabbar.%@", image)
-            title = NSLocalizedString(title as String, comment: "")
+            title = NSLocalizedString(title as String, comment: "") as NSString
             let imageLabel = UILabel()
             imageLabel.font = WMFont.fontMyriadProLightOfSize(12)
-            imageLabel.textColor = UIColor.whiteColor()
+            imageLabel.textColor = UIColor.white
             imageLabel.text = title as String
-            imageLabel.frame = CGRectMake(xLabel, self.frame.height - 71, 65, 26)
+            imageLabel.frame = CGRect(x: xLabel, y: self.frame.height - 71, width: 65, height: 26)
             imageLabel.numberOfLines = 2
-            imageLabel.textAlignment = .Center
-            xLabel = CGRectGetMaxX(imageLabel.frame) + spaceLabel
+            imageLabel.textAlignment = .center
+            xLabel = imageLabel.frame.maxX + spaceLabel
             self.addSubview(imageLabel)
             
             let imageView = UIImageView()
             imageView.image = UIImage(named: NSString(format: "%@_active", image) as String)
-            imageView.frame = CGRectMake(xImage, self.frame.height - 34.5, 27, 27)
-            xImage = CGRectGetMaxX(imageView.frame) + spaceImage
+            imageView.frame = CGRect(x: xImage, y: self.frame.height - 34.5, width: 27, height: 27)
+            xImage = imageView.frame.maxX + spaceImage
             self.addSubview(imageView)
         }
     }

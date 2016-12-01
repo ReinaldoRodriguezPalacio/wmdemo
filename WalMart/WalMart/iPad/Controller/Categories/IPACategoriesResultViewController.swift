@@ -24,7 +24,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
     var searchProduct : IPASearchCatProductViewController!
     var department : String!
     var family : String!
-    var families : [[String:AnyObject]]!
+    var families : [[String:Any]]!
     var line : String!
     var name : String!
     
@@ -47,22 +47,22 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         super.viewDidLoad()
         
         self.view.clipsToBounds = true
-        self.view.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.clear
         
-        viewImageBgCategory = UIImageView(frame: CGRectMake(-120, 0, 1024, frameStart.height))
-        viewImageBgCategory.contentMode = UIViewContentMode.ScaleAspectFill
+        viewImageBgCategory = UIImageView(frame: CGRect(x: -120, y: 0, width: 1024, height: frameStart.height))
+        viewImageBgCategory.contentMode = UIViewContentMode.scaleAspectFill
         viewImageBgCategory.image = imgCategory
         viewImageBgCategory.clipsToBounds = true
         
         imageIcon = UIImageView()
-        imageIcon.frame = CGRectMake((self.frameStart.width / 2) - 24, 48, 48, 48)
+        imageIcon.frame = CGRect(x: (self.frameStart.width / 2) - 24, y: 48, width: 48, height: 48)
         imageIcon.image = imgIcon
 
         titleLabel = UILabel()
         titleLabel.font  = WMFont.fontMyriadProLightOfSize(25)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
-        titleLabel.frame = CGRectMake((self.frameStart.width / 2) - 200, 112, 400, 50)
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
+        titleLabel.frame = CGRect(x: (self.frameStart.width / 2) - 200, y: 112, width: 400, height: 50)
         titleLabel.text = titleStr
         
  
@@ -93,21 +93,21 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         //searchProduct.showHeader = true
         self.view.addSubview(viewImageContent)
        
-        searchProduct.view.frame = CGRectMake(0, 0,  self.frameEnd.width,  self.frameEnd.height)// self.viewContainer.bounds
+        searchProduct.view.frame = CGRect(x: 0, y: 0,  width: self.frameEnd.width,  height: self.frameEnd.height)// self.viewContainer.bounds
         
         self.addChildViewController(searchProduct)
         self.view.addSubview(searchProduct.view)
     }
   
     
-    func setValues(department:String,family:String,line:String, name:String ) {
+    func setValues(_ department:String,family:String,line:String, name:String ) {
         self.department = department
         self.family = family
         self.line = line
         self.name = name
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startAnimating()
     }
@@ -116,29 +116,29 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
          if CategoryShouldShowFamily.shouldshowfamily {
             CategoryShouldShowFamily.shouldshowfamily = false
             self.searchProduct.view.alpha = 0
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.view.frame = self.frameEnd
-                self.viewImageContent.frame = CGRectMake(0, 0, self.frameEnd.width, self.viewImageBgCategory.frame.height)
-                self.viewImageBgCategory.frame = CGRectMake(0, 0, self.frameEnd.width, self.viewImageBgCategory.frame.height)
-                self.imageIcon.frame = CGRectMake((self.frameEnd.width / 2) - 24, 48, 48, 48)
-                self.titleLabel.frame = CGRectMake((self.frameEnd.width / 2) - 200, 112, 400, 50)
+                self.viewImageContent.frame = CGRect(x: 0, y: 0, width: self.frameEnd.width, height: self.viewImageBgCategory.frame.height)
+                self.viewImageBgCategory.frame = CGRect(x: 0, y: 0, width: self.frameEnd.width, height: self.viewImageBgCategory.frame.height)
+                self.imageIcon.frame = CGRect(x: (self.frameEnd.width / 2) - 24, y: 48, width: 48, height: 48)
+                self.titleLabel.frame = CGRect(x: (self.frameEnd.width / 2) - 200, y: 112, width: 400, height: 50)
                 
-                }) { (complete:Bool) -> Void in
+                }, completion: { (complete:Bool) -> Void in
                     //self.btnClose.frame  = CGRectMake(self.frameEnd.width - 100 ,3 ,100,100)
                     if self.searchProduct != nil {
-                        self.searchProduct.view.frame = CGRectMake(0, 0,  self.frameEnd.width,  self.frameEnd.height)
-                        UIView.animateWithDuration(0.2, animations: { () -> Void in
+                        self.searchProduct.view.frame = CGRect(x: 0, y: 0,  width: self.frameEnd.width,  height: self.frameEnd.height)
+                        UIView.animate(withDuration: 0.2, animations: { () -> Void in
                             self.searchProduct.view.alpha = 1
-                            }) { (complete:Bool) -> Void in
+                            }, completion: { (complete:Bool) -> Void in
                                 if self.viewImageContent != nil {
                                     self.addPopover()
                                     self.viewImageContent.alpha = 0
                                     self.viewImageBgCategory.alpha = 0
                                 }
-                        }
+                        }) 
                     }
                    
-            }
+            }) 
         }
     }
     
@@ -154,17 +154,17 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
        
         
         if #available(iOS 8.0, *) {
-            familyController.modalPresentationStyle = .Popover
+            familyController.modalPresentationStyle = .popover
         } else {
-            familyController.modalPresentationStyle = .FormSheet
+            familyController.modalPresentationStyle = .formSheet
         }
-        familyController.preferredContentSize = CGSizeMake(320, 322)
+        familyController.preferredContentSize = CGSize(width: 320, height: 322)
         
         if popover ==  nil {
             popover = UIPopoverController(contentViewController: familyController)
         }
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2, frameStart.height + 40, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popover!.present(from: CGRect(x: self.frameEnd.width / 2, y: frameStart.height + 40, width: 0, height: 0), in: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         searchProduct.setSelectedHeaderCat()
         
         if familyController.familyTable != nil {
@@ -173,11 +173,11 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         
     }
         
-    func didSelectLine(department:String,family:String,line:String, name:String) {
+    func didSelectLine(_ department:String,family:String,line:String, name:String) {
         
         familyController.departmentId = line
-        let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height - 40 ), toView:self.view)
-        searchProduct.loading = WMLoadingView(frame: CGRectMake(0, pointPop.y, self.view.bounds.width, self.view.bounds.height - pointPop.y))
+        let pointPop =  searchProduct.viewHeader.convert(CGPoint(x: self.view.frame.width / 2,  y: frameStart.height - 40 ), to:self.view)
+        searchProduct.loading = WMLoadingView(frame: CGRect(x: 0, y: pointPop.y, width: self.view.bounds.width, height: self.view.bounds.height - pointPop.y))
         
         searchProduct.mgResults!.resetResult()
         searchProduct.grResults!.resetResult()
@@ -187,14 +187,14 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         searchProduct.idLine = line
         searchProduct.titleHeader = name
 
-        searchProduct.collection?.scrollRectToVisible(CGRectMake(0, 0, self.frameEnd.width, self.frameEnd.height), animated: false)
+        searchProduct.collection?.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.frameEnd.width, height: self.frameEnd.height), animated: false)
         searchProduct.showLoadingIfNeeded(false)
         searchProduct.brandText = ""
        
         searchProduct.getServiceProduct(resetTable: true)
 
         searchProduct.dismissCategory()
-        popover!.dismissPopoverAnimated(false)
+        popover!.dismiss(animated: false)
       
         
     }
@@ -205,24 +205,24 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         if closeAnimated {
             self.viewImageContent.alpha = 1
             self.viewImageBgCategory.alpha = 1
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 self.searchProduct.view.alpha = 0
                 //self.btnClose.alpha = 0.0
-                }) { (complete:Bool) -> Void in
-                    UIView.animateWithDuration(0.3, animations: { () -> Void in
-                        self.viewImageContent.frame = CGRectMake(self.frameStart.minX, 0, self.frameStart.width, self.frameStart.height)
-                        self.viewImageBgCategory.frame = CGRectMake(-120, 0, 1024 , self.frameStart.height)
-                        self.imageIcon.frame = CGRectMake((self.frameStart.width / 2) - 24, 48, 48, 48)
-                        self.titleLabel.frame = CGRectMake((self.frameStart.width / 2) - 200, 112, 400, 50)
+                }, completion: { (complete:Bool) -> Void in
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                        self.viewImageContent.frame = CGRect(x: self.frameStart.minX, y: 0, width: self.frameStart.width, height: self.frameStart.height)
+                        self.viewImageBgCategory.frame = CGRect(x: -120, y: 0, width: 1024 , height: self.frameStart.height)
+                        self.imageIcon.frame = CGRect(x: (self.frameStart.width / 2) - 24, y: 48, width: 48, height: 48)
+                        self.titleLabel.frame = CGRect(x: (self.frameStart.width / 2) - 200, y: 112, width: 400, height: 50)
                         
-                        }) { (complete:Bool) -> Void in
+                        }, completion: { (complete:Bool) -> Void in
                             if complete {
                                 self.actionClose?()
                                 self.removeFromParentViewController()
                                 self.view.removeFromSuperview()
                             }
-                    }
-            }
+                    }) 
+            }) 
         } else {
             self.actionClose?()
         }
@@ -235,22 +235,22 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         //familyController.selectedFamily = nil
         familyController.delegate = self
         
-        let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height + 40 ), toView:self.view)
+        let pointPop =  searchProduct.viewHeader.convert(CGPoint(x: self.view.frame.width / 2,  y: frameStart.height + 40 ), to:self.view)
         print(pointPop)
         if #available(iOS 8.0, *) {
-            familyController.modalPresentationStyle = .Popover
+            familyController.modalPresentationStyle = .popover
         } else {
-            familyController.modalPresentationStyle = .FormSheet
+            familyController.modalPresentationStyle = .formSheet
         }
-        familyController.preferredContentSize = CGSizeMake(320, 322)
+        familyController.preferredContentSize = CGSize(width: 320, height: 322)
         
         popover = UIPopoverController(contentViewController: familyController)
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2, pointPop.y - 254 + 40 , 0, 0), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popover!.present(from: CGRect(x: self.frameEnd.width / 2, y: pointPop.y - 254 + 40 , width: 0, height: 0), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         familyController.familyTable.reloadData()
     }
     
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+    func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         searchProduct.dismissCategory()
     }
     

@@ -7,11 +7,35 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 class IPASearchProductViewController : SearchProductViewController, UIPopoverControllerDelegate {
    // var frameTitle : CGRect = CGRectZero
     var viewAnimated : Bool = false
-    var currentCellSelected : NSIndexPath!
+    var currentCellSelected : IndexPath!
     var filterController: FilterProductsViewController?
     var sharePopover: UIPopoverController?
     var selectQuantityPopover:  UIPopoverController?
@@ -24,12 +48,12 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.maxResult = 23
         super.viewDidLoad()
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
-        collection?.registerClass(IPASearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductSearch")
+        collection?.register(IPASearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductSearch")
         collection?.frame = self.view.bounds
     }
 
     override func viewWillLayoutSubviews() {
-        self.loading?.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.loading?.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         if !viewAnimated {
 //            if  self.filterView != nil {
 //               self.removeFilter()
@@ -37,32 +61,32 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             super.viewWillLayoutSubviews()
             let bounds = self.view.bounds
             self.titleLabel!.sizeToFit()
-            self.titleLabel!.frame = CGRectMake((bounds.width - self.titleLabel!.frame.width) / 2,  0, titleLabel!.frame.width , self.header!.frame.height)
+            self.titleLabel!.frame = CGRect(x: (bounds.width - self.titleLabel!.frame.width) / 2,  y: 0, width: titleLabel!.frame.width , height: self.header!.frame.height)
            // frameTitle = self.titleLabel!.frame
         }
         
         if self.showAlertView {
-            searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
-            self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.searchAlertView!.frame.maxY + 20, 320, 28)
+            searchAlertView!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY, width: self.view.frame.width, height: 46)
+            self.viewBgSelectorBtn.frame = CGRect(x: (self.view.bounds.width / 2)  - 160,  y: self.searchAlertView!.frame.maxY + 20, width: 320, height: 28)
         }else{
-            self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 20, 320, 28)
+            self.viewBgSelectorBtn.frame = CGRect(x: (self.view.bounds.width / 2)  - 160,  y: self.header!.frame.maxY + 20, width: 320, height: 28)
         }
         searchAlertView!.alpha = self.showAlertView ? 1 : 0
         
-        self.btnSuper.frame = CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2)
-        self.btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        self.btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        self.btnSuper.frame = CGRect(x: 1, y: 1, width: (viewBgSelectorBtn.frame.width / 2) , height: viewBgSelectorBtn.frame.height - 2)
+        self.btnSuper.setImage(UIImage(color: UIColor.white, size: btnSuper.frame.size), for: UIControlState())
+        self.btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), for: UIControlState.selected)
         
-        self.btnTech.frame = CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2)
-        self.btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        self.btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        self.btnTech.frame = CGRect(x: btnSuper.frame.maxX, y: 1, width: viewBgSelectorBtn.frame.width / 2, height: viewBgSelectorBtn.frame.height - 2)
+        self.btnTech.setImage(UIImage(color: UIColor.white, size: btnSuper.frame.size), for: UIControlState())
+        self.btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), for: UIControlState.selected)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if currentCellSelected != nil {
@@ -70,15 +94,15 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         }
     }
     
-    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(self.view.bounds.width / 3, 254);
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.bounds.width / 3, height: 254);
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        print("Articulo seleccionado \(indexPath.row)")
         
-        let cell = self.collection?.cellForItemAtIndexPath(indexPath)
-        if cell!.isKindOfClass(SearchProductCollectionViewCell){
+        let cell = self.collection?.cellForItem(at: indexPath)
+        if cell!.isKind(of: SearchProductCollectionViewCell.self){
             if indexPath.row < self.allProducts!.count {
 
                 let paginatedProductDetail = IPAProductDetailPageViewController()
@@ -99,16 +123,16 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 //contDetail.upc = upc
                 //contDetail.name = desc
             
-                let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! IPASearchProductCollectionViewCell!
+                let currentCell = collectionView.cellForItem(at: indexPath) as! IPASearchProductCollectionViewCell!
                 currentCellSelected = indexPath
-                let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
+                let pontInView = currentCell?.convert(currentCell!.productImage!.frame, to:  self.view)
                 //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
                 paginatedProductDetail.isForSeach = (self.textToSearch != nil && self.textToSearch != "")
                 paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
                 paginatedProductDetail.animationController.originPoint =  pontInView
                 paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
                 paginatedProductDetail.detailOf = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
-                currentCell.hideImageView()
+                currentCell?.hideImageView()
             
                 self.navigationController?.delegate = paginatedProductDetail
                 self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
@@ -119,14 +143,14 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }
     
     func reloadSelectedCell() {
-        let currentCell = collection!.cellForItemAtIndexPath(currentCellSelected) as! IPASearchProductCollectionViewCell!
+        let currentCell = collection!.cellForItem(at: currentCellSelected) as! IPASearchProductCollectionViewCell!
         if currentCell != nil{
-            currentCell.showImageView()
+            currentCell?.showImageView()
         }
         self.collection?.reloadData()
     }
     
-    override func filter(sender:UIButton){
+    override func filter(_ sender:UIButton){
         if self.filterController == nil {
             self.filterController = FilterProductsViewController()
             self.filterController!.facet = self.facet
@@ -135,38 +159,38 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.filterController!.selectedOrder = self.idSort!
             self.filterController!.delegate = self
             self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-            self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
-            self.filterController!.view.backgroundColor = UIColor.clearColor()
+            self.filterController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
+            self.filterController!.view.backgroundColor = UIColor.clear
             self.filterController!.facetGr = self.facetGr
             self.filterController!.successCallBack  = { () in
-                self.sharePopover?.dismissPopoverAnimated(true)
+                self.sharePopover?.dismiss(animated: true)
                 return
             }
         }
         self.filterController!.facet =  self.facet != nil ? self.facet : nil
         self.filterController!.facetGr = self.facetGr
-        self.filterController!.isGroceriesSearch = self.btnSuper.selected
+        self.filterController!.isGroceriesSearch = self.btnSuper.isSelected
         self.filterController!.searchContext = self.searchContextType
-        let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)
+        let pointPop =  self.filterButton!.convert(CGPoint(x: self.filterButton!.frame.minX,  y: self.filterButton!.frame.maxY / 2  ), to:self.view)
 
         //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()
         let controller = UIViewController()
-        controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
+        controller.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
         controller.view.addSubview(self.filterController!.view)
-        controller.view.backgroundColor = UIColor.clearColor()
+        controller.view.backgroundColor = UIColor.clear
         
         self.sharePopover = UIPopoverController(contentViewController: controller)
-        self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 390.0)
+        self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 390.0)
         self.sharePopover!.delegate = self
-        self.sharePopover!.backgroundColor = UIColor.whiteColor()
+        self.sharePopover!.backgroundColor = UIColor.white
         //var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)//
         
-        self.sharePopover!.presentPopoverFromRect(CGRectMake(self.filterButton!.frame.minX , pointPop.y , 0, 0), inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+        self.sharePopover!.present(from: CGRect(x: self.filterButton!.frame.minX , y: pointPop.y , width: 0, height: 0), in: self.view.superview!, permittedArrowDirections: .any, animated: true)
     }
 
     //MARK: - UIPopoverControllerDelegate
     
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+    func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         self.sharePopover = nil
         //self.filterController = nil
     }
@@ -182,14 +206,14 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         return
     }
     
-    override func setAlertViewValues(resultDic: [String:AnyObject]){
+    override func setAlertViewValues(_ resultDic: [String:Any]){
         
         if resultDic.count == 0 {
             self.showAlertView = false
         }else if (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             self.textToSearch = self.textToSearch ?? ""
-            let suggestion = (self.textToSearch! as NSString).stringByReplacingOccurrencesOfString(alternativeCombination, withString: "")
+            let suggestion = (self.textToSearch! as NSString).replacingOccurrences(of: alternativeCombination, with: "")
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
         }
@@ -201,21 +225,21 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         }
         
         if ( !self.firstOpen || self.isTextSearch || self.isOriginalTextSearch || self.showAlertView ) {
-            self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
+            self.searchAlertView!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY, width: self.view.frame.width, height: 46)
         
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             if self.isTextSearch || self.isOriginalTextSearch {
                 if self.showAlertView {
-                    self.searchAlertView!.frame =  CGRectMake(0,  self.header!.frame.maxY, self.view.frame.width, 46)
-                    self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.searchAlertView!.frame.maxY + 20, 320, 28)
+                    self.searchAlertView!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY, width: self.view.frame.width, height: 46)
+                    self.viewBgSelectorBtn.frame = CGRect(x: (self.view.bounds.width / 2)  - 160,  y: self.searchAlertView!.frame.maxY + 20, width: 320, height: 28)
                 }else{
-                    self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 20, 320, 28)
+                    self.viewBgSelectorBtn.frame = CGRect(x: (self.view.bounds.width / 2)  - 160,  y: self.header!.frame.maxY + 20, width: 320, height: 28)
                 }
                 
                 self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
                 
                 let startPoint = self.viewBgSelectorBtn.frame.maxY + 20
-                self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
+                self.collection!.frame = CGRect(x: 0, y: startPoint, width: self.view.bounds.width, height: self.view.bounds.height - startPoint)
                 
             }else {
                 self.searchAlertView!.alpha = 0
@@ -231,60 +255,60 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         return "iPAProductSearch"
     }
     
-    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && self.titleHeader ==  "Recomendados"  {
-            return CGSizeZero
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 0 && self.searchContextType == SearchServiceContextType.withCategoryForGR && self.titleHeader ==  "Recomendados"  {
+            return CGSize.zero
         }
         
-        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && self.searchFromContextType == SearchServiceFromContext.FromLineSearch  {
-            return CGSizeZero
+        if section == 0 && self.searchContextType == SearchServiceContextType.withCategoryForGR && self.searchFromContextType == SearchServiceFromContext.fromLineSearch  {
+            return CGSize.zero
         }
         
         
-        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && !self.isTextSearch && self.searchFromContextType == SearchServiceFromContext.FromSearchTextSelect {
-            return CGSizeZero
+        if section == 0 && self.searchContextType == SearchServiceContextType.withCategoryForGR && !self.isTextSearch && self.searchFromContextType == SearchServiceFromContext.fromSearchTextSelect {
+            return CGSize.zero
         }
         
-        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForMG && !self.isTextSearch && self.searchFromContextType == SearchServiceFromContext.FromSearchTextSelect {
-            return CGSizeZero
+        if section == 0 && self.searchContextType == SearchServiceContextType.withCategoryForMG && !self.isTextSearch && self.searchFromContextType == SearchServiceFromContext.fromSearchTextSelect {
+            return CGSize.zero
         }
         
         if section == 0 && self.isOriginalTextSearch {
-            return CGSizeZero
+            return CGSize.zero
         }
         
-        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && !self.isTextSearch {
-            return CGSizeMake(self.view.frame.width, 54)
+        if section == 0 && self.searchContextType == SearchServiceContextType.withCategoryForGR && !self.isTextSearch {
+            return CGSize(width: self.view.frame.width, height: 54)
         }
         
-        if section == 0 && self.searchContextType != SearchServiceContextType.WithCategoryForMG  {
-            return CGSizeZero
+        if section == 0 && self.searchContextType != SearchServiceContextType.withCategoryForMG  {
+            return CGSize.zero
         }
         
-        if self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.isTextSearch {
-            return CGSizeZero
+        if self.searchContextType == SearchServiceContextType.withCategoryForMG && self.isTextSearch {
+            return CGSize.zero
         }
         
-        if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind {
-            return CGSizeZero
+        if section == 0 && self.originalSearchContextType == SearchServiceContextType.withTextForCamFind {
+            return CGSize.zero
         }
         
-        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.titleHeader ==  "Recomendados"  {
-            return CGSizeZero
+        if section == 0 && self.searchContextType == SearchServiceContextType.withCategoryForMG && self.titleHeader ==  "Recomendados"  {
+            return CGSize.zero
         }
         
         
-        return CGSizeMake(self.view.frame.width, 54)
+        return CGSize(width: self.view.frame.width, height: 54)
     }
     
     //MARK: SearchProductCollectionViewCellDelegate
     
-    override func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
-        let frameDetail = CGRectMake(0,0,320,394)
+    override func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRect(x: 0,y: 0,width: 320,height: 394)
         self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
         
         selectQuantityGR?.closeAction = { () in
-            self.selectQuantityPopover!.dismissPopoverAnimated(true)
+            self.selectQuantityPopover!.dismiss(animated: true)
             
         }
         
@@ -292,17 +316,17 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         viewController.view = selectQuantityGR
         viewController.view.frame = frameDetail
         selectQuantityPopover = UIPopoverController(contentViewController: viewController)
-        selectQuantityPopover!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
-        selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
-        selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        selectQuantityPopover!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
+        selectQuantityPopover!.setContentSize(CGSize(width: 320,height: 394), animated: true)
+        selectQuantityPopover!.present(from: cell.addProductToShopingCart!.bounds, in: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
     }
     
-    override func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
-        let frameDetail = CGRectMake(0,0,320,394)
+    override func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRect(x: 0,y: 0,width: 320,height: 394)
         self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
         
         selectQuantity?.closeAction = { () in
-            self.selectQuantityPopover!.dismissPopoverAnimated(true)
+            self.selectQuantityPopover!.dismiss(animated: true)
             
         }
         
@@ -315,16 +339,16 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                     
                     ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                     
-                    UIView.animateWithDuration(0.2,
+                    UIView.animate(withDuration: 0.2,
                         animations: { () -> Void in
                             self.selectQuantity!.closeAction()
                         },
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
-                            dispatch_async(dispatch_get_main_queue()) {
-                                cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                            DispatchQueue.main.async {
+                                cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for: UIControlState())
                                 self.collection!.reloadData()
                             }
                         }
@@ -347,12 +371,12 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         viewController.view = selectQuantity
         viewController.view.frame = frameDetail
         selectQuantityPopover = UIPopoverController(contentViewController: viewController)
-        selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
-        selectQuantityPopover!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
-        selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        selectQuantityPopover!.setContentSize(CGSize(width: 320,height: 394), animated: true)
+        selectQuantityPopover!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
+        selectQuantityPopover!.present(from: cell.addProductToShopingCart!.bounds, in: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
     }
     
-    override func apply(order:String, upcs: [String]) {
+    override func apply(_ order:String, upcs: [String]) {
         super.apply(order, upcs: upcs)
         if upcs.count == 0 {
          self.showEmptyView()
@@ -365,11 +389,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.filterButton?.alpha = 0
         let buidHeader =  self.header!.frame.maxY > 46
         if  self.empty == nil {
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0,46, self.view.bounds.width, self.view.bounds.height - 46))
+            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0,y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         }else{
             self.empty.removeFromSuperview()
             self.empty =  nil
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0,46, self.view.bounds.width, self.view.bounds.height - 46))
+            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0,y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         }
         
         self.empty.returnAction = { () in
@@ -378,27 +402,27 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         
         if buidHeader {
             self.emptyViewHeader = UIView()
-            self.emptyViewHeader!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
+            self.emptyViewHeader!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46)
             self.emptyViewHeader!.backgroundColor = WMColor.light_light_gray
             let backButton = UIButton()
-            backButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
-            backButton.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+            backButton.setImage(UIImage(named: "BackProduct"), for: UIControlState())
+            backButton.addTarget(self, action: #selector(NavigationViewController.back), for: UIControlEvents.touchUpInside)
             self.emptyViewHeader!.addSubview(backButton)
-            backButton.frame = CGRectMake(0, 0  ,46,46)
+            backButton.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)
             let titleLabel = UILabel()
             titleLabel.textColor =  WMColor.light_blue
             titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
             titleLabel.numberOfLines = 2
             titleLabel.text = self.titleHeader
-            titleLabel.textAlignment = .Center
-            titleLabel.frame = CGRectMake(46, 0, self.emptyViewHeader!.frame.width - 92, self.emptyViewHeader!.frame.maxY)
+            titleLabel.textAlignment = .center
+            titleLabel.frame = CGRect(x: 46, y: 0, width: self.emptyViewHeader!.frame.width - 92, height: self.emptyViewHeader!.frame.maxY)
             self.emptyViewHeader!.addSubview(titleLabel)
             self.view.addSubview(self.emptyViewHeader!)
         }
         self.view.addSubview(self.empty)
          self.loading?.stopAnnimating()
         self.filterButton?.alpha = 0
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
     }
     
     override func removeEmptyView(){

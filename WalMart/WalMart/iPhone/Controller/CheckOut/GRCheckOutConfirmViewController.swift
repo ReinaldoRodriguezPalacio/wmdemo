@@ -20,7 +20,7 @@ class GRCheckOutConfirmViewController : NavigationViewController {
     
     
     override func back() {
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
 }

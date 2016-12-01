@@ -13,13 +13,13 @@ class StoreLocatorService: BaseService {
 
     var managedObjectContext: NSManagedObjectContext?
 
-    func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let params: NSDictionary = [:]
+    func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        let params: [String:Any] = [:]
         self.callGETService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
-                if let values = resultCall["responseArray"] as? NSArray {
+            successBlock: { (resultCall:[String:Any]) -> Void in
+                if let values = resultCall["responseArray"] as? [Any] {
                     for idx in 0 ..< values.count {
-                        if let item = values[idx] as? NSDictionary {
+                        if let item = values[idx] as? [String:Any] {
                             let storeID = item["storeID"] as? String
                             if storeID == nil {
                                 continue
@@ -27,7 +27,7 @@ class StoreLocatorService: BaseService {
                             
                             var store = self.findStoreById(storeID)
                             if store == nil {
-                                store = NSEntityDescription.insertNewObjectForEntityForName("Store", inManagedObjectContext: self.managedObjectContext!) as? Store
+                                store = NSEntityDescription.insertNewObject(forEntityName: "Store", into: self.managedObjectContext!) as? Store
                                 store!.storeID = storeID
                             }
                             
@@ -39,16 +39,16 @@ class StoreLocatorService: BaseService {
                             store!.opens = item["opens"] as? String
 
                             if let latSpanTxt = item["latSpan"] as? NSString {
-                                store!.latSpan = NSNumber(double: latSpanTxt.doubleValue)
+                                store!.latSpan = NSNumber(value: latSpanTxt.doubleValue)
                             }
                             if let lonSpanTxt = item["lonSpan"] as? NSString {
-                                store!.lonSpan = NSNumber(double: lonSpanTxt.doubleValue)
+                                store!.lonSpan = NSNumber(value: lonSpanTxt.doubleValue)
                             }
                             if let latPointTxt = item["latPoint"] as? NSString {
-                                store!.latitude = NSNumber(double: latPointTxt.doubleValue)
+                                store!.latitude = NSNumber(value: latPointTxt.doubleValue)
                             }
                             if let lonPointTxt = item["lonPoint"] as? NSString {
-                                store!.longitude = NSNumber(double: lonPointTxt.doubleValue)
+                                store!.longitude = NSNumber(value: lonPointTxt.doubleValue)
                             }
 
                         }
@@ -66,14 +66,14 @@ class StoreLocatorService: BaseService {
     
     // MARK: - DB
     
-    func findStoreById(storeId:String?) -> Store? {
+    func findStoreById(_ storeId:String?) -> Store? {
         var store: Store? = nil
         if storeId != nil {
             self.loadContext()
-            let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: self.managedObjectContext!)
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Store", in: self.managedObjectContext!)
             fetchRequest.predicate = NSPredicate(format: "storeID == %@", storeId!)
-            var result: [Store] = (try! self.managedObjectContext!.executeFetchRequest(fetchRequest)) as! [Store]
+            var result: [Store] = (try! self.managedObjectContext!.fetch(fetchRequest)) as! [Store]
             if result.count > 0 {
                 store = result[0]
             }
@@ -85,7 +85,7 @@ class StoreLocatorService: BaseService {
     
     func loadContext() {
         if self.managedObjectContext == nil {
-            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             self.managedObjectContext = context
         }

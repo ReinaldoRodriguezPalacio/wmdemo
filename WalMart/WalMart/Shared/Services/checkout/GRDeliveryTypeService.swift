@@ -14,20 +14,20 @@ class GRDeliveryTypeService : GRBaseService {
     var addressId: String?
     var isFreeShiping: String?
     
-    func buildParams(numProducts:String,addressId:String,nightHours:String,isFreeShiping:String) -> NSDictionary {
+    func buildParams(_ numProducts:String,addressId:String,nightHours:String,isFreeShiping:String) -> [String:Any] {
         return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours,"isFreeShiping":isFreeShiping]
         //return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours]
     }
     
-    func setParams(numProducts:String, addressId:String,isFreeShiping:String) {
+    func setParams(_ numProducts:String, addressId:String,isFreeShiping:String) {
         self.numProducts = numProducts
         self.addressId = addressId
         self.isFreeShiping = isFreeShiping
     }
     
-    func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.jsonFromObject(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!))
-        self.callPOSTService(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!), successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(requestParams params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.jsonFromObject(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!) as AnyObject!)
+        self.callPOSTService(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!), successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

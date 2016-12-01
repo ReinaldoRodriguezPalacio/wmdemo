@@ -9,9 +9,9 @@
 import Foundation
 
 protocol IPAGRCategoryCollectionViewCellDelegate {
-    func didTapProduct(upcProduct:String,descProduct:String,imageProduct :UIImageView)
-    func didTapLine(name:String,department:String,family:String,line:String)
-    func didTapMore(index:NSIndexPath)
+    func didTapProduct(_ upcProduct:String,descProduct:String,imageProduct :UIImageView)
+    func didTapLine(_ name:String,department:String,family:String,line:String)
+    func didTapMore(_ index:IndexPath)
 }
 
 class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
@@ -26,7 +26,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     var descLabel: UILabel?
     var moreButton: UIButton?
     var moreLabel: UILabel?
-    var index: NSIndexPath?
+    var index: IndexPath?
 
     
     override init(frame: CGRect) {
@@ -42,23 +42,23 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     func setup() {
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.Left
+        imageBackground.contentMode = UIViewContentMode.left
         imageBackground.clipsToBounds = true
         
         iconCategory = UIImageView()
         
         titleLabel = UILabel()
         titleLabel.font  = WMFont.fontMyriadProRegularOfSize(24)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Left
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .left
         
         buttonDepartment = UIButton()
         buttonDepartment.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
-        buttonDepartment.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        buttonDepartment.setTitleColor(UIColor.white, for: UIControlState())
         buttonDepartment.layer.cornerRadius = 14
-        buttonDepartment.setImage(UIImage(named:""), forState: UIControlState.Normal)
+        buttonDepartment.setImage(UIImage(named:""), for: UIControlState())
         buttonDepartment.backgroundColor = WMColor.light_blue
-        buttonDepartment.enabled = false
+        buttonDepartment.isEnabled = false
         buttonDepartment.titleEdgeInsets = UIEdgeInsetsMake(2.0, 1.0, 0.0, 0.0)
         
         //self.addSubview(buttonDepartment)
@@ -72,11 +72,11 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         self.moreLabel?.text = "Ver todo"
         self.moreLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.moreLabel?.textColor = WMColor.light_blue
-        self.moreLabel?.textAlignment = .Center
+        self.moreLabel?.textAlignment = .center
         
         self.moreButton = UIButton()
-        self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), forState: UIControlState.Normal)
-        self.moreButton!.addTarget(self, action: #selector(IPAGRCategoryCollectionViewCell.moreTap), forControlEvents: UIControlEvents.TouchUpInside)
+        self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), for: UIControlState())
+        self.moreButton!.addTarget(self, action: #selector(IPAGRCategoryCollectionViewCell.moreTap), for: UIControlEvents.touchUpInside)
         
         self.addSubview(self.imageBackground!)
         self.addSubview(self.iconCategory!)
@@ -92,69 +92,69 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.descLabel!.frame = CGRect(x: 8,y: 119,width: 300,height: 16)
-        self.iconCategory.frame = CGRectMake(16, 25, 48, 48)
-        self.titleLabel.frame = CGRectMake(self.iconCategory.frame.maxX + 16, 40, 335, 24)
-        self.imageBackground.frame = CGRectMake(0, 0, self.frame.width, 103)
+        self.iconCategory.frame = CGRect(x: 16, y: 25, width: 48, height: 48)
+        self.titleLabel.frame = CGRect(x: self.iconCategory.frame.maxX + 16, y: 40, width: 335, height: 24)
+        self.imageBackground.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 103)
     }
     
-    func setValues(categoryId:String,categoryTitle:String,products:[[String:AnyObject]]) {
+    func setValues(_ categoryId:String,categoryTitle:String,products:[[String:Any]]) {
         let svcUrl = serviceUrl("WalmartMG.GRCategoryIconIpad")
-        let imageIconURL = "i_\(categoryId.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())).png"
+        let imageIconURL = "i_\(categoryId.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)).png"
         let imgURLName = "\(svcUrl)\(imageIconURL)"
         let imageIconDsk = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
-        iconCategory.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: imgURLName)!), placeholderImage: imageIconDsk, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        iconCategory.setImageWith(URLRequest(url: URL(string: imgURLName)!), placeholderImage: imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.iconCategory.image = image
-            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
-            }, failure: { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
+            }, failure: { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                 
         })
         
         let svcUrlCar = serviceUrl("WalmartMG.GRHeaderCategoryIpad")
-        let imageBackgroundURL = "\(categoryId.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString).jpg"
+        let imageBackgroundURL = "\((categoryId as NSString).trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).lowercased()).jpg"
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
-        imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
              self.imageBackground.image = image
-            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
+            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                 
         }
         
         self.titleLabel.text = categoryTitle
-        let attrStringLab = NSAttributedString(string:categoryTitle, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()])
-        let size = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let attrStringLab = NSAttributedString(string:categoryTitle, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.white])
+        let size = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude,height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         var startx : CGFloat = 0.0
         let  sizeDep = size.width + 40
         startx = (self.frame.width / 2) - (sizeDep / 2)
         
-        buttonDepartment.setTitle(categoryTitle, forState: UIControlState.Normal)
-        self.buttonDepartment.frame = CGRectMake(startx, 10, sizeDep, 28)
+        buttonDepartment.setTitle(categoryTitle, for: UIControlState())
+        self.buttonDepartment.frame = CGRect(x: startx, y: 10, width: sizeDep, height: 28)
         
         setProducts(products, width: 125)
     }
     
-    func setValues(categoryId:String,categoryTitle:String) {
+    func setValues(_ categoryId:String,categoryTitle:String) {
 //        iconCategory.image = UIImage(named: "b_i_\(categoryId)")
 //        titleCategory.text = categoryTitle
 //        openLable.text = NSLocalizedString("gr.category.open", comment: "")
         self.titleLabel.text = categoryTitle
-        let attrStringLab = NSAttributedString(string:categoryTitle, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()])
-        let size = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let attrStringLab = NSAttributedString(string:categoryTitle, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.white])
+        let size = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude,height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         var startx : CGFloat = 0.0
         let  sizeDep = size.width + 40
         startx = (self.frame.width / 2) - (sizeDep / 2)
         
-        buttonDepartment.setTitle(categoryTitle, forState: UIControlState.Normal)
-        self.buttonDepartment.frame = CGRectMake(startx, 10, sizeDep, 28)
+        buttonDepartment.setTitle(categoryTitle, for: UIControlState())
+        self.buttonDepartment.frame = CGRect(x: startx, y: 10, width: sizeDep, height: 28)
         
-        self.imageBackground.hidden = false
-        self.titleLabel.hidden = false
-        self.iconCategory.hidden = false
+        self.imageBackground.isHidden = false
+        self.titleLabel.isHidden = false
+        self.iconCategory.isHidden = false
        // setProducts(products, width: 162)
     }
 
     
-    func setProducts(products:[[String:AnyObject]],width:CGFloat) {
+    func setProducts(_ products:[[String:Any]],width:CGFloat) {
         
         for sView in   self.subviews {
             if let viewProduct = sView as? GRProductSpecialCollectionViewCell {
@@ -165,15 +165,15 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let jsonLines = JSON(products)
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 151, width, 123))
+            let product = GRProductSpecialCollectionViewCell(frame: CGRect(x:currentX, y:151, width:width, height:123))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["name"].stringValue
             product.jsonItemSelected = lineToShow
             product.setValues(imageProd,
                 productShortDescription: descProd,
                 productPrice: "")
-            product.productImage!.frame = CGRectMake(16, 0, 106, 110)
-            product.productShortDescriptionLabel!.frame = CGRectMake(16,  product.productImage!.frame.maxY + 14 , product.frame.width - 32, 33)
+            product.productImage!.frame = CGRect(x:16, y:0, width:106, height:110)
+            product.productShortDescriptionLabel!.frame = CGRect(x:16, y:product.productImage!.frame.maxY + 14 , width:product.frame.width - 32, height:33)
             product.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.addSubview(product)
             
@@ -210,7 +210,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     }
 
     
-    func productTap(sender:UITapGestureRecognizer) {
+    func productTap(_ sender:UITapGestureRecognizer) {
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
         
 
@@ -229,32 +229,32 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     //MARK: Image Functions
     
-    func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
-        let environmentServices = services.objectForKey(environment) as! NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
+    func serviceUrl(_ serviceName:String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMURLServices") as! [String:Any]
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     
-    func loadImageFromDisk(fileName:String,defaultStr:String) -> UIImage! {
+    func loadImageFromDisk(_ fileName:String,defaultStr:String) -> UIImage! {
         let getImagePath = self.getImagePath(fileName)
-        let fileManager = NSFileManager.defaultManager()
-        if (fileManager.fileExistsAtPath(getImagePath))
+        let fileManager = FileManager.default
+        if (fileManager.fileExists(atPath: getImagePath))
         {
             print("image \(fileName)")
             
             
             //UIImage(data: NSData(contentsOfFile: getImagePath), scale: 2)
-            let imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)! //UIImage(contentsOfFile: getImagePath)!
+            let imageis: UIImage = UIImage(data: try! Data(contentsOf: URL(fileURLWithPath: getImagePath)), scale: 2)! //UIImage(contentsOfFile: getImagePath)!
             
             return imageis
         }
         else
         {
-            let imageDefault = UIImage(named: (fileName as NSString).stringByDeletingPathExtension)
+            let imageDefault = UIImage(named: (fileName as NSString).deletingPathExtension)
             if imageDefault != nil {
-                print("default image \((fileName as NSString).stringByDeletingPathExtension)")
+                print("default image \((fileName as NSString).deletingPathExtension)")
                 return imageDefault
             }
             print("default walmart image \(fileName)")
@@ -262,19 +262,19 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         }
     }
     
-    func saveImageToDisk(fileName:String,image:UIImage,defaultImage:UIImage) {
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            let imageData : NSData = UIImagePNGRepresentation(image)!
-            let imageDataLast : NSData = UIImagePNGRepresentation(defaultImage)!
+    func saveImageToDisk(_ fileName:String,image:UIImage,defaultImage:UIImage) {
+        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+            let imageData : Data = UIImagePNGRepresentation(image)!
+            let imageDataLast : Data = UIImagePNGRepresentation(defaultImage)!
             
             if imageData.MD5() != imageDataLast.MD5() {
                 let getImagePath = self.getImagePath(fileName)
-                _ = NSFileManager.defaultManager()
-                imageData.writeToFile(getImagePath, atomically: true)
+                _ = FileManager.default
+                try? imageData.write(to: URL(fileURLWithPath: getImagePath), options: [.atomic])
                 
-                let todeletecloud =  NSURL(fileURLWithPath: getImagePath)
+                let todeletecloud =  URL(fileURLWithPath: getImagePath)
                 do {
-                    try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+                    try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
                 } catch let error1 as NSError {
                     print(error1.description)
                 } catch {
@@ -285,42 +285,42 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         })
     }
     
-    func getImagePath(fileName:String) -> String {
-        let fileManager = NSFileManager.defaultManager()
-        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
-        paths = (paths as NSString).stringByAppendingPathComponent("catimg")
+    func getImagePath(_ fileName:String) -> String {
+        let fileManager = FileManager.default
+        var paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)[0]
+        paths = (paths as NSString).appendingPathComponent("catimg")
         var isDir : ObjCBool = true
-        if fileManager.fileExistsAtPath(paths, isDirectory: &isDir) == false {
-            let err: NSErrorPointer = nil
+        if fileManager.fileExists(atPath: paths, isDirectory: &isDir) == false {
+            let err: NSErrorPointer? = nil
             do {
-                try fileManager.createDirectoryAtPath(paths, withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: paths, withIntermediateDirectories: true, attributes: nil)
             } catch let error as NSError {
-                err.memory = error
+                err??.pointee = error
             }
         }
         
-        let todeletecloud =  NSURL(fileURLWithPath: paths)
+        let todeletecloud =  URL(fileURLWithPath: paths)
         do {
-            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+            try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
         } catch let error1 as NSError {
             print(error1.description)
         }
-        let getImagePath = (paths as NSString).stringByAppendingPathComponent(fileName)
+        let getImagePath = (paths as NSString).appendingPathComponent(fileName)
         return getImagePath
     }
     
-    func setValuesLanding(imageBackgroundURL:String) {
+    func setValuesLanding(_ imageBackgroundURL:String) {
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
-            print(error)
+        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+            print(error.localizedDescription)
         }
         
-        self.imageBackground.hidden = false
-        self.titleLabel.hidden = true
-        self.iconCategory.hidden = true
+        self.imageBackground.isHidden = false
+        self.titleLabel.isHidden = true
+        self.iconCategory.isHidden = true
         self.imageBackground.frame = self.bounds
     }
 }

@@ -40,10 +40,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         //screen
        
         self.viewFamily = UIView()
-        self.viewFamily.backgroundColor = UIColor.whiteColor()
+        self.viewFamily.backgroundColor = UIColor.white
         
         self.familyController = FamilyViewController()
-        self.familyController.categoriesType = .CategoryForMG
+        self.familyController.categoriesType = .categoryForMG
         self.addChildViewController(self.familyController)
         self.viewFamily.addSubview(self.familyController.view)
         
@@ -51,21 +51,21 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
-        categories!.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        viewFamily.frame = CGRect(x: 0, y: CELL_HEIGHT, width: self.view.bounds.width, height: self.view.bounds.height - CELL_HEIGHT)
+        categories!.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         familyController.view.frame = viewFamily.bounds
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(IPOCategoriesViewController.tabBarFinish),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(IPOCategoriesViewController.tabBarFinish),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
         self.tabBarFinish()
     }
     
-    func loadDepartments() ->  [AnyObject]? {
+    func loadDepartments() ->  [Any]? {
         let serviceCategory = CategoryService()
-        items = serviceCategory.getCategoriesContent()
+        items = serviceCategory.getCategoriesContent() as [Any]?
         return items
     }
     
@@ -78,7 +78,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         return "WalmartMG.HeaderCategory"
     }
     
-    func didSelectDeparmentAtIndex(indexPath: NSIndexPath){
+    func didSelectDeparmentAtIndex(_ indexPath: IndexPath){
         
         var currentItem = indexPath.row
         if indexPath.row == 0  && landingItem != nil  {
@@ -91,12 +91,12 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             currentItem = currentItem - 1
         }
     
-        let item = items![currentItem] as! [String:AnyObject]
+        let item = items![currentItem] as! [String:Any]
         let famArray : AnyObject = item["family"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+        let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
         
         let label = item["description"] as! String
-        let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
+        let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
         //BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
       
         familyController.departmentId = item["idDepto"] as! String
@@ -104,12 +104,12 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         familyController.selectedFamily = nil
         familyController.familyTable.reloadData()
         
-        var categoryCell = self.categories!.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
+        var categoryCell = self.categories!.cellForItem(at: indexPath) as? DepartmentCollectionViewCell
         if categoryCell == nil {
-            self.categories!.reloadItemsAtIndexPaths([indexPath])
-            categoryCell = self.categories!.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
+            self.categories!.reloadItems(at: [indexPath])
+            categoryCell = self.categories!.cellForItem(at: indexPath) as? DepartmentCollectionViewCell
         }
-        let frameOriginal = self.categories!.convertRect(categoryCell!.frame, toView:  self.view)
+        let frameOriginal = self.categories!.convert(categoryCell!.frame, to:  self.view)
         selectedView = IPODepartmentCollectionViewCell(frame:frameOriginal)
         selectedView.isOpen = true
         selectedView.setValuesFromCell(categoryCell!)
@@ -117,7 +117,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         
         selectedView.onclose = {() in
             print("Close")
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.viewFamily.alpha = 0
                 },completion: {(complete) -> Void in
                     self.closeDepartment()
@@ -129,7 +129,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             self.viewFamily.alpha = 0
             self.familyController.familyTable.reloadData()
             self.view.addSubview(self.viewFamily)
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.viewFamily.alpha = 1
             })
             
@@ -140,13 +140,13 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
     
     func openGroceriesCategories() {
-        let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory")
+        let grController = self.storyboard?.instantiateViewController(withIdentifier: "GrCaregory")
         self.navigationController?.pushViewController(grController!, animated: true)
         return
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories!.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let categoryCell = categories!.dequeueReusableCell(withReuseIdentifier: "DepartmentCell", for: indexPath) as! DepartmentCollectionViewCell
         
         let svcUrl = delegate?.getServiceURLIcon()
         let svcUrlCar = delegate?.getServiceURLHeader()
@@ -157,10 +157,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
         var currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
-            let scale = UIScreen.mainScreen().scale
+            let scale = UIScreen.main.scale
             var itemBannerPhone = landingItem!["bannerUrlPhone"]
-            itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString("@2x.jpg", withString: ".jpg" )
-            itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
+            itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: "@2x.jpg", with: ".jpg" )
+            itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: ".jpg", with: "@\(Int(scale))x.jpg" )
             categoryCell.setValuesLanding("https://\(itemBannerPhone!)")
             return categoryCell
             
@@ -170,7 +170,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             currentItem = currentItem - 1
         }
         
-        let item = items![currentItem] as! [String:AnyObject]
+        let item = items![currentItem] as! [String:Any]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
         
@@ -180,19 +180,19 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
     
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
         if landingItem != nil {
             switch (indexPath.section,indexPath.row) {
             case (0,0):
-                return CGSizeMake(312, 98)
+                return CGSize(width: 312, height: 98)
             default:
-                return CGSizeMake(154, 98)
+                return CGSize(width: 154, height: 98)
             }
         }
-        return CGSizeMake(154, 98)
+        return CGSize(width: 154, height: 98)
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if landingItem == nil {
             return items!.count
         }
@@ -206,13 +206,13 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
     
     
-    func handleLandingEvent(strAction:String) {
-        var components = strAction.componentsSeparatedByString("_")
+    func handleLandingEvent(_ strAction:String) {
+        var components = strAction.components(separatedBy: "_")
         if(components.count > 1){
-            let window = UIApplication.sharedApplication().keyWindow
+            let window = UIApplication.shared.keyWindow
             if let customBar = window!.rootViewController as? CustomBarViewController {
                 let cmpStr  = components[0] as String
-                let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
+                let strValue = strAction.replacingOccurrences(of: "\(cmpStr)_", with: "")
                 var strAction = ""
                 switch components[0] {
                 case "f":
@@ -231,7 +231,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentOffset: CGFloat = scrollView.contentOffset.y
         let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
         let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
@@ -240,7 +240,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
             
             
-            if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
+            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
                 
                 var insetToUse : CGFloat = scrollView.contentInset.bottom  - 45
                 if insetToUse < 0 {
@@ -261,11 +261,11 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                 willHideTabbar()
                 isVisibleTab = false
                 TabBarHidden.isTabBarHidden = true
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
             }
         }
         if (differenceFromStart > 0 && TabBarHidden.isTabBarHidden) {
-            if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
+            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
                 
                 if let collectionView = scrollView as? UICollectionView {
                     if let layoutFlow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -279,7 +279,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                 willShowTabbar()
                 isVisibleTab = true
                 TabBarHidden.isTabBarHidden = false
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
             }
         }
     }

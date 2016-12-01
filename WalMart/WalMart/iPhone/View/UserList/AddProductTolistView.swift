@@ -11,7 +11,7 @@ import Foundation
 protocol AddProductTolistViewDelegate {
     func scanCode()
     func showCamera()
-    func searchByText(text:String)
+    func searchByText(_ text:String)
 }
 
 class AddProductTolistView: UIView,UITextFieldDelegate {
@@ -37,10 +37,10 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     
     func setup(){
         
-        self.closeSearch = UIButton(type: .Custom)
-        self.closeSearch!.setImage(UIImage(named: "delete_icon"), forState: .Normal)
-        self.closeSearch!.addTarget(self, action: #selector(AddProductTolistView.closeSearchText), forControlEvents: .TouchUpInside)
-        self.closeSearch!.hidden =  true
+        self.closeSearch = UIButton(type: .custom)
+        self.closeSearch!.setImage(UIImage(named: "delete_icon"), for: UIControlState())
+        self.closeSearch!.addTarget(self, action: #selector(AddProductTolistView.closeSearchText), for: .touchUpInside)
+        self.closeSearch!.isHidden =  true
         self.addSubview(self.closeSearch!)
         
         
@@ -49,54 +49,54 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         self.textFindProduct!.layer.cornerRadius = 10.0
         self.textFindProduct!.font = WMFont.fontMyriadProLightOfSize(16)
         self.textFindProduct!.delegate =  self
-        self.textFindProduct!.returnKeyType = .Search
-        self.textFindProduct!.autocapitalizationType = .None
-        self.textFindProduct!.autocorrectionType = .No
+        self.textFindProduct!.returnKeyType = .search
+        self.textFindProduct!.autocapitalizationType = .none
+        self.textFindProduct!.autocorrectionType = .no
         self.textFindProduct!.placeholder = NSLocalizedString("Agrega Artículo", comment:"")
         self.addSubview(self.textFindProduct!)
         
-        self.camButtom = UIButton(type: .Custom)
-        self.camButtom!.setImage(UIImage(named: "cam_icon_addtolist"), forState: .Normal)
-        self.camButtom!.addTarget(self, action: #selector(AddProductTolistView.showCamera), forControlEvents: .TouchUpInside)
+        self.camButtom = UIButton(type: .custom)
+        self.camButtom!.setImage(UIImage(named: "cam_icon_addtolist"), for: UIControlState())
+        self.camButtom!.addTarget(self, action: #selector(AddProductTolistView.showCamera), for: .touchUpInside)
         self.addSubview(self.camButtom!)
   
-        self.scannerButton = UIButton(type: .Custom)
-        self.scannerButton!.setImage(UIImage(named: "barcode_icon_addtolist"), forState: .Normal)
-        self.scannerButton!.addTarget(self, action: #selector(AddProductTolistView.scanCode), forControlEvents: .TouchUpInside)
+        self.scannerButton = UIButton(type: .custom)
+        self.scannerButton!.setImage(UIImage(named: "barcode_icon_addtolist"), for: UIControlState())
+        self.scannerButton!.addTarget(self, action: #selector(AddProductTolistView.scanCode), for: .touchUpInside)
         self.addSubview(self.scannerButton!)
         
         
       
         line = CALayer()
-        line.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(line, atIndex: 0)
+        line.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(line, at: 0)
         
     }
     
     override func layoutSubviews() {
-        let showCamfind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
+        let showCamfind = Bundle.main.object(forInfoDictionaryKey: "showCamFind") as! Bool
         
         if changeFrame {
-            self.camButtom.hidden =  true
-            self.scannerButton.hidden =  true
-            self.closeSearch.hidden =  false
-            self.closeSearch.frame  = CGRectMake(0.0,8.0,44, 44)
-            self.textFindProduct.frame = CGRectMake(self.closeSearch.frame.maxX,12 ,self.frame.width - 60, 40.0)
+            self.camButtom.isHidden =  true
+            self.scannerButton.isHidden =  true
+            self.closeSearch.isHidden =  false
+            self.closeSearch.frame  = CGRect(x: 0.0,y: 8.0,width: 44, height: 44)
+            self.textFindProduct.frame = CGRect(x: self.closeSearch.frame.maxX,y: 12 ,width: self.frame.width - 60, height: 40.0)
         }else{
             let textFindProductWidth = showCamfind ? (self.frame.width - 144) : (self.frame.width - 88)
-            self.closeSearch.hidden =  true
-            self.textFindProduct.frame = CGRectMake(16.0,12 ,textFindProductWidth, 40.0)
-            self.camButtom.hidden = !showCamfind
-            self.scannerButton.hidden =  false
+            self.closeSearch.isHidden =  true
+            self.textFindProduct.frame = CGRect(x: 16.0,y: 12 ,width: textFindProductWidth, height: 40.0)
+            self.camButtom.isHidden = !showCamfind
+            self.scannerButton.isHidden =  false
         }
         
         if showCamfind {
-            self.camButtom.frame = CGRectMake(self.textFindProduct!.frame.maxX + 16, 12, 40, 40)
-            self.scannerButton.frame = CGRectMake(self.camButtom.frame.maxX + 16 , 12, 40, 40)
+            self.camButtom.frame = CGRect(x: self.textFindProduct!.frame.maxX + 16, y: 12, width: 40, height: 40)
+            self.scannerButton.frame = CGRect(x: self.camButtom.frame.maxX + 16 , y: 12, width: 40, height: 40)
         }else{
-            self.scannerButton.frame = CGRectMake(self.textFindProduct!.frame.maxX + 16 , 12, 40, 40)
+            self.scannerButton.frame = CGRect(x: self.textFindProduct!.frame.maxX + 16 , y: 12, width: 40, height: 40)
         }
-        line.frame = CGRectMake(0,self.textFindProduct.frame.maxY + 11,self.frame.width, 1)
+        line.frame = CGRect(x: 0,y: self.textFindProduct.frame.maxY + 11,width: self.frame.width, height: 1)
         
     }
     
@@ -140,7 +140,7 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         return true
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print(textField.text)
         changeFrame =  false
         self.delegate?.searchByText(textField.text!)
@@ -152,17 +152,17 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let keyword = strNSString.replacingCharacters(in: range, with: string)
         
         if keyword.characters.count > 0 {
             changeFrame =  true
-            self.textFindProduct.frame = CGRectMake(self.closeSearch.frame.maxX + 16.0,12 ,self.frame.width - 32, 40.0)
+            self.textFindProduct.frame = CGRect(x: self.closeSearch.frame.maxX + 16.0,y: 12 ,width: self.frame.width - 32, height: 40.0)
 
         }else {
              changeFrame = false
-            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
+            self.textFindProduct.frame = CGRect(x: 16.0,y: 12 ,width: self.frame.width - 144, height: 40.0)
 
         }
         

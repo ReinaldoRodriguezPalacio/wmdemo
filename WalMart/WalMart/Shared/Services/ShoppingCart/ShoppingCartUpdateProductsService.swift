@@ -12,25 +12,25 @@ import Foundation
 class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
     
     override func statusForProduct() -> Int {
-        return CartStatus.Updated.rawValue
+        return CartStatus.updated.rawValue
     }
     
     override func updateShoppingCart() -> Bool {
         return false
     }
     
-    func callService(params: AnyObject,updateSC:Bool, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    func callService(_ params: [[String:Any]],updateSC:Bool, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         
         if UserCurrentSession.hasLoggedUser() {
-            var itemsSvc : [[String:AnyObject]] = []
+            var itemsSvc : [[String:Any]] = []
             var upcSend = ""
-            for itemSvc in params as! NSArray {
+            for itemSvc in params{
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 itemsSvc.append(builParamSvc(upcSend,quantity:quantity,comments:""))
             }
-            self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+            self.callPOSTService(itemsSvc, successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 if updateSC {
                     let shoppingService = ShoppingCartProductsService()
@@ -48,7 +48,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
     }
     
     
-    override func callService(params: AnyObject, successBlock: ((NSDictionary) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    override func callService(_ params: [[String:Any]], successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
        self.callService(params,updateSC:false, successBlock: successBlock, errorBlock: errorBlock)
     }
     

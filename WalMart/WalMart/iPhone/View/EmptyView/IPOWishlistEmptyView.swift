@@ -19,10 +19,10 @@ class IPOWishlistEmptyView : IPOEmptyView {
         super.setup()
         
         //iconImageView.image = UIImage(named:"empty_list")
-        iconImageView.hidden = true
+        iconImageView.isHidden = true
         
         imageEmptyView = UIImageView(image: UIImage(named: "empty_wishlist"))
-        self.insertSubview(imageEmptyView, atIndex: 0)
+        self.insertSubview(imageEmptyView, at: 0)
         
         imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_wishlist_icon"))
         self.addSubview(imageEmptyViewIconBtn)
@@ -33,7 +33,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
         self.descLabel.font = WMFont.fontMyriadProLightOfSize(14.0)
         
         self.textLabel = UILabel()
-        self.textLabel!.textAlignment = .Center
+        self.textLabel!.textAlignment = .center
         self.textLabel!.textColor = WMColor.light_blue
         self.textLabel!.font = WMFont.fontMyriadProRegularOfSize(14.0)
         self.textLabel!.text = NSLocalizedString("empty.wishlist.text", comment:"")
@@ -43,9 +43,9 @@ class IPOWishlistEmptyView : IPOEmptyView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.textLabel!.frame = CGRectMake(0.0, self.descLabel.frame.maxY + 12.0, self.frame.width, 16.0)
+        self.textLabel!.frame = CGRect(x: 0.0, y: self.descLabel.frame.maxY + 12.0, width: self.frame.width, height: 16.0)
         //var size = self.imageEmptyViewIconBtn.image!.size
-        self.imageEmptyViewIconBtn.frame = CGRectMake(98.0, self.descLabel!.frame.maxY + 12.0, 16.0, 16.0)
+        self.imageEmptyViewIconBtn.frame = CGRect(x: 98.0, y: self.descLabel!.frame.maxY + 12.0, width: 16.0, height: 16.0)
     }
     
     override func returnActionSel() {

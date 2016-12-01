@@ -13,18 +13,18 @@ class IPAEmptyWishlistView : IPOWishlistEmptyView {
     override func setup() {
         super.setup()
         imageEmptyView.image = UIImage(named: "wishlist_empty")
-        descLabel.textAlignment = .Center
+        descLabel.textAlignment = .center
         self.descLabel.font = WMFont.fontMyriadProLightOfSize(16.0)
         self.textLabel!.font = WMFont.fontMyriadProRegularOfSize(16.0)
-        returnButton.hidden = true
+        returnButton.isHidden = true
     }
     
     
     override func layoutSubviews() {
-        imageEmptyViewIconBtn.frame = CGRectMake(267, 142, imageEmptyViewIconBtn.image!.size.width, imageEmptyViewIconBtn.image!.size.height)
-        imageEmptyView.frame = CGRectMake(0, 0, imageEmptyView.image!.size.width, imageEmptyView.image!.size.height)
-        descLabel.frame = CGRectMake(175, 110, 322, 20)
-        self.textLabel!.frame = CGRectMake(175, self.descLabel.frame.maxY + 12.0, 322, 16.0)
+        imageEmptyViewIconBtn.frame = CGRect(x: 267, y: 142, width: imageEmptyViewIconBtn.image!.size.width, height: imageEmptyViewIconBtn.image!.size.height)
+        imageEmptyView.frame = CGRect(x: 0, y: 0, width: imageEmptyView.image!.size.width, height: imageEmptyView.image!.size.height)
+        descLabel.frame = CGRect(x: 175, y: 110, width: 322, height: 20)
+        self.textLabel!.frame = CGRect(x: 175, y: self.descLabel.frame.maxY + 12.0, width: 322, height: 16.0)
     }
 
     

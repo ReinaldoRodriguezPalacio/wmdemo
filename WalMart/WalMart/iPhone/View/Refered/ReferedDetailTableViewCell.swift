@@ -35,34 +35,34 @@ class ReferedDetailTableViewCell : UITableViewCell {
         referedLabel.numberOfLines = 2
         
         separator = CALayer()
-        separator.backgroundColor = WMColor.light_light_gray.CGColor
+        separator.backgroundColor = WMColor.light_light_gray.cgColor
         
         self.addSubview(self.viewBgSel!)
-        self.layer.insertSublayer(separator, atIndex: 0)
+        self.layer.insertSublayer(separator, at: 0)
         self.addSubview(referedLabel)
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.viewBgSel!.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
-        referedLabel.frame = CGRectMake(16, 0, self.bounds.width - 16, self.bounds.height)
+        self.viewBgSel!.frame =  CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height - 1.0)
+        referedLabel.frame = CGRect(x: 16, y: 0, width: self.bounds.width - 16, height: self.bounds.height)
         let widthAndHeightSeparator = CGFloat(1.0)
-        separator.frame = CGRectMake(0, self.bounds.height - 1.3, self.bounds.width, widthAndHeightSeparator)
+        separator.frame = CGRect(x: 0, y: self.bounds.height - 1.3, width: self.bounds.width, height: widthAndHeightSeparator)
     }
     
-    func setValues(name:String,email: String){
+    func setValues(_ name:String,email: String){
         referedLabel.text = "\(name)\n\(email)"
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         // super.setSelected(selected, animated: true)
-        viewBgSel.hidden = !selected
+        viewBgSel.isHidden = !selected
     }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         //super.setHighlighted(highlighted, animated: highlighted)
-        viewBgSel.hidden = true
+        viewBgSel.isHidden = true
     }
     
 }

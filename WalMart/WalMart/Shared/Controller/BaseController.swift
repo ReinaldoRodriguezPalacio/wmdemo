@@ -7,6 +7,30 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 //import Tune
 
 struct Banner {
@@ -39,26 +63,26 @@ class BaseController : UIViewController {
     }
     
     func loadStoryboardDefinition() -> UIStoryboard? {
-        let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
+        let storyboardName = UIDevice.current.userInterfaceIdiom == .phone ? "Storyboard_iphone" : "Storyboard_ipad"
         let storyboard : UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil);
         return storyboard;
     }
         
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        let rotation = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? UIInterfaceOrientationMask.Portrait : UIInterfaceOrientationMask.Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        let rotation = UIDevice.current.userInterfaceIdiom == .phone ? UIInterfaceOrientationMask.portrait : UIInterfaceOrientationMask.landscape
          return rotation
     }
     
     //WHITE BAR
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
 
-//    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
+//    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:[Any]?,total:NSNumber,refId:String){
 //        
 //        print("TUNE_EVENT_\(event)")
 //        switch(event){
@@ -106,7 +130,7 @@ class BaseController : UIViewController {
 //            Tune.setUserId(idUser)
 //            
 //            let event :TuneEvent = TuneEvent(name: event)
-//            event.eventItems = payPalItems as [AnyObject]
+//            event.eventItems = payPalItems as [Any]
 //            event.refId = refId
 //            event.revenue = CGFloat(total)
 //            event.currencyCode = "MXN"
@@ -151,28 +175,28 @@ extension BaseController {
     
     
     
-    class func sendAnalytics(category:String, action: String, label:String){
+    class func sendAnalytics(_ category:String, action: String, label:String){
         ////////
         //        print("Category: \(category) Action: \(action) Label: \(label)")
-        //                if let tracker = GAI.sharedInstance().defaultTracker {
+        //                if let tracker = GAI.sharedInstance.defaultTracker {
         //                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(category,
         //                        action: action,
         //                        label: label, value: nil).build() as [NSObject : AnyObject])
         //                }
     }
     
-    class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
+    class func sendAnalytics(_ categoryAuth:String, categoryNoAuth:String, action: String, label:String){
         let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
         BaseController.sendAnalytics(category, action: action, label: label)
     }
     
-    class func sendAnalyticsProductToList(upc: String, desc:String, price: String) {
+    class func sendAnalyticsProductToList(_ upc: String, desc:String, price: String) {
         if let productPrice = price.toIntNoDecimals() {
             self.sendAnalyticsPush(["event": "addList", "skuProducto": upc, "descripcionProducto": desc, "valorProducto": productPrice])
         }
     }
     
-    class func sendAnalyticsProductsToCart(totalPriceOfList: Int) {
+    class func sendAnalyticsProductsToCart(_ totalPriceOfList: Int) {
         self.sendAnalyticsPush(["event": "addListCart", "valorLista": totalPriceOfList])
     }
     
@@ -180,7 +204,7 @@ extension BaseController {
          self.sendAnalyticsPush(["event": "registroExitoso"])
     }
     
-    class func sendAnalyticsUnsuccesfulRegistrationWithError(error: String, stepError: String) {
+    class func sendAnalyticsUnsuccesfulRegistrationWithError(_ error: String, stepError: String) {
          self.sendAnalyticsPush(["event": "errorRegistro", "errorDetail": error, "stepError": stepError])
     }
     
@@ -188,13 +212,13 @@ extension BaseController {
          self.sendAnalyticsPush(["event": "intentoRegistro"])
     }
     
-    class func sendAnalyticsPush(pushData:[String:AnyObject]) {
+    class func sendAnalyticsPush(_ pushData:[String:Any]) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         dataLayer.push(pushData)
     }
     
-    class func sendAnalyticsBanners(banners:[Banner]) {
+    class func sendAnalyticsBanners(_ banners:[Banner]) {
         
            var promotions: [[String : String]] = []
         
@@ -210,15 +234,15 @@ extension BaseController {
         
     }
     
-    class func sendAnalyticsClickBanner(banner:Banner) {
+    class func sendAnalyticsClickBanner(_ banner:Banner) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         let promotion = ["id": banner.id, "name": banner.name, "creative": banner.creative, "position": banner.position]
-        let impression = ["event": "promotionClick", "ecommerce": ["promoClick": ["promotions": [promotion]]]]
+        let impression = ["event": "promotionClick", "ecommerce": ["promoClick": ["promotions": [promotion]]]] as [String : Any]
         dataLayer.push(impression)
     }
     
-    class func sendAnalyticsTagImpressions(products:NSArray, positionArray:[Int], listName: String, mainCategory: String, subCategory: String, subSubCategory: String) {
+    class func sendAnalyticsTagImpressions(_ products:[[String:Any]], positionArray:[Int], listName: String, mainCategory: String, subCategory: String, subSubCategory: String) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
@@ -267,24 +291,24 @@ extension BaseController {
             impressions.append(impression)
         }
         
-        let data = [ "ecommerce": ["currencyCode": "MXN", "impressions": impressions], "event": "ecommerce"]
+        let data = [ "ecommerce": ["currencyCode": "MXN", "impressions": impressions], "event": "ecommerce"] as [String : Any]
         dataLayer.push(data)
         dataLayer.push(["ecommerce": NSNull()])
         
     }
     
-    class func sendAnalyticsAddOrRemovetoCart(items:NSArray,isAdd:Bool) {
+    class func sendAnalyticsAddOrRemovetoCart(_ items:[Any],isAdd:Bool) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         var productsAdd: [[String : String]] = []
         
         for item in items {
             
-           let newItem = self.itemsToTag(item as! NSDictionary)
+           let newItem = self.itemsToTag(item as! [String:Any])
             
-            print(UserCurrentSession.sharedInstance().nameListToTag)
+            print(UserCurrentSession.sharedInstance.nameListToTag)
             
-            let sendCategory = isAdd ? UserCurrentSession.sharedInstance().nameListToTag : "Shopping Cart"
+            let sendCategory = isAdd ? UserCurrentSession.sharedInstance.nameListToTag : "Shopping Cart"
             
             let product = ["name":newItem.name , "price": newItem.price, "id":newItem.upc,"brand":"","category":sendCategory,"variant":newItem.variant ? "gramos" : "pieza","quantity":newItem.variant ? "1" : newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
             
@@ -302,25 +326,25 @@ extension BaseController {
         
     }
     
-    class func setOpenScreenTagManager(titleScreen titleScreen:String,screenName:String){
+    class func setOpenScreenTagManager(titleScreen:String,screenName:String){
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
-        UserCurrentSession.sharedInstance().screenSubSubCategory = UserCurrentSession.sharedInstance().screenSubCategory
-        UserCurrentSession.sharedInstance().screenSubCategory = UserCurrentSession.sharedInstance().screenCategory
-        UserCurrentSession.sharedInstance().screenCategory = screenName
+        UserCurrentSession.sharedInstance.screenSubSubCategory = UserCurrentSession.sharedInstance.screenSubCategory
+        UserCurrentSession.sharedInstance.screenSubCategory = UserCurrentSession.sharedInstance.screenCategory
+        UserCurrentSession.sharedInstance.screenCategory = screenName
         print("setOpenScreenTagManager")
-        print(" screenName \(screenName) - \(subCategory: UserCurrentSession.sharedInstance().screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance().screenSubSubCategory)")
+        print(" screenName \(screenName) - \(subCategory: UserCurrentSession.sharedInstance.screenSubCategory, subsubCategory: UserCurrentSession.sharedInstance.screenSubSubCategory)")
         
         dataLayer.push([
             "event":"openScreen",
             "screenName":screenName,
-            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : "",
-            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance().userSigned!.idUser : UIDevice.currentDevice().identifierForVendor!.UUIDString,
+            "userID":UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance.userSigned!.idUser : "",
+            "guestID": UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance.userSigned!.idUser as String : UIDevice.current.identifierForVendor!.uuidString,
             "typePage":screenName,
             "pageTitle":titleScreen,
             "category":screenName,
-            "subCategory": UserCurrentSession.sharedInstance().screenSubCategory,
-            "subsubCategory": UserCurrentSession.sharedInstance().screenSubSubCategory,
+            "subCategory": UserCurrentSession.sharedInstance.screenSubCategory,
+            "subsubCategory": UserCurrentSession.sharedInstance.screenSubSubCategory,
             "visitorLoginStatus":UserCurrentSession.hasLoggedUser(),
             "estatusArticulo":""
             ])
@@ -331,9 +355,9 @@ extension BaseController {
     
     //MARK: Checkout - Revisar pedido 
     
-    class func sendAnalyticsPreviewCart(paymentType:String) {
-        let products =  UserCurrentSession.sharedInstance().itemsGR
-        let items = products!["items"] as? NSArray
+    class func sendAnalyticsPreviewCart(_ paymentType:String) {
+        let products =  UserCurrentSession.sharedInstance.itemsGR
+        let items = products!["items"] as? [Any]
         
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
@@ -342,7 +366,7 @@ extension BaseController {
         if items?.count > 0 {
             for item in items! {
                 
-              let newItem = self.itemsToTag(item as! NSDictionary)
+              let newItem = self.itemsToTag(item as! [String:Any])
                 
                 
                 let products = ["name":newItem.name ,"id":newItem.upc,"brand":"","category":"","variant":newItem.variant ? "gramos" : "pieza","quantity": newItem.variant ? "1" :newItem.quantity,"dimension21":newItem.upc.contains("B") ? newItem.upc : "","dimension22":"","dimension23":"","dimension24":"false","dimension25":"","metric1":newItem.variant ? newItem.quantity : "" ]
@@ -361,30 +385,30 @@ extension BaseController {
     }
 
     
-    class func sendAnalyticsPurchase(sucursal: AnyObject, paymentType:String, deliveryType: String, deliveryDate: String, deliveryHour: String, purchaseId: AnyObject, affiliation: String, revenue: String, tax: String, shipping:String, coupon: String ) {
+    class func sendAnalyticsPurchase(_ sucursal: AnyObject, paymentType:String, deliveryType: String, deliveryDate: String, deliveryHour: String, purchaseId: AnyObject, affiliation: String, revenue: String, tax: String, shipping:String, coupon: String ) {
         
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])
         
-        let products =  UserCurrentSession.sharedInstance().itemsGR
-        let items = products!["items"] as? NSArray
+        let products =  UserCurrentSession.sharedInstance.itemsGR
+        let items = products!["items"] as? [Any]
         var productsAdd: [[String : String]] = []
         
         for item in items! {
-            let newItem = self.itemsToTag(item as! NSDictionary)
+            let newItem = self.itemsToTag(item as! [String:Any])
             let products = ["name": newItem.name , "id": newItem.upc, "price": newItem.price, "brand": "", "category": "", "variant": newItem.variant ? "gramos" : "pieza", "quantity": newItem.variant ? "1" :newItem.quantity, "coupon": "","metric1":newItem.variant ? newItem.quantity : ""]
             
             print(products)
             productsAdd.append(products)
         }
         
-        let ecomerce =  ["event": "ecommerce", "ecommerce":["purchase":["sucursal": sucursal, "formaPago": paymentType, "tipoEntrega": deliveryType, "fechaEntrega": deliveryDate, "horaEntrega": deliveryHour, "numeroCompraClientes": "1", "tipoTarjeta": "", "banco": "", "MSI": "", "carrier": "", "codigoPostalEntrega": "", "ciudadEntrega": "", "estadoEntrega": "", "actionField": ["id": purchaseId, "affiliation": affiliation, "revenue": revenue, "tax": tax, "shipping": shipping,"coupon": coupon], "products": productsAdd]]]
+        let ecomerce =  ["event": "ecommerce", "ecommerce":["purchase":["sucursal": sucursal, "formaPago": paymentType, "tipoEntrega": deliveryType, "fechaEntrega": deliveryDate, "horaEntrega": deliveryHour, "numeroCompraClientes": "1", "tipoTarjeta": "", "banco": "", "MSI": "", "carrier": "", "codigoPostalEntrega": "", "ciudadEntrega": "", "estadoEntrega": "", "actionField": ["id": purchaseId, "affiliation": affiliation, "revenue": revenue, "tax": tax, "shipping": shipping,"coupon": coupon], "products": productsAdd]]] as [String : Any]
         
         dataLayer.push(ecomerce)
         print("sendAnalyticsPreviewCart")
     }
     
-    class func itemsToTag(item:NSDictionary) -> ItemTag {
+    class func itemsToTag(_ item:[String:Any]) -> ItemTag {
         
         var itemsTag = ItemTag()
        
@@ -425,7 +449,7 @@ extension BaseController {
     //MARK: Tag de Errores
    
     
-    class func sendTagManagerErrors(event:String,detailError:String){
+    class func sendTagManagerErrors(_ event:String,detailError:String){
         switch event {
         case "ErrorEvent":
             self.sendAnalyticsPush(["event":event,"detailError":detailError])

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol GRProductShoppingCartTableViewCellDelegate {
-    func userShouldChangeQuantity(cell:GRProductShoppingCartTableViewCell)
+    func userShouldChangeQuantity(_ cell:GRProductShoppingCartTableViewCell)
 }
 
 class GRProductShoppingCartTableViewCell : ProductTableViewCell {
@@ -31,37 +31,37 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
     var separatorView : UIView!
     var pesable : Bool = false
     var width : CGFloat! = 0
-    var equivalenceByPiece: NSNumber! = NSNumber(int:0)
+    var equivalenceByPiece: NSNumber! = NSNumber(value: 0 as Int32)
     
     
     override func setup() {
         super.setup()
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         
         productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
         
-        productImage!.frame = CGRectMake(16, 0, 80, 109)
+        productImage!.frame = CGRect(x: 16, y: 0, width: 80, height: 109)
         
-        self.productPriceLabel!.textAlignment = NSTextAlignment.Left
+        self.productPriceLabel!.textAlignment = NSTextAlignment.left
         
-        self.productPriceLabel!.hidden = false
+        self.productPriceLabel!.isHidden = false
         
-        productPriceSavingLabel = UILabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
+        productPriceSavingLabel = UILabel(frame: CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19))
         productPriceSavingLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
         productPriceSavingLabel!.textColor = WMColor.green
         
         
         self.contentView.addSubview(productPriceSavingLabel)
         
-        changeQuantity = ShoppingCartButton(frame: CGRectZero)
-        changeQuantity.addTarget(self, action: #selector(GRProductShoppingCartTableViewCell.choseQuantity), forControlEvents: UIControlEvents.TouchUpInside)
+        changeQuantity = ShoppingCartButton(frame: CGRect.zero)
+        changeQuantity.addTarget(self, action: #selector(GRProductShoppingCartTableViewCell.choseQuantity), for: UIControlEvents.touchUpInside)
         self.contentView.addSubview(changeQuantity)
 
-        separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
+        separatorView = UIView(frame:CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth()))
         separatorView.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(separatorView)
@@ -70,15 +70,15 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
-        self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
-        self.separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
-        self.productPriceSavingLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19)
+        self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 16 , width: 100 , height: 19)
+        self.separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
+        self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
         let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
-        changeQuantity.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
+        changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
         
         self.equivalenceByPiece = equivalenceByPiece
         self.priceProduct = productPrice.doubleValue
@@ -89,7 +89,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.onHandInventory = onHandInventory
         self.quantity = quantity
         self.typeProd = typeProd
-        self.comments = comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        self.comments = comments.trimmingCharacters(in: CharacterSet.whitespaces)
         
         var totalInProducts = productPrice.doubleValue * Double(quantity)
         if self.typeProd == 1 {
@@ -110,11 +110,11 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         if saving != "" {
             productPriceSavingLabel.text = saving as String
-            productPriceSavingLabel.hidden = false
+            productPriceSavingLabel.isHidden = false
         }else{
             self.savingProduct = 0
             productPriceSavingLabel.text = ""
-            productPriceSavingLabel.hidden = true
+            productPriceSavingLabel.isHidden = true
         }
         
         
@@ -125,11 +125,11 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
 
         // changeQuantity.frame =  CGRectMake((self.frame.width - 16) -  width!, self.productPriceLabel!.frame.minY, width!, 30)
         let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
-        changeQuantity.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
+        changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
     }
     
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(_ tableView: UITableView!, heightForRowAtIndexPath indexPath: IndexPath!) -> CGFloat {
         return 110
     }
     
@@ -141,17 +141,17 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
     }
   
-    override func showLeftUtilityButtonsAnimated(animated: Bool) {
-        super.showLeftUtilityButtonsAnimated(animated)
+    override func showLeftUtilityButtons(animated: Bool) {
+        super.showLeftUtilityButtons(animated: animated)
         if changeQuantity.frameButton == nil {
             changeQuantity.setNoteState(true)
-            changeQuantity.frame =  CGRectMake( self.frame.width - 126 , self.productPriceLabel!.frame.minY, 87, changeQuantity.frame.height)
+            changeQuantity.frame =  CGRect( x: self.frame.width - 126 , y: self.productPriceLabel!.frame.minY, width: 87, height: changeQuantity.frame.height)
             //self.width = 87
         }
     }
     
-    override func hideUtilityButtonsAnimated(animated: Bool) {
-        super.hideUtilityButtonsAnimated(animated)
+    override func hideUtilityButtons(animated: Bool) {
+        super.hideUtilityButtons(animated: animated)
         if self.isUtilityButtonsHidden() {
             changeQuantity.setNoteState(false)
         }

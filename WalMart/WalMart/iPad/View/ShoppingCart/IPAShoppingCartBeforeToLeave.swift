@@ -12,8 +12,8 @@ import Foundation
 class IPAShoppingCartBeforeToLeave : ShoppingCartCrossSellCollectionViewCell {
     
     
-    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        return CGSizeMake(170, 156)
+    override func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
+        return CGSize(width: 170, height: 156)
     }
 
    

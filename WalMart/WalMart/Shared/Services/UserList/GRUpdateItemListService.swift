@@ -12,17 +12,17 @@ class GRUpdateItemListService: GRBaseService {
 
     //[{"upc": "0750105530007", "quantity": 3.0, "comments": "", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""}]
     
-    func buildParams(upc upc:String, quantity:Int) -> [AnyObject] {
-        return [self.buildProductObject(upc: upc, quantity: quantity)]
+    func buildParams(upc:String, quantity:Int) -> [Any] {
+        return [self.buildProductObject(upc: upc, quantity: quantity) as AnyObject]
     }
     
-    func buildProductObject(upc upc:String, quantity:Int) -> [String:AnyObject] {
+    func buildProductObject(upc:String, quantity:Int) -> [String:Any] {
         return ["upc":upc, "quantity":quantity, "comments":"", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""]
     }
     
-    func callService(params:NSArray, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:[Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
+            successBlock: { (resultCall:[String:Any]) -> Void in
                 //self.jsonFromObject(resultCall)
                 //self.manageList(resultCall)
                 successBlock?(resultCall)

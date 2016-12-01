@@ -31,15 +31,15 @@ class GRDepartmentTableViewCell : UITableViewCell {
         self.clipsToBounds = true
         
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.ScaleAspectFill
+        imageBackground.contentMode = UIViewContentMode.scaleAspectFill
         imageBackground.clipsToBounds = true
         
         imageIcon = UIImageView()
         
         titleLabel = UILabel()
         titleLabel.font  = WMFont.fontMyriadProLightOfSize(16)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
         
         
         self.addSubview(imageBackground)
@@ -50,13 +50,13 @@ class GRDepartmentTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        titleLabel.frame = CGRectMake(0, 64,self.frame.width, 16)
-        imageBackground.frame = CGRectMake(0, 0, self.bounds.width, self.bounds.height - 4)
-        imageIcon.frame = CGRectMake((self.frame.width / 2) - 12, 23, 24, 24)
+        titleLabel.frame = CGRect(x: 0, y: 64,width: self.frame.width, height: 16)
+        imageBackground.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height - 4)
+        imageIcon.frame = CGRect(x: (self.frame.width / 2) - 12, y: 23, width: 24, height: 24)
     }
     
     
-    func setValues(title:String,imageBackgroundURL:String,imageIconURL:String) {
+    func setValues(_ title:String,imageBackgroundURL:String,imageIconURL:String) {
         
         let svcUrl = serviceUrl("WalmartMG.GRCategoryIcon")
         let imgURLName = "\(svcUrl)\(imageIconURL)"
@@ -74,10 +74,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         if loadHeader {
-            self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+            self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageBackground.image = image
-                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-                }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
         }else{
@@ -85,10 +85,10 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         if loadImageIcon {
-            self.imageIcon.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imgURLName)!), placeholderImage:imageIconDsk, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+            self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageIcon.image = image
-                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
-                }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
         }else{
@@ -97,42 +97,42 @@ class GRDepartmentTableViewCell : UITableViewCell {
         
         self.titleLabel.text = title
         self.imageBackground.frame = self.bounds
-        self.imageBackground.hidden = false
-        self.titleLabel.hidden = false
-        self.imageIcon.hidden = false
+        self.imageBackground.isHidden = false
+        self.titleLabel.isHidden = false
+        self.imageIcon.isHidden = false
     }
     
-    func setValuesLanding(imageBackgroundURL:String) {
+    func setValuesLanding(_ imageBackgroundURL:String) {
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
             print(error)
         }
         //self.titleLabel.text = title
-        self.imageBackground.hidden = false
-        self.titleLabel.hidden = true
-        self.imageIcon.hidden = true
+        self.imageBackground.isHidden = false
+        self.titleLabel.isHidden = true
+        self.imageIcon.isHidden = true
         
     }
     
-    func loadImageFromDisk(fileName:String,defaultStr:String,succesBlock:((Bool) -> Void)) -> UIImage! {
+    func loadImageFromDisk(_ fileName:String,defaultStr:String,succesBlock:((Bool) -> Void)) -> UIImage! {
         let getImagePath = self.getImagePath(fileName)
-        let fileManager = NSFileManager.defaultManager()
-        if (fileManager.fileExistsAtPath(getImagePath))
+        let fileManager = FileManager.default
+        if (fileManager.fileExists(atPath: getImagePath))
         {
             print("image \(fileName)")
             //UIImage(data: NSData(contentsOfFile: getImagePath), scale: 2)
-            let imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)! //UIImage(contentsOfFile: getImagePath)!
+            let imageis: UIImage = UIImage(data: try! Data(contentsOf: URL(fileURLWithPath: getImagePath)), scale: 2)! //UIImage(contentsOfFile: getImagePath)!
             succesBlock(false)
             return imageis
         }
         else
         {
-            let imageDefault = UIImage(named: (fileName as NSString).stringByDeletingPathExtension)
+            let imageDefault = UIImage(named: (fileName as NSString).deletingPathExtension)
             if imageDefault != nil {
-                print("default image \((fileName as NSString).stringByDeletingPathExtension)")
+                print("default image \((fileName as NSString).deletingPathExtension)")
                 succesBlock(true)
                 return imageDefault
             }
@@ -142,27 +142,27 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
     }
     
-    func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
-        let environmentServices = services.objectForKey(environment) as! NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
+    func serviceUrl(_ serviceName:String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMURLServices") as! [String:Any]
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
     
-    func saveImageToDisk(fileName:String,image:UIImage,defaultImage:UIImage) {
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            let imageData : NSData = UIImagePNGRepresentation(image)!
-            let imageDataLast : NSData = UIImagePNGRepresentation(defaultImage)!
+    func saveImageToDisk(_ fileName:String,image:UIImage,defaultImage:UIImage) {
+        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+            let imageData : Data = UIImagePNGRepresentation(image)!
+            let imageDataLast : Data = UIImagePNGRepresentation(defaultImage)!
             
             if imageData.MD5() != imageDataLast.MD5() {
                 let getImagePath = self.getImagePath(fileName)
-                _ = NSFileManager.defaultManager()
-                imageData.writeToFile(getImagePath, atomically: true)
+                _ = FileManager.default
+                try? imageData.write(to: URL(fileURLWithPath: getImagePath), options: [.atomic])
                 
-                let todeletecloud =  NSURL(fileURLWithPath: getImagePath)
+                let todeletecloud =  URL(fileURLWithPath: getImagePath)
                 do {
-                    try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+                    try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
                 } catch let error1 as NSError {
                     print(error1.description)
                 } catch {
@@ -173,27 +173,27 @@ class GRDepartmentTableViewCell : UITableViewCell {
         })
     }
     
-    func getImagePath(fileName:String) -> String {
-        let fileManager = NSFileManager.defaultManager()
-        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
-        paths = (paths as NSString).stringByAppendingPathComponent("catimg")
+    func getImagePath(_ fileName:String) -> String {
+        let fileManager = FileManager.default
+        var paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)[0]
+        paths = (paths as NSString).appendingPathComponent("catimg")
         var isDir : ObjCBool = true
-        if fileManager.fileExistsAtPath(paths, isDirectory: &isDir) == false {
-            let err: NSErrorPointer = nil
+        if fileManager.fileExists(atPath: paths, isDirectory: &isDir) == false {
+            let err: NSErrorPointer? = nil
             do {
-                try fileManager.createDirectoryAtPath(paths, withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: paths, withIntermediateDirectories: true, attributes: nil)
             } catch let error as NSError {
-                err.memory = error
+                err??.pointee = error
             }
         }
         
-        let todeletecloud =  NSURL(fileURLWithPath: paths)
+        let todeletecloud =  URL(fileURLWithPath: paths)
         do {
-            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+            try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
         } catch let error1 as NSError {
             print(error1.description)
         }
-        let getImagePath = (paths as NSString).stringByAppendingPathComponent(fileName)
+        let getImagePath = (paths as NSString).appendingPathComponent(fileName)
         return getImagePath
     }
 }

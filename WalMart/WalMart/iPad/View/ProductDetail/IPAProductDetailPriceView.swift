@@ -25,15 +25,15 @@ class IPAProductDetailPriceView : UIView {
     
     func setup(){
         
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
         
-        originalPriceLabel = CurrencyCustomLabel(frame: CGRectMake(0, 0, self.frame.width, 15))
-        currentPriceLabel = CurrencyCustomLabel(frame: CGRectMake(0, originalPriceLabel.frame.maxY, self.frame.width, 15))
-        savingPriceLabel = CurrencyCustomLabel(frame: CGRectMake(0, currentPriceLabel.frame.maxY, self.frame.width, 15))
+        originalPriceLabel = CurrencyCustomLabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 15))
+        currentPriceLabel = CurrencyCustomLabel(frame: CGRect(x: 0, y: originalPriceLabel.frame.maxY, width: self.frame.width, height: 15))
+        savingPriceLabel = CurrencyCustomLabel(frame: CGRect(x: 0, y: currentPriceLabel.frame.maxY, width: self.frame.width, height: 15))
         
-        originalPriceLabel.textAlignment = NSTextAlignment.Center
-        currentPriceLabel.textAlignment = NSTextAlignment.Center
-        savingPriceLabel.textAlignment = NSTextAlignment.Center
+        originalPriceLabel.textAlignment = NSTextAlignment.center
+        currentPriceLabel.textAlignment = NSTextAlignment.center
+        savingPriceLabel.textAlignment = NSTextAlignment.center
         
         self.addSubview(originalPriceLabel)
         self.addSubview(currentPriceLabel)
@@ -41,15 +41,15 @@ class IPAProductDetailPriceView : UIView {
         
     }
     
-    func changePrices(originalPrice:String,currentPrice:String,savingPrice:String){
+    func changePrices(_ originalPrice:String,currentPrice:String,savingPrice:String){
         
       
         
-        let originalPriceFormatedValue = "\(CurrencyCustomLabel.formatString(originalPrice))"
-        let currentPriceFormatedValue = "\(CurrencyCustomLabel.formatString(currentPrice))"
+        let originalPriceFormatedValue = "\(CurrencyCustomLabel.formatString(originalPrice as NSString))"
+        let currentPriceFormatedValue = "\(CurrencyCustomLabel.formatString(currentPrice as NSString))"
         
         let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
-        let savingPriceFormatedValue = "\(ahorrasLabel) \(CurrencyCustomLabel.formatString(savingPrice))"
+        let savingPriceFormatedValue = "\(ahorrasLabel) \(CurrencyCustomLabel.formatString(savingPrice as NSString))"
         
         originalPriceLabel.updateMount(originalPriceFormatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
         currentPriceLabel.updateMount(currentPriceFormatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.gray, interLine: false)

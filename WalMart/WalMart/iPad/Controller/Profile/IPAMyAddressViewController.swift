@@ -20,12 +20,12 @@ class IPAMyAddressViewController: MyAddressViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.addressController = IPAAddressViewController()
-        super.tableView(tableView, didSelectRowAtIndexPath:indexPath)
+        super.tableView(tableView, didSelectRowAt:indexPath)
     }
     
-    override func deleteAddress(idAddress:String){
+    override func deleteAddress(_ idAddress:String){
         self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         super.deleteAddress(idAddress)
     }

@@ -18,7 +18,7 @@ class GRProductDetailService : GRBaseService {
         print(self.useSignals)
     }
     
-    init(dictionary:NSDictionary){
+    init(dictionary:[String:Any]){
         super.init()
         self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
@@ -28,7 +28,7 @@ class GRProductDetailService : GRBaseService {
     
     let JSON_PRODUCTDETAIL_RESULT = "responseObject"
     
-    func buildParams(upc:String,eventtype:String,stringSearch:String,position:String) -> AnyObject{
+    func buildParams(_ upc:String,eventtype:String,stringSearch:String,position:String) -> Any{
         if useSignalsServices {
             let channel = IS_IPAD ? "ipad" : "iphone"
             return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"dah","channel": channel,"q":stringSearch,"position":position]]
@@ -36,14 +36,14 @@ class GRProductDetailService : GRBaseService {
         return upc
     }
     
-    func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ UPC:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callService(requestParams:UPC as AnyObject,successBlock: successBlock, errorBlock: errorBlock)
     }
     
     
-    func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-            //let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as NSDictionary
+    func callService(requestParams params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+            //let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as [String:Any]
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

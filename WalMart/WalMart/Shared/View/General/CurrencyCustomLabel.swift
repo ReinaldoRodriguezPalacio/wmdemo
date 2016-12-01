@@ -17,7 +17,7 @@ class CurrencyCustomLabel : UIView  {
     var decimalFont : UIFont? = nil
     var intColor : UIColor? = nil
     var decimalColor : UIColor? = nil
-    var textAlignment : NSTextAlignment = NSTextAlignment.Center
+    var textAlignment : NSTextAlignment = NSTextAlignment.center
     var spaceBetNums : UInt8 = 0
     var interLine = false
     var hasLine = false
@@ -44,18 +44,18 @@ class CurrencyCustomLabel : UIView  {
     }
     
     
-    func updateMount (value: String,fontInt:UIFont,colorInt:UIColor,fontDecimal:UIFont,colorDecimal:UIColor) {
+    func updateMount (_ value: String,fontInt:UIFont,colorInt:UIColor,fontDecimal:UIFont,colorDecimal:UIColor) {
         updateMount (value,fontInt: fontInt,colorInt: colorInt,fontDecimal: fontDecimal,colorDecimal: colorDecimal,interLine:false)
     }
     
-    func updateMount (value: String,font:UIFont,color:UIColor,interLine:Bool) {
+    func updateMount (_ value: String,font:UIFont,color:UIColor,interLine:Bool) {
         let decimalFont =  UIFont(name: font.fontName, size: font.pointSize / 2)
         updateMount (value,fontInt: font,colorInt: color,fontDecimal: decimalFont! ,colorDecimal: color,interLine:interLine)
         
     }
     
     
-    func updateMount (value: String,fontInt:UIFont,colorInt:UIColor,fontDecimal:UIFont,colorDecimal:UIColor,interLine:Bool) {
+    func updateMount (_ value: String,fontInt:UIFont,colorInt:UIColor,fontDecimal:UIFont,colorDecimal:UIColor,interLine:Bool) {
         
         self.label1!.textColor = colorInt
         intFont = fontInt
@@ -67,10 +67,10 @@ class CurrencyCustomLabel : UIView  {
     }
     
     
-    func updateMount (value: String,interLine:Bool) {
+    func updateMount (_ value: String,interLine:Bool) {
 
         self.interLine = interLine
-        let values = value.componentsSeparatedByString(".")
+        let values = value.components(separatedBy: ".")
         
         if  intFont == nil {
             intFont = WMFont.fontMyriadProBlackOfSize(16)
@@ -90,96 +90,96 @@ class CurrencyCustomLabel : UIView  {
             self.label2!.text = "00"
         }
         
-        if value.rangeOfString("X") != nil{
+        if value.range(of: "X") != nil{
             self.label1!.text = value
             self.label2!.text = ""
         }
         
-        if value.rangeOfString("costo") != nil{
+        if value.range(of: "costo") != nil{
             self.label1!.text = value
             self.label2!.text = ""
         }
         
-        let sizeOfFirstText = label1!.text!.sizeWithAttributes([NSFontAttributeName: label1!.font])
-        let sizeOfSecondText = label2!.text!.sizeWithAttributes([NSFontAttributeName: label2!.font])
+        let sizeOfFirstText = label1!.text!.size(attributes: [NSFontAttributeName: label1!.font])
+        let sizeOfSecondText = label2!.text!.size(attributes: [NSFontAttributeName: label2!.font])
         
         let totalWidth = sizeOfFirstText.width + sizeOfSecondText.width
         var xLabel : CGFloat = 0.0
         
-        if textAlignment == NSTextAlignment.Center {
+        if textAlignment == NSTextAlignment.center {
             xLabel = (self.frame.width / 2) - (totalWidth / 2)
         }
         else
-        if textAlignment == NSTextAlignment.Right {
+        if textAlignment == NSTextAlignment.right {
             xLabel = self.frame.width - sizeOfSecondText.width - sizeOfFirstText.width
         }
         
-        label1!.frame = CGRectMake(xLabel,(self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfFirstText.width, sizeOfFirstText.height)
+        label1!.frame = CGRect(x: xLabel,y: (self.frame.height / 2) - (sizeOfFirstText.height / 2), width: sizeOfFirstText.width, height: sizeOfFirstText.height)
         
-        label2!.frame = CGRectMake(label1!.frame.maxX, (self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfSecondText.width, sizeOfSecondText.height)
+        label2!.frame = CGRect(x: label1!.frame.maxX, y: (self.frame.height / 2) - (sizeOfFirstText.height / 2), width: sizeOfSecondText.width, height: sizeOfSecondText.height)
         //print("label1:\(label1!.text), hidden:\(label1!.hidden) label2:\(label2!.text), hidden:\(label2!.hidden)")
     }
     
-    func setCurrencyUserInteractionEnabled(enabled:Bool) {
-        userInteractionEnabled = false
-        exclusiveTouch = false
-        label1!.userInteractionEnabled = false
-        label1!.exclusiveTouch = false
-        label2!.userInteractionEnabled = false
-        label2!.exclusiveTouch = false
+    func setCurrencyUserInteractionEnabled(_ enabled:Bool) {
+        isUserInteractionEnabled = false
+        isExclusiveTouch = false
+        label1!.isUserInteractionEnabled = false
+        label1!.isExclusiveTouch = false
+        label2!.isUserInteractionEnabled = false
+        label2!.isExclusiveTouch = false
     }
     
     func sizeOfLabel() -> CGSize {
-        return CGSizeMake(label2!.frame.maxX,label1!.frame.maxY)
+        return CGSize(width: label2!.frame.maxX,height: label1!.frame.maxY)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let sizeOfFirstText = label1!.text!.sizeWithAttributes([NSFontAttributeName: label1!.font])
-        let sizeOfSecondText = label2!.text!.sizeWithAttributes([NSFontAttributeName: label2!.font])
+        let sizeOfFirstText = label1!.text!.size(attributes: [NSFontAttributeName: label1!.font])
+        let sizeOfSecondText = label2!.text!.size(attributes: [NSFontAttributeName: label2!.font])
         
         let totalWidth = sizeOfFirstText.width + sizeOfSecondText.width
         var xLabel : CGFloat = 0.0
         
-        if textAlignment == NSTextAlignment.Center {
+        if textAlignment == NSTextAlignment.center {
             xLabel = (self.frame.width / 2) - (totalWidth / 2)
         }
         else
-            if textAlignment == NSTextAlignment.Right {
+            if textAlignment == NSTextAlignment.right {
                 xLabel = self.frame.width - sizeOfSecondText.width - sizeOfFirstText.width
         }
         
-        label1!.frame = CGRectMake(xLabel,(self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfFirstText.width, sizeOfFirstText.height)
+        label1!.frame = CGRect(x: xLabel,y: (self.frame.height / 2) - (sizeOfFirstText.height / 2), width: sizeOfFirstText.width, height: sizeOfFirstText.height)
         
-        label2!.frame = CGRectMake(label1!.frame.maxX, (self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfSecondText.width, sizeOfSecondText.height)
+        label2!.frame = CGRect(x: label1!.frame.maxX, y: (self.frame.height / 2) - (sizeOfFirstText.height / 2), width: sizeOfSecondText.width, height: sizeOfSecondText.height)
         
         if self.interLine && !self.hasLine {
             self.hasLine = true
             let sizeTotal : CGSize = sizeOfLabel()
             
             let line: CALayer = CALayer()
-            line.frame = CGRectMake(self.label1!.frame.minX,sizeTotal.height / 2,totalWidth, 1)
-            line.backgroundColor = WMColor.light_gray.CGColor
-            self.layer.insertSublayer(line, atIndex: 0)
+            line.frame = CGRect(x: self.label1!.frame.minX,y: sizeTotal.height / 2,width: totalWidth, height: 1)
+            line.backgroundColor = WMColor.light_gray.cgColor
+            self.layer.insertSublayer(line, at: 0)
         }
     }
     
-    class func formatString (value:NSString) -> String {
+    class func formatString (_ value:NSString) -> String {
         
-        let setNumeric = NSCharacterSet(charactersInString: "0123456789.")
-        if value.rangeOfCharacterFromSet(setNumeric.invertedSet).location == NSNotFound {
-            let formatter = NSNumberFormatter();
-            formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        let setNumeric = CharacterSet(charactersIn: "0123456789.")
+        if value.rangeOfCharacter(from: setNumeric.inverted).location == NSNotFound {
+            let formatter = NumberFormatter();
+            formatter.numberStyle = NumberFormatter.Style.currency
             formatter.maximumFractionDigits = 2
-            formatter.locale = NSLocale(localeIdentifier: "es_MX")
-            return formatter.stringFromNumber(NSNumber(double:value.doubleValue))!
+            formatter.locale = Locale(identifier: "es_MX")
+            return formatter.string(from: NSNumber(value: value.doubleValue as Double))!
         }
         return value as String
        
     }
     
-    class func formatNegativeString (value:NSString) -> String {
+    class func formatNegativeString (_ value:NSString) -> String {
         let result = formatString(value)
         if value.doubleValue > 0 {
             return "- \(result)"
@@ -187,13 +187,13 @@ class CurrencyCustomLabel : UIView  {
         return result
     }
     
-    class func formatStringLabel(value:NSString) -> String {
+    class func formatStringLabel(_ value:NSString) -> String {
         
-        let setNumeric = NSCharacterSet(charactersInString: "0123456789.")
-        if value.rangeOfCharacterFromSet(setNumeric.invertedSet).location == NSNotFound {
-            let formatter = NSNumberFormatter()
+        let setNumeric = CharacterSet(charactersIn: "0123456789.")
+        if value.rangeOfCharacter(from: setNumeric.inverted).location == NSNotFound {
+            let formatter = NumberFormatter()
             formatter.maximumFractionDigits = 2
-            return formatter.stringFromNumber(NSNumber(double:value.doubleValue))!
+            return formatter.string(from: NSNumber(value: value.doubleValue as Double))!
         }
         return value as String
         

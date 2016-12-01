@@ -13,7 +13,7 @@ class IPOGRDepartmentCollectionViewCell: IPODepartmentCollectionViewCell {
     override func setup() {
         super.setup()
 
-        self.titleLabel.textColor = UIColor.blackColor()
+        self.titleLabel.textColor = UIColor.black
         
     }
     

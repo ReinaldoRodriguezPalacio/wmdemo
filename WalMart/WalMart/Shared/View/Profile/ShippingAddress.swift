@@ -29,7 +29,7 @@ class ShippingAddress: AddressView {
         self.name = FormFieldView()
         self.name!.isRequired = true
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.name",comment:""))
-        self.name!.typeField = TypeField.Name
+        self.name!.typeField = TypeField.name
         self.name!.nameField = NSLocalizedString("profile.address.shiping.name",comment:"")
         self.name!.minLength = 2
         self.name!.maxLength = 25
@@ -37,7 +37,7 @@ class ShippingAddress: AddressView {
         self.lastName = FormFieldView()
         self.lastName!.isRequired = true
         self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.lastname",comment:""))
-        self.lastName!.typeField = TypeField.String
+        self.lastName!.typeField = TypeField.string
         self.lastName!.nameField = NSLocalizedString("profile.address.shiping.lastname",comment:"")
         self.lastName!.minLength = 2
         self.lastName!.maxLength = 25
@@ -49,10 +49,10 @@ class ShippingAddress: AddressView {
         
         if !isLogin {
             self.titleLabelShiping!.textColor = WMColor.light_blue
-            self.titleLabelShiping!.backgroundColor = UIColor.whiteColor()
+            self.titleLabelShiping!.backgroundColor = UIColor.white
         }else {
-            self.titleLabelShiping!.backgroundColor = UIColor.clearColor()
-            self.titleLabelShiping.textColor = UIColor.whiteColor()
+            self.titleLabelShiping!.backgroundColor = UIColor.clear
+            self.titleLabelShiping.textColor = UIColor.white
         }
         
         self.addSubview(name!)
@@ -66,21 +66,21 @@ class ShippingAddress: AddressView {
     override func layoutSubviews() {
         super.layoutSubviews()
        
-        self.titleLabelShiping?.frame = CGRectMake(leftRightPadding,  0, self.bounds.width - (leftRightPadding*2), fieldHeight)
+        self.titleLabelShiping?.frame = CGRect(x: leftRightPadding,  y: 0, width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
         /*if !isLogin {
             self.lineViewShiping?.frame = CGRectMake(0,0,self.bounds.width,1)
         }
         else {
             self.lineViewShiping?.frame = CGRectMake(leftRightPadding, 0, self.bounds.width - (leftRightPadding*2), 1)
         }*/
-        self.name?.frame = CGRectMake(leftRightPadding,  self.titleLabelShiping!.frame.maxY , self.bounds.width - (leftRightPadding*2), fieldHeight)
-        self.lastName?.frame = CGRectMake(leftRightPadding, self.name!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
-         self.telephone?.frame = CGRectMake(leftRightPadding,  lastName!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
-        self.viewAddress.frame = CGRectMake(0, self.telephone!.frame.maxY + 8, self.bounds.width, showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
+        self.name?.frame = CGRect(x: leftRightPadding,  y: self.titleLabelShiping!.frame.maxY , width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.lastName?.frame = CGRect(x: leftRightPadding, y: self.name!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
+         self.telephone?.frame = CGRect(x: leftRightPadding,  y: lastName!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
+        self.viewAddress.frame = CGRect(x: 0, y: self.telephone!.frame.maxY + 8, width: self.bounds.width, height: showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
     }
     
     
-    override func setItemWithDictionary(itemValues: NSDictionary) {
+    override func setItemWithDictionary(_ itemValues: [String:Any]) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
             self.name!.text = self.item!["firstName"] as? String
@@ -96,9 +96,9 @@ class ShippingAddress: AddressView {
         }
         if !error{
             error = viewError(telephone!)
-            let toValidate : NSString = telephone!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let toValidate : NSString = telephone!.text!.trimmingCharacters(in: CharacterSet.whitespaces) as NSString
             if toValidate.length > 2 {
-                if toValidate == "0000000000" || toValidate.substringToIndex(2) == "00" {
+                if toValidate == "0000000000" || toValidate.substring(to: 2) == "00" {
                     error = self.viewError(telephone!, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
                 }
             }
@@ -109,9 +109,9 @@ class ShippingAddress: AddressView {
         return super.validateAddress()
     }
     
-    override func getParams() -> [String:AnyObject]{
-        var paramsAddress : [String:AnyObject] =   super.getParams()
-        let userParams: [String:AnyObject] = ["profile":["lastName2":"" ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]] as [String:AnyObject]
+    override func getParams() -> [String:Any]{
+        var paramsAddress : [String:Any] =   super.getParams()
+        let userParams: [String:Any] = ["profile":["lastName2":"" ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]] as [String:Any]
         paramsAddress.updateValue(userParams as AnyObject, forKey: "user")
         paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
         return paramsAddress

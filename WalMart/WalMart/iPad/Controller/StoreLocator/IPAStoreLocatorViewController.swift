@@ -15,8 +15,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.clubCollection!.registerClass(IPAClubLocatorTableViewCell.self, forCellWithReuseIdentifier: "club")
-        self.clubCollection!.hidden = false
+        self.clubCollection!.register(IPAClubLocatorTableViewCell.self, forCellWithReuseIdentifier: "club")
+        self.clubCollection!.isHidden = false
         self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 0.0)
         self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
 
@@ -24,8 +24,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 
         self.toggleViewBtn?.removeFromSuperview()
         self.toggleViewBtn = nil
-        self.backButton?.hidden = true
-        self.searchView.hidden = false
+        self.backButton?.isHidden = true
+        self.searchView.isHidden = false
     }
     
     override func viewWillLayoutSubviews() {
@@ -33,15 +33,15 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let bounds = self.view.bounds
         let height = bounds.height - self.header!.frame.height
         
-        self.searchField!.frame = CGRectMake(16, 16,310.0, 40.0)
-        self.clearButton!.frame = CGRectMake(self.searchField.frame.width - 40 , 0, 48, 40)
-        self.searchView!.frame = CGRectMake(0.0, self.header!.frame.maxY, 342.0, 72)
-        self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, 342.0, 1)
-        self.clubCollection?.frame = CGRectMake(0.0, self.searchView!.frame.maxY, 342.0, height - 72)
-        self.clubMap!.frame = CGRectMake(342.0, self.header!.frame.maxY, bounds.width - 342.0, height)
+        self.searchField!.frame = CGRect(x: 16, y: 16,width: 310.0, height: 40.0)
+        self.clearButton!.frame = CGRect(x: self.searchField.frame.width - 40 , y: 0, width: 48, height: 40)
+        self.searchView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: 342.0, height: 72)
+        self.separator.frame = CGRect(x: 0, y: self.searchView!.bounds.maxY - 1, width: 342.0, height: 1)
+        self.clubCollection?.frame = CGRect(x: 0.0, y: self.searchView!.frame.maxY, width: 342.0, height: height - 72)
+        self.clubMap!.frame = CGRect(x: 342.0, y: self.header!.frame.maxY, width: bounds.width - 342.0, height: height)
         
-        self.segmentedView!.frame = CGRectMake(self.clubCollection!.frame.maxX + 30.0, bounds.height - 38.0, 150.0, 22.0)
-        self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y)
+        self.segmentedView!.frame = CGRect(x: self.clubCollection!.frame.maxX + 30.0, y: bounds.height - 38.0, width: 150.0, height: 22.0)
+        self.segmentedView!.center = CGPoint(x: self.segmentedView!.center.x, y: self.usrPositionBtn!.center.y)
         
     }
 
@@ -63,18 +63,18 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     //MARK: - MKMapViewDelegate
 
-    override func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    override func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         if !self.localizable {
             self.zoomMapLocation(userLocation)
         }
         
         if self.clubMap!.overlays.count > 0 && self.viewBgDetailView == nil {
-            MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
+            MapKitUtils.zoomMapView(toFitAnnotations: self.clubMap, animated: true)
         }
         self.clubCollection!.reloadData()
     }
 
-    override func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+    override func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         self.searchField.resignFirstResponder()
         let latResult = view.annotation!.coordinate.latitude + 0.01
         let coordinateMap =  CLLocationCoordinate2DMake(latResult, view.annotation!.coordinate.longitude)
@@ -83,17 +83,17 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         self.clubMap!.setRegion(pointRect, animated: true)
         if let annotation = view.annotation as? StoreAnnotation {
             if self.viewBgDetailView == nil {
-                self.viewBgDetailView = UIView(frame:CGRectMake(342.0, 0.0, self.clubMap!.bounds.width, self.view.bounds.height))
-                self.viewBgDetailView!.backgroundColor = UIColor.clearColor()
+                self.viewBgDetailView = UIView(frame:CGRect(x: 342.0, y: 0.0, width: self.clubMap!.bounds.width, height: self.view.bounds.height))
+                self.viewBgDetailView!.backgroundColor = UIColor.clear
                 self.viewBgDetailView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(StoreLocatorViewController.mapViewUserDidTap as (StoreLocatorViewController) -> () -> ())))
             }
             
-            self.detailView = IPAStoreView(frame:CGRectMake(0.0, 0.0, 256.0, 200.0))
+            self.detailView = IPAStoreView(frame:CGRect(x: 0.0, y: 0.0, width: 256.0, height: 200.0))
             self.detailView!.delegate = self
             self.detailView!.setValues(annotation.storeEntity, userLocation: mapView.userLocation.location)
             let height = self.detailView!.retrieveCalculatedHeight()
-            self.detailView!.frame = CGRectMake(0.0, 0.0, 256.0, height)
-            self.detailView!.center = CGPointMake((self.viewBgDetailView!.frame.width/2), (self.viewBgDetailView!.frame.height/2) - 10.0)
+            self.detailView!.frame = CGRect(x: 0.0, y: 0.0, width: 256.0, height: height)
+            self.detailView!.center = CGPoint(x: (self.viewBgDetailView!.frame.width/2), y: (self.viewBgDetailView!.frame.height/2) - 10.0)
             self.detailView!.layer.cornerRadius = 5.0
             self.detailView!.clipsToBounds = true
             
@@ -104,23 +104,23 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             self.viewBgDetailView!.addSubview(self.detailView!)
             self.view.addSubview(self.viewBgDetailView!)
             
-            self.detailView!.transform = CGAffineTransformMakeScale(0.0, 0.0)
-            UIView.animateWithDuration(0.5,
+            self.detailView!.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+            UIView.animate(withDuration: 0.5,
                 delay: isSameCenter ? 0.0 : 1.5,
-                options: UIViewAnimationOptions.BeginFromCurrentState,
+                options: UIViewAnimationOptions.beginFromCurrentState,
                 animations: {
-                    self.detailView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                    self.detailView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 },
                 completion: nil)
             
-            if let index = (self.items!).indexOf(annotation.storeEntity!) {
-                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if let index = (self.items!).index(of: annotation.storeEntity!) {
+                let indexPath = IndexPath(row: index, section: 0)
                 if index >= (self.items!.count - 4) {
                     self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 390, 0)
                 }else{
                      self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                 }
-                self.clubCollection!.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
+                self.clubCollection!.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition())
             }
         }
     }
@@ -128,16 +128,16 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 
     //MARK: - UICollectionViewDataSource
     
-    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //return CGSizeMake(collectionView.frame.width, 250.0)
         let store = self.items![indexPath.row]
         return IPAClubLocatorTableViewCell.calculateCellHeight(forStore: store, width: 342.0)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: IndexPath) {
         self.searchField.resignFirstResponder()
         let store = self.items![indexPath.row]
-         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
+         collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_SHOW_STORE_LOCATOR_IN_MAP.rawValue, label:store.name! )
         
@@ -157,13 +157,13 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 
     //MARK: - Actions
     
-    override func mapViewUserDidTap(gotoPosition: Bool) {
+    override func mapViewUserDidTap(_ gotoPosition: Bool) {
         if self.viewBgDetailView != nil {
              if self.detailView != nil {
-                self.detailView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                UIView.animateWithDuration(0.5,
+                self.detailView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                UIView.animate(withDuration: 0.5,
                     animations: { () -> Void in
-                        self.detailView!.transform = CGAffineTransformMakeScale(0.0, 0.0)
+                        self.detailView!.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
                     },
                     completion: { (finished:Bool) -> Void in
                         if finished {
@@ -178,14 +178,14 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
                             }
                             else {
                                 if self.clubMap!.overlays.count > 0 {
-                                    MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
+                                    MapKitUtils.zoomMapView(toFitAnnotations: self.clubMap, animated: true)
                                 }
                             }
                             
-                            var selected = self.clubCollection!.indexPathsForSelectedItems()
+                            var selected = self.clubCollection!.indexPathsForSelectedItems
                             for idx in 0 ..< selected!.count {
                                 let indexPath = selected![idx]
-                                self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
+                                self.clubCollection!.deselectItem(at: indexPath, animated: true)
                             }
                         }
                 })
@@ -195,9 +195,9 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 
     //MARK: - StoreViewDelegate
     
-    override func showInstructions(store:Store, forCar flag:Bool) {
+    override func showInstructions(_ store:Store, forCar flag:Bool) {
         self.selectedStore = store
-        let gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
+        let gmapsInstalled = UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!)
         if gmapsInstalled {
             self.viewBgDetailView?.removeFromSuperview()
             self.viewBgDetailView = nil
@@ -205,21 +205,21 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             self.detailView = nil
 
             self.actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-            self.actionSheet!.actionSheetStyle = .Automatic
-            self.actionSheetGmaps = self.actionSheet!.addButtonWithTitle("Google Maps")
-            self.actionSheetAmaps = self.actionSheet!.addButtonWithTitle("Apple Maps")
-            let cancelIdx = self.actionSheet!.addButtonWithTitle("Cancel")
+            self.actionSheet!.actionSheetStyle = .automatic
+            self.actionSheetGmaps = self.actionSheet!.addButton(withTitle: "Google Maps")
+            self.actionSheetAmaps = self.actionSheet!.addButton(withTitle: "Apple Maps")
+            let cancelIdx = self.actionSheet!.addButton(withTitle: "Cancel")
             self.actionSheet!.cancelButtonIndex = cancelIdx
             self.instructionsForCar = flag
-            let rect = self.clubMap!.convertRect(self.currentSelected!.frame, toView: self.view.superview)
-            self.actionSheet!.showFromRect(rect, inView: self.view.superview!, animated: true)
+            let rect = self.clubMap!.convert(self.currentSelected!.frame, to: self.view.superview)
+            self.actionSheet!.show(from: rect, in: self.view.superview!, animated: true)
         }
         else {
             self.openAppleMaps(forCar: flag)
         }
     }
 
-    override func shareStore(store:Store) {
+    override func shareStore(_ store:Store) {
         self.viewBgDetailView?.removeFromSuperview()
         self.viewBgDetailView = nil
         self.detailView?.removeFromSuperview()
@@ -232,18 +232,18 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
         self.sharePopover = UIPopoverController(contentViewController: controller)
         self.sharePopover!.delegate = self
-        let rect = self.clubMap!.convertRect(self.currentSelected!.frame, toView: self.view.superview)
-        self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+        let rect = self.clubMap!.convert(self.currentSelected!.frame, to: self.view.superview)
+        self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                if completed && !activityType!.containsString("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.containsString("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -252,11 +252,11 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 
     //MARK: - UIPopoverControllerDelegate
     
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+    func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
-        if let index = (self.items!).indexOf((self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
+        if let index = (self.items!).index(of: (self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
+            let indexPath = IndexPath(row: index, section: 0)
+            self.clubCollection!.deselectItem(at: indexPath, animated: true)
         }
         self.currentSelected = nil
         self.sharePopover = nil
@@ -264,23 +264,23 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 
     //MARK: - UIActionSheetDelegate
     
-    func actionSheetCancel(actionSheet: UIActionSheet) {
+    func actionSheetCancel(_ actionSheet: UIActionSheet) {
         print("Cancel")
     }
     
-    override func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+    override func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         print("Action selected \(buttonIndex)")
         super.actionSheet(actionSheet, didDismissWithButtonIndex: buttonIndex)
         self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
-        if let index = (self.items!).indexOf((self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
+        if let index = (self.items!).index(of: (self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
+            let indexPath = IndexPath(row: index, section: 0)
+            self.clubCollection!.deselectItem(at: indexPath, animated: true)
         }
         self.currentSelected = nil
     }
     
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView){
-        if self.searchField.isFirstResponder() {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
+        if self.searchField.isFirstResponder {
         self.searchField.resignFirstResponder()
         }
     }

@@ -18,18 +18,18 @@ class IPOLinesViewController : IPOCategoriesViewController {
     var urlTicer : String!
     var familyName : String!
     var loading: WMLoadingView?
-    var linesCamp :[[String:AnyObject]]?
+    var linesCamp :[[String:Any]]?
 
     override func viewDidLoad() {
-      self.view.backgroundColor =  UIColor.whiteColor()
+      self.view.backgroundColor =  UIColor.white
 
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.Left
+        imageBackground.contentMode = UIViewContentMode.left
         imageBackground.clipsToBounds = true
         
-        self.imageBackground.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: "http://\(urlTicer)")!), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest, response:NSHTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: "http://\(urlTicer)")!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
-            }) { (request:NSURLRequest, response:NSHTTPURLResponse?, error:NSError) -> Void in
+            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
              print("Error al presentar imagen")
         }
     
@@ -39,13 +39,13 @@ class IPOLinesViewController : IPOCategoriesViewController {
         
         titleLabel = UILabel()
         titleLabel.font  = WMFont.fontMyriadProRegularOfSize(16)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
         titleLabel.text = ""
         
         buttonClose = UIButton()
-        buttonClose.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
-        buttonClose.addTarget(self, action: #selector(BaseCategoryViewController.closeDepartment), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonClose.setImage(UIImage(named: "close"), for: UIControlState())
+        buttonClose.addTarget(self, action: #selector(BaseCategoryViewController.closeDepartment), for: UIControlEvents.touchUpInside)
         
         self.view.addSubview(imageBackground)
         self.view.addSubview(imageIcon)
@@ -56,16 +56,16 @@ class IPOLinesViewController : IPOCategoriesViewController {
 
         self.viewFamily = UIView()
         self.lineController = LineViewController()
-        self.lineController.categoriesType = .CategoryForMG
+        self.lineController.categoriesType = .categoryForMG
         self.addChildViewController(self.lineController)
         self.viewFamily.addSubview(self.lineController.view)        
         self.invokeServiceLine()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if self.loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
-            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.loading = WMLoadingView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.white
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
@@ -73,13 +73,13 @@ class IPOLinesViewController : IPOCategoriesViewController {
 
 
     override func viewWillLayoutSubviews() {
-        viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
+        viewFamily.frame = CGRect(x: 0, y: CELL_HEIGHT, width: self.view.bounds.width, height: self.view.bounds.height - CELL_HEIGHT)
        // lineController.view.frame = viewFamily.frame
         
-        self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , CELL_HEIGHT)
-        titleLabel.frame = CGRectMake(0, 66, self.view.frame.width , 16)
-        imageIcon.frame = CGRectMake((self.view.frame.width / 2) - 14, 22 , 28, 28)
-        buttonClose.frame = CGRectMake(0, 0, 40, 40)
+        self.imageBackground.frame = CGRect(x: 0,y: 0 ,width: self.view.frame.width , height: CELL_HEIGHT)
+        titleLabel.frame = CGRect(x: 0, y: 66, width: self.view.frame.width , height: 16)
+        imageIcon.frame = CGRect(x: (self.view.frame.width / 2) - 14, y: 22 , width: 28, height: 28)
+        buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
     }
     
     
@@ -90,15 +90,15 @@ class IPOLinesViewController : IPOCategoriesViewController {
         print("familyName :::\(familyName)")
         let service =  LineService()
         
-        service.callService(requestParams: familyName, successBlock: { (response:NSDictionary) -> Void in
-            let listLines  =  response["responseArray"] as! NSArray
+        service.callService(requestParams: familyName as AnyObject, successBlock: { (response:[String:Any]) -> Void in
+            let listLines  =  response["responseArray"] as! [Any]
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
-            self.didSelectDeparmentAtIndex(NSIndexPath(index: 0))
+            self.didSelectDeparmentAtIndex(IndexPath(index: 0))
            
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.navigationController?.popToRootViewController(animated: true)
                 
         })
     
@@ -109,7 +109,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
      Load family select in this case is from banner tap
      - parameter indexPath: Department selected, in this case not use
      */
-    override func didSelectDeparmentAtIndex(indexPath: NSIndexPath){
+    override func didSelectDeparmentAtIndex(_ indexPath: IndexPath){
         lineController.departmentId = "0"
         lineController.families = self.linesCamp!
         lineController.selectedFamily = nil
@@ -124,7 +124,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
      Return to home
      */
     override func closeDepartment() {
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     

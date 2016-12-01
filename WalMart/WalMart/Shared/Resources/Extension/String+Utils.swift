@@ -16,28 +16,28 @@ extension String{
     var listIconString : String {
         
         if self.utf16.count <= 1 {
-            return self.uppercaseString
+            return self.uppercased()
         }
         
         var upperCaseTitle  = ""
-        let arrayTitle = self.componentsSeparatedByString(" ")
-        let arrayTitleResult = arrayTitle.filter {$0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != ""}
+        let arrayTitle = self.components(separatedBy: " ")
+        let arrayTitleResult = arrayTitle.filter {$0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) != ""}
         if(arrayTitleResult.count > 1){
             
             let titleWord1 = arrayTitleResult[0] as NSString
                 let titleWord2 = arrayTitleResult[1] as NSString
                 
-                let resultString1 = titleWord1.substringWithRange(NSRange(location: 0,length: 1))
-                let resultString2 = titleWord2.substringWithRange(NSRange(location: 0,length: 1))
+                let resultString1 = titleWord1.substring(with: NSRange(location: 0,length: 1))
+                let resultString2 = titleWord2.substring(with: NSRange(location: 0,length: 1))
                 
                 let resultTitle = resultString1 + resultString2
                 
-                upperCaseTitle = resultTitle.uppercaseString
+                upperCaseTitle = resultTitle.uppercased()
                 
             }else{
                 let titleWord = arrayTitleResult[0] as NSString
-                let resultString = titleWord.substringWithRange(NSRange(location: 0,length: 2))
-                upperCaseTitle = resultString.uppercaseString
+                let resultString = titleWord.substring(with: NSRange(location: 0,length: 2))
+                upperCaseTitle = resultString.uppercased()
                 
             }
         
@@ -45,27 +45,27 @@ extension String{
     }
 
     var stringByDecodingURLFormat: String {
-        var result = self.stringByReplacingOccurrencesOfString("+", withString: " ", options: .LiteralSearch, range: nil)
-        result = result.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        var result = self.replacingOccurrences(of: "+", with: " ", options: .literal, range: nil)
+        result = result.replacingPercentEscapes(using: String.Encoding.utf8)!
         return result
     }
 
     func parametersFromQueryString() -> Dictionary<String, String> {
         var parameters = Dictionary<String, String>()
 
-        let scanner = NSScanner(string: self)
+        let scanner = Scanner(string: self)
 
         var key: NSString?
         var value: NSString?
 
-        while !scanner.atEnd {
+        while !scanner.isAtEnd {
             key = nil
-            scanner.scanUpToString("=", intoString: &key)
-            scanner.scanString("=", intoString: nil)
+            scanner.scanUpTo("=", into: &key)
+            scanner.scanString("=", into: nil)
 
             value = nil
-            scanner.scanUpToString("&", intoString: &value)
-            scanner.scanString("&", intoString: nil)
+            scanner.scanUpTo("&", into: &value)
+            scanner.scanString("&", into: nil)
 
             if key != nil && value != nil {
                 parameters.updateValue(value! as String, forKey: key! as String)

@@ -14,20 +14,20 @@ class ProductDetailBundleItemCollectionViewCell : ProductCollectionViewCell {
     override func setup() {
         super.setup()
         
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (75 / 2), 15, 75, 75)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 15, width: 75, height: 75)
 
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(4, self.productImage!.frame.maxY + 7 , self.frame.width - 8, 36)
-        self.productShortDescriptionLabel!.textAlignment = .Center
+        self.productShortDescriptionLabel!.frame = CGRect(x: 4, y: self.productImage!.frame.maxY + 7 , width: self.frame.width - 8, height: 36)
+        self.productShortDescriptionLabel!.textAlignment = .center
         self.productShortDescriptionLabel!.numberOfLines = 3
         
         
     }
     
     
-    func setValues(productImageURL: String, productShortDescription: String) {
+    func setValues(_ productImageURL: String, productShortDescription: String) {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: "")
-         self.productPriceLabel?.hidden = true
+         self.productPriceLabel?.isHidden = true
     }
     
     

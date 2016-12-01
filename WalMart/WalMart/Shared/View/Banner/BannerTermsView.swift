@@ -16,55 +16,55 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
     var viewBlurContainer : UIView!
     var viewText : UITextView!
     var onClose : (() -> Void)!
-    var openURL : ((url:String) -> Void)!
+    var openURL : ((_ url:String) -> Void)!
     
-    func setup(text:String) {
+    func setup(_ text:String) {
         
         self.clipsToBounds = true
         
         
         viewBlurContainer = UIView()
-        viewBlurContainer.backgroundColor = UIColor.clearColor()
+        viewBlurContainer.backgroundColor = UIColor.clear
         viewBlurContainer.clipsToBounds = true
         self.addSubview(viewBlurContainer)
         
         viewBg = UIView()
-        viewBg.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.7)
+        viewBg.backgroundColor = WMColor.light_blue.withAlphaComponent(0.7)
         viewBg.frame = self.bounds
         self.addSubview(viewBg)
         
         
         viewText = UITextView()
         //viewText.text = text
-        viewText.frame = CGRectMake( 16, 40, self.bounds.width - 32,  self.bounds.height - 50)
+        viewText.frame = CGRect( x: 16, y: 40, width: self.bounds.width - 32,  height: self.bounds.height - 50)
         viewText.font = WMFont.fontMyriadProRegularOfSize(14)
-        viewText.textColor = UIColor.whiteColor()
-        viewText.backgroundColor = UIColor.clearColor()
-        viewText.editable = false
-        viewText.selectable = false
+        viewText.textColor = UIColor.white
+        viewText.backgroundColor = UIColor.clear
+        viewText.isEditable = false
+        viewText.isSelectable = false
         
-        let terms = text.stringByReplacingOccurrencesOfString("<", withString: "").stringByReplacingOccurrencesOfString(">", withString: "")
+        let terms = text.replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "")
         let myString = NSMutableAttributedString(string: terms)
         let test  =  text as NSString
-        if test.rangeOfString("<").location < 999 {
+        if test.range(of: "<").location < 999 {
             // Set an attribute on part of the string
            
-            let startTxt:NSRange  = test.rangeOfString("<")
-            var endTxt:NSRange  = test.rangeOfString(">")
+            let startTxt:NSRange  = test.range(of: "<")
+            var endTxt:NSRange  = test.range(of: ">")
             endTxt.length = (endTxt.location - startTxt.location) + 1
             endTxt.location =  startTxt.location
             
-            var stringurl = test.substringWithRange(endTxt)
-            stringurl = stringurl.stringByReplacingOccurrencesOfString("<", withString: "").stringByReplacingOccurrencesOfString(">", withString: "")
+            var stringurl = test.substring(with: endTxt)
+            stringurl = stringurl.replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "")
             let termsTest  =  terms as NSString
-            let myRange:NSRange  = termsTest.rangeOfString(stringurl)
-            test.stringByReplacingOccurrencesOfString("<\(stringurl)>", withString:stringurl)
+            let myRange:NSRange  = termsTest.range(of: stringurl)
+            test.replacingOccurrences(of: "<\(stringurl)>", with:stringurl)
             
             let myCustomAttribute = [ "URLTERMS": stringurl]
             myString.addAttributes(myCustomAttribute, range: myRange)
-            myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range:NSMakeRange(0,myString.length))
+            myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range:NSMakeRange(0,myString.length))
         }
-        myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range:NSMakeRange(0,myString.length))
+        myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range:NSMakeRange(0,myString.length))
 
         viewText.attributedText = myString
        
@@ -76,29 +76,29 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
         
         viewBg.addSubview(viewText)
 
-        let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
-        closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: #selector(UIView.removeFromSuperview), forControlEvents: UIControlEvents.TouchUpInside)
+        let closeButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        closeButton.setImage(UIImage(named:"close"), for: UIControlState())
+        closeButton.addTarget(self, action: #selector(UIView.removeFromSuperview), for: UIControlEvents.touchUpInside)
         viewBg.addSubview(closeButton)
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_BANNER_TERMS.rawValue, action: WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue, label: "")
     }
     
-    func openTermsTap(sender:UITapGestureRecognizer){
+    func openTermsTap(_ sender:UITapGestureRecognizer){
         
         let myTextView = sender.view as! UITextView
         let layoutManager = myTextView.layoutManager
-        var location = sender.locationInView(myTextView)
+        var location = sender.location(in: myTextView)
         location.x -= myTextView.textContainerInset.left;
         location.y -= myTextView.textContainerInset.top;
         
-        let characterIndex = layoutManager.characterIndexForPoint(location, inTextContainer: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        let characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
         
         if characterIndex < myTextView.textStorage.length {
             
             let attributeName = "URLTERMS"
-            let attributeValue = myTextView.attributedText.attribute(attributeName, atIndex: characterIndex, effectiveRange: nil) as? String
+            let attributeValue = myTextView.attributedText.attribute(attributeName, at: characterIndex, effectiveRange: nil) as? String
             if let value = attributeValue {
-                openURL(url: value)
+                openURL(value)
             }
             
         }
@@ -107,28 +107,28 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
     
     
     func startAnimating() {
-        viewBg.frame = CGRectMake(self.bounds.minX, self.bounds.height, self.bounds.width, 0)
+        viewBg.frame = CGRect(x: self.bounds.minX, y: self.bounds.height, width: self.bounds.width, height: 0)
         if imageBlurView != nil {
-            viewBlurContainer.frame = CGRectMake(self.bounds.minX, self.bounds.height, self.bounds.width, 0)
-            imageBlurView.frame = CGRectMake(self.bounds.minX, -self.bounds.height, self.bounds.width, self.bounds.height)
+            viewBlurContainer.frame = CGRect(x: self.bounds.minX, y: self.bounds.height, width: self.bounds.width, height: 0)
+            imageBlurView.frame = CGRect(x: self.bounds.minX, y: -self.bounds.height, width: self.bounds.width, height: self.bounds.height)
         }
         //viewText.frame = CGRectMake(self.bounds.minX + 16, self.bounds.height + 16 , self.bounds.width - 32, 0)
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.viewBg.frame = self.bounds
             if self.imageBlurView != nil {
                 self.viewBlurContainer.frame = self.bounds
                 self.imageBlurView.frame = self.bounds
             }
             //self.viewText.frame = CGRectMake(self.bounds.minX + 16, self.bounds.minY + 16, self.bounds.width - 32,  self.bounds.minY - 32)
-            }) { (ends:Bool) -> Void in
+            }, completion: { (ends:Bool) -> Void in
             
-        }
+        }) 
     }
     
-    func generateBlurImage(viewBg:UIView,frame:CGRect) {
+    func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
         var cloneImage : UIImage? = nil
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
         cloneImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         viewBg.layer.contents = nil
@@ -139,19 +139,19 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
         cloneImage = nil
         
         viewBlurContainer.addSubview(imageBlurView)
-        viewBlurContainer.sendSubviewToBack(imageBlurView)
+        viewBlurContainer.sendSubview(toBack: imageBlurView)
     }
     
     override func removeFromSuperview() {
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.viewBg.frame = CGRectMake(self.bounds.minX, self.bounds.height, self.bounds.width, 0)
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.viewBg.frame = CGRect(x: self.bounds.minX, y: self.bounds.height, width: self.bounds.width, height: 0)
             if self.imageBlurView != nil {
-                self.viewBlurContainer.frame = CGRectMake(self.bounds.minX, self.bounds.height, self.bounds.width, 0)
-                self.imageBlurView.frame = CGRectMake(self.bounds.minX, -self.bounds.height, self.bounds.width, self.bounds.height)
+                self.viewBlurContainer.frame = CGRect(x: self.bounds.minX, y: self.bounds.height, width: self.bounds.width, height: 0)
+                self.imageBlurView.frame = CGRect(x: self.bounds.minX, y: -self.bounds.height, width: self.bounds.width, height: self.bounds.height)
             }
-            }) { (ends:Bool) -> Void in
+            }, completion: { (ends:Bool) -> Void in
                 self.endRemovView()
-        }
+        }) 
     }
     
     func endRemovView() {

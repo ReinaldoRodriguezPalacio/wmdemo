@@ -29,7 +29,7 @@ struct WMColor {
     
 
     
-    static func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    static func UIColorFromRGB(_ rgbValue: UInt) -> UIColor {
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
@@ -38,7 +38,7 @@ struct WMColor {
         )
     }
     
-    static func UIColorFromRGB(rgbValue: UInt, alpha: Double) -> UIColor {
+    static func UIColorFromRGB(_ rgbValue: UInt, alpha: Double) -> UIColor {
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
@@ -47,20 +47,20 @@ struct WMColor {
         )
     }
     
-    static func UIColorFromRGB(wmcolor: UIColor, alpha: Double) -> UIColor {
-        return wmcolor.colorWithAlphaComponent(CGFloat(alpha))
+    static func UIColorFromRGB(_ wmcolor: UIColor, alpha: Double) -> UIColor {
+        return wmcolor.withAlphaComponent(CGFloat(alpha))
     }
     
 }
 
 extension UInt {
     init?(_ string: String, radix: UInt) {
-        let str = string.stringByReplacingOccurrencesOfString("#", withString: "")
+        let str = string.replacingOccurrences(of: "#", with: "")
         let digits = "0123456789abcdefghijklmnopqrstuvwxyz"
         var result = UInt(0)
-        for digit in str.lowercaseString.characters {
-            if let range = digits.rangeOfString(String(digit)) {
-                let val = UInt(digits.startIndex.distanceTo(range.startIndex))
+        for digit in str.lowercased().characters {
+            if let range = digits.range(of: String(digit)) {
+                let val = UInt(digits.characters.distance(from: digits.startIndex, to: range.lowerBound))
                 if val >= radix {
                     return nil
                 }

@@ -13,8 +13,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     var startUrlUPCWalmart = "https://www.walmart.com.mx/Busqueda.aspx?Text="
     
-    var idexesPath : [NSIndexPath]! = []
-    var items : [AnyObject]! = []
+    var idexesPath : [IndexPath]! = []
+    var items : [[String:Any]]! = []
     var wishLitsToolBar : UIView!
 
     @IBOutlet var wishlist: UITableView!
@@ -42,43 +42,43 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.text = NSLocalizedString("wishlist.title",comment:"")
         
-        self.edit = UIButton(type: .Custom)
-        self.edit.frame = CGRectMake(248.0, 12.0, 55.0, 22.0)
+        self.edit = UIButton(type: .custom)
+        self.edit.frame = CGRect(x: 248.0, y: 12.0, width: 55.0, height: 22.0)
 
-        self.edit.setTitle(NSLocalizedString("wishlist.edit", comment:""), forState: .Normal)
-        self.edit.setTitle(NSLocalizedString("wishlist.endedit", comment:""), forState: .Selected)
-        self.edit.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.edit.setTitle(NSLocalizedString("wishlist.edit", comment:""), for: UIControlState())
+        self.edit.setTitle(NSLocalizedString("wishlist.endedit", comment:""), for: .selected)
+        self.edit.setTitleColor(UIColor.white, for: UIControlState())
         self.edit.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.edit.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
         self.edit!.backgroundColor = WMColor.dark_blue
         self.edit.layer.cornerRadius = 11
-        self.edit.addTarget(self, action: #selector(WishListViewController.editAction(_:)), forControlEvents: .TouchUpInside)
+        self.edit.addTarget(self, action: #selector(WishListViewController.editAction(_:)), for: .touchUpInside)
         self.header!.addSubview(self.edit)
         
-        self.deleteall = UIButton(type: .Custom)
-        self.deleteall.frame = CGRectMake(165.0, 12.0, 75.0, 22.0)
-        self.deleteall.setTitle(NSLocalizedString("wishlist.deleteall", comment:""), forState: .Normal)
+        self.deleteall = UIButton(type: .custom)
+        self.deleteall.frame = CGRect(x: 165.0, y: 12.0, width: 75.0, height: 22.0)
+        self.deleteall.setTitle(NSLocalizedString("wishlist.deleteall", comment:""), for: UIControlState())
         self.deleteall.backgroundColor = WMColor.red
-        self.deleteall.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.deleteall.setTitleColor(UIColor.white, for: UIControlState())
         self.deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.deleteall.alpha = 0
         self.deleteall.layer.cornerRadius = 11
         self.deleteall.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
-        self.deleteall.addTarget(self, action: #selector(WishListViewController.deletealltap(_:)), forControlEvents: .TouchUpInside)
+        self.deleteall.addTarget(self, action: #selector(WishListViewController.deletealltap(_:)), for: .touchUpInside)
         self.header!.addSubview(self.deleteall)
 
         
-        wishlist.registerClass(WishlistProductTableViewCell.self, forCellReuseIdentifier: "product")
+        wishlist.register(WishlistProductTableViewCell.self, forCellReuseIdentifier: "product")
         
         wishlist.delegate = self
         wishlist.dataSource = self
-        wishlist.separatorStyle = UITableViewCellSeparatorStyle.None
+        wishlist.separatorStyle = UITableViewCellSeparatorStyle.none
         wishlist.clipsToBounds = false
-        self.view.sendSubviewToBack(wishlist)
+        self.view.sendSubview(toBack: wishlist)
         
         tabFooterView()
         
-        emptyView = IPOWishlistEmptyView(frame: CGRectZero)
+        emptyView = IPOWishlistEmptyView(frame: CGRect.zero)
         emptyView.returnAction = {() in
             self.back()
         }
@@ -87,69 +87,69 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         BaseController.setOpenScreenTagManager(titleScreen: "WishList", screenName: self.getScreenGAIName())
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UserCurrentSession.sharedInstance().nameListToTag = "WishList"
+        UserCurrentSession.sharedInstance.nameListToTag = "WishList"
         self.idexesPath = []
         reloadWishlist()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
         if isShowingTabBar {
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         }
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if isShowingTabBar {
-            self.wishlist.frame =  CGRectMake(0, self.wishlist.frame.minY , self.view.frame.width, self.view.frame.height - 109 - self.header!.frame.height)
-            self.wishLitsToolBar.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 109 - self.header!.frame.height)
+            self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
         }else{
-            self.wishlist.frame =  CGRectMake(0, self.wishlist.frame.minY , self.view.frame.width, self.view.frame.height - 64 - self.header!.frame.height)
-            self.wishLitsToolBar.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
+            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
+            self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
         }
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(WishListViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(WishListViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
         self.tabBarActions()
     }
     
     override func willShowTabbar() {
        isShowingTabBar = true
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.wishlist.frame =  CGRectMake(0, self.wishlist.frame.minY , self.view.frame.width, self.view.frame.height - 119 - self.header!.frame.height)
-             self.wishLitsToolBar.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 119 - self.header!.frame.height)
+             self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
         })
     }
     
     override func willHideTabbar() {
        isShowingTabBar = false
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.wishlist.frame =  CGRectMake(0, self.wishlist.frame.minY , self.view.frame.width, self.view.frame.height - 64 - self.header!.frame.height)
-             self.wishLitsToolBar.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
+             self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
         })
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-       let cell = wishlist.dequeueReusableCellWithIdentifier("product", forIndexPath: indexPath) as! WishlistProductTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+       let cell = wishlist.dequeueReusableCell(withIdentifier: "product", for: indexPath) as! WishlistProductTableViewCell
         
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.rightUtilityButtons = getRightButtonDelete()
         
         cell.setLeftUtilityButtons(getRightLeftDelete(), withButtonWidth: self.leftBtnWidth)
@@ -159,7 +159,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
 
         
-        let itemWishlist = items[indexPath.row] as! [String:AnyObject]
+        let itemWishlist = items[indexPath.row] as! [String:Any]
         let upc = itemWishlist["upc"] as! String
         var pesable = "" //itemWishlist["pesable"] as NSString
         
@@ -175,13 +175,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         let desc = itemWishlist["description"] as! String
         let price = itemWishlist["price"] as! NSString
-        let imageArray = itemWishlist["imageUrl"]as! NSArray
+        let imageArray = itemWishlist["imageUrl"]as! [Any]
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as! String
+            imageUrl = imageArray[0] as! String
         }
         
-        let savingIndex = itemWishlist.indexForKey("saving")
+        let savingIndex = itemWishlist.index(forKey: "saving")
         var savingVal = "0.0"
         if savingIndex != nil {
              savingVal = itemWishlist["saving"]  as! String
@@ -202,9 +202,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
 
-        let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+        let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         cell.moveRightImagePresale(isPreorderable)
-        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
+        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal as NSString, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable as NSString)
        
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
 
@@ -212,12 +212,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         if isEdditing {
             cell.setEditing(true, animated: false)
-            cell.showLeftUtilityButtonsAnimated(false)
+            cell.showLeftUtilityButtons(animated: false)
             cell.moveRightImagePresale(true)
 
         }else {
             cell.setEditing(false, animated: false)
-            cell.hideUtilityButtonsAnimated(false)
+            cell.hideUtilityButtons(animated: false)
             cell.moveRightImagePresale(false)
 
         }
@@ -229,8 +229,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func getRightButtonDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
-        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 64, height: 109))
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
@@ -241,19 +241,19 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func getRightLeftDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 36, 109))
-        buttonDelete.setImage(UIImage(named:"myList_delete"), forState: UIControlState.Normal)
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 109))
+        buttonDelete.setImage(UIImage(named:"myList_delete"), for: UIControlState())
         buttonDelete.backgroundColor = WMColor.light_gray
         toReturn.append(buttonDelete)
         
         return toReturn
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 109
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var itemsToSend : [[String:String]] = []
         
         for itemWishlist in self.items {
@@ -267,11 +267,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = itemsToSend
+        controller.itemsToShow = itemsToSend as [Any]
         controller.ixSelected = indexPath.row
         controller.detailOf = "Wish List"
         
-        let itemWishlistSel = items[indexPath.row] as! [String:AnyObject]
+        let itemWishlistSel = items[indexPath.row] as! [String:Any]
         let upc = itemWishlistSel["upc"] as! String
         let desc = itemWishlistSel["description"] as! String
         
@@ -285,9 +285,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
 
     
-    func deleteFromWishlist(UPC:String) {
+    func deleteFromWishlist(_ UPC:String) {
         let serviceWishDelete = DeleteItemWishlistService()
-        serviceWishDelete.callCoreDataService(UPC, successBlock: { (result:NSDictionary) -> Void in
+        serviceWishDelete.callCoreDataService(UPC, successBlock: { (result:[String:Any]) -> Void in
             self.reloadWishlist()
             }) { (error:NSError) -> Void in
             
@@ -298,21 +298,21 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func reloadWishlist() {
         if WishlistService.shouldupdate {
             WishlistService.shouldupdate = false
-            self.buttonShop.enabled = true
+            self.buttonShop.isEnabled = true
             if viewLoad != nil {
                 viewLoad.removeFromSuperview()
                 viewLoad = nil
             }
             
-            viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
+            viewLoad.backgroundColor = UIColor.white
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
 
             
 //            var serviceWish = UserWishlistService()
-//            serviceWish.callService({ (wishlist:NSDictionary) -> Void in
-//                self.items = wishlist["items"] as [AnyObject]
+//            serviceWish.callService({ (wishlist:[String:Any]) -> Void in
+//                self.items = wishlist["items"] as [Any]
 //                
 //                
 //                self.emptyView.hidden = self.items.count > 0
@@ -340,7 +340,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 //                    //alertView.setMessage(NSLocalizedString("wishlist.readyload",comment:""))
 //                    //alertView.showDoneIcon()
             
-            UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
+            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                 self.invokeWishlistService()
 
             })
@@ -376,15 +376,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
-            customlabel.backgroundColor = UIColor.clearColor()
+            customlabel.backgroundColor = UIColor.clear
             customlabel.setCurrencyUserInteractionEnabled(true)
             buttonShop.addSubview(customlabel)
-            buttonShop.sendSubviewToBack(customlabel)
+            buttonShop.sendSubview(toBack: customlabel)
         }
         let shopStr = NSLocalizedString("wishlist.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(totalStr)
+        let fmtTotal = CurrencyCustomLabel.formatString(totalStr as NSString)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
-        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
         
     }
     
@@ -396,14 +396,14 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 //            idexesPath.append(indexPath)
 //            
 //            let productService = ProductDetailService()
-//            productService.callService(upc, successBlock: { (result: NSDictionary) -> Void in
+//            productService.callService(upc, successBlock: { (result: [String:Any]) -> Void in
 //                 var currentItems =  self.items.filter({ (dictproduct) -> Bool in
 //                    return upc == dictproduct["upc"] as NSString
 //                 })
 //                if currentItems.count > 0 {
 //                    let savingItem = result["saving"] as NSString
 //                    if self.items != nil && self.items.count > indexPath.row {
-//                        var itemByUpc  = self.items[indexPath.row] as [String:AnyObject]
+//                        var itemByUpc  = self.items[indexPath.row] as [String:Any]
 //                        let updateUpc = itemByUpc["upc"] as NSString
 //                        if upc == updateUpc {
 //                            itemByUpc.updateValue(savingItem, forKey: "saving")
@@ -424,7 +424,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 //        
 //    }
     
-    @IBAction func editAction(sender: AnyObject) {
+    @IBAction func editAction(_ sender: AnyObject) {
        
         if (!isEdditing) {
             isEdditing = !isEdditing
@@ -434,45 +434,45 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
             for cell in currentCells {
-                cell.showLeftUtilityButtonsAnimated(true)
+                cell.showLeftUtilityButtons(animated: true)
                 cell.moveRightImagePresale(true)
                 cell.setEditing(true, animated: false)
 
                 //cell.shouldChangeState = !isEdditing
             }
-            edit.selected = true
+            edit.isSelected = true
             edit.backgroundColor = WMColor.green
             edit.tintColor = WMColor.dark_blue
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1
-                self.titleLabel!.frame = CGRectMake(self.titleLabel!.frame.minX - 30, self.titleLabel!.frame.minY, self.titleLabel!.frame.width, self.titleLabel!.frame.height)
+                self.titleLabel!.frame = CGRect(x: self.titleLabel!.frame.minX - 30, y: self.titleLabel!.frame.minY, width: self.titleLabel!.frame.width, height: self.titleLabel!.frame.height)
                 })
             
         }else{
             
             let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
             for cell in currentCells {
-                cell.hideUtilityButtonsAnimated(false)
+                cell.hideUtilityButtons(animated: false)
                 cell.setEditing(false, animated: false)
                 cell.moveRightImagePresale(false)
             }
-            edit.hidden = self.items.count == 0
-            edit.selected = false
+            edit.isHidden = self.items.count == 0
+            edit.isSelected = false
             edit.backgroundColor = WMColor.light_blue
             edit.tintColor = WMColor.light_blue
             isEdditing = !isEdditing
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.deleteall.alpha = 0
-                self.titleLabel!.frame = CGRectMake(self.titleLabel!.frame.minX + 30, self.titleLabel!.frame.minY, self.titleLabel!.frame.width, self.titleLabel!.frame.height)
+                self.titleLabel!.frame = CGRect(x: self.titleLabel!.frame.minX + 30, y: self.titleLabel!.frame.minY, width: self.titleLabel!.frame.width, height: self.titleLabel!.frame.height)
             })
            
         }
     }
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
         switch index {
         case 0:
-            let indexPath = self.wishlist.indexPathForCell(cell)
+            let indexPath = self.wishlist.indexPath(for: cell)
             if indexPath != nil {
                 deleteRowAtIndexPath(indexPath!)
             }
@@ -482,45 +482,45 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
     }
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerLeftUtilityButtonWithIndex index: Int) {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
         switch index {
         case 0:
             //let indexPath : NSIndexPath = self.wishlist.indexPathForCell(cell)!
             //deleteRowAtIndexPath(indexPath)
-            let index = self.wishlist.indexPathForCell(cell)
-            let superCell = self.wishlist.cellForRowAtIndexPath(index!) as! WishlistProductTableViewCell
+            let index = self.wishlist.indexPath(for: cell)
+            let superCell = self.wishlist.cellForRow(at: index!) as! WishlistProductTableViewCell
             superCell.moveRightImagePresale(false)
-            cell.showRightUtilityButtonsAnimated(true)
+            cell.showRightUtilityButtons(animated: true)
         default :
             print("other pressed")
         }
     }
     
-    func swipeableTableViewCell(cell: SWTableViewCell!, canSwipeToState state: SWCellState) -> Bool {
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
         switch state {
-        case SWCellState.CellStateLeft:
+        case SWCellState.cellStateLeft:
             return self.isEdditing
-        case SWCellState.CellStateRight:
+        case SWCellState.cellStateRight:
             return !self.isEdditing
-        case SWCellState.CellStateCenter:
+        case SWCellState.cellStateCenter:
             return !self.isEdditing
         }
     }
     
-    func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
+    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
         return !self.isEdditing
     }
 
     
-    func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = items[indexPath.row] as! [String:AnyObject]
+    func deleteRowAtIndexPath(_ indexPath : IndexPath){
+        let itemWishlist = items[indexPath.row] as! [String:Any]
         let upc = itemWishlist["upc"] as! String
         let deleteWishListService = DeleteItemWishlistService()
-        deleteWishListService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
-            self.items.removeAtIndex(indexPath.row)
+        deleteWishListService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
+            self.items.remove(at: indexPath.row)
             self.updateShopButton()
             self.wishlist.reloadData()
-            self.emptyView.hidden = self.items.count > 0
+            self.emptyView.isHidden = self.items.count > 0
             
             if !(self.items.count > 0){
                self.updateEditButton()
@@ -538,24 +538,24 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
     func tabFooterView() {
-        wishLitsToolBar = UIView(frame: CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64))
-        wishLitsToolBar.backgroundColor = UIColor.clearColor()
+        wishLitsToolBar = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64))
+        wishLitsToolBar.backgroundColor = UIColor.clear
         
-        let bgShareBuy = UIView(frame:CGRectMake(0, 0 , self.view.frame.width, 64))
-        bgShareBuy.backgroundColor = UIColor.whiteColor()
+        let bgShareBuy = UIView(frame:CGRect(x: 0, y: 0 , width: self.view.frame.width, height: 64))
+        bgShareBuy.backgroundColor = UIColor.white
         bgShareBuy.alpha = 0.9
         
         
-        let shareButton = UIButton(frame: CGRectMake(16, 14, 34, 34))
-        shareButton.setImage(UIImage(named:"wishlist_share"), forState: UIControlState.Normal)
-        shareButton.addTarget(self, action: #selector(WishListViewController.shareItem), forControlEvents: UIControlEvents.TouchUpInside)
+        let shareButton = UIButton(frame: CGRect(x: 16, y: 14, width: 34, height: 34))
+        shareButton.setImage(UIImage(named:"wishlist_share"), for: UIControlState())
+        shareButton.addTarget(self, action: #selector(WishListViewController.shareItem), for: UIControlEvents.touchUpInside)
         
-        buttonShop = UIButton(frame: CGRectMake(shareButton.frame.maxX + 16, 14, 240, 34))
+        buttonShop = UIButton(frame: CGRect(x: shareButton.frame.maxX + 16, y: 14, width: 240, height: 34))
         //buttonShop.setTitle("Comprar todo", forState: UIControlState.Normal)
         buttonShop.backgroundColor = WMColor.green
         buttonShop.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonShop.layer.cornerRadius = 17
-        buttonShop.addTarget(self, action: #selector(WishListViewController.senditemsToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonShop.addTarget(self, action: #selector(WishListViewController.senditemsToShoppingCart), for: UIControlEvents.touchUpInside)
         
         wishLitsToolBar.addSubview(bgShareBuy)
         wishLitsToolBar.addSubview(shareButton)
@@ -571,7 +571,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         //let image = UIImage(named:"navBar_cart")
         let headerImage = UIImage(named:"wishlist_headerMail")
         let image = self.wishlist.screenshot()
-        let imageWHeader =  UIImage.verticalImageFromArray([headerImage!,image])
+        let imageWHeader =  UIImage.verticalImage(from: [headerImage!,image!])
         var strAllUPCs = ""
         for item in self.items {
             let strItemUpc = item["upc"]
@@ -584,18 +584,18 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let upcList = "\(strAllUPCs)"
         let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
         
-        let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
-        self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader!], applicationActivities: nil)
+        self.navigationController!.present(controller, animated: true, completion: nil)
         
         if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[AnyObject]?, error: NSError?) in
-                if completed && !activityType!.containsString("com.apple")   {
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         } else {
             controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && !activityType!.containsString("com.apple")   {
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
@@ -606,23 +606,23 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
     }
     
-    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
         return "Walmart"
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
-        if activityType == UIActivityTypeMail {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
             return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
         }
         return ""
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
-        if activityType == UIActivityTypeMail {
-            if UserCurrentSession.sharedInstance().userSigned == nil {
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
                 return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) \(UserCurrentSession.sharedInstance().userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
             }
         }
         return ""
@@ -630,8 +630,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
     func senditemsToShoppingCart() {
         
-        var params : [AnyObject] =  []
-        var paramsPreorderable : [AnyObject] =  []
+        var params : [Any] =  []
+        var paramsPreorderable : [Any] =  []
         var hasItemsNotAviable = false
         var wishlistTotalPrice = 0.0
         
@@ -640,7 +640,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let upc = itemWishList["upc"] as! NSString
             let desc = itemWishList["description"] as! NSString
             let price = itemWishList["price"] as! NSString
-            let imageArray = itemWishList["imageUrl"] as! NSArray
+            let imageArray = itemWishList["imageUrl"] as! [Any]
             
             let active  = itemWishList["isActive"] as! NSString
             var isActive = "true" == active
@@ -671,13 +671,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as! String
+                imageUrl = imageArray[0] as! String
             }
             
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 
-                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
                     //params.append(paramsItem)
@@ -700,7 +700,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             if self.items.count == 1 {
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
-                    let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                    let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                     if hasUPC {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                         alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
@@ -731,8 +731,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             return
         }
     
-        let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
-        let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
+        let identicalMG = UserCurrentSession.sharedInstance.identicalMG()
+        let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
         
         if paramsPreorderable.count == 0 && params.count == 0 {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
@@ -746,11 +746,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }else{
             
             if paramsPreorderable.count > 1 && params.count == 0  &&  totArticlesMG == 0{
-                let itemImage =  paramsPreorderable[0] as! NSDictionary
+                let itemImage =  paramsPreorderable[0] as! [String:Any]
                
                 let alert = IPOWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                alert!.spinImage.hidden =  true
-                alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
+                alert!.spinImage.isHidden =  true
+                alert!.viewBgImage.backgroundColor =  UIColor.white
                 let messagePreorderable = NSLocalizedString("alert.presaletobuyback",comment:"")
                 alert!.setMessage(messagePreorderable)
                 alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
@@ -764,7 +764,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             } else if paramsPreorderable.count > 0 && params.count > 0 &&  totArticlesMG == 0{
                 
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                alert!.spinImage.hidden =  true
+                alert!.spinImage.isHidden =  true
                 alert!.btnFrame =  true
                 let messagePreorderable = NSLocalizedString("alert.presalewishlist",comment:"")
                 alert!.setMessage(messagePreorderable)
@@ -779,15 +779,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 if totArticlesMG == 0 {
                     self.sendNewItemsToShoppingCart(paramsPreorderable)
                 }else{
-                    var itemImage =  NSDictionary()
+                    var itemImage =  [String:Any]()
                     if paramsPreorderable.count == 0{
-                     itemImage =  params[0] as! NSDictionary
+                     itemImage =  params[0] as! [String:Any]
                     }else{
-                      itemImage =  paramsPreorderable[0] as! NSDictionary
+                      itemImage =  paramsPreorderable[0] as! [String:Any]
                     }
                     let alert = IPOWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                    alert!.spinImage.hidden =  true
-                    alert!.viewBgImage.backgroundColor = UIColor.whiteColor()
+                    alert!.spinImage.isHidden =  true
+                    alert!.viewBgImage.backgroundColor = UIColor.white
                     var messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")
                     messagePreorderable =  NSLocalizedString("alert.presaleindependent",comment:"")
                     alert!.setMessage(messagePreorderable)
@@ -812,7 +812,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                                     }
                                 }
                             })
-                            self.buttonShop.enabled = true
+                            self.buttonShop.isEnabled = true
                             alert!.close()
                             
                         },isNewFrame: true)//Close - addActionButtonsWithCustomText
@@ -827,35 +827,35 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
 
     
-    class func createImage(url:String) -> UIImage{
-        let imageData = NSData(contentsOfURL: NSURL(string: url)!)!//urlImage["imgUrl"] as! String
+    class func createImage(_ url:String) -> UIImage{
+        let imageData = try! Data(contentsOf: URL(string: url)!)//urlImage["imgUrl"] as! String
         let image = UIImage(data:imageData)
         let newSize = CGSize(width: 60.0, height: 60.0)
-        let RECT = CGRectMake(0, 0, newSize.width, newSize.height)
+        let RECT = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
         
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         UIBezierPath(roundedRect:RECT , cornerRadius: 10.0).addClip()
-        image!.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+        image!.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
         
-        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         
         UIGraphicsEndImageContext()
         return newImage
     }
     
     
-    func sendNewItemsToShoppingCart(params:[AnyObject]){
+    func sendNewItemsToShoppingCart(_ params:[Any]){
         
         if params.count > 0 {
-            let paramsAll = ["allitems":params, "image":"wishlist_addToCart"]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
+            let paramsAll = ["allitems":params, "image":"wishlist_addToCart"] as [String : Any]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
         }
   
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
         
     }
     
-    @IBAction func deletealltap(sender: AnyObject) {
+    @IBAction func deletealltap(_ sender: AnyObject) {
         
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_WISHLIST.rawValue, label: "")
         
@@ -865,7 +865,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let upc = itemWishlist["upc"] as! NSString
             upcsWL.append(upc as String)
         }
-        serviceWishDelete.callServiceWithParams(["parameter":upcsWL], successBlock: { (result:NSDictionary) -> Void in
+        serviceWishDelete.callServiceWithParams(["parameter":upcsWL], successBlock: { (result:[String:Any]) -> Void in
                 self.reloadWishlist()
                 self.editAction(self.edit)
             }) { (error:NSError) -> Void in
@@ -880,21 +880,21 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func invokeWishlistService() {
         let service = UserWishlistService()
         service.callService(
-            { (wishlist:NSDictionary) -> Void in
-                self.items = wishlist["items"] as! [AnyObject]
+            { (wishlist:[String:Any]) -> Void in
+                self.items = wishlist["items"] as! [[String:Any]]
             
-                self.emptyView.hidden = self.items.count > 0
+                self.emptyView.isHidden = self.items.count > 0
                 if self.items.count == 0 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
                 }
-                self.edit.hidden = self.items.count == 0
+                self.edit.isHidden = self.items.count == 0
             
                 var total : Double = 0
                 var positionArray: [Int] = []
                 
                 for itemWishList in self.items {
                     var price = NSString(string:"0")
-                    if let priceVal = itemWishList["price"] as? String {
+                    if let priceVal = itemWishList["price"] as? NSString {
                         price = priceVal
                     }
                     
@@ -939,9 +939,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
     func updateEditButton (){
-        deleteall.hidden = self.items.count == 0 && self.isEdditing
-        edit.hidden = self.items.count == 0
-        edit.selected = false
+        deleteall.isHidden = self.items.count == 0 && self.isEdditing
+        edit.isHidden = self.items.count == 0
+        edit.isSelected = false
         edit.backgroundColor = WMColor.light_blue
         edit.tintColor = WMColor.light_blue
 
@@ -954,8 +954,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     
     
-    class func deleteAllShoppingCart(onFinish:(() -> Void) ) {
-        if let itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as? [AnyObject] {
+    class func deleteAllShoppingCart(_ onFinish:@escaping (() -> Void) ) {
+        if let itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [[String:Any]] {
             let serviceSCDelete = ShoppingCartDeleteProductsService()
             var upcs : [String] = []
             for itemSClist in itemsInShoppingCart {
@@ -963,13 +963,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 upcs.append(upc)
             }
             
-            serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
+            serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:[String:Any]) -> Void in
                 /* println("Error not done")
                 
                 self.reloadShoppingCart()
                 self.navigationController!.popToRootViewControllerAnimated(true)
                 */
-                UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
+                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                     
                     //self.startAddingToShoppingCart()
                     

@@ -27,7 +27,7 @@ class SectionHeaderSearchHeader : UICollectionReusableView {
     func setup() {
         
         self.backgroundColor = WMColor.light_gray
-        self.title?.lineBreakMode = .ByTruncatingTail
+        self.title?.lineBreakMode = .byTruncatingTail
         
     }
     
@@ -37,10 +37,10 @@ class SectionHeaderSearchHeader : UICollectionReusableView {
         self.title?.frame = self.bounds
         
         if frameTitle?.size.width != 0{
-             self.title?.frame = CGRectMake(frameTitle!.origin.x,self.bounds.origin.y ,frameTitle!.width ,self.bounds.size.height )
+             self.title?.frame = CGRect(x: frameTitle!.origin.x,y: self.bounds.origin.y ,width: frameTitle!.width ,height: self.bounds.size.height )
         }
         
-        self.title?.center = CGPointMake(self.center.x,20)
+        self.title?.center = CGPoint(x: self.center.x,y: 20)
     }
     
     

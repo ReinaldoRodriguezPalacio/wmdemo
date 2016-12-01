@@ -27,12 +27,12 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
 
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.setValues), name: ProfileNotification.updateProfile.rawValue, object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.setValues), name: NSNotification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
         
         imageBG = UIImageView()
         imageBG!.image = UIImage(named: "profileBg")
         self.viewProfile = UIView()
-        self.viewProfile.backgroundColor = UIColor.whiteColor()
+        self.viewProfile.backgroundColor = UIColor.white
         self.viewProfile.addSubview(imageBG!)
         self.view.addSubview(self.viewProfile!)
         
@@ -41,65 +41,65 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         self.viewProfile!.addSubview(self.imageProfile!)
         
         self.nameLabel = UILabel()
-        self.nameLabel!.textColor = UIColor.whiteColor()
-        self.nameLabel!.textAlignment = .Center
+        self.nameLabel!.textColor = UIColor.white
+        self.nameLabel!.textAlignment = .center
         self.nameLabel!.font = WMFont.fontMyriadProRegularOfSize(25)
         self.nameLabel!.numberOfLines = 2
         
         self.viewProfile!.addSubview(self.nameLabel!)
         
         emailLabel = UILabel()
-        emailLabel!.textColor = UIColor.whiteColor()
-        emailLabel!.textAlignment = .Center
+        emailLabel!.textColor = UIColor.white
+        emailLabel!.textAlignment = .center
         emailLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         
         signOutButton = UIButton()
-        signOutButton!.setTitle(NSLocalizedString("profile.signOut", comment: ""), forState: UIControlState.Normal)
-        signOutButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        signOutButton!.setTitle(NSLocalizedString("profile.signOut", comment: ""), for: UIControlState())
+        signOutButton!.setTitleColor(UIColor.white, for: UIControlState())
         signOutButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         signOutButton!.backgroundColor = WMColor.dark_blue
-        signOutButton?.addTarget(self, action: #selector(ProfileViewController.signOut(_:)), forControlEvents: .TouchUpInside)
+        signOutButton?.addTarget(self, action: #selector(ProfileViewController.signOut(_:)), for: .touchUpInside)
         signOutButton!.layer.cornerRadius = 14.0
         self.viewProfile!.addSubview(self.signOutButton!)
 
         self.editProfileButton = UIButton()
-        self.editProfileButton?.addTarget(self, action: #selector(ProfileViewController.editProfile(_:)), forControlEvents: .TouchUpInside)
-        self.editProfileButton!.setImage(UIImage(named: "editProfile"), forState: UIControlState.Normal)
-        self.editProfileButton!.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Selected)
-        self.editProfileButton!.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Highlighted)
+        self.editProfileButton?.addTarget(self, action: #selector(ProfileViewController.editProfile(_:)), for: .touchUpInside)
+        self.editProfileButton!.setImage(UIImage(named: "editProfile"), for: UIControlState())
+        self.editProfileButton!.setImage(UIImage(named: "editProfile_active"), for: UIControlState.selected)
+        self.editProfileButton!.setImage(UIImage(named: "editProfile_active"), for: UIControlState.highlighted)
         self.viewProfile!.addSubview(self.editProfileButton!)
         self.viewProfile!.addSubview(self.emailLabel!)
         
         if !hiddenBack{
             self.backButton = UIButton()
-            self.backButton?.addTarget(self, action: #selector(ProfileViewController.back), forControlEvents: .TouchUpInside)
-            self.backButton!.setImage(UIImage(named: "search_back"), forState: UIControlState.Normal)
-            self.backButton!.setImage(UIImage(named: "search_back"), forState: UIControlState.Selected)
-            self.backButton!.setImage(UIImage(named: "search_back"), forState: UIControlState.Highlighted)
+            self.backButton?.addTarget(self, action: #selector(ProfileViewController.back), for: .touchUpInside)
+            self.backButton!.setImage(UIImage(named: "search_back"), for: UIControlState())
+            self.backButton!.setImage(UIImage(named: "search_back"), for: UIControlState.selected)
+            self.backButton!.setImage(UIImage(named: "search_back"), for: UIControlState.highlighted)
             self.viewProfile!.addSubview(self.backButton!)
         }
         
         self.table = UITableView()
-        self.table.registerClass(ProfileViewCell.self, forCellReuseIdentifier: "ProfileViewCell")
-        self.table?.backgroundColor = UIColor.clearColor()
-        self.table.separatorStyle = .None
-        self.table.autoresizingMask = UIViewAutoresizing.None
+        self.table.register(ProfileViewCell.self, forCellReuseIdentifier: "ProfileViewCell")
+        self.table?.backgroundColor = UIColor.clear
+        self.table.separatorStyle = .none
+        self.table.autoresizingMask = UIViewAutoresizing()
         self.table.delegate = self
         self.table.dataSource = self
         self.viewProfile.addSubview(self.table!)
         //self.table.reloadData()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if  UserCurrentSession.sharedInstance().userSigned == nil {
+        if  UserCurrentSession.sharedInstance.userSigned == nil {
             if self.navigationController != nil {
-                self.navigationController!.popToRootViewControllerAnimated(false)
+                self.navigationController!.popToRootViewController(animated: false)
             }
         }
         
-        self.signOutButton?.enabled = true
+        self.signOutButton?.isEnabled = true
         self.table.reloadData()
         self.setValues()
     }
@@ -113,40 +113,40 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
 
     override func viewWillLayoutSubviews() {
         let bounds = self.view.bounds
-        self.viewProfile!.frame = CGRectMake(0,0,bounds.width, bounds.height )
-        self.imageBG!.frame = CGRectMake(0,0,bounds.width, 210 )
-        self.imageProfile!.frame = CGRectMake((bounds.width - 24 )/2 , 40 , 24, 24 )
-        self.nameLabel!.frame = CGRectMake(15,self.imageProfile!.frame.maxY ,bounds.width - 30, 50)
-        self.emailLabel!.frame = CGRectMake(0,self.nameLabel!.frame.maxY  , bounds.width, 16)
-        self.editProfileButton!.frame = CGRectMake(bounds.width - 63, 0 , 63, 63 )
+        self.viewProfile!.frame = CGRect(x: 0,y: 0,width: bounds.width, height: bounds.height )
+        self.imageBG!.frame = CGRect(x: 0,y: 0,width: bounds.width, height: 210 )
+        self.imageProfile!.frame = CGRect(x: (bounds.width - 24 )/2 , y: 40 , width: 24, height: 24 )
+        self.nameLabel!.frame = CGRect(x: 15,y: self.imageProfile!.frame.maxY ,width: bounds.width - 30, height: 50)
+        self.emailLabel!.frame = CGRect(x: 0,y: self.nameLabel!.frame.maxY  , width: bounds.width, height: 16)
+        self.editProfileButton!.frame = CGRect(x: bounds.width - 63, y: 0 , width: 63, height: 63 )
         if !hiddenBack{
-            self.backButton.frame =  CGRectMake(0, 0 , 63, 63 )
+            self.backButton.frame =  CGRect(x: 0, y: 0 , width: 63, height: 63 )
         }
-        self.signOutButton!.frame = CGRectMake((bounds.width - 86) / 2,self.emailLabel!.frame.maxY + 32 , 86, 28 )
-        self.table!.frame = CGRectMake(0, 210, bounds.width, bounds.height -  210)
+        self.signOutButton!.frame = CGRect(x: (bounds.width - 86) / 2,y: self.emailLabel!.frame.maxY + 32 , width: 86, height: 28 )
+        self.table!.frame = CGRect(x: 0, y: 210, width: bounds.width, height: bounds.height -  210)
     }
     
     func setValues(){
         var user: User?
         if UserCurrentSession.hasLoggedUser() {
-            user = UserCurrentSession.sharedInstance().userSigned!
+            user = UserCurrentSession.sharedInstance.userSigned!
             self.nameLabel!.text = (user!.profile.name as String) + " " + (user!.profile.lastName as String)
             self.emailLabel!.text = user!.email as String
         }//if UserCurrentSession.hasLoggedUser()
        
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let height: CGFloat = 65
         return height
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ProfileViewCell", forIndexPath: indexPath) as! ProfileViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileViewCell", for: indexPath) as! ProfileViewCell
         
         //cell.selectionStyle = .None
         if indexPath.row == 0 {
@@ -164,7 +164,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let controller = RecentProductsViewController()
             self.navigationController!.pushViewController(controller, animated: true)
@@ -179,7 +179,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         }
     }
     
-    func signOut(sender:UIButton?) {
+    func signOut(_ sender:UIButton?) {
         
         if IS_IPAD  {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -192,27 +192,27 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         //Event close sesion
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue,action: WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label: "")
 
-        signOutButton?.enabled = false
+        signOutButton?.isEnabled = false
         
         delay(0.3) {
             if  UserCurrentSession.hasLoggedUser() {
-                UserCurrentSession.sharedInstance().userSigned = nil
-                UserCurrentSession.sharedInstance().deleteAllUsers()
-                self.signOutButton?.enabled = true
+                UserCurrentSession.sharedInstance.userSigned = nil
+                UserCurrentSession.sharedInstance.deleteAllUsers()
+                self.signOutButton?.isEnabled = true
                 let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: { (result:NSDictionary) -> Void in
+                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
                     
                     self.alertView!.setMessage("Ok")
                     self.alertView!.showDoneIcon()
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                     
                     }
                     , errorBlock: { (error:NSError) -> Void in
                         print("")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
-                        self.signOutButton?.enabled = true
-                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                        self.signOutButton?.isEnabled = true
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                 })
             }
         }
@@ -240,7 +240,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         
     }
     
-    func editProfile(sender:UIButton) {
+    func editProfile(_ sender:UIButton) {
                 
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
@@ -248,7 +248,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
     
     func back() {
         if self.navigationController != nil {
-            self.navigationController!.popViewControllerAnimated(true)
+            self.navigationController!.popViewController(animated: true)
         }
     }
     

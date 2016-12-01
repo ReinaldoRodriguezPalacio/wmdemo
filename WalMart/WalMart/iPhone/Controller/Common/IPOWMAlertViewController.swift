@@ -39,11 +39,11 @@ class IPOWMAlertViewController : UIViewController {
         super.viewDidLoad()
         
         self.bgView = UIView()
-        self.bgView.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
+        self.bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
         
         viewBgImage = UIView()
         viewBgImage.layer.cornerRadius = 80 / 2
-        viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        viewBgImage.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
         if imageWaiting != nil {
             imageIcon = UIImageView()
@@ -56,7 +56,7 @@ class IPOWMAlertViewController : UIViewController {
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.textColor = WMColor.light_gray
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
         
         spinImage = UIImageView()
@@ -80,38 +80,38 @@ class IPOWMAlertViewController : UIViewController {
         
         self.bgView.frame = bounds
         
-        viewBgImage.frame = CGRectMake((bounds.width - 80)  / 2 , (bounds.height - 80 - 200) / 2, 80, 80)
+        viewBgImage.frame = CGRect(x: (bounds.width - 80)  / 2 , y: (bounds.height - 80 - 200) / 2, width: 80, height: 80)
          //titleLabel.frame = CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
 
         titleLabel!.sizeToFit()
         if  self.btnFrame {
-             titleLabel.frame =  CGRectMake(16,  viewBgImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
+             titleLabel.frame =  CGRect(x: 16,  y: viewBgImage.frame.maxY + 24, width: self.view.frame.width - 32, height: titleLabel!.frame.height)
         }else{
-            titleLabel.frame = self.isOtherFame ? CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) : CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
+            titleLabel.frame = self.isOtherFame ? CGRect(x: (bounds.width - 321),  y: viewBgImage.frame.maxY + 24, width: 321, height: titleLabel!.frame.height) : CGRect(x: (bounds.width - 232) / 2,  y: viewBgImage.frame.maxY + 16, width: 232, height: titleLabel!.frame.height)
         }
       
         
         //titleLabel.backgroundColor = UIColor.redColor()
        //232
-        spinImage.frame = CGRectMake((bounds.width - 84)  / 2, (bounds.height - 84 - 200)  / 2, 84, 84)
+        spinImage.frame = CGRect(x: (bounds.width - 84)  / 2, y: (bounds.height - 84 - 200)  / 2, width: 84, height: 84)
        
         if imageIcon != nil && imageIcon.image != nil {
-            imageIcon.frame = CGRectMake(0,0,imageIcon.image!.size.width,imageIcon.image!.size.height)
-            imageIcon.center = CGPointMake(viewBgImage.frame.width / 2, viewBgImage.frame.width / 2)
+            imageIcon.frame = CGRect(x: 0,y: 0,width: imageIcon.image!.size.width,height: imageIcon.image!.size.height)
+            imageIcon.center = CGPoint(x: viewBgImage.frame.width / 2, y: viewBgImage.frame.width / 2)
         }
         
         if self.doneButton != nil {
-            doneButton.frame = CGRectMake((bounds.width - 160 ) / 2, titleLabel.frame.maxY + 16, 160 , 40)
+            doneButton.frame = CGRect(x: (bounds.width - 160 ) / 2, y: titleLabel.frame.maxY + 16, width: 160 , height: 40)
         }
         if leftButton != nil {
-            leftButton.frame =  self.isOtherFame  ? CGRectMake(16, self.titleLabel.frame.maxY + 60 + 24, self.view.frame.width - 32, 32) :
-                CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32)
+            leftButton.frame =  self.isOtherFame  ? CGRect(x: 16, y: self.titleLabel.frame.maxY + 60 + 24, width: self.view.frame.width - 32, height: 32) :
+                CGRect(x: (self.view.bounds.width / 2) - 134, y: self.titleLabel.frame.maxY + 16, width: 128, height: 32)
             
         }
         //es 370 lo cambie a 350 pero no es ese checar despues de comer y 330 iphone 4s
         if rightButton != nil {
-            rightButton.frame =  self.isOtherFame  ? CGRectMake(16, self.titleLabel.frame.maxY + 24, self.view.frame.width - 32, 32) :
-                CGRectMake(leftButton.frame.maxX + 11, self.titleLabel.frame.maxY + 16, leftButton.frame.width, leftButton.frame.height)
+            rightButton.frame =  self.isOtherFame  ? CGRect(x: 16, y: self.titleLabel.frame.maxY + 24, width: self.view.frame.width - 32, height: 32) :
+                CGRect(x: leftButton.frame.maxX + 11, y: self.titleLabel.frame.maxY + 16, width: leftButton.frame.width, height: leftButton.frame.height)
             
         }
         
@@ -124,14 +124,14 @@ class IPOWMAlertViewController : UIViewController {
      
      - parameter message: message to present
      */
-    func setMessage(message:NSString){
-        let size =  message.boundingRectWithSize(CGSizeMake(titleLabel.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
-        titleLabel.frame = CGRectMake(titleLabel.frame.minX, titleLabel.frame.minY, 232, size.height)
-        titleLabel.text = message as String
+    func setMessage(_ message:String){
+        let size =  message.boundingRect(with: CGSize(width: titleLabel.frame.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
+        titleLabel.frame = CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.minY, width: 232, height: size.height)
+        titleLabel.text = message 
     }
     
-    class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPOWMAlertViewController? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+    class func showAlert(_ imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPOWMAlertViewController? {
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         if vc != nil {
             vc?.view.endEditing(true)
             return showAlert(vc!,imageWaiting:imageWaiting,imageDone:imageDone,imageError:imageError)
@@ -139,7 +139,7 @@ class IPOWMAlertViewController : UIViewController {
         return nil
     }
     
-    class func showAlert(controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPOWMAlertViewController? {
+    class func showAlert(_ controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPOWMAlertViewController? {
         let newAlert = IPOWMAlertViewController()
         newAlert.imageWaiting = imageWaiting
         newAlert.imageDone = imageDone
@@ -155,7 +155,7 @@ class IPOWMAlertViewController : UIViewController {
      */
     func showDoneIcon() {
         showicon(self.imageDone)
-        NSTimer.scheduledTimerWithTimeInterval(1.4, target: self, selector: #selector(IPOWMAlertViewController.close), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 1.4, target: self, selector: #selector(IPOWMAlertViewController.close), userInfo: nil, repeats: false)
     }
     
     /**
@@ -170,7 +170,7 @@ class IPOWMAlertViewController : UIViewController {
      
      - parameter titleDone: title error
      */
-    func showErrorIcon(titleDone:String) {
+    func showErrorIcon(_ titleDone:String) {
        showicon(self.imageError)
         showOkButton(titleDone, colorButton:WMColor.green)
     }
@@ -180,19 +180,19 @@ class IPOWMAlertViewController : UIViewController {
      
      - parameter image: image icon
      */
-    func showicon(image:UIImage?) {
+    func showicon(_ image:UIImage?) {
         self.spinImage.layer.removeAllAnimations()
-        self.spinImage.hidden = true
+        self.spinImage.isHidden = true
         imageIcon.image = image
-        UIView.animateKeyframesWithDuration(0.9, delay:  0.0, options: UIViewKeyframeAnimationOptions.AllowUserInteraction, animations: { () -> Void in
-            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.3) { () -> Void in
-                self.viewBgImage.transform = CGAffineTransformMakeScale(1.4, 1.4)
+        UIView.animateKeyframes(withDuration: 0.9, delay:  0.0, options: UIViewKeyframeAnimationOptions.allowUserInteraction, animations: { () -> Void in
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.3) { () -> Void in
+                self.viewBgImage.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
             }
-            UIView.addKeyframeWithRelativeStartTime(0.3, relativeDuration: 0.3) { () -> Void in
-                self.viewBgImage.transform = CGAffineTransformMakeScale(0.8, 0.8)
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.3) { () -> Void in
+                self.viewBgImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             }
-            UIView.addKeyframeWithRelativeStartTime(0.6, relativeDuration: 0.3) { () -> Void in
-                self.viewBgImage.transform = CGAffineTransformMakeScale(1.0, 1.0)
+            UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.3) { () -> Void in
+                self.viewBgImage.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             }
             }, completion: { (complete:Bool) -> Void in
                 print("cerrar dialogo Guardando...")
@@ -206,19 +206,19 @@ class IPOWMAlertViewController : UIViewController {
      - parameter titleDone:   title button
      - parameter colorButton: color button
      */
-    func showOkButton(titleDone:String, colorButton: UIColor) {
+    func showOkButton(_ titleDone:String, colorButton: UIColor) {
         if  self.doneButton != nil{
             self.doneButton.removeFromSuperview()
         }
         
         self.doneButton = UIButton()
-        self.doneButton.setTitle(titleDone, forState: UIControlState.Normal)
-        self.doneButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.doneButton.setTitle(titleDone, for: UIControlState())
+        self.doneButton.setTitleColor(UIColor.white, for: UIControlState())
         self.doneButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         
         self.doneButton.backgroundColor = colorButton
        
-        self.doneButton.addTarget(self, action: #selector(IPOWMAlertViewController.closebtn), forControlEvents: .TouchUpInside)
+        self.doneButton.addTarget(self, action: #selector(IPOWMAlertViewController.closebtn), for: .touchUpInside)
         self.doneButton.layer.cornerRadius = 20
         
         var bounds = self.view.bounds
@@ -226,7 +226,7 @@ class IPOWMAlertViewController : UIViewController {
             bounds = self.view.superview!.bounds
         }
         
-        doneButton.frame = CGRectMake((bounds.width - 160 ) / 2, titleLabel.frame.maxY + 16, 160 , 32)
+        doneButton.frame = CGRect(x: (bounds.width - 160 ) / 2, y: titleLabel.frame.maxY + 16, width: 160 , height: 32)
         
         self.view.addSubview(doneButton)
     }
@@ -235,20 +235,20 @@ class IPOWMAlertViewController : UIViewController {
      Create button default, create tagets actions and adds to view alert.
      */
     func addActionButtons() {
-        let leftButton = UIButton(frame:CGRectMake(26, 288, 128, 32))
+        let leftButton = UIButton(frame:CGRect(x: 26, y: 288, width: 128, height: 32))
         leftButton.layer.cornerRadius =  16
-        leftButton.setTitle(NSLocalizedString("shoppingcart.keepshopping",comment:""), forState: UIControlState.Normal)
+        leftButton.setTitle(NSLocalizedString("shoppingcart.keepshopping",comment:""), for: UIControlState())
         leftButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        leftButton.backgroundColor = UIColor.whiteColor()
-        leftButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        leftButton.addTarget(self, action: #selector(IPOWMAlertViewController.close), forControlEvents: UIControlEvents.TouchUpInside)
+        leftButton.backgroundColor = UIColor.white
+        leftButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+        leftButton.addTarget(self, action: #selector(IPOWMAlertViewController.close), for: UIControlEvents.touchUpInside)
 
-        let rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))
+        let rightButton = UIButton(frame:CGRect(x: leftButton.frame.maxX + 11, y: leftButton.frame.minY, width: leftButton.frame.width, height: leftButton.frame.height))
         rightButton.layer.cornerRadius = 16
-        rightButton.setTitle(NSLocalizedString("shoppingcart.goshoppingcart",comment:""), forState: UIControlState.Normal)
+        rightButton.setTitle(NSLocalizedString("shoppingcart.goshoppingcart",comment:""), for: UIControlState())
         rightButton.backgroundColor = WMColor.green
         rightButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        rightButton.addTarget(self, action: Selector("goShoppingCart"), forControlEvents: UIControlEvents.TouchUpInside)
+        rightButton.addTarget(self, action: Selector("goShoppingCart"), for: UIControlEvents.touchUpInside)
         
         self.view.addSubview(leftButton)
         self.view.addSubview(rightButton)
@@ -263,31 +263,31 @@ class IPOWMAlertViewController : UIViewController {
      - parameter rightAction: acction right button
      - parameter isNewFrame:  if change frames buttons is true
      */
-    func addActionButtonsWithCustomText(leftText:String,leftAction:(() -> Void),rightText:String,rightAction:(() -> Void),isNewFrame:Bool) {
+    func addActionButtonsWithCustomText(_ leftText:String,leftAction:@escaping (() -> Void),rightText:String,rightAction:@escaping (() -> Void),isNewFrame:Bool) {
         self.isOtherFame = isNewFrame
         
-        leftButton = UIButton(frame:CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32))
+        leftButton = UIButton(frame:CGRect(x: (self.view.bounds.width / 2) - 134, y: self.titleLabel.frame.maxY + 16, width: 128, height: 32))
         if isNewFrame {
-            leftButton = UIButton(frame:CGRectMake(11, self.titleLabel.frame.maxY + 100, self.view.frame.width - 22, 32))
+            leftButton = UIButton(frame:CGRect(x: 11, y: self.titleLabel.frame.maxY + 100, width: self.view.frame.width - 22, height: 32))
         }
         leftButton.layer.cornerRadius = 16
-        leftButton.setTitle(leftText, forState: UIControlState.Normal)
+        leftButton.setTitle(leftText, for: UIControlState())
         leftButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         leftButton.backgroundColor = WMColor.dark_blue
-        leftButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        leftButton.addTarget(self, action: #selector(IPOWMAlertViewController.leftTapInside), forControlEvents: UIControlEvents.TouchUpInside)
+        leftButton.setTitleColor(UIColor.white, for: UIControlState())
+        leftButton.addTarget(self, action: #selector(IPOWMAlertViewController.leftTapInside), for: UIControlEvents.touchUpInside)
         
 
-        rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))
+        rightButton = UIButton(frame:CGRect(x: leftButton.frame.maxX + 11, y: leftButton.frame.minY, width: leftButton.frame.width, height: leftButton.frame.height))
         if isNewFrame {
-             rightButton = UIButton(frame:CGRectMake(16, 375, self.view.frame.width - 32, 32))
+             rightButton = UIButton(frame:CGRect(x: 16, y: 375, width: self.view.frame.width - 32, height: 32))
         }
         
         rightButton.layer.cornerRadius = 16
-        rightButton.setTitle(rightText, forState: UIControlState.Normal)
+        rightButton.setTitle(rightText, for: UIControlState())
         rightButton.backgroundColor = WMColor.green
         rightButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        rightButton.addTarget(self, action: #selector(IPOWMAlertViewController.righTapInside), forControlEvents: UIControlEvents.TouchUpInside)
+        rightButton.addTarget(self, action: #selector(IPOWMAlertViewController.righTapInside), for: UIControlEvents.touchUpInside)
         
         self.leftAction = leftAction
         self.rightAction = rightAction
@@ -322,11 +322,11 @@ class IPOWMAlertViewController : UIViewController {
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(self.view.frame.size,false,1.0);
             //let context = UIGraphicsGetCurrentContext()!
-            self.parentViewController?.view.drawViewHierarchyInRect(view.bounds,afterScreenUpdates:true)
+            self.parent?.view.drawHierarchy(in: view.bounds,afterScreenUpdates:true)
             //self.parentViewController?.view.layer.renderInContext(context)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
-            self.parentViewController!.view.layer.contents = nil
+            self.parent!.view.layer.contents = nil
         }
 
         let blurredImage = cloneImage!.applyLightEffect()
@@ -335,16 +335,16 @@ class IPOWMAlertViewController : UIViewController {
         self.imageblur!.clipsToBounds = true
         self.imageblur!.image = blurredImage
         self.view.addSubview(self.imageblur!)
-        self.view.sendSubviewToBack(self.imageblur!)
+        self.view.sendSubview(toBack: self.imageblur!)
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
+    func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
-        rotationAnimation.cumulative = true
+        rotationAnimation.isCumulative = true
         rotationAnimation.repeatCount = Float(repeats)
-        view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+        view.layer.add(rotationAnimation, forKey: "rotationAnimation")
     }
     
     /**
@@ -365,9 +365,9 @@ class IPOWMAlertViewController : UIViewController {
             self.successCallBack!()
         }
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.view.alpha = 0.0
-            }) { (complete:Bool) -> Void in
+            }, completion: { (complete:Bool) -> Void in
                 self.imageblur?.image = nil
                 self.removeFromParentViewController()
                 self.successCallBack = nil
@@ -377,7 +377,7 @@ class IPOWMAlertViewController : UIViewController {
                     self.afterRemove!()
                 }
                 
-        }
+        }) 
        
     }
 

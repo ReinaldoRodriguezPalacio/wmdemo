@@ -9,7 +9,7 @@
 import Foundation
 
 protocol IPAFamilyViewControllerDelegate {
-    func didSelectLine(department:String,family:String,line:String, name:String)
+    func didSelectLine(_ department:String,family:String,line:String, name:String)
 }
 
 class IPAFamilyViewController : FamilyViewController {
@@ -22,14 +22,14 @@ class IPAFamilyViewController : FamilyViewController {
     }
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0  {
-            super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+            super.tableView(tableView, didSelectRowAt: indexPath)
         }else
         {
             let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as! NSArray
-            let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
+            let linesArr = selectedSection["line"] as! [Any]
+            let itemLine = linesArr[indexPath.row - 1] as! [String:Any]
             let name = itemLine["name"] as! String
             delegate.didSelectLine(departmentId,family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
         }

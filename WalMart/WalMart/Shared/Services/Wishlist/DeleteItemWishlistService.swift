@@ -12,32 +12,32 @@ import CoreData
 class DeleteItemWishlistService : BaseService {
     
     
-    func buildParams(UPC:String) -> NSDictionary {
+    func buildParams(_ UPC:String) -> [String:Any] {
         return ["parameter":[UPC]]
     }
     
-    func buildParamsMultipe(UPC:[String]) -> NSDictionary {
+    func buildParamsMultipe(_ UPC:[String]) -> [String:Any] {
         return ["parameter":UPC]
     }
 
     
-    func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ UPC:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callServiceWithParams(buildParams(UPC),successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callCoreDataService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callCoreDataService(_ UPC:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callCoreDataServiceWithParams(buildParams(UPC),successBlock: successBlock, errorBlock: errorBlock)
     }
     
     
-    func callServiceWithParams(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callServiceWithParams(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         WishlistService.shouldupdate = true
          if UserCurrentSession.hasLoggedUser() {
-            self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+            self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 //Se actualza la lista del usuario
                 let serviceWish = UserWishlistService()
-                serviceWish.callService({ (wishlist:NSDictionary) -> Void in
+                serviceWish.callService({ (wishlist:[String:Any]) -> Void in
                     }, errorBlock: { (error:NSError) -> Void in
                 })
                 successBlock!([:])
@@ -49,23 +49,23 @@ class DeleteItemWishlistService : BaseService {
         }
     }
     
-    func callCoreDataServiceWithParams(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callCoreDataServiceWithParams(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         WishlistService.shouldupdate = true
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let parameter = params["parameter"] as! NSArray
+        let parameter = params["parameter"] as! [Any]
         if parameter.count > 0 {
             for upcVal in parameter {
                 let upc = upcVal as! String
                 var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
                 if UserCurrentSession.hasLoggedUser() {
-                    predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
+                    predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance.userSigned!)
                 }
                 let array : [Wishlist] =  self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]
                 
                 for wishlistDelete in array {
-                    wishlistDelete.status = NSNumber(integer:WishlistStatus.Deleted.rawValue)
+                    wishlistDelete.status = NSNumber(value: WishlistStatus.deleted.rawValue as Int)
                 }
 
             }

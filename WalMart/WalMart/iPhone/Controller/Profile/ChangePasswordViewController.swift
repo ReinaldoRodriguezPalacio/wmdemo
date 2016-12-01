@@ -45,8 +45,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.password = FormFieldView()
         self.password!.isRequired = true
         self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
-        self.password!.secureTextEntry = true
-        self.password!.typeField = TypeField.Password
+        self.password!.isSecureTextEntry = true
+        self.password!.typeField = TypeField.password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.minLength = 8
         self.password!.maxLength = 20
@@ -54,8 +54,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.confirmPassword = FormFieldView()
         self.confirmPassword!.isRequired = true
         self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
-        self.confirmPassword!.secureTextEntry = true
-        self.confirmPassword!.typeField = TypeField.Password
+        self.confirmPassword!.isSecureTextEntry = true
+        self.confirmPassword!.typeField = TypeField.password
         self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
         self.confirmPassword!.minLength = 8
         self.confirmPassword!.maxLength = 20
@@ -65,7 +65,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.content?.addSubview(confirmPassword!)
        
         
-        self.content.backgroundColor = UIColor.whiteColor()
+        self.content.backgroundColor = UIColor.white
         self.view.addSubview(self.content)
         
         //let iconImage = UIImage(named:"button_bg")
@@ -74,15 +74,15 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.saveButton = WMRoundButton()
         //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
         //self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
-        self.saveButton!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        self.saveButton!.addTarget(self, action: #selector(ChangePasswordViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton!.tintColor = UIColor.whiteColor()
+        self.saveButton!.setBackgroundColor(WMColor.green, size: CGSize(width: 71, height: 22), forUIControlState: UIControlState())
+        self.saveButton!.addTarget(self, action: #selector(ChangePasswordViewController.save(_:)), for: UIControlEvents.touchUpInside)
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , for: UIControlState())
+        self.saveButton!.tintColor = UIColor.white
         self.saveButton!.layer.cornerRadius = 11
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.saveButton?.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton?.titleLabel!.textColor = UIColor.white
 
-        self.saveButton!.hidden = true
+        self.saveButton!.isHidden = true
         self.saveButton!.tag = 0
 
         self.header?.addSubview(self.saveButton!)
@@ -102,33 +102,33 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         let fieldHeight  : CGFloat = CGFloat(40)
         let leftRightPadding  : CGFloat = CGFloat(15)
         
-        self.content.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
+        self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY , width: self.view.bounds.width , height: self.view.bounds.height - self.header!.frame.height )
         
-        self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 71, self.header!.frame.height)
-        self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
+        self.saveButton!.frame = CGRect( x: self.view.bounds.maxX - 87, y: 0 , width: 71, height: self.header!.frame.height)
+        self.titleLabel!.frame = CGRect(x: 80 , y: 0, width: self.view.bounds.width - 160, height: self.header!.frame.maxY)
         
-        self.passworCurrent?.frame = CGRectMake(leftRightPadding, 32,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
-        self.password?.frame = CGRectMake(leftRightPadding,  passworCurrent!.frame.maxY + 8, self.view.frame.width - (leftRightPadding * 2), fieldHeight)
-        self.confirmPassword?.frame = CGRectMake(leftRightPadding,  password!.frame.maxY + 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
+        self.passworCurrent?.frame = CGRect(x: leftRightPadding, y: 32,  width: self.view.frame.width - (leftRightPadding * 2), height: fieldHeight)
+        self.password?.frame = CGRect(x: leftRightPadding,  y: passworCurrent!.frame.maxY + 8, width: self.view.frame.width - (leftRightPadding * 2), height: fieldHeight)
+        self.confirmPassword?.frame = CGRect(x: leftRightPadding,  y: password!.frame.maxY + 8,  width: self.view.frame.width - (leftRightPadding * 2), height: fieldHeight)
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     
-    func textFieldDidEndEditing(textField: UITextField!) {
+    func textFieldDidEndEditing(_ textField: UITextField!) {
         if errorView != nil{
             if errorView!.focusError == textField &&  errorView?.superview != nil {
                 errorView?.removeFromSuperview()
                 errorView!.focusError = nil
                 errorView = nil
-                self.content.frame = CGRectMake(0, self.header!.frame.maxY  , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height)
+                self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY  , width: self.view.bounds.width , height: self.view.bounds.height - self.header!.frame.height)
             }
         }
     }
     
-    func textModify(textField: UITextField!) {
-        if self.saveButton!.hidden {
-            self.saveButton!.hidden = false
-            UIView.animateWithDuration(0.4, animations: {
+    func textModify(_ textField: UITextField!) {
+        if self.saveButton!.isHidden {
+            self.saveButton!.isHidden = false
+            UIView.animate(withDuration: 0.4, animations: {
                 self.saveButton!.alpha = 1.0
                 }, completion: {(bool : Bool) in
                     if bool {
@@ -139,8 +139,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     }
     
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.view.frame.width, content.contentSize.height)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: content.contentSize.height)
     }
     
     func validateChangePassword() -> Bool{
@@ -180,7 +180,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     
     //MARK: Save action
     
-    func save(sender:UIButton) {
+    func save(_ sender:UIButton) {
         
         if !validateChangePassword(){
             return
@@ -191,7 +191,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         let passNew = (self.password==nil ? "" : self.password!.text!) as String
         
         
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if let user = UserCurrentSession.sharedInstance.userSigned {
             let name = user.profile.name
             let mail = user.email
             let lastMame = user.profile.lastName
@@ -200,8 +200,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
             
             
             
-            let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
-            let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
+            let allowMarketing =  UserCurrentSession.sharedInstance.userSigned?.profile.allowMarketingEmail
+            let allowTransfer = UserCurrentSession.sharedInstance.userSigned?.profile.allowTransfer
             
             let params  = service.buildParamsWithMembership(mail as String, password: passCurrent, newPassword:passNew, name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
             
@@ -214,14 +214,14 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
 
             self.view.endEditing(true)
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+            service.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
                 
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"SUCCES")
                 if let message = resultCall!["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
                 }//if let message = resultCall!["message"] as? String {
-                self.navigationController!.popViewControllerAnimated(true)
+                self.navigationController!.popViewController(animated: true)
                 }
                 , errorBlock: {(error: NSError) in
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"FAILED")

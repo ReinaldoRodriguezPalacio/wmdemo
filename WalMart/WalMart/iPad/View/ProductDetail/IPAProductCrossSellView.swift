@@ -28,18 +28,18 @@ class IPAProductCrossSellView : UIView {
     }
     
     func setup() {
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
         
-        let viewSeparator = UIView(frame:CGRectMake(0,0,self.frame.width,1))
+        let viewSeparator = UIView(frame:CGRect(x: 0,y: 0,width: self.frame.width,height: 1))
         viewSeparator.backgroundColor = WMColor.light_gray
         
-        let viewTitle = UILabel(frame:CGRectMake(16,viewSeparator.frame.maxY + 11 ,self.frame.width,14))
+        let viewTitle = UILabel(frame:CGRect(x: 16,y: viewSeparator.frame.maxY + 11 ,width: self.frame.width,height: 14))
         viewTitle.font = WMFont.fontMyriadProLightOfSize(14)
         viewTitle.textColor = WMColor.orange
         viewTitle.text = NSLocalizedString("productdetail.related",comment:"")
         
-        productCrossSell = IPAProductDetailCrossSellView(frame: CGRectMake(0, viewTitle.frame.maxY + 4, self.frame.width, 196), cellClass: IPAProductDetailCrossSellItemCollectionViewCell.self, cellIdentifier: "iPACrossSell")
-        productCrossSell.itemSize = CGSizeMake(170,176)
+        productCrossSell = IPAProductDetailCrossSellView(frame: CGRect(x: 0, y: viewTitle.frame.maxY + 4, width: self.frame.width, height: 196), cellClass: IPAProductDetailCrossSellItemCollectionViewCell.self, cellIdentifier: "iPACrossSell")
+        productCrossSell.itemSize = CGSize(width: 170,height: 176)
         
               
         self.addSubview(viewSeparator)
@@ -48,7 +48,7 @@ class IPAProductCrossSellView : UIView {
         
     }
     
-    func reloadWithData(data:NSArray,upc:String) {
+    func reloadWithData(_ data:[[String:Any]],upc:String) {
         productCrossSell.reloadData(data, upc: upc)
     }
     
@@ -56,7 +56,7 @@ class IPAProductCrossSellView : UIView {
         productCrossSell.collection.reloadData()
     }
     
-    func setIdList(idList:String){
+    func setIdList(_ idList:String){
         productCrossSell.idListSeletSearch = idList//
     }
 

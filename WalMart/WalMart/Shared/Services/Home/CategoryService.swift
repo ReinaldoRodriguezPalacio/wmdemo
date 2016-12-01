@@ -15,14 +15,14 @@ class CategoryService : BaseService {
     let typeCategory = "categories"
    
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
-                self.jsonFromObject(resultCall)
+            successBlock: { (resultCall:[String:Any]) -> Void in
+                self.jsonFromObject(resultCall as AnyObject!)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                 successBlock?(resultCall)
                 
-                self.loadKeyFieldCategories(resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]], type: ResultObjectType.Mg.rawValue);
+                self.loadKeyFieldCategories(resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:Any]], type: ResultObjectType.Mg.rawValue);
                 
                 return
             },
@@ -34,15 +34,15 @@ class CategoryService : BaseService {
     }
     
     
-    func getCategoriesContent() -> [[String:AnyObject]] {
-        var response : [[String:AnyObject]] = []
-        let values = self.getDataFromFile(fileName)
+    func getCategoriesContent() -> [[String:Any]] {
+        var response : [[String:Any]] = []
+        let values = self.getDataFromFile(fileName as NSString)
         if values != nil {
-            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
-             response = response.sort({ (obj1:[String : AnyObject], obj2:[String : AnyObject]) -> Bool in
+            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
+             response = response.sorted(by: { (obj1:[String : Any], obj2:[String : Any]) -> Bool in
                 let firstString = obj1["description"] as! String?
                 let secondString = obj2["description"] as! String?
-                return firstString < secondString
+                return firstString! < secondString!
 
             })
         }

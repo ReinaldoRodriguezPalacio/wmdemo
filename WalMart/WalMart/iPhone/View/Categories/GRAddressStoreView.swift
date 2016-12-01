@@ -14,9 +14,9 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     var saveButton: UIButton?
     var tableStore: UITableView?
     var layerLine: CALayer!
-    var storeArray: [AnyObject]! = []
+    var storeArray: [Any]! = []
     var viewLoad : WMLoadingView!
-    var selectedStore: NSIndexPath?
+    var selectedStore: IndexPath?
     var selectedstoreId: String! = ""
     var addressId: String! = ""
     var onClose: (() -> Void)?
@@ -35,32 +35,32 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func setup() {
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_gray.CGColor
-        self.layer.insertSublayer(layerLine, atIndex: 0)
+        layerLine.backgroundColor = WMColor.light_gray.cgColor
+        self.layer.insertSublayer(layerLine, at: 0)
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle("Regresar", forState:.Normal)
-        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.setTitle("Regresar", for:UIControlState())
+        self.cancelButton!.titleLabel!.textColor = UIColor.white
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: #selector(GRAddressStoreView.close), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(GRAddressStoreView.close), for: UIControlEvents.touchUpInside)
         self.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Cambiar Tienda", forState:.Normal)
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.setTitle("Cambiar Tienda", for:UIControlState())
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(GRAddressStoreView.save), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(GRAddressStoreView.save), for: UIControlEvents.touchUpInside)
         self.addSubview(saveButton!)
         
         self.tableStore = UITableView()
         self.tableStore!.delegate = self
         self.tableStore!.dataSource = self
-        self.tableStore!.backgroundColor = UIColor.whiteColor()
-        self.tableStore!.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
+        self.tableStore!.backgroundColor = UIColor.white
+        self.tableStore!.register(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
 
         self.addSubview(tableStore!)
     }
@@ -70,10 +70,10 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         let minVTableHeigth : CGFloat = (1.5 * 46.0)
         var tableHeight = CGFloat(storeArray.count) * 46.0
         tableHeight = max(minVTableHeigth,tableHeight)
-        self.tableStore?.frame = CGRectMake(16,0,self.frame.width - 16, min(210,tableHeight))
-        self.layerLine.frame = CGRectMake(0,self.tableStore!.frame.maxY,self.frame.width, 1)
-        self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 129,self.layerLine.frame.maxY + 16, 125, 34)
-        self.saveButton?.frame = CGRectMake((self.frame.width/2) + 4 , self.layerLine.frame.maxY + 16, 125, 34)
+        self.tableStore?.frame = CGRect(x: 16,y: 0,width: self.frame.width - 16, height: min(210,tableHeight))
+        self.layerLine.frame = CGRect(x: 0,y: self.tableStore!.frame.maxY,width: self.frame.width, height: 1)
+        self.cancelButton?.frame = CGRect(x: (self.frame.width/2) - 129,y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
+        self.saveButton?.frame = CGRect(x: (self.frame.width/2) + 4 , y: self.layerLine.frame.maxY + 16, width: 125, height: 34)
     }
     
     /**
@@ -90,32 +90,32 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.applyPrefered(self.addressId)
     }
     //MARK: TableViewDelegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.storeArray!.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46.0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
-        let store = self.storeArray[indexPath.row] as! [String:AnyObject]
-        cell.textLabel?.text = store["name"] as? String
-        cell.checkSelected.frame = CGRectMake(0, 0, 33, 46)
-        cell.selectionStyle = .None
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellSelItem") as! SelectItemTableViewCell!
+        let store = self.storeArray[indexPath.row] as! [String:Any]
+        cell?.textLabel?.text = store["name"] as? String
+        cell?.checkSelected.frame = CGRect(x: 0, y: 0, width: 33, height: 46)
+        cell?.selectionStyle = .none
         if selectedstoreId == store["id"] as? String {
             self.selectedStore = self.selectedStore ?? indexPath
         }
         if self.selectedStore != nil {
-            cell.setSelected(indexPath.row == self.selectedStore!.row, animated: false)
+            cell?.setSelected(indexPath.row == self.selectedStore!.row, animated: false)
         }
-        return cell
+        return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
         
         self.selectedStore =  self.selectedStore ?? indexPath
         
@@ -124,18 +124,18 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             return
         }
         
-        cell?.selected = false
+        cell?.isSelected = false
         let lastSelected =  self.selectedStore
         self.selectedStore = indexPath
-        let store = self.storeArray[indexPath.row] as! [String:AnyObject]
+        let store = self.storeArray[indexPath.row] as! [String:Any]
         self.selectedstoreId = store["id"] as! String
-        tableView.reloadRowsAtIndexPaths([ self.selectedStore! ,lastSelected!], withRowAnimation: UITableViewRowAnimation.None)
+        tableView.reloadRows(at: [ self.selectedStore! ,lastSelected!], with: UITableViewRowAnimation.none)
     }
     
     func addViewLoad(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRectMake(3, 13, self.frame.width, self.frame.height - 13))
-            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad = WMLoadingView(frame: CGRect(x: 3, y: 13, width: self.frame.width, height: self.frame.height - 13))
+            viewLoad.backgroundColor = UIColor.white
             self.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
         }
@@ -146,7 +146,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
      
      - parameter addressID: identifier of the address to save
      */
-    func applyPrefered (addressID: String){
+    func applyPrefered (_ addressID: String){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         self.alertView?.setMessage("Cambiando tienda ...")
         //addViewLoad()
@@ -154,7 +154,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         let service = GRAddressAddService()
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = addressID
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
             let name = result["name"] as! String!
             let outerNumber = result["outerNumber"] as! String!
             let innerNumber = result["innerNumber"] as! String!
@@ -166,14 +166,14 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             let state = result["state"] as! String!
             let county = result["county"] as! String!
             let neighborhoodID = result["neighborhoodID"] as! String!
-            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode,"addressID":addressID] as NSDictionary
+            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode,"addressID":addressID] as [String:Any]
             
-            let dictSendpreferred = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
+            let dictSendpreferred = service.buildParams(city!, addressID: addressID, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
             
-            let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId,storeName: "", operationType: "C", preferred: false)
-            service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
-                UserCurrentSession.sharedInstance().getStoreByAddress(address)  
-                service.callService(requestParams: dictSendpreferred, successBlock: { (result:NSDictionary) -> Void in
+            let dictSend = service.buildParams(city!, addressID: addressID, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: self.selectedstoreId,storeName: "", operationType: "C", preferred: false)
+            service.callService(requestParams: dictSend, successBlock: { (result:[String:Any]) -> Void in
+                UserCurrentSession.sharedInstance.getStoreByAddress(address)  
+                service.callService(requestParams: dictSendpreferred, successBlock: { (result:[String:Any]) -> Void in
                     self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.\n\n Únicamente se mostrarán los productos disponibles de esta tienda.")
                     self.alertView?.showDoneIconWithoutClose()
                     self.alertView?.showOkButton("Ok", colorButton: WMColor.green)

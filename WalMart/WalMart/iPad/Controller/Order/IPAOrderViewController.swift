@@ -15,23 +15,23 @@ class IPAOrderViewController: OrderViewController {
         self.hiddenBack = true
         super.viewDidLoad()
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
-        self.emptyView.returnButton.hidden = true
+        self.emptyView.returnButton.isHidden = true
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
-        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 46)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
+        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 46)
        // self.tableOrders.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
         if isShowingButtonFactura {
-            self.buttonFactura.frame = CGRectMake(16, 14, facturasToolBar.frame.width - 32, 34)
+            self.buttonFactura.frame = CGRect(x: 16, y: 14, width: facturasToolBar.frame.width - 32, height: 34)
         }else{
-             self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 110)
+             self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 110)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //self.reloadPreviousOrders()
     }
@@ -45,10 +45,10 @@ class IPAOrderViewController: OrderViewController {
     
     //MARK: - TableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
      
-        let item = self.items[indexPath.row] as! NSDictionary
+        let item = self.items[indexPath.row] as! [String:Any]
         let detailController = IPAOrderDetailViewController()
         
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
@@ -89,20 +89,20 @@ class IPAOrderViewController: OrderViewController {
     
     override func reloadPreviousOrders() {
         self.items = []
-        self.emptyView.frame = CGRectMake(0, 46, 681.5, self.view.frame.height - 46)
-        self.viewLoad.frame = CGRectMake(0, 46, 681.5, self.view.frame.height - 46)
+        self.emptyView.frame = CGRect(x: 0, y: 46, width: 681.5, height: self.view.frame.height - 46)
+        self.viewLoad.frame = CGRect(x: 0, y: 46, width: 681.5, height: self.view.frame.height - 46)
         //self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 155)
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
         }
-        viewLoad.backgroundColor = UIColor.whiteColor()
+        viewLoad.backgroundColor = UIColor.white
         self.view.addSubview(viewLoad)
         viewLoad.startAnnimating(self.isVisibleTab)
         
         let servicePrev = PreviousOrdersService()
-        servicePrev.callService({ (previous:NSArray) -> Void in
+        servicePrev.callService({ (previous:[Any]) -> Void in
             for orderPrev in previous {
-                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                var dictMGOrder = orderPrev as! [String:Any]
                 dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
                 self.items.append(dictMGOrder)
             }

@@ -55,13 +55,13 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
     func setup() {
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(layerLine, atIndex: 0)
+        layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(layerLine, at: 0)
         
         self.scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm.delegate = self
         self.scrollForm.scrollDelegate = self
-        self.scrollForm.backgroundColor = UIColor.whiteColor()
+        self.scrollForm.backgroundColor = UIColor.white
         self.addSubview(self.scrollForm)
         
         //Address Super
@@ -151,8 +151,8 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.scrollForm.addSubview(self.addressLabel!)
         
         self.editButton = UIButton()
-        self.editButton!.setTitle("Editar", forState:.Normal)
-        self.editButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.editButton!.setTitle("Editar", for:UIControlState())
+        self.editButton!.titleLabel!.textColor = UIColor.white
         self.editButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.editButton!.backgroundColor = WMColor.light_blue
         self.editButton!.layer.cornerRadius = 17
@@ -160,12 +160,12 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.addSubview(editButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Generar Factura", forState:.Normal)
-        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.setTitle("Generar Factura", for:UIControlState())
+        self.saveButton!.titleLabel!.textColor = UIColor.white
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(FMResultSet.next), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(FMResultSet.next), for: UIControlEvents.touchUpInside)
         self.addSubview(saveButton!)
 
     }
@@ -174,25 +174,25 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         super.layoutSubviews()
         let widthLessMargin = self.frame.width - leftRightPadding
         let rightPadding = leftRightPadding * 2
-        self.scrollForm.frame = CGRectMake(0, 46, self.frame.width , self.frame.height - 112)
-        self.titleName.frame = CGRectMake(leftRightPadding, 16, self.frame.width - rightPadding , fieldHeight)
-        self.nameLabel.frame = CGRectMake(leftRightPadding, self.titleName.frame.maxY , self.frame.width - rightPadding , fieldHeight)
-        self.titleRfc!.frame = CGRectMake(leftRightPadding, self.nameLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
-        self.rfcLabel!.frame = CGRectMake(leftRightPadding, self.titleRfc.frame.maxY , self.frame.width - rightPadding , fieldHeight)
-        self.titleTicketNumber.frame = CGRectMake(leftRightPadding, self.rfcLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
-        self.ticketNumberLabel.frame = CGRectMake(leftRightPadding, self.titleTicketNumber.frame.maxY, self.frame.width - rightPadding , fieldHeight)
-        self.titleTransactionNumber.frame = CGRectMake(leftRightPadding, self.ticketNumberLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
-        self.transactionNumberLabel.frame = CGRectMake(leftRightPadding, self.titleTransactionNumber.frame.maxY , self.frame.width - rightPadding , fieldHeight)
-        self.titleIEPS.frame = CGRectMake(leftRightPadding, self.transactionNumberLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
-        self.iepsLabel!.frame = CGRectMake(leftRightPadding, self.titleIEPS.frame.maxY, self.frame.width - rightPadding , fieldHeight)
-        self.titleSocialReason.frame = CGRectMake(leftRightPadding, self.iepsLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
-        self.socialReasonLabel.frame = CGRectMake(leftRightPadding, self.titleSocialReason.frame.maxY, self.frame.width - rightPadding , fieldHeight)
-        self.titleAddress.frame = CGRectMake(leftRightPadding, self.socialReasonLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
-        self.addressLabel.frame = CGRectMake(leftRightPadding, self.titleAddress.frame.maxY, self.frame.width - rightPadding , fieldHeight * 2)
+        self.scrollForm.frame = CGRect(x: 0, y: 46, width: self.frame.width , height: self.frame.height - 112)
+        self.titleName.frame = CGRect(x: leftRightPadding, y: 16, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.nameLabel.frame = CGRect(x: leftRightPadding, y: self.titleName.frame.maxY , width: self.frame.width - rightPadding , height: fieldHeight)
+        self.titleRfc!.frame = CGRect(x: leftRightPadding, y: self.nameLabel.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.rfcLabel!.frame = CGRect(x: leftRightPadding, y: self.titleRfc.frame.maxY , width: self.frame.width - rightPadding , height: fieldHeight)
+        self.titleTicketNumber.frame = CGRect(x: leftRightPadding, y: self.rfcLabel.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.ticketNumberLabel.frame = CGRect(x: leftRightPadding, y: self.titleTicketNumber.frame.maxY, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.titleTransactionNumber.frame = CGRect(x: leftRightPadding, y: self.ticketNumberLabel.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.transactionNumberLabel.frame = CGRect(x: leftRightPadding, y: self.titleTransactionNumber.frame.maxY , width: self.frame.width - rightPadding , height: fieldHeight)
+        self.titleIEPS.frame = CGRect(x: leftRightPadding, y: self.transactionNumberLabel.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.iepsLabel!.frame = CGRect(x: leftRightPadding, y: self.titleIEPS.frame.maxY, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.titleSocialReason.frame = CGRect(x: leftRightPadding, y: self.iepsLabel.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.socialReasonLabel.frame = CGRect(x: leftRightPadding, y: self.titleSocialReason.frame.maxY, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.titleAddress.frame = CGRect(x: leftRightPadding, y: self.socialReasonLabel.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.addressLabel.frame = CGRect(x: leftRightPadding, y: self.titleAddress.frame.maxY, width: self.frame.width - rightPadding , height: fieldHeight * 2)
         self.scrollForm.contentSize = CGSize(width: self.frame.width,height: self.addressLabel.frame.maxY)
-        self.layerLine.frame = CGRectMake(0, self.scrollForm!.frame.maxY,  self.frame.width, 1)
-        self.editButton!.frame = CGRectMake(leftRightPadding, self.scrollForm!.frame.maxY + 13.0, 125, 34)
-        self.saveButton!.frame = CGRectMake(widthLessMargin - 125 , self.scrollForm!.frame.maxY + 13.0, 125, 34)
+        self.layerLine.frame = CGRect(x: 0, y: self.scrollForm!.frame.maxY,  width: self.frame.width, height: 1)
+        self.editButton!.frame = CGRect(x: leftRightPadding, y: self.scrollForm!.frame.maxY + 13.0, width: 125, height: 34)
+        self.saveButton!.frame = CGRect(x: widthLessMargin - 125 , y: self.scrollForm!.frame.maxY + 13.0, width: 125, height: 34)
     }
     
     func setValues(){

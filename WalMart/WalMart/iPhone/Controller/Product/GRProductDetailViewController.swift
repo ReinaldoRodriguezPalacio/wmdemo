@@ -8,6 +8,41 @@
 
 import Foundation
 import CoreData
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 class GRProductDetailViewController : ProductDetailViewController, ListSelectorDelegate {
     
@@ -23,7 +58,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     var nutrimentalsView : GRNutrimentalInfoView? = nil
     
     
-    var equivalenceByPiece : NSNumber! = NSNumber(int:0)
+    var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
     var stock : Bool! = true
     var idFamily: String = ""
     var idLine : String =  ""
@@ -34,16 +69,16 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         print("parametro para signals GR Iphone :::\(self.indexRowSelected)")
         
         self.type = ResultObjectType.Groceries
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let productService = GRProductDetailService(dictionary:signalsDictionary )
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         let params = productService.buildParams(upc as String,eventtype:eventType,stringSearch: self.stringSearching,position:"\(self.indexRowSelected)")//position
-        productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
+        productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
             
             
             self.name = result["description"] as! NSString
             if let priceR =  result["price"] as? NSNumber {
-                self.price = "\(priceR)"
+                self.price = "\(priceR)" as NSString
             }
 
             self.detail = result["longDescription"] as! NSString
@@ -55,14 +90,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             //self.listPrice = result["original_listprice"] as NSString
             self.characteristics = []
-            var allCharacteristics : [AnyObject] = []
+            var allCharacteristics : [[String:Any]] = []
             
             let strLabel = "UPC"
             //let strValue = self.upc
             allCharacteristics.append(["label":strLabel,"value":self.upc])
             
             if var carStr = result["characteristics"] as? String {
-                carStr = carStr.stringByReplacingOccurrencesOfString("^", withString: "\n")
+                carStr = carStr.replacingOccurrences(of: "^", with: "\n")
                 allCharacteristics.append(["label":"Características","value":carStr])
             }
             
@@ -73,19 +108,19 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             if let msiResult =  result["msi"] as? NSString {
                 if msiResult != "" {
-                    self.msi = msiResult.componentsSeparatedByString(",")
+                    self.msi = msiResult.components(separatedBy: ",")
                 }else{
                     self.msi = []
                 }
             }
-            if let images = result["imageUrl"] as? [AnyObject] {
+            if let images = result["imageUrl"] as? [Any] {
                 self.imageUrl = images
             }
             if let images = result["imageUrl"] as? NSString {
                 var imgLarge = NSString(string: images)
-                imgLarge = imgLarge.stringByReplacingOccurrencesOfString("img_small", withString: "img_large")
+                imgLarge = imgLarge.replacingOccurrences(of: "img_small", with: "img_large") as NSString
                 let pathExtention = imgLarge.pathExtension
-                imgLarge = imgLarge.stringByReplacingOccurrencesOfString("s.\(pathExtention)", withString: "L.\(pathExtention)")
+                imgLarge = imgLarge.replacingOccurrences(of: "s.\(pathExtention)", with: "L.\(pathExtention)") as NSString
                 self.imageUrl = [imgLarge]
             }
             //let freeShippingStr  = result["freeShippingItem"] as NSString
@@ -109,15 +144,15 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.isActive  = stockSvc.boolValue
                 }
             }
-            if let department = result["department"] as? NSDictionary {
+            if let department = result["department"] as? [String:Any] {
                 self.idDepartment = department["idDepto"] as! String
             }
 
-            if let family = result["family"] as? NSDictionary {
+            if let family = result["family"] as? [String:Any] {
                 self.idFamily = family["id"] as! String
             }
             
-            if let line = result["line"] as? NSDictionary {
+            if let line = result["line"] as? [String:Any] {
                 self.idLine = line["id"] as! String
             }
             
@@ -127,15 +162,15 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             if let equivalence = result["equivalenceByPiece"] as? NSString {
                 if equivalence != "" {
-                    self.equivalenceByPiece =  NSNumber(int: equivalence.intValue)
+                    self.equivalenceByPiece =  NSNumber(value: equivalence.intValue as Int32)
                 }
             }
             
             self.strisPreorderable  = "false"
             self.isPreorderable = false//"true" == self.strisPreorderable
             
-            self.bundleItems = [AnyObject]()
-            if let bndl = result["bundleItems"] as?  [AnyObject] {
+            self.bundleItems = [[String:Any]]()
+            if let bndl = result["bundleItems"] as?  [[String:Any]] {
                 self.bundleItems = bndl
             }
             
@@ -157,8 +192,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.detailCollectionView.reloadData()
             
             self.viewLoad.stopAnnimating()  
-            self.detailCollectionView.scrollEnabled = true
-            self.gestureCloseDetail.enabled = false
+            self.detailCollectionView.isScrollEnabled = true
+            self.gestureCloseDetail.isEnabled = false
             
             self.titlelbl.text = self.name as String
             
@@ -176,7 +211,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.loadCrossSell()
             
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
             
             //FACEBOOKLOG
             FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.upc])
@@ -196,11 +231,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             
             },errorBlock: { (error:NSError) -> Void in
-                let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
-                self.name = NSLocalizedString("empty.productdetail.title",comment:"")
+                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+                self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
                     print("")
-                    self.navigationController!.popViewControllerAnimated(true)
+                    self.navigationController!.popViewController(animated: true)
                 }
                 self.view.addSubview(empty)
                 self.viewLoad.stopAnnimating()
@@ -209,12 +244,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
    
     //MARK: - UICollectionView
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) 
+            let view = detailCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) 
             
-            let productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
+            let productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
             productDetailButtonGR.upc = self.upc as String
             productDetailButtonGR.desc = self.name as String
             productDetailButtonGR.price = self.price as String
@@ -227,7 +262,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             productDetailButtonGR.idListSelect =  self.idListFromlistFind
             productDetailButton = productDetailButtonGR
             
-            //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc)
+            //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
@@ -240,14 +275,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return view
         }
         
-        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, atIndexPath: indexPath)
+        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         
     }
 
     
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
 
-    override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
+    override func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
         self.closeProductDetail()
         if self.selectQuantityGR != nil {
             self.closeContainer(
@@ -266,7 +301,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
 //        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "\(self.name) - \(self.upc)")
 
         if self.listSelectorController == nil {
-            self.listSelectorContainer = UIView(frame: CGRectMake(0, 360.0, 320.0, 0.0))
+            self.listSelectorContainer = UIView(frame: CGRect(x: 0, y: 360.0, width: 320.0, height: 0.0))
             self.listSelectorContainer!.clipsToBounds = true
             self.view.addSubview(self.listSelectorContainer!)
             
@@ -274,26 +309,26 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorController!.delegate = self
             self.listSelectorController!.productUpc = self.upc as String
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 360.0)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
             self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
-            self.listSelectorController!.didMoveToParentViewController(self)
+            self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.view, frame: CGRectMake(0, 0, 320, 360))
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRectMake(0, 0, 320, 360))
+            self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: 320, height: 360))
+            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: 320, height: 360))
             
-            self.detailCollectionView.scrollEnabled = false
-            UIView.animateWithDuration(0.3,
+            self.detailCollectionView.isScrollEnabled = false
+            UIView.animate(withDuration: 0.3,
                 animations: { () -> Void in
-                    self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height), animated: false)
+                    self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height), animated: false)
                 },
                 completion: { (complete:Bool) -> Void in
                     if complete {
-                        self.listSelectorBackgroundView!.frame = CGRectMake(0, -360.0, 320.0, 360.0)
-                        UIView.animateWithDuration(0.5, animations: { () -> Void in
-                            self.listSelectorContainer!.frame = CGRectMake(0, 0, 320, 360)
-                            self.listSelectorBackgroundView!.frame = CGRectMake(0, 0, 320, 360)
-                            self.listSelectorController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 360.0)
+                        self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: -360.0, width: 320.0, height: 360.0)
+                        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                            self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
+                            self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
+                            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
                         })
                     }
             })
@@ -304,7 +339,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
 
     }
     
-    override func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String )
+    override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String )
     {
         
 //        let sb = UIStoryboard(name: "WeightPiceKeyboard", bundle: nil)
@@ -318,7 +353,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.closeProductDetail()
         }
         
-        self.comments = comments
+        self.comments = comments as NSString
         if selectQuantityGR == nil {
             
             if self.listSelectorController != nil {
@@ -328,12 +363,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 return
             }
             
-            let frameDetail = CGRectMake(0,0, self.detailCollectionView.frame.width, heightDetail)
+            let frameDetail = CGRect(x: 0,y: 0, width: self.detailCollectionView.frame.width, height: heightDetail)
             if self.isPesable {
-                let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
+                let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
                 selectQuantityGR = selectQuantityGRW
             }else{
-                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
+                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
             }
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
@@ -346,17 +381,17 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             selectQuantityGR.addUpdateNote = {() in
                 if self.productDetailButton!.detailProductCart != nil {
-                    let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+                    let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                     let frame = vc!.view.frame
                     
                     
                     let addShopping = ShoppingCartUpdateController()
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:AnyObject]
+                    let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:Any]
                     addShopping.params = paramsToSC
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
                     vc!.view.addSubview(addShopping.view)
-                    addShopping.didMoveToParentViewController(vc!)
+                    addShopping.didMove(toParentViewController: vc!)
                     addShopping.typeProduct = ResultObjectType.Groceries
                     
                     addShopping.comments = self.productDetailButton!.detailProductCart!.note!
@@ -368,7 +403,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             }
             if productDetailButton!.detailProductCart?.quantity != nil {
-                selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart?.quantity.stringValue)
+                selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
                 selectQuantityGR?.first = true
                 selectQuantityGR?.showNoteButton()
             }
@@ -384,12 +419,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             self.isShowShoppingCart = false
                             //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
                             let params = self.buildParamsUpdateShoppingCart(quantity)
-                            if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(String(self.upc)) {
+                            if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(String(self.upc)) {
                                 //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
                             } else {
                                 //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: self.name as String)
                             }
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                             
                     })
                 } else {
@@ -413,12 +448,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 additionalAnimationOpen: { () -> Void in
                     self.productDetailButton?.setOpenQuantitySelector()
                     //self.selectQuantityGR?.imageBlurView.frame = frameDetail
-                    self.productDetailButton?.addToShoppingCartButton.selected = true
+                    self.productDetailButton?.addToShoppingCartButton.isSelected = true
                 },
                 additionalAnimationClose:{ () -> Void in
 //                    self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail,
 //                    self.detailCollectionView.frame.width, self.heightDetail)
-                    self.productDetailButton?.addToShoppingCartButton.selected = true
+                    self.productDetailButton?.addToShoppingCartButton.isSelected = true
                 }
             )
         }else{
@@ -434,7 +469,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
                 
                 self.productDetailButton?.reloadShoppinhgButton()
-//                UserCurrentSession.sharedInstance().loadGRShoppingCart
+//                UserCurrentSession.sharedInstance.loadGRShoppingCart
 //                    { () -> Void in
 //                        self.productDetailButton.reloadShoppinhgButton()
 //                }
@@ -443,7 +478,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.selectQuantityGR = nil
             })
         }else{
-            UserCurrentSession.sharedInstance().loadGRShoppingCart
+            UserCurrentSession.sharedInstance.loadGRShoppingCart
                 { () -> Void in
                     if self.productDetailButton != nil {
                         self.productDetailButton?.reloadShoppinhgButton()
@@ -452,12 +487,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
     }
     
-    func instanceOfQuantitySelector(frame:CGRect) -> GRShoppingCartQuantitySelectorView? {
+    func instanceOfQuantitySelector(_ frame:CGRect) -> GRShoppingCartQuantitySelectorView? {
         var instance: GRShoppingCartQuantitySelectorView? = nil
         if self.isPesable {
-            instance = GRShoppingCartWeightSelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
+            instance = GRShoppingCartWeightSelectorView(frame: frame, priceProduct: NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
         } else {
-            instance = GRShoppingCartQuantitySelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
+            instance = GRShoppingCartQuantitySelectorView(frame: frame, priceProduct: NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
         }
         return instance
     }
@@ -471,9 +506,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
 
     func listSelectorDidAddProduct(inList listId:String) {
-        let frameDetail = CGRectMake(320.0, 0.0, 320.0, 360.0)
+        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
-        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, 320.0, 360.0))
+        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil)
         }
@@ -492,7 +527,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 let pesable = self.isPesable ? "1" : "0"
                 let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
                 service.callService(service.buildParams(idList: listId, upcs: [productObject]),
-                    successBlock: { (result:NSDictionary) -> Void in
+                    successBlock: { (result:[String:Any]) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
                         
@@ -531,10 +566,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
             animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRectMake(-320.0, 0.0, 320.0, 360.0)
-                self.selectQuantityGR!.frame = CGRectMake(0.0, 0.0, 320.0, 360.0)
+                self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
+                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
             }, completion: { (finished:Bool) -> Void in
                 
             }
@@ -548,10 +583,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         let detailService = GRUserListDetailService()
         detailService.buildParams(listId)
         detailService.callService([:],
-            successBlock: { (result:NSDictionary) -> Void in
+            successBlock: { (result:[String:Any]) -> Void in
                 let service = GRDeleteItemListService()
                 service.callService(service.buildParams(self.upc as String),
-                    successBlock: { (result:NSDictionary) -> Void in
+                    successBlock: { (result:[String:Any]) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
                         self.alertView!.showDoneIcon()
                         self.alertView!.afterRemove = {
@@ -579,22 +614,22 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     func listSelectorDidAddProductLocally(inList list:List) {
         
-        let frameDetail = CGRectMake(320.0, 0.0, 320.0, 360.0)
+        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
-        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, 320.0, 360.0))
+        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil)
         }
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
-            let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
             detail!.upc = self.upc as String
             detail!.desc = self.name as String
             detail!.price = self.price
-            detail!.quantity = NSNumber(integer: Int(quantity)!)
-            detail!.type = NSNumber(bool: self.isPesable)
+            detail!.quantity = NSNumber(value: Int(quantity)! as Int)
+            detail!.type = NSNumber(value: self.isPesable as Bool)
             detail!.list = list
             
             if self.imageUrl.count > 0 {
@@ -617,7 +652,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
 
             let count:Int = list.products.count
-            list.countItem = NSNumber(integer: count)
+            list.countItem = NSNumber(value: count as Int)
 
             error = nil
             do {
@@ -636,7 +671,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             //TODO: Add message
             self.showMessageWishList("Se agregó a la lista")
             
-            self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+            self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
             
             // 360 Event
             BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
@@ -644,44 +679,44 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
             animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRectMake(-320.0, 0.0, 320.0, 360.0)
-                self.selectQuantityGR!.frame = CGRectMake(0.0, 0.0, 320.0, 360.0)
+                self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
+                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
             }, completion: { (finished:Bool) -> Void in
                 
             }
         )
     }
     
-    func showMessageWishList(message:String) {
-        let addedAlertWL = WishlistAddProductStatus(frame: CGRectMake(self.detailCollectionView.frame.minX, self.detailCollectionView.frame.minY +  314, self.detailCollectionView.frame.width, 0))
-        addedAlertWL.generateBlurImage(self.view,frame:CGRectMake(self.detailCollectionView.frame.minX, 270, self.detailCollectionView.frame.width, 44))
+    func showMessageWishList(_ message:String) {
+        let addedAlertWL = WishlistAddProductStatus(frame: CGRect(x: self.detailCollectionView.frame.minX, y: self.detailCollectionView.frame.minY +  314, width: self.detailCollectionView.frame.width, height: 0))
+        addedAlertWL.generateBlurImage(self.view,frame:CGRect(x: self.detailCollectionView.frame.minX, y: 270, width: self.detailCollectionView.frame.width, height: 44))
         addedAlertWL.clipsToBounds = true
-        addedAlertWL.imageBlurView.frame = CGRectMake(self.detailCollectionView.frame.minX, 0, self.detailCollectionView.frame.width, 44)
+        addedAlertWL.imageBlurView.frame = CGRect(x: self.detailCollectionView.frame.minX, y: 0, width: self.detailCollectionView.frame.width, height: 44)
         addedAlertWL.textView.text = message
         self.view.addSubview(addedAlertWL)
         self.isWishListProcess = false
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            addedAlertWL.frame = CGRectMake(self.detailCollectionView.frame.minX,self.detailCollectionView.frame.minY + 270, self.detailCollectionView.frame.width, 96)
-            }) { (complete:Bool) -> Void in
-                UIView.animateWithDuration(0.5, delay: 1, options: UIViewAnimationOptions.AllowUserInteraction, animations: { () -> Void in
-                    addedAlertWL.frame = CGRectMake(addedAlertWL.frame.minX, self.detailCollectionView.frame.minY + 314.0, addedAlertWL.frame.width, 0)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            addedAlertWL.frame = CGRect(x: self.detailCollectionView.frame.minX,y: self.detailCollectionView.frame.minY + 270, width: self.detailCollectionView.frame.width, height: 96)
+            }, completion: { (complete:Bool) -> Void in
+                UIView.animate(withDuration: 0.5, delay: 1, options: UIViewAnimationOptions.allowUserInteraction, animations: { () -> Void in
+                    addedAlertWL.frame = CGRect(x: addedAlertWL.frame.minX, y: self.detailCollectionView.frame.minY + 314.0, width: addedAlertWL.frame.width, height: 0)
                     }) { (complete:Bool) -> Void in
-                        self.detailCollectionView.scrollEnabled = true
+                        self.detailCollectionView.isScrollEnabled = true
                         addedAlertWL.removeFromSuperview()
                 }
-        }
+        }) 
         
         
     }
     
     
-    func listSelectorDidDeleteProductLocally(product:Product, inList list:List) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        context.deleteObject(product)
+        context.delete(product)
         do {
             try context.save()
         } catch {
@@ -689,7 +724,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
 
         let count:Int = list.products.count
-        list.countItem = NSNumber(integer: count)
+        list.countItem = NSNumber(value: count as Int)
         do {
             try context.save()
             self.completeDelete?()
@@ -702,22 +737,22 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
 
     
-    func removeListSelector(action action:(()->Void)?) {
-        UIView.animateWithDuration(0.3,
+    func removeListSelector(action:(()->Void)?) {
+        UIView.animate(withDuration: 0.3,
             animations: { () -> Void in
-                self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height), animated: false)
+                self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height), animated: false)
             },
             completion: { (complete:Bool) -> Void in
                 if complete {
-                    UIView.animateWithDuration(0.5,
+                    UIView.animate(withDuration: 0.5,
                         delay: 0.0,
-                        options: .LayoutSubviews,
+                        options: .layoutSubviews,
                         animations: { () -> Void in
-                            self.listSelectorContainer!.frame = CGRectMake(0, 360.0, 320.0, 0.0)
-                            self.listSelectorBackgroundView!.frame = CGRectMake(0, -360.0, 320.0, 360.0)
+                            self.listSelectorContainer!.frame = CGRect(x: 0, y: 360.0, width: 320.0, height: 0.0)
+                            self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: -360.0, width: 320.0, height: 360.0)
                         }, completion: { (complete:Bool) -> Void in
                             if complete {
-                                self.listSelectorController!.willMoveToParentViewController(nil)
+                                self.listSelectorController!.willMove(toParentViewController: nil)
                                 self.listSelectorController!.view.removeFromSuperview()
                                 self.listSelectorController!.removeFromParentViewController()
                                 self.listSelectorController = nil
@@ -728,10 +763,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 self.listSelectorContainer = nil
                                 
                                 //self.productDetailButton!.listButton.selected = false
-                                self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+                                self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                                 
                                 action?()
-                                self.detailCollectionView.scrollEnabled = true
+                                self.detailCollectionView.isScrollEnabled = true
                             }
                         }
                     )
@@ -740,16 +775,16 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     
-    func listSelectorDidShowList(listId: String, andName name:String) {
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
+    func listSelectorDidShowList(_ listId: String, andName name:String) {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
             vc.listId = listId
             vc.listName = name
             self.navigationController!.pushViewController(vc, animated: true)
         }
     }
     
-    func listSelectorDidShowListLocally(list: List) {
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
+    func listSelectorDidShowListLocally(_ list: List) {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
             vc.listEntity = list
             vc.listName = list.name
             self.navigationController!.pushViewController(vc, animated: true)
@@ -760,14 +795,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         return false
     }
     
-    func listSelectorDidCreateList(name:String) {
+    func listSelectorDidCreateList(_ name:String) {
         
     }
 
     
     //MARK: -
     
-    override func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+    override func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
@@ -785,26 +820,26 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func showProductDetail() {
         
         if isShowShoppingCart {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
-                self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                self.selectQuantity!.imageBlurView.frame = CGRect(x: 0, y: -360, width: 320, height: 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
                         self.selectQuantity!.removeFromSuperview()
                         self.selectQuantity = nil
-                        self.detailCollectionView.scrollEnabled = true
-                        self.gestureCloseDetail.enabled = false
+                        self.detailCollectionView.isScrollEnabled = true
+                        self.gestureCloseDetail.isEnabled = false
                     }
             })
         }
         
         self.detailCollectionView.scrollsToTop = true
-        self.detailCollectionView.scrollEnabled = false
-        gestureCloseDetail.enabled = true
+        self.detailCollectionView.isScrollEnabled = false
+        gestureCloseDetail.isEnabled = true
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
             }, completion: { (complete:Bool) -> Void in
                 if self.viewDetail == nil && self.nutrimentalsView == nil {
                     self.isShowProductDetail = true
@@ -835,15 +870,15 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             super.startAnimatingProductDetail()
         } else {
             
-            let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
+            let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
             if nutrimentalsView == nil {
-                nutrimentalsView = GRNutrimentalInfoView(frame: CGRectMake(0,360, 320, 0))
+                nutrimentalsView = GRNutrimentalInfoView(frame: CGRect(x: 0,y: 360, width: 320, height: 0))
                 nutrimentalsView?.setup(ingredients, nutrimentals: self.nutrmentals)
                 nutrimentalsView!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             }
             
-            nutrimentalsView!.frame = CGRectMake(0,360, 320, 0)
-            self.nutrimentalsView!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+            nutrimentalsView!.frame = CGRect(x: 0,y: 360, width: 320, height: 0)
+            self.nutrimentalsView!.imageBlurView.frame =  CGRect(x: 0, y: -360, width: 320, height: 360)
             
 
             nutrimentalsView!.closeDetail = { () in
@@ -852,11 +887,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.view.addSubview(nutrimentalsView!)
             
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.nutrimentalsView!.frame = finalFrameOfQuantity
                 self.nutrimentalsView!.imageBlurView.frame = finalFrameOfQuantity
                 //self.viewDetail.frame = CGRectMake(0, 0, self.tabledetail.frame.width, self.tabledetail.frame.height - 145)
-                self.productDetailButton!.deltailButton.selected = true
+                self.productDetailButton!.deltailButton.isSelected = true
             })
             
         }
@@ -866,21 +901,21 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func closeProductDetailNutrimental () {
         if isShowProductDetail == true {
             isShowProductDetail = false
-            gestureCloseDetail.enabled = false
-            self.detailCollectionView.scrollEnabled = true
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            gestureCloseDetail.isEnabled = false
+            self.detailCollectionView.isScrollEnabled = true
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 
-                self.nutrimentalsView?.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
-                self.nutrimentalsView?.frame = CGRectMake(0,360, 320, 0)
-                }) { (ended:Bool) -> Void in
+                self.nutrimentalsView?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: 320, height: 360)
+                self.nutrimentalsView?.frame = CGRect(x: 0,y: 360, width: 320, height: 0)
+                }, completion: { (ended:Bool) -> Void in
                     if self.nutrimentalsView != nil {
                         self.nutrimentalsView?.removeFromSuperview()
                         self.nutrimentalsView = nil
                         
                         
-                        self.productDetailButton!.deltailButton.selected = false
+                        self.productDetailButton!.deltailButton.isSelected = false
                     }
-            }
+            }) 
         }
     }
     
@@ -903,25 +938,25 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         NSLog("lcs 1")
         let service = GRProductBySearchService()
         let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6,brand:"")
-        service.callService(params,
-            successBlock: { (arrayProduct:NSArray?,resultDic:[String:AnyObject]) -> Void in
+        service.callService(params!,
+                            successBlock: { (arrayProduct:[[String:Any]]?,resultDic:[String:Any]) -> Void in
                 NSLog("lcs 2")
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     NSLog("lcs 2")
-                    var keywords = Array<AnyObject>()
-                    for item in arrayProduct as! [AnyObject] {
+                    var keywords = Array<[String:Any]>()
+                    for item in arrayProduct! {
                         
-                        if self.upc !=  item["upc"] as! String {
+                        if self.upc !=  item["upc"] as! NSString {
                             
                             var urlArray : [String] = []
                             urlArray.append(item["imageUrl"] as! String)
                             
                             var price : NSString = ""
                             if let value = item["price"] as? String {
-                                price = value
+                                price = value as NSString
                             }
                             else if let value = item["price"] as? NSNumber {
-                                price = "\(value)"
+                                price = "\(value)" as NSString
                             }
                             
                             keywords.append(["codeMessage":"0","description":item["description"] as! String, "imageUrl":urlArray, "price" : price,  "upc" :item["upc"], "type" : ResultObjectType.Groceries.rawValue ])
@@ -958,16 +993,16 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     // MARK: - Collection view config
-    override func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
+    override func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
         let controller = ProductDetailPageViewController()
         controller.ixSelected = index
         controller.idListSeleted = idList
         controller.itemsToShow = []
         controller.detailOf =   isBundle ? "Bundle" : "CrossSell"
         for product  in items {
-            let upc : NSString = product["upc"]!
-            let desc : NSString = product["description"]!
-            let type : NSString = ResultObjectType.Groceries.rawValue
+            let upc : NSString = product["upc"]! as NSString
+            let desc : NSString = product["description"]! as NSString
+            let type : NSString = ResultObjectType.Groceries.rawValue as NSString
             controller.itemsToShow.append(["upc":upc,"description":desc,"type":type])
         }
         self.navigationController!.pushViewController(controller, animated: true)

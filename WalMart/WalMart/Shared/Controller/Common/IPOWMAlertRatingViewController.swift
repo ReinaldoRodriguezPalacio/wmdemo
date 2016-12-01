@@ -20,14 +20,14 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewBgImage.hidden =  true
+        viewBgImage.isHidden =  true
         viewStarts = UIView()
         //ratingImage.image = UIImage(named: "ratingStars")
         
         labelText = UILabel()
         labelText.font = WMFont.fontMyriadProRegularOfSize(18)
         labelText.textColor = WMColor.light_gray
-        labelText.textAlignment = .Center
+        labelText.textAlignment = .center
         labelText.numberOfLines = 0
         labelText.text = NSLocalizedString("review.title.ok_rate", comment: "")
         
@@ -43,34 +43,34 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         
         if !isCustomAlert {
             if IS_IPAD {
-                viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 200, 160, 18)
-                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, 20)
+                viewStarts.frame = CGRect(x: (bounds.width / 2) - 80 , y: 200, width: 160, height: 18)
+                labelText.frame =  CGRect(x: 16,  y: viewStarts.frame.maxY + 40, width: self.view.frame.width - 32, height: 20)
                 
-                titleLabel.frame =  CGRectMake((bounds.width / 2) - 144,  labelText.frame.maxY + 29, 288, titleLabel!.frame.height)
-                centerButton.frame = CGRectMake((bounds.width / 2) - 144 , self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
+                titleLabel.frame =  CGRect(x: (bounds.width / 2) - 144,  y: labelText.frame.maxY + 29, width: 288, height: titleLabel!.frame.height)
+                centerButton.frame = CGRect(x: (bounds.width / 2) - 144 , y: self.titleLabel.frame.maxY + 29, width: centerButton.frame.width, height: 40)
             }else{
                 
-                viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 104, 160, 18)
-                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, 20)
+                viewStarts.frame = CGRect(x: (bounds.width / 2) - 80 , y: 104, width: 160, height: 18)
+                labelText.frame =  CGRect(x: 16,  y: viewStarts.frame.maxY + 40, width: self.view.frame.width - 32, height: 20)
                 
-                titleLabel.frame =  CGRectMake(16,  labelText.frame.maxY + 16, self.view.frame.width - 32, titleLabel!.frame.height)
-                centerButton.frame = CGRectMake(16, self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
+                titleLabel.frame =  CGRect(x: 16,  y: labelText.frame.maxY + 16, width: self.view.frame.width - 32, height: titleLabel!.frame.height)
+                centerButton.frame = CGRect(x: 16, y: self.titleLabel.frame.maxY + 29, width: centerButton.frame.width, height: 40)
             }
             
-            leftButton.frame = CGRectMake(centerButton.frame.minX, self.centerButton.frame.maxY + 29, (centerButton.frame.width / 2) - 4, 40)
-            rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, self.centerButton.frame.maxY + 29, leftButton.frame.width, 40)
+            leftButton.frame = CGRect(x: centerButton.frame.minX, y: self.centerButton.frame.maxY + 29, width: (centerButton.frame.width / 2) - 4, height: 40)
+            rightButton.frame = CGRect(x: leftButton.frame.maxX + 8, y: self.centerButton.frame.maxY + 29, width: leftButton.frame.width, height: 40)
             
             createStartImage()
         }else{
-            viewBgImage.hidden =  false
-            titleLabel.frame = CGRectMake(titleLabel.frame.origin.x,  viewBgImage.frame.maxY + 24, titleLabel.frame.size.width, titleLabel.frame.size.height)
+            viewBgImage.isHidden =  false
+            titleLabel.frame = CGRect(x: titleLabel.frame.origin.x,  y: viewBgImage.frame.maxY + 24, width: titleLabel.frame.size.width, height: titleLabel.frame.size.height)
             
             if IS_IPAD {
-                leftButton.frame = CGRectMake(self.view.frame.midX - 144, titleLabel.frame.maxY + 40, 140, 40)
-                rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, titleLabel.frame.maxY + 40, leftButton.frame.size.width, 40)
+                leftButton.frame = CGRect(x: self.view.frame.midX - 144, y: titleLabel.frame.maxY + 40, width: 140, height: 40)
+                rightButton.frame = CGRect(x: leftButton.frame.maxX + 8, y: titleLabel.frame.maxY + 40, width: leftButton.frame.size.width, height: 40)
             }else{
-                leftButton.frame = CGRectMake(16, titleLabel.frame.maxY + 40, 140, 40)
-                rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, titleLabel.frame.maxY + 40, leftButton.frame.size.width, 40)
+                leftButton.frame = CGRect(x: 16, y: titleLabel.frame.maxY + 40, width: 140, height: 40)
+                rightButton.frame = CGRect(x: leftButton.frame.maxX + 8, y: titleLabel.frame.maxY + 40, width: leftButton.frame.size.width, height: 40)
             }
         }
     }
@@ -86,18 +86,18 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
      - parameter centerText:   description button center
      - parameter centerAction: block action center
      */
-    func addActionButtonsWithCustomTextRating(leftText:String,leftAction:(() -> Void),rightText:String,rightAction:(() -> Void),centerText:String,centerAction:(() -> Void)) {
+    func addActionButtonsWithCustomTextRating(_ leftText:String,leftAction:@escaping (() -> Void),rightText:String,rightAction:@escaping (() -> Void),centerText:String,centerAction:@escaping (() -> Void)) {
     
         self.addActionButtonsWithCustomText(leftText, leftAction: leftAction, rightText: rightText, rightAction: rightAction, isNewFrame: false)
         
         
-        centerButton = UIButton(frame:CGRectMake(16, self.titleLabel.frame.maxY + 29, 288,40))
+        centerButton = UIButton(frame:CGRect(x: 16, y: self.titleLabel.frame.maxY + 29, width: 288,height: 40))
         centerButton.layer.cornerRadius = 20
-        centerButton.setTitle(centerText, forState: UIControlState.Normal)
+        centerButton.setTitle(centerText, for: UIControlState())
         centerButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         centerButton.backgroundColor = WMColor.green
-        centerButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        centerButton.addTarget(self, action: #selector(IPOWMAlertRatingViewController.centerTapInside), forControlEvents: UIControlEvents.TouchUpInside)
+        centerButton.setTitleColor(UIColor.white, for: UIControlState())
+        centerButton.addTarget(self, action: #selector(IPOWMAlertRatingViewController.centerTapInside), for: UIControlEvents.touchUpInside)
         
         
         self.centerAction = centerAction
@@ -114,7 +114,7 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         var left :CGFloat = 0.0
         for _ in 0  ..< 5  {
          let start  =  UIImageView(image: UIImage(named: "ratingStars"))
-            start.frame = CGRectMake(left ,0,16,16)
+            start.frame = CGRect(x: left ,y: 0,width: 16,height: 16)
             self.viewStarts.addSubview(start)
             left = left + 36
         }
@@ -138,8 +138,8 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
      
      - returns: alert rating
      */
-    class func showAlertRating(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPOWMAlertRatingViewController? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+    class func showAlertRating(_ imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPOWMAlertRatingViewController? {
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         if vc != nil {
             vc?.view.endEditing(true)
             return showAlert(vc!,imageWaiting:imageWaiting,imageDone:imageDone,imageError:imageError)
@@ -157,7 +157,7 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
      
      - returns: alert rating
      */
-    override class func showAlert(controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPOWMAlertRatingViewController? {
+    override class func showAlert(_ controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPOWMAlertRatingViewController? {
         let newAlert = IPOWMAlertRatingViewController()
         newAlert.imageWaiting = imageWaiting
         newAlert.imageDone = imageDone

@@ -50,7 +50,7 @@ class OrderConfirmDetailView : UIView {
     var deliveryAmount : Double!
     var discountsAssociated : Double!
     
-    var timmerAnimation : NSTimer!
+    var timmerAnimation : Timer!
     let animating : Bool = true
     
     var imgBgView : UIImageView!
@@ -70,92 +70,92 @@ class OrderConfirmDetailView : UIView {
     
     func setup() {
         
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
    
-        viewContent = UIView(frame: CGRectMake(0, 0, 288, 264))
+        viewContent = UIView(frame: CGRect(x: 0, y: 0, width: 288, height: 264))
         viewContent.layer.cornerRadius = 8.0
         viewContent.clipsToBounds = true
-        viewContent.backgroundColor = UIColor.clearColor()
+        viewContent.backgroundColor = UIColor.clear
         viewContent.clipsToBounds = true
         
         let imgIcon =  UIImage(named:"order_icon")
-        iconLoadingDone = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - (imgIcon!.size.width / 2), 77, imgIcon!.size.width, imgIcon!.size.height))
+        iconLoadingDone = UIImageView(frame: CGRect(x: (self.viewContent.frame.width / 2) - (imgIcon!.size.width / 2), y: 77, width: imgIcon!.size.width, height: imgIcon!.size.height))
         iconLoadingDone.image = imgIcon
         
-        let imgConfirm = UIImageView(frame: CGRectMake(0, 0, 288, 464))
+        let imgConfirm = UIImageView(frame: CGRect(x: 0, y: 0, width: 288, height: 464))
         imgConfirm.image = UIImage(named: "confirm_bg")
         viewContent.addSubview(imgConfirm)
         
-        buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, 418, 98, 34))
+        buttonOk = UIButton(frame: CGRect(x: (self.viewContent.frame.width / 2) - 49, y: 418, width: 98, height: 34))
         buttonOk.backgroundColor = WMColor.light_blue
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonOk.setTitle("Ok", forState: UIControlState.Normal)
-        buttonOk.addTarget(self, action: #selector(OrderConfirmDetailView.okAction), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonOk.setTitle("Ok", for: UIControlState())
+        buttonOk.addTarget(self, action: #selector(OrderConfirmDetailView.okAction), for: UIControlEvents.touchUpInside)
         
-        titleLabel = UILabel(frame: CGRectMake(0, 24, viewContent.frame.width, 18))
+        titleLabel = UILabel(frame: CGRect(x: 0, y: 24, width: viewContent.frame.width, height: 18))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.text = NSLocalizedString("gr.confirma.generatingorden",comment: "")
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.textColor = WMColor.light_blue
         
-        imageBarCode = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - 102, iconLoadingDone.frame.maxY + 16, 206, 56))
+        imageBarCode = UIImageView(frame: CGRect(x: (self.viewContent.frame.width / 2) - 102, y: iconLoadingDone.frame.maxY + 16, width: 206, height: 56))
         
         
-        lblTitleTrackingNumber = UILabel(frame: CGRectMake(0, 244, viewContent.frame.width, 14))
+        lblTitleTrackingNumber = UILabel(frame: CGRect(x: 0, y: 244, width: viewContent.frame.width, height: 14))
         lblTitleTrackingNumber.font = WMFont.fontMyriadProRegularOfSize(14)
         lblTitleTrackingNumber.text = NSLocalizedString("gr.confirma.trakingnum",comment: "")
-        lblTitleTrackingNumber.textAlignment = .Center
+        lblTitleTrackingNumber.textAlignment = .center
         lblTitleTrackingNumber.textColor = WMColor.dark_gray
-        lblTitleTrackingNumber.hidden = true
+        lblTitleTrackingNumber.isHidden = true
         
         
-        let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 274, 80, 12))
+        let lblTitleDeliveryDate = labelTitle(CGRect(x: 48, y: 274, width: 80, height: 12))
         lblTitleDeliveryDate.text = NSLocalizedString("gr.confirma.deliverydate", comment: "")
         
-        let lblTitleDeliveryHour = labelTitle(CGRectMake(160, lblTitleDeliveryDate.frame.minY, lblTitleDeliveryDate.frame.width, lblTitleDeliveryDate.frame.height))
+        let lblTitleDeliveryHour = labelTitle(CGRect(x: 160, y: lblTitleDeliveryDate.frame.minY, width: lblTitleDeliveryDate.frame.width, height: lblTitleDeliveryDate.frame.height))
         lblTitleDeliveryHour.text = NSLocalizedString("gr.confirma.deliveryhour", comment: "")
         
-        let lblTitlePaymentType = labelTitle(CGRectMake(48, 306, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitlePaymentType = labelTitle(CGRect(x: 48, y: 306, width: lblTitleDeliveryHour.frame.width, height: lblTitleDeliveryHour.frame.height))
         lblTitlePaymentType.text = NSLocalizedString("gr.confirma.paymenttype", comment: "")
         
-        let lblTitleSubtotal = labelTitle(CGRectMake(48, 370, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitleSubtotal = labelTitle(CGRect(x: 48, y: 370, width: lblTitleDeliveryHour.frame.width, height: lblTitleDeliveryHour.frame.height))
         lblTitleSubtotal.text = NSLocalizedString("gr.confirma.subtotal", comment: "")
         
-        lbldiscountsAssociated = labelTitle(CGRectMake(160, 338, lblTitleDeliveryHour.frame.maxX, lblTitleDeliveryHour.frame.height))
+        lbldiscountsAssociated = labelTitle(CGRect(x: 160, y: 338, width: lblTitleDeliveryHour.frame.maxX, height: lblTitleDeliveryHour.frame.height))
         lbldiscountsAssociated.text = NSLocalizedString("gr.confirma.descuentodeasociado", comment: "")
 
         
-        let lblTitleTotal = labelTitle(CGRectMake(160, 370, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitleTotal = labelTitle(CGRect(x: 160, y: 370, width: lblTitleDeliveryHour.frame.width, height: lblTitleDeliveryHour.frame.height))
         lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
         
-        let lblTitledeliveryAmount = labelTitle(CGRectMake(48, 338, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitledeliveryAmount = labelTitle(CGRect(x: 48, y: 338, width: lblTitleDeliveryHour.frame.width, height: lblTitleDeliveryHour.frame.height))
         lblTitledeliveryAmount.text = NSLocalizedString("gr.confirma.costodeenvio", comment: "")
 
         
-        lblValueDeliveryDate = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
-        lblValueDeliveryHour = labelValue(CGRectMake(160, lblTitleDeliveryDate.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValuePaymentType = labelValue(CGRectMake(48, lblTitlePaymentType.frame.maxY, self.viewContent.frame.width - 48, lblValueDeliveryDate.frame.height))
-        lblValueDeliveryAmount = labelValue(CGRectMake(48, lblTitledeliveryAmount.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueSubtotal = labelValue(CGRectMake(48, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueDiscountsAssociated = labelValue(CGRectMake(160, lbldiscountsAssociated.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueTotal = labelValue(CGRectMake(160, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
+        lblValueDeliveryDate = labelValue(CGRect(x: 48, y: lblTitleDeliveryDate.frame.maxY, width: 80, height: 14))
+        lblValueDeliveryHour = labelValue(CGRect(x: 160, y: lblTitleDeliveryDate.frame.maxY, width: 80, height: lblValueDeliveryDate.frame.height))
+        lblValuePaymentType = labelValue(CGRect(x: 48, y: lblTitlePaymentType.frame.maxY, width: self.viewContent.frame.width - 48, height: lblValueDeliveryDate.frame.height))
+        lblValueDeliveryAmount = labelValue(CGRect(x: 48, y: lblTitledeliveryAmount.frame.maxY, width: 80, height: lblValueDeliveryDate.frame.height))
+        lblValueSubtotal = labelValue(CGRect(x: 48, y: lblTitleSubtotal.frame.maxY, width: 80, height: lblValueDeliveryDate.frame.height))
+        lblValueDiscountsAssociated = labelValue(CGRect(x: 160, y: lbldiscountsAssociated.frame.maxY, width: 80, height: lblValueDeliveryDate.frame.height))
+        lblValueTotal = labelValue(CGRect(x: 160, y: lblTitleSubtotal.frame.maxY, width: 80, height: lblValueDeliveryDate.frame.height))
         
       
         
         viewLoadingDoneAnimate = UIView()
-        viewLoadingDoneAnimate.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
-        viewLoadingDoneAnimate.frame = CGRectMake(0, 0,  imgIcon!.size.width - 2, imgIcon!.size.height - 2)
+        viewLoadingDoneAnimate.backgroundColor = WMColor.light_blue.withAlphaComponent(0.5)
+        viewLoadingDoneAnimate.frame = CGRect(x: 0, y: 0,  width: imgIcon!.size.width - 2, height: imgIcon!.size.height - 2)
         viewLoadingDoneAnimate.center = iconLoadingDone.center
         viewLoadingDoneAnimate.layer.cornerRadius = (imgIcon!.size.height - 2) / 2
         
         viewLoadingDoneAnimateAux = UIView()
-        viewLoadingDoneAnimateAux.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
-        viewLoadingDoneAnimateAux.frame = CGRectMake(0, 0,  imgIcon!.size.width - 2, imgIcon!.size.height - 2)
+        viewLoadingDoneAnimateAux.backgroundColor = WMColor.light_blue.withAlphaComponent(0.5)
+        viewLoadingDoneAnimateAux.frame = CGRect(x: 0, y: 0,  width: imgIcon!.size.width - 2, height: imgIcon!.size.height - 2)
         viewLoadingDoneAnimateAux.center = iconLoadingDone.center
         viewLoadingDoneAnimateAux.layer.cornerRadius = (imgIcon!.size.height - 2) / 2
 
@@ -198,7 +198,7 @@ class OrderConfirmDetailView : UIView {
    
     
     class func initDetail()  -> OrderConfirmDetailView? {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         //var frame = vc!.view.bounds
         if vc != nil {
             return initDetail(vc!)
@@ -206,16 +206,16 @@ class OrderConfirmDetailView : UIView {
         return nil
     }
     
-    class func initDetail(controller:UIViewController) -> OrderConfirmDetailView? {
+    class func initDetail(_ controller:UIViewController) -> OrderConfirmDetailView? {
         let newConfirm = OrderConfirmDetailView(frame:controller.view.bounds)
         return newConfirm
     }
     
     func showDetail() {
-        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         vc!.view.addSubview(self)
-        let imgBack =  UIImage(fromView:vc!.view,size:self.bgView.bounds.size)
-        let imgBackBlur = imgBack.applyLightEffect()
+        let imgBack =  UIImage(from:vc!.view,size:self.bgView.bounds.size)
+        let imgBackBlur = imgBack?.applyLightEffect()
         imgBgView.image = imgBackBlur
         
         self.startAnimating()
@@ -226,20 +226,20 @@ class OrderConfirmDetailView : UIView {
         
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        bgViewAlpha.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
         
         bgView.alpha = 0
-        viewContent.transform = CGAffineTransformMakeTranslation(0,500)
+        viewContent.transform = CGAffineTransform(translationX: 0,y: 500)
         
-        UIView.animateKeyframesWithDuration(0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModeCubicPaced, animations: { () -> Void in
+        UIView.animateKeyframes(withDuration: 0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.calculationModeCubicPaced, animations: { () -> Void in
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
                 self.bgView.alpha = 1.0
             })
             
-            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.viewContent.transform = CGAffineTransformIdentity
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
+                self.viewContent.transform = CGAffineTransform.identity
             })
       
             
@@ -252,7 +252,7 @@ class OrderConfirmDetailView : UIView {
         
     }
     
-    func completeOrder(trakingNumber:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String,deliveryAmount:String,discountsAssociated:String) {
+    func completeOrder(_ trakingNumber:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String,deliveryAmount:String,discountsAssociated:String) {
         
         var imageCode = RSUnifiedCodeGenerator.shared.generateCode(trakingNumber, machineReadableCodeObjectType: AVMetadataObjectTypeCode39Code)
         if imageCode == nil {
@@ -270,11 +270,11 @@ class OrderConfirmDetailView : UIView {
         lblValueTotal.text = total
         lblValueDeliveryAmount.text = deliveryAmount
         lblValueDiscountsAssociated.text = "$\(discountsAssociated)"
-        lblTitleTrackingNumber.hidden = false
+        lblTitleTrackingNumber.isHidden = false
 
             if discountsAssociated == "0.0"{
-                lblValueDiscountsAssociated.hidden = true
-                lbldiscountsAssociated.hidden = true
+                lblValueDiscountsAssociated.isHidden = true
+                lbldiscountsAssociated.isHidden = true
                 
             }
             
@@ -288,49 +288,49 @@ class OrderConfirmDetailView : UIView {
 
         viewLoadingDoneAnimateAux.alpha = 0.0
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 288, 494)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.viewContent.frame = CGRect(x: 0, y: 0, width: 288, height: 494)
             self.viewContent.center = self.center
-        }) { (complete) -> Void in
+        }, completion: { (complete) -> Void in
             
-            self.viewLoadingDoneAnimate.transform = CGAffineTransformMakeScale(1.2,1.2)
+            self.viewLoadingDoneAnimate.transform = CGAffineTransform(scaleX: 1.2,y: 1.2)
             
             self.titleLabel.text = NSLocalizedString("gr.confirma.title",comment: "")
             
-            self.viewLoadingDoneAnimate.backgroundColor = WMColor.green.colorWithAlphaComponent(0.5)
+            self.viewLoadingDoneAnimate.backgroundColor = WMColor.green.withAlphaComponent(0.5)
 
             self.iconLoadingDone.image = UIImage(named:"done_order")
             let animation = CAKeyframeAnimation()
             animation.keyPath = "transform.scale"
             animation.duration = 0.6
-            animation.removedOnCompletion = false
+            animation.isRemovedOnCompletion = false
             animation.fillMode = kCAFillModeForwards
             animation.repeatCount = 1
             animation.values = [0, 1.3,1]
-            self.iconLoadingDone.layer.addAnimation(animation, forKey: "grow")
+            self.iconLoadingDone.layer.add(animation, forKey: "grow")
 
             
-        }
+        }) 
         
     }
     
-    func errorOrder(descError:String) {
+    func errorOrder(_ descError:String) {
         
         viewLoadingDoneAnimate.layer.removeAllAnimations()
         viewLoadingDoneAnimateAux.layer.removeAllAnimations()
         
         self.titleLabel.text = descError
         
-        let buttonNOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, viewLoadingDoneAnimate.frame.maxY + 32, 98, 34))
+        let buttonNOk = UIButton(frame: CGRect(x: (self.viewContent.frame.width / 2) - 49, y: viewLoadingDoneAnimate.frame.maxY + 32, width: 98, height: 34))
         buttonNOk.backgroundColor = WMColor.light_blue
         buttonNOk.layer.cornerRadius = 17
         buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonNOk.setTitle("Ok", forState: UIControlState.Normal)
-        buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkAction), forControlEvents: UIControlEvents.TouchUpInside)
+        buttonNOk.setTitle("Ok", for: UIControlState())
+        buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkAction), for: UIControlEvents.touchUpInside)
         
         self.viewContent.addSubview(buttonNOk)
         
-        self.titleLabel.frame = CGRectMake(0, 24, viewContent.frame.width, 36)
+        self.titleLabel.frame = CGRect(x: 0, y: 24, width: viewContent.frame.width, height: 36)
         self.titleLabel.numberOfLines = 2
         
     }
@@ -355,10 +355,10 @@ class OrderConfirmDetailView : UIView {
        let showRating = CustomBarViewController.retrieveRateParam(self.KEY_RATING)
         let velue = showRating == nil ? "" :showRating?.value
         
-        if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
+        if UserCurrentSession.sharedInstance.isReviewActive && (velue == "" ||  velue == "true") {
             let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
             alert!.isCustomAlert = true
-            alert!.spinImage.hidden =  true
+            alert!.spinImage.isHidden =  true
             alert!.setMessage(NSLocalizedString("review.title.like.app", comment: ""))
             alert!.addActionButtonsWithCustomText("No", leftAction: {
                  CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
@@ -384,7 +384,7 @@ class OrderConfirmDetailView : UIView {
     func rankingApp(){
         
         let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
-        alert!.spinImage.hidden =  true
+        alert!.spinImage.isHidden =  true
         alert!.setMessage(NSLocalizedString("review.description.ok.rate", comment: ""))
         alert!.addActionButtonsWithCustomTextRating(NSLocalizedString("review.no.thanks", comment: ""), leftAction: {
            
@@ -407,9 +407,9 @@ class OrderConfirmDetailView : UIView {
                 alert?.close()
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 self.finishSopping()
-                let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
-                if UIApplication.sharedApplication().canOpenURL(url!) == true  {
-                    UIApplication.sharedApplication().openURL(url!)
+                let url  = URL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+                if UIApplication.shared.canOpenURL(url!) == true  {
+                    UIApplication.shared.openURL(url!)
                 }
                 
             
@@ -428,14 +428,14 @@ class OrderConfirmDetailView : UIView {
         self.removeFromSuperview()
     }
     
-    func labelTitle(frame:CGRect) -> UILabel {
+    func labelTitle(_ frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(12)
         labelTitleItem.textColor = WMColor.light_blue
         return labelTitleItem
     }
     
-    func labelValue(frame:CGRect) -> UILabel {
+    func labelValue(_ frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(14)
         labelTitleItem.textColor = WMColor.light_blue
@@ -449,40 +449,40 @@ class OrderConfirmDetailView : UIView {
         var animation = CAKeyframeAnimation()
         animation.keyPath = "transform.scale"
         animation.duration = 1
-        animation.removedOnCompletion = false
+        animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         animation.repeatCount = Float.infinity
         animation.values = [1, 1.5]
-        viewLoadingDoneAnimate.layer.addAnimation(animation, forKey: "grow")
+        viewLoadingDoneAnimate.layer.add(animation, forKey: "grow")
         
         var animationOp = CAKeyframeAnimation()
         animationOp.keyPath = "opacity"
         animationOp.duration = 1
-        animationOp.removedOnCompletion = false
+        animationOp.isRemovedOnCompletion = false
         animationOp.fillMode = kCAFillModeForwards
         animationOp.repeatCount = Float.infinity
         animationOp.values = [1, 0]
-        viewLoadingDoneAnimate.layer.addAnimation(animationOp, forKey: "alpha0")
+        viewLoadingDoneAnimate.layer.add(animationOp, forKey: "alpha0")
         
         animation = CAKeyframeAnimation()
         animation.keyPath = "transform.scale"
         animation.beginTime = CACurrentMediaTime() + 0.5
         animation.duration = 1
-        animation.removedOnCompletion = false
+        animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         animation.repeatCount = Float.infinity
         animation.values = [1, 1.5]
-        viewLoadingDoneAnimateAux.layer.addAnimation(animation, forKey: "grow")
+        viewLoadingDoneAnimateAux.layer.add(animation, forKey: "grow")
         
         animationOp = CAKeyframeAnimation()
         animationOp.keyPath = "opacity"
         animationOp.beginTime = CACurrentMediaTime() + 0.5
         animationOp.duration = 1
-        animationOp.removedOnCompletion = false
+        animationOp.isRemovedOnCompletion = false
         animationOp.fillMode = kCAFillModeForwards
         animationOp.repeatCount = Float.infinity
         animationOp.values = [1, 0]
-        viewLoadingDoneAnimateAux.layer.addAnimation(animationOp, forKey: "alpha0")
+        viewLoadingDoneAnimateAux.layer.add(animationOp, forKey: "alpha0")
         
         
     }

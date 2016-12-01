@@ -25,20 +25,20 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         
         
         
-        collection?.registerClass(IPASectionHeaderSearchReusable.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
-        collection?.registerClass(IPACatHeaderSearchReusable.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
+        collection?.register(IPASectionHeaderSearchReusable.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        collection?.register(IPACatHeaderSearchReusable.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
         
         if let layoutFlow = collection!.collectionViewLayout as? UICollectionViewFlowLayout {
-            layoutFlow.headerReferenceSize = CGSizeMake(1024, 54)
+            layoutFlow.headerReferenceSize = CGSize(width: 1024, height: 54)
         }
         self.header?.removeFromSuperview()
         
-        self.collection!.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+        self.collection!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         
         
         loading?.stopAnnimating()
         
-        self.loading = WMLoadingView(frame: CGRectMake(0, 216, self.view.bounds.width, self.view.bounds.height - 216))
+        self.loading = WMLoadingView(frame: CGRect(x: 0, y: 216, width: self.view.bounds.width, height: self.view.bounds.height - 216))
         
         
     }
@@ -52,18 +52,18 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
 
     
     override func viewWillLayoutSubviews() {
-        contentCollectionOffset = CGPointZero
-        self.collection!.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+        contentCollectionOffset = CGPoint.zero
+        self.collection!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
     }
     
     
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let reusableView : UICollectionReusableView? = nil
         
         if kind == CSStickyHeaderParallaxHeader {
-            let view = collection?.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! IPACatHeaderSearchReusable
+            let view = collection?.dequeueReusableSupplementaryView(ofKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", for: indexPath) as! IPACatHeaderSearchReusable
             
             view.setValues(imageBgCategory,imgIcon: imageIconCategory,titleStr: titleCategory!)
             view.delegate = delegateImgHeader
@@ -72,25 +72,25 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             return view
         }
         if kind == UICollectionElementKindSectionHeader {
-            let view = collection?.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! IPASectionHeaderSearchReusable
-            self.header!.frame = CGRectMake(0, 0, 1024, 54)
+            let view = collection?.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! IPASectionHeaderSearchReusable
+            self.header!.frame = CGRect(x: 0, y: 0, width: 1024, height: 54)
             
-            self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 85, (self.header!.frame.size.height - 22)/2 , 55, 22)//CGRectMake(1024 - 87, 0 , 44, 22)
+            self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 85, y: (self.header!.frame.size.height - 22)/2 , width: 55, height: 22)//CGRectMake(1024 - 87, 0 , 44, 22)
             
             view.addSubview(self.header!)
-            view.sendSubviewToBack(self.header!)
+            view.sendSubview(toBack: self.header!)
             view.delegate = delegateHeader
             
             
-            view.title!.setTitle(titleHeader, forState: UIControlState.Normal)
+            view.title!.setTitle(titleHeader, for: UIControlState())
             
             
             let attrStringLab = NSAttributedString(string:titleHeader!, attributes: [NSFontAttributeName : view.title!.titleLabel!.font])
             
 
-            let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+            let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
             let wTitleSize = rectSize.width + 48
-            view.title!.frame = CGRectMake((1024 / 2) -  (wTitleSize / 2), (self.header!.frame.height / 2) - 12, wTitleSize, 24)
+            view.title!.frame = CGRect(x: (1024 / 2) -  (wTitleSize / 2), y: (self.header!.frame.height / 2) - 12, width: wTitleSize, height: 24)
             
             viewHeader = view
             
@@ -102,9 +102,9 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-        cell.backgroundColor = UIColor.whiteColor()
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath)
+        cell.backgroundColor = UIColor.white
         return cell
     }
     
@@ -112,29 +112,29 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     override func getCollectionView() -> UICollectionView {
         let customlayout = CSStickyHeaderFlowLayout()
         customlayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 216)
-        customlayout.parallaxHeaderReferenceSize = CGSizeMake(1024, 216)
-        customlayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(1024, 216)
+        customlayout.parallaxHeaderReferenceSize = CGSize(width: 1024, height: 216)
+        customlayout.parallaxHeaderMinimumReferenceSize = CGSize(width: 1024, height: 216)
         customlayout.disableStickyHeaders = false
         //customlayout.parallaxHeaderAlwaysOnTop = true
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
         return collectionView
     }
     
-    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(341.33 , 254);
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 341.33 , height: 254);
     }
     
 //    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 //        return CGSizeMake(self.view.bounds.width / 3, 254);
 //    }
     
-    override func showLoadingIfNeeded(hidden: Bool ) {
+    override func showLoadingIfNeeded(_ hidden: Bool ) {
         if hidden {
             self.loading!.stopAnnimating()
         } else {
             
-            self.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
-            self.loading = WMLoadingView(frame: CGRectMake(0, 216, self.view.bounds.width, self.view.bounds.height - 216))
+            self.viewHeader.convert(CGPoint(x: self.view.frame.width / 2, y: 216), to:self.view.superview)
+            self.loading = WMLoadingView(frame: CGRect(x: 0, y: 216, width: self.view.bounds.width, height: self.view.bounds.height - 216))
             
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(false)

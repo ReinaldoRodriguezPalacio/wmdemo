@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 enum WishlistStatus : Int {
-    case Created = 1
-    case Updated = 2
-    case Deleted = 3
-    case Synchronized = 4
+    case created = 1
+    case updated = 2
+    case deleted = 3
+    case synchronized = 4
 }
 
 

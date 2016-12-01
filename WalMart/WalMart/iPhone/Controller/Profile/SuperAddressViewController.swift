@@ -17,7 +17,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var sAddredssForm : FormSuperAddressView!
     var viewLoad : WMLoadingView!
     var alertView : IPOWMAlertViewController? = nil
-    var allAddress: NSArray! = []
+    var allAddress: [Any]! = []
     var showGRAddressForm: Bool = false
     var isPreferred: Bool = false
     var saveButtonBottom: WMRoundButton?
@@ -29,31 +29,31 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     override func viewDidLoad() {
         super.viewDidLoad()
               
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton!.addTarget(self, action: #selector(SuperAddressViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.saveButton!.hidden = true
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSize(width: 71, height: 22), forUIControlState: UIControlState())
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , for: UIControlState())
+        self.saveButton!.addTarget(self, action: #selector(SuperAddressViewController.save(_:)), for: UIControlEvents.touchUpInside)
+        self.saveButton!.isHidden = true
         self.saveButton!.alpha = 0
         self.saveButton!.tag = 1
         self.header?.addSubview(self.saveButton!)
         
         self.saveButtonBottom = WMRoundButton()
         self.saveButtonBottom?.setFontTitle(WMFont.fontMyriadProRegularOfSize(13))
-        self.saveButtonBottom?.setBackgroundColor(WMColor.green, size: CGSizeMake(98, 34), forUIControlState: UIControlState.Normal)
-        self.saveButtonBottom!.setTitle(NSLocalizedString("profile.save", comment:"" ).capitalizedString , forState: UIControlState.Normal)
-        self.saveButtonBottom!.addTarget(self, action: #selector(SuperAddressViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButtonBottom?.setBackgroundColor(WMColor.green, size: CGSize(width: 98, height: 34), forUIControlState: UIControlState())
+        self.saveButtonBottom!.setTitle(NSLocalizedString("profile.save", comment:"" ).capitalized , for: UIControlState())
+        self.saveButtonBottom!.addTarget(self, action: #selector(SuperAddressViewController.save(_:)), for: UIControlEvents.touchUpInside)
         self.saveButtonBottom!.tag = 1
-        self.saveButton!.hidden = true
+        self.saveButton!.isHidden = true
         self.view.addSubview(self.saveButtonBottom!)
         
         if addressId != "" {
             deleteButton = UIButton()
-            deleteButton?.addTarget(self, action: #selector(SuperAddressViewController.deleteAddress(_:)), forControlEvents: .TouchUpInside)
-            deleteButton!.setImage(UIImage(named: "deleteAddress"), forState: UIControlState.Normal)
+            deleteButton?.addTarget(self, action: #selector(SuperAddressViewController.deleteAddress(_:)), for: .touchUpInside)
+            deleteButton!.setImage(UIImage(named: "deleteAddress"), for: UIControlState())
             self.header!.addSubview(self.deleteButton!)
         }
         
@@ -61,11 +61,11 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm.scrollDelegate = self
-        scrollForm.contentSize = CGSizeMake( self.view.bounds.width, 720)
+        scrollForm.contentSize = CGSize( width: self.view.bounds.width, height: 720)
         if(self.showGRAddressForm){
-            sAddredssForm = GRFormSuperAddressView(frame: CGRectMake(0, 0, self.view.bounds.width, 700))
+            sAddredssForm = GRFormSuperAddressView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 700))
         }else{
-            sAddredssForm = FormSuperAddressView(frame: CGRectMake(0, 0, self.view.bounds.width, 700))
+            sAddredssForm = FormSuperAddressView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 700))
         }
         sAddredssForm.delegateFormAdd = self
         sAddredssForm.allAddress = self.allAddress
@@ -81,39 +81,39 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         let bounds = self.view.bounds
         
          if addressId != "" {
-            self.deleteButton!.frame = CGRectMake( bounds.maxX - 54, 0 , 54, self.header!.frame.height)
+            self.deleteButton!.frame = CGRect( x: bounds.maxX - 54, y: 0 , width: 54, height: self.header!.frame.height)
             left = left + 30
         }
 
-        self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
-        self.titleLabel!.frame = CGRectMake(16, 0, (bounds.width - 32), self.header!.frame.maxY)
+        self.saveButton!.frame = CGRect(x: self.view.bounds.maxX - left , y: 0 , width: 71, height: self.header!.frame.height)
+        self.titleLabel!.frame = CGRect(x: 16, y: 0, width: (bounds.width - 32), height: self.header!.frame.maxY)
         
-        sAddredssForm.frame = CGRectMake(0, 0,  self.view.bounds.width, 700)
-        scrollForm.contentSize = CGSizeMake( self.view.bounds.width, 720)
-        scrollForm.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.frame.height - self.header!.frame.maxY)
+        sAddredssForm.frame = CGRect(x: 0, y: 0,  width: self.view.bounds.width, height: 700)
+        scrollForm.contentSize = CGSize( width: self.view.bounds.width, height: 720)
+        scrollForm.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.frame.height - self.header!.frame.maxY)
         
         if self.showGRAddressForm{
             self.setSaveButtonToBottom()
         }
     }
     
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        let val = CGSizeMake(self.view.frame.width, 720)
+    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+        let val = CGSize(width: self.view.frame.width, height: 720)
         return val
     }
     
-    func textFieldDidBeginEditing(sender: UITextField!) {
+    func textFieldDidBeginEditing(_ sender: UITextField!) {
         
     }
     
     
     
     func changeTitleLabel(){
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.saveButton!.alpha = 1.0
             if self.addressId != "" {
-                self.titleLabel!.frame = CGRectMake(37 , 0, self.titleLabel!.frame.width , self.header!.frame.maxY)
-                self.titleLabel!.textAlignment = .Left
+                self.titleLabel!.frame = CGRect(x: 37 , y: 0, width: self.titleLabel!.frame.width , height: self.header!.frame.maxY)
+                self.titleLabel!.textAlignment = .left
             }
             }, completion: {(bool : Bool) in
                 if bool {
@@ -124,16 +124,16 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     
     func showUpdate() {
         self.saveButton!.alpha = 1.0
-        self.saveButton!.hidden = false
+        self.saveButton!.isHidden = false
         self.sAddredssForm.removeErrorLog()
         if !self.showGRAddressForm {
             self.changeTitleLabel()
         }
     }
     
-    func textModify(sender: UITextField!) {
-        if self.saveButton!.hidden {
-            self.saveButton!.hidden = false
+    func textModify(_ sender: UITextField!) {
+        if self.saveButton!.isHidden {
+            self.saveButton!.isHidden = false
             self.sAddredssForm.removeErrorLog()
             if !self.showGRAddressForm {
                 self.changeTitleLabel()
@@ -152,7 +152,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         }
     }
 
-    func save(sender:UIButton) {
+    func save(_ sender:UIButton) {
         
         self.view.endEditing(true)
         let service = GRAddressAddService()
@@ -161,22 +161,22 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.view.endEditing(true)
             self.scrollForm.resignFirstResponder()
             if showGRAddressForm{
-                self.saveButton!.hidden = true
+                self.saveButton!.isHidden = true
                 self.alertView = IPOWMAlertViewController.showAlert(self, imageWaiting: UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             }
             else{
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             }
-            let address = ["storeID":dictSend!["StoreID"]!,"storeName":dictSend!["storeName"]!,"zipCode":dictSend!["ZipCode"]!,"addressID":dictSend!["AddressID"]!] as NSDictionary
+            let address = ["storeID":dictSend!["StoreID"]!,"storeName":dictSend!["storeName"]!,"zipCode":dictSend!["ZipCode"]!,"addressID":dictSend!["AddressID"]!] as [String:Any]
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+            service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 print("Se realizao la direccion")
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                 }
                 if self.isPreferred {
-                    UserCurrentSession.sharedInstance().getStoreByAddress(address)
+                    UserCurrentSession.sharedInstance.getStoreByAddress(address)
                 }
                 self.alertView!.showDoneIcon()
                 }) { (error:NSError) -> Void in
@@ -187,27 +187,27 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     }
     
     func setSaveButtonToBottom(){
-        scrollForm.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.frame.height - self.header!.frame.height - 60)
-        self.saveButtonBottom!.frame = CGRectMake((self.view.frame.width/2) - 49 ,scrollForm.frame.maxY + 15, 98, 34)
+        scrollForm.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.frame.height - self.header!.frame.height - 60)
+        self.saveButtonBottom!.frame = CGRect(x: (self.view.frame.width/2) - 49 ,y: scrollForm.frame.maxY + 15, width: 98, height: 34)
         let line: CALayer = CALayer()
-        line.frame = CGRectMake(0.0, scrollForm.frame.maxY, self.view.bounds.width,1.0)
-        line.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view.layer.insertSublayer(line, atIndex: 0)
+        line.frame = CGRect(x: 0.0, y: scrollForm.frame.maxY, width: self.view.bounds.width,height: 1.0)
+        line.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view.layer.insertSublayer(line, at: 0)
         self.saveButton!.removeFromSuperview()
-        self.saveButtonBottom!.hidden = false
+        self.saveButtonBottom!.isHidden = false
     }
     
-    func setValues(addressId:NSString) {
+    func setValues(_ addressId:NSString) {
         self.addressId = addressId as String
         self.viewLoad = WMLoadingView(frame: self.view.bounds)
-        self.viewLoad.backgroundColor = UIColor.whiteColor()
+        self.viewLoad.backgroundColor = UIColor.white
         
         self.view.addSubview(viewLoad)
         self.viewLoad.startAnnimating(true)
 
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = addressId as String
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
           
             if self.viewLoad != nil{
                 self.viewLoad.stopAnnimating()
@@ -225,12 +225,12 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             //self.sAddredssForm.defaultPrefered = false
             let neighborhoodID = result["neighborhoodID"] as! String!
             let storeID = result["storeID"] as! String!
-            self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+            self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
             }) { (error:NSError) -> Void in
         }
     }
     
-    func deleteAddress(sender:UIButton){
+    func deleteAddress(_ sender:UIButton){
         
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(self.addressId, delete:true)
@@ -244,15 +244,15 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             }
             self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-            service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+            service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 print("Se realizao la direccion")
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     let serviceAddress = GRAddressesByIDService()
                     serviceAddress.addressId = resultCall["addressID"] as? String
-                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
-                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                    serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
+                        UserCurrentSession.sharedInstance.getStoreByAddress(result)
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }

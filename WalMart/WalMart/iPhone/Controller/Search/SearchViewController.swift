@@ -7,20 +7,44 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol SearchViewControllerDelegate {
-    func selectKeyWord(keyWord:String,upc:String?, truncate:Bool,upcs:[String]?)
+    func selectKeyWord(_ keyWord:String,upc:String?, truncate:Bool,upcs:[String]?)
     func searchControllerScanButtonClicked()
-    func searchControllerCamButtonClicked(controller: CameraViewControllerDelegate!)
-    func closeSearch(addShoping:Bool, sender:UIButton?)
+    func searchControllerCamButtonClicked(_ controller: CameraViewControllerDelegate!)
+    func closeSearch(_ addShoping:Bool, sender:UIButton?)
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType)
 }
 
 class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
-    var elements: [AnyObject]?
+    var elements: [Any]?
     var upcItems: [String]?
-    var elementsCategories: [AnyObject]?
+    var elementsCategories: [Any]?
     var currentKey: String?
     var header: UIView?
     var field: UITextField?
@@ -52,24 +76,24 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
  
         viewTapClose = UIView()
         self.viewBackground = UIView()
-        self.viewBackground?.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
+        self.viewBackground?.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
         self.view.addSubview(self.viewBackground!)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:#selector(SearchViewController.handleTap(_:)))
         self.viewTapClose?.addGestureRecognizer(tapGestureRecognizer)
-        self.viewTapClose?.backgroundColor = UIColor.clearColor()
+        self.viewTapClose?.backgroundColor = UIColor.clear
         self.view.addSubview(self.viewTapClose!)
         
         self.table = UITableView()
-        self.table.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 64.0)
-        self.table.registerClass(SearchSingleViewCell.self, forCellReuseIdentifier: "ProductsCell")
-        self.table.registerClass(SearchCategoriesViewCell.self, forCellReuseIdentifier: "SearchCell")
+        self.table.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 64.0)
+        self.table.register(SearchSingleViewCell.self, forCellReuseIdentifier: "ProductsCell")
+        self.table.register(SearchCategoriesViewCell.self, forCellReuseIdentifier: "SearchCell")
         
-        self.table?.backgroundColor = UIColor.whiteColor()
+        self.table?.backgroundColor = UIColor.white
         self.table?.alpha = 0.8
         
-        self.table.separatorStyle = .None
-        self.table.autoresizingMask = UIViewAutoresizing.None
+        self.table.separatorStyle = .none
+        self.table.autoresizingMask = UIViewAutoresizing()
         table.delegate = self
         table.dataSource = self
         
@@ -83,16 +107,16 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.headerTable?.backgroundColor = WMColor.light_light_gray
         
         self.resultLabel = UILabel()
-        self.resultLabel!.backgroundColor = UIColor.clearColor()
+        self.resultLabel!.backgroundColor = UIColor.clear
         self.resultLabel!.textColor = WMColor.gray
         self.resultLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.resultLabel?.text = NSLocalizedString("product.searh.shown.recent",comment:"")
         
         self.field = FormFieldSearch()
         self.field!.delegate = self
-        self.field!.returnKeyType = .Search
-        self.field!.autocapitalizationType = .None
-        self.field!.autocorrectionType = .No
+        self.field!.returnKeyType = .search
+        self.field!.autocapitalizationType = .none
+        self.field!.autocorrectionType = .no
         self.field!.enablesReturnKeyAutomatically = true
         self.field!.placeholder = NSLocalizedString("search.info.placeholder",comment:"")
         self.header!.addSubview(self.field!)
@@ -109,103 +133,103 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //self.header!.addSubview(self.labelHelpScan!)
         //self.header!.addSubview(self.fieldArrow!)
         
-        self.clearButton = UIButton(type: .Custom)
-        self.clearButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
-        self.clearButton!.addTarget(self, action: #selector(SearchViewController.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
-        self.clearButton!.hidden = true
+        self.clearButton = UIButton(type: .custom)
+        self.clearButton!.frame = CGRect(x: 0.0, y: 0.0, width: 44.0, height: 44.0)
+        self.clearButton!.setImage(UIImage(named:"searchClear"), for: UIControlState())
+        self.clearButton!.setImage(UIImage(named:"searchClear"), for: .highlighted)
+        self.clearButton!.setImage(UIImage(named:"searchClear"), for: .selected)
+        self.clearButton!.addTarget(self, action: #selector(SearchViewController.clearSearch), for: UIControlEvents.touchUpInside)
+        self.clearButton!.isHidden = true
         self.header!.addSubview(self.clearButton!)
         
-        self.camButton = UIButton(type: .Custom)
-        self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
-        self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
-        self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Selected)
-        self.camButton!.addTarget(self, action: #selector(SearchViewController.showCamera(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.camButton = UIButton(type: .custom)
+        self.camButton!.setImage(UIImage(named:"search_by_photo"), for: UIControlState())
+        self.camButton!.setImage(UIImage(named:"search_by_photo_active"), for: .highlighted)
+        self.camButton!.setImage(UIImage(named:"search_by_photo"), for: .selected)
+        self.camButton!.addTarget(self, action: #selector(SearchViewController.showCamera(_:)), for: UIControlEvents.touchUpInside)
         self.view!.addSubview(self.camButton!)
         
         self.camLabel = UILabel()
-        self.camLabel!.textAlignment = .Center
+        self.camLabel!.textAlignment = .center
         self.camLabel!.numberOfLines = 2
         self.camLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.camLabel!.textColor = UIColor.whiteColor()
+        self.camLabel!.textColor = UIColor.white
         self.camLabel!.text = NSLocalizedString("search.info.button.camera",comment:"")
         self.view!.addSubview(self.camLabel!)
         
-        self.scanButton = UIButton(type: .Custom)
-        self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
-        self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
-        self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Selected)
-        self.scanButton!.addTarget(self, action: #selector(SearchViewController.showBarCode(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.scanButton = UIButton(type: .custom)
+        self.scanButton!.setImage(UIImage(named:"search_by_code"), for: UIControlState())
+        self.scanButton!.setImage(UIImage(named:"search_by_code_active"), for: .highlighted)
+        self.scanButton!.setImage(UIImage(named:"search_by_code"), for: .selected)
+        self.scanButton!.addTarget(self, action: #selector(SearchViewController.showBarCode(_:)), for: UIControlEvents.touchUpInside)
         self.view!.addSubview(self.scanButton!)
         
         self.scanLabel = UILabel()
-        self.scanLabel!.textAlignment = .Center
+        self.scanLabel!.textAlignment = .center
         self.scanLabel!.numberOfLines = 2
         self.scanLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.scanLabel!.textColor = UIColor.whiteColor()
+        self.scanLabel!.textColor = UIColor.white
         self.scanLabel!.text = NSLocalizedString("search.info.button.barcode",comment:"")
         self.view!.addSubview(self.scanLabel!)
         
-        self.cancelButton = UIButton(type: .Custom)
-        self.cancelButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
-        self.cancelButton!.addTarget(self, action: #selector(SearchViewController.cancel(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton = UIButton(type: .custom)
+        self.cancelButton!.frame = CGRect(x: 0.0, y: 0.0, width: 44.0, height: 44.0)
+        self.cancelButton!.addTarget(self, action: #selector(SearchViewController.cancel(_:)), for: UIControlEvents.touchUpInside)
         self.cancelButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.setTitle(NSLocalizedString("product.searh.cancel",  comment: ""), forState: UIControlState.Normal)
+        self.cancelButton!.setTitle(NSLocalizedString("product.searh.cancel",  comment: ""), for: UIControlState())
         
         self.header!.addSubview(self.cancelButton!)
         
-        self.view.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.clear
         
         self.clearSearch()
     }
     
     override func viewDidLayoutSubviews() {
         let bounds = self.view.frame.size
-        self.header!.frame = CGRectMake(0.0, 0.0, bounds.width, 73 )
-        self.headerTable!.frame = CGRectMake(0.0, 73 , bounds.width, 24.0)
-        self.field!.frame = CGRectMake(16.0, 15, 225, 40.0)
+        self.header!.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: 73 )
+        self.headerTable!.frame = CGRect(x: 0.0, y: 73 , width: bounds.width, height: 24.0)
+        self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
         //        self.labelHelpScan!.frame = CGRectMake(40 , 17.0, self.field!.frame.width  -  49 - 24 - 20, 40.0)
         
-        self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
-        self.cancelButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) , 0 , bounds.width - CGRectGetMaxX(self.field!.frame), self.header!.frame.height)
+        self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
+        self.cancelButton!.frame = CGRect(x: self.field!.frame.maxX , y: 0 , width: bounds.width - self.field!.frame.maxX, height: self.header!.frame.height)
         
         //        self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
         //        self.fieldArrow!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 - 24 , (self.header!.frame.height - 24.0) / 2, 24 , 24)
-        self.resultLabel!.frame = CGRectMake(20, 0, bounds.width - 140.0, self.headerTable!.frame.height)
-        self.viewBackground!.frame = CGRectMake(0, CGRectGetMaxY(self.header!.frame), bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
-        self.viewTapClose!.frame = CGRectMake(0, CGRectGetMaxY(self.header!.frame), bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
+        self.resultLabel!.frame = CGRect(x: 20, y: 0, width: bounds.width - 140.0, height: self.headerTable!.frame.height)
+        self.viewBackground!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.maxY)
+        self.viewTapClose!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.maxY)
         
-        let showCamFind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
-        self.camButton!.hidden = !showCamFind
-        self.camLabel!.hidden = !showCamFind
+        let showCamFind = Bundle.main.object(forInfoDictionaryKey: "showCamFind") as! Bool
+        self.camButton!.isHidden = !showCamFind
+        self.camLabel!.isHidden = !showCamFind
         
         if showCamFind {
             if IS_IPHONE_4_OR_LESS {
-                self.camButton!.frame = CGRectMake((self.view!.frame.width / 2) - 96, self.header!.frame.height + 10, 64, 64)
-                self.scanButton!.frame = CGRectMake((self.view!.frame.width / 2) + 32, self.header!.frame.height + 10, 64, 64)
+                self.camButton!.frame = CGRect(x: (self.view!.frame.width / 2) - 96, y: self.header!.frame.height + 10, width: 64, height: 64)
+                self.scanButton!.frame = CGRect(x: (self.view!.frame.width / 2) + 32, y: self.header!.frame.height + 10, width: 64, height: 64)
             }
             else{
-                self.camButton!.frame = CGRectMake((self.view!.frame.width / 2) - 96, self.header!.frame.height + 38, 64, 64)
-                self.scanButton!.frame = CGRectMake((self.view!.frame.width / 2) + 32, self.header!.frame.height + 38, 64, 64)
+                self.camButton!.frame = CGRect(x: (self.view!.frame.width / 2) - 96, y: self.header!.frame.height + 38, width: 64, height: 64)
+                self.scanButton!.frame = CGRect(x: (self.view!.frame.width / 2) + 32, y: self.header!.frame.height + 38, width: 64, height: 64)
             }
         
-            self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28, self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
-            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, 120, 34)
+            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
+            self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
         }else{
             if IS_IPHONE_4_OR_LESS {
-                self.scanButton!.frame = CGRectMake((self.view!.frame.width - 64) / 2, self.header!.frame.height + 10, 64, 64)
+                self.scanButton!.frame = CGRect(x: (self.view!.frame.width - 64) / 2, y: self.header!.frame.height + 10, width: 64, height: 64)
             }
             else{
-                self.scanButton!.frame = CGRectMake((self.view!.frame.width - 64) / 2, self.header!.frame.height + 38, 64, 64)
+                self.scanButton!.frame = CGRect(x: (self.view!.frame.width - 64) / 2, y: self.header!.frame.height + 38, width: 64, height: 64)
             }
-            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, 120, 34)
+            self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
         }
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
@@ -213,8 +237,8 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         var blurredImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parentViewController!.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-            let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
+            self.parent!.view.layer.render(in: UIGraphicsGetCurrentContext()!)
+            let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
             UIGraphicsEndImageContext();
             blurredImage = cloneImage.applyLightEffect()
         }
@@ -233,13 +257,13 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 
                 if self.table.frame.minY != 0.0 {
                     
-                    self.table?.backgroundColor = UIColor.whiteColor()
+                    self.table?.backgroundColor = UIColor.white
                     self.table?.alpha = 0.8
-                    self.viewTapClose?.backgroundColor = UIColor.clearColor()
+                    self.viewTapClose?.backgroundColor = UIColor.clear
                     
-                    UIView.animateWithDuration(0.25,
+                    UIView.animate(withDuration: 0.25,
                         animations: {
-                            self.table.frame = CGRectMake(0.0, 0.0, bounds.width, 64.0)
+                            self.table.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: 64.0)
                         },completion: {(bool : Bool) in
                             if bool {
                             }
@@ -250,14 +274,14 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         else {
             
             if self.table.frame.minY == 0.0{
-                self.viewTapClose?.backgroundColor = UIColor.whiteColor()
+                self.viewTapClose?.backgroundColor = UIColor.white
                 self.viewTapClose?.alpha = 0.8
-                self.table.backgroundColor = UIColor.clearColor()
+                self.table.backgroundColor = UIColor.clear
                 
                 
-                UIView.animateWithDuration(0.25,
+                UIView.animate(withDuration: 0.25,
                     animations: {
-                        self.table.frame = CGRectMake(0.0, 73, bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
+                        self.table.frame = CGRect(x: 0.0, y: 73, width: bounds.width, height: bounds.height - self.header!.frame.maxY)
                     },completion: {(bool : Bool) in
                         if bool {
                             
@@ -273,11 +297,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         super.didReceiveMemoryWarning()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         //        switch section {
         //        case 0:
         //            if (self.elements == nil || self.elements!.count == 0){
@@ -295,12 +319,12 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     /*
     *@method: Create a section view and return
     */
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36.0))
-        let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36.0))
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let generic : UIView = UIView(frame: CGRect(x: 0,y: 0,width: tableView.frame.width,height: 36.0))
+        let titleView : UILabel = UILabel(frame:CGRect(x: 16,y: 0,width: tableView.frame.width,height: 36.0))
         titleView.textColor = WMColor.gray
         titleView.font = WMFont.fontMyriadProRegularOfSize(11)
-        titleView.backgroundColor = UIColor.clearColor()
+        titleView.backgroundColor = UIColor.clear
         //        if section == 0 {
         //            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
         //            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
@@ -332,16 +356,16 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return generic
     }
     
-    func checkSelected(sender:UIButton) {
-        sender.selected = !(sender.selected)
-        self.all = sender.selected
+    func checkSelected(_ sender:UIButton) {
+        sender.isSelected = !(sender.isSelected)
+        self.all = sender.isSelected
         if self.elements?.count > 0 {
             self.table.reloadData()
         }
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var size = 0
         //        if section == 0 {
         //
@@ -359,7 +383,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return size
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //        switch  indexPath.section {
         //        case 0:
         //            return 46.0
@@ -368,21 +392,21 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //        }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //        switch  indexPath.section {
         //        case 0:
         //            let cell = tableView.dequeueReusableCellWithIdentifier("ProductsCell", forIndexPath: indexPath) as SearchSingleViewCell
         //            if self.elements != nil && self.elements!.count > 0 {
-        //                let item = self.elements![indexPath.row] as? NSDictionary
+        //                let item = self.elements![indexPath.row] as? [String:Any]
         //                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:field!.text, andPrice:item!["price"] as NSString  )
         //            }
         //
         //            return cell
         //        default:
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCategoriesViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as! SearchCategoriesViewCell
         if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
             if indexPath.row < self.elementsCategories?.count {
-                let item = self.elementsCategories![indexPath.row] as? NSDictionary
+                let item = self.elementsCategories![indexPath.row] as? [String:Any]
                 cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:field!.text!, andDepartament:item!["departament"] as! String  )
             }
         }
@@ -392,12 +416,12 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
-        if textField.text != nil && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            let toValidate : NSString = textField.text!
-            let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            if trimValidate.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < 4 {
+        if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 0 {
+            let toValidate : NSString = textField.text! as NSString
+            let trimValidate = toValidate.trimmingCharacters(in: CharacterSet.whitespaces)
+            if trimValidate.lengthOfBytes(using: String.Encoding.utf16) < 4 {
                 showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
                 return true
             }
@@ -406,29 +430,29 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 return true
             }
             
-            self.field!.frame = CGRectMake(16.0, 15, 225, 40.0)
-            self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
+            self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
+            self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
             //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
             
             self.errorView?.removeFromSuperview()
             
-            if textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) >= 12 && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 16 {
+            if textField.text!.lengthOfBytes(using: String.Encoding.utf8) >= 12 && textField.text!.lengthOfBytes(using: String.Encoding.utf8) <= 16 {
                 
                 let strFieldValue = textField.text! as NSString
                 if strFieldValue.integerValue > 0 &&  textField.text!.isNumeric(){
-                    let code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    let code = textField.text!.trimmingCharacters(in: CharacterSet.whitespaces)
                     var character = code
-                    if self.isBarCodeUPC(code) {
-                        character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
+                    if self.isBarCodeUPC(code as NSString) {
+                        character = code.substring(to: code.characters.index(code.startIndex, offsetBy: code.characters.count-1))
                     }
                     delegate.selectKeyWord("", upc: character, truncate:true,upcs:nil)
                     return true
                 }
-                if strFieldValue.substringToIndex(1).uppercaseString == "B" {
-                    let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
+                if strFieldValue.substring(to: 1).uppercased() == "B" {
+                    let validateNumeric: NSString = strFieldValue.substring(from: 1) as NSString
                     if validateNumeric.doubleValue > 0 {
               
-                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false,upcs:nil)
+                        delegate.selectKeyWord("", upc: textField.text!.uppercased(), truncate:false,upcs:nil)
                         return true
                     }
                 }
@@ -437,7 +461,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action:WMGAIUtils.ACTION_TEXT_SEARCH.rawValue , label: textField.text!)
         }
         else{
-            UIView.animateWithDuration(1.0, animations: {
+            UIView.animate(withDuration: 1.0, animations: {
                 self.camButton!.alpha = 1;
                 self.scanButton!.alpha = 1;
                 self.camLabel!.alpha = 1;
@@ -447,9 +471,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return false
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text!
-        var  keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        var  keyword = strNSString.replacingCharacters(in: range, with: string)
         if keyword.length() > 51 {
             return false
         }
@@ -464,22 +488,22 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return true
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        if indexPath.section == 0 {
-        //            let item = self.elements![indexPath.row] as? NSDictionary
+        //            let item = self.elements![indexPath.row] as? [String:Any]
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
         //        }else{
-        let item = self.elementsCategories![indexPath.row] as? NSDictionary
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
+        let item = self.elementsCategories![indexPath.row] as? [String:Any]
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as? String, andFamilyId: item!["idFamily"] as? String, andLineId: item!["idLine"] as? String, andTitleHeader:item!["title"] as! String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
         //        }
     }
     
     //func
     
-    func searchProductKeywords(string:String) {
+    func searchProductKeywords(_ string:String) {
         self.cancelSearch = true
         
-        if  string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 2 {
+        if  string.lengthOfBytes(using: String.Encoding.utf8) < 2 {
             
             self.elements = nil
             self.elementsCategories = nil
@@ -490,27 +514,27 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         }
         
         _ = { () -> Void in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.table.reloadData()
                 self.showTableIfNeeded()
             })
         }
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+        DispatchQueue.main.async(execute: {
+            self.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 let select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
                 var load = false
                 self.cancelSearch = false
-                if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
+                if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
                     
-                    var keywords = Array<AnyObject>()
+                    var keywords = Array<[String:Any]>()
                     while rs.next() {
                         if  self.cancelSearch {
                             break
                         }
-                        let keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
-                        let upc = rs.stringForColumn("upc")
-                        let price = rs.stringForColumn("price")
+                        let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
+                        let upc = rs.string(forColumn: "upc")
+                        let price = rs.string(forColumn: "price")
                         keywords.append([KEYWORD_TITLE_COLUMN:keyword , "upc":upc , "price":price  ])
                     }// while rs.next() {
                     rs.close()
@@ -522,23 +546,23 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 if  !self.cancelSearch {
                     let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
                     self.cancelSearch = false
-                    if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
-                        var keywords = Array<AnyObject>()
+                    if let rs = db?.executeQuery(selectCategories, withArgumentsIn:nil) {
+                        var keywords = Array<[String:Any]>()
                         
                         while rs.next() {
                             if  self.cancelSearch {
                                 break
                             }
                             
-                            let depto = rs.stringForColumn("departament")
-                            let family = rs.stringForColumn("family")
+                            let depto = rs.string(forColumn: "departament")
+                            let family = rs.string(forColumn: "family")
                             
-                            let keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
+                            let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
                             let description = "\(depto) > \(family)"
-                            let idLine = rs.stringForColumn("idLine")
-                            let idDepto = rs.stringForColumn("idDepto")
-                            let idFamily = rs.stringForColumn("idFamily")
-                            let type = rs.stringForColumn("type")
+                            let idLine = rs.string(forColumn: "idLine")
+                            let idDepto = rs.string(forColumn: "idDepto")
+                            let idFamily = rs.string(forColumn: "idFamily")
+                            let type = rs.string(forColumn: "type")
                             
                             keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
                         }// while rs.next() {
@@ -550,7 +574,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                         if  !self.cancelSearch {
                             if load {
                                 
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                DispatchQueue.main.async(execute: { () -> Void in
                                     self.table.reloadData()
                                     self.showTableIfNeeded()
                                 });
@@ -577,8 +601,8 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     func showClearButtonIfNeeded(forTextValue text:String) {
-        if text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0{
-            UIView.animateWithDuration(0.5, animations: {
+        if text.lengthOfBytes(using: String.Encoding.utf8) > 0{
+            UIView.animate(withDuration: 0.5, animations: {
                 self.clearButton!.alpha = 1
                 self.camButton!.alpha = 0
                 self.scanButton!.alpha = 0
@@ -587,7 +611,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.viewBackground!.alpha = 0
             })
         } else {
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.clearButton!.alpha = 0
                 self.camButton!.alpha = 1
                 self.scanButton!.alpha = 1
@@ -598,29 +622,29 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func showBarCode(sender:UIButton) {
-        if self.field!.isFirstResponder() {
+    func showBarCode(_ sender:UIButton) {
+        if self.field!.isFirstResponder {
             self.field!.resignFirstResponder()
         }
         self.delegate?.searchControllerScanButtonClicked()
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_BARCODE_SCANNED_UPC.rawValue, label: "")
     }
     
-    func showCamera(sender:UIButton) {
-        if self.field!.isFirstResponder() {
+    func showCamera(_ sender:UIButton) {
+        if self.field!.isFirstResponder {
             self.field!.resignFirstResponder()
         }
         self.delegate?.searchControllerCamButtonClicked(self)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
     }
     
-    func cancel(sender:UIButton) {
+    func cancel(_ sender:UIButton) {
         delegate.closeSearch(false, sender:nil)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
+    func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void)) {
         self.field!.becomeFirstResponder()
         if value != nil && value?.trim() != "" {
             var upcArray = upcs
@@ -628,40 +652,40 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 upcArray = []
             }
 
-            let params = ["upcs": upcArray!, "keyWord":value!]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
+            let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
             done()
         }
         delegate.closeSearch(false, sender:nil)
     }
     
-    func handleTap(recognizer:UITapGestureRecognizer){
+    func handleTap(_ recognizer:UITapGestureRecognizer){
         delegate.closeSearch(false, sender:nil)
     }
     
-    func showMessageValidation(message:String){
+    func showMessageValidation(_ message:String){
         if self.errorView == nil{
             self.errorView = FormFieldErrorView()
         }
         
-        self.errorView!.frame = CGRectMake(self.field!.frame.minX - 5, 0, self.field!.frame.width, self.field!.frame.height )
+        self.errorView!.frame = CGRect(x: self.field!.frame.minX - 5, y: 0, width: self.field!.frame.width, height: self.field!.frame.height )
         self.errorView!.focusError = self.field!
         if self.field!.frame.minX < 20 {
             self.errorView!.setValues(280, strLabel:"Buscar", strValue: message)
-            self.errorView!.frame =  CGRectMake(self.field!.frame.minX - 5, self.field!.frame.minY , self.errorView!.frame.width , self.errorView!.frame.height)
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5, y: self.field!.frame.minY , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
         }
         else{
             self.errorView!.setValues(field!.frame.width, strLabel:"Buscar", strValue: message)
-            self.errorView!.frame =  CGRectMake(field!.frame.minX - 5, field!.frame.minY, errorView!.frame.width , errorView!.frame.height)
+            self.errorView!.frame =  CGRect(x: field!.frame.minX - 5, y: field!.frame.minY, width: errorView!.frame.width , height: errorView!.frame.height)
         }
         let contentView = self.field!.superview!
         contentView.addSubview(self.errorView!)
-        UIView.animateWithDuration(0.2, animations: {
-            self.field!.frame = CGRectMake(16.0, 15, 225, 40.0)
-            self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
+            self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
             //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
             
-            self.errorView!.frame =  CGRectMake(self.field!.frame.minX - 5 , self.field!.frame.minY - self.errorView!.frame.height , self.errorView!.frame.width , self.errorView!.frame.height)
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5 , y: self.field!.frame.minY - self.errorView!.frame.height , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
             
             }, completion: {(bool : Bool) in
                 if bool {
@@ -670,20 +694,20 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         })
     }
     
-    func validateSearch(toValidate:String) -> Bool{
-        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú& /]{0,100}[._-]{0,2}$";
+    func validateSearch(_ toValidate:String) -> Bool{
+        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú /]{0,100}[._-]{0,2}$";
         return validateRegEx(regString,toValidate:toValidate)
     }
     
-    func validateRegEx(pattern:String,toValidate:String) -> Bool {
+    func validateRegEx(_ pattern:String,toValidate:String) -> Bool {
         
         var regExVal: NSRegularExpression?
         do {
-            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive)
+            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
         } catch {
             regExVal = nil
         }
-        let matches = regExVal!.numberOfMatchesInString(toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
+        let matches = regExVal!.numberOfMatches(in: toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
         
         if matches > 0 {
             return true
@@ -691,15 +715,15 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return false
     }
     
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView){
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
         super.scrollViewWillBeginDragging(scrollView)
         self.view.endEditing(true)
     }
     
-    func isBarCodeUPC(codeUPC:NSString) -> Bool {
+    func isBarCodeUPC(_ codeUPC:NSString) -> Bool {
         var fullBarcode = codeUPC as String
         if codeUPC.length < 14 {
-            let toFill = "".stringByPaddingToLength(14 - codeUPC.length, withString: "0", startingAtIndex: 0)
+            let toFill = "".padding(toLength: 14 - codeUPC.length, withPad: "0", startingAt: 0)
             fullBarcode = "\(toFill)\(codeUPC)"
         }
         if Int(fullBarcode) == nil {
