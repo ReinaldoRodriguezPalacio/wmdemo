@@ -28,17 +28,34 @@ class GRProductsByUPCService : GRBaseService {
     
     
     func callService(requestParams params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        if (params as! [String:Any]).count > 0 {
-            //self.jsonFromObject(params)
-        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-            successBlock!(resultCall)
-            }) { (error:NSError) -> Void in
-                errorBlock!(error)
+        
+        if let paramsDict = params as? [String:Any] {
+            if paramsDict.count > 0 {
+                //self.jsonFromObject(params)
+                self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+                    successBlock!(resultCall)
+                }) { (error:NSError) -> Void in
+                    errorBlock!(error)
+                }
+            }else{
+                let error:NSError? =  NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:"Sin upcs a  buscar"])
+                errorBlock!(error!)
             }
-        }else{
-            let error:NSError? =  NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:"Sin upcs a  buscar"])
-             errorBlock!(error!)
         }
+        if let paramsArray = params as? [Any] {
+            if paramsArray.count > 0 {
+                //self.jsonFromObject(params)
+                self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+                    successBlock!(resultCall)
+                }) { (error:NSError) -> Void in
+                    errorBlock!(error)
+                }
+            }else{
+                let error:NSError? =  NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:"Sin upcs a  buscar"])
+                errorBlock!(error!)
+            }
+        }
+        
     }
     
     override func needsLogin() -> Bool {

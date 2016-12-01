@@ -62,14 +62,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
 //        // Initialize tracker. Replace with your tracking ID.
 //        //GAI.sharedInstance().trackerWithTrackingId(WMGAIUtils.GAI_APP_KEY.rawValue)
         
-        let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: NSError?) in
+        let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
             if (error != nil) {
                 print("Received error while fetching deferred app link %@", error!);
             }
             if (url != nil) {
                 UIApplication.shared.openURL(url!)
             }
-        } as! FBSDKDeferredAppLinkHandler
+        }
         
         FBSDKAppLinkUtility.fetchDeferredAppLink(fbDeferredAppLink)
       
