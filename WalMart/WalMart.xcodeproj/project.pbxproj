@@ -3157,7 +3157,7 @@
 				TargetAttributes = {
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = Y9UWXL6Q88;
+						DevelopmentTeam = E896UUML7L;
 						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
@@ -3881,8 +3881,9 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				DEVELOPMENT_TEAM = E896UUML7L;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -3923,7 +3924,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
+				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -3940,8 +3942,9 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				DEVELOPMENT_TEAM = E896UUML7L;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -3982,7 +3985,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
+				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";

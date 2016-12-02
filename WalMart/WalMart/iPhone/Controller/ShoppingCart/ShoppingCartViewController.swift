@@ -492,7 +492,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             cellProduct.delegate = self
             cellProduct.rightUtilityButtons = getRightButtonDelete()
             cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
-            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as! [String:Any]
+            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] 
             let upc = shoppingCartProduct["upc"] as! String
             let desc = shoppingCartProduct["description"] as! String
             let price = shoppingCartProduct["price"] as! String
@@ -857,7 +857,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - parameter indexPath: selected row
      */
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:Any]
+        let itemWishlist = itemsInShoppingCart[indexPath.row]
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         let descriptions =  itemWishlist["description"] as! String

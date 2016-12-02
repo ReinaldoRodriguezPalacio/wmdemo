@@ -32,7 +32,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollectionViewDelegate, UICollectionViewDataSource, ProductDetailColorSizeDelegate {
+class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollectionViewDelegate, UICollectionViewDataSource, ProductDetailColorSizeDelegate, NSCopying {
     
     var delegate : ProductDetailBannerCollectionViewDelegate!
     var colorsViewDelegate: ProductDetailColorSizeDelegate?
@@ -77,6 +77,12 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         super.init(frame: frame)
         self.items = items
         setup()
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let detailBanner = ProductDetailBannerCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 314))
+        
+        return detailBanner
     }
     
     func setup() {
