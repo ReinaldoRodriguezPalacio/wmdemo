@@ -161,6 +161,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.phoneHomeNumber!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHomeNumber!.minLength = 10
         self.phoneHomeNumber!.maxLength = 10
+        self.phoneHomeNumber!.disablePaste = true
         self.phoneHomeNumber!.keyboardType = UIKeyboardType.numberPad
         self.phoneHomeNumber!.inputAccessoryView = viewAccess
         self.phoneHomeNumber!.delegate =  self
@@ -170,7 +171,9 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.phoneWorkNumber!.typeField = TypeField.number
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 0
-        self.phoneWorkNumber!.maxLength = 10
+        self.phoneWorkNumber!.maxLength = 5
+        self.phoneWorkNumber!.delegate = self
+        self.phoneWorkNumber!.disablePaste = true
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.numberPad
         self.phoneWorkNumber!.inputAccessoryView = viewAccess
         

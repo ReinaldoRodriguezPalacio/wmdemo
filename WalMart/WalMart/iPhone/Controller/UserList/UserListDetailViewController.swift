@@ -1748,7 +1748,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func validateSearch(_ toValidate:String) -> Bool{
-        let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú ]{0,100}$";
+        let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú& ]{0,100}$";
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
     

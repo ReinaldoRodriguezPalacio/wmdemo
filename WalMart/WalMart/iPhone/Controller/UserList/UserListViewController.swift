@@ -1172,7 +1172,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             listCell.listDelegate = self
             
             if (indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList)  {
-                listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance.userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
+                listCell.setValues(name: NSLocalizedString("wishlist.title", comment: ""), count: "\(UserCurrentSession.sharedInstance.userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
                 listCell.canDelete = false
                 listCell.enableDuplicateList(self.newListEnabled)
                 listCell.shouldChangeState = !self.isEditingUserList
