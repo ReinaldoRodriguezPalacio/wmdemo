@@ -55,7 +55,7 @@
 
 //Maps
 #import "MapKitUtils.h"
-#import "CSStickyHeaderFlowLayoutAttributes.h"
+//#import "CSStickyHeaderFlowLayoutAttributes.h"
 
 #import <CommonCrypto/CommonCrypto.h>
 
