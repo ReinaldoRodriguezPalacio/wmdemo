@@ -117,6 +117,11 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         customlayout.disableStickyHeaders = false
         //customlayout.parallaxHeaderAlwaysOnTop = true
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
+        
+        if #available(iOS 10.0, *) {
+            collectionView.isPrefetchingEnabled = false
+        }
+        
         return collectionView
     }
     

@@ -209,6 +209,11 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         customlayout.disableStickyHeaders = false
         //customlayout.parallaxHeaderAlwaysOnTop = true
         let collectionView = UICollectionView(frame: CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY), collectionViewLayout: customlayout)
+        
+        if #available(iOS 10.0, *) {
+            collectionView.isPrefetchingEnabled = false
+        }
+        
         return collectionView
     }
     
