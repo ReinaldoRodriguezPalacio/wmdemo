@@ -205,7 +205,6 @@ class BaseService : NSObject {
             print("UserCurrentSession.sharedInstance.JSESSIONATG::  \(UserCurrentSession.sharedInstance.JSESSIONATG)")
             UserCurrentSession.sharedInstance.JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance.JSESSIONATG
             
-            print(headers["Content-Type"] as! NSString)
             
             let resultJSON = json as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {

@@ -824,11 +824,11 @@ class UserCurrentSession : NSObject {
                     successBlock: { (response:[String:Any]) -> Void in
                         let promotions = response["responseArray"] as! NSArray
                         let promo = promotions[0] as! [String:Any]
-                        let isActive = promo["isActive"] as! Int
+                        let isActive = promo["isActive"] as! Bool
                         let porcentangeDiscount = promo["percentageDiscount"] as! Double
                         
                         print(isActive)
-                        UserCurrentSession.sharedInstance.isAssociated = isActive
+                        UserCurrentSession.sharedInstance.isAssociated = isActive ? 1 : 0
                         UserCurrentSession.sharedInstance.porcentageAssociate = porcentangeDiscount
                         
                     }) { (error:NSError) -> Void in

@@ -31,7 +31,7 @@ class GRLinesForSearchService: GRBaseService {
                         
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : Any]) -> Void in
                             // var dictionary = self.buildResponse(response)
-                            let values = dictionary.values as! [Any]
+                            let values =  [Any](dictionary.values)
                             
 //                            values.sort { (objectOne:AnyObject, objectTwo:AnyObject) -> Bool in
 //                                var deptoOne = objectOne as [String:Any]
