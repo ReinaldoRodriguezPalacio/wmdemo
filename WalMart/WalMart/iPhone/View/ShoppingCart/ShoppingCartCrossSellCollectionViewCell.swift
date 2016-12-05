@@ -34,7 +34,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "shoppingCartCrossSellCell", for: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
+        let itemUPC = itemsUPC[indexPath.row] 
         let upc = itemUPC["upc"] as! String
 
         let desc = itemUPC["description"] as! String
@@ -51,7 +51,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
+        let itemUPC = itemsUPC[indexPath.row] 
         let upc = itemUPC["upc"] as! String
         
         UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("shoppingcart.beforeleave", comment: "")

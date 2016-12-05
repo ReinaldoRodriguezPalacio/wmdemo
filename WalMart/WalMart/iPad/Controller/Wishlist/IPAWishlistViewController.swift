@@ -304,7 +304,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     func deleteProductWishList(_ cell:IPAWishListProductCollectionViewCell) {
         
         let indexPath = self.wishlist.indexPath(for: cell)
-        let itemWishlist = items[indexPath!.row] as! [String:Any]
+        let itemWishlist = items[indexPath!.row] 
         let upc = itemWishlist["upc"] as! NSString
         let deleteWishListService = DeleteItemWishlistService()
         deleteWishListService.callCoreDataService(upc as String, successBlock: { (result:[String:Any]) -> Void in
@@ -634,7 +634,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
         productCell.delegate = self
         
-        let itemWishlist = items[indexPath.row] as! [String:Any]
+        let itemWishlist = items[indexPath.row] 
         let upc = itemWishlist["upc"] as! String
         
         let desc = itemWishlist["description"] == nil ? "" : itemWishlist["description"] as! String

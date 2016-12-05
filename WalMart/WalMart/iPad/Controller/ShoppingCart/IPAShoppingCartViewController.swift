@@ -224,7 +224,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
     override func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:Any]
+        let itemWishlist = itemsInShoppingCart[indexPath.row] 
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
         }

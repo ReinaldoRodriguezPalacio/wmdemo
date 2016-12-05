@@ -256,7 +256,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                             }
                             else {
                                 for upcVal in self.upcByPrice! {
-                                      upcs.append(upcVal as! String)
+                                      upcs.append(upcVal )
                                 }
                             }
                         }

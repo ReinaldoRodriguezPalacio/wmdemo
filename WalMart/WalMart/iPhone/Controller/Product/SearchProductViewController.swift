@@ -901,14 +901,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     
-                    if let item = arrayProduct![0] as? [String:Any] {
+                    let item = arrayProduct![0]
                         //println(item)
-                        if let results = item["resultsInResponse"] as? NSString {
-                            self.mgResults!.resultsInResponse += results.integerValue
-                        }
-                        if let total = item["totalResults"] as? NSString {
-                            self.mgResults!.totalResults = total.integerValue
-                        }
+                    if let results = item["resultsInResponse"] as? NSString {
+                        self.mgResults!.resultsInResponse += results.integerValue
+                    }
+                    if let total = item["totalResults"] as? NSString {
+                        self.mgResults!.totalResults = total.integerValue
                     }
                     
                     self.mgResponceDic = resultDic

@@ -88,7 +88,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let cell = tableOrders.dequeueReusableCell(withIdentifier: "prevousOrder") as! PreviousOrdersTableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         if !(indexPath.row > self.items.count) && self.items.count > 0 {
-            let item = self.items[indexPath.row] as! [String:Any]
+            let item = self.items[indexPath.row] 
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
             var statusStr = item["status"] as! String
@@ -102,7 +102,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.items[indexPath.row] as! [String:Any]
+        let item = self.items[indexPath.row] 
         let detailController = OrderDetailViewController()
         
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
