@@ -1194,7 +1194,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "crossSellCell", for: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
                 cellPromotion!.idListSelectdFromSearch =  self.idListFromlistFind
-                cellPromotion!.itemsUPC = itemsCrossSellUPC as! [[String : Any]]
+                cellPromotion!.itemsUPC = itemsCrossSellUPC
                 self.cellRelated = cellPromotion
             }
             cell = self.cellRelated

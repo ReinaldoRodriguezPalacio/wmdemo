@@ -385,23 +385,20 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
                 self.collection?.reloadData()
             NotificationCenter.default.post(name: Notification.Name(rawValue: "FINISH_SEARCH"), object: nil)
             self.showLoadingIfNeeded(true)
-                                
-                                if var sortFacet = facet as? [[String:Any]] {
-                                    sortFacet.sort { (item, seconditem) -> Bool in
-                                        var firstOrder = "0"
-                                        if let firstOrderVal = item["order"] as? String {
-                                            firstOrder = firstOrderVal
-                                        }
-                                        var secondOrder = "0"
-                                        if let secondOrderVal = seconditem["order"] as? String {
-                                            secondOrder = secondOrderVal
-                                        }
-                                        return Int(firstOrder) < Int(secondOrder)
-                                    }
-                                    self.facet = sortFacet
-                                }//
-                                
-                                
+            var sortFacet = facet
+            sortFacet.sort { (item, seconditem) -> Bool in
+                var firstOrder = "0"
+                if let firstOrderVal = item["order"] as? String {
+                    firstOrder = firstOrderVal
+                }
+                    var secondOrder = "0"
+                if let secondOrderVal = seconditem["order"] as? String {
+                    secondOrder = secondOrderVal
+                }
+                    return Int(firstOrder) < Int(secondOrder)
+                }
+            self.facet = sortFacet
+                
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")
                 print(error)

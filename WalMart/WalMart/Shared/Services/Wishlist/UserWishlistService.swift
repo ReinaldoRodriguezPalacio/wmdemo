@@ -56,7 +56,7 @@ class UserWishlistService : BaseService {
                     
                     for wishlistDicProduct in itemWishList {
                         
-                        var dictWishListProduct = wishlistDicProduct as! [String:Any]
+                        var dictWishListProduct = wishlistDicProduct 
                         dictWishListProduct["type"] = ResultObjectType.Mg.rawValue
                         itemsInWishlist.append(dictWishListProduct)
                         

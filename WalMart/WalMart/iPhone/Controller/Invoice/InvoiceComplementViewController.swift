@@ -328,7 +328,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj == self.address!{
-                self.selectedAddress = self.arrayAddressFiscal![indexPath.row] as? [String:Any]
+                self.selectedAddress = self.arrayAddressFiscal![indexPath.row]
                 self.address?.text = selectedStr
             }
             

@@ -959,7 +959,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 price = "\(value)" as NSString
                             }
                             
-                            keywords.append(["codeMessage":"0","description":item["description"] as! String, "imageUrl":urlArray, "price" : price,  "upc" :item["upc"], "type" : ResultObjectType.Groceries.rawValue ])
+                            keywords.append(["codeMessage":"0","description":item["description"] as! String, "imageUrl":urlArray, "price" : price,  "upc" :item["upc"]!, "type" : ResultObjectType.Groceries.rawValue ])
                         }
                         
                         if keywords.count == 5 {

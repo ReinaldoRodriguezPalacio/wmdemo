@@ -598,7 +598,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         for item in controllerIdentifiers {
             let components = item.components(separatedBy: "-")
             let strController = components[0] as String
-            if let vc = storyboard!.instantiateViewController(withIdentifier: strController) as? UIViewController {
+            let vc = storyboard!.instantiateViewController(withIdentifier: strController)
                 if let navVC = vc as? UINavigationController {
                     if let loginVC = navVC.viewControllers.first as? LoginController {
                         if components.count > 1 {
@@ -610,7 +610,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     navController.delegate = self
                 }
                 self.viewControllers.append(vc)
-            }
         }
     }
     

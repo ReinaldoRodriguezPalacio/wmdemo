@@ -94,14 +94,12 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         
         for dicValue in values {
             //var valuesValues = [String:Any]()
-            if let dicVal = dicValue as? [String:Any] {
-                let strLabel = dicVal["label"] as! String
-                let strValue = dicVal["value"] as! String
-                let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size:14)
-                let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-                heigth += rectSize.height + heightCharacteristic()
-                
-            }
+            let dicVal = dicValue
+            let strLabel = dicVal["label"] as! String
+            let strValue = dicVal["value"] as! String
+            let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size:14)
+            let rectSize = attrString.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+            heigth += rectSize.height + heightCharacteristic()
         }
         return heigth
     }

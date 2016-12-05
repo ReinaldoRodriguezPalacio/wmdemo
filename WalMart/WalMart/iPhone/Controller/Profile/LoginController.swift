@@ -420,7 +420,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                                 for dictAddress in shippingAddress {
                                     if let pref = dictAddress["preferred"] as? NSNumber{
                                         if pref == 1{
-                                            alertAddress.setData(dictAddress as! [String:Any])
+                                            alertAddress.setData(dictAddress )
                                         }
                                     }
                                 }

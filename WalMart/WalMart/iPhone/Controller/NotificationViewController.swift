@@ -133,7 +133,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellNot") as! NotificationTableViewCell
         
-        let notiicationInfo = allNotifications[indexPath.row] as! [String:Any]
+        let notiicationInfo = allNotifications[indexPath.row] 
         let hour = notiicationInfo["hour"] as! String
         let date = notiicationInfo["date"] as! String
         let message = notiicationInfo["body"] as! String
@@ -152,7 +152,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectable  {
             selectable = false
-            let notiicationInfo = allNotifications[indexPath.row] as! [String:Any]
+            let notiicationInfo = allNotifications[indexPath.row] 
             let type = notiicationInfo["type"] as! String
             let name = ""
             let value = notiicationInfo["value"] as! String

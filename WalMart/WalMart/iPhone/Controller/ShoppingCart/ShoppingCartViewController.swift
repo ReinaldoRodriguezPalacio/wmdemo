@@ -903,7 +903,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var showIva = true
         
         for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
+            let dictShoppingCartProduct = shoppingCartProduct 
             let price = shoppingCartProduct["price"] as! NSString
             
             var iva : NSString = ""
