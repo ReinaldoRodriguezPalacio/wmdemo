@@ -23,7 +23,9 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        if #available(iOS 10.0, *) {
+            collection?.isPrefetchingEnabled = false
+        }
         
         collection?.register(IPASectionHeaderSearchReusable.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         collection?.register(IPACatHeaderSearchReusable.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")

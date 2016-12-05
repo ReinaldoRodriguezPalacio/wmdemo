@@ -133,6 +133,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         isLoading = true
         self.loadDataFromService()
         
+        if #available(iOS 10.0, *) {
+            detailCollectionView.isPrefetchingEnabled = false
+        }
+
+        
         detailCollectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         detailCollectionView.register(ProductDetailBannerCollectionViewCell.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
         detailCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "emptyCell")

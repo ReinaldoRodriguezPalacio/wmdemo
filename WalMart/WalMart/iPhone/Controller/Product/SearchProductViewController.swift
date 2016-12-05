@@ -1149,8 +1149,13 @@
         customlayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
         //        let customlayout = UICollectionViewFlowLayout()
         //        customlayout.headerReferenceSize = CGSizeMake(0, 44);
-        return UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
         
+        let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
+        if #available(iOS 10.0, *) {
+            collectionView.isPrefetchingEnabled = false
+        }
+
+        return collectionView
     }
     
     //MARK: Filter Super Tecnologia
