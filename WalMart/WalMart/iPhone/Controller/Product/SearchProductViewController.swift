@@ -930,7 +930,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     
                     self.mgResults!.addResults(arrayProduct!)
-                    if var sortFacet = facet as? [[String:Any]] {
+                    var sortFacet = facet
                         sortFacet.sort { (item, seconditem) -> Bool in
                             var firstOrder = "0"
                             if let firstOrderVal = item["order"] as? String {
@@ -943,7 +943,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             return Int(firstOrder) < Int(secondOrder)
                         }
                         self.facet = sortFacet
-                    }//
+                    //
                     
                     
                     //                    if self.allProducts != nil {
@@ -1040,14 +1040,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.btnSuper.isSelected = true
                 }
                 
-                if let item = arrayProduct![0] as? [String:Any] {
-                    //println(item)
-                    if let results = item["resultsInResponse"] as? NSString {
-                        self.grResults!.resultsInResponse += results.integerValue
-                    }
-                    if let total = item["totalResults"] as? NSString {
-                        self.grResults!.totalResults = total.integerValue
-                    }
+                let item = arrayProduct![0]
+                //println(item)
+                if let results = item["resultsInResponse"] as? NSString {
+                    self.grResults!.resultsInResponse += results.integerValue
+                }
+                if let total = item["totalResults"] as? NSString {
+                    self.grResults!.totalResults = total.integerValue
                 }
                 
                 self.grResults!.addResults(arrayProduct!)
