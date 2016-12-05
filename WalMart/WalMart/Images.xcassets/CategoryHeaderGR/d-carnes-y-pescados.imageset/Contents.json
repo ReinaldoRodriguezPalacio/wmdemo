@@ -6,7 +6,7 @@
     },
     {
       "idiom" : "iphone",
-      "filename" : "d-carnes-y-pescados@2x-1.jpg",
+      "filename" : "d-carnes-y-pescados@2x.jpg",
       "scale" : "2x"
     },
     {
@@ -16,12 +16,12 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "d-Carnes-y-Pescados.png",
+      "filename" : "d-carnes-y-pescados.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "d-Carnes-y-Pescados@2x.png",
+      "filename" : "d-carnes-y-pescados@2x-1.jpg",
       "scale" : "2x"
     }
   ],

@@ -7,22 +7,22 @@
     },
     {
       "idiom" : "iphone",
-      "filename" : "bebes_open-1.png",
+      "filename" : "d-bebes@2x.jpg",
       "scale" : "2x"
     },
     {
       "idiom" : "iphone",
-      "filename" : "bebes_open-2.png",
+      "filename" : "d-bebes@3x.jpg",
       "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "d-bebes.png",
+      "filename" : "d-bebes.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "d-bebes@2x.png",
+      "filename" : "d-bebes@2x-1.jpg",
       "scale" : "2x"
     }
   ],
