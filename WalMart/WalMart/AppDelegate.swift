@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 
 
@@ -180,6 +181,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             notifier: self)
         
         
+        
+      
+        
         return true
     }
 
@@ -309,18 +313,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         return storyboard;
     }
     
-
+    
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let characterSet: CharacterSet = CharacterSet( charactersIn: "<>" )
+        //let characterSet: CharacterSet = CharacterSet( charactersIn: "<>" )
         
-        let deviceTokenString: String = ( deviceToken.description as NSString )
-            .trimmingCharacters( in: characterSet )
-            .replacingOccurrences( of: " ", with: "" ) as String
+        //let token = String(data: deviceToken.base64EncodedData(), encoding: .utf8)?.trimmingCharacters(in: CharacterSet.whitespaces).trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
         
-        NSLog("Device token: \(deviceTokenString)")
-        print("Device token: \(deviceTokenString)")
+//        let deviceTokenString: String = ( deviceToken.description as NSString )
+//            .trimmingCharacters( in: characterSet )
+//            .replacingOccurrences( of: " ", with: "" ) as String
         
-        UserCurrentSession.sharedInstance.deviceToken = deviceTokenString
+        NSLog("Device token: hexString \(deviceToken.hexString)")
+        print("Device token: hexString \(deviceToken.hexString)")
+        //TODO
+       // FBSDKAppEvents.setPushNotificationsDeviceToken(deviceToken)
+
+        UserCurrentSession.sharedInstance.deviceToken = deviceToken.hexString
         
         
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
@@ -329,21 +338,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
         let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
         
-        let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
+        let params = notService.buildParams(deviceToken.hexString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
             print(notService.jsonFromObject(params as AnyObject!))
         if UserCurrentSession.sharedInstance.finishConfig {
-            notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
-                //println( "Registrado para notificaciones")
+           var _ = notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
+                print("Registrado para notificaciones \(result)")
                 CustomBarViewController.addOrUpdateParam("showNotification", value: "true",forUser: false)
-            }) { (error:NSError) -> Void in
+            }, errorBlock: { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )
-            }
+            })
         }
         
-        print("deviceTokenString \(deviceTokenString)" )
+
+        print("deviceTokenString \(deviceToken.hexString)" )
     }
     
+
     func application( _ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error ) {
         
         print( error.localizedDescription )
@@ -367,8 +378,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
        UIApplication.shared.applicationIconBadgeNumber = 1
        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         self.handleNotification(application,userInfo: userInfo)
-
+       
+        
+        FBSDKAppEvents.logPushNotificationOpen(userInfo)
+        
+        FBNotificationsManager.shared().presentPushCard(forRemoteNotificationPayload: userInfo, from: nil, completion: { (control:FBNCardViewController?, error: Error?) in
+            
+        })
+     
+    
+        
     }
+
+
+    
     
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         let controller = UIApplication.shared.keyWindow!.rootViewController
@@ -554,7 +577,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                         grade = components[4].components(separatedBy: "_")[1]
                         grade = (grade.replacingOccurrences(of: "-", with: " ")as NSString).removingPercentEncoding!
                     }
-                    customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
+                    let _ = customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
                 }
 
             }
@@ -573,7 +596,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
                     let cmpStr  = components[0] 
                     let strValue = strAction.replacingOccurrences(of: "\(cmpStr)_", with: "")
-                    customBar.handleNotification(cmpStr,name:"",value:strValue,bussines:"mg")
+                    let _ = customBar.handleNotification(cmpStr,name:"",value:strValue,bussines:"mg")
                 }
             }
         }
@@ -589,9 +612,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
     }
     
+
+    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable : Any], completionHandler: @escaping () -> Void) {
+        
+        FBSDKAppEvents.logPushNotificationOpen(userInfo, action: identifier)
+    }
     
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        
+        
+       
         
         var strType = ""
         if shortcutItem.type == "com.bcg.opensearch" {
@@ -635,4 +666,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     }
     
 
-}  
+}

@@ -552,6 +552,7 @@
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
 		E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */; };
+		F74F128F1DF5DB4C00F74E4B /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F74F128E1DF5DB4C00F74E4B /* ImageIO.framework */; };
 		F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
@@ -1164,6 +1165,8 @@
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WalMart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F713F4E31DF63B2E0050211F /* WalmartMG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WalmartMG.entitlements; sourceTree = "<group>"; };
+		F74F128E1DF5DB4C00F74E4B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthorizationService.swift; path = Shared/Services/LoginSignUp/AuthorizationService.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -1173,6 +1176,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F74F128F1DF5DB4C00F74E4B /* ImageIO.framework in Frameworks */,
+				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
 				5512FEE51DD294B700411BF6 /* libc++.1.dylib in Frameworks */,
 				5512FEE31DD2948100411BF6 /* libz.1.dylib in Frameworks */,
@@ -1196,7 +1201,6 @@
 				5512FEDF1DD2936800411BF6 /* libDynatraceUEM.a in Frameworks */,
 				6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */,
 				6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */,
-				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
 				E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */,
@@ -1540,6 +1544,7 @@
 		5645789819AE2E00006A7152 /* WalMart */ = {
 			isa = PBXGroup;
 			children = (
+				F713F4E31DF63B2E0050211F /* WalmartMG.entitlements */,
 				4A5A9CF11C849E4B00A2A7F4 /* objc */,
 				AC5F646F19BF52810098BE43 /* Lib */,
 				564578BE19AE2F8C006A7152 /* iPad */,
@@ -3085,6 +3090,7 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F74F128E1DF5DB4C00F74E4B /* ImageIO.framework */,
 				5512FEE41DD294B700411BF6 /* libc++.1.dylib */,
 				5512FEE21DD2948100411BF6 /* libz.1.dylib */,
 				5512FEE01DD2945300411BF6 /* libsqlite3.dylib */,
@@ -3161,6 +3167,9 @@
 						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -3259,7 +3268,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		7C66112085360B2D590BA7A9 /* [CP] Embed Pods Frameworks */ = {
@@ -3825,7 +3834,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "64b2685c-f81f-4186-8079-886a37c1f144";
@@ -3865,7 +3874,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "64b2685c-f81f-4186-8079-886a37c1f144";
 				SDKROOT = iphoneos;
@@ -3881,6 +3890,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DEVELOPMENT_TEAM = E896UUML7L;
@@ -3904,7 +3914,7 @@
 					"$(DT_HEADER_PATH)",
 				);
 				INFOPLIST_FILE = WalMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3924,7 +3934,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "64b2685c-f81f-4186-8079-886a37c1f144";
 				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
@@ -3942,6 +3952,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DEVELOPMENT_TEAM = E896UUML7L;
@@ -3965,7 +3976,7 @@
 					"$(DT_HEADER_PATH)",
 				);
 				INFOPLIST_FILE = WalMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3985,7 +3996,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "64b2685c-f81f-4186-8079-886a37c1f144";
 				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;

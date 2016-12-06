@@ -76,6 +76,10 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <Bolts/Bolts.h>
 
+#import <FBNotifications/FBNotificationsManager.h>
+#import <FBNotifications/FBNConstants.h>
+#import <FBNotifications/FBNCardViewController.h>
+
 //Dynatrace
 //#import "CompuwareUEM.h"
 #import "DynatraceUEM.h"
