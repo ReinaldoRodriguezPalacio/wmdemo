@@ -288,11 +288,8 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     
     func addPopover(){
         //familyController.delegate = self
-        if #available(iOS 8.0, *) {
-            familyController.modalPresentationStyle = .popover
-        } else {
-            familyController.modalPresentationStyle = .formSheet
-        }
+        familyController.modalPresentationStyle = .popover
+        
         familyController.preferredContentSize = CGSize(width: 320, height: 322)
         
         if popover ==  nil {

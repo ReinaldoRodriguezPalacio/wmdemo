@@ -235,17 +235,9 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let rect = self.clubMap!.convert(self.currentSelected!.frame, to: self.view.superview)
         self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
         
-        if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
-                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
+        controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+            if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                }
-            }
-        } else {
-            controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                }
             }
         }
     }

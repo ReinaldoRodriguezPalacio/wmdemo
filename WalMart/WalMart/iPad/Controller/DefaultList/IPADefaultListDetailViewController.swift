@@ -76,24 +76,12 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
             //self.sharePopover!.backgroundColor = UIColor.greenColor()
-            if #available(iOS 8.0, *) {
-                let rect = self.footerSection!.convert(self.shareButton!.frame, to: self.view.superview!)
-                self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
-            } else {
-                // Fallback on earlier versions
-            }
+            let rect = self.footerSection!.convert(self.shareButton!.frame, to: self.view.superview!)
+            self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
             
-            if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
-                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                    }
-                }
-            } else {
-                controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                    }
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         }
@@ -159,12 +147,8 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 388.0)
             self.sharePopover!.delegate = self
             self.sharePopover!.backgroundColor = WMColor.light_blue
-        if #available(iOS 8.0, *) {
             let rect = cell.convert(cell.quantityIndicator!.frame, to: self.view.superview!)
             self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
-        } else {
-            // Fallback on earlier versions
-        }
     }
     
     //MARK: - UIPopoverControllerDelegate

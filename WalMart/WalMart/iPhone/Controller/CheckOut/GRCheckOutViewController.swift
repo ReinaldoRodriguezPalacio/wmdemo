@@ -1528,7 +1528,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let serviceCheck = GRSendOrderService()
             let total = UserCurrentSession.sharedInstance.estimateTotalGR() //- self.savings
             
-            let components : DateComponents = (Calendar.current as NSCalendar).components([NSCalendar.Unit.NSYearCalendarUnit, NSCalendar.Unit.NSMonthCalendarUnit, NSCalendar.Unit.NSDayCalendarUnit], from: self.selectedDate)
+            let components : DateComponents = (Calendar.current as NSCalendar).components([NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day], from: self.selectedDate)
             
             
             let dateMonth = components.month

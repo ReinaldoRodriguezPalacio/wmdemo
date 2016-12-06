@@ -193,11 +193,11 @@ class BaseService : NSObject {
     }
 
     
-    func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) -> URLSessionDataTask {
+    func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         let url = serviceUrl()
    
-        let task = afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
+        afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             //session --
             //TODO Loginbyemail
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
@@ -265,10 +265,7 @@ class BaseService : NSObject {
                 print("Response Error : \(error) \n Response \(request!.response)")
                 errorBlock!((error as NSError))
         })
-        
- 
-        
-       return task!
+
     }
     
     func callGETService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -392,7 +389,7 @@ class BaseService : NSObject {
                 error = error1
             }
             if error != nil {
-                print(error)
+                print(error!)
             }
         }
         try? data.write(to: URL(fileURLWithPath: filePath), options: [.atomic])
@@ -428,7 +425,7 @@ class BaseService : NSObject {
     
     func saveKeywords(_ items:[Any]) {
         //Creating keywords
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
+       DispatchQueue.global(qos: .background).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 for idx in 0 ..< items.count {
                     if let item = items[idx] as? [String:Any] {
@@ -481,7 +478,7 @@ class BaseService : NSObject {
     func jsonFromObject(_ object:AnyObject!) {
         let data : Data = try! JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
         let jsonTxt = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        print(jsonTxt)
+        print(jsonTxt!)
     }
     
     func needsLogin() -> Bool {
@@ -497,7 +494,7 @@ class BaseService : NSObject {
     
 
     func loadKeyFieldCategories( _ items:Any!, type:String ) {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
+        DispatchQueue.global(qos: .background).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in items as! [[String:Any]] {

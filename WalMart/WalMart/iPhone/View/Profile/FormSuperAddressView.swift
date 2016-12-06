@@ -304,7 +304,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     for dic in  self.storesDic {
                         let name = dic["name"] as! String!
                         let cost = dic["cost"] as! String!
-                        self.stores.append("\(name) - \(cost)")
+                        self.stores.append("\(name!) - \(cost!)")
                     }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
                     
                     /*if self.stores.count == 0 {
@@ -715,7 +715,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 let name = dic["name"] as! String!
                 let cost = dic["cost"] as! String!
                 
-                self.stores.append("\(name) - \(cost)")
+                self.stores.append("\(name!) - \(cost!)")
                 
                 let idStore = dic["id"] as! String!
                 if idStore == storeID {

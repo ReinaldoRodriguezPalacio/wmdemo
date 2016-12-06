@@ -87,11 +87,7 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
         }
         do {
             try device?.lockForConfiguration()
-            if #available(iOS 8.0, *) {
-                self.device?.setFocusModeLockedWithLensPosition(self.lensPosition, completionHandler: nil)
-            } else {
-                // Fallback on earlier versions
-            }
+            self.device?.setFocusModeLockedWithLensPosition(self.lensPosition, completionHandler: nil)
             device?.unlockForConfiguration()
         } catch _ {
         }
@@ -190,11 +186,7 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
     }
     
     override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if #available(iOS 8.0, *) {
-            super.viewWillTransition(to: size, with: coordinator)
-        } else {
-            // Fallback on earlier versions
-        }
+        super.viewWillTransition(to: size, with: coordinator)
         
         let frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         if let l = self.videoPreviewLayer {

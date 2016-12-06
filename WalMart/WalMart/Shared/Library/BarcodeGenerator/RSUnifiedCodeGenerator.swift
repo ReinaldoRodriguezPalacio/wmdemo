@@ -20,7 +20,7 @@ open class RSUnifiedCodeGenerator: RSCodeGenerator {
     
     open func generateCode(_ contents: String, machineReadableCodeObjectType: String) -> UIImage? {
         var codeGenerator:RSCodeGenerator?
-        if #available(iOS 8.0, *) {
+
             switch machineReadableCodeObjectType {
             case AVMetadataObjectTypeQRCode, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeAztecCode:
                 return RSAbstractCodeGenerator.generateCode(contents, filterName: RSAbstractCodeGenerator.filterName(machineReadableCodeObjectType))
@@ -56,9 +56,7 @@ open class RSUnifiedCodeGenerator: RSCodeGenerator {
             default:
                 print("No code generator selected.")
             }
-        } else {
-            // Fallback on earlier versions
-        }
+        
         
         if let g = codeGenerator {
             return g.generateCode(contents, machineReadableCodeObjectType: machineReadableCodeObjectType)

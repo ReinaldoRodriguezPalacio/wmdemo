@@ -412,10 +412,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     //MARK: Alert delegate
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if buttonIndex == 1 {
-            if #available(iOS 8.0, *) {
-                if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
-                    UIApplication.shared.openURL(appSettings)
-                }
+            if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(appSettings)
             }
         } else {
             self.closeAlert()

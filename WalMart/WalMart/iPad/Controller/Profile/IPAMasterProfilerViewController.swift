@@ -34,15 +34,10 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
         selected = 0
         self.viewControllers = [profile, navigation];
         
-        if #available(iOS 8.0, *) {
-            if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
-            {
-                self.maximumPrimaryColumnWidth = 342.0
-                self.minimumPrimaryColumnWidth = 342.0
-                
-            }
-        } else {
-            // Fallback on earlier versions
+        if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
+        {
+            self.maximumPrimaryColumnWidth = 342.0
+            self.minimumPrimaryColumnWidth = 342.0
         }
     }
 

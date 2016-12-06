@@ -24,7 +24,7 @@ class LinesForSearchService: BaseService {
                 self.printTimestamp("success LinesForSearchService")
                 let jsonResponce = json as! [String:Any]
                 if let response = jsonResponce["responseArray"] as? [Any] {
-                    DispatchQueue.global(priority: .background).async(execute: { () -> Void in
+                   DispatchQueue.global(qos: .background).async(execute: { () -> Void in
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : Any]) -> Void in
                             let values = [Any](dictionary.values)
                             self.jsonFromObject(values as AnyObject!)

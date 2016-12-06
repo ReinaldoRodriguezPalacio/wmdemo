@@ -363,19 +363,13 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         let frequencyMessage = self.frequencyField!.validate()
         let timeMessage = self.hourField!.validate()
         self.currentOriginalFireDate = self.currentOriginalFireDate ?? Date()
-        if #available(iOS 8.0, *) {
-            let compare = (Calendar.current as NSCalendar).compare(Date(), to: self.currentOriginalFireDate!,
+        let compare = (Calendar.current as NSCalendar).compare(Date(), to: self.currentOriginalFireDate!,
                 toUnitGranularity: .second)
-            if  compare != ComparisonResult.orderedAscending {
-                field = hourField!
-                message = "Selecciona una hora superior a la actual"
-            }
-        } else {
-            if Date().compare(self.currentOriginalFireDate!) != ComparisonResult.orderedAscending {
-                    field = hourField!
-                    message = "Selecciona una hora superior a la actual"
-            }
+        if  compare != ComparisonResult.orderedAscending {
+            field = hourField!
+            message = "Selecciona una hora superior a la actual"
         }
+        
         if !hourField!.isValid
         {
             field = hourField!
