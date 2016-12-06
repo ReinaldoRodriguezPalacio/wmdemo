@@ -45,22 +45,25 @@ class SignUpMGViewController: SignUpViewController {
                 
                 self.aAddredssForm = GRFormSuperAddressView()
                 
-                var aPhoneHomeNumber =  self.aAddredssForm.getPhoneHomeNumber()
-                let aPhoneWorkNumber =  self.aAddredssForm.getPhoneWorkNumber()
-                let aCellPhone       =  self.aAddredssForm.getCellPhone()
-                
-                if(aPhoneHomeNumber == "" && self.addressMgView.viewAddress?.getParams() != nil){
-                    
-                    var p = self.addressMgView.viewAddress?.getParams()
-                    aPhoneHomeNumber = p!["TelNumber"]as! String
-                }
-                
-                let params = signUpService.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
-                
                 self.view.endEditing(true)
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-                self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+                
                 if self.addressMgView.viewAddress!.validateAddress(){
+                    
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+                    
+                    var aPhoneHomeNumber =  self.aAddredssForm.getPhoneHomeNumber()
+                    let aPhoneWorkNumber =  self.aAddredssForm.getPhoneWorkNumber()
+                    let aCellPhone       =  self.aAddredssForm.getCellPhone()
+                    
+                    if(aPhoneHomeNumber == "" && self.addressMgView.viewAddress?.getParams() != nil){
+                        
+                        var p = self.addressMgView.viewAddress?.getParams()
+                        aPhoneHomeNumber = p!["TelNumber"]as! String
+                    }
+                    
+                    let params = signUpService.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:aPhoneHomeNumber,phoneWorkNumber:aPhoneWorkNumber,cellPhone:aCellPhone)
+                    
                     signUpService.callService(params,  successBlock:{ (resultCall:[String:Any]?) in
                         self.addressMgView.closeAlert()
                         let loginService = LoginService()
@@ -111,7 +114,7 @@ class SignUpMGViewController: SignUpViewController {
                     if let errorView = self.addressMgView.viewAddress!.errorView {
                         BaseController.sendAnalyticsUnsuccesfulRegistrationWithError(errorView.errorLabel.text!, stepError: "Direcciones")
                     }
-                    self.alertView!.close()
+                    self.alertView?.close()
                 }
             }//Close successCallBack
             
