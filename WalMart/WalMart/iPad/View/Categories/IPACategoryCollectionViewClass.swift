@@ -115,7 +115,12 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         }
         else
         {
-            let imageDefault = UIImage(named: (fileName as NSString).deletingPathExtension)
+            
+            var imageDefault = UIImage(named: (fileName as NSString).deletingPathExtension)
+            if imageDefault ==  nil {
+                imageDefault =  UIImage(named: fileName.replacingOccurrences(of: ".png", with: ".jpg"))
+            }
+            
             if imageDefault != nil {
                 print("default image \((fileName as NSString).deletingPathExtension)")
                 succesBlock(true)

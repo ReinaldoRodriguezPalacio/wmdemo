@@ -553,9 +553,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
 
             // agregar login antes de agregar la direccion 
                 
-                let service = LoginService()
-                let params  = service.buildParams(userName, password: password)
-                service.callService(params, successBlock: { (result:[String:Any]) -> Void in
+                let loginService = LoginService()
+               let params  = loginService.buildParams(userName, password: password)
+                loginService.callServiceByEmail(params: params, successBlock: { (result:[String:Any]) -> Void in
                     self.saveBock(self.saveButton,successBlock:successBlock)
                      successBlock!(true)
                     }, errorBlock: { (error:NSError) -> Void in

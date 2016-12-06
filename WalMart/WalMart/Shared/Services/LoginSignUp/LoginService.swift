@@ -18,7 +18,7 @@ class LoginService : BaseService {
     }
 
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+       let _ = self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {
                     let resultCallMG = resultCall
@@ -38,6 +38,31 @@ class LoginService : BaseService {
             }
 
             }) { (error:NSError) -> Void in
+            errorBlock!(error)
+        }
+    }
+    
+    func callServiceByEmail(params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+      let _ = self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+            if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+                if codeMessage.intValue == 0 {
+                    let resultCallMG = resultCall
+                    
+                    let grLoginWithEmailService = GRLoginWithEmailService()
+                    grLoginWithEmailService.callService(["email":params["email"]!], successBlock: { (resultCallGR:[String:Any]) -> Void in
+                        UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
+                        successBlock!(resultCall)
+                        }, errorBlock: { (errorGR:NSError) -> Void in
+                            errorBlock!(errorGR)
+                    })
+                }
+                else{
+                    let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
+                    errorBlock!(error)
+                }
+            }
+            
+        }) { (error:NSError) -> Void in
             errorBlock!(error)
         }
     }

@@ -1383,30 +1383,31 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             values.append(["value":unit, "enabled": 1, "type": label,"selected": (unit == selecteFirst)])
         }
         selectedDetails[selecteFirst] = values
-        
-        if filteredKeys.count > 1 {
-            let itemsSecond: [[String:Any]] = facetsDetails[filteredKeys.last!] as! [[String:Any]]
-            let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
-            
-            let itemDetails = facetsDetails["itemDetails"] as? [[String:Any]]
-            var findObj: [String] = []
-            for item in itemDetails!{
-                if(item[filteredKeys.first!] as! String == selecteFirst)
-                {
-                    findObj.append(item[filteredKeys.last!] as! String)
+           
+            if filteredKeys.count > 1 {
+                let itemsSecond: [[String:AnyObject]] = facetsDetails[filteredKeys.last!] as! [[String:AnyObject]]
+                let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
+                
+                let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
+                var findObj: [String] = []
+                for item in itemDetails!{
+                    if(item[filteredKeys.first!] as! String == selecteFirst)
+                    {
+                        findObj.append(item[filteredKeys.last!] as! String)
+                    }
                 }
+                
+                var valuesSecond: [Any] = []
+                for item in itemsSecond{
+                    let label = item["type"] as! String
+                    let unit = item["value"] as! String
+                    let enabled = findObj.contains(selectedSecond)
+                    valuesSecond.append(["value":unit, "enabled": enabled ? 1 : 0, "type": label,"selected": (unit == selectedSecond)])
+                }
+                selectedDetails[selectedSecond] = valuesSecond
             }
-            
-            var valuesSecond: [Any] = []
-            for item in itemsSecond{
-                let label = item["type"] as! String
-                let unit = item["value"] as! String
-                let enabled = findObj.contains(selectedSecond)
-                valuesSecond.append(["value":unit, "enabled": enabled ? 1 : 0, "type": label,"selected": (unit == selectedSecond)])
-            }
-            selectedDetails[selectedSecond] = valuesSecond
-        }
-        selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
+            selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
+        
         }
         return selectedDetails
     }
