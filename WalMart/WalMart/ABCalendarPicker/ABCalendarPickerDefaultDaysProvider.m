@@ -40,14 +40,14 @@
 
 - (NSDate *)mainDateBegin
 {
-    NSDateComponents * comps = [self.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[self.dateOwner highlightedDate]];
+    NSDateComponents * comps = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[self.dateOwner highlightedDate]];
     comps.day = 1;
     return [self.calendar dateFromComponents:comps];
 }
 
 - (NSDate *)mainDateEnd
 {
-    NSDateComponents * comps = [self.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:[self.dateOwner highlightedDate]];
+    NSDateComponents * comps = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:[self.dateOwner highlightedDate]];
     comps.day = 1;
     
     NSDateComponents * month = [[NSDateComponents alloc] init];
@@ -115,7 +115,7 @@
 
 - (NSInteger)rowsCount
 {
-    return [self.calendar rangeOfUnit:NSWeekCalendarUnit inUnit:NSMonthCalendarUnit forDate:[self.dateOwner highlightedDate]].length;
+    return [self.calendar rangeOfUnit:NSCalendarUnitWeekOfMonth inUnit:NSCalendarUnitMonth forDate:[self.dateOwner highlightedDate]].length;
 }
 
 - (NSInteger)columnsCount
@@ -141,7 +141,7 @@
 {
     NSInteger index = row*7 + column + 1;
     
-    NSDateComponents * comps = [self.calendar components:NSDayCalendarUnit|NSWeekdayCalendarUnit fromDate:[self.dateOwner highlightedDate]];
+    NSDateComponents * comps = [self.calendar components:NSCalendarUnitDay|NSCalendarUnitWeekday fromDate:[self.dateOwner highlightedDate]];
     NSInteger highlightedDay = comps.day;
     NSInteger highlightedWeekday = comps.weekday - self.calendar.firstWeekday + 1;
     NSInteger firstWeekday = (highlightedWeekday - highlightedDay + 35)%7 + 1;
@@ -154,25 +154,25 @@
 
 - (NSString*)labelForDate:(NSDate*)date
 {
-    NSUInteger day = [self.calendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
+    NSUInteger day = [self.calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:date];
     return [NSString stringWithFormat:@"%lu", (unsigned long)day, nil];
 }
 
 - (UIControlState)controlStateForDate:(NSDate*)date
 {
-    NSInteger currentMonth = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:date];
-    NSInteger selectedMonth = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:[self.dateOwner selectedDate]];
-    NSInteger highlightedMonth = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSInteger currentMonth = [self.calendar ordinalityOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:date];
+    NSInteger selectedMonth = [self.calendar ordinalityOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:[self.dateOwner selectedDate]];
+    NSInteger highlightedMonth = [self.calendar ordinalityOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:[self.dateOwner highlightedDate]];
     
-    NSInteger currentDay = [self.calendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
-    NSInteger selectedDay = [self.calendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[self.dateOwner selectedDate]];
-    NSInteger highlightedDay = [self.calendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSInteger currentDay = [self.calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:date];
+    NSInteger selectedDay = [self.calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:[self.dateOwner selectedDate]];
+    NSInteger highlightedDay = [self.calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:[self.dateOwner highlightedDate]];
     
-    NSInteger currentYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:date];
-    NSInteger selectedYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[self.dateOwner selectedDate]];
-    //NSInteger highlightedYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSInteger currentYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:date];
+    NSInteger selectedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner selectedDate]];
+    //NSInteger highlightedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner highlightedDate]];
     
-    NSInteger dayOfweek = [self.calendar ordinalityOfUnit:NSWeekdayCalendarUnit inUnit:NSWeekCalendarUnit forDate:date];
+    NSInteger dayOfweek = [self.calendar ordinalityOfUnit:NSCalendarUnitWeekday inUnit:NSCalendarUnitWeekOfMonth forDate:date];
     BOOL isWeekend = dayOfweek == 1 || dayOfweek == 7;
     
     BOOL isDisabled = (currentMonth != highlightedMonth) || isWeekend;

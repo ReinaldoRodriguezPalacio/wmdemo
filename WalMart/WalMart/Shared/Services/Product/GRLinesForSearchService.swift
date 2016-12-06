@@ -94,7 +94,7 @@ class GRLinesForSearchService: GRBaseService {
         if strInLines == "" {
             return  successBuildBlock!(dictionary as [String : Any])
         }
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
+        DispatchQueue.global(qos: .background).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 
                 let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
@@ -177,7 +177,7 @@ class GRLinesForSearchService: GRBaseService {
         }
         
 
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
+        DispatchQueue.global(qos: .background).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 
                 let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdFamilyQuery(idFamily: idFamilyQuery as String)

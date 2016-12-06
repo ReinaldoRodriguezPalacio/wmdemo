@@ -121,15 +121,15 @@
 
 - (NSString*)titleText
 {
-    NSInteger year = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[self.dateOwner highlightedDate]];
-    return [NSString stringWithFormat:@"%d",year,nil];
+    NSInteger year = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner highlightedDate]];
+    return [NSString stringWithFormat:@"%ld",(long)year,nil];
 }
 
 - (NSDate*)dateForRow:(NSInteger)row 
             andColumn:(NSInteger)column 
 {
     NSInteger index = column*[self rowsCount] + row;
-    NSInteger month = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSInteger month = [self.calendar ordinalityOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:[self.dateOwner highlightedDate]];
     
     NSDateComponents * dateComponents = [[NSDateComponents alloc] init];
     dateComponents.month = index - month;
@@ -138,7 +138,7 @@
 
 - (NSString*)labelForDate:(NSDate*)date
 {
-    //NSInteger month = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:date];
+    //NSInteger month = [self.calendar ordinalityOfUnit:NSCalendarUnitMonthinUnit:NSCalendarUnitYear forDate:date];
     //NSString * name = [[self.dateFormatter shortStandaloneMonthSymbols] objectAtIndex:month-1];
     //if ([name characterAtIndex:name.length-1] == '.')
     //    return [name substringToIndex:name.length-1];
@@ -150,16 +150,16 @@
 
 - (UIControlState)controlStateForDate:(NSDate*)date
 {
-    NSInteger currentYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:date];
-    NSInteger selectedYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[self.dateOwner selectedDate]];
-    NSInteger highlightedYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSInteger currentYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:date];
+    NSInteger selectedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner selectedDate]];
+    NSInteger highlightedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner highlightedDate]];
     
     if (currentYear != highlightedYear)
         return UIControlStateDisabled;
 
-    NSInteger currentMonth = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:date];
-    NSInteger selectedMonth = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:[self.dateOwner selectedDate]];
-    NSInteger highlightedMonth = [self.calendar ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSInteger currentMonth = [self.calendar ordinalityOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:date];
+    NSInteger selectedMonth = [self.calendar ordinalityOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:[self.dateOwner selectedDate]];
+    NSInteger highlightedMonth = [self.calendar ordinalityOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:[self.dateOwner highlightedDate]];
     
     BOOL isSelected = (currentMonth == selectedMonth) && (highlightedYear == selectedYear);
     BOOL isHilighted = (currentMonth == highlightedMonth); 
