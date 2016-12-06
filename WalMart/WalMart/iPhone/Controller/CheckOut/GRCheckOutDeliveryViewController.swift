@@ -391,17 +391,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         var row = 0
         for item in self.datesItems! {
             let itemDate = item["date"] as! Date
-            if #available(iOS 8.0, *) {
-                if (Calendar.current as NSCalendar).compare(itemDate, to: date,
-                    toUnitGranularity: .day) == ComparisonResult.orderedSame {
-                    aviableDate = item
-                    break
-                }
-            } else {
-                let dateFmt = DateFormatter()
-                dateFmt.timeZone = TimeZone.current
-                dateFmt.dateFormat = "EEEE dd, MMMM"
-                aviableDate =  ["dateString":dateFmt.string(from: date).capitalized,"date":date]
+            if (Calendar.current as NSCalendar).compare(itemDate, to: date,
+                toUnitGranularity: .day) == ComparisonResult.orderedSame {
+                aviableDate = item
                 break
             }
             row += 1

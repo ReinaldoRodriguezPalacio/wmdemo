@@ -152,12 +152,8 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         familyController.selectedFamily = nil
         familyController.delegate = self
        
+        familyController.modalPresentationStyle = .popover
         
-        if #available(iOS 8.0, *) {
-            familyController.modalPresentationStyle = .popover
-        } else {
-            familyController.modalPresentationStyle = .formSheet
-        }
         familyController.preferredContentSize = CGSize(width: 320, height: 322)
         
         if popover ==  nil {
@@ -237,11 +233,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         
         let pointPop =  searchProduct.viewHeader.convert(CGPoint(x: self.view.frame.width / 2,  y: frameStart.height + 40 ), to:self.view)
         print(pointPop)
-        if #available(iOS 8.0, *) {
-            familyController.modalPresentationStyle = .popover
-        } else {
-            familyController.modalPresentationStyle = .formSheet
-        }
+        familyController.modalPresentationStyle = .popover
         familyController.preferredContentSize = CGSize(width: 320, height: 322)
         
         popover = UIPopoverController(contentViewController: familyController)

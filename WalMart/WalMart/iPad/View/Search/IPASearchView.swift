@@ -93,11 +93,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             searchctrl =  IPASearchLastViewTableViewController()
             searchctrl.view.frame = CGRect(x: 0,y: 0,width: 474,height: 500)
             searchctrl.delegate = self.delegate
-            if #available(iOS 8.0, *) {
-                searchctrl.modalPresentationStyle = .popover
-            } else {
-                searchctrl.modalPresentationStyle = .formSheet
-            }
+            searchctrl.modalPresentationStyle = .popover
             searchctrl.preferredContentSize = CGSize(width: 474, height: 500)
             searchctrl.table.alpha = 0
             searchctrl.afterselect = {() in

@@ -35,14 +35,10 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         self.navigation.pushViewController(recent, animated: true)
         selected = 8 // 7
         
-        if #available(iOS 8.0, *) {
-            if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
-            {
-                self.maximumPrimaryColumnWidth = 342
-                self.minimumPrimaryColumnWidth = 342
-            }
-        } else {
-            // Fallback on earlier versions
+        if(self.responds(to: #selector(getter: UISplitViewController.maximumPrimaryColumnWidth)))
+        {
+            self.maximumPrimaryColumnWidth = 342
+            self.minimumPrimaryColumnWidth = 342
         }
     }
     

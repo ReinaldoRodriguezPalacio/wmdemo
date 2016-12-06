@@ -326,17 +326,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
             let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
-            if #available(iOS 8.0, *) {
-                controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
-                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                    }
-                }
-            } else {
-                controller.completionHandler = {(activityType, completed:Bool) in
-                    if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                        BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                    }
+            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
+                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
         }

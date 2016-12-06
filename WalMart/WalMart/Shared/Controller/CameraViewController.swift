@@ -659,12 +659,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     //MARK: Alert delegate
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if buttonIndex == 1 {
-            if #available(iOS 8.0, *) {
-                if !UIApplicationOpenSettingsURLString.isEmpty {
-                    UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
-                }
-            } else {
-                // Fallback on earlier versions
+            if !UIApplicationOpenSettingsURLString.isEmpty {
+                   UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
             }
         }
         self.closeCamera()

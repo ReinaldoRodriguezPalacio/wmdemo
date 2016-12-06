@@ -27,17 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
         
         //Push notifications
-         if #available(iOS 8.0, *) {
-          if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
-                let type: UIUserNotificationType = [UIUserNotificationType.badge, UIUserNotificationType.alert, UIUserNotificationType.sound]
-                let setting = UIUserNotificationSettings(types: type, categories: nil);
-                UIApplication.shared.registerUserNotificationSettings(setting);
-                UIApplication.shared.registerForRemoteNotifications();
-            }
+        if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
+            let type: UIUserNotificationType = [UIUserNotificationType.badge, UIUserNotificationType.alert, UIUserNotificationType.sound]
+            let setting = UIUserNotificationSettings(types: type, categories: nil);
+            UIApplication.shared.registerUserNotificationSettings(setting);
+            UIApplication.shared.registerForRemoteNotifications();
         }
-         else {
-           application.registerForRemoteNotifications( matching: [UIRemoteNotificationType.badge, UIRemoteNotificationType.sound, UIRemoteNotificationType.alert] )
-        }
+        
         
         
         //Facebook

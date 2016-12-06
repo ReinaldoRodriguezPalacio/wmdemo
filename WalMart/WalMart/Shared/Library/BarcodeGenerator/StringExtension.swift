@@ -33,12 +33,7 @@ extension String {
     
     func contains(_ other: String) -> Bool {
         var contains = false
-        if #available(iOS 8.0, *) {
-            contains = (self as NSString).contains(other)
-        } else {
-            contains = (self as NSString).range(of: other).location > 0
-        }
-        
+        contains = (self as NSString).contains(other)
         return contains
     }
     

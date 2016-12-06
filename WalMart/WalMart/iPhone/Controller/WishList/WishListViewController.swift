@@ -587,23 +587,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader!], applicationActivities: nil)
         self.navigationController!.present(controller, animated: true, completion: nil)
         
-        if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
-                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                }
-            }
-        } else {
-            controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                }
+        controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+            if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
+                BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
             }
         }
-        
-        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
-        
-        
+    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
     }
     
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{

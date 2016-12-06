@@ -147,12 +147,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
     // returns the center point, in image coordinate space, to try to restore after rotation.
     func pointToCenterAfterRotation() -> CGPoint! {
         let boundsCenter:CGPoint = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
-        if #available(iOS 8.0, *) {
-            return self.convert(boundsCenter, to: self.imageView!)
-        } else {
-            // Fallback on earlier versions
-        }
-        return self.center
+        return self.convert(boundsCenter, to: self.imageView!)
     }
     
     // returns the zoom scale to attempt to restore after rotation.
@@ -183,20 +178,16 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         self.zoomScale = min(self.maximumZoomScale, max(self.minimumZoomScale, oldScale))
         // Step 2: restore center point, first making sure it is within the allowable range.
         // 2a: convert our desired center point back to our own coordinate space
-        if #available(iOS 8.0, *) {
-            let boundsCenter:CGPoint = self.convert(oldCenter, from: self.imageView!)
-            // 2b: calculate the content offset that would yield that center point
-            var offset:CGPoint = CGPoint(x: boundsCenter.x - self.bounds.size.width / 2.0,
+        let boundsCenter:CGPoint = self.convert(oldCenter, from: self.imageView!)
+        // 2b: calculate the content offset that would yield that center point
+        var offset:CGPoint = CGPoint(x: boundsCenter.x - self.bounds.size.width / 2.0,
                                          y: boundsCenter.y - self.bounds.size.height / 2.0);
-            // 2c: restore offset, adjusted to be within the allowable range
-            let maxOffset:CGPoint = self.maximumContentOffset()
-            let minOffset:CGPoint = self.minimumContentOffset()
-            offset.x = max(minOffset.x, min(maxOffset.x, offset.x))
-            offset.y = max(minOffset.y, min(maxOffset.y, offset.y))
-            self.contentOffset = offset
-        } else {
-            // Fallback on earlier versions
-        }
+        // 2c: restore offset, adjusted to be within the allowable range
+        let maxOffset:CGPoint = self.maximumContentOffset()
+        let minOffset:CGPoint = self.minimumContentOffset()
+        offset.x = max(minOffset.x, min(maxOffset.x, offset.x))
+        offset.y = max(minOffset.y, min(maxOffset.y, offset.y))
+        self.contentOffset = offset
     }
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {

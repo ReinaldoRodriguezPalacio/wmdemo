@@ -64,11 +64,10 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.titleLabel?.text = NSLocalizedString("moreoptions.title.StoreLocator",comment:"")
         
         self.coreLocationManager = CLLocationManager()
-        if #available(iOS 8.0, *) {
-            if(CLLocationManager.instancesRespond(to: #selector(CLLocationManager.requestWhenInUseAuthorization)))
-            {
-                self.coreLocationManager.requestWhenInUseAuthorization()
-            }
+        
+        if(CLLocationManager.instancesRespond(to: #selector(CLLocationManager.requestWhenInUseAuthorization)))
+        {
+            self.coreLocationManager.requestWhenInUseAuthorization()
         }
         
         self.segmentedView = UIView(frame: CGRect(x: 16,  y: self.header!.frame.maxY + 16,  width: 150.0, height: 22.0))
@@ -657,17 +656,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         let controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
         self.navigationController?.present(controller, animated: true, completion: nil)
         
-        if #available(iOS 8.0, *) {
-            controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
-                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                }
-            }
-        } else {
-            controller.completionHandler = {(activityType, completed:Bool) in
-                if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
-                    BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
-                }
+        controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
+            if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
+                BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
             }
         }
     }
