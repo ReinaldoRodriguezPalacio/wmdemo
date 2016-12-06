@@ -558,7 +558,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                             let family = rs.string(forColumn: "family")
                             
                             let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
-                            let description = "\(depto) > \(family)"
+                            let description = "\(depto!) > \(family!)"
                             let idLine = rs.string(forColumn: "idLine")
                             let idDepto = rs.string(forColumn: "idDepto")
                             let idFamily = rs.string(forColumn: "idFamily")
