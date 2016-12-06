@@ -90,7 +90,7 @@ class ShoppingCartButton : UIButton {
     class func sizeForQuantity(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
-        let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        let rectSize = attrStringLab.boundingRect(with: CGSize(width: IS_IPAD ? 70.0 : 45.0, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         
         
         var space : CGFloat = 25
@@ -104,7 +104,7 @@ class ShoppingCartButton : UIButton {
     class func sizeForQuantityWithoutIcon(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
-        let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        let rectSize = attrStringLab.boundingRect(with: CGSize(width: IS_IPAD ? 70.0 : 40.0, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         let fullSize = CGSize(width: rectSize.size.width + 25,height: rectSize.size.height)
         return fullSize
     }

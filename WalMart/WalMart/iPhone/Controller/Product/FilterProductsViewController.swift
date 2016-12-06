@@ -256,7 +256,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                             }
                             else {
                                 for upcVal in self.upcByPrice! {
-                                      upcs.append(upcVal as! String)
+                                      upcs.append(upcVal )
                                 }
                             }
                         }
@@ -974,15 +974,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         var array = Array<String>()
         for idx in low ..< high {
-            if let upcs = self.upcPrices![idx] as? [String] {
-                for upc in upcs {
-                    if let string = upc as? String {
-                        array.append(string)
-                        //if  array.count > 100 {
-                        //    break
-                        //}
-                    }
-                }
+            let upcs = self.upcPrices![idx]
+            for upc in upcs {
+                let string = upc
+                array.append(string)
+                //if  array.count > 100 {
+                //    break
+                //}
             }
         }
         self.upcByPrice = array

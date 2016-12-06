@@ -387,6 +387,15 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             
             //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email!, userName: email!, gender: gender!, idUser: idUser!, itesShop: nil,total:0,refId:"")
             
+            
+            let caroService = CarouselService()
+            let caroparams = Dictionary<String, String>()
+            caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
+                print("Call service caroService success")
+            }) { (error:NSError) -> Void in
+                print("Call service caroService error \(error)")
+            }
+            
             self.signInButton!.isEnabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {
@@ -420,7 +429,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                                 for dictAddress in shippingAddress {
                                     if let pref = dictAddress["preferred"] as? NSNumber{
                                         if pref == 1{
-                                            alertAddress.setData(dictAddress as! [String:Any])
+                                            alertAddress.setData(dictAddress )
                                         }
                                     }
                                 }
@@ -642,7 +651,16 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.email?.text = email
         let service = LoginWithEmailService()
         service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:[String:Any]?) in
-
+            
+            
+            let caroService = CarouselService()
+            let caroparams = Dictionary<String, String>()
+            caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
+                print("Call service caroService success")
+            }) { (error:NSError) -> Void in
+                print("Call service caroService error \(error)")
+            }
+            
             self.signInButton!.isEnabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {

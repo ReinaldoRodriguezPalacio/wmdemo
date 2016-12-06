@@ -504,7 +504,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             if formFieldObj ==  self.deliveryDate! {
                 self.addViewLoad()
                 self.selectedDateTypeIx = indexPath
-                let selectedItem = self.datesItems![indexPath.row] as! [String:Any]
+                let selectedItem = self.datesItems![indexPath.row] 
                 self.selectedDate = selectedItem["date"] as! Date
                 self.buildSlotsPicker(self.selectedDate)
             }
@@ -769,7 +769,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         self.shipmentItems!.append(["name":expressDelivery, "key":"2","cost":expressDeliveryCostVal])
                     }
                     if self.shipmentItems!.count > 0 {
-                        let shipName = self.shipmentItems![0] as! [String:Any]
+                        let shipName = self.shipmentItems![0] 
                         self.selectedShipmentTypeIx = IndexPath(row: 0, section: 0)
                         self.shipmentType!.text = shipName["name"] as? String
                     }

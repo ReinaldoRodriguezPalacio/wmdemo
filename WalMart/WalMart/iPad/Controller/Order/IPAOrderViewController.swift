@@ -48,7 +48,7 @@ class IPAOrderViewController: OrderViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
      
-        let item = self.items[indexPath.row] as! [String:Any]
+        let item = self.items[indexPath.row] 
         let detailController = IPAOrderDetailViewController()
         
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {

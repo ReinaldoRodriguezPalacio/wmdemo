@@ -159,7 +159,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
 
         
-        let itemWishlist = items[indexPath.row] as! [String:Any]
+        let itemWishlist = items[indexPath.row]
         let upc = itemWishlist["upc"] as! String
         var pesable = "" //itemWishlist["pesable"] as NSString
         
@@ -271,7 +271,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         controller.ixSelected = indexPath.row
         controller.detailOf = "Wish List"
         
-        let itemWishlistSel = items[indexPath.row] as! [String:Any]
+        let itemWishlistSel = items[indexPath.row] 
         let upc = itemWishlistSel["upc"] as! String
         let desc = itemWishlistSel["description"] as! String
         
@@ -513,7 +513,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
     
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemWishlist = items[indexPath.row] as! [String:Any]
+        let itemWishlist = items[indexPath.row] 
         let upc = itemWishlist["upc"] as! String
         let deleteWishListService = DeleteItemWishlistService()
         deleteWishListService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in

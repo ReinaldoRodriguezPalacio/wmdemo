@@ -224,7 +224,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
     override func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:Any]
+        let itemWishlist = itemsInShoppingCart[indexPath.row] 
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
         }
@@ -407,7 +407,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             let frameDetail = CGRect(x: 0, y: 0, width: 320, height: 568)
             selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),upcProduct:cell.upc as String)
             let text = String(cell.quantity).characters.count < 2 ? "0" : ""
-            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
+            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity!)"
             self.selectQuantity!.updateQuantityBtn()
             selectQuantity!.closeAction = { () in
                 self.popup!.dismiss(animated: true)

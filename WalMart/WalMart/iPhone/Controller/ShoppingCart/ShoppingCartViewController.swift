@@ -763,7 +763,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
             selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),upcProduct:cell.upc as String)
             let text = String(cell.quantity).characters.count < 2 ? "0" : ""
-            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
+            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity!)"
             self.selectQuantity!.updateQuantityBtn()
             selectQuantity!.closeAction = { () in
                 self.selectQuantity!.removeFromSuperview()
@@ -903,7 +903,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var showIva = true
         
         for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
+            let dictShoppingCartProduct = shoppingCartProduct 
             let price = shoppingCartProduct["price"] as! NSString
             
             var iva : NSString = ""

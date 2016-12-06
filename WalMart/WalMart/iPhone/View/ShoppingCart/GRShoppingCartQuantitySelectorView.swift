@@ -46,7 +46,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.upcProduct = upcProduct
         setup()
         let text = String(quantity).characters.count < 2 ? "0" : ""
-        lblQuantity.text = "\(text)"+"\(quantity)"
+        lblQuantity.text = "\(text)"+"\(quantity!)"
         self.updateQuantityBtn()
     }
     
@@ -217,19 +217,19 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         var resultText : NSString = ""
         
         if first {
-            var tmpResult : String = value
-            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value)" : value
+            var tmpResult : String = value!
+            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value!)" : value!
             if tmpResult != "00"{
             lblQuantity.text = tmpResult as String
                 first = false
             }
         } else {
-            resultText = "\(lblQuantity.text!)\(value)" as NSString
+            resultText = "\(lblQuantity.text!)\(value!)" as NSString
             resultText = resultText.substring(from: 1) as NSString
             if resultText.integerValue > 0 && resultText.integerValue <= 99 {
                 lblQuantity.text = resultText as String
             }else {
-                let tmpResult : NSString = "0\(value)" as NSString
+                let tmpResult : NSString = "0\(value!)" as NSString
                 if tmpResult.integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }

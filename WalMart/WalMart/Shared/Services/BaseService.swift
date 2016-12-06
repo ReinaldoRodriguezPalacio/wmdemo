@@ -189,7 +189,8 @@ class BaseService : NSObject {
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
             if cookie != "" {
-                if let httpResponse = response as? HTTPURLResponse, let fields = httpResponse.allHeaderFields as? [String : String] {
+                let httpResponse = response
+                if let fields = httpResponse.allHeaderFields as? [String : String] {
                     
                     let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
                     HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
@@ -270,7 +271,8 @@ class BaseService : NSObject {
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
             if cookie != "" {
-                if let httpResponse = response as? HTTPURLResponse, let fields = httpResponse.allHeaderFields as? [String : String] {
+                let httpResponse = response
+                if let fields = httpResponse.allHeaderFields as? [String : String] {
                     
                     let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
                     HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)

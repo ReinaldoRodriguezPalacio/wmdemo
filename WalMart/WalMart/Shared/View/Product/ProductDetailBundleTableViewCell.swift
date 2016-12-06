@@ -27,7 +27,7 @@ class ProductDetailBundleTableViewCell : ProductDetailCrossSellTableViewCell {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "productBundleCell", for: indexPath) as! ProductDetailBundleItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as! [String:Any]
+        let itemUPC = itemsUPC[indexPath.row] 
         
         let desc = itemUPC["description"] as! String
         let imageArray = itemUPC["imageUrl"] as! [Any]
