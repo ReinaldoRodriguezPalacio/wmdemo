@@ -409,7 +409,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.superAddressController.addressId = item["id"] as! String
             self.superAddressController!.view.frame = self.view.frame
             self.superAddressController.setValues(item["id"] as! NSString)
-            self.superAddressController.isPreferred = (item["preferred"] as! Int) == 1
+            self.superAddressController.isPreferred = (item["preferred"] as! NSNumber) == 1
                       
             if let isAddressOK = item["isAddressOk"] as? String {
                 self.superAddressController!.sAddredssForm.showErrorLabel(isAddressOK == "False")
