@@ -90,22 +90,17 @@ class ShoppingCartButton : UIButton {
     class func sizeForQuantity(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
-        let rectSize = attrStringLab.boundingRect(with: CGSize(width: IS_IPAD ? 70.0 : 45.0, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        
-        
-        var space : CGFloat = 25
-        // Note icon
-        space += 20
-        
-        let fullSize = CGSize(width: rectSize.size.width + space,height: rectSize.size.height)
+        let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+
+        let fullSize = CGSize(width: ceil(rectSize.size.width - 25), height: ceil(rectSize.size.height))
         return fullSize
     }
     
     class func sizeForQuantityWithoutIcon(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
-        let rectSize = attrStringLab.boundingRect(with: CGSize(width: IS_IPAD ? 70.0 : 40.0, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        let fullSize = CGSize(width: rectSize.size.width + 25,height: rectSize.size.height)
+        let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        let fullSize = CGSize(width: ceil(rectSize.size.width - 50), height: ceil(rectSize.size.height))
         return fullSize
     }
     
