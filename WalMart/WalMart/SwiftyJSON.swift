@@ -203,40 +203,76 @@ public enum JSONIndex:Comparable
     case array(Int)
     case dictionary(DictionaryIndex<String, JSON>)
     case null
-}
-
-public func ==(lhs: JSONIndex, rhs: JSONIndex) -> Bool
-{
-    switch (lhs, rhs)
+    
+    static public func ==(lhs: JSONIndex, rhs: JSONIndex) -> Bool
     {
-    case (.array(let left), .array(let right)):
-        return left == right
-    case (.dictionary(let left), .dictionary(let right)):
-        return left == right
-    case (.null, .null): return true
-    default:
-        return false
+        switch (lhs, rhs)
+        {
+        case (.array(let left), .array(let right)):
+            return left == right
+        case (.dictionary(let left), .dictionary(let right)):
+            return left == right
+        case (.null, .null): return true
+        default:
+            return false
+        }
     }
-}
-
-public func <(lhs: JSONIndex, rhs: JSONIndex) -> Bool
-{
-    switch (lhs, rhs)
+    
+    static public func <(lhs: JSONIndex, rhs: JSONIndex) -> Bool
     {
-    case (.array(let left), .array(let right)):
-        return left < right
-    case (.dictionary(let left), .dictionary(let right)):
-        return left < right
-    default:
-        return false
+        switch (lhs, rhs)
+        {
+        case (.array(let left), .array(let right)):
+            return left < right
+        case (.dictionary(let left), .dictionary(let right)):
+            return left < right
+        default:
+            return false
+        }
     }
+    
 }
 
+public enum JSONRawIndex: Comparable
+{
+    case array(Int)
+    case dictionary(DictionaryIndex<String, Any>)
+    case null
+    
+    static public func ==(lhs: JSONRawIndex, rhs: JSONRawIndex) -> Bool
+    {
+        switch (lhs, rhs)
+        {
+        case (.array(let left), .array(let right)):
+            return left == right
+        case (.dictionary(let left), .dictionary(let right)):
+            return left == right
+        case (.null, .null): return true
+        default:
+            return false
+        }
+    }
+    
+    static public func <(lhs: JSONRawIndex, rhs: JSONRawIndex) -> Bool
+    {
+        switch (lhs, rhs)
+        {
+        case (.array(let left), .array(let right)):
+            return left < right
+        case (.dictionary(let left), .dictionary(let right)):
+            return left < right
+        default:
+            return false
+        }
+    }
+    
+    
+}
 
 extension JSON: Collection
 {
     
-    public typealias Index = JSONIndex
+    public typealias Index = JSONRawIndex
     
     public var startIndex: Index
     {
@@ -245,7 +281,7 @@ extension JSON: Collection
         case .array:
             return .array(rawArray.startIndex)
         case .dictionary:
-            return .dictionary(dictionaryValue.startIndex)
+            return .dictionary(rawDictionary.startIndex)
         default:
             return .null
         }
@@ -258,7 +294,7 @@ extension JSON: Collection
         case .array:
             return .array(rawArray.endIndex)
         case .dictionary:
-            return .dictionary(dictionaryValue.endIndex)
+            return .dictionary(rawDictionary.endIndex)
         default:
             return .null
         }
@@ -271,7 +307,7 @@ extension JSON: Collection
         case .array(let idx):
             return .array(rawArray.index(after: idx))
         case .dictionary(let idx):
-            return .dictionary(dictionaryValue.index(after: idx))
+            return .dictionary(rawDictionary.index(after: idx))
         default:
             return .null
         }
@@ -285,7 +321,8 @@ extension JSON: Collection
         case .array(let idx):
             return (String(idx), JSON(self.rawArray[idx]))
         case .dictionary(let idx):
-            return dictionaryValue[idx]
+            let (key, value) = self.rawDictionary[idx]
+            return (key, JSON(value))
         default:
             return ("", JSON.null)
         }
@@ -659,7 +696,8 @@ extension JSON {
         return self.dictionary ?? [:]
     }
     
-    //Optional [String : AnyObject]
+    //Optional [String : Any]
+    
     public var dictionaryObject: [String : Any]? {
         get {
             switch self.type {

@@ -450,8 +450,8 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     /**
      Go to next checkout pass
      */
-    override func next() {
+    override func nextStep() {
         self.delegateCheckOut?.showViewBackground(true)
-        super.next()
+        super.nextStep()
     }
 }
