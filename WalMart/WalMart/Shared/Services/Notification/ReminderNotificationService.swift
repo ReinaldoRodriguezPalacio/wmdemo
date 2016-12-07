@@ -54,18 +54,18 @@ class ReminderNotificationService {
         switch (option) {
         case 0 : //Sólo una vez
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
-                self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: nil, customType:0)
+                let _ = self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: nil, customType:0)
             }
         case 1 : //Semanal
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
-                self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: NSCalendar.Unit.weekOfYear, customType:1)
+                let _ = self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: NSCalendar.Unit.weekOfYear, customType:1)
             }
         case 2 : //Cada 2 semanas
             //Generate all notifications for a year (52 weaks; 26 for every 2 weeks at year)
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 var nextDate = date
                 for _ in 0 ..< 26 {
-                    self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:2)
+                    let _ = self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:2)
                     nextDate = nextDate.addingTimeInterval(self.SECS_IN_DAY * 14.0)
                 }
             }
@@ -74,13 +74,13 @@ class ReminderNotificationService {
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 var nextDate = date
                 for _ in 0 ..< 18 {
-                    self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:3)
+                    let _ = self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:3)
                     nextDate = nextDate.addingTimeInterval(self.SECS_IN_DAY * 21.0)
                 }
             }
         default:
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
-                self.createLocalNotification(title: title, fireDate: date, originalFireDate: date, frequency: NSCalendar.Unit.month, customType:4)
+                let _ = self.createLocalNotification(title: title, fireDate: date, originalFireDate: date, frequency: NSCalendar.Unit.month, customType:4)
             }
         }
     }

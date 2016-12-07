@@ -291,11 +291,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         previewLayer!.frame = self.view.frame
         
         if IS_IPAD{
-            if self.interfaceOrientation == UIInterfaceOrientation.landscapeLeft {
+            if UIApplication.shared.statusBarOrientation == UIInterfaceOrientation.landscapeLeft {
                 previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeLeft;
             }
-            else if self.interfaceOrientation == UIInterfaceOrientation.landscapeRight {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight;
+            else if UIApplication.shared.statusBarOrientation == UIInterfaceOrientation.landscapeRight {
+                self.previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight;
             }
             
             if IS_RETINA {
@@ -629,7 +629,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     override var preferredInterfaceOrientationForPresentation : UIInterfaceOrientation {
         if IS_IPAD {
-            return self.interfaceOrientation
+            return UIApplication.shared.statusBarOrientation
         }
         else{
             return UIInterfaceOrientation.portrait
@@ -638,10 +638,10 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         if IS_IPAD {
-            if self.interfaceOrientation == UIInterfaceOrientation.landscapeLeft {
+            if UIApplication.shared.statusBarOrientation == UIInterfaceOrientation.landscapeLeft {
                 previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.landscapeLeft;
             }
-            else if self.interfaceOrientation == UIInterfaceOrientation.landscapeRight {
+            else if UIApplication.shared.statusBarOrientation == UIInterfaceOrientation.landscapeRight {
                 previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight;
             }
         }

@@ -169,7 +169,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         super.viewDidAppear(animated)
         if valueEmail != nil {
             self.email?.text = valueEmail
-            self.password?.becomeFirstResponder()
+            let _ = self.password?.becomeFirstResponder()
         }
        /* else {
             self.email?.becomeFirstResponder()
@@ -254,7 +254,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.sendSubview(toBack: self.imageblur!)
     }
 
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize{
+    func contentSizeForScrollView(_ sender:Any) -> CGSize{
          return CGSize( width: content.contentSize.width, height: content.contentSize.height)
     }
    
@@ -588,7 +588,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == email { // Switch focus to other text field
-            password!.becomeFirstResponder()
+           let _ = password!.becomeFirstResponder()
         }
         if textField == password {
             self.signIn(signInButton!)

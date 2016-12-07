@@ -310,7 +310,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.picker!.onClosePicker = {
                 //--self.removeViewLoad()
                 self.picker!.onClosePicker = nil
-                self.navigationController?.popViewController(animated: true)
+                let _ = self.navigationController?.popViewController(animated: true)
                 self.picker!.closePicker()
             }
         }
@@ -616,7 +616,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func reloadUserAddresses(){
         self.invokeAddressUserService({ () -> Void in
-            self.getItemsTOSelectAddres()
+            let _ = self.getItemsTOSelectAddres()
             self.getAddressDescription(self.selectedAddress!)
             self.address!.onBecomeFirstResponder = {() in
                 self.showAddressPicker()

@@ -72,7 +72,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                         error = error1
                     }
                     if error != nil {
-                        print(error)
+                        print(error ?? "")
                     }
                 }
             }

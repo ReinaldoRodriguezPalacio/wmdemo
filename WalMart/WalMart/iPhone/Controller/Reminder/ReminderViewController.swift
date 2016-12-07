@@ -298,7 +298,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
                 self.view.removeFromSuperview()
                 self.removeFromParentViewController()
             }else{
-                self.navigationController?.popViewController(animated: true)
+                let _ = self.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -326,7 +326,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
                     self.view.removeFromSuperview()
                     self.removeFromParentViewController()
                 }else{
-                    self.navigationController?.popViewController(animated: true)
+                    let _ = self.navigationController?.popViewController(animated: true)
                 }
             }
         }
@@ -412,7 +412,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return CGSize(width: self.view.frame.width, height: self.content!.contentSize.height)
     }
     

@@ -164,7 +164,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 back()
             }
         
-            stringcase.lowercased
+            let _ = stringcase.lowercased
             range = stringcase.range(of: ConfigUrls.WmInicio)//ok
             if range.location != NSNotFound {
                 back()
@@ -202,7 +202,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             }
         
             let len = ConfigUrls.WmComMX //ok
-            len.length()
+        
             if range.location != NSNotFound &&  len.length() == string.length {
                 print("cerrando ::: https://www.walmart.com.mx/")
                 back()
@@ -419,7 +419,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         self.webCheckOut = nil
         self.finishLoadCheckOut = nil
         //self.navigationController?.popToRootViewControllerAnimated(true)
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
         if afterclose != nil {
             afterclose!()
         }

@@ -266,7 +266,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
                 }
                 
                 
-                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
+                let _ = customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
             }
         }
     }

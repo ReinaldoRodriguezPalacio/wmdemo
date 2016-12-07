@@ -302,7 +302,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //        acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
     }
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
           return CGSize(width: self.view.frame.width, height: content.contentSize.height)
     }
     
@@ -373,7 +373,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     
     func continueToInfo() {
         self.view.endEditing(true)
-        birthDate!.resignFirstResponder()
+        let _ = birthDate!.resignFirstResponder()
         
         if validateUser() {
             let infoView = self.generateInfoView(self.content.frame)

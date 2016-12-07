@@ -43,7 +43,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                     if self.zipcode.text!.utf16.count > 0 {
                         let xipStr = self.zipcode.text! as NSString
                         self.zipcode.text = String(format: "%05d",xipStr.integerValue)
-                        self.store.becomeFirstResponder()
+                       let _ = self.store.becomeFirstResponder()
                     }
                 }
                 field!.resignFirstResponder()

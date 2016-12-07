@@ -84,7 +84,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     if self.zipcode.text!.utf16.count > 0 {
                         let xipStr = self.zipcode.text! as NSString
                         self.zipcode.text = String(format: "%05d",xipStr.integerValue)
-                        self.store.becomeFirstResponder()
+                        let _ = self.store.becomeFirstResponder()
                     }
                 }
                 field!.resignFirstResponder()
@@ -550,7 +550,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         }
         //cambio para direcciones!
         if self.zipcode!.text != "" && self.zipcode!.text !=  "00000" && self.store.text == "" && self.suburb.text == "" && self.stores.count > 0 {
-            self.store.becomeFirstResponder()
+            let _ = self.store.becomeFirstResponder()
             return nil
 
 
@@ -560,7 +560,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             && self.phoneHomeNumber.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == ""
             && self.cellPhone.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == ""
             && !delete  {
-                self.viewError(self.phoneHomeNumber,message: "Es necesario capturar un teléfono")
+                let _ = self.viewError(self.phoneHomeNumber,message: "Es necesario capturar un teléfono")
                 return nil
         }
         if self.phoneWorkNumber.text != "" {
@@ -570,7 +570,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
             if (toValidate == "0000000000" || toValidate.substring(to: 2) == "00")
                 && !delete {
-                    self.viewError(self.phoneWorkNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
+                    let _ = self.viewError(self.phoneWorkNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
                     return nil
             }
             
@@ -583,7 +583,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return nil
             }
             if (toValidate == "0000000000" || toValidate.substring(to: 2) == "00")  && !delete{
-                self.viewError(self.phoneHomeNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
+                let _ = self.viewError(self.phoneHomeNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
                 return nil
             }
             
@@ -596,7 +596,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return nil
             }
             if (toValidate == "0000000000" || toValidate.substring(to: 2) == "00"   && !delete) {
-                self.viewError(self.cellPhone, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
+                let _ = self.viewError(self.cellPhone, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
                 return nil
             }
             
@@ -650,7 +650,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             let idItem = item["id"] as! String
             let name = item["name"] as! String
             if id != idItem && name.uppercased() ==  addressName!.text!.uppercased() {
-                self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
+                let _ = self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true
             }
         }
@@ -746,7 +746,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     func removeErrorLog() {
         if self.errorView != nil{
             if let formField = self.errorView?.focusError as? FormFieldView {
-                self.viewError(formField)
+                let _ = self.viewError(formField)
             }
         }
     }

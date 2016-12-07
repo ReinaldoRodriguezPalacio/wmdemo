@@ -146,7 +146,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         
         self.emptyView.returnAction = { () in
             //self.emptyView.removeFromSuperview()
-            self.navigationController?.popViewController(animated: true)
+            let _ = self.navigationController?.popViewController(animated: true)
         }
         
         self.view.addSubview(self.emptyView)

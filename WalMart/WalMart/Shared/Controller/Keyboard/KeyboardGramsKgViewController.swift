@@ -202,6 +202,6 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
     }
     
     func back() {
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
     }
 }

@@ -238,7 +238,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
    
         let window = UIApplication.shared.keyWindow
         if let customBar = window!.rootViewController as? CustomBarViewController {
-            customBar.handleNotification(self.typeAction,name:"",value:self.valueTerms,bussines:self.bussinesTerms)
+            let _ = customBar.handleNotification(self.typeAction,name:"",value:self.valueTerms,bussines:self.bussinesTerms)
             self.alertBank!.alpha = 0
         }
         

@@ -411,7 +411,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             if indexPath.row > 0 {
                  item = self.facetGr![indexPath.row - 1] as! String
-                selectedFacetGr?.updateValue(selected,forKey: item)
+                let _ = selectedFacetGr?.updateValue(selected,forKey: item)
                 listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
                 
             }else{
@@ -606,7 +606,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
             for keyObj in self.selectedElementsFacet!.keys {
                 if keyObj.row == 0 {
-                    self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
+                    let _ = self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
                 }
             }
             ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])

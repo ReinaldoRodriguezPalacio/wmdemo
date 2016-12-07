@@ -84,9 +84,9 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 }else if field == self.suburb{
                     field!.resignFirstResponder()
                 }else if field == self.ieps {
-                    self.email!.becomeFirstResponder()
+                    let _ = self.email!.becomeFirstResponder()
                 }else {
-                    self.shortNameField!.becomeFirstResponder()
+                    let _ = self.shortNameField!.becomeFirstResponder()
                 }
                 
             }
@@ -296,7 +296,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             telipad = self.telephone!.text!
             if keyword.characters.count == 10{
                 textField.text = keyword
-                self.shortNameField?.becomeFirstResponder()
+                let _ = self.shortNameField?.becomeFirstResponder()
                 return false
             }
             else if keyword.characters.count > 10 {
@@ -376,7 +376,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.listSuburb = resultCall!["neighborhoods"] as! [[String:Any]]
                 self.validateShowField()
                 if !setElement && self.listSuburb.count > 0  {
-                    self.suburb?.becomeFirstResponder()
+                    let _ = self.suburb?.becomeFirstResponder()
                     self.suburb!.text = self.listSuburb[0]["name"] as? String
                     self.idSuburb = self.listSuburb[0]["id"] as? String
                 }//if setElement && self.listSuburb.count > 0  {
@@ -403,7 +403,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                     SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
                 }
                 else{
-                    self.zipcode?.resignFirstResponder()
+                    let _ = self.zipcode?.resignFirstResponder()
                 }
         })
     }
@@ -516,7 +516,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             let idItem = item["addressID"] as! NSString
             let name = item["name"] as! NSString
             if id != idItem as String && name.uppercased ==  shortNameField!.text!.uppercased() {
-                self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
+                let _ = self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true
             }
         }

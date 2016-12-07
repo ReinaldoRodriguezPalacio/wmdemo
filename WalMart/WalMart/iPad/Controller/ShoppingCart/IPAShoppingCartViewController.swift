@@ -164,12 +164,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! [[String : Any]]!
         }
         if self.itemsInShoppingCart.count == 0 {
-            self.navigationController?.popToRootViewController(animated: true)
+            let _ = self.navigationController?.popToRootViewController(animated: true)
         }
 
         
         if self.itemsInShoppingCart.count == 0 {
-            self.navigationController?.popToRootViewController(animated: true)
+            let _ = self.navigationController?.popToRootViewController(animated: true)
         }
         
         if  self.itemsInShoppingCart.count > 0 {
@@ -238,7 +238,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 self.updateTotalItemsRow()
             } else {
                  self.onClose?(true)
-                self.navigationController?.popViewController(animated: true)
+                let _ = self.navigationController?.popViewController(animated: true)
             }
             
             }, errorBlock: { (error:NSError) -> Void in
@@ -445,7 +445,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     //On Close
     override func closeShoppingCart() {
         onClose?(false)
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
     }
     
     
@@ -474,7 +474,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             }
             
             self.onClose?(true)
-            self.navigationController?.popViewController(animated: true)
+            let _ = self.navigationController?.popViewController(animated: true)
             //self.navigationController!.popToRootViewControllerAnimated(true)
             }) { (error:NSError) -> Void in
                 print("error al eliminar todos los productos del carrito: ")

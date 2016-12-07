@@ -405,7 +405,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         if let ipaCustomBar = self.window?.rootViewController as? IPACustomBarViewController{
             if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
-                ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                let _ = ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
             }else{
                 let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"reminder_alert"),imageDone:UIImage(named:"reminder_alert"),imageError:UIImage(named:"reminder_alert"))
                 alertNot?.showDoneIconWithoutClose()
@@ -419,7 +419,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                             viewLogin.removeFromSuperview()
                         }
                         
-                        ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                        let _ = ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
                         alertNot?.close()
                     },isNewFrame: false)
             }
@@ -428,7 +428,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         else if let customBar = self.window?.rootViewController as? CustomBarViewController{
             if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
-                customBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                let _ = customBar.handleNotification(value,name:name,value:value,bussines:bussines)
             }else{
                 let alertNot = IPOWMAlertViewController.showAlert(UIImage(named:"reminder_alert"),imageDone:UIImage(named:"reminder_alert"),imageError:UIImage(named:"reminder_alert"))
                 alertNot?.showDoneIconWithoutClose()
@@ -442,7 +442,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                             viewLogin.removeFromSuperview()
                         }
                         
-                        customBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                        let _ = customBar.handleNotification(value,name:name,value:value,bussines:bussines)
                         alertNot?.close()
                     },isNewFrame: false)
             }
@@ -477,7 +477,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                 if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
                 {
                     customBar.helpView?.removeFromSuperview()
-                    customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                    let _ = customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                     
                     BaseController.sendAnalyticsClickBanner(banner)
                     
@@ -501,7 +501,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                                 viewLogin.removeFromSuperview()
                             }
                             
-                            customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                            let _ = customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                             alertNot?.close()
                         },isNewFrame: true)
                 }
@@ -549,7 +549,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                     let srtType  = components[1].components(separatedBy: "_")[1]
                     let srtValue  = components[2].components(separatedBy: "_")[1]
                 //TODO validar como llegara los links
-                    customBar.handleNotification(srtType.uppercased(),name:"",value:srtValue,bussines:srtBussines.lowercased())
+                    let _ = customBar.handleNotification(srtType.uppercased(),name:"",value:srtValue,bussines:srtBussines.lowercased())
                 }
                 //TODO quitar en produccion 
 //                UIAlertView(title: "Received link:",
@@ -637,7 +637,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
                 if self.alertNoInternet == nil{
-                      customBar.handleNotification(strType,name:"",value:"",bussines:"")
+                      let _ = customBar.handleNotification(strType,name:"",value:"",bussines:"")
                 }
             }
         }

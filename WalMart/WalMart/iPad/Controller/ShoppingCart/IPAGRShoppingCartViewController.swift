@@ -145,12 +145,12 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     func hideBackgroundView() {
         self.showBackgroundView(false)
-        self.checkoutVC?.navigationController?.popToRootViewController(animated: true)
+        let _ = self.checkoutVC?.navigationController?.popToRootViewController(animated: true)
     }
     
     override func closeShoppingCart() {
         onClose?(false)
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
         
     }
     

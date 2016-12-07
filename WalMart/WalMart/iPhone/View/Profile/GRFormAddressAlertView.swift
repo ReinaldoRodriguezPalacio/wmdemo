@@ -229,7 +229,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     }
 
     // TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return  CGSize(width: self.viewContent.frame.width, height: 720)
     }
     
@@ -240,7 +240,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     func textFieldDidEndEditing(_ sender: UITextField!) {
         if let zipCode = sender as? FormFieldView{
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode &&  zipCode.text!.characters.count == 5{
-                self.sAddredssForm.store.becomeFirstResponder()
+                let _ = self.sAddredssForm.store.becomeFirstResponder()
             }
         }
     }
@@ -258,7 +258,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
                     let xipStr = self.sAddredssForm!.zipcode.text! as NSString
                     let textZipcode = String(format: "%05d",xipStr.integerValue)
                     self.sAddredssForm!.zipcode.text = textZipcode.substring(to: textZipcode.characters.index(textZipcode.startIndex, offsetBy: 5))
-                    self.sAddredssForm!.store.becomeFirstResponder()
+                    let _ = self.sAddredssForm!.store.becomeFirstResponder()
                 }
             }
         }

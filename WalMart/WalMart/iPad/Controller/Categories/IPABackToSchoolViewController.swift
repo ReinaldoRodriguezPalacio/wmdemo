@@ -102,7 +102,7 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
             self.loading?.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
-                self.navigationController?.popToRootViewController(animated: true)
+                let _ = self.navigationController?.popToRootViewController(animated: true)
         })
     }
 }
