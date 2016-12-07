@@ -213,7 +213,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.light_blue
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(getter: GRCheckOutCommentsViewController.next), for: UIControlEvents.touchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.nextStep), for: UIControlEvents.touchUpInside)
         self.view.addSubview(saveButton!)
 
         self.confirmText = "\(NSLocalizedString("gr.confirmacall", comment: ""))\n\(self.phoneField!.text!)"
@@ -280,7 +280,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     /**
      Sends to the next checkout page
      */
-    func next(){
+    func nextStep(){
         self.comments!.resignFirstResponder()
         let commentsText = self.comments!.text ==  NSLocalizedString("checkout.field.comments", comment:"") ? "" : self.comments!.text
         self.paramsToOrder!["comments"] = commentsText

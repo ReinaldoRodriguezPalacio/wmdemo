@@ -187,7 +187,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.light_blue
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: #selector(getter: GRCheckOutDeliveryViewController.next), for: UIControlEvents.touchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(GRCheckOutDeliveryViewController.nextStep), for: UIControlEvents.touchUpInside)
         self.view.addSubview(saveButton!)
         
         self.imageView =  UIView()
@@ -431,7 +431,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     /**
      Sent to the following page only if the data is valid
      */
-    func next(){
+    func nextStep(){
         if !self.validate() {
             return
         }
