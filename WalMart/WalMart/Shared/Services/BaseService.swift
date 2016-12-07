@@ -173,7 +173,8 @@ class BaseService : NSObject {
     func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) -> NSURLSessionDataTask {
         let afManager = getManager()
         let url = serviceUrl()
-   
+        print("serviceUrl \(url)")
+        print("callPOSTService \(params)")
         let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
@@ -228,6 +229,10 @@ class BaseService : NSObject {
     }
     
     func callGETService(manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        
+        print("serviceUrl \(serviceURL)")
+        print("callGETService \(params)")
+        
         manager.GET(serviceURL, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {

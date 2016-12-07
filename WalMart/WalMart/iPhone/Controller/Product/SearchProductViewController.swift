@@ -766,7 +766,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.invokeSearchProductsInGroceries(
                             actionSuccess: { () -> Void in
                                     self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
-                               
+                             //TODO::
+                                self.invokeServiceInError = false
                             },
                             actionError: { () -> Void in
                                 if self.invokeServiceInError {
@@ -971,11 +972,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         //TODO: Signals
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
-        let service = GRProductBySearchService(dictionary: signalsDictionary)
+        let grProductBySearchService = GRProductBySearchService(dictionary: signalsDictionary)
         
        // self.brandText = self.idSort != "" ? "" : self.brandText
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
-        service.callService(params, successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
+        let params = grProductBySearchService.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
+        grProductBySearchService.callService(params, successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
             
             self.landingPageGR = resultDic["landingPage"] as? [String:AnyObject]
             if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -1280,7 +1281,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else{
                 self.setAlertViewValues(self.grResponceDic)
             }
-           self.showEmptyMGGRView()
+            if !self.isLandingPage   {
+                self.showEmptyMGGRView()
+            }
         } else if (self.allProducts == nil || self.allProducts!.count == 0) &&  self.searchFromContextType == .FromSearchTextList{
            self.showEmptyView()
         }
