@@ -788,10 +788,25 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.upcsToShow?.count > 0 {
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:NSDictionary) -> Void in
+                
                 if result["items"] != nil {
-                 self.itemsUPCGR = result["items"] as? NSArray
+                    
+                    let resultsArray = result["items"] as? NSArray
+                    let filteredResults = NSMutableArray()
+                    
+                    for resultArray in resultsArray! {
+                        let productDict = resultArray as! [String:AnyObject]
+                        let type = productDict["type"] as! String
+                        
+                        if type == ResultObjectType.Groceries.rawValue {
+                            filteredResults.addObject(resultArray)
+                        }
+                        
+                    }
+                    
+                    self.itemsUPCGR = filteredResults
                 }else {
-                 self.itemsUPCGR = []
+                    self.itemsUPCGR = []
                 }
                
                 actionSuccess?()
@@ -807,7 +822,21 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.upcsToShow?.count > 0 {
             let serviceUPC = SearchItemsByUPCService()
             serviceUPC.callService(self.upcsToShow!, successJSONBlock: { (result:JSON) -> Void in
-                self.itemsUPCMG = result.arrayObject
+                
+                let resultsArray = result.arrayObject
+                let filteredResults = NSMutableArray()
+                
+                for resultArray in resultsArray! {
+                    let productDict = resultArray as! [String:AnyObject]
+                    let type = productDict["type"] as! String
+                    
+                    if type == ResultObjectType.Mg.rawValue {
+                        filteredResults.addObject(resultArray)
+                    }
+                    
+                }
+                
+                self.itemsUPCMG = filteredResults
                 actionSuccess?()
                 }) { (error:NSError) -> Void in
                     actionSuccess?()
