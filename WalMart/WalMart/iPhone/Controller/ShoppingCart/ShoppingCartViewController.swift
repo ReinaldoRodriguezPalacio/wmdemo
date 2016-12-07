@@ -860,7 +860,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let itemWishlist = itemsInShoppingCart[indexPath.row]
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        let descriptions =  itemWishlist["description"] as! String
+        //let descriptions =  itemWishlist["description"] as! String
         ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(descriptions) - \(upc)")
         if !UserCurrentSession.hasLoggedUser() {
          BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
@@ -1179,7 +1179,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let serviceReview = ReviewShoppingCartService()
             serviceReview.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 if !self.canceledAction  {
-                    print(UserCurrentSession.sharedInstance.itemsMG)
+                    print(UserCurrentSession.sharedInstance.itemsMG!)
                     let itemsMG = UserCurrentSession.sharedInstance.itemsMG
                     let totalsItems = self.totalItems()
                     let total = totalsItems["total"] as String!

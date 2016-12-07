@@ -823,7 +823,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 }
             }
         }
-            self.slotsItems = result["slots"] as! [[String:Any]]
+            self.slotsItems = result["slots"] as? [[String:Any]]
         //--self.addViewLoad()
         endCallTypeService()
         }) { (error:NSError) -> Void in

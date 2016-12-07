@@ -95,8 +95,8 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let famArray : AnyObject = item["family"] as AnyObject!
         let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
         
-        let label = item["description"] as! String
-        let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
+//        let label = item["description"] as! String
+//        let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
         //BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
       
         familyController.departmentId = item["idDepto"] as! String

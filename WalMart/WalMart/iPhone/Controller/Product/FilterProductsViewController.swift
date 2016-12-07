@@ -274,19 +274,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return
         }
         
-        
-        
-        var department = ""
-        var family = ""
-        var line = ""
         var groceriesType = self.searchContext == SearchServiceContextType.withCategoryForGR
         if lastSelected != nil {
             var element = self.tableElements![lastSelected!] 
-            if let path = element["path"] as? String {
-                var options = path.components(separatedBy: "|")
-                department = options[0]
-                family = options.count > 1 ? options[1] : ""
-                line = options.count > 2 ? options[2] : ""
+            if (element["path"] as? String) != nil {
                 if let type = element["responseType"] as? String {
                     if let roType = ResultObjectType(rawValue: type) {
                         groceriesType = ResultObjectType.Groceries == roType

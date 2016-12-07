@@ -166,7 +166,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             let state = result["state"] as! String!
             let county = result["county"] as! String!
             let neighborhoodID = result["neighborhoodID"] as! String!
-            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode,"addressID":addressID] as [String:Any]
+            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode!,"addressID":addressID] as [String:Any]
             
             let dictSendpreferred = service.buildParams(city!, addressID: addressID, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state!, county: county!, neighborhoodID: neighborhoodID!, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: reference1!, reference2: reference2!, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
             

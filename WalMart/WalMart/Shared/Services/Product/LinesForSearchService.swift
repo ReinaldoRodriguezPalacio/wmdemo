@@ -18,7 +18,7 @@ class LinesForSearchService: BaseService {
         //println("PARAMS FOR LinesForSearchService" )
         printTimestamp("servicio LinesForSearchService")
         self.jsonFromObject(params as AnyObject!)
-        self.getManager().post(serviceUrl(), parameters: params,
+        self.getManager().post(serviceUrl(), parameters: params,progress:nil,
             success: {(request:URLSessionDataTask, json:Any?) in
                 //println(json)
                 self.printTimestamp("success LinesForSearchService")

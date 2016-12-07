@@ -141,7 +141,7 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(textField.text)
+        print(textField.text!)
         changeFrame =  false
         self.delegate?.searchByText(textField.text!)
         textField.resignFirstResponder()

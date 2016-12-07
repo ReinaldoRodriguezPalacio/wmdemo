@@ -46,7 +46,7 @@ extension String{
 
     var stringByDecodingURLFormat: String {
         var result = self.replacingOccurrences(of: "+", with: " ", options: .literal, range: nil)
-        result = result.replacingPercentEscapes(using: String.Encoding.utf8)!
+        result = result.removingPercentEncoding!
         return result
     }
 
