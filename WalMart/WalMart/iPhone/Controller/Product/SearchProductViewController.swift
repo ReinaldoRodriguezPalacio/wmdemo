@@ -149,7 +149,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.bannerView = UIImageView()
         self.bannerView.contentMode = UIViewContentMode.ScaleAspectFill
         self.view.addSubview(self.bannerView)
-        self.view.sendSubviewToBack(self.bannerView!)
+        //self.view.sendSubviewToBack(self.bannerView!)
        
         collection = getCollectionView()
         collection?.registerClass(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
@@ -1054,12 +1054,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 actionError?()
             }else{
                 print("GR Search ERROR!!!")
+                 self.invokeServiceInError =  !self.isLandingPage
                 self.grResults!.totalResults = self.allProducts!.count
                 self.grResults!.resultsInResponse = self.mgResults!.totalResults
                 self.finsihService =   self.btnSuper.selected
                 self.removeEmpty =  false
                 self.collection?.reloadData()
-                actionSuccess?()
+               // actionSuccess?()
                 print(error)
                 actionError?()
             }
