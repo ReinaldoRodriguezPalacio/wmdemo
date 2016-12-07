@@ -347,7 +347,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.currentOriginalFireMin = Int(timeArray.last!)
         let minInterval = abs((self.currentOriginalFireMin % 15) - self.currentOriginalFireMin)
         let minString = minInterval == 0 ? "00" : "\(minInterval)"
-        self.hourField!.text = "\(self.currentOriginalFireHour):\(minString)"
+        self.hourField!.text = "\(self.currentOriginalFireHour!):\(minString)"
         let fireDate = self.currentOriginalFireDate ?? Date()
         self.currentOriginalFireDate = self.reminderService!.createDateFrom(fireDate, forHour: self.currentOriginalFireHour, andMinute: self.currentOriginalFireMin)
         //self.selectedDate = date
