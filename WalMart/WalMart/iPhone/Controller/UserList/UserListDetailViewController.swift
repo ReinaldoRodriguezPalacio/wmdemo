@@ -417,7 +417,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
             let imgResult = UIImage.verticalImage(from: [imageHead!,image])
-            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in

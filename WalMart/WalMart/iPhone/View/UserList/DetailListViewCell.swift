@@ -305,7 +305,7 @@ class DetailListViewCell: ProductTableViewCell {
     func sizeForButton(_ button:UIButton) -> CGSize {
         let text = button.title(for: UIControlState())
         let font = button.titleLabel!.font
-        let computedRect: CGRect = text!.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:font],
+        let computedRect: CGRect = text!.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:font!],
             context: nil)
         return CGSize(width: ceil(computedRect.size.width), height: ceil(computedRect.size.height))
     }

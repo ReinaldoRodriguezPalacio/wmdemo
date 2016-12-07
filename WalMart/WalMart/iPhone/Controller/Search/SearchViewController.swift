@@ -535,7 +535,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                         let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
                         let upc = rs.string(forColumn: "upc")
                         let price = rs.string(forColumn: "price")
-                        keywords.append([KEYWORD_TITLE_COLUMN:keyword , "upc":upc , "price":price  ])
+                        keywords.append([KEYWORD_TITLE_COLUMN:keyword! , "upc":upc! , "price":price!  ])
                     }// while rs.next() {
                     rs.close()
                     rs.setParentDB(nil)
@@ -564,7 +564,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                             let idFamily = rs.string(forColumn: "idFamily")
                             let type = rs.string(forColumn: "type")
                             
-                            keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
+                            keywords.append([KEYWORD_TITLE_COLUMN:keyword! , "departament":description, "idLine":idLine!, "idFamily":idFamily!, "idDepto":idDepto!, "type":type!])
                         }// while rs.next() {
                         rs.close()
                         rs.setParentDB(nil)

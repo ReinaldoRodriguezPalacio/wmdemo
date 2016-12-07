@@ -270,12 +270,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         controller.itemsToShow = itemsToSend as [Any]
         controller.ixSelected = indexPath.row
         controller.detailOf = "Wish List"
-        
-        let itemWishlistSel = items[indexPath.row] 
-        let upc = itemWishlistSel["upc"] as! String
-        let desc = itemWishlistSel["description"] as! String
-        
-        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_OPEN_DETAIL_WISHLIST.rawValue, label: "\(desc) - \(upc)")
                
         self.navigationController!.pushViewController(controller, animated: true)
         

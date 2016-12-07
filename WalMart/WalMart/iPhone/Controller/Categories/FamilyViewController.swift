@@ -104,8 +104,8 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 selectSection(indexPath)
                 self.familyTable.scrollToRow(at: indexPath, at: .top, animated: true)
             }
-            let label = families[indexPath.section]["name"] as! String
-            let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
+//            let label = families[indexPath.section]["name"] as! String
+//            let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
             //BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
         }
         else {
@@ -129,8 +129,8 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             controller.idLine = itemLine["id"] as? String
 
             self.navigationController!.pushViewController(controller, animated: true)
-            let label = itemLine["name"] as! String
-            let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
+            //let label = itemLine["name"] as! String
+            //let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
             //BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
         }
     }

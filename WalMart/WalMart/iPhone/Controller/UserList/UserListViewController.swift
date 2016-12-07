@@ -1740,8 +1740,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         var result: [List]? =  nil
         do{
             result =  try self.managedContext!.fetch(fetchRequest) as? [List]
-            print(result)
-
         }catch{
             print("searchForItems Error")
         }

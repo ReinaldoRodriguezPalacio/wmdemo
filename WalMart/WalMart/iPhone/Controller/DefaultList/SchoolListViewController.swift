@@ -202,7 +202,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         controller.ixSelected = indexPath.row
         controller.detailOf = self.schoolName!
         
-        let product = self.detailItems![indexPath.row]
+        //let product = self.detailItems![indexPath.row]
         
         self.navigationController!.pushViewController(controller, animated: true)
     }

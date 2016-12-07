@@ -40,7 +40,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
             self.addressMGView.saveButton?.titleLabel?.textAlignment = .center
             
             self.addressMGView.successCallBackRegistry = {() in
-                let params = service.buildParamsWithMembership(self.email!.text!,password:  self.password!.text!,name: self.name!.text!,lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
+                //let params = service.buildParamsWithMembership(self.email!.text!,password:  self.password!.text!,name: self.name!.text!,lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer,phoneHomeNumber:self.aPhoneHomeNumber,phoneWorkNumber:self.aPhoneWorkNumber,cellPhone:self.aCellPhone)
                 
                 
                 self.view.endEditing(true)
