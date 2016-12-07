@@ -684,7 +684,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-7a-zhZ">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-7a-zhZ">
                                 <rect key="frame" x="0.0" y="46" width="320" height="415"/>
                                 <connections>
                                     <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
@@ -704,6 +704,8 @@
                         <constraints>
                             <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" id="BOQ-MC-dd8"/>
                             <constraint firstItem="XDH-7a-zhZ" firstAttribute="top" secondItem="5Sq-ML-6dD" secondAttribute="bottom" constant="46" id="P6J-ya-QH8"/>
+                            <constraint firstItem="XDH-7a-zhZ" firstAttribute="leading" secondItem="s8f-vX-XUW" secondAttribute="leading" id="hOU-hM-ce7"/>
+                            <constraint firstAttribute="trailing" secondItem="XDH-7a-zhZ" secondAttribute="trailing" id="oS6-t7-Igo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Btq-m1-Xv9"/>
