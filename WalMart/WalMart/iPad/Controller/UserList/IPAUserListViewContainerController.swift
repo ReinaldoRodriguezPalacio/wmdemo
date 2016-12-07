@@ -259,7 +259,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     }
     
     func reloadTableListUserSelectedRow() {
-        self.listController?.selectedItem
+        let _ = self.listController?.selectedItem
         self.listController?.tableuserlist?.reloadSections(IndexSet(integer: 1), with: UITableViewRowAnimation.fade)
         self.listController?.tableuserlist?.selectRow(at: self.listController?.selectedItem as IndexPath?, animated: false, scrollPosition: UITableViewScrollPosition.none)
     }

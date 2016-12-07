@@ -81,7 +81,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         self.viewFamily.addSubview(self.familyController.view)
         self.header?.removeFromSuperview()
         
-        loadDepartments()
+        let _ = loadDepartments()
 
         
         let svcConfig = ConfigService()
@@ -382,7 +382,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                 default:
                     return
                 }
-                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"gr")
+                let _ = customBar.handleNotification(strAction,name:"",value:strValue,bussines:"gr")
             }
         }
     }

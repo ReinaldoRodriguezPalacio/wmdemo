@@ -370,7 +370,7 @@ class CustomFormFIeldDelegate : NSObject, UITextFieldDelegate {
             if field.maxLength > 0 {
                 var txtAfterUpdate:NSString = textField.text! as NSString
                 txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
-                self.delegateOnChange?.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
+                let _ = self.delegateOnChange?.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
                 return txtAfterUpdate.length <= field.maxLength
             }
         }

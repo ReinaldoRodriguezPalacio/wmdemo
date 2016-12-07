@@ -259,7 +259,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
             self.alertView?.close() }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
             self.alertView?.close()
-            self.navigationController?.popViewController(animated: true)
+            let _ = self.navigationController?.popViewController(animated: true)
         },isNewFrame: false)
     }
     
@@ -282,7 +282,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         let val = CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
         return val
     }

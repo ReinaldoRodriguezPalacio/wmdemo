@@ -140,7 +140,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     }
     
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return CGSize(width: self.view.frame.width, height: content.contentSize.height)
     }
     

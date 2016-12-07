@@ -1524,7 +1524,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - Actions
     
     func returnBack() {
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
          NotificationCenter.default.post(name: Notification.Name(rawValue: "CENTER_PROMOS"), object: nil)
     }
     

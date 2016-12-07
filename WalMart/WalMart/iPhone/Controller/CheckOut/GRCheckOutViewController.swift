@@ -376,7 +376,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_PAYMENTOPTIONS.rawValue , label: "")
             
-            self.comments?.resignFirstResponder()
+            let _ = self.comments?.resignFirstResponder()
             if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
                 var itemsOrderOptions : [String] = []
                 for option in self.orderOptionsItems! {
@@ -1184,7 +1184,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         //--self.addViewLoad()
 
         self.invokeAddressUserService({ () -> Void in
-           self.getItemsTOSelectAddres()
+           let _ = self.getItemsTOSelectAddres()
             self.address!.onBecomeFirstResponder = {() in
                 self.showAddressPicker()
                 //--self.removeViewLoad()
@@ -1508,19 +1508,19 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if validate() {
             
             if selectedTimeSlotTypeIx == nil {
-                self.deliverySchedule?.validate()
+                let _ = self.deliverySchedule?.validate()
                 buttonShop?.isEnabled = true
                 return
             }
             
             if selectedShipmentTypeIx == nil {
-                self.shipmentType?.validate()
+                let _ = self.shipmentType?.validate()
                 buttonShop?.isEnabled = true
                 return
             }
             
             if selectedConfirmation == nil {
-                self.confirmation?.validate()
+                let _ = self.confirmation?.validate()
                 buttonShop?.isEnabled = true
                 return
             }
@@ -1672,7 +1672,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.picker!.onClosePicker = {
                 //--self.removeViewLoad()
                 self.picker!.onClosePicker = nil
-                self.navigationController?.popViewController(animated: true)
+                let _ = self.navigationController?.popViewController(animated: true)
                 self.picker!.closePicker()
             }
         }        
@@ -1713,7 +1713,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     
     func didFinishConfirm() {
-        self.navigationController?.popToRootViewController(animated: true)
+        let _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     func addViewLoad(){

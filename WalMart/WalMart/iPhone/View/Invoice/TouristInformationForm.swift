@@ -218,7 +218,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         let val = CGSize(width: self.frame.width, height: self.scrollForm.contentSize.height)
         return val
     }

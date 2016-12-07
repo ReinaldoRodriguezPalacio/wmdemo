@@ -508,7 +508,7 @@ class SchoolListViewController : DefaultListDetailViewController {
      
         self.emptyView.descLabel.text = NSLocalizedString("empty.bts.title.list",comment:"")
         self.emptyView.returnAction = { () in
-            self.navigationController?.popViewController(animated: true)
+            let _ = self.navigationController?.popViewController(animated: true)
         }
         self.view.addSubview(self.emptyView)
     }

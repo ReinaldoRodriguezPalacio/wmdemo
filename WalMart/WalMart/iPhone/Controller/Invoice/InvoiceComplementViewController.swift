@@ -318,7 +318,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         let val = CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
         return val
     }

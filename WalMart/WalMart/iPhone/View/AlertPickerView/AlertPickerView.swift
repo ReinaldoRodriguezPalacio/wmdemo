@@ -289,7 +289,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         let text = (textValue as String).trim()
         if text == ""
         {
-            textboxValues?.removeValue(forKey: formField.nameField)
+            let _ = textboxValues?.removeValue(forKey: formField.nameField)
         }
         else{
             textboxValues?[formField.nameField] = text
@@ -307,11 +307,11 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             text = TextboxTableViewCell.parseDateString(text!,format:"d MMMM yyyy")
         }
         
-        text?.trim()
+        let _ = text?.trim()
         
         if text == ""
         {
-            textboxValues?.removeValue(forKey: formField.nameField)
+            let _ = textboxValues?.removeValue(forKey: formField.nameField)
         }
         else{
             textboxValues?[formField.nameField] = text

@@ -1690,6 +1690,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func showHelp() {
-        reviewHelp(true)
+        let _ = reviewHelp(true)
     }
 }

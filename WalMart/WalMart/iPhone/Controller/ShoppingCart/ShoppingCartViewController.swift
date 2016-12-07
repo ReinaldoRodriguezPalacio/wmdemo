@@ -340,7 +340,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         if self.itemsInShoppingCart.count == 0 {
-            self.navigationController?.popToRootViewController(animated: true)
+            let _ = self.navigationController?.popToRootViewController(animated: true)
         }
         
         if  self.itemsInShoppingCart.count > 0 {
@@ -1476,7 +1476,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 //EVENT
                 ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
                 
-                self.navigationController?.popToRootViewController(animated: true)
+                let _ = self.navigationController?.popToRootViewController(animated: true)
             })
             
             }) { (error:NSError) -> Void in

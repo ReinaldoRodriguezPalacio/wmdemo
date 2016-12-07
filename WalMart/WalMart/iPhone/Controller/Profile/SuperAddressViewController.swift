@@ -97,7 +97,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         }
     }
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         let val = CGSize(width: self.view.frame.width, height: 720)
         return val
     }
@@ -147,7 +147,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                 self.sAddredssForm.selectedStore = nil
             }
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode &&  zipCode.text!.characters.count == 5{
-                self.sAddredssForm.store.becomeFirstResponder()
+                let _ = self.sAddredssForm.store.becomeFirstResponder()
             }
         }
     }
@@ -171,7 +171,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 print("Se realizao la direccion")
-                self.navigationController?.popViewController(animated: true)
+                let _ = self.navigationController?.popViewController(animated: true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                 }
@@ -246,7 +246,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 print("Se realizao la direccion")
-                self.navigationController?.popViewController(animated: true)
+                let _ = self.navigationController?.popViewController(animated: true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     let serviceAddress = GRAddressesByIDService()

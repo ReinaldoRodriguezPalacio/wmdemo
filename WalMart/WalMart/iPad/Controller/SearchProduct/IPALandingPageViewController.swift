@@ -165,7 +165,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.view.addSubview(self.headerView!)
         self.view.addSubview(self.collection!)
         
-        self.loadDepartments()
+        let _ = self.loadDepartments()
         self.setValuesFamily()
     }
     
@@ -198,7 +198,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     }
     
     override func back() {
-        self.navigationController?.popToRootViewController(animated: true)
+        let _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     func getCollectionView() -> UICollectionView {

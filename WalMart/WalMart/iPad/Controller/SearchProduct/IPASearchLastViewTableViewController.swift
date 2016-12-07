@@ -339,7 +339,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                             let idFamily = rs.string(forColumn: "idFamily")
                             let type = rs.string(forColumn: "type")
                             
-                            keywords.append([KEYWORD_TITLE_COLUMN:keyword! , "departament":description, "idLine":idLine!, "idFamily":idFamily!, "idDepto":idDepto!, "type":type])
+                            keywords.append([KEYWORD_TITLE_COLUMN:keyword! , "departament":description, "idLine":idLine!, "idFamily":idFamily!, "idDepto":idDepto!, "type":type!])
                         }
                         rs.close()
                         rs.setParentDB(nil)

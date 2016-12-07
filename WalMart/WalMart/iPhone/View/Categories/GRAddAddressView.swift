@@ -93,7 +93,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
                 let xipStr = self.sAddredssForm!.zipcode.text! as NSString
                 let textZipcode = String(format: "%05d",xipStr.integerValue)
                 self.sAddredssForm!.zipcode.text = textZipcode.substring(to: textZipcode.characters.index(textZipcode.startIndex, offsetBy: 5))
-                self.sAddredssForm!.store.becomeFirstResponder()
+                let _ = self.sAddredssForm!.store.becomeFirstResponder()
             }
         }
     }
@@ -111,13 +111,13 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
                     let xipStr = self.sAddredssForm!.zipcode.text! as NSString
                     let textZipcode = String(format: "%05d",xipStr.integerValue)
                     self.sAddredssForm!.zipcode.text = textZipcode.substring(to: textZipcode.characters.index(textZipcode.startIndex, offsetBy: 5))
-                    self.sAddredssForm!.store.becomeFirstResponder()
+                    let _ = self.sAddredssForm!.store.becomeFirstResponder()
                 }
             }
         }
     }
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return CGSize(width: self.scrollForm!.frame.width, height: 700)
     }
 }

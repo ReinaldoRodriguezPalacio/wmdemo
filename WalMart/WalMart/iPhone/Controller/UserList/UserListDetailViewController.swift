@@ -1436,7 +1436,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func updateLustName() {
         if self.nameField?.text != self.titleLabel?.text {
             
-            self.nameField?.resignFirstResponder()
+            let _ = self.nameField?.resignFirstResponder()
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             
@@ -1554,7 +1554,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     //MARK: BarCodeViewControllerDelegate
     func barcodeCaptured(_ value: String?) {
-        print(value)
+        print(value ?? "")
     }
     
     func barcodeCapturedWithType(_ value: String?, isUpcSearch: Bool) {

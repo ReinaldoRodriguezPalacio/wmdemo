@@ -521,7 +521,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 NSLog("termina llamado de Servicios:::")
                 let window = UIApplication.shared.keyWindow
                 if let customBar = window!.rootViewController as? CustomBarViewController {
-                    customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cat2320023" :"l-lp-app-promociones",bussines:bussines)
+                    let _ = customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cat2320023" :"l-lp-app-promociones",bussines:bussines)
                     self.showPromos = true
                 }
             }

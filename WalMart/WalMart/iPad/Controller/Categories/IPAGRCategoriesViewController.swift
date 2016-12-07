@@ -43,7 +43,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         colCategories.backgroundColor = WMColor.light_light_gray
         
-        loadDepartments()
+        let _ = loadDepartments()
         
         let svcConfig = ConfigService()
         canfigData = svcConfig.getConfoigContent()
@@ -298,7 +298,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                 }
                 
                 
-                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"gr")
+                let _ = customBar.handleNotification(strAction,name:"",value:strValue,bussines:"gr")
             }
         }
     }

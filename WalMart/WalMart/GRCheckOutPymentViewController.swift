@@ -301,7 +301,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.discountAssociate!.frame = CGRect(x: margin,y: sectionTitleDiscount.frame.maxY,width: width,height: fheight)
         self.cancelShop!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.view.bounds.height - 65 + 16, width: 140, height: 34)
         self.confirmShop!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.bounds.height - 65 + 16, width: 140, height: 34)
-        self.buildPromotionButtons()
+        let _ = self.buildPromotionButtons()
     }
     
     
@@ -500,7 +500,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
              let notificationCenter = NotificationCenter.default
             notificationCenter.post(name: Notification.Name(rawValue: "CLOSE_GRSHOPPING_CART"), object: nil)
         }else{
-            self.navigationController?.popToRootViewController(animated: true)
+            let _ = self.navigationController?.popToRootViewController(animated: true)
         }
 
     }
@@ -509,7 +509,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
      Close cart when tap ok action in confirm view
      */
     func didErrorConfirm() {
-        self.navigationController?.popToRootViewController(animated: true)
+        let _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     /**
@@ -897,7 +897,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         //                        })
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
-                        self.buildPromotionButtons()
+                        let _ = self.buildPromotionButtons()
                         
                     })
                     

@@ -200,7 +200,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
                 if let customBar = window!.rootViewController as? CustomBarViewController {
                      NotificationCenter.default.addObserver(self, selector: #selector(IPAMasterHelpViewController.validatePromotions), name: NSNotification.Name(rawValue: "CENTER_PROMOS"), object: nil)
                     if self.openPromotions == false {
-                        customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
+                        let _ = customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
                         self.openPromotions =  true
                     }else{
                          self.openPromotions =  false

@@ -24,7 +24,7 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         self.setup()
         self.buttonClose.isHidden = true
         
-        loadDepartments()
+        let _ = loadDepartments()
         self.familyController = FamilyViewController()
         self.familyController.categoriesType = .categoryForMG
         
@@ -101,7 +101,7 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     }
     
     func back(){
-        self.navigationController?.popToRootViewController(animated: true)
+        let _ = self.navigationController?.popToRootViewController(animated: true)
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
     }
     

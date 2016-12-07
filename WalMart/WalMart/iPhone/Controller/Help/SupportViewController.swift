@@ -254,7 +254,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         let device = UIDevice.current.model.lowercased().uppercased()
         let status = AFNetworkReachabilityManager.shared().isReachableViaWiFi ? "Wifi" : "WWAN"
         
-        UIDevice.current.localizedModel
+        //UIDevice.current.localizedModel
         
         if sender.tag == 1{//groceries
             print("btn Groceries", terminator: "")

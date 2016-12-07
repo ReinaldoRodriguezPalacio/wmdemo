@@ -24,7 +24,7 @@ class IPALoginController: LoginController {
     
     
     
-    override class func showLogin() -> IPALoginController! {
+    override class func showLogin() -> IPALoginController? {
         let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let newAlert = IPALoginController()
         vc!.addChildViewController(newAlert)

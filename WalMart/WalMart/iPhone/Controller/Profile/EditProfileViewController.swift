@@ -251,7 +251,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         sender.isSelected = !(sender.isSelected)
     }
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
           return CGSize(width: self.view.frame.width, height: content.contentSize.height)
     }
     
@@ -420,7 +420,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             }
             return true
         }
-        field.resignFirstResponder()
+        let _ = field.resignFirstResponder()
         return false
     }
     

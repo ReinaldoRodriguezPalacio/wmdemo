@@ -525,7 +525,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.validateZip = isvalidate
     }
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         let val = CGSize(width: self.view.frame.width, height: content.contentSize.height)
         return val
     }
@@ -643,7 +643,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 }
                 
                 addresService.callPOSTService(params!, successBlock:{ (resultCall:[String:Any]?) in
-                    if let message = resultCall!["message"] as? String {
+                    if let _ = resultCall!["message"] as? String {
                          if self.showSaveAlert {
                             let addres  = params!["AddressID"] as? String
                             self.alertView!.setMessage(addres != nil ? NSLocalizedString("profile.address.update.ok",comment:"") :NSLocalizedString("profile.address.add.ok",comment:""))
@@ -654,7 +654,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     if self.successCallBack == nil {
                         successBlock?(true)
                         self.closeAlert()
-                        self.navigationController?.popViewController(animated: true)
+                        let _ = self.navigationController?.popViewController(animated: true)
                     }else {
                         
                         self.successCallBack!()

@@ -169,7 +169,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         self.loading?.stopAnnimating()
         self.popover?.dismiss(animated: false)
         self.popover = nil
-        self.navigationController?.popToRootViewController(animated: true)
+        let _ = self.navigationController?.popToRootViewController(animated: true)
         self.actionClose?()
         //self.removeFromParentViewController()
         //self.view.removeFromSuperview()

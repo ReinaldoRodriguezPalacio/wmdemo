@@ -98,7 +98,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
            
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
-                self.navigationController?.popToRootViewController(animated: true)
+                let _ = self.navigationController?.popToRootViewController(animated: true)
                 
         })
     
@@ -124,7 +124,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
      Return to home
      */
     override func closeDepartment() {
-        self.navigationController?.popToRootViewController(animated: true)
+        let _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     

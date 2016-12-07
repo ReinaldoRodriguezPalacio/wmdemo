@@ -497,7 +497,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 10)
     }
     
@@ -580,6 +580,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         super.scrollViewWillBeginDragging(scrollView)
         self.comments!.resignFirstResponder()
-        self.phoneField!.resignFirstResponder()
+        let _ = self.phoneField!.resignFirstResponder()
     }
 }

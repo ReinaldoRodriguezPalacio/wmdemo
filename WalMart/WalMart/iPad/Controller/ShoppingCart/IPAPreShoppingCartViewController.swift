@@ -250,7 +250,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
 //                    self.controllerShowing?.removeFromParentViewController()
 //                    self.controllerShowing?.view.removeFromSuperview()
 //                    self.controllerShowing = nil
-                  self.navigationController?.popToRootViewController(animated: false)
+                  let _ = self.navigationController?.popToRootViewController(animated: false)
                 //self.view.removeFromSuperview()
                   //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
                  self.delegate.returnToView()
