@@ -1951,13 +1951,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             btnTech.isSelected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
-            self.searchContextType = SearchServiceContextType.withCategoryForGR
+            self.searchContextType = (self.searchContextType == .withTextForCamFind) ?  .withTextForCamFind : .withCategoryForGR
         } else if sender == btnTech &&  !sender.isSelected {
             sender.isSelected = true
             btnSuper.isSelected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
-            self.searchContextType = SearchServiceContextType.withCategoryForMG
+            self.searchContextType = (self.searchContextType == .withTextForCamFind) ?  .withTextForCamFind : .withCategoryForMG
         }
         
     }
