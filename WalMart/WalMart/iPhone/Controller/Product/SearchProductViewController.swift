@@ -770,7 +770,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                                 self.invokeServiceInError = false
                             },
                             actionError: { () -> Void in
-                                if self.invokeServiceInError {
+                                if self.invokeServiceInError || self.isLandingPage {
                                     self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
                                 }
                             }
@@ -1083,7 +1083,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 actionError?()
             }else{
                 print("GR Search ERROR!!!")
-                 self.invokeServiceInError =  !self.isLandingPage
+                self.invokeServiceInError = !self.isLandingPage
                 self.grResults!.totalResults = self.allProducts!.count
                 self.grResults!.resultsInResponse = self.mgResults!.totalResults
                 self.finsihService =   self.btnSuper.selected
@@ -1199,7 +1199,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if btnSuper.selected   {
-            if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
+            if (firstOpen || self.isLandingPage) && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
                 btnTech.selected = true
                 btnSuper.selected = false
                 self.allProducts = []
@@ -1495,10 +1495,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.loading!.stopAnnimating()
             }
         } else {
+            
             if self.loading ==  nil {
-             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
-               
+                self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
             }
+            
             self.view.addSubview(self.loading!)
             self.loading!.backgroundColor = UIColor.whiteColor()
             self.loading!.startAnnimating(self.isVisibleTab)
