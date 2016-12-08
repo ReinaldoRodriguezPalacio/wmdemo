@@ -149,7 +149,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.bannerView = UIImageView()
         self.bannerView.contentMode = UIViewContentMode.ScaleAspectFill
         self.view.addSubview(self.bannerView)
-        self.view.sendSubviewToBack(self.bannerView!)
+        //self.view.sendSubviewToBack(self.bannerView!)
        
         collection = getCollectionView()
         collection?.registerClass(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
@@ -766,10 +766,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.invokeSearchProductsInGroceries(
                             actionSuccess: { () -> Void in
                                     self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
-                               
+                             //TODO::
+                                self.invokeServiceInError = false
                             },
                             actionError: { () -> Void in
-                                if self.invokeServiceInError {
+                                if self.invokeServiceInError || self.isLandingPage {
                                     self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
                                 }
                             }
@@ -787,10 +788,25 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.upcsToShow?.count > 0 {
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:NSDictionary) -> Void in
+                
                 if result["items"] != nil {
-                 self.itemsUPCGR = result["items"] as? NSArray
+                    
+                    let resultsArray = result["items"] as? NSArray
+                    let filteredResults = NSMutableArray()
+                    
+                    for resultArray in resultsArray! {
+                        let productDict = resultArray as! [String:AnyObject]
+                        let type = productDict["type"] as! String
+                        
+                        if type == ResultObjectType.Groceries.rawValue {
+                            filteredResults.addObject(resultArray)
+                        }
+                        
+                    }
+                    
+                    self.itemsUPCGR = filteredResults
                 }else {
-                 self.itemsUPCGR = []
+                    self.itemsUPCGR = []
                 }
                
                 actionSuccess?()
@@ -806,7 +822,21 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.upcsToShow?.count > 0 {
             let serviceUPC = SearchItemsByUPCService()
             serviceUPC.callService(self.upcsToShow!, successJSONBlock: { (result:JSON) -> Void in
-                self.itemsUPCMG = result.arrayObject
+                
+                let resultsArray = result.arrayObject
+                let filteredResults = NSMutableArray()
+                
+                for resultArray in resultsArray! {
+                    let productDict = resultArray as! [String:AnyObject]
+                    let type = productDict["type"] as! String
+                    
+                    if type == ResultObjectType.Mg.rawValue {
+                        filteredResults.addObject(resultArray)
+                    }
+                    
+                }
+                
+                self.itemsUPCMG = filteredResults
                 actionSuccess?()
                 }) { (error:NSError) -> Void in
                     actionSuccess?()
@@ -971,11 +1001,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         //TODO: Signals
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
-        let service = GRProductBySearchService(dictionary: signalsDictionary)
+        let grProductBySearchService = GRProductBySearchService(dictionary: signalsDictionary)
         
        // self.brandText = self.idSort != "" ? "" : self.brandText
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
-        service.callService(params, successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
+        let params = grProductBySearchService.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
+        grProductBySearchService.callService(params, successBlock: { (arrayProduct:NSArray?, resultDic:[String:AnyObject]) -> Void in
             
             self.landingPageGR = resultDic["landingPage"] as? [String:AnyObject]
             if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -1053,12 +1083,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 actionError?()
             }else{
                 print("GR Search ERROR!!!")
+                self.invokeServiceInError = !self.isLandingPage
                 self.grResults!.totalResults = self.allProducts!.count
                 self.grResults!.resultsInResponse = self.mgResults!.totalResults
                 self.finsihService =   self.btnSuper.selected
                 self.removeEmpty =  false
                 self.collection?.reloadData()
-                actionSuccess?()
+               // actionSuccess?()
                 print(error)
                 actionError?()
             }
@@ -1168,7 +1199,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if btnSuper.selected   {
-            if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
+            if (firstOpen || self.isLandingPage) && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
                 btnTech.selected = true
                 btnSuper.selected = false
                 self.allProducts = []
@@ -1280,7 +1311,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else{
                 self.setAlertViewValues(self.grResponceDic)
             }
-           self.showEmptyMGGRView()
+            if !self.isLandingPage   {
+                self.showEmptyMGGRView()
+            }
         } else if (self.allProducts == nil || self.allProducts!.count == 0) &&  self.searchFromContextType == .FromSearchTextList{
            self.showEmptyView()
         }
@@ -1462,10 +1495,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.loading!.stopAnnimating()
             }
         } else {
+            
             if self.loading ==  nil {
-             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
-               
+                self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
             }
+            
             self.view.addSubview(self.loading!)
             self.loading!.backgroundColor = UIColor.whiteColor()
             self.loading!.startAnnimating(self.isVisibleTab)

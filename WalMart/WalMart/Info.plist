@@ -792,7 +792,7 @@
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.AuthorizationService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getAuthorization</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
