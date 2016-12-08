@@ -216,7 +216,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
 
     override func needsToLoginCode() -> Int {
-        return -10
+        return -100
     }
     
     

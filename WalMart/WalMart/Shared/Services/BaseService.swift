@@ -196,7 +196,7 @@ class BaseService : NSObject {
     func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         let url = serviceUrl()
-   
+        print("callPOSTService params ::\(params)")
         afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             //session --
             //TODO Loginbyemail
@@ -226,6 +226,7 @@ class BaseService : NSObject {
             
             
             let resultJSON = json as! [String:Any]
+              print("callPOSTService resultJSON ::\(resultJSON)")
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
@@ -278,6 +279,7 @@ class BaseService : NSObject {
     }
     
     func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+       print("callPOSTService params ::\(params)")
         manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             
             //session --
@@ -312,6 +314,7 @@ class BaseService : NSObject {
             
             
             let resultJSON = json as! [String:Any]
+             print("callPOSTService resultJSON ::\(resultJSON)")
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)

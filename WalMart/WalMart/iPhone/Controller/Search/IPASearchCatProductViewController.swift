@@ -138,9 +138,8 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             self.loading!.stopAnnimating()
         } else {
             
-            self.viewHeader.convert(CGPoint(x: self.view.frame.width / 2, y: 216), to:self.view.superview)
-            self.loading = WMLoadingView(frame: CGRect(x: 0, y: 216, width: self.view.bounds.width, height: self.view.bounds.height - 216))
-            
+            let boundsCenter : CGPoint = self.viewHeader == nil ? CGPoint(x:0 , y: 320)  : self.viewHeader!.superview!.convert(CGPoint(x: self.viewHeader!.frame.maxX,y:self.viewHeader!.frame.maxY), to: self.view)
+            self.loading = WMLoadingView(frame: CGRect(x:0, y:boundsCenter.y, width: self.view.bounds.width,height: self.view.bounds.height - boundsCenter.y ))
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(false)
         }
