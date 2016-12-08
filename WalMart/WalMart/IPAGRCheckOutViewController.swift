@@ -39,7 +39,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.buttonShop!.frame = CGRect(x: 16, y: (footerHeight / 2) - 17, width: bounds.width - 32, height: 34)
         self.buttonShop!.backgroundColor = WMColor.green
         self.buttonShop!.layer.cornerRadius = 17
-        self.buttonShop!.addTarget(self, action: #selector(getter: IPAGRCheckOutViewController.next), for: UIControlEvents.touchUpInside)
+        self.buttonShop!.addTarget(self, action: #selector(IPAGRCheckOutViewController.nextStep), for: UIControlEvents.touchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         self.footer!.addSubview(self.buttonShop!)
         
