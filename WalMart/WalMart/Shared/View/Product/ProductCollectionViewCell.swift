@@ -85,19 +85,23 @@ class ProductCollectionViewCell : UICollectionViewCell {
         let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)" as NSString)
 
         self.productImage!.contentMode = UIViewContentMode.center
-        self.productImage!.setImageWith(URLRequest(url:URL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-                self.productImage!.contentMode = self.contentModeOrig
-                self.productImage!.image = image
-                if self.completeimageaction != nil {
-                    self.completeimageaction!()
-                }
-            }, failure: { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                if self.completeimageaction != nil {
-                    self.completeimageaction!()
-                }
-        })
-
         
+        if productImageURL != "" {
+            self.productImage!.setImageWith(URLRequest(url:URL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success:    { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                    self.productImage!.contentMode = self.contentModeOrig
+                    self.productImage!.image = image
+                    if self.completeimageaction != nil {
+                        self.completeimageaction!()
+                    }
+                }, failure: { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+                    if self.completeimageaction != nil {
+                        self.completeimageaction!()
+                    }
+            })
+        }else{
+            self.productImage!.image = UIImage(named:"img_default_cell")
+        }
+
         productShortDescriptionLabel!.text = productShortDescription
         
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
