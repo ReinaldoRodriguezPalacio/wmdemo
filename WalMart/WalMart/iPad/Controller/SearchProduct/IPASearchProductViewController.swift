@@ -95,7 +95,10 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.bounds.width / 3, height: 254);
+        if isLandingPage && indexPath.row == 0 {
+            return CGSize(width:self.view.frame.width,height: 217)
+        }
+        return CGSize(width:self.view.bounds.width / 3, height:254);
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

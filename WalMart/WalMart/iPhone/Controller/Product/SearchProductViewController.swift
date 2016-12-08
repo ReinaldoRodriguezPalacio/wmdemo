@@ -200,6 +200,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         collection = getCollectionView()
         collection?.register(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
         collection?.register(LoadingProductCollectionViewCell.self, forCellWithReuseIdentifier: "loadCell")
+        collection?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "landingImage")
         collection?.register(SectionHeaderSearchHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         collection?.allowsMultipleSelection = true
         
@@ -423,16 +424,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPoint.zero
-        self.collection!.frame = CGRect(x: 0, y: startPoint, width: self.view.bounds.width, height: self.view.bounds.height - startPoint)
-        self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y: (self.header!.frame.size.height - 22)/2 , width: 55, height: 22)
-        
+        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:self.view.bounds.height - startPoint)
+        self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y:(self.header!.frame.size.height - 22)/2 ,width: 55, height:22)
         if isLandingPage {
             //self.maxYBanner == 0.0 ? self.header!.frame.maxY + 20 : self.maxYBanner
-            bannerView!.frame = CGRect(x: 0, y: self.maxYBanner, width: self.view.frame.width, height: IS_IPAD ?  216 :93)
-            viewBgSelectorBtn.frame =  CGRect(x: 16,  y: self.bannerView!.frame.maxY - 28, width: 288, height: 28)
+            bannerView!.frame = CGRect(x: 0,y: 0, width:self.view.frame.width, height:IS_IPAD ?  216 :93)
+            viewBgSelectorBtn.frame =  CGRect(x: 16,  y:self.bannerView!.frame.maxY - 28,width: 288, height:28)
             viewBgSelectorBtn.alpha = 0
-            startPoint = viewBgSelectorBtn.frame.maxY// + 20
-            self.collection!.frame = CGRect(x: 0, y: startPoint, width: self.view.bounds.width, height: (self.view.bounds.height - startPoint))
+            startPoint = 46
+            self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:(self.view.bounds.height - startPoint))
         }
 
         //if self.searchContextType == SearchServiceContextType.WithTextForCamFind {
@@ -530,11 +530,22 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             size = (count  >= commonTotal) ? commonTotal : count + 1
             
         }
+        
+        size = isLandingPage ? size + 1 : size
         return size
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Show loading cell and invoke service
+        
+        if self.isLandingPage && indexPath.row == 0 {
+            let landingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "landingImage", for: indexPath)
+            landingCell.addSubview(self.bannerView)
+            return landingCell
+        }
+        
+        let newIndexPath = self.isLandingPage ? IndexPath(row: indexPath.row - 1, section:indexPath.section) : indexPath
+        
         var commonTotal = 0
         if self.btnSuper.isSelected {
             commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
@@ -543,16 +554,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if self.allProducts?.count > 0{
-        if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
-            let loadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadCell", for: indexPath)
+        if newIndexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
+            let loadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadCell", for: newIndexPath)
             self.invokeServiceInError =  true
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
             }
         }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: indexPath) as! SearchProductCollectionViewCell
-        if self.allProducts?.count <= indexPath.item {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: newIndexPath) as! SearchProductCollectionViewCell
+        if self.allProducts?.count <= newIndexPath.item {
             return cell
         }
         var item : [String:Any] = [:]
@@ -567,7 +578,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
 //        }
 //        
-        item = self.allProducts![indexPath.item]
+        item = self.allProducts![newIndexPath.item]
         let upc = item["upc"] as! String
         let description = item["description"] as? String
         
@@ -683,7 +694,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.bounds.maxX/2, height: 190)
+        
+        if isLandingPage && indexPath.row == 0 {
+            return CGSize(width:self.view.frame.width, height:96)
+        }
+        
+        return CGSize(width:self.view.bounds.maxX/2, height:190)
      }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
@@ -2149,63 +2165,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
               
             }
         )
-    }
-    
-    /**
-     Hides tap bar and hides image header
-     */
-    override func willHideTabbar() {
-        super.willHideTabbar()
-        if self.isLandingPage{
-            self.showImageHeader(false)
-        }
-    }
-    
-    /**
-     Shows tap bar and hiddes image header
-     */
-    
-    override func willShowTabbar() {
-        super.willShowTabbar()
-        if self.isLandingPage{
-            self.showImageHeader(true)
-        }
-    }
-    
-    //MARK: Animations
-    /**
-     Show or hides image Header
-     
-     - parameter didShow: Bool
-     */
-    func showImageHeader(_ didShow:Bool) {
-        
-        var startPoint = self.header!.frame.maxY
-        if self.isTextSearch || self.isOriginalTextSearch {
-            startPoint = viewBgSelectorBtn.frame.maxY + 20
-        }
-        
-        if self.idListFromSearch != "" {
-            startPoint = self.header!.frame.maxY
-        }
-        
-        if didShow {
-            UIView.animate(withDuration: 0.3, animations: {() in
-                self.maxYBanner = self.header!.frame.maxY
-                self.bannerView!.frame = CGRect(x: 0, y: self.maxYBanner, width: self.view.frame.width, height: 93)
-                startPoint = self.bannerView.frame.maxY
-                self.collection!.frame = CGRect(x: 0, y: startPoint, width: self.view.bounds.width, height: (self.view.bounds.height - startPoint))
-            })
-        }else{
-            UIView.animate(withDuration: 0.3, animations: {
-                self.maxYBanner = self.header!.frame.maxY - 93
-                self.bannerView!.frame = CGRect(x: 0, y: self.maxYBanner, width: self.view.frame.width, height: 93)
-                startPoint = self.bannerView!.frame.maxY
-                self.collection!.frame = CGRect(x: 0, y: startPoint, width: self.view.bounds.width, height: (self.view.bounds.height - startPoint))
-                
-                }, completion: {(finish) in
-            })
-        }
     }
     
 }
