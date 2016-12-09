@@ -131,9 +131,14 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             
         }
 
+        if row == 4 {
+            selected = -1
+        } else {
+            selected  = row
+        }
         
         //if row != 3 && row != 5 {
-            selected  = row
+        
         //}
         
 //        selected = row
