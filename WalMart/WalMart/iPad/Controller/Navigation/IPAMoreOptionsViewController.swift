@@ -151,8 +151,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let cell = self.tableView?.cellForRow(at: self.selected!)
         cell?.isSelected = false
+        
         if UserCurrentSession.sharedInstance.userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
             self.openLoginOrProfile()
             self.selected = IndexPath(row: 0, section: 2)
@@ -160,7 +162,6 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
             return
         } else if UserCurrentSession.sharedInstance.userSigned == nil && ((indexPath.section == 1 && indexPath.row == 1 && !self.showCamfind)) {
             self.openLoginOrProfile()
-            self.selected = IndexPath(row: 0, section: 2)
             self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .bottom)
             return
         }
@@ -235,7 +236,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
                 //self.performSegueWithIdentifier("showProfile", sender: self)
                 //TODO: Poner acciones, cambio boton y nombre
             }
+            let cell = self.tableView?.cellForRow(at: self.selected!)
+            cell?.isSelected = false
             self.selected = IndexPath(row: 0, section: 2)
+            self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .bottom)
             self.delegate?.selectedDetail(8)//7
         }
         else {
