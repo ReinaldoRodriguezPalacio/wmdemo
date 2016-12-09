@@ -74,20 +74,26 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         if isLandingPage && indexPath.row == 0 {
             return CGSizeMake(self.view.frame.width, 217)
         }
-        return CGSizeMake(self.view.bounds.width / 3, 254);
+        return CGSizeMake((self.view.bounds.width - 3) / 3, 254);
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
        print("Articulo seleccionado \(indexPath.row)")
         
+        if self.isLandingPage && indexPath.row == 0 {
+            return
+        }
+        
+        let newIndexPath = self.isLandingPage ? NSIndexPath(forRow: indexPath.row - 1, inSection:indexPath.section) : indexPath
+        
         let cell = self.collection?.cellForItemAtIndexPath(indexPath)
         if cell!.isKindOfClass(SearchProductCollectionViewCell){
-            if indexPath.row < self.allProducts!.count {
+            if newIndexPath.row < self.allProducts!.count {
 
                 let paginatedProductDetail = IPAProductDetailPageViewController()
                 paginatedProductDetail.idListSeleted = self.idListFromSearch
-                paginatedProductDetail.ixSelected = indexPath.row
-                paginatedProductDetail.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
+                paginatedProductDetail.ixSelected = newIndexPath.row
+                paginatedProductDetail.itemSelectedSolar = self.isAplyFilter ? "" : "\(newIndexPath.row)"
                 paginatedProductDetail.itemsToShow = []
                 paginatedProductDetail.stringSearching = self.titleHeader!
                 
