@@ -412,11 +412,11 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             var tmpResult : Double = 0.0
             var resultText : NSString = ""
             if first {
-                resultText  = "\(value)" as NSString
+                resultText  = "\(value!)" as NSString
                 first = false
                 tmpResult = resultText.doubleValue
             }else {
-                resultText = "\(Int(currentValPzs))\(value)" as NSString
+                resultText = "\(Int(currentValPzs))\(value!)" as NSString
                 tmpResult = resultText.doubleValue
             }
             
@@ -439,10 +439,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         if customValue {
             var resultText : NSString = ""
             if first {
-                resultText  = "\(value)" as NSString
+                resultText  = "\(value!)" as NSString
                 first = false
             } else {
-                resultText  = "\(Int(currentValCstmGr))\(value)" as NSString
+                resultText  = "\(Int(currentValCstmGr))\(value!)" as NSString
             }
             
             if keyboardN.typeKeyboard == NumericKeyboardViewType.Integer {
@@ -461,7 +461,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
                     currentValKg = "\(currentValGr / 1000.0)"
                 }
                
-                currentValKg = "\(currentValKg!)\(value)"
+                currentValKg = "\(currentValKg!)\(value!)"
                 let currentVal = currentValKg! as NSString
     
                 let fullArray = currentVal.components(separatedBy: ".")
@@ -507,7 +507,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             }
             updateShoppButtonN()
         } else {
-            let resultText : NSString = "\(value)" as NSString
+            let resultText : NSString = "\(value!)" as NSString
             currentValGr = resultText.doubleValue
             self.updateLabelW()
              self.updateShoppButton()
