@@ -50,6 +50,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         collection?.register(IPASearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductSearch")
         collection?.frame = self.view.bounds
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    func willEnterForeground() {
+        self.selectQuantityOpen = false
     }
 
     override func viewWillLayoutSubviews() {
