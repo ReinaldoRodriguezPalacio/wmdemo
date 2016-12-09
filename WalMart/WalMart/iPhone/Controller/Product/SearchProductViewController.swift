@@ -540,6 +540,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.isLandingPage && indexPath.row == 0 {
             let landingCell = collectionView.dequeueReusableCell(withReuseIdentifier: "landingImage", for: indexPath)
+            
+            for view in landingCell.subviews {
+                view.removeFromSuperview()
+            }
+            
             landingCell.addSubview(self.bannerView)
             return landingCell
         }
@@ -555,14 +560,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.allProducts?.count > 0{
         if newIndexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
-            let loadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadCell", for: newIndexPath)
+            let loadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadCell", for: indexPath)
             self.invokeServiceInError =  true
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
             }
         }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: newIndexPath) as! SearchProductCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: productCellIdentifier(), for: indexPath) as! SearchProductCollectionViewCell
         if self.allProducts?.count <= newIndexPath.item {
             return cell
         }
@@ -696,7 +701,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if isLandingPage && indexPath.row == 0 {
-            return CGSize(width:self.view.frame.width, height:96)
+            return CGSize(width:self.view.bounds.width, height:96)
         }
         
         return CGSize(width:self.view.bounds.maxX/2, height:190)
