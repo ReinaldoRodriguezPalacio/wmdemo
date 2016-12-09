@@ -332,7 +332,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                             let family = rs.string(forColumn: "family")
                             
                             let keyword = rs.string(forColumn: KEYWORD_TITLE_COLUMN)
-                            let description = "\(depto) > \(family)"
+                            let description = "\(depto!) > \(family!)"
                             //                            var description = rs.stringForColumn("departament")
                             let idLine = rs.string(forColumn: "idLine")
                             let idDepto = rs.string(forColumn: "idDepto")
