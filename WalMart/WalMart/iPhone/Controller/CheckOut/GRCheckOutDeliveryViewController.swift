@@ -422,7 +422,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = self.selectedAddress!
         serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
-            self.addressDesccription = "\(result["street"] as! String!) \(result["outerNumber"] as! String!) \n\(result["county"] as! String!) \(result["city"] as! String!)"
+            self.addressDesccription = "\(result["street"] as! String) \(result["outerNumber"] as! String) \n\(result["county"] as! String) \(result["city"] as! String)"
             }) { (error:NSError) -> Void in
             self.addressDesccription = ""
             }
@@ -447,7 +447,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
         self.paramsToOrder = ["month":dateMonth!, "year":dateYear!, "day":dateDay!, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
-        self.paramsToConfirm = ["address":self.addressDesccription!.capitalized,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"shipmentAmount":"\(self.shipmentAmount)","pickingInstruction":""]
+        self.paramsToConfirm = ["address":self.addressDesccription!.capitalized,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"shipmentAmount":"\(self.shipmentAmount!)","pickingInstruction":""]
         nextController.paramsToOrder = self.paramsToOrder
         nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)

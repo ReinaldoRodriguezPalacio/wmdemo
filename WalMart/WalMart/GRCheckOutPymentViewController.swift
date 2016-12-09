@@ -65,7 +65,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paymentId = "0"
     var paymentString = ""
     var paramsToOrder : [String:Any]?
-    var paramsToConfirm : [String:Any]?
+    var paramsToConfirm : [String:Any]!
     
     //Paypal
     var showOnilePayments: Bool = false
@@ -352,8 +352,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.generateOrderPaymentType =  self.paymentString
         
         self.paramsToConfirm!["shipmentAmount"] = self.discountsFreeShippingAssociated ? "0.0" :self.paramsToConfirm!["shipmentAmount"]
-        let amoutnShip = self.paramsToConfirm!["shipmentAmount"] as! String
-        self.paramsToConfirm!["total"] = "\(generateOrderTotal.toDouble()! + (self.isFistShip ? 0 : amoutnShip.toDouble()!))"
+        let amoutnShip = self.paramsToConfirm!["shipmentAmount"] as? String
+        self.paramsToConfirm!["total"] = "\(generateOrderTotal.toDouble()! + (self.isFistShip ? 0 : (amoutnShip!.toDouble()!)))"
         self.paramsToConfirm!["subtotal"] = generateOrderSubtotal
         self.paramsToConfirm!["Discounts"] = generateOrderDiscounts
         self.paramsToConfirm!["PaymentType"] = generateOrderPaymentType
