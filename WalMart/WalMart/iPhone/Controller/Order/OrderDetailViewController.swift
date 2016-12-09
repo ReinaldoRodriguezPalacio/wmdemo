@@ -142,9 +142,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if itemDetailProducts != nil {
             if itemDetailProducts.count == 0 {
                 
-                var maxY = self.tableDetailOrder!.frame.minY
+                var maxY = self.tableDetailOrder!.frame.maxY
                 let height = IS_IPAD ? self.view.frame.height : self.view.bounds.height
-                let width = IS_IPAD ? self.view.frame.width : self.view.bounds.width
+                let width = IS_IPAD ? self.view.frame.width - 300: self.view.bounds.width
                 
                 if IS_IPAD {
                     maxY = maxY + 140
