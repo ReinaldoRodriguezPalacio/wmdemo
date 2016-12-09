@@ -39,6 +39,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     //var loginFacebookButton: UIButton!
 	var isMGLogin =  false
     var fbLoginMannager: FBSDKLoginManager!
+    var isOnlyLogin =  true
     
     var okCancelCallBack : (() -> Void)? = nil
     
@@ -269,6 +270,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func registryUser() {
+        self.isOnlyLogin = false
         
         if self.signUp == nil{
             
@@ -378,108 +380,128 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
-    
     func callService(_ params:[String:Any], alertViewService : IPOWMAlertViewController?) {
+        
         let service = LoginService()
-        service.callServiceByEmail(params: params, successBlock:{ (resultCall:[String:Any]?) in
-            
-//            let profile = resultCall!["profile"] as? [String:Any]
-//            let gender = profile!["gender"] as? String
-//            let email = resultCall!["email"] as? String
-//            let idUser = resultCall!["idUser"] as? String
-            
-            //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email!, userName: email!, gender: gender!, idUser: idUser!, itesShop: nil,total:0,refId:"")
-            
-            
-            let caroService = CarouselService()
-            let caroparams = Dictionary<String, String>()
-            caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
-                print("Call service caroService success")
-            }) { (error:NSError) -> Void in
-                print("Call service caroService error \(error)")
+        if self.isOnlyLogin {
+            service.callService(params, successBlock:{ (resultCall:[String:Any]?) in
+                //call success service
+                self.callInSuccesLoginsService(alertViewService: alertViewService!)
+                //end call succes service
+            },errorBlock: {(error: NSError) in
+                print("error callService : \(error.localizedDescription)")
+                //call in error service
+                self.callInErrorLoginsService(error: error, alertViewService: alertViewService!, params: params)
+                //end call in error
+            })
+        }else{
+            service.callServiceByEmail(params: params, successBlock:{ (resultCall:[String:Any]?) in
+                //call success service
+                self.callInSuccesLoginsService(alertViewService: alertViewService!)
+                //end call succes service
+            },errorBlock: {(error: NSError) in
+                print("error callServiceByEmail \(error.localizedDescription)")
+                //call in error service
+                self.callInErrorLoginsService(error: error, alertViewService: alertViewService!, params: params)
+                //end call in error
+            })
+        }
+      
+    }
+    
+    //Call succes Login -Loginemail service
+    func callInSuccesLoginsService(alertViewService:IPOWMAlertViewController?) {
+        
+        let caroService = CarouselService()
+        let caroparams = Dictionary<String, String>()
+        caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
+            print("Call service caroService success")
+        }) { (error:NSError) -> Void in
+            print("Call service caroService error \(error)")
+        }
+        
+        self.signInButton!.isEnabled = true
+        if self.successCallBack == nil {
+            if self.controllerTo != nil  {
+                let storyboard = self.loadStoryboardDefinition()
+                let vc = storyboard!.instantiateViewController(withIdentifier: self.controllerTo)
+                self.navigationController!.pushViewController(vc, animated: true)
             }
-            
-            self.signInButton!.isEnabled = true
-            if self.successCallBack == nil {
-                if self.controllerTo != nil  {
-                    let storyboard = self.loadStoryboardDefinition()
-                    let vc = storyboard!.instantiateViewController(withIdentifier: self.controllerTo)
-                    self.navigationController!.pushViewController(vc, animated: true)
-                }
-            }else {
-                self.alertView = alertViewService
-                if self.closeAlertOnSuccess {
-                    if alertViewService != nil {
-                        alertViewService!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
-                        alertViewService!.showDoneIcon()
-                    }
-                }
-                self.successCallBack!()
-            }
-            
-            }
-            , errorBlock: {(error: NSError) in
-                print("error")
-                if error.code == -300 {
-                    self.signInButton!.isEnabled = true
-                    let addressService = AddressByUserService()
-                    addressService.setManagerTempHeader()
-                    addressService.callService({ (address:[String:Any]) -> Void in
-                        if let shippingAddress = address["shippingAddresses"] as? [[String:Any]]
-                        {
-                            if shippingAddress.count > 0 {
-                                let alertAddress = GRFormAddressAlertView.initAddressAlert()!
-                                for dictAddress in shippingAddress {
-                                    if let pref = dictAddress["preferred"] as? NSNumber{
-                                        if pref == 1{
-                                            alertAddress.setData(dictAddress )
-                                        }
-                                    }
-                                }
-                                alertAddress.showAddressAlert()
-                                alertAddress.alertSaveSuccess = {() in
-                                    self.callService(params, alertViewService: alertViewService)
-                                    
-                                    
-                                    if self.successCallBack == nil {
-                                        self.successCallBack!()
-                                        
-                                    }
-                                    alertAddress.removeFromSuperview()
-                                }
-                                
-                                alertAddress.cancelPress = {() in
-                                    alertAddress.removeFromSuperview()
-                                    if alertViewService != nil {
-                                        alertViewService!.setMessage("Es necesario capturar una dirección")
-                                        alertViewService!.showErrorIcon("Ok")
-                                    }
-                                }
-                                
-                            }else {
-                                self.showAddressForm(params, alertViewService: alertViewService)
-                            }
-                        }else {
-                            self.showAddressForm(params, alertViewService: alertViewService)
-                        }
-                        }, errorBlock: { (error:NSError) -> Void in
-                           self.showAddressForm(params, alertViewService: alertViewService)
-                    })
-                    return
-                }
-                
-                var strToUse = NSLocalizedString("password.incorrect",comment:"")
-                
-                if error.code == -3 {
-                    strToUse = error.localizedDescription
-                }
-                self.signInButton!.isEnabled = true
-                alertViewService!.okCancelCallBack = nil
+        }else {
+            self.alertView = alertViewService
+            if self.closeAlertOnSuccess {
                 if alertViewService != nil {
-                    alertViewService!.setMessage(strToUse)
-                    alertViewService!.showErrorIcon("Ok")
+                    alertViewService?.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
+                    alertViewService?.showDoneIcon()
                 }
-        })
+            }
+            self.successCallBack!()
+        }
+    }
+    
+    //Call erroraction Login -Loginemail service
+    func callInErrorLoginsService(error:NSError,alertViewService:IPOWMAlertViewController?,params:[String:Any]){
+        
+        if error.code == -300 {
+            self.signInButton!.isEnabled = true
+            let addressService = AddressByUserService()
+            addressService.setManagerTempHeader()
+            addressService.callService({ (address:[String:Any]) -> Void in
+                if let shippingAddress = address["shippingAddresses"] as? [[String:Any]]
+                {
+                    if shippingAddress.count > 0 {
+                        let alertAddress = GRFormAddressAlertView.initAddressAlert()!
+                        for dictAddress in shippingAddress {
+                            if let pref = dictAddress["preferred"] as? NSNumber{
+                                if pref == 1{
+                                    alertAddress.setData(dictAddress )
+                                }
+                            }
+                        }
+                        alertAddress.showAddressAlert()
+                        alertAddress.alertSaveSuccess = {() in
+                            self.callService(params, alertViewService: alertViewService)
+                            
+                            
+                            if self.successCallBack == nil {
+                                self.successCallBack!()
+                                
+                            }
+                            alertAddress.removeFromSuperview()
+                        }
+                        
+                        alertAddress.cancelPress = {() in
+                            alertAddress.removeFromSuperview()
+                            if alertViewService != nil {
+                                alertViewService!.setMessage("Es necesario capturar una dirección")
+                                alertViewService!.showErrorIcon("Ok")
+                            }
+                        }
+                        
+                    }else {
+                        self.showAddressForm(params, alertViewService: alertViewService)
+                    }
+                }else {
+                    self.showAddressForm(params, alertViewService: alertViewService)
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                self.showAddressForm(params, alertViewService: alertViewService)
+            })
+            return
+        }
+        
+        var strToUse = NSLocalizedString("password.incorrect",comment:"")
+        
+        if error.code == -3 {
+            strToUse = error.localizedDescription
+        }
+        self.signInButton!.isEnabled = true
+        alertViewService!.okCancelCallBack = nil
+        if alertViewService != nil {
+            alertViewService!.setMessage(strToUse)
+            alertViewService!.showErrorIcon("Ok")
+        }
+        
     }
     
     func showAddressForm(_ params:[String:Any],  alertViewService : IPOWMAlertViewController?) {
