@@ -719,13 +719,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         didSelectProduct = true
+        
+        if self.isLandingPage && indexPath.row == 0 {
+            return
+        }
+        
+        let newIndexPath = self.isLandingPage ? IndexPath(row: indexPath.row - 1, section:indexPath.section) : indexPath
+
         let cell = self.collection?.cellForItem(at: indexPath)
         if cell!.isKind(of: SearchProductCollectionViewCell.self){
             let controller = ProductDetailPageViewController()
             var productsToShow : [[String:String]] = []
-            if indexPath.section == 0 && self.upcsToShow?.count > 0 {
+            if newIndexPath.section == 0 && self.upcsToShow?.count > 0 {
                 if self.btnSuper.isSelected {
-                    if indexPath.row < self.allProducts!.count {
+                    if newIndexPath.row < self.allProducts!.count {
                         for strUPC in self.allProducts! {
                             let upc = strUPC["upc"] as! String
                             let description = strUPC["description"] as! String
@@ -739,7 +746,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                    
                     }
                 } else {
-                    if indexPath.row < self.allProducts!.count {
+                    if newIndexPath.row < self.allProducts!.count {
                         //for strUPC in self.itemsUPCMG! {
                         for strUPC in self.allProducts! {
                             let upc = strUPC["upc"] as! String
@@ -754,7 +761,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                 }
             } else {
-                if indexPath.row < self.allProducts!.count {
+                if newIndexPath.row < self.allProducts!.count {
                 
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
@@ -771,8 +778,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
             controller.itemsToShow = productsToShow as [Any]
-            controller.ixSelected = indexPath.row
-            controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
+            controller.ixSelected = newIndexPath.row
+            controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(newIndexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
             controller.detailOf = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
