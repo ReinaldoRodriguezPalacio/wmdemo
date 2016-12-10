@@ -778,7 +778,16 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
             let upc = item["upc"] as! String
             let desc = item["description"] as! String
-            let price = item["price"] as! String
+            
+            var price = ""
+            
+            if let priceDouble = item["price"] as? Double {
+                price = "\(priceDouble)"
+            }
+            
+            if let priceString = item["price"] as? String {
+                price = priceString
+            }
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
