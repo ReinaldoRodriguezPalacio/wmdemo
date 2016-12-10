@@ -411,16 +411,17 @@ class IPAUserListViewController: UserListViewController {
                                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                                         self.alertView!.showDoneIcon()
                                         var count = 0
-                                        for itemList in self.itemsUserList! as! [[String:Any]] {
-                                            if UserCurrentSession.hasLoggedUser() {
+                                        if UserCurrentSession.hasLoggedUser() {
+                                            for itemList in self.itemsUserList! as! [[String:Any]] {
+                                                
                                                 if (itemList["name"] as! String) == value {
                                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
                                                     let cell = self.tableuserlist!.cellForRow(at: IndexPath(row:count,section:1))
                                                     cell?.isSelected = true
                                                     return
                                                 }
+                                                count += 1
                                             }
-                                            count += 1
                                         }
                                 },
                                     failure: { (error) -> Void in
