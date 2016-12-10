@@ -807,7 +807,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active) as AnyObject)
             
             // 360 Event
-            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products),
