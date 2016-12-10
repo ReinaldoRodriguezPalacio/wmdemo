@@ -778,7 +778,16 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
             let upc = item["upc"] as! String
             let desc = item["description"] as! String
-            let price = item["price"] as! String
+            
+            var price = ""
+            
+            if let priceDouble = item["price"] as? Double {
+                price = "\(priceDouble)"
+            }
+            
+            if let priceString = item["price"] as? String {
+                price = priceString
+            }
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -798,7 +807,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active) as AnyObject)
             
             // 360 Event
-            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
         }
         
         service.callService(service.buildParams(idList: listId, upcs: products),
