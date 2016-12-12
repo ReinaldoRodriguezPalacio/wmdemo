@@ -230,6 +230,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             self.textToSearch = self.textToSearch ?? ""
             let suggestion = (self.textToSearch! as NSString).replacingOccurrences(of: alternativeCombination, with: "")
+            self.textToSearch = suggestion
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
         }
