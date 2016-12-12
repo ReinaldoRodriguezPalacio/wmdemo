@@ -922,6 +922,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func invokeSearchproductsInMG(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
+        if titleHeader != textToSearch {
+            self.titleLabel?.text = textToSearch
+        }
+        
         if self.idListFromSearch != ""{
             actionSuccess?()
             return
@@ -1061,6 +1065,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func invokeSearchProductsInGroceries(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
+        if titleHeader != textToSearch {
+            self.titleLabel?.text = textToSearch
+        }
+        
         if self.grResults!.totalResults != -1 && self.grResults!.resultsInResponse >= self.grResults!.totalResults {
             print("Groceries Search IS COMPLETE!!!")
             actionSuccess?()
@@ -1175,6 +1183,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }else if !self.isLandingPage && (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             let suggestion = (self.textToSearch! as NSString).replacingOccurrences(of: alternativeCombination, with: "")
+            self.textToSearch = suggestion
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
         }
