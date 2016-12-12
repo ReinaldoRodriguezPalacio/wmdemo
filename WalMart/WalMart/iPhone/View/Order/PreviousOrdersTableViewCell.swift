@@ -34,11 +34,11 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         dateLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         dateLabel.textColor = WMColor.gray
         
-        trackingNumberLabel = UILabel(frame: CGRect(x: 103, y: 18, width: 130, height: 14))
+        trackingNumberLabel = UILabel(frame: CGRect(x: IS_IPAD ? (frame.width - 50 / 2) : 103, y: 18, width: 130, height: 14))
         trackingNumberLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         trackingNumberLabel.textColor = WMColor.light_blue
         
-        statusLabel = UILabel(frame: CGRect(x: self.bounds.width - 94, y: 18, width: 70, height: 14))
+        statusLabel = UILabel(frame: CGRect(x: self.bounds.width - (IS_IPAD ? 200 : 94), y: 18, width: IS_IPAD ? 180 : 70, height: 14))
         statusLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         statusLabel.textColor = WMColor.gray
         statusLabel.textAlignment = NSTextAlignment.right
@@ -61,7 +61,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         viewSeparator.frame = CGRect(x: dateLabel.frame.minX,y: self.bounds.maxY - AppDelegate.separatorHeigth(),width: self.bounds.width - dateLabel.frame.minX,height: AppDelegate.separatorHeigth())
-        statusLabel.frame = CGRect(x: self.bounds.width - 104, y: 18, width: 80, height: 14)
+        statusLabel.frame = CGRect(x: self.bounds.width - (IS_IPAD ? 200 : 104), y: 18, width: IS_IPAD ? 180 : 80, height: 14)
         
     }
     
