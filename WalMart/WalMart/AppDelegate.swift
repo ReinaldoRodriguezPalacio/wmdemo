@@ -371,12 +371,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
-       UIApplication.shared.applicationIconBadgeNumber = 1
+        if userInfo["notification"] != nil {
+            UIApplication.shared.applicationIconBadgeNumber = 1
+        }
+       
        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         self.handleNotification(application,userInfo: userInfo)
        
         
-        FBSDKAppEvents.logPushNotificationOpen(userInfo)
+        //FBSDKAppEvents.logPushNotificationOpen(userInfo)
         
         FBNotificationsManager.shared().presentPushCard(forRemoteNotificationPayload: userInfo, from: nil, completion: { (control:FBNCardViewController?, error: Error?) in
             
