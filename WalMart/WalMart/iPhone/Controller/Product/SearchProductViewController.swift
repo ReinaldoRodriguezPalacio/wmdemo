@@ -172,6 +172,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     var changebtns  =  false
     var validate = false
+    var mgServiceIsInvike =  false
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -922,6 +923,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func invokeSearchproductsInMG(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
+        mgServiceIsInvike =  true
         if self.idListFromSearch != ""{
             actionSuccess?()
             return
@@ -949,7 +951,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params!,
             successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
-                
+               
                 let landingMg = resultDic["landingPage"] as! [String:Any]
                 self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
                 if self.landingPageMG != nil && self.landingPageMG!.count > 0 && arrayProduct!.count == 0 {// && self.btnTech.selected {
@@ -1022,7 +1024,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.mgResults!.totalResults = 0
                     }
                 }
-                
+                self.mgServiceIsInvike =  false
                 actionSuccess?()
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "FINISH_SEARCH"), object: nil)
                 
@@ -1048,6 +1050,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")
+                self.mgServiceIsInvike =  false
                 self.mgResults!.totalResults = self.allProducts!.count
                 self.mgResults!.resultsInResponse = self.mgResults!.totalResults
                 actionSuccess?()
@@ -1063,7 +1066,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.grResults!.totalResults != -1 && self.grResults!.resultsInResponse >= self.grResults!.totalResults {
             print("Groceries Search IS COMPLETE!!!")
-            actionSuccess?()
+            if !mgServiceIsInvike {
+                actionSuccess?()
+            }
             return
         }
         
