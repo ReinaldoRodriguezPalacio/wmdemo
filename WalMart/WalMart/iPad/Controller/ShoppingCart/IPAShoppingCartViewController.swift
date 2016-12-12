@@ -81,6 +81,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         super.viewWillAppear(animated)
         let url = URL(string: serviceUrl("WalmartMG.CartPromo"))
         imagePromotion.setImageWith(url!, placeholderImage: UIImage(named:"cart_promo"))
+        self.updateTotalItemsRow()
     }
 
     
