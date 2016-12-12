@@ -266,6 +266,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 if let pesable = dictProduct["type"] as?  NSString {
                     isPesable = pesable.intValue == 1
                 }
+                if let pesable = dictProduct["pesable"] as?  String {
+                    isPesable = (pesable == "true")
+                }
                 
                 var onHandDefault = "10"
                 if let onHandInventory = dictProduct["onHandInventory"] as? NSString {
@@ -540,11 +543,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.addToListButton!.isSelected = true
             let frame = self.view.frame
             
-            if type == ResultObjectType.Mg {
-                ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "")
-            }else {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "")
-            }
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
@@ -585,11 +583,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func addListToCart (){
         
         if self.itemDetailProducts != nil && self.itemDetailProducts!.count > 0 {
-            if type == ResultObjectType.Mg {
-                ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
-            }else {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
-            }
+       
             var upcs: [[String:Any]] = []
             if !showFedexGuide {
                 for item in self.itemDetailProducts! {
