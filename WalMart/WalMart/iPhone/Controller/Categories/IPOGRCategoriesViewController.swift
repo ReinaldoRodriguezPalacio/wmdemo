@@ -269,7 +269,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     self.familyController.selectedFamily = nil
                     self.familyController.familyTable.reloadData()
                     
-                    let icon = "i_\(self.familyController.departmentId)"
+                    let icon = "i_\(self.familyController.departmentId.trim())"
                     let caHeader = self.familyController.departmentId.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                     
                     let newView = IPODepartmentCollectionViewCell(frame:CGRectMake(0, 0, self.view.frame.width, self.CELL_HEIGHT))
