@@ -610,7 +610,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.newListBtn!.backgroundColor = WMColor.green
                     }, atFinished: {
                         self.editBtn!.isEnabled = true
-                        
+                        self.tableuserlist?.reloadData()
                     }, animated:true
                 )
             }
