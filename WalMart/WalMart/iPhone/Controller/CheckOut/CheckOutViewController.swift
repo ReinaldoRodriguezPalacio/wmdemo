@@ -223,7 +223,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             self.writeDeviceInfo(webView)
             
             webView.stringByEvaluatingJavaScript(from: "document.getElementById('UserName').value='\(self.username.lowercased())';")
-            webView.stringByEvaluatingJavaScript(from: "document.getElementById('Password').value='\(self.password)';")
+            webView.stringByEvaluatingJavaScript(from: "document.getElementById('Password').value='\(self.password!)';")
             webView.stringByEvaluatingJavaScript(from: "document.getElementById(\"btnLogin\").click()")
             
             //webView.stringByEvaluatingJavaScriptFromString("WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(\"btnLogin\", \"\", true, \"loginControl\", \"\", false, true))")
