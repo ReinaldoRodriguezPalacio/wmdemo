@@ -349,15 +349,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let price = itemWishList["price"] as! NSString
             let active  = itemWishList["isActive"] as! NSString
             var isActive = "true" == active
-            var isPreorderable = false
+            //var isPreorderable = false
             
             if isActive == true {
                 isActive = price.doubleValue > 0
             }
             
-            if let preordeable  = itemWishList["isPreorderable"] as? NSString {
-                isPreorderable = "true" == preordeable
-            }
+//            if let preordeable  = itemWishList["isPreorderable"] as? NSString {
+//                isPreorderable = "true" == preordeable
+//            }
             
             let onHandInventory = itemWishList["onHandInventory"] as! NSString
             
