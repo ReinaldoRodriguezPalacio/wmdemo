@@ -226,7 +226,9 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         
         if resultDic.count == 0 {
             self.showAlertView = false
-        }else if (resultDic["alternativeCombination"] as! String) != "" {
+        } else if (btnSuper.isSelected && grResults?.totalResults == 0) || (btnTech.isSelected && mgResults?.totalResults == 0) {
+            self.showAlertView = false
+        } else if (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             self.textToSearch = self.textToSearch ?? ""
             let suggestion = (self.textToSearch! as NSString).replacingOccurrences(of: alternativeCombination, with: "")
