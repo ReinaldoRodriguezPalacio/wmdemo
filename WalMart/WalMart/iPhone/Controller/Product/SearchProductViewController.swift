@@ -366,8 +366,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 		self.collection!.reloadData()
         
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch  {
-            if finsihService && viewEmptyImage { //&&
-            self.showEmptyMGGRView()
+            if (btnSuper.isSelected && grResults?.totalResults == 0) || (btnTech.isSelected && mgResults?.totalResults == 0) {
+                if finsihService && viewEmptyImage { //&&
+                    self.showEmptyMGGRView()
+                }
             }
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
             if (finsihService || viewEmptyImage) && !self.isLoading {
