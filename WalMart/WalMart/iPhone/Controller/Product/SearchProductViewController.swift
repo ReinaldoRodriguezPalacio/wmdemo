@@ -1185,17 +1185,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if resultDic.count == 0 || self.isLandingPage {
             self.showAlertView = false
-        }else if !self.isLandingPage && (resultDic["alternativeCombination"] as! String) != "" {
+        } else if (btnSuper.isSelected && grResults?.totalResults == 0) || (btnTech.isSelected && mgResults?.totalResults == 0) {
+            self.showAlertView = false
+        } else if !self.isLandingPage && (resultDic["alternativeCombination"] as! String) != "" {
             let alternativeCombination = resultDic["alternativeCombination"] as! String
             let suggestion = (self.textToSearch! as NSString).replacingOccurrences(of: alternativeCombination, with: "")
             self.textToSearch = suggestion
             self.showAlertView = true
             self.searchAlertView?.setValues(suggestion as String, correction: suggestion as String, underline: alternativeCombination)
-        }
-        else if !self.isLandingPage && (resultDic["suggestion"] as! String) != "" {
+        } else if !self.isLandingPage && (resultDic["suggestion"] as! String) != "" {
             self.showAlertView = true
                 self.searchAlertView?.setValues(self.textToSearch!, correction: resultDic["suggestion"] as! String, underline: nil)
-        }else{
+        } else {
            self.showAlertView = false
         }
         
@@ -1563,16 +1564,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var maxY = self.collection!.frame.minY
         
         if self.idListFromSearch != "" && !IS_IPAD {
-          maxY =   maxY + 64
+            maxY = maxY + 64
         }
+        
         self.loading?.stopAnnimating()
       
         if self.emptyMGGR == nil {
-            self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY))
+            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY))
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
+        } else {
+            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY)
         }
+
         if btnSuper.isSelected {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
         } else {
