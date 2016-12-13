@@ -131,11 +131,12 @@ class LinesForSearchService: BaseService {
                             "level" : NSNumber(value: 0 as Int),
                             "parentId" : "",
                             "path" : idDepto!,
-                            "families" : [String:Any]()]
+                            "families" : NSMutableDictionary()]
                         dictionary[idDepto!] = cdepto
                     }
                     
-                    var families = cdepto!["families"] as! [String:Any]
+                    
+                    let families = cdepto!["families"] as! NSMutableDictionary
                     var cfamily = families[idFamily!] as? [String:Any]
                     if cfamily == nil {
                         families[idFamily!] = [
@@ -145,11 +146,11 @@ class LinesForSearchService: BaseService {
                             "level" : NSNumber(value: 1 as Int),
                             "parentId" : idDepto!,
                             "path" : "\(idDepto)|\(idFamily)",
-                            "lines" : [String:Any]()]
+                            "lines" : NSMutableDictionary()]
                         cfamily = families[idFamily!] as? [String:Any]
                     }
                     
-                    var lines = cfamily!["lines"] as! [String:Any]
+                    let lines = cfamily!["lines"] as! NSMutableDictionary
                     
                     let cline = [
                         "id" : idLine!,

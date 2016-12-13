@@ -119,34 +119,35 @@ class GRLinesForSearchService: GRBaseService {
                                 "level" : NSNumber(value: 0 as Int),
                                 "parentId" : "",
                                 "path" : idDepto!,
-                                "families" : [String:Any]()]
-                            dictionary[idDepto!] = cdepto
+                                "families" : NSMutableDictionary()]
+                            dictionary[idDepto!] = cdepto!
                         }
                         
-                        var families = cdepto!["families"] as! [String:Any]
+                        let families = cdepto!["families"] as! NSMutableDictionary
                         var cfamily = families[idFamily!] as? [String:Any]
                         if cfamily == nil {
-                            families[idFamily!] = [
+                            cfamily = [
                                 "id" : idFamily!,
                                 "name" : famName!,
                                 "responseType" : ResultObjectType.Groceries.rawValue,
                                 "level" : NSNumber(value: 1 as Int),
                                 "parentId" : idDepto!,
-                                "path" : "\(idDepto)|\(idFamily)",
-                                "lines" : [String:Any]()]
-                            cfamily = families[idFamily!] as? [String:Any]
+                                "path" : "\(idDepto!)|\(idFamily!)",
+                                "lines" : NSMutableDictionary()]
+                             families[idFamily!] = cfamily
                         }
                         
-                        var lines = cfamily!["lines"] as! [String:Any]
+                        let lines = cfamily!["lines"] as? NSMutableDictionary
                         
                         let cline = [
                             "id" : idLine!,
                             "name" : (linName)!,
                             "level" : NSNumber(value: 2 as Int),
                             "parentId" : idFamily!,
-                            "path" : "\(idDepto)|\(idFamily)|\(idLine!)",
+                            "path" : "\(idDepto!)|\(idFamily!)|\(idLine!)",
                             "responseType" : ResultObjectType.Groceries.rawValue] as [String : Any]
-                        lines[idLine!] = cline
+                        lines![idLine!] = cline
+                        
                         
                         //keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
                     }// while rs.next() {

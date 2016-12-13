@@ -501,10 +501,11 @@ class BaseService : NSObject {
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in items as! [[String:Any]] {
+                   
                     let name = item["description"] as! String
                     let idDepto = item["idDepto"] as! String
-                    let famArray : AnyObject = item["family"] as AnyObject!
                     
+                    let famArray : AnyObject = item["family"] as AnyObject!
                     for itemFamily in famArray as! [[String:Any]] {
                         let idFamily = itemFamily["id"] as! String
                         let lineArray : AnyObject = itemFamily["line"] as AnyObject!
