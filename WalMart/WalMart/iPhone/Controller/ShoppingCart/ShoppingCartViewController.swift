@@ -1500,47 +1500,47 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.alertView?.setMessage("Validando datos del asociado")
         
         validateAssociate(associateNumber, dateAdmission:dateAdmission , determinant:determinant,completion: { (result:String) -> Void in
-            if result == ""{
-                let service = ValidateAssociateService()
-                service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
-                    succesBlock: { (response:[String:Any]) -> Void in
-                        print(response)
-                        if response["codeMessage"] as? Int == 0 {
-                            //Mostrar alerta y continua
-                            self.alertView?.setMessage("Datos correctos")
-                            self.buttonAsociate.isHighlighted =  true
-                            self.alertView?.close()
-                            self.isEmployeeDiscount =  true
-                            self.loadShoppingCartService()
-                            self.viewShoppingCart.reloadData()
-                            self.updateTotalItemsRow()
-                            //self.showloginshop()
-                        }else{
-                            self.isEmployeeDiscount =  false
-                            self.alertView?.setMessage("Error en los datos del asociado")
-                            self.alertView!.showErrorIcon("Ok")
-                            self.buttonAsociate.isHighlighted =  false
-                        }
-                        
+            delay(1.0, completion: {
+                if result == ""{
+                    let service = ValidateAssociateService()
+                    service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
+                                        succesBlock: { (response:[String:Any]) -> Void in
+                                            print(response)
+                                            if response["codeMessage"] as? Int == 0 {
+                                                //Mostrar alerta y continua
+                                                self.alertView?.setMessage("Datos correctos")
+                                                self.buttonAsociate.isHighlighted =  true
+                                                self.alertView?.close()
+                                                self.isEmployeeDiscount =  true
+                                                self.loadShoppingCartService()
+                                                self.viewShoppingCart.reloadData()
+                                                self.updateTotalItemsRow()
+                                                //self.showloginshop()
+                                            }else{
+                                                self.isEmployeeDiscount =  false
+                                                self.alertView?.setMessage("Error en los datos del asociado")
+                                                self.alertView!.showErrorIcon("Ok")
+                                                self.buttonAsociate.isHighlighted =  false
+                                            }
+                                            
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info
                         self.isEmployeeDiscount =  false
                         self.alertView?.setMessage("Error en los datos del asociado")
                         self.alertView!.showErrorIcon("Ok")
-                         self.buttonAsociate.isHighlighted =  false
+                        self.buttonAsociate.isHighlighted =  false
                         print(error)
+                    }
+                }else{
+                    self.isEmployeeDiscount =  false
+                    self.alertView?.setMessage("Error en los datos del asociado\(result)")
+                    self.alertView!.showErrorIcon("Ok")
+                    self.buttonAsociate.isHighlighted =  false
                 }
-            }else{
-                self.isEmployeeDiscount =  false
-                self.alertView?.setMessage("Error en los datos del asociado\(result)")
-                self.alertView!.showErrorIcon("Ok")
-                 self.buttonAsociate.isHighlighted =  false
-            }
-        
-    })
+
+            })
+        })
     
-        
-        
     }
     
     func closeAlertPk() {
