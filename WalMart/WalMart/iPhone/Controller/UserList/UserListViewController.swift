@@ -143,6 +143,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.removeLoadingView()
             }
         )
+        
+        if stateEdit {
+            self.cancelNewList()
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -153,10 +158,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     var stateEdit =  false
     override func viewDidDisappear(_ animated: Bool) {
-        if stateEdit{
-            self.cancelNewList()
-             stateEdit =  false
-        }
        
     }
     
@@ -609,7 +610,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.newListBtn!.backgroundColor = WMColor.green
                     }, atFinished: {
                         self.editBtn!.isEnabled = true
-                        
+                        self.tableuserlist?.reloadData()
                     }, animated:true
                 )
             }
@@ -621,7 +622,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         Remove field to add more list
      */
     func cancelNewList() {
-        self.newListEnabled = true
         self.showNewListField()
     }
     

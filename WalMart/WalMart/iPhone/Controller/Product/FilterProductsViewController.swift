@@ -180,9 +180,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         let buttonHeight: CGFloat = 22.0
         self.applyButton!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
         self.removeButton!.frame = CGRect(x: self.applyButton!.frame.minX - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
-        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.withText && self.originalSearchContext != self.searchContext {
-            self.titleLabel!.frame = CGRect(x: 46.0, y: 0, width: self.header!.frame.width - (46.0 + (buttonWidth*2) + 32.0), height: self.header!.frame.maxY)
-        }
 
         let bounds = self.view.frame
         self.tableView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.height)

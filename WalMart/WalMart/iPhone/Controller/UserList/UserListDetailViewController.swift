@@ -1379,7 +1379,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         self.updateTotalLabel()
         if self.selectedItems != nil {
-            self.tableView?.reloadRows(at: [IndexPath(row: self.products!.count, section: 0)], with: UITableViewRowAnimation.fade)
+            self.tableView?.reloadData()
         }
     }
     
