@@ -155,6 +155,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubCollection!.isHidden = true
         self.clubCollection!.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
         self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+        self.clubCollection!.bounces = true
+        self.clubCollection!.alwaysBounceVertical = true
+
         self.view.addSubview(self.clubCollection!)
 
         NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.startRunning), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
