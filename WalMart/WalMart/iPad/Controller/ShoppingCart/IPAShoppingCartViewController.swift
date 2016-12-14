@@ -83,7 +83,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         imagePromotion.setImageWith(url!, placeholderImage: UIImage(named:"cart_promo"))
         self.updateTotalItemsRow()
     }
+    
 
+    override func viewDidAppear(_ animated: Bool) {
+        updateTotalItemsRow()
+    }
     
     override func viewDidLayoutSubviews() {
         
