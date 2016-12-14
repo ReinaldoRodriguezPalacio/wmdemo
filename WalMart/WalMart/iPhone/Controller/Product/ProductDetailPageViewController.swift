@@ -30,7 +30,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor =  UIColor.white
         self.pageController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options: nil)
         
         self.pageController.delegate = self
