@@ -932,6 +932,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     
                     self.pagerController!.enabledGesture(true)
                 }
+                
+                self.tabledetail.reloadData()
+                
                 CATransaction.commit()
             }) 
     }
