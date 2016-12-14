@@ -99,21 +99,32 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let _ = tableView.cellForRow(at: indexPath) as? OrderProductTableViewCell {
+        if let cell = tableView.cellForRow(at: indexPath) as? OrderProductTableViewCell {
             
-            let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems(indexPath.section)
-            controller.ixSelected = indexPath.row
-            controller.detailOf = "Order"
-            if !showFedexGuide {
-                controller.ixSelected = indexPath.row - 2
+            if cell.canTap {
+                
+                let controller = IPAProductDetailPageViewController()
+                cell.canTap = false
+                controller.itemsToShow = getUPCItems(indexPath.section)
+                controller.ixSelected = indexPath.row
+                controller.detailOf = "Order"
+                if !showFedexGuide {
+                    controller.ixSelected = indexPath.row - 2
+                }
+                
+                delay(0.5, completion: {
+                    cell.canTap = true
+                })
+                
+                if let navCtrl = self.navigationController!.parent as UIViewController! {
+                    navCtrl.navigationController!.pushViewController(controller, animated: true)
+                }
+                
             }
-            
-            if let navCtrl = self.navigationController!.parent as UIViewController! {
-                navCtrl.navigationController!.pushViewController(controller, animated: true)
-            }
+
         }
 
     }
+    
 }
     
