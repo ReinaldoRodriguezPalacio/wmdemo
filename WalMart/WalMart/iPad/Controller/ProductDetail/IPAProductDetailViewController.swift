@@ -773,6 +773,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
         
+        self.tabledetail.reloadData()
+        
         if self.isPesable {
             selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
         }
@@ -784,6 +786,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
                 self.isShowShoppingCart = false
+                self.tabledetail.reloadData()
             }, closeRow:true)
         }
         selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
@@ -792,18 +795,16 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if maxProducts >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
-                    }, completeClose: { () -> Void in
-                        
-                        self.isShowShoppingCart = false
-                        var params  =  self.buildParamsUpdateShoppingCart(quantity)
-                        params.updateValue(comments, forKey: "comments")
-                        params.updateValue(self.type, forKey: "type")
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
-                        
+                }, completeClose: { () -> Void in
+                    self.tabledetail.reloadData()
+                    self.isShowShoppingCart = false
+                    var params  =  self.buildParamsUpdateShoppingCart(quantity)
+                    params.updateValue(comments, forKey: "comments")
+                    params.updateValue(self.type, forKey: "type")
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 }, closeRow:true )
             } else {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                
                 let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                 let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
                 let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
@@ -818,13 +819,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.selectQuantity?.imageBlurView.frame = frameDetail
             self.productDetailButton!.addToShoppingCartButton.isSelected = true
             self.productDetailButton?.reloadShoppinhgButton()
-            },additionalAnimationClose:{ () -> Void in
-                self.selectQuantity?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
-                self.productDetailButton!.addToShoppingCartButton.isSelected = true
-            },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
-            })
-        
+            self.tabledetail.reloadData()
+        },additionalAnimationClose:{ () -> Void in
+            self.selectQuantity?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
+            self.productDetailButton!.addToShoppingCartButton.isSelected = true
+        },additionalAnimationFinish: { () -> Void in
+            self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+        })
         
         self.productDetailButton?.reloadButton()
     }
@@ -1494,104 +1495,104 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     //MARK: ProductDetailColorSizeDelegate
     
     func selectDetailItem(_ selected: String, itemType: String) {
-//        var detailOrderCount = 0
-//        let keys = Array(self.facetsDetails!.keys)
-//        var filteredKeys = keys.filter(){
-//            return ($0 as String) != "itemDetails"
-//        }
-//        filteredKeys = filteredKeys.sorted(by: {
-//            if $0 == "Color" {
-//                return true
-//            } else {
-//                return  $0 < $1
-//            }
-//        })
-//        if self.colorItems.count != 0 && self.sizeItems.count != 0 {
-//            detailOrderCount = 2
-//        }else if self.colorItems.count != 0 && self.sizeItems.count == 0 {
-//            detailOrderCount = 1
-//        }else if self.colorItems.count == 0 && self.sizeItems.count != 0 {
-//            detailOrderCount = 1
-//        }
-//        if self.selectedDetailItem == nil{
-//            self.selectedDetailItem = [:]
-//        }
-//        if itemType == filteredKeys.first!{
-//            self.selectedDetailItem = [:]
-//            if detailOrderCount > 1 {
-//                //MARCAR desmarcar las posibles tallas
-//                let sizes = self.getDetailsWithKey(itemType, value: selected, keyToFind: filteredKeys[1])
-//                for view in self.sizesView!.viewToInsert!.subviews {
-//                    if let button = view.subviews.first! as? UIButton {
-//                        button.isEnabled = sizes.contains(button.titleLabel!.text!)
-//                        if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
-//                            button.sendActions(for: UIControlEvents.touchUpInside)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        self.selectedDetailItem![itemType] = selected
-//        if self.selectedDetailItem!.count == detailOrderCount
-//        {
-//            let upc = self.getUpc(self.selectedDetailItem!)
-//            let facet = self.getFacetWithUpc(upc)
-//            self.reloadViewWithData(facet)
-//        }
+        var detailOrderCount = 0
+        let keys = Array(self.facetsDetails!.keys)
+        var filteredKeys = keys.filter(){
+            return ($0 as String) != "itemDetails"
+        }
+        filteredKeys = filteredKeys.sorted(by: {
+            if $0 == "Color" {
+                return true
+            } else {
+                return  $0 < $1
+            }
+        })
+        if self.colorItems.count != 0 && self.sizeItems.count != 0 {
+            detailOrderCount = 2
+        }else if self.colorItems.count != 0 && self.sizeItems.count == 0 {
+            detailOrderCount = 1
+        }else if self.colorItems.count == 0 && self.sizeItems.count != 0 {
+            detailOrderCount = 1
+        }
+        if self.selectedDetailItem == nil{
+            self.selectedDetailItem = [:]
+        }
+        if itemType == filteredKeys.first!{
+            self.selectedDetailItem = [:]
+            if detailOrderCount > 1 {
+                //MARCAR desmarcar las posibles tallas
+                let sizes = self.getDetailsWithKey(itemType, value: selected, keyToFind: filteredKeys[1])
+                for view in self.sizesView!.viewToInsert!.subviews {
+                    if let button = view.subviews.first! as? UIButton {
+                        button.isEnabled = sizes.contains(button.titleLabel!.text!)
+                        if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
+                            button.sendActions(for: UIControlEvents.touchUpInside)
+                        }
+                    }
+                }
+            }
+        }
+        self.selectedDetailItem![itemType] = selected
+        if self.selectedDetailItem!.count == detailOrderCount
+        {
+            let upc = self.getUpc(self.selectedDetailItem!)
+            let facet = self.getFacetWithUpc(upc)
+            self.reloadViewWithData(facet)
+        }
     }
     
     func buildColorSizeCell(_ width: CGFloat){
-//        if self.colorSizeViewCell != nil {
-//            self.clearView(self.colorSizeViewCell!)
-//        }else{
-//            self.colorSizeViewCell = UIView()
-//        }
-//        if colorItems.count != 0 || sizeItems.count != 0{
-//            if colorItems.count != 0 && sizeItems.count != 0{
-//                self.colorsView = ProductDetailColorSizeView()
-//                self.colorsView?.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
-//                self.colorsView!.alpha = 1.0
-//                self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
-//                self.colorsView!.buildItemsView()
-//                self.colorsView?.delegate = self
-//                self.sizesView = ProductDetailColorSizeView()
-//                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
-//                self.sizesView!.alpha = 1.0
-//                self.sizesView!.frame =  CGRect(x: 0,y: 40,width: width, height: 40.0)
-//                self.sizesView!.buildItemsView()
-//                self.sizesView?.delegate = self
-//                self.colorsView!.deleteTopBorder()
-//                self.sizesView!.deleteTopBorder()
-//                self.colorSizeViewCell?.frame = CGRect(x: 0,y: 0, width: width, height: 80.0)
-//                self.colorSizeViewCell?.addSubview(colorsView!)
-//                self.colorSizeViewCell?.addSubview(sizesView!)
-//            }else if colorItems.count != 0 && sizeItems.count == 0{
-//                self.sizesView?.alpha = 0
-//                self.colorsView = ProductDetailColorSizeView()
-//                self.colorsView!.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
-//                self.colorsView!.alpha = 1.0
-//                self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
-//                self.colorsView!.buildItemsView()
-//                self.colorsView?.delegate = self
-//                self.colorsView!.deleteTopBorder()
-//                self.colorSizeViewCell?.frame = CGRect(x: 0,y: 0, width: width, height: 40.0)
-//                self.colorSizeViewCell?.addSubview(colorsView!)
-//            }else if colorItems.count == 0 && sizeItems.count != 0{
-//                self.colorsView?.alpha = 0
-//                self.sizesView = ProductDetailColorSizeView()
-//                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
-//                self.sizesView!.alpha = 1.0
-//                self.sizesView!.frame =  CGRect(x: 0,y: 0,width: width, height: 40.0)
-//                self.sizesView!.buildItemsView()
-//                self.sizesView?.delegate = self
-//                self.sizesView!.deleteTopBorder()
-//                self.colorSizeViewCell?.frame = CGRect(x: 0,y: 0, width: width, height: 40.0)
-//                self.colorSizeViewCell?.addSubview(sizesView!)
-//            }
-//        }else{
-//            self.colorsView?.alpha = 0
-//            self.sizesView?.alpha = 0
-//        }
+        if self.colorSizeViewCell != nil {
+            self.clearView(self.colorSizeViewCell!)
+        }else{
+            self.colorSizeViewCell = UIView()
+        }
+        if colorItems.count != 0 || sizeItems.count != 0{
+            if colorItems.count != 0 && sizeItems.count != 0{
+                self.colorsView = ProductDetailColorSizeView()
+                self.colorsView?.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.colorsView!.alpha = 1.0
+                self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
+                self.colorsView!.buildItemsView()
+                self.colorsView?.delegate = self
+                self.sizesView = ProductDetailColorSizeView()
+                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.sizesView!.alpha = 1.0
+                self.sizesView!.frame =  CGRect(x: 0,y: 40,width: width, height: 40.0)
+                self.sizesView!.buildItemsView()
+                self.sizesView?.delegate = self
+                self.colorsView!.deleteTopBorder()
+                self.sizesView!.deleteTopBorder()
+                self.colorSizeViewCell?.frame = CGRect(x: 0,y: 0, width: width, height: 80.0)
+                self.colorSizeViewCell?.addSubview(colorsView!)
+                self.colorSizeViewCell?.addSubview(sizesView!)
+            }else if colorItems.count != 0 && sizeItems.count == 0{
+                self.sizesView?.alpha = 0
+                self.colorsView = ProductDetailColorSizeView()
+                self.colorsView!.items = self.colorItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.colorsView!.alpha = 1.0
+                self.colorsView!.frame =  CGRect(x: 0,y: 0, width: width, height: 40.0)
+                self.colorsView!.buildItemsView()
+                self.colorsView?.delegate = self
+                self.colorsView!.deleteTopBorder()
+                self.colorSizeViewCell?.frame = CGRect(x: 0,y: 0, width: width, height: 40.0)
+                self.colorSizeViewCell?.addSubview(colorsView!)
+            }else if colorItems.count == 0 && sizeItems.count != 0{
+                self.colorsView?.alpha = 0
+                self.sizesView = ProductDetailColorSizeView()
+                self.sizesView!.items = self.sizeItems as! [[String:Any]] as [[String : AnyObject]]!
+                self.sizesView!.alpha = 1.0
+                self.sizesView!.frame =  CGRect(x: 0,y: 0,width: width, height: 40.0)
+                self.sizesView!.buildItemsView()
+                self.sizesView?.delegate = self
+                self.sizesView!.deleteTopBorder()
+                self.colorSizeViewCell?.frame = CGRect(x: 0,y: 0, width: width, height: 40.0)
+                self.colorSizeViewCell?.addSubview(sizesView!)
+            }
+        }else{
+            self.colorsView?.alpha = 0
+            self.sizesView?.alpha = 0
+        }
     }
     
 }
