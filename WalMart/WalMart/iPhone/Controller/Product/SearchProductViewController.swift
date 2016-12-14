@@ -926,7 +926,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func invokeSearchproductsInMG(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
         mgServiceIsInvike =  true
-        if titleHeader != textToSearch {
+        if titleHeader != textToSearch && searchContextType == .withText && textToSearch != "" {
             self.titleLabel?.text = textToSearch
         }
         
@@ -1070,7 +1070,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func invokeSearchProductsInGroceries(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
-        if titleHeader != textToSearch {
+        if titleHeader != textToSearch && searchContextType == .withText && textToSearch != "" {
             self.titleLabel?.text = textToSearch
         }
         
