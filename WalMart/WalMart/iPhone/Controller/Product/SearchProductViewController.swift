@@ -990,8 +990,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.isLandingPage = true
                         
                         //Se muestra listado de MG
-                        self.btnTech.isSelected = false
-                        self.btnSuper.isSelected = true
+                        self.btnTech.isSelected = true
                         self.showAlertView = false
                     }
                     
@@ -1266,10 +1265,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let  grTotalResults =  self.grResults!.products != nil ? self.grResults!.products!.count : 0
         let  mgTotalResults =  self.mgResults!.products != nil ? self.mgResults!.products!.count : 0
         if !changebtns {
-            if grTotalResults > mgTotalResults || grTotalResults == mgTotalResults {
+            if (grTotalResults > mgTotalResults || grTotalResults == mgTotalResults) && !isLandingPage {
                 btnSuper.isSelected  =  true
                 btnTech.isSelected =  false
-            }else {
+            } else {
                 btnSuper.isSelected  =  false
                 btnTech.isSelected =  true
             }
