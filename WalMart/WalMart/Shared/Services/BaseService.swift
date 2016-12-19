@@ -197,9 +197,9 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
    
-        
         let task = afManager.POST(url, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
             //session --
+            print("callPOSTService URL:: \(url)")
             //TODO Loginbyemail
             let response : NSHTTPURLResponse = request.response as! NSHTTPURLResponse
             let headers : NSDictionary = response.allHeaderFields
@@ -240,6 +240,7 @@ class BaseService : NSObject {
                                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                         })
                     }
+                    print("callPOSTService URL:: \(url)")
                     errorBlock!(errorResult)
                     return
                 }
@@ -250,6 +251,7 @@ class BaseService : NSObject {
             }
             successBlock!(resultJSON)
             }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+                print("callPOSTService URL:: \(url)")
                 //TAG Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if error.code == -1005 {
@@ -282,6 +284,7 @@ class BaseService : NSObject {
     }
     
     func callGETService(manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        
         manager.GET(serviceURL, parameters: params, progress: nil, success: {(request:NSURLSessionDataTask, json:AnyObject?) in
             
             //session --
@@ -335,12 +338,13 @@ class BaseService : NSObject {
                         return
                     }
                 }
-                
+                print("callGETService URL:: \(serviceURL)")
                 errorBlock!(errorResult)
                 return
             }
             successBlock!(resultJSON)
             }, failure: {(request:NSURLSessionDataTask?, error:NSError) in
+                print("callGETService URL:: \(serviceURL)")
                 
                 if error.code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
