@@ -506,7 +506,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                             
                             let _ = customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                             alertNot?.close()
-                        },isNewFrame: true)
+                        },isNewFrame: false)
                 }
             }
         }
