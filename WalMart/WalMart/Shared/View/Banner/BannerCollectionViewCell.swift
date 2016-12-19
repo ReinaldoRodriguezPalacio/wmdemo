@@ -44,8 +44,8 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var pointSection: UIView? = nil
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
-    var currentItem: Int? = nil
-    var visibleItem: Int? = nil
+    var currentItem: Int? = 0
+    var visibleItem: Int? = 0
     var timmerBanner : Timer!
     var buttonTerms : UIButton!
     var viewTerms : BannerTermsView!
@@ -69,8 +69,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     
     func setup() {
         
-        self.visibleItem = 0
-        self.currentItem = 0
         self.pointSection = UIView()
         self.pointSection?.frame = CGRect(x: 0, y: self.frame.height - 20 , width: self.frame.width, height: 20)
         self.pointSection?.backgroundColor = UIColor.clear
@@ -80,9 +78,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         pageViewController.dataSource = self
         pageViewController.delegate = self
         pageViewController.view.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-//        pageViewController.view.backgroundColor = UIColor.whiteColor()
         pageViewController.view.backgroundColor = WMColor.light_light_gray
-        
         
         buttonTerms = UIButton(frame: CGRect(x: self.frame.width - 128, y: self.frame.height - 18, width: 120, height: 16))
         buttonTerms.setTitle(NSLocalizedString("home.banner.termsandconditions",comment:""), for: UIControlState())
@@ -93,7 +89,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         buttonTerms.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(10)
         buttonTerms.alpha = 0
         
-        
         let currrentController = getCurrentController()
         pageViewController.setViewControllers([currrentController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         
@@ -102,7 +97,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         startTimmer()
         
         self.addSubview(buttonTerms)
-       
         self.reloadTermsAndPages()
         
     }
