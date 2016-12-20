@@ -50,6 +50,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var buttonTerms : UIButton!
     var viewTerms : BannerTermsView!
     var banners: [Banner]?
+    var loaded = false
     //ale
     var plecaEnd : (() -> Void)? = nil
 
@@ -69,35 +70,40 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     
     func setup() {
         
-        self.pointSection = UIView()
-        self.pointSection?.frame = CGRect(x: 0, y: self.frame.height - 20 , width: self.frame.width, height: 20)
-        self.pointSection?.backgroundColor = UIColor.clear
-        buildButtonSection()
-        
-        pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options: nil)
-        pageViewController.dataSource = self
-        pageViewController.delegate = self
-        pageViewController.view.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        pageViewController.view.backgroundColor = WMColor.light_light_gray
-        
-        buttonTerms = UIButton(frame: CGRect(x: self.frame.width - 128, y: self.frame.height - 18, width: 120, height: 16))
-        buttonTerms.setTitle(NSLocalizedString("home.banner.termsandconditions",comment:""), for: UIControlState())
-        buttonTerms.setTitleColor(UIColor.white, for: UIControlState())
-        buttonTerms.addTarget(self, action: #selector(BannerCollectionViewCell.termsclick), for: UIControlEvents.touchUpInside)
-        buttonTerms.backgroundColor = WMColor.blue
-        buttonTerms.layer.cornerRadius = 8
-        buttonTerms.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(10)
-        buttonTerms.alpha = 0
-        
-        let currrentController = getCurrentController()
-        pageViewController.setViewControllers([currrentController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
-        
-        self.addSubview(pageViewController.view)
-        self.addSubview(self.pointSection!)
-        startTimmer()
-        
-        self.addSubview(buttonTerms)
-        self.reloadTermsAndPages()
+        if !loaded {
+            
+            loaded = true
+            self.pointSection = UIView()
+            self.pointSection?.frame = CGRect(x: 0, y: self.frame.height - 20 , width: self.frame.width, height: 20)
+            self.pointSection?.backgroundColor = UIColor.clear
+            buildButtonSection()
+            
+            pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options: nil)
+            pageViewController.dataSource = self
+            pageViewController.delegate = self
+            pageViewController.view.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+            pageViewController.view.backgroundColor = WMColor.light_light_gray
+            
+            buttonTerms = UIButton(frame: CGRect(x: self.frame.width - 128, y: self.frame.height - 18, width: 120, height: 16))
+            buttonTerms.setTitle(NSLocalizedString("home.banner.termsandconditions",comment:""), for: UIControlState())
+            buttonTerms.setTitleColor(UIColor.white, for: UIControlState())
+            buttonTerms.addTarget(self, action: #selector(BannerCollectionViewCell.termsclick), for: UIControlEvents.touchUpInside)
+            buttonTerms.backgroundColor = WMColor.blue
+            buttonTerms.layer.cornerRadius = 8
+            buttonTerms.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(10)
+            buttonTerms.alpha = 0
+            
+            let currrentController = getCurrentController()
+            pageViewController.setViewControllers([currrentController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+            
+            self.addSubview(pageViewController.view)
+            self.addSubview(self.pointSection!)
+            startTimmer()
+            
+            self.addSubview(buttonTerms)
+            self.reloadTermsAndPages()
+            
+        }
         
     }
     
@@ -126,7 +132,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     func getCurrentController() -> HomeBannerImageViewController {
         
         if dataSource?.count > 0 {
-        
             var bannerUrl = ""
             let dictBanner = dataSource![self.currentItem!]
             if let strUrl = dictBanner["urlPhone"]  {
