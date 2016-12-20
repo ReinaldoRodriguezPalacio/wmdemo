@@ -624,7 +624,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         let itemIdNew = " \(item["id"] as! String)"
         let itemParentId = item["parentId"] as! String
         print(" \(itemId) -- \(itemParentId)")
-        if itemIdNew.contains(" d-"){
+        
+        if itemLevel == 0 {
             self.filterDepto = itemId
             self.filterFamily = ""
         }
