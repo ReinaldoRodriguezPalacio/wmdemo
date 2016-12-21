@@ -583,9 +583,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     print("Se realizao la direccion")
                     self.picker!.closeNew()
                     self.picker!.closePicker()
-                    
-                    self.selectedAddress = resultCall["addressID"] as! String!
-                    print("saveReplaceViewSelected Address ID \(self.selectedAddress)---")
+                    let addresId  = resultCall["addressID"] as! String!
+                    if addresId != "" {
+                        self.selectedAddress = resultCall["addressID"] as! String!
+                        print("saveReplaceViewSelected Address ID \(self.selectedAddress)---")
+                    } else{
+                        print("error:: no regresan id se queda Address ID \(self.selectedAddress)---")
+                    }
                     if let message = resultCall["message"] as? String {
                         self.alertView!.setMessage("\(message)")
                     }
