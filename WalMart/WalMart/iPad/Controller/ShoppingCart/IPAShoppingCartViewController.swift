@@ -109,9 +109,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 13, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 40, height: 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
                 }
                 
                 if buttonAsociate.image(for: UIControlState()) == nil {

@@ -80,14 +80,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
     var itemsUPC: [[String:Any]] = []
     
-     var picker : AlertPickerView!
-     var selectedConfirmation : IndexPath!
-     var alertView: IPOWMAlertViewController?
+    var picker : AlertPickerView!
+    var selectedConfirmation : IndexPath!
+    var alertView: IPOWMAlertViewController?
     var containerView : UIImage!
     var visibleLabel = false
     let headerHeight: CGFloat = 46
     
-    
+    var loaded = false
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     var selectQuantity: ShoppingCartQuantitySelectorView?
@@ -116,8 +116,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         titleView.textColor = WMColor.light_blue
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
         titleView.textAlignment = .center
-        
-        
         
         editButton = UIButton(frame:CGRect(x: self.view.frame.width - 82, y: 12, width: 55, height: 22))
         editButton.setTitle(NSLocalizedString("shoppingcart.edit",comment:""), for: UIControlState())
@@ -152,13 +150,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewHerader.addSubview(deleteall)
         viewHerader.addSubview(titleView)
         
-        
         viewFooter = UIView()
         viewFooter.backgroundColor = UIColor.white
-        
-        
-        //--
-        self.showDiscountAsociate()
+
+        showDiscountAsociate()
         
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
@@ -173,9 +168,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewShoppingCart.register(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
         viewShoppingCart.register(ShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "productTotalsCell")
         viewShoppingCart.register(ShoppingCartCrossSellCollectionViewCell.self, forCellReuseIdentifier: "crossSellCell")
-        
         viewShoppingCart.separatorStyle = .none
-        
         viewShoppingCart.isMultipleTouchEnabled = false
         
         self.viewContent.addSubview(viewHerader)
@@ -183,12 +176,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.viewContent.sendSubview(toBack: viewShoppingCart)
         self.viewContent.addSubview(viewFooter)
 
-
-        
         picker = AlertPickerView.initPickerWithDefault()
         
-       initEmptyView()
-        
+        initEmptyView()
         loadShoppingCartService()
         
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
@@ -213,32 +203,33 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if self.viewLoad == nil {
-            self.showLoadingView()
-        }
-        
-        self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
-        self.editButton.isHidden = self.itemsInShoppingCart.count == 0
-        
-        if !showCloseButton {
-            self.closeButton.isHidden = true
-        } else {
-            self.closeButton.isHidden = false
-        }
-
-        self.isEdditing = false
-        editButton.isSelected = false
-        editButton.backgroundColor = WMColor.light_blue
-        editButton.tintColor = WMColor.light_blue
-        deleteall.alpha = 0
-        
-        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
-            self.loadShoppingCartService()
+        if !loaded {
+            loaded = true
+            if self.viewLoad == nil {
+                self.showLoadingView()
+            }
+            
+            self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
+            self.editButton.isHidden = self.itemsInShoppingCart.count == 0
+            
+            if !showCloseButton {
+                self.closeButton.isHidden = true
+            } else {
+                self.closeButton.isHidden = false
+            }
+            
+            self.isEdditing = false
+            editButton.isSelected = false
+            editButton.backgroundColor = WMColor.light_blue
+            editButton.tintColor = WMColor.light_blue
+            deleteall.alpha = 0
+            
+            UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
+                self.loadShoppingCartService()
+            }
         }
        
     }
@@ -281,13 +272,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func showDiscountAsociate(){
         var x:CGFloat = 16
-        self.loadShoppingCartService()
+        // self.loadShoppingCartService()
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
+                
                 if buttonAsociate == nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 12, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame = CGRect(x: 16, y: 16, width: 34, height: 34)
+                    buttonAsociate.frame = CGRect(x: 16, y: 12, width: 34, height: 34)
                 }
                 
                 buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
@@ -309,9 +301,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 13, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 40, height: 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
                 }
                 x = buttonAsociate.frame.maxX + 16
                 wShop = 341 - 135
