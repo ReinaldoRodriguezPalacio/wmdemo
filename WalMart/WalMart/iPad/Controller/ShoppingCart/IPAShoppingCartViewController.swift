@@ -113,6 +113,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 }else{
                     buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 40, height: 40)
                 }
+                
+                if buttonAsociate.image(for: UIControlState()) == nil {
+                    buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
+                    buttonAsociate.setImage(UIImage(named:"active_discount"), for: UIControlState.highlighted)
+                    buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), for: UIControlEvents.touchUpInside)
+                    viewFooter.addSubview(buttonAsociate)
+                }
+                
                 x = buttonAsociate.frame.maxX + 16
                 wShop = 341 - 135
             }
