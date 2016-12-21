@@ -262,8 +262,9 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         let contentView = self.field!.superview!
         contentView.addSubview(self.errorView!)
         UIView.animate(withDuration: 0.2, animations: {
-            self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY , width: 48, height: 40)
-            //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
+            
+            // self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY , width: 48, height: 40)
+            // self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
             
             self.errorView!.frame =  CGRect(x: self.field!.frame.minX + 20 , y: self.field!.frame.minY - self.errorView!.frame.height , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
             
