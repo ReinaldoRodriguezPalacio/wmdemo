@@ -271,8 +271,9 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
                 self.present(mc, animated: true, completion: nil)
             }
             else{
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone: UIImage(named:"alert_ups"), imageError: UIImage(named:"alert_ups"))
                 alert!.setMessage("No se encontro una cuenta de correo configurada")
+                alert!.showErrorIcon("Ok")
             }
             
         }else
@@ -288,9 +289,10 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
                     self.present(mc, animated: true, completion: nil)
                 }
                 else{
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone: UIImage(named:"alert_ups"), imageError: UIImage(named:"alert_ups"))
                 //alert.setMessage("contact.mail.configure")
                 alert!.setMessage("No se encontro una cuenta de correo configurada")
+                alert!.showErrorIcon("Ok")
                 }
             //}
         }
