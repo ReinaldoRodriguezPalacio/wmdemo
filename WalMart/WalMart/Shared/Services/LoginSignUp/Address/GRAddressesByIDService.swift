@@ -23,7 +23,8 @@ class GRAddressesByIDService : GRBaseService {
         self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
                 successBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
-                successBlock!([:])
+                //successBlock!([:])
+                errorBlock!(error)
                 print("Error review:;:::::::: \(error)")
                 
         })
