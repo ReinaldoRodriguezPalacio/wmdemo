@@ -72,7 +72,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
         if !loaded {
             
-            loaded = true
+            loaded = banners?.count > 0 ? true : false
             self.pointSection = UIView()
             self.pointSection?.frame = CGRect(x: 0, y: self.frame.height - 20 , width: self.frame.width, height: 20)
             self.pointSection?.backgroundColor = UIColor.clear
