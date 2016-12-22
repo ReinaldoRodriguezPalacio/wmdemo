@@ -7,7 +7,6 @@
 //
 
 import Foundation
-//import Tune
 
 class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate {
 
@@ -344,7 +343,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.address! {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["addressId"] as? String {

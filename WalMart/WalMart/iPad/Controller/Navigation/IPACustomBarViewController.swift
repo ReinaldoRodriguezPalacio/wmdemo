@@ -144,7 +144,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
     
     override func openSearchProduct(){
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         self.btnSearch!.selected =  true
         
         if (self.btnShopping!.selected){
@@ -198,7 +198,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let contDetail = IPAProductDetailPageViewController()
             contDetail.idListSeleted = self.idListSelected
             //contDetail.upc = upc!
-            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : BaseService.getUseSignalServices()])
             let svcValidate = ProductDetailService(dictionary: useSignalsService)
             
             let upcDesc : NSString = upc! as NSString

@@ -658,7 +658,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                         self.successCallBack!()
                     }
                     
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_UPDATE_ADDRESS.rawValue, label:"")
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_UPDATE_ADDRESS.rawValue, label:"")
                     
                     }
                     , errorBlock: {(error: NSError) in

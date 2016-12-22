@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class GRShoppingCartDeleteProductsService : GRBaseService {
+class GRShoppingCartDeleteProductsService : BaseService {
     
     func buildParams(upc:String) -> NSDictionary {
         return ["parameter":[upc]]

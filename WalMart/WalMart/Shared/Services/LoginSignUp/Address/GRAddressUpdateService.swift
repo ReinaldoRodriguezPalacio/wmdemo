@@ -9,7 +9,7 @@
 import Foundation
 
 
-class GRAddressUpdateService : GRBaseService {
+class GRAddressUpdateService : BaseService {
     
     func buildParams(city:String,addressID:String,zipCode:String,street:String,innerNumber:String,state:String,county:String,neighborhoodID:String,phoneNumber:String, name:String,lastName:String,outerNumber:String,reference1:String,reference2:String,storeID:String,operationType:String,preferred:String) -> NSDictionary {
 

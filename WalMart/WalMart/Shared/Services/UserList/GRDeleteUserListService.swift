@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GRDeleteUserListService: GRBaseService {
+class GRDeleteUserListService: BaseService {
 
     var listId: String?
     

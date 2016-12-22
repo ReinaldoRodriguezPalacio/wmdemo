@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRDiscountAssociateService: GRBaseService{
+class GRDiscountAssociateService: BaseService{
     
     var associateNumber: String?
     var dateAdmission: String?

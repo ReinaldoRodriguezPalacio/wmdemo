@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GRUpdateListService: GRBaseService {
+class GRUpdateListService: BaseService {
     
     func buildParams(idList:String,name:String) -> NSDictionary {
         //{"newName":"PentonVillet30Mayo2014_Update"}

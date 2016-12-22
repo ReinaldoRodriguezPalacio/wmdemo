@@ -120,7 +120,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         self.viewShoppingCart!.setContentOffset(CGPoint.zero , animated: false)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
         if let image = self.viewShoppingCart!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")

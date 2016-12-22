@@ -31,7 +31,7 @@ class IPARecentProductsViewController: RecentProductsViewController {
         let line = self.recentProductItems[indexPath.section]
         let productsline = line["products"]
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
         
         let controller = IPAProductDetailPageViewController()
         controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)

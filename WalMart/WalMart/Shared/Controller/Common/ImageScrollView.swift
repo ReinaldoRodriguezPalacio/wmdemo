@@ -191,7 +191,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
     }
 
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ZOMMIMAGE_PRODUCTDETAIL.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ZOMMIMAGE_PRODUCTDETAIL.rawValue, label: "")
     }
     
 }

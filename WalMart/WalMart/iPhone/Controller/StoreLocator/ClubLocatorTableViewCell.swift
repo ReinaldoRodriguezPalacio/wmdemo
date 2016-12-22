@@ -147,14 +147,14 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     
     func makePhoneCall() {
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_CALL_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_CALL_STORE.rawValue, label: self.store!.name!)
 
         self.delegate?.makeCallForStore(self.store!)
     }
     
     func shareStore() {
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_SHARE_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_SHARE_STORE.rawValue, label: self.store!.name!)
         
         self.delegate?.shareStore(self.store!)
     }
@@ -162,7 +162,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     func showRoute() {
         
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_ROUTE_STORE.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_ROUTE_STORE.rawValue, label: self.store!.name!)
 
         self.delegate?.showInstructions(self.store!, forCar: true)
     }
@@ -170,7 +170,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     func showInMap() {
         //Event
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LIST_SHOW_ON_MAP.rawValue, label: self.store!.name!)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LIST_SHOW_ON_MAP.rawValue, label: self.store!.name!)
 
         self.delegate?.showInMap(self.store!)
     }

@@ -505,6 +505,10 @@ class BaseService : NSObject {
                 errorBlock!(error)
         })
     }
+    
+    static func getUseSignalServices() ->Bool{
+        return NSBundle.mainBundle().objectForInfoDictionaryKey("useSignalsServices") as! Bool
+    }
 
     
 }

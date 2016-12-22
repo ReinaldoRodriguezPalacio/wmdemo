@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRDeliveryTypeService : GRBaseService {
+class GRDeliveryTypeService : BaseService {
     
     var numProducts: String?
     var addressId: String?

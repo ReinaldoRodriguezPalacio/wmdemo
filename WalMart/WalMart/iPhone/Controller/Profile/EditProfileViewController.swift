@@ -85,10 +85,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.setValues), name: ProfileNotification.updateProfile.rawValue, object: nil)
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_EDITPROFILE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_EDITPROFILE.rawValue)
+//            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
+//        }
         
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
@@ -702,14 +702,14 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      - parameter sender: save button
      */
     func saveProfileService() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
         let service = UpdateUserProfileService()
         let profileId = UserCurrentSession.sharedInstance().userSigned?.profile.idProfile as! String
         let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.dateBriday , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
             
         if self.passworCurrent != nil{
             // Evente change password
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action: WMGAIUtils.ACTION_CHANGE_PASSWORD.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action: WMGAIUtils.ACTION_CHANGE_PASSWORD.rawValue, label: "")
                 
         }
             
@@ -964,7 +964,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      Retuns to more options view controller
      */
     override func back() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         self.view.endEditing(true)
         //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         super.back()

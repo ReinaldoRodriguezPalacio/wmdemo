@@ -8,7 +8,7 @@
 import Foundation
 
 
-class UpdateCommentsService:GRBaseService {
+class UpdateCommentsService:BaseService {
     
     func buildParameterOrder(orderComent:String) -> [String:AnyObject] {
         return ["updateOrderComment":"true","orderComment":orderComent]

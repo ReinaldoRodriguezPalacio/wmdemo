@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRRecentProductsService : GRBaseService  {
+class GRRecentProductsService : BaseService  {
     
     
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){

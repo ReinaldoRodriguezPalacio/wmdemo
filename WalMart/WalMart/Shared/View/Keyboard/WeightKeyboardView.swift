@@ -147,21 +147,21 @@ class WeightKeyboardView : UIView {
         switch(sender)
         {
         case btngramos:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_100_GR.rawValue , label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_100_GR.rawValue , label:"")
             break;
         case btncuarto:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_250_GR.rawValue , label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_250_GR.rawValue , label:"")
             break;
             
         case btmediokilo:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_500_GR.rawValue , label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_500_GR.rawValue , label:"")
             break;
             
         case bttrescuartos:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_750_GR.rawValue , label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_750_GR.rawValue , label:"")
             break;
         case btunkilo:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_1_KG.rawValue , label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action:WMGAIUtils.ACTION_TAPPED_1_KG.rawValue , label:"")
             break;
             
         default:

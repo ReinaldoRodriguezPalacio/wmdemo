@@ -34,14 +34,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString
-            //Event
-            //TODOGAI:
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-//                    label: upc as String,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
+
             
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
         }

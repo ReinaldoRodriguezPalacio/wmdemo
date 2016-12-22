@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GRProductBySearchService: GRBaseService {
+class GRProductBySearchService: BaseService {
    var useSignals = false
     override init() {
         super.init()

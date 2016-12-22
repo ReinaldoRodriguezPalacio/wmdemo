@@ -314,7 +314,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         let line = self.recentProductItems[indexPath.section]
         let productsline = line["products"]
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
@@ -347,7 +347,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     override func back() {
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label: "")
+         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label: "")
         super.back()
     }
     

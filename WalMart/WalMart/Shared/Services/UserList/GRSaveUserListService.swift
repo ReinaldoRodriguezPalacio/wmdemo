@@ -17,7 +17,7 @@ import CoreData
 //    "message" : "La lista se ha guardado correctamente."
 //    }
 
-class GRSaveUserListService : GRBaseService {
+class GRSaveUserListService : BaseService {
     
     func buildParams(name:String?) -> [String:AnyObject]! {
         //{"name":"PentonVillet30Mayo2014","items":[]}

@@ -361,7 +361,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func showEditionMode() {
         if !self.isEdditing {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.tableConstraint?.constant = 110
                 self.containerEditName!.alpha = 1
@@ -435,7 +435,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         self.tableView!.setContentOffset(CGPoint.zero , animated: false)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
@@ -476,7 +476,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
 
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue , label: "")
         //ValidateActives
         var hasActive = false
         for product in self.products! {
@@ -1059,7 +1059,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             }
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
         
         if indexPath.row < productsToShow.count {
             controller.itemsToShow = productsToShow
@@ -1074,7 +1074,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
         case 0:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
             if let indexPath = self.tableView!.indexPathForCell(cell) {
                 if let item = self.products![indexPath.row] as? NSDictionary {
                     
@@ -1590,7 +1590,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func duplicate() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue , label: "")
         if UserCurrentSession.hasLoggedUser() {
             let service = GRUserListService()
             self.itemsUserList = service.retrieveUserList()
@@ -1645,12 +1645,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func backEmpty() {
         super.back()
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
+         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
 
     override func back() {
         super.back()
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
     
     //MARK: - Reminder
@@ -1756,7 +1756,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.add.product.list", comment:""))
         
-        let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : BaseService.getUseSignalServices()])
         let svcValidate = ProductDetailService(dictionary: useSignalsService)
         
         let upcDesc : NSString = upc as NSString

@@ -306,9 +306,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         if indexPath.section == 0{
             item = self.arrayAddressShipping![indexPath.item] as! NSDictionary
             self.addressController!.typeAddress = TypeAddress.Shiping
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
         }else{
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
             item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
             if let type = item["persona"] as? String{
                 if type == "F" {
@@ -329,7 +329,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     func newAddress(){
       
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_OPEN_MG_NEW_ADDRES.rawValue, label:"" )
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_OPEN_MG_NEW_ADDRES.rawValue, label:"" )
         if self.addressController == nil {
                 self.addressController = AddressViewController()
         }
@@ -354,7 +354,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         self.alertView = nil
         self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
-                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_SET_ADDRESS_PREFERRED.rawValue, label: "")
+                  //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_SET_ADDRESS_PREFERRED.rawValue, label: "")
         
         var  service: AddPreferedAddress? = nil
        
@@ -396,7 +396,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
         service!.callService(params, successBlock:{ (resultCall:NSDictionary?) in
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             
             if let message = resultCall!["message"] as? String {
                 if self.alertView != nil {
@@ -418,7 +418,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     }
 
     override func back() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
         super.back()
     }
 }

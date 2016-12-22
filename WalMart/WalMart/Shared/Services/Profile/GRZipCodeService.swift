@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRZipCodeService : GRBaseService {
+class GRZipCodeService : BaseService {
     
     var code : String? = nil
     

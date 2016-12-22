@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRPayPalFuturePaymentService: GRBaseService{
+class GRPayPalFuturePaymentService: BaseService{
     
     func buildParams(contractId:String) -> NSDictionary{
         return ["contractId":contractId]

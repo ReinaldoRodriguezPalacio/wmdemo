@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRPreviousOrdersService : GRBaseService  {
+class GRPreviousOrdersService : BaseService  {
     
     let JSON_ORDERS_RESULT = "responseArray"
     

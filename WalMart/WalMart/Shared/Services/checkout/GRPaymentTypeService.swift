@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GRPaymentTypeService: GRBaseService {
+class GRPaymentTypeService: BaseService {
 
     
     func callService(payment:String, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {

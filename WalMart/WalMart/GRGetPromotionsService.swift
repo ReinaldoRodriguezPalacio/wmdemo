@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRGetPromotionsService: GRBaseService{
+class GRGetPromotionsService: BaseService{
     
     var isAssociated: String?
     var idAssociated: String?

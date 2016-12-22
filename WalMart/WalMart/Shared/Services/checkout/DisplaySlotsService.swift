@@ -9,7 +9,7 @@
 import Foundation
 
 
-class DisplaySlotsService: GRBaseService{
+class DisplaySlotsService: BaseService{
 
 
 //    Request for homeDelivery-Taxi

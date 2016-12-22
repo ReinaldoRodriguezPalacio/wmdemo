@@ -259,7 +259,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func backButton (){
         self.navigationController!.popViewControllerAnimated(true)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
     }
     
     
@@ -291,7 +291,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items
@@ -351,7 +351,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         
         //EVENT
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(self.name) - \(self.upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(self.name) - \(self.upc)")
         
         self.detailCollectionView.scrollsToTop = true
         self.detailCollectionView.scrollEnabled = false
@@ -407,7 +407,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "\(self.name) - \(self.upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "\(self.name) - \(self.upc)")
         
         
         
@@ -535,7 +535,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     )
             }
             //Event
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
+             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
             
            // selectQuantity!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             
@@ -552,9 +552,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.isShowShoppingCart = false
                         
                         if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(String(self.upc)) {
-                            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
+                            //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
                         } else {
-                            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: self.name as String)
+                            //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: self.name as String)
                         }
         
 
@@ -808,7 +808,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter indexPath: indexPath or image to show
      */
     func sleectedImage(indexPath: NSIndexPath) {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_PRODUCT_DETAIL_IMAGE_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_PRODUCT_DETAIL_IMAGE_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
         let controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
@@ -844,9 +844,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         print("parametro para signals MG Iphone :::\(self.indexRowSelected)")
         
         self.type = ResultObjectType.Mg
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             //TODO signals
-            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : BaseService.getUseSignalServices()])
             let productService = ProductDetailService(dictionary: signalsDictionary)
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
             //let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
@@ -1306,7 +1306,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let imagen = UIImage(fromView: currentHeaderView)
         
         //Event
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
+         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
         
         //let screen = self.detailCollectionView.screenshotOfHeadersAtSections( NSSet(array:headers), footersAtSections: nil, rowsAtIndexPaths: NSSet(array: items))
         
@@ -1667,7 +1667,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 service.callService(service.buildItemMustangObject(idList: listId, upcs: [productObject]),
                                     successBlock: { (result:NSDictionary) -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
-                                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
+                                        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
                                         
                                         self.alertView!.showDoneIcon()
                                         self.alertView!.afterRemove = {
@@ -1727,7 +1727,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 //                                                self.removeListSelector(action: nil)
 //                                            }
 //                                            //Event
-//                                            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(self.name) - \(self.upc)")
+//                                            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(self.name) - \(self.upc)")
 //                                            
 //                                        }, errorBlock: { (error:NSError) -> Void in
 //                                            print("Error at remove product from list: \(error.localizedDescription)")
@@ -1769,7 +1769,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 detail!.img = self.imageUrl[0] as! NSString as String
             }
             
-            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue , action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label:"\(self.name as String) \(self.upc as String)")
+            //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue , action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label:"\(self.name as String) \(self.upc as String)")
             
             
             var error: NSError? = nil
@@ -1845,7 +1845,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CANCEL_ADD_TO_LIST.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CANCEL_ADD_TO_LIST.rawValue, label: "")
         
     }
     

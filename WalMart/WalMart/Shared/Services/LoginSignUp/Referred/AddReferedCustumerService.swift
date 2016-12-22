@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AddReferedCustumerService : GRBaseService {
+class AddReferedCustumerService : BaseService {
     func buildParamsRefered(emailRef:String,nameRef:String,isReferedAutorized:Bool) -> NSDictionary {
         return [ "emailRef":emailRef,  "nameRef": nameRef,  "isReferedAutorized":isReferedAutorized]
     }

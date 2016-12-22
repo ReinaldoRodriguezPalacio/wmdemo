@@ -134,7 +134,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
     func closeAlertButton() {
         //closePicker()
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NEW_ADDRESS_AUTH.rawValue, action:WMGAIUtils.ACTION_CANCEL.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NEW_ADDRESS_AUTH.rawValue, action:WMGAIUtils.ACTION_CANCEL.rawValue , label: "")
         cancelPress?()
     }
     
@@ -287,7 +287,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
     
     func registryAddress(dictSend:NSDictionary?) {
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NEW_ADDRESS_AUTH.rawValue, action:WMGAIUtils.ACTION_SAVE_NEW_ADDRESS.rawValue , label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NEW_ADDRESS_AUTH.rawValue, action:WMGAIUtils.ACTION_SAVE_NEW_ADDRESS.rawValue , label: "")
         
         
         if dictSend != nil {

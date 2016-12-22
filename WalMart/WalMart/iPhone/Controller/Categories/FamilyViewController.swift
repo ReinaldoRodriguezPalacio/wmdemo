@@ -119,7 +119,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 label = valueSubCat
             }
             let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-            BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
+            //BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
         }
         else {
             let selectedSection = families[indexPath.section]
@@ -144,7 +144,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             self.navigationController!.pushViewController(controller, animated: true)
             let label = itemLine["displayName"] as! String
             let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-            BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
+            //BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
         }
     }
     

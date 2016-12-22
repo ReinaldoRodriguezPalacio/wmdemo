@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRProductsByUPCService : GRBaseService {
+class GRProductsByUPCService : BaseService {
     
     
     let JSON_ITEMS_RESULT = "items"

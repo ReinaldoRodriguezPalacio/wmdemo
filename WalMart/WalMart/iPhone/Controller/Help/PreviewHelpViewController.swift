@@ -100,7 +100,7 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
     
     override func back() {
         if !actionLabel.isEmpty {
-            BaseController.sendAnalytics(categoryLabel, action:actionLabel , label:"Tutorial")
+            //BaseController.sendAnalytics(categoryLabel, action:actionLabel , label:"Tutorial")
         }
         super.back()
     }

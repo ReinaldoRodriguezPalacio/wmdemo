@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UserListDetailService: GRBaseService {
+class UserListDetailService: BaseService {
     
     
     func buildParams(idList:String) -> NSDictionary {

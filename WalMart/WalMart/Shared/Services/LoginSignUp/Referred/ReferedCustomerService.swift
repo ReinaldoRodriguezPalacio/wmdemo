@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ReferedCustomerService : GRBaseService {
+class ReferedCustomerService : BaseService {
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:],
             successBlock: { (resultCall:NSDictionary) -> Void in

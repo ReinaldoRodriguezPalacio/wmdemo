@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRAddressesByIDService : GRBaseService {
+class GRAddressesByIDService : BaseService {
     
     
     var addressId : String? = nil

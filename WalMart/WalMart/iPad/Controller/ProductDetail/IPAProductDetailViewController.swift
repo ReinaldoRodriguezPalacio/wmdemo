@@ -989,7 +989,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         print("parametro para signals MG :::\(self.indexRowSelected)")
         
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : BaseService.getUseSignalServices()])
         let productService = ProductDetailService(dictionary: signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         //let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
@@ -1164,7 +1164,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
     }
     
     func removeListSelector(action action:(()->Void)?, closeRow: Bool ) {
@@ -1203,7 +1203,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tmpheaderView.backgroundColor = WMColor.light_light_gray
         
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
         
         let tmptitlelbl = UILabel(frame: CGRectMake(0, 0,tmpheaderView.frame.width , tmpheaderView.frame.height))
         tmptitlelbl.textAlignment = .Center
