@@ -10,20 +10,14 @@ import Foundation
 
 class IPASearchCatProductViewController : IPASearchProductViewController {
     
-    
     var imageBgCategory : UIImage?
     var imageIconCategory : UIImage?
     var titleCategory : String?
     var delegateHeader : IPACategoriesResultViewController!
-   
     var delegateImgHeader : IPACatHeaderSearchReusableDelegate!
-    //var showHeader: Bool = false
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         collection?.register(IPASectionHeaderSearchReusable.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         collection?.register(IPACatHeaderSearchReusable.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
@@ -31,32 +25,19 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         if let layoutFlow = collection!.collectionViewLayout as? UICollectionViewFlowLayout {
             layoutFlow.headerReferenceSize = CGSize(width: 1024, height: 54)
         }
+        
         self.header?.removeFromSuperview()
-        
         self.collection!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        
-        
         loading?.stopAnnimating()
-        
         self.loading = WMLoadingView(frame: CGRect(x: 0, y: 216, width: self.view.bounds.width, height: self.view.bounds.height - 216))
         
-        
     }
-    
-//    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        
-//        return CGSizeMake(self.view.frame.width, 54)
-//    }
-    
-    
-
     
     override func viewWillLayoutSubviews() {
         contentCollectionOffset = CGPoint.zero
         self.collection!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        self.collection!.collectionViewLayout.invalidateLayout()
     }
-    
-    
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
@@ -68,26 +49,23 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             view.setValues(imageBgCategory,imgIcon: imageIconCategory,titleStr: titleCategory!)
             view.delegate = delegateImgHeader
             
-            
             return view
         }
+        
         if kind == UICollectionElementKindSectionHeader {
+            
             let view = collection?.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! IPASectionHeaderSearchReusable
             self.header!.frame = CGRect(x: 0, y: 0, width: 1024, height: 54)
-            
-            self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 85, y: (self.header!.frame.size.height - 22)/2 , width: 55, height: 22)//CGRectMake(1024 - 87, 0 , 44, 22)
+            self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 85, y: (self.header!.frame.size.height - 22)/2 , width: 55, height: 22)
             
             view.addSubview(self.header!)
             view.sendSubview(toBack: self.header!)
             view.delegate = delegateHeader
             
-            
             view.title!.setTitle(titleHeader, for: UIControlState())
-            
             
             let attrStringLab = NSAttributedString(string:titleHeader!, attributes: [NSFontAttributeName : view.title!.titleLabel!.font])
             
-
             let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
             let wTitleSize = rectSize.width + 48
             view.title!.frame = CGRect(x: (1024 / 2) -  (wTitleSize / 2), y: (self.header!.frame.height / 2) - 12, width: wTitleSize, height: 24)
@@ -99,7 +77,6 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         
         return reusableView!
         
-        
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -107,7 +84,6 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         cell.backgroundColor = UIColor.white
         return cell
     }
-    
     
     override func getCollectionView() -> UICollectionView {
         let customlayout = CSStickyHeaderFlowLayout()
@@ -129,15 +105,10 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         return CGSize(width: 341.33 , height: 254);
     }
     
-//    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-//        return CGSizeMake(self.view.bounds.width / 3, 254);
-//    }
-    
     override func showLoadingIfNeeded(_ hidden: Bool ) {
         if hidden {
             self.loading!.stopAnnimating()
         } else {
-            
             let boundsCenter : CGPoint = self.viewHeader == nil ? CGPoint(x:0 , y: 320)  : self.viewHeader!.superview!.convert(CGPoint(x: self.viewHeader!.frame.maxX,y:self.viewHeader!.frame.maxY), to: self.view)
             self.loading = WMLoadingView(frame: CGRect(x:0, y:boundsCenter.y, width: self.view.bounds.width,height: self.view.bounds.height - boundsCenter.y ))
             self.view.addSubview(self.loading!)
@@ -145,19 +116,15 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         }
     }
 
-    
-    
     override func returnBack() {
         
         if self.empty != nil {
             self.empty.removeFromSuperview()
             self.empty = nil
         }
-        
-//        self.dismissCategory()
+
         self.delegateHeader.closeCategory()
     }
-    
     
     func setSelectedHeaderCat(){
         self.viewHeader?.setSelected()
