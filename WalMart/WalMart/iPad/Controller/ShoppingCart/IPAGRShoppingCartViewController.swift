@@ -362,8 +362,14 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         cont!.closeModal()
                     }
                     cont = nil
+                     self.loadGRShoppingCart()
                     
-                    self.loadGRShoppingCart()
+                    if self.itemsInCart.count == 0 {
+                            self.navigationController!.popViewController(animated: true)
+                            self.onClose?(true)
+                    }else{
+                    
+                   
                     self.checkoutVC = IPAGRCheckOutViewController()
                     self.checkoutVC?.view.frame = self.containerGROrder.bounds
                     self.ctrlCheckOut = UINavigationController(rootViewController: self.checkoutVC!)
@@ -373,6 +379,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.ctrlCheckOut!.isNavigationBarHidden = true
                     self.addChildViewController(self.ctrlCheckOut!)
                     self.containerGROrder.addSubview(self.ctrlCheckOut!.view)
+              
+                    }
+                    
                     self.viewShowLogin?.alpha = 0
                     self.viewShowLogin?.removeFromSuperview()
                     self.viewShowLogin = nil

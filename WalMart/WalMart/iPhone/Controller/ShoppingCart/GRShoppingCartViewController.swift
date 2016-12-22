@@ -391,8 +391,19 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     
                     
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
+                    if self.itemsInCart.count == 0 {
+                        if IS_IPAD {
+                            self.navigationController!.popViewController(animated: true)
+                            self.onClose?(true)
+                        }
+                       let _ = self.navigationController?.popToRootViewController(animated: true)
+                        self.removeViewLoad()
                     
-                    self.performSegue(withIdentifier: "checkoutVC", sender: self)
+                        
+                    } else {
+                        self.performSegue(withIdentifier: "checkoutVC", sender: self)
+                    }
+                    
                     
                     cont?.closeAlert(true, messageSucesss: true)
                     
