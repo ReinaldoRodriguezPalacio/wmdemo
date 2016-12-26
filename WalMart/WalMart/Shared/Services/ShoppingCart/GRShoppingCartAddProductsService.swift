@@ -212,7 +212,7 @@ class GRShoppingCartAddProductsService : BaseService {
     }
 
     override func needsToLoginCode() -> Int {
-        return -10
+        return -101
     }
     
     

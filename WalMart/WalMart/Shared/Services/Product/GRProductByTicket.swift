@@ -46,7 +46,7 @@ class GRProductByTicket: BaseService {
     }
 
     override func needsToLoginCode() -> Int {
-        return -1005
+        return -101
     }
 
 }

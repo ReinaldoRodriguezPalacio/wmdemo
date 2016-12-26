@@ -27,7 +27,7 @@ class GRSendOrderService : BaseService {
     }
     
     override func needsToLoginCode() -> Int {
-        return -100
+        return -101
     }
     
 
