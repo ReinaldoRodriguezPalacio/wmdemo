@@ -337,7 +337,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    self.itemsUserList = result["myLists"] as? [AnyObject]
                     
                     self.itemsUserList =  self.itemsUserList?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
                         

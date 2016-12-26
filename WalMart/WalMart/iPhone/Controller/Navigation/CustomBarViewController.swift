@@ -270,6 +270,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return self.retrieveParam(key, forUser: true)
     }
     
+    static func retrieveParamNoUser(key:String) -> Param? {
+        return self.retrieveParam(key, forUser: false)
+    }
+    
     
     /**
      Find param for key and use user to validate query
@@ -1529,6 +1533,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         return showTurial
     }
+    
     
     func closeTutorial() {
         self.totuView?.removeHelp()
