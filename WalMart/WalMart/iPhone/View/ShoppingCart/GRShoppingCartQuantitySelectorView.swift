@@ -11,6 +11,7 @@ import Foundation
 
 class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 
+    var numericKeyboard = NumericKeyboardView()
     var lblQuantity : UILabel!
     var imageBlurView : UIImageView!
     var first : Bool = true
@@ -82,12 +83,12 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         
         
-        let keyboard = NumericKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (160/2), y: lblQuantity.frame.maxY + 10, width: 160, height: 196),typeKeyboard:NumericKeyboardViewType.Integer)
+        numericKeyboard = NumericKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (160/2), y: lblQuantity.frame.maxY + 10, width: 160, height: 196),typeKeyboard:NumericKeyboardViewType.Integer)
         //289
-        keyboard.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
-        keyboard.delegate = self
+        numericKeyboard.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
+        numericKeyboard.delegate = self
         
-        btnOkAdd = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: keyboard.frame.maxY + 15 , width: 142, height: 36))
+        btnOkAdd = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: numericKeyboard.frame.maxY + 15 , width: 142, height: 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         btnOkAdd.setTitle("\(strAdddToSC) $0.00", for: UIControlState())
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
@@ -101,14 +102,10 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         } else {
             isUpcInShoppingCart = false
         }
-
-        
         
         updateQuantityBtn()
         
-        
-        
-        btnNote = UIButton(frame: CGRect(x: (self.frame.width) - 48, y: keyboard.frame.maxY + 15 , width: 40, height: 40))
+        btnNote = UIButton(frame: CGRect(x: (self.frame.width) - 48, y: numericKeyboard.frame.maxY + 15 , width: 40, height: 40))
         btnNote.setImage(UIImage(named:"notes_keyboard"), for: UIControlState())
         btnNote.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: UIControlEvents.touchUpInside)
         btnNote.alpha = 0
@@ -127,7 +124,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.addSubview(lblQuantity)
         self.addSubview(btnOkAdd)
         self.addSubview(closeButton)
-        self.addSubview(keyboard)
+        self.addSubview(numericKeyboard)
         self.addSubview(btnNote)
         self.addSubview(btnNoteComplete)
     }
@@ -143,21 +140,19 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func chngequantity(_ sender:AnyObject) {
         
         if let btnSender = sender as? UIButton {
-            var resultText : String = ""
             
+            var resultText : String = ""
             
             resultText = lblQuantity.text! + btnSender.titleLabel!.text!
             resultText = (resultText as NSString).substring(from: 1) as String
             if (resultText as NSString).integerValue > 0 && (resultText as NSString).integerValue <= 10 {
                 lblQuantity.text = resultText as String
-            }else {
+            } else {
                 let tmpResult : String = "0" + btnSender.titleLabel!.text!
                 if (tmpResult as NSString).integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }
             }
-            
-            
             
             btnSender.imageView!.alpha = 0.35
             btnSender.setTitleColor(UIColor.white, for: UIControlState())
@@ -168,14 +163,9 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             
         }
         
-        
-        
-        
     }
     
     func deletequantity(_ sender:AnyObject) {
-        
-        
         
     }
     
@@ -208,13 +198,14 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     }
     
     func userSelectValue(_ value:String!) {
+        
         var resultText : NSString = ""
         
         if first {
             var tmpResult : String = value!
             tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value!)" : value!
-            if tmpResult != "00"{
-            lblQuantity.text = tmpResult as String
+            if tmpResult != "00" {
+                lblQuantity.text = tmpResult as String
                 first = false
             }
         } else {
@@ -230,6 +221,12 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             }
         }
         
+        if lblQuantity.text != "01" {
+            numericKeyboard.showDeleteBtn()
+        } else {
+            numericKeyboard.hideDeleteBtn()
+        }
+        
         updateQuantityBtn()
         
     }
@@ -237,10 +234,16 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func userSelectDelete() {
         let resultText : String = "0" + lblQuantity.text!
         lblQuantity.text = (resultText as NSString).substring(to: 2)
+        
         if lblQuantity.text == "00" {
             lblQuantity.text = "01"
             first = true
         }
+        
+        if lblQuantity.text == "01" {
+            numericKeyboard.hideDeleteBtn()
+        }
+        
         updateQuantityBtn()
     }
     

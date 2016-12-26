@@ -34,7 +34,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         setup()
     }
 
-    
     func setup() {
         
         let startH : CGFloat = 0 //(self.bounds.height - 360) / 2
@@ -104,11 +103,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.addSubview(self.keyboardView)
         
     }
-    
-    
-    
-    
-    
+
     func chngequantity(_ sender:Any) {
         
         if let btnSender = sender as? UIButton {
@@ -151,8 +146,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         addToCartAction(lblQuantity.text!)
     }
     
-    
-    
     func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
         viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
@@ -177,6 +170,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     }
     
     func userSelectValue(_ value:String!) {
+        
         var resultText : NSString = ""
         if first {
             var tmpResult : String = value as String
@@ -198,18 +192,29 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             }
         }
         
+        if lblQuantity.text != "01" {
+            self.keyboardView.showDeleteBtn()
+        } else {
+            self.keyboardView.hideDeleteBtn()
+        }
+        
         updateQuantityBtn()
         
     }
 
-    
     func userSelectDelete() {
+        
         let resultText : String = "0" + lblQuantity.text!
         lblQuantity.text = (resultText as NSString).substring(to: 2)
         if lblQuantity.text == "00" {
             lblQuantity.text = "01"
             first = true
         }
+        
+        if lblQuantity.text == "01" {
+            self.keyboardView.hideDeleteBtn()
+        }
+        
         updateQuantityBtn()
     }
     
@@ -236,6 +241,5 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.btnOkAdd.frame =  CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2),y: self.btnOkAdd.frame.minY , width: rectSize.width + 32, height: 36)
         })
     }
-    
     
 }
