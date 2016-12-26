@@ -8,6 +8,8 @@
 
 import Foundation
 
+var weightBtnSelected: UIButton?
+
 class WeightKeyboardView : UIView {
     
     var widthButton : CGFloat = 80.0
@@ -20,7 +22,6 @@ class WeightKeyboardView : UIView {
     var btunkilo : UIButton!
     var maxButtonX : CGFloat! = 0
     var delegate : KeyboardViewDelegate!
-    
     var strTitles : [String] = ["100 gramos","un\ncuarto","medio kilo","tres cuartos","un\nkilo"]
     
 
@@ -33,7 +34,6 @@ class WeightKeyboardView : UIView {
         super.init(frame:frame)
         generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
     }
-    
     
     func generateButtons(_ normal:UIColor,selected:UIColor) {
         
@@ -52,8 +52,7 @@ class WeightKeyboardView : UIView {
         btngramos.titleLabel?.textAlignment = .center
         btngramos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
         btngramos.tag = 100
-        
-        
+    
         let insetTitle : CGFloat = btngramos.frame.width * -1
         btngramos.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitle , 0.0, 0.0);
         
@@ -68,8 +67,7 @@ class WeightKeyboardView : UIView {
         btncuarto.titleLabel?.textAlignment = .center
         btncuarto.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
         btncuarto.tag = 250
-
-        
+    
         let insetTitleC : CGFloat = btncuarto.frame.width * -1
         btncuarto.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitleC , 0.0, 0.0);
         
@@ -87,7 +85,6 @@ class WeightKeyboardView : UIView {
         maxButtonX = btmediokilo.frame.maxX
 
 
-        
         let insetTitleM : CGFloat = btmediokilo.frame.width * -1
         btmediokilo.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitleM , 0.0, 0.0);
         
@@ -103,9 +100,6 @@ class WeightKeyboardView : UIView {
         bttrescuartos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
         bttrescuartos.tag = 750
 
-
-
-        
         let insetTitle3 : CGFloat = bttrescuartos.frame.width * -1
         bttrescuartos.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitle3 , 0.0, 0.0);
         
@@ -121,8 +115,6 @@ class WeightKeyboardView : UIView {
         btunkilo.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
         btunkilo.tag = 1000
 
-
-        
         let insetTitle1 : CGFloat = btunkilo.frame.width * -1
         btunkilo.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitle1 , 0.0, 0.0);
         
@@ -142,7 +134,7 @@ class WeightKeyboardView : UIView {
         bttrescuartos.isSelected = false
         btunkilo.isSelected = false
         
-        sender.isSelected = true
+        sender.isSelected = sender != weightBtnSelected ? true : false
         
         switch(sender)
         {
@@ -171,11 +163,11 @@ class WeightKeyboardView : UIView {
         }
         
         if delegate != nil {
+            weightBtnSelected = sender
             delegate.userSelectValue(String(sender.tag))
         }
 
     }
-    
     
     func generateCircleImage (_ colorImage:UIColor,size:CGSize) -> UIImage {
         var screenShot : UIImage? = nil
@@ -192,7 +184,6 @@ class WeightKeyboardView : UIView {
         
         return screenShot!
     }
-    
 
     override func layoutSubviews() {
         super.layoutSubviews()

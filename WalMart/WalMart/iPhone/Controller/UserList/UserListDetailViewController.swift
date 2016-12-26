@@ -861,12 +861,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.defaultList = false
         listCell.detailDelegate = self
         listCell.delegate = self
+        
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
-            listCell.setValuesDictionary(item,disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+            listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+        } else if let item = self.products![indexPath.row] as? Product {
+            listCell.setValues(item, disabled:!self.selectedItems!.contains(indexPath.row))
         }
-        else if let item = self.products![indexPath.row] as? Product {
-            listCell.setValues(item,disabled:!self.selectedItems!.contains(indexPath.row))
-        }
+        
         if self.isEdditing {
             listCell.rightUtilityButtons = nil
             listCell.showLeftUtilityButtons(animated: false)
@@ -954,7 +955,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: - DetailListViewCellDelegate
-    func didChangeQuantity(_ cell:DetailListViewCell) {
+    func didChangeQuantity(_ cell: DetailListViewCell) {
         if self.isEdditing {
             return
         }
@@ -991,11 +992,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
             }
+            
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
             }
-            //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
+            
+            if let item = self.products![indexPath!.row] as? [String:Any] {
+                // TODO: cast values from response
+            } else if let item = self.products![indexPath!.row] as? Product {
+                quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
+            }
+            
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 if let item = self.products![indexPath!.row] as? [String:Any] {
                     let upc = item["upc"] as? String
@@ -1003,6 +1011,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
+                    item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
+                    item.pieces = NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
                     self.saveContext()
                     self.retrieveProductsLocally(true)
                     self.removeSelector()

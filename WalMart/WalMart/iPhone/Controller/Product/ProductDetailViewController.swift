@@ -595,7 +595,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
                     if maxProducts >= Int(quantity) {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
-                        let params = self.buildParamsUpdateShoppingCart(quantity)
+                        let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: true, pieces: Int(quantity)!)
                         self.gestureCloseDetail.isEnabled = false
                         self.detailCollectionView.isScrollEnabled = true
                         self.isShowShoppingCart = false
@@ -662,7 +662,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      
      - returns: [String:Any]
      */
-    func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
+    func buildParamsUpdateShoppingCart(_ quantity:String, orderByPiece: Bool, pieces: Int) -> [AnyHashable: Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String

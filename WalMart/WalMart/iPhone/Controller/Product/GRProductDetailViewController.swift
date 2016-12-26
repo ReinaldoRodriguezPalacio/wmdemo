@@ -386,7 +386,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     
                     
                     let addShopping = ShoppingCartUpdateController()
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:Any]
+                    let quantity = self.productDetailButton!.detailProductCart!.quantity
+                    let paramsToSC = self.buildParamsUpdateShoppingCart(quantity.stringValue, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: quantity.intValue) as! [String:Any]
                     addShopping.params = paramsToSC
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
@@ -402,11 +403,19 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 }
             
             }
+            
             if productDetailButton!.detailProductCart?.quantity != nil {
+                
                 selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
                 selectQuantityGR?.first = true
                 selectQuantityGR?.showNoteButton()
+                
+                if productDetailButton!.detailProductCart?.product != nil {
+                    selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+                }
+                
             }
+            
             //selectQuantityGR?.generateBlurImage(self.detailCollectionView,frame:CGRectMake(0,0, self.detailCollectionView.frame.width, heightDetail))
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
@@ -418,7 +427,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             
                             self.isShowShoppingCart = false
                             //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                            let params = self.buildParamsUpdateShoppingCart(quantity)
+                            
+                            let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
+                            let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: pieces)
                             if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(String(self.upc)) {
                                 //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
                             } else {
@@ -506,6 +517,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
 
     func listSelectorDidAddProduct(inList listId:String) {
+        
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
@@ -628,6 +640,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             detail!.upc = self.upc as String
             detail!.desc = self.name as String
             detail!.price = self.price
+            detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
+            detail!.pieces =  NSNumber(value: self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!))
             detail!.quantity = NSNumber(value: Int(quantity)! as Int)
             detail!.type = NSNumber(value: self.isPesable as Bool)
             detail!.list = list
@@ -802,17 +816,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     //MARK: -
     
-    override func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
+    override func buildParamsUpdateShoppingCart(_ quantity: String, orderByPiece: Bool, pieces: Int) -> [AnyHashable : Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable, "orderByPiece": orderByPiece, "pieces": pieces]
     }
-    
-  
-    
     
     
     //Info nutrimental

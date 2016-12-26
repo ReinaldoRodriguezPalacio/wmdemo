@@ -23,22 +23,19 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var btnNote : UIButton!
     var btnNoteComplete : UIButton!
     var isUpcInShoppingCart : Bool = false
-    
-    
+    var orderByPiece = true
     var backgroundView: UIView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
     
-   init(frame: CGRect, priceProduct : NSNumber!,upcProduct:String) {
+    init(frame: CGRect, priceProduct : NSNumber!,upcProduct:String) {
         super.init(frame: frame)
         self.priceProduct = priceProduct
         self.upcProduct = upcProduct
         setup()
     }
-    
     
     init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,upcProduct:String) {
         super.init(frame: frame)
@@ -54,7 +51,6 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         super.init(coder: aDecoder)
         setup()
     }
-    
     
     func setup() {
         
@@ -186,9 +182,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func addtoshoppingcart(_ sender:AnyObject) {
         addToCartAction(lblQuantity.text!)
     }
-    
-    
-    
+
     func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
         viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
@@ -240,7 +234,6 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
     }
 
-    
     func userSelectDelete() {
         let resultText : String = "0" + lblQuantity.text!
         lblQuantity.text = (resultText as NSString).substring(to: 2)
@@ -291,6 +284,10 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func setTitleCompleteButton(_ title:String) {
         self.btnNoteComplete.setTitle(title,for: UIControlState())
+    }
+    
+    func validateOrderByPiece(orderByPiece: Bool, quantity: Double, pieces: Int) {
+        self.orderByPiece = orderByPiece
     }
 
 }

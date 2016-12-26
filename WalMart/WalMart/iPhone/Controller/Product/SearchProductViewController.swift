@@ -1997,14 +1997,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: SearchProductCollectionViewCellDelegate
     
     func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect){
+        
         var prodQuantity = "1"
+        
         if cell.pesable! {
             prodQuantity = "50"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
-            
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc)
-            
-        }else{
+        } else {
             prodQuantity = "1"
             selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc)
         }
@@ -2023,7 +2023,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if cell.onHandInventory.integerValue >= Int(quantity) {
                 self.selectQuantityGR?.closeAction()
                 if self.idListFromSearch == ""{
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position:cell.positionSelected)
+                   
+                    let pieces = Int(cell.equivalenceByPiece)! > 0 ? ((Int(quantity)! / Int(cell.equivalenceByPiece)!)) : (Int(quantity)!)
+                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: pieces)
+                    
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
@@ -2048,6 +2051,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
         }
+        
         selectQuantityGR?.userSelectValue(prodQuantity)
         selectQuantityGR?.first = true
         //selectQuantityGR!.generateBlurImage(self.view,frame:selectQuantityGR.bounds)
@@ -2078,7 +2082,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 //let quantity : Int = quantity.toInt()!
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position: cell.positionSelected)//
+                    
+                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: true, pieces: Int(quantity)!)
                     
                     ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                     
@@ -2092,8 +2097,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                         }
                     )
-                }
-                else {
+                } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
                     let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
@@ -2115,15 +2119,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    func buildParamsUpdateShoppingCart(_ cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:Any] {
+    func buildParamsUpdateShoppingCart(_ cell:SearchProductCollectionViewCell, quantity:String, position:String, orderByPiece: Bool, pieces: Int) -> [String:Any] {
         let pesable = cell.pesable! ? "1" : "0"
         let searchText = self.textToSearch ?? ""
         let channel = IS_IPAD ? "ipad" : "iphone"
         if cell.type == ResultObjectType.Groceries.rawValue {
             if searchText != ""{
-                return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel,"position":position]]
+                return ["orderByPieces": orderByPiece, "pieces": pieces, "upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel,"position":position]]
             }
-            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+            return ["orderByPieces": orderByPiece, "pieces": pieces, "upc": cell.upc, "desc": cell.desc, "imgUrl": cell.imageURL, "price": cell.price, "quantity": quantity, "comments": "", "onHandInventory": cell.onHandInventory, "wishlist": false, "type": ResultObjectType.Groceries.rawValue, "pesable": pesable]
         }
         else {
             

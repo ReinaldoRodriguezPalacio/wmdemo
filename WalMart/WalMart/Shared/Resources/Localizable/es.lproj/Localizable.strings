@@ -694,5 +694,8 @@
 "home_help.search" = "Buscar";
 "home_help.shoppingCart" = "Carrito";
 
+// Availability
+"items.not.available" = "Debido a la disponibilidad de tu tienda, algunos de los productos pueden no estar disponibles.";
+
 
 

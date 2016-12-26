@@ -10,13 +10,13 @@ import Foundation
 
 class ShoppingCartButton : UIButton {
     
-    var hasNote : Bool  = false
-    var aviable : Bool  = false
-    var pesable : Bool  = false
-    var quantity : Int = 0
-    
+    var orderByPieces: Bool = false
+    var pieces: Int = 0
+    var hasNote: Bool  = false
+    var aviable: Bool  = false
+    var pesable: Bool  = false
+    var quantity: Int = 0
     var frameButton : CGRect? = nil
-    
     var lastColor : UIColor?  = nil
     var titleString : String?  = nil
     var noteStateButton = false
@@ -35,13 +35,15 @@ class ShoppingCartButton : UIButton {
         self.layer.cornerRadius = frame.height / 2
     }
     
-    func setValues(_ upc:String,quantity:Int ,hasNote: Bool, aviable:Bool, pesable:Bool){
+    func setValues(_ upc: String, quantity: Int , hasNote: Bool, aviable: Bool, pesable: Bool, orderByPieces: Bool, pieces: Int){
+        
         self.quantity = quantity
         self.hasNote = hasNote
         self.aviable = aviable
         self.pesable = pesable
-        
-
+        self.orderByPieces = orderByPieces
+        self.pieces = pieces
+    
         if aviable {
             self.backgroundColor = WMColor.yellow
             self.setTitleColor(UIColor.white, for: UIControlState())
@@ -62,12 +64,12 @@ class ShoppingCartButton : UIButton {
         
 //        let rectSize = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.hasNote)
 //        self.frame = CGRectMake(self.frame.minX, self.frame.minY, rectSize.width , 30)
-        self.setTitle(ShoppingCartButton.quantityString(quantity,pesable:pesable), for: UIControlState())
-        
+        self.setTitle(ShoppingCartButton.quantityString(quantity, pesable: pesable, orderByPieces: self.orderByPieces, pieces: self.pieces), for: UIControlState())
         
     }
     
     func setValuesMg(_ upc:String,quantity:Int, aviable:Bool){
+        
         self.quantity = quantity
         self.hasNote = false
         self.aviable = aviable
@@ -87,8 +89,8 @@ class ShoppingCartButton : UIButton {
         self.setTitle(ShoppingCartButton.quantityStringMg(quantity), for: UIControlState())
     }
     
-    class func sizeForQuantity(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
-        let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
+    class func sizeForQuantity(_ quantity:Int, pesable:Bool, hasNote:Bool, orderByPieces: Bool, pieces: Int) -> CGSize {
+        let quantityStr = ShoppingCartButton.quantityString(quantity, pesable: pesable, orderByPieces: orderByPieces, pieces: pieces)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
         let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
 
@@ -96,8 +98,8 @@ class ShoppingCartButton : UIButton {
         return fullSize
     }
     
-    class func sizeForQuantityWithoutIcon(_ quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
-        let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
+    class func sizeForQuantityWithoutIcon(_ quantity:Int, pesable:Bool, hasNote:Bool, orderByPieces: Bool, pieces: Int) -> CGSize {
+        let quantityStr = ShoppingCartButton.quantityString(quantity, pesable: pesable, orderByPieces: orderByPieces, pieces: pieces)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
         let rectSize = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         let fullSize = CGSize(width: ceil(rectSize.size.width - 50), height: ceil(rectSize.size.height))
@@ -105,7 +107,7 @@ class ShoppingCartButton : UIButton {
     }
     
     
-    class func quantityString(_ quantity:Int,pesable:Bool) -> String! {
+    class func quantityString(_ quantity:Int, pesable:Bool, orderByPieces: Bool, pieces: Int) -> String! {
         var quantityStr = ""
         if !pesable {
             if quantity == 1 {
@@ -114,6 +116,14 @@ class ShoppingCartButton : UIButton {
             else {
                 quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.pieces", comment:""), NSNumber(value: quantity as Int))
             }
+        } else if orderByPieces { // Gramos pero se ordena por pieza
+            
+            if pieces == 1 {
+                quantityStr = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), NSNumber(value: pieces))
+            } else {
+                quantityStr = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), NSNumber(value: pieces))
+            }
+            
         } else {
             if quantity < 1000 {
                 quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.gr", comment:""), NSNumber(value: quantity as Int))

@@ -402,10 +402,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         if self.isPesable {
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct: self.upc as String)
-        }
-        else {
+        } else {
             selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
         }
+        
         selectQuantityGR?.closeAction = { () in
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
@@ -413,23 +413,28 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     self.isShowShoppingCart = false
                 }, closeRow:true)
         }
+        
         selectQuantityGR?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantityGR?.addToCartAction = { (quantity:String) in
+            
             if self.onHandInventory.integerValue >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
-                    }, completeClose: { () -> Void in
-                        
-                        self.isShowShoppingCart = false
-                        
-                        let pesable = self.isPesable ? "1" : "0"
-                        
-                        var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"1",pesable:pesable,isPreorderable:"false")
-                        params.updateValue(comments, forKey: "comments")
-                        params.updateValue(self.type, forKey: "type")
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
-                        
-                    }, closeRow:true )
+                }, completeClose: { () -> Void in
+                    
+                    self.isShowShoppingCart = false
+                    
+                    let pesable = self.isPesable ? "1" : "0"
+                    let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
+                    
+                    var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"1",pesable:pesable,isPreorderable:"false", orderByPieces: self.selectQuantityGR!.orderByPiece, pieces: pieces)
+                    params.updateValue(comments, forKey: "comments")
+                    params.updateValue(self.type, forKey: "type")
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    
+                }, closeRow:true )
+                
             } else {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 
@@ -446,6 +451,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
         }
+        
         selectQuantityGR.addUpdateNote = {() in
             if self.productDetailButton!.detailProductCart != nil {
                 let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
@@ -468,13 +474,19 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
             
         }
+        
         if productDetailButton!.detailProductCart?.quantity != nil {
+            
             selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
             selectQuantityGR?.first = true
             selectQuantityGR?.showNoteButton()
+            
+            if productDetailButton!.detailProductCart?.product != nil {
+                selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+            }
+            
         }
 
-        
         opencloseContainer(true,viewShow:selectQuantityGR!, additionalAnimationOpen: { () -> Void in
             self.productDetailButton?.setOpenQuantitySelector()
             self.selectQuantityGR?.imageBlurView.frame = frameDetail
@@ -543,11 +555,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     func listSelectorDidAddProduct(inList listId:String) {
         NSLog("22")
+        
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil, closeRow:true)
         }
+        
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
             
             /*if quantity.toInt() == 0 {
@@ -633,18 +647,24 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.removeListSelector(action: nil, closeRow:true)
         }
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+            
             let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
+            
             detail!.upc = self.upc as String
             detail!.desc = self.name as String
             detail!.price = self.price
             detail!.quantity = NSNumber(value: Int(quantity)! as Int)
+            detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
+            detail!.pieces =  NSNumber(value: self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!))
             detail!.type = NSNumber(value: self.isPesable as Bool)
             detail!.list = list
+            
             if self.imageUrl.count > 0 {
                 detail!.img = self.imageUrl[0] as! NSString as String
             }
+            
             var error: NSError? = nil
             do {
                 try context.save()
@@ -653,9 +673,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             } catch {
                 fatalError()
             }
+            
             if error != nil {
                 print(error!.localizedDescription)
             }
+            
             let count:Int = list.products.count
             list.countItem = NSNumber(value: count as Int)
             error = nil

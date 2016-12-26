@@ -329,10 +329,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
     //MARK: - DetailListViewCellDelegate
     
-    override func didChangeQuantity(_ cell:DetailListViewCell) {
+    override func didChangeQuantity(_ cell: DetailListViewCell) {
+        
         if self.isEdditing {
             return
         }
+        
         let indexPath = self.tableView!.indexPath(for: cell)
         if indexPath == nil {
             return
@@ -346,48 +348,51 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 isPesable = pesable.intValue == 1
             }
             
-            
             price = item["price"] as? NSNumber
-        }
-        else if let item = self.products![indexPath!.row] as? Product {
+            
+        } else if let item = self.products![indexPath!.row] as? Product {
             isPesable = item.type.boolValue
             price = NSNumber(value: item.price.doubleValue as Double)
         }
         
-        
-
         if isPesable {
-            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece:equivalenceByPiece,upcProduct:cell.upcVal!)
+            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece: equivalenceByPiece,upcProduct:cell.upcVal!)
             
-        }
-        else {
+        } else {
             self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,upcProduct:cell.upcVal!)
         }
+        
         self.quantitySelector!.closeAction = { () in
             self.sharePopover?.dismiss(animated: true)
             return
         }
+        
+        if let item = self.products![indexPath!.row] as? [String:Any] {
+            // TODO: cast values from response
+        } else if let item = self.products![indexPath!.row] as? Product {
+            quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
+        }
        
         self.quantitySelector!.addToCartAction = { (quantity:String) in
             
-           
             if Int(quantity) <= 20000 {
-            
-             self.sharePopover?.dismiss(animated: false)
-            
-             if let item = self.products![indexPath!.row] as? [String:Any] {
-                 let upc = item["upc"] as? String
-                 self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
-             }
-             else if let item = self.products![indexPath!.row] as? Product {
-                 item.quantity = NSNumber(value: Int(quantity)! as Int)
-                 self.saveContext()
-                 self.retrieveProductsLocally(true)
-                 self.removeSelector()
-             }
-            }else{
-                self.sharePopover?.dismiss(animated: true)
                 
+                self.sharePopover?.dismiss(animated: false)
+                
+                if let item = self.products![indexPath!.row] as? [String:Any] {
+                    let upc = item["upc"] as? String
+                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
+                } else if let item = self.products![indexPath!.row] as? Product {
+                    item.quantity = NSNumber(value: Int(quantity)! as Int)
+                    item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
+                    item.pieces = NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
+                    self.saveContext()
+                    self.retrieveProductsLocally(true)
+                    self.removeSelector()
+                }
+                
+            } else {
+                self.sharePopover?.dismiss(animated: true)
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                 let secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")

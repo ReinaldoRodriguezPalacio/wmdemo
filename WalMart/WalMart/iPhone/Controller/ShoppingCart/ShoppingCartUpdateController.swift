@@ -188,15 +188,13 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         super.viewDidAppear(animated)
     }
     
-    
     func startAddingToShoppingCart() {
         
         timmer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ShoppingCartUpdateController.showDoneIcon), userInfo: nil, repeats: false)
         finishCall = false
+        
         if multipleItems != nil {
-            /*if multipleItems?.count > 0 {
-            callItemsService()
-            }*/
+            
             let allItems = multipleItems!["allitems"] as! [[String:Any]]
             let serviceAddProduct = GRShoppingCartAddProductsService()
             var paramsitems : [[String:Any]] = []
@@ -206,14 +204,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             for itemToShop in allItems {
                 
-                
-                if let typeProd = itemToShop["type"] as? NSString{
+                if let typeProd = itemToShop["type"] as? NSString {
                     type = typeProd
                 }
                 
-                
                 var numOnHandInventory : NSString = "0"
-                if let numberOf = itemToShop["onHandInventory"] as? NSString{
+                if let numberOf = itemToShop["onHandInventory"] as? NSString {
                     numOnHandInventory  = numberOf
                 }
                 
@@ -231,41 +227,50 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 if let categoryVal = itemToShop["category"] as? String {
                     category = categoryVal
                 }
-
                 
-                if let commentsParams = itemToShop["comments"] as? NSString{
+                if let commentsParams = itemToShop["comments"] as? NSString {
                     self.comments = commentsParams as String
                 }
                 
-                var pesable : NSString = "0"    
-                if let pesableP = itemToShop["pesable"] as? NSString{
+                var pesable : NSString = "0"
+                if let pesableP = itemToShop["pesable"] as? NSString {
                     pesable = pesableP
                 }
+                
                 if wishlistObj {
                     wishlistDelete.append(itemToShop["upc"] as! String)
                 }
                 
+                var orderByPiece = true
+                if let orderpiece = itemToShop["orderByPiece"] as? Bool {
+                    orderByPiece = orderpiece
+                }
                 
-                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable,isPreorderable:isPreorderable,category:category)
+                var pieces = 0
+                if let totalPieces = itemToShop["pieces"] as? Int {
+                    pieces = totalPieces
+                }
+                
+                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments, desc: itemToShop["desc"] as! String, price: itemToShop["price"] as! String, imageURL: itemToShop["imgUrl"] as! String, onHandInventory: numOnHandInventory, wishlist: wishlistObj, pesable: pesable, isPreorderable: isPreorderable, category: category, orderByPieces: orderByPiece as NSNumber, pieces: pieces as NSNumber)
                 
                 paramsitems.append(param)
             }
             
-
-            
+            // Multiple Add Groceries
             if type as String == ResultObjectType.Groceries.rawValue {
+                
                 self.showBtnAddNote = false
-            serviceAddProduct.callService(requestParams : paramsitems as AnyObject, successBlock: { (result:[String:Any]) -> Void in
-                BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true)//360 multiple add
-                
-                self.finishCall = true
-                
+                serviceAddProduct.callService(requestParams : paramsitems as AnyObject, successBlock: { (result:[String:Any]) -> Void in
+                    BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true) //360 multiple add
+                    
+                    self.finishCall = true
+                    
                     if self.timmer == nil {
-                    self.showDoneIcon()
-                    WishlistService.shouldupdate = true
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-                }
-                
+                        self.showDoneIcon()
+                        WishlistService.shouldupdate = true
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+                    }
+                    
                 }, errorBlock: { (error:NSError) -> Void in
                     
                     if error.code != -100 {
@@ -283,17 +288,22 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
                     
-               })
-            }else {
-                 let serviceAddProductMG = ShoppingCartAddProductsService()
+                })
+                
+            } else {
+                
+                // Multiple Add MG
+                
+                let serviceAddProductMG = ShoppingCartAddProductsService()
+                
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:[String:Any]) -> Void in
+                    
                     self.finishCall = true
                     BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true)
+                    
                     if self.timmer == nil {
                         self.showDoneIcon()
-                        
                     }
-                    
                     
                     if wishlistDelete.count > 0 {
                         let deleteService = DeleteItemWishlistService()
@@ -301,12 +311,103 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         deleteService.callServiceWithParams(toSend, successBlock: { (response:[String:Any]) -> Void in
                             WishlistService.shouldupdate = true
                             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-                            }, errorBlock: { (error:NSError) -> Void in
-                                
+                        }, errorBlock: { (error:NSError) -> Void in
+                            
                         })
                     }
                     
-                    }, errorBlock: { (error:NSError) -> Void in
+                }, errorBlock: { (error:NSError) -> Void in
+                    
+                    if error.code != -100 {
+                        self.spinImage.layer.removeAllAnimations()
+                        self.spinImage.isHidden = true
+                        self.titleLabel.sizeToFit()
+                        self.titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - 116, y: self.titleLabel.frame.minY,  width: 232, height: 60)
+                    }
+                    
+                    if error.code == 1 || error.code == 999 {
+                        self.titleLabel.text = error.localizedDescription
+                    } else if error.code != -100 {
+                        self.titleLabel.text = error.localizedDescription
+                        self.imageProduct.image = UIImage(named:"alert_ups")
+                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                    }
+                    
+                })
+                
+            }
+            
+        } else {
+            
+            let signalParametrer = params["parameter"] as? [String:Any]
+            let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
+            let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
+            
+            var numOnHandInventory : NSString = "0"
+            if let numberOf = params["onHandInventory"] as? NSString{
+                numOnHandInventory  = numberOf
+            }
+            
+            var isPreorderable = "false"
+            if let isPreorderableVal = params["isPreorderable"] as? String{
+                isPreorderable = isPreorderableVal
+            }
+            
+            var category = ""
+            if let categoryVal = params["category"] as? String {
+              category = categoryVal
+            }
+            
+            var orderByPiece = true
+            if let orderpiece = params["orderByPieces"] as? Bool {
+                orderByPiece = orderpiece
+            }
+            
+            var pieces = 0
+            if let totalPieces = params["pieces"] as? Int {
+                pieces = totalPieces
+            }
+            
+            if let type = params["type"] as? String {
+                
+                // Single Add Groceries 
+                
+                if type == ResultObjectType.Groceries.rawValue {
+                    
+                    typeProduct = ResultObjectType.Groceries
+                    print("Parametros = \(params)")
+                    
+                    //TODO Signals
+                    let signalParametrer = params["parameter"] as? [String:Any]
+                    let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
+                    let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
+                    
+                    if let commentsParams = params["comments"] as? NSString{
+                        self.comments = commentsParams as String
+                    }
+                    
+                    //TODO : 360
+                    
+                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity: params["quantity"] as! NSString as String, comments: self.comments, desc: params["desc"] as! NSString as String, price: params["price"] as! NSString as String, imageURL: params["imgUrl"] as! NSString as String, onHandInventory: numOnHandInventory, pesable: params["pesable"] as! NSString, orderByPieces: orderByPiece as NSNumber, pieces: pieces as NSNumber, parameter: signalParametrer, successBlock: { (result:[String:Any]) -> Void in
+                        
+                        BaseController.sendAnalyticsAddOrRemovetoCart([self.params], isAdd: true)
+                        self.finishCall = true
+                        
+                        if self.timmer == nil {
+                            self.showDoneIcon()
+                            WishlistService.shouldupdate = true
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+                        }
+                        
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
+                        
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
+                        
+                        UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+                        })
+                        
+                    }) { (error:NSError) -> Void in
                         
                         if error.code != -100 {
                             self.spinImage.layer.removeAllAnimations()
@@ -322,128 +423,56 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             self.imageProduct.image = UIImage(named:"alert_ups")
                             self.viewBgImage.backgroundColor = WMColor.light_light_blue
                         }
-                        
-                })
-                
-            }
-        }else{
-            let signalParametrer = params["parameter"] as? [String:Any]
-            let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
-            let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
-            
-            var numOnHandInventory : NSString = "0"
-            if let numberOf = params["onHandInventory"] as? NSString{
-                numOnHandInventory  = numberOf
-            }
-            var isPreorderable = "false"
-            if let isPreorderableVal = params["isPreorderable"] as? String{
-                isPreorderable = isPreorderableVal
-            }
-            
-            var category = ""
-            if let categoryVal = params["category"] as? String {
-              category = categoryVal
-            }
-            
-            
-            if let type = params["type"] as?  String {
-                if type == ResultObjectType.Groceries.rawValue {
-                    typeProduct = ResultObjectType.Groceries
-                    print("Parametros = \(params)")
-                    //TODO Signals
-                    let signalParametrer = params["parameter"] as? [String:Any]
-                    
-                    let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
-                    let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
-                    
-                    if let commentsParams = params["comments"] as? NSString{
-                        self.comments = commentsParams as String
-                    }
-                    //TODO : 360
-                  
-                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString,parameter:signalParametrer, successBlock: { (result:[String:Any]) -> Void in
-                          BaseController.sendAnalyticsAddOrRemovetoCart([self.params], isAdd: true)
-                        self.finishCall = true
-                        if self.timmer == nil {
-                            self.showDoneIcon()
-                            
-                            
-                            WishlistService.shouldupdate = true
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-                            
-                        }
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
-                        
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
-                        
-                            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-                                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-                            })
-                        
-                        
-                        }) { (error:NSError) -> Void in
-                            
-                            if error.code != -100 {
-                                self.spinImage.layer.removeAllAnimations()
-                                self.spinImage.isHidden = true
-                                self.titleLabel.sizeToFit()
-                                self.titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - 116, y: self.titleLabel.frame.minY,  width: 232, height: 60)
-                            }
-                            
-                            if error.code == 1 || error.code == 999 {
-                                self.titleLabel.text = error.localizedDescription
-                            } else if error.code != -100 {
-                                self.titleLabel.text = error.localizedDescription
-                                self.imageProduct.image = UIImage(named:"alert_ups")
-                                self.viewBgImage.backgroundColor = WMColor.light_light_blue
-                            }
 
                     }
+                    
                     return
                 }
+                
             }
+            
+            // Single Add MG
             
             typeProduct = ResultObjectType.Mg
             serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,parameter: params["parameter"] as? [String:Any], successBlock: { (result:[String:Any]) -> Void in
+                
                 //360 mg add
                 BaseController.sendAnalyticsAddOrRemovetoCart([self.params], isAdd: true)
                 self.finishCall = true
                 if self.timmer == nil {
                     self.showDoneIcon()
-                    
                     WishlistService.shouldupdate = true
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-                    
                 }
+                
                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
-                
-                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
-                
-                 UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
+                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                     UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-                 })
+                })
                 
-                }) { (error:NSError) -> Void in
-                    
-                    if error.code != -100 {
-                        self.spinImage.layer.removeAllAnimations()
-                        self.spinImage.isHidden = true
-                        self.titleLabel.sizeToFit()
-                        self.titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - 116, y: self.titleLabel.frame.minY,  width: 232, height: 60)
-                    }
-                   
-                    if error.code == 1 || error.code == 999  {
-                         self.titleLabel.text = error.localizedDescription
-                    } else if error.code != -100 {
-                        self.titleLabel.text = error.localizedDescription
-                        self.imageProduct.image = UIImage(named:"alert_ups")
-                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
-                    }
-                    self.showDoneIcon()
+            }) { (error:NSError) -> Void in
+                
+                if error.code != -100 {
+                    self.spinImage.layer.removeAllAnimations()
+                    self.spinImage.isHidden = true
+                    self.titleLabel.sizeToFit()
+                    self.titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - 116, y: self.titleLabel.frame.minY,  width: 232, height: 60)
+                }
+                
+                if error.code == 1 || error.code == 999  {
+                    self.titleLabel.text = error.localizedDescription
+                } else if error.code != -100 {
+                    self.titleLabel.text = error.localizedDescription
+                    self.imageProduct.image = UIImage(named:"alert_ups")
+                    self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                }
+                
+                self.showDoneIcon()
             }
+            
         }
     }
-    
     
     func callItemsService() {
         let allItems = multipleItems!["allitems"] as! [Any]
@@ -596,6 +625,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             goToShoppingCart()
         }
     }
+    
     func saveNote(_ sender:UIButton){
         
         if self.commentTextView?.field?.text!.trim() ==  ""{
@@ -659,9 +689,21 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             if let numberOf = self.params["onHandInventory"] as? NSString{
                                 numOnHandInventory  = numberOf
                             }
+                            
                             let pesable = self.params["pesable"] as! NSString
+                            
+                            var orderByPiece = true
+                            if let orderpiece = self.params["orderByPiece"] as? Bool {
+                                orderByPiece = orderpiece
+                            }
+                            
+                            var pieces = 0
+                            if let totalPieces = self.params["pieces"] as? Int {
+                                pieces = totalPieces
+                            }
+                            
                             let serviceAddProduct = GRShoppingCartAddProductsService()
-                            serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable,parameter:nil, successBlock: { (result:[String:Any]) -> Void in
+                            serviceAddProduct.callService(self.params["upc"] as! NSString as String, quantity: self.params["quantity"] as! NSString as String, comments: self.comments, desc: self.params["desc"] as! NSString as String, price: self.params["price"] as! NSString as String, imageURL: self.params["imgUrl"] as! NSString as String, onHandInventory: numOnHandInventory, pesable: pesable, orderByPieces: orderByPiece as NSNumber, pieces: pieces as NSNumber, parameter: nil, successBlock: { (result:[String:Any]) -> Void in
                                 
                                 self.finishCall = true
                                 
@@ -817,14 +859,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         
     }
     
-   //MARK: CommentBubbleViewDelegate
+    //MARK: CommentBubbleViewDelegate
     
     func showBottonAddNote(_ show: Bool) {
         self.goToShoppingCartButton.alpha = show ? 1.0 : 0.0
     }
-    
-    
-    
-    
 
 }

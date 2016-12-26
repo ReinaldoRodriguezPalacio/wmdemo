@@ -80,6 +80,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     
     func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String) {
         imagePresale.isHidden = isPreorderable == "true" ? false : true
+        
         self.priceProduct = productPrice.doubleValue
         self.upc = upc
         self.desc = productShortDescription
@@ -115,14 +116,14 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.savingProduct = 0
             productPriceSavingLabel.isHidden = true
         }
-        let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
+        let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity, pesable: false, hasNote: false, orderByPieces: false, pieces: 0)
         self.priceSelector.frame = CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
     }
     
     func addProductQuantity(_ quantity:Int) {
         let maxProduct = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
         if maxProduct < quantity {
-            priceSelector.setValues(self.upc, quantity: quantity, hasNote: false, aviable: true, pesable: false)
+            priceSelector.setValues(self.upc, quantity: quantity, hasNote: false, aviable: true, pesable: false, orderByPieces: false, pieces: 0)
             
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
             

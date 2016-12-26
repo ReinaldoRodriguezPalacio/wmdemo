@@ -22,6 +22,8 @@ class Product : NSManagedObject {
     @NSManaged var onHandInventory : String
     @NSManaged var quantity : NSNumber
     @NSManaged var type : NSNumber
+    @NSManaged var orderByPiece : NSNumber
+    @NSManaged var pieces: NSNumber
     @NSManaged var department : String
     
     @NSManaged var cart : Cart

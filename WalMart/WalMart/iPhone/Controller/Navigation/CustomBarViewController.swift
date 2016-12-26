@@ -705,8 +705,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.setTabBarHidden(false, animated: true, delegate:notification.object as! CustomBarDelegate?)
     }
     
-    class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String,isPreorderable:String) -> [AnyHashable: Any] {
-        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable]
+    class func buildParamsUpdateShoppingCart(_ upc: String, desc: String, imageURL: String, price: String!, quantity: String, onHandInventory: String, pesable: String, isPreorderable: String, orderByPieces: Bool, pieces: Int) -> [AnyHashable: Any] {
+        return ["upc": upc, "desc": desc, "imgUrl": imageURL, "price": price, "quantity":quantity, "onHandInventory": onHandInventory, "pesable": pesable, "isPreorderable": isPreorderable, "orderByPieces": orderByPieces, "pieces": pieces]
     }
     
     class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,wishlist:Bool,type:String,pesable:String,isPreorderable:String,category:String) -> [AnyHashable: Any] {
@@ -736,8 +736,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.showShoppingCart(self.btnShopping!)
             }
         }
-        let params = notification.userInfo as! [String:Any]
         
+        let params = notification.userInfo as! [String:Any]
         addShopping.params = params
         
         let price = (params["price"] as? NSString)!.doubleValue
@@ -747,8 +747,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if type == nil {
             addShopping.typeProduct = ResultObjectType.Mg
             type = "MG"
-        }
-        else {
+        } else {
             addShopping.typeProduct = (type == ResultObjectType.Mg.rawValue ? ResultObjectType.Mg : ResultObjectType.Groceries)
         }
         
@@ -769,6 +768,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      - parameter notification: notification
      */
     func addItemsToShoppingCart(_ notification:Notification) {
+        
         let addShopping = ShoppingCartUpdateController()
         
         let params = notification.userInfo as! [String:Any]
@@ -783,19 +783,22 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             price += (item["price"] as? NSString)!.doubleValue
             type = item["type"] as? String
         }
+        
         upc.append("]")
+        
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum:price, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "product\(type!)",FBSDKAppEventParameterNameContentID:upc])
         
         if type == nil {
             addShopping.typeProduct = ResultObjectType.Mg
-        }
-        else {
+        } else {
             addShopping.typeProduct = (type == ResultObjectType.Mg.rawValue ? ResultObjectType.Mg : ResultObjectType.Groceries)
         }
+        
         addShopping.goToShoppingCart = {() in
             self.showShoppingCart(self.btnShopping!)
         }
+        
         addShopping.multipleItems = notification.userInfo as? [String:Any]
         self.addChildViewController(addShopping)
         addShopping.view.frame = self.view.bounds

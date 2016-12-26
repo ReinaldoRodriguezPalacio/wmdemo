@@ -781,6 +781,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
          else {
             selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
         }
+        
         selectQuantity?.closeAction = { () in
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
@@ -789,6 +790,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.tabledetail.reloadData()
             }, closeRow:true)
         }
+        
         selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantity?.addToCartAction = { (quantity:String) in
             let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5

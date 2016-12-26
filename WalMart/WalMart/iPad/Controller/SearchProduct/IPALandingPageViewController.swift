@@ -699,6 +699,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
     }
     
     func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell) {
+        
         let frameDetail = CGRect(x: 0,y: 0,width: 320,height: 394)
         self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
         

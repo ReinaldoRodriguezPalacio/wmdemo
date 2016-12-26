@@ -31,7 +31,8 @@ class DetailListViewCell: ProductTableViewCell {
     var hasStock:Bool = true
     var onHandInventory: Int = 0
     var productDeparment: String = ""
-    
+    var orderByPieces: Bool = true
+    var pieces = 1
     
     override func setup() {
         super.setup()
@@ -85,10 +86,7 @@ class DetailListViewCell: ProductTableViewCell {
         buttonDelete.setImage(UIImage(named:"myList_delete"), for: UIControlState())
         buttonDelete.backgroundColor = WMColor.light_gray
         
-       
-        
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
-        
         
     }
 
@@ -100,6 +98,7 @@ class DetailListViewCell: ProductTableViewCell {
      - parameter disabled: validate if row is active
      */
     func setValuesDictionary(_ product:[String:Any], disabled:Bool) {
+        
         let imageUrl = product["imageUrl"] as! String
         
         self.productImage!.contentMode = UIViewContentMode.center
@@ -129,12 +128,19 @@ class DetailListViewCell: ProductTableViewCell {
         }
         
         if let type = product["type"] as? String {
+            
             let quantity = product["quantity"] as! NSNumber
             let price = product["price"] as! NSNumber
             var text: String? = ""
             var total: Double = 0.0
-            //Piezas
-            if Int(type)! == 0 {
+            var orderByPiece = false
+            
+            if let order = product["orderByPiece"] as? Bool {
+                orderByPiece = order
+            }
+            
+            if Int(type)! == 0 { //Piezas
+                
                 if quantity.intValue == 1 {
                     text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                 }
@@ -142,32 +148,44 @@ class DetailListViewCell: ProductTableViewCell {
                     text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
                 }
                 total = (quantity.doubleValue * price.doubleValue)
-            }
-                //Gramos
-            else {
+                
+            } else if orderByPiece && equivalenceByPiece!.intValue > 0 { // Gramos pero se ordena por pieza
+                
+                let pieces = Int(quantity.intValue / self.equivalenceByPiece!.intValue)
+                
+                if pieces == 1 {
+                    text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), NSNumber(value: pieces))
+                } else {
+                    text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), NSNumber(value: pieces))
+                }
+                
+                let kgrams = quantity.doubleValue / 1000.0
+                total = (kgrams * price.doubleValue)
+                
+            } else { //Gramos
+                
                 let q = quantity.doubleValue
+                
                 if q < 1000.0 {
                     text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
-                }
-                else {
+                } else {
                     let kg = q/1000.0
                     text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg as Double))
                 }
+                
                 let kgrams = quantity.doubleValue / 1000.0
                 total = (kgrams * price.doubleValue)
             }
-            self.quantityIndicator!.setTitle(text!, for: UIControlState())
             
+            self.quantityIndicator!.setTitle(text!, for: UIControlState())
             
             let formatedPrice = CurrencyCustomLabel.formatString("\(total)" as NSString)
             self.total = formatedPrice
             self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             
-        }
-        else {
+        } else {
             self.quantityIndicator!.setTitle("", for: UIControlState())
         }
-        
         
         if let stock = product["stock"] as? NSString {
             if stock.integerValue == 0 {
@@ -193,7 +211,7 @@ class DetailListViewCell: ProductTableViewCell {
             }
         }
         
-         checkDisabled(disabled)
+        checkDisabled(disabled)
     }
     
     /**
@@ -202,7 +220,8 @@ class DetailListViewCell: ProductTableViewCell {
      - parameter product:  entity product
      - parameter disabled: validate if row is active
      */
-    func setValues(_ product:Product,disabled:Bool) {
+    func setValues(_ product:Product, disabled:Bool) {
+        
         let imageUrl = product.img
         let description = product.desc
         
@@ -219,9 +238,10 @@ class DetailListViewCell: ProductTableViewCell {
                 
             }, failure: nil)
         
-         self.upcVal = product.upc
+        self.upcVal = product.upc
         self.promoDescription!.text = ""
         self.productShortDescriptionLabel!.text = description
+        self.orderByPieces = product.orderByPiece.boolValue
         
         let quantity = product.quantity
         let price = product.price.doubleValue
@@ -229,16 +249,28 @@ class DetailListViewCell: ProductTableViewCell {
         var total: Double = 0.0
         //Piezas
         if product.type.intValue == 0 {
+            
             if quantity.intValue == 1 {
                 text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
             }
             else {
                 text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
             }
+            
             total = (quantity.doubleValue * price)
-        }
-        //Gramos
-        else {
+            
+        } else if self.orderByPieces && equivalenceByPiece!.intValue > 0{ // Gramos pero se ordena por pieza
+            
+            if pieces == 1 {
+                text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), NSNumber(value: pieces))
+            } else {
+                text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), NSNumber(value: pieces))
+            }
+            
+            let kgrams = quantity.doubleValue / 1000.0
+            total = (kgrams * price)
+            
+        } else { //Gramos
             let q = quantity.doubleValue
             if q < 1000.0 {
                 text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
@@ -250,6 +282,7 @@ class DetailListViewCell: ProductTableViewCell {
             let kgrams = quantity.doubleValue / 1000.0
             total = (kgrams * price)
         }
+        
         self.quantityIndicator!.setTitle(text!, for: UIControlState())
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)" as NSString)
         self.total = formatedPrice

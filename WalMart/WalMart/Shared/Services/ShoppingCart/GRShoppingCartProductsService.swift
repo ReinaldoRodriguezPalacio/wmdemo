@@ -79,6 +79,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 carProductItem.price = price as NSString
                                 carProductItem.baseprice = baseprice
                                 carProductItem.img = imageUrl
+                                
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
                                     carProductItem.type = NSNumber(value: pesable.integerValue as Int)
                                 }
@@ -367,6 +368,8 @@ class GRShoppingCartProductsService : GRBaseService {
                 var newItemQ: [String:Any] = shoppingCartProduct
                 newItemQ["quantity"] = quantity
                 newItemQ["comments"] =  carProduct.note
+                newItemQ["orderByPieces"] = carProduct.product.orderByPiece
+                newItemQ["pieces"] = carProduct.product.pieces
                 resultItems.append(newItemQ)
             }
 
@@ -375,6 +378,9 @@ class GRShoppingCartProductsService : GRBaseService {
             carProductItem.price = price as NSString
             carProductItem.baseprice = baseprice
             carProductItem.img = imageUrl
+            carProductItem.orderByPiece = carProduct.product.orderByPiece
+            carProductItem.pieces = carProduct.product.pieces
+            
             if let pesable = shoppingCartProduct["type"] as?  NSString {
                 carProductItem.type = NSNumber(value: pesable.integerValue as Int)
             }

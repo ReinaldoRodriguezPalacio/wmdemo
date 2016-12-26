@@ -23,6 +23,7 @@ protocol ProductDetailButtonBarCollectionViewCellDelegate {
 
 
 class ProductDetailButtonBarCollectionViewCell : UIView {
+    
     var upc : String!
     var desc : String!
     var price : String!
@@ -37,8 +38,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var detailProductCart: Cart?
     var isAddingOrRemovingWishlist: Bool = false
     var productDepartment:String = ""
-    
-    
     
     var isAviableToShoppingCart : Bool = true {
         didSet {
@@ -280,9 +279,19 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                         text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
                     }
                     //total = (quantity.doubleValue * price.doubleValue)
-                }
-                    //Gramos
-                else {
+                } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
+                    
+                    let pieces = detailProductCart!.product.pieces
+                    
+                    if pieces == 1 {
+                        text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), pieces)
+                    } else {
+                        text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), pieces)
+                    }
+                    
+                    
+                } else { //Gramos
+
                     let q = quantity.doubleValue
                     if q < 1000.0 {
                         text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)

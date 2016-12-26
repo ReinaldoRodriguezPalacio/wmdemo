@@ -237,15 +237,17 @@ DetailListViewCellDelegate,UIActivityItemSource {
             if indexPath == nil {
                 return
             }
+            
             var isPesable = false
             var price: NSNumber? = nil
+            var quantity: NSNumber? = nil
           
-                let item = self.detailItems![indexPath!.row]
-                if let pesable = item["type"] as? NSString {
-                    isPesable = pesable.intValue == 1
-                }
-                price = item["price"] as? NSNumber
-            
+            let item = self.detailItems![indexPath!.row]
+            if let pesable = item["type"] as? NSString {
+                isPesable = pesable.intValue == 1
+            }
+            price = item["price"] as? NSNumber
+            quantity = item["quantity"] as? NSNumber
             
             let width:CGFloat = self.view.frame.width
             var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
@@ -256,19 +258,28 @@ DetailListViewCellDelegate,UIActivityItemSource {
             
             if isPesable {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
-            }
-            else {
+            } else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
             }
+            
+            if let orderByPiece = item["orderByPiece"] as? Bool {
+                quantitySelector?.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity!.doubleValue, pieces: 0)
+            } else {
+                quantitySelector?.first = true
+                quantitySelector?.userSelectValue(quantity!.stringValue)
+            }
+            
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
             }
+            
             self.quantitySelector!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 var item = self.detailItems![indexPath!.row]
                 //var upc = item["upc"] as? String
                 item["quantity"] = NSNumber(value: Int(quantity)! as Int)
+                item["orderByPiece"] = self.quantitySelector!.orderByPiece
                 self.detailItems![indexPath!.row] = item
                 self.tableView?.reloadData()
                 self.removeSelector()

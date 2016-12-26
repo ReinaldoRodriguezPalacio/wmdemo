@@ -53,11 +53,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     var deleteall: UIButton!
     
     var customlabel : CurrencyCustomLabel!
-    
     var isEdditing = false
-    
     var showCloseButton : Bool = true
-
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     
@@ -78,14 +75,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
         titleView.textAlignment = .center
         
-        
         closeButton = UIButton(frame:CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height))
         closeButton.setImage(UIImage(named: "BackProduct"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartViewController.closeShoppingCart), for: UIControlEvents.touchUpInside)
         
         viewHerader.addSubview(closeButton)
         viewHerader.addSubview(titleView)
-        
         
         tableShoppingCart = UITableView(frame: self.view.bounds)
         tableShoppingCart.delegate = self
@@ -94,18 +89,14 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         tableShoppingCart.register(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totals")
         tableShoppingCart.separatorStyle = UITableViewCellSeparatorStyle.none
 
-        
         tableShoppingCart.clipsToBounds = false
 
         self.view.addSubview(tableShoppingCart)
-        
         self.view.addSubview(viewHerader)
-        
         
         viewFooter = UIView(frame: CGRect(x: 0, y: self.view.bounds.height - 72 , width: self.view.bounds.width, height: 72))
         viewFooter.backgroundColor = UIColor.white
         viewFooter.alpha = 0
-        
         
         self.addToListButton = UIButton(frame: CGRect(x: 8 ,y: 0, width: 50, height: viewFooter.frame.height))
         self.addToListButton!.setImage(UIImage(named: "detail_list"), for: UIControlState())
@@ -126,7 +117,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         viewFooter.addSubview(buttonShare)
         viewFooter.addSubview(buttonShop)
         self.view.addSubview(viewFooter)
-        
         
         //Edit 
         editButton = UIButton(frame:CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22))
@@ -152,13 +142,46 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         viewHerader.addSubview(editButton)
         viewHerader.addSubview(deleteall)
         
-        
-        
         initEmptyView()
         //loadGRShoppingCart()
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
+ 
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.removeViewLoad()
         
+        loadGRShoppingCart()
+        
+        self.emptyView!.isHidden = self.itemsInCart.count > 0
+        self.editButton.isHidden = self.itemsInCart.count == 0
+        
+        if !showCloseButton {
+            self.closeButton.isHidden = true
+        } else {
+            self.closeButton.isHidden = false
+        }
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHerader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHerader.frame.height - 72)
+        self.viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 72 , width: self.view.bounds.width, height: 72)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.viewFooter.alpha = 1
+        })
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initEmptyView(){
@@ -170,51 +193,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.view.addSubview(emptyView)
         
         self.emptyView.iconImageView.image =  UIImage(named:"empty_cart")
-        
-    }
-
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.removeViewLoad()
-        loadGRShoppingCart()
-        
-        self.emptyView!.isHidden = self.itemsInCart.count > 0
-        self.editButton.isHidden = self.itemsInCart.count == 0
-        
-        if !showCloseButton {
-            self.closeButton.isHidden = true
-        } else {
-            self.closeButton.isHidden = false
-        }
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHerader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHerader.frame.height - 72)
-        self.viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 72 , width: self.view.bounds.width, height: 72)
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-         NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            self.viewFooter.alpha = 1
-        })
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     func closeShoppingCart() {
         self.navigationController!.popToRootViewController(animated: true)
-        
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_BACK_PRE_SHOPPING_CART.rawValue, label: "")
-        
     }
     
     func reloadGRShoppingCart(){
@@ -223,14 +206,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
-    
     func loadGRShoppingCart() {
         if UserCurrentSession.sharedInstance.itemsGR != nil {
             self.itemsInCart = UserCurrentSession.sharedInstance.itemsGR!["items"] as! [[String:Any]]
             self.tableShoppingCart.reloadData()
             self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
         }
-        
     }
     
     //MARK: - Table View Data Source
@@ -241,16 +222,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
         if indexPath.row == itemsInCart.count {
-        let tblTotalCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "totals", for: indexPath) as! GRShoppingCartTotalsTableViewCell
+            let tblTotalCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "totals", for: indexPath) as! GRShoppingCartTotalsTableViewCell
             let subtotal = UserCurrentSession.sharedInstance.estimateTotalGR()
             let saving = UserCurrentSession.sharedInstance.estimateSavingGR()
             
-            tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "",
-                total: "\(subtotal - saving)",
-                totalSaving: "\(saving)",
-                numProds:"\(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
+            tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "", total: "\(subtotal - saving)", totalSaving: "\(saving)", numProds:"\(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
             
             return tblTotalCell
         }
@@ -264,14 +241,15 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let itemProduct = itemsInCart[indexPath.row] 
         
         let upc = itemProduct["upc"] as! String
+        
         var quantity : Int = 0
-        if  let qIntProd = itemProduct["quantity"] as? Int {
+        if let qIntProd = itemProduct["quantity"] as? Int {
             quantity = qIntProd
         }
-        if  let qIntProd = itemProduct["quantity"] as? NSString {
+        
+        if let qIntProd = itemProduct["quantity"] as? NSString {
             quantity = qIntProd.integerValue
         }
-        
         
         let imgUrl = itemProduct["imageUrl"] as! String
         var price : Double = 0.0
@@ -279,38 +257,24 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         if  let qIntProd = itemProduct["price"] as? Double {
             price = qIntProd
         }
+        
         if  let qIntProd = itemProduct["price"] as? NSString {
             price = qIntProd.doubleValue
         }
         
         var saving = ""
-        if  let savingProd = itemProduct["promoDescription"] as? String {
+        if let savingProd = itemProduct["promoDescription"] as? String {
             saving = savingProd
         }
         
         let description = itemProduct["description"] as! String
+        
         let priceStr = "\(price)"
         var typeProdVal : Int = 0
+        
         if let typeProd = itemProduct["type"] as? NSString {
             typeProdVal = typeProd.integerValue
         }
-        
-//        var stock = 0
-//        if let stockProd = itemProduct["stock"] as? NSNumber {
-//            stock = stockProd.integerValue
-//        }
-//        
-//        if let stockProd = itemProduct["stock"] as? NSNumber {
-//            stock = stockProd.integerValue
-//        }
-
-//        if let _ = itemProduct["stock"] as?  Bool {
-//            if self.isActive == true  {
-//                self.isActive  = stockSvc
-//            }
-//        }
-
-        
         
         var equivalenceByPiece = NSNumber(value: 0 as Int32)
         if let equivalence = itemProduct["equivalenceByPiece"] as? NSNumber {
@@ -323,17 +287,25 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
         }
 
-        
         let comments = itemProduct["comments"] as? String
         
+        var orderByPiece = false
+        if let orderPiece = itemProduct["orderByPieces"] as? Bool {
+            orderByPiece = orderPiece
+        }
         
+        var totalPieces = 0
+        if let pieces = itemProduct["pieces"] as? Int {
+            totalPieces = pieces
+        }
+
         tblShoppingCell.delegateQuantity = self
         tblShoppingCell.delegate = self
         
         if typeProdVal != 1 {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece)
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece, orderByPiece: orderByPiece, pieces: totalPieces)
         } else {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece)
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece, orderByPiece: orderByPiece, pieces: totalPieces)
         }
         
         
@@ -345,7 +317,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             tblShoppingCell.hideUtilityButtons(animated: true)
         }
 
-        
         return tblShoppingCell
     }
 
@@ -358,9 +329,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInCart.count > indexPath.row   {
-            
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
-            
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems() as [Any]
             controller.ixSelected = indexPath.row
@@ -392,18 +361,18 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
                     if self.itemsInCart.count == 0 {
+                        
                         if IS_IPAD {
                             self.navigationController!.popViewController(animated: true)
                             self.onClose?(true)
                         }
-                       let _ = self.navigationController?.popToRootViewController(animated: true)
+                       
+                        let _ = self.navigationController?.popToRootViewController(animated: true)
                         self.removeViewLoad()
-                    
                         
                     } else {
                         self.performSegue(withIdentifier: "checkoutVC", sender: self)
                     }
-                    
                     
                     cont?.closeAlert(true, messageSucesss: true)
                     
@@ -414,16 +383,24 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
-    func userShouldChangeQuantity(_ cell:GRProductShoppingCartTableViewCell) {
+    func userShouldChangeQuantity(_ cell: GRProductShoppingCartTableViewCell) {
+        
         if self.isEdditing == false {
+            
             let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
+            
             if cell.typeProd == 1 {
                 selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
-                
-            }else{
+            } else{
                 selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.upc)
             }
             
+            if cell.orderByPieces {
+                selectQuantityGR?.validateOrderByPiece(orderByPiece: cell.orderByPieces, quantity: Double(cell.quantity), pieces: cell.pieces)
+            } else {
+                selectQuantityGR?.userSelectValue(String(cell.quantity))
+                selectQuantityGR?.first = true
+            }
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
@@ -437,9 +414,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue, label: "")
                     }
                     
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    cell.orderByPieces = self.selectQuantityGR!.orderByPiece
+                    cell.pieces = cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
+                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity)
                     
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
@@ -456,14 +436,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                 }
                 
-                
             }
             
             selectQuantityGR?.addUpdateNote = {() in
                     let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                     let frame = vc!.view.frame
-                    
-                    
                     let addShopping = ShoppingCartUpdateController()
                     let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
                     addShopping.params = paramsToSC
@@ -477,30 +454,27 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     addShopping.removeSpinner()
                     addShopping.addActionButtons()
                     addShopping.addNoteToProduct(nil)
-                
-
-            
             }
-            selectQuantityGR?.userSelectValue(String(cell.quantity))
-            selectQuantityGR?.first = true
+            
             if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
                 selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
-            }else {
+            } else {
                 selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
             }
+            
             selectQuantityGR?.showNoteButtonComplete()
             selectQuantityGR?.closeAction = { () in
                 self.selectQuantityGR.removeFromSuperview()
-                
             }
             
-            self.view.addSubview(selectQuantityGR)
+            delay(0.2, completion: {
+                self.view.addSubview(self.selectQuantityGR)
+            })
+            
             
         } else {
             let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
-            
-            
             let addShopping = ShoppingCartUpdateController()
             let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
             addShopping.params = params
@@ -514,14 +488,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             addShopping.removeSpinner()
             addShopping.addActionButtons()
             addShopping.addNoteToProduct(nil)
-
         }
+        
     }
     
-    
-    func buildParamsUpdateShoppingCart(_ cell:GRProductShoppingCartTableViewCell,quantity:String) -> [String:Any] {
+    func buildParamsUpdateShoppingCart(_ cell: GRProductShoppingCartTableViewCell,quantity:String) -> [String:Any] {
         let pesable = cell.pesable ? "1" : "0"
-        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+        return ["upc":cell.upc, "desc":cell.desc, "imgUrl": cell.imageurl, "price": cell.price, "quantity": quantity, "comments": cell.comments, "onHandInventory": cell.onHandInventory, "wishlist":false, "type":ResultObjectType.Groceries.rawValue, "pesable": pesable, "orderByPieces": cell.orderByPieces, "pieces": cell.pieces]
     }
     
     func updateShopButton(_ total:String) {
@@ -540,12 +513,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
     
+    
     //MARK : Edit shopping cart
     
     func editAction(_ sender:AnyObject) {
         
-        
         isEdditing = !isEdditing
+        
         if (isEdditing) {
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_EDIT_CART.rawValue, label: "")
@@ -559,16 +533,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     }
                 }
             }
+            
             editButton.isSelected = true
             editButton.backgroundColor = WMColor.green
-            
             
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1
                 self.titleView.frame = CGRect(x: self.titleView.frame.minX - 30, y: self.titleView.frame.minY, width: self.titleView.frame.width, height: self.titleView.frame.height)
             })
             
-        }else{
+        } else {
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
             
@@ -582,6 +556,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     }
                 }
             }
+            
             editButton.isSelected = false
             editButton.backgroundColor = WMColor.light_blue
             
@@ -652,7 +627,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
         return !isEdditing
     }
-
     
     func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
         switch state {
@@ -666,7 +640,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         //    return !isEdditing
         }
     }
-    
     
     func getRightButton() -> [UIButton] {
         var toReturn : [UIButton] = []
@@ -688,8 +661,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func getRightButtonOnlyDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
-        
-        
+
         let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
@@ -701,18 +673,14 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func getLeftDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
-        
         let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 109))
         buttonDelete.setImage(UIImage(named:"myList_delete"), for: UIControlState())
         buttonDelete.backgroundColor = WMColor.light_gray
         toReturn.append(buttonDelete)
-        
         return toReturn
     }
 
-    
     func getUPCItems() -> [[String:String]] {
-        
         var upcItems : [[String:String]] = []
         for shoppingCartProduct in  itemsInCart {
             let upc = shoppingCartProduct["upc"] as! String
@@ -733,6 +701,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         return upcItems
     }
 
+    
     //MARK: Delete item 
     
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
@@ -787,8 +756,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
     }
     
-    
-    
     func deleteAll() {
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
@@ -805,8 +772,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
             arrayDeleteItems.append(["desc":item.product.desc,"upc":item.product.upc,"quantity":"\(item.product.quantity)","pesable":false])
         }
-        
-        
         
         //360 delete
         BaseController.sendAnalyticsAddOrRemovetoCart(arrayDeleteItems, isAdd: false)
@@ -846,7 +811,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     //MARK: Share Shopping Cart
     
-    
     func shareShoppingCart() {
         self.removeListSelector(action: nil)
         let imageHead = UIImage(named:"detail_HeaderMail")
@@ -863,10 +827,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
+    
     //MARK: - Actions List Selector
     
     func addCartToList() {
-        
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_ADD_MY_LIST.rawValue, label: "")
         
@@ -936,6 +900,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             )
         }
     }
+    
     
     //MARK: - ListSelectorDelegate
     

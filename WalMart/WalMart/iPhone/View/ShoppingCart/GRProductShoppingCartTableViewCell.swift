@@ -15,6 +15,8 @@ protocol GRProductShoppingCartTableViewCellDelegate {
 class GRProductShoppingCartTableViewCell : ProductTableViewCell {
     
     var quantity : Int! = 0
+    var orderByPieces = false
+    var pieces = 0
     var productPriceSavingLabel : UILabel!
     var changeQuantity : ShoppingCartButton!
     var priceProduct : Double!
@@ -74,11 +76,11 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 16 , width: 100 , height: 19)
         self.separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
         self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
-        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
+        let size = ShoppingCartButton.sizeForQuantity(quantity, pesable: pesable, hasNote: self.comments != "", orderByPieces: self.orderByPieces, pieces: self.pieces)
         changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
     }
     
-    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
+    func setValues(_ upc: String, productImageURL: String, productShortDescription: String, productPrice: NSString, saving:NSString,quantity:Int,onHandInventory: NSString, typeProd: Int, comments: NSString, equivalenceByPiece: NSNumber, orderByPiece: Bool, pieces: Int) {
         
         self.equivalenceByPiece = equivalenceByPiece
         self.priceProduct = productPrice.doubleValue
@@ -89,6 +91,8 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.onHandInventory = onHandInventory
         self.quantity = quantity
         self.typeProd = typeProd
+        self.orderByPieces = orderByPiece
+        self.pieces = pieces
         self.comments = comments.trimmingCharacters(in: CharacterSet.whitespaces)
         
         var totalInProducts = productPrice.doubleValue * Double(quantity)
@@ -104,9 +108,8 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
-
-        changeQuantity.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
         
+        changeQuantity.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1, orderByPieces: self.orderByPieces, pieces: self.pieces)
         
         if saving != "" {
             productPriceSavingLabel.text = saving as String
@@ -124,7 +127,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
 //        }
 
         // changeQuantity.frame =  CGRectMake((self.frame.width - 16) -  width!, self.productPriceLabel!.frame.minY, width!, 30)
-        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
+        let size = ShoppingCartButton.sizeForQuantity(quantity, pesable: pesable, hasNote: self.comments != "", orderByPieces: self.orderByPieces, pieces: self.pieces)
         changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
     }
     
