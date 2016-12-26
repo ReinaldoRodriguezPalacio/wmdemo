@@ -219,6 +219,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.LoginByTokenService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/loginByToken</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getAuthotization</string>
 			<key>WalmartMG.AutologinService</key>
@@ -404,6 +406,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.LoginByTokenService</key>
+			<string>https://dl.dropboxusercontent.com/s/50qcvga8b16lv7r/loginByTokenService.txt?dl=0</string>
 			<key>WalmartMG.AutologinService</key>
 			<string>https://dl.dropboxusercontent.com/s/5dypj165uo31e36/AutologinService.txt?dl=0</string>
 			<key>WalmartMG.AuthorizationService</key>

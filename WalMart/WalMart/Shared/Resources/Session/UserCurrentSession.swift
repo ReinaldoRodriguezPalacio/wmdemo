@@ -61,6 +61,7 @@ class UserCurrentSession : NSObject {
     var JSESSIONID = ""
     var ACCESS_TOKEN = ""
     var REFESH_TOKEN =  ""
+    var AUTHORIZATION = ""
 
     
     //Singleton init
