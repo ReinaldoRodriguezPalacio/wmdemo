@@ -296,7 +296,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
         }else{
             let signalParametrer = params["parameter"] as? [String:Any]
-            let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()]
+            let signalsDictionary : [String:Any] = ["signals" : signalParametrer == nil ? false : BaseService.getUseSignalServices()]
             let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
             
             var numOnHandInventory : NSString = "0"
@@ -321,7 +321,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     //TODO Signals
                     let signalParametrer = params["parameter"] as? [String:Any]
                     
-                    let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
+                    let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" : signalParametrer == nil ? false : BaseService.getUseSignalServices()])
                     let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
                     
                     if let commentsParams = params["comments"] as? NSString{

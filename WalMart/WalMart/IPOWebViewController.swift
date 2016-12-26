@@ -74,7 +74,7 @@ class  IPOWebViewController : UIViewController {
     func close() {
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_GERATE_BILLIG.rawValue, label: "")
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismiss(animated: true, completion: { () -> Void in
             
         })
     }

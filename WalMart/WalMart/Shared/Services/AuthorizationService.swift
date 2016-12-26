@@ -10,8 +10,8 @@ import Foundation
 
 class AuthorizationService : BaseService {
     
-    func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ){
-            self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ){
+            self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             print("ok AuthorizationService")
             successBlock!(resultCall)
             }, errorBlock: { (error:NSError) in

@@ -698,7 +698,7 @@
             startOffSet += 1
         }
         //TODO: Signals
-        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
+        let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
         // self.brandText = self.idSort != "" ? "" : self.brandText

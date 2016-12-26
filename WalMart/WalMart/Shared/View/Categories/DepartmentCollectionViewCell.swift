@@ -174,7 +174,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         let label = self.titleLabel.text!
         let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
-        BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_CANCEL.rawValue, label: label)
+        //BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_CANCEL.rawValue, label: label)
         
         if customCloseDep {
             if self.onclose != nil {

@@ -307,9 +307,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         if (indexPath as NSIndexPath).section == 0{
             item = self.arrayAddressShipping![(indexPath as NSIndexPath).item]
             self.addressController!.typeAddress = TypeAddress.shiping
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_BILL_SHOW_ADDREES_DETAIL.rawValue, label:"")
         }else{
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELIVERY_SHOW_ADDREES_DETAIL.rawValue, label:"")
             item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item]
             if let type = item["persona"] as? String{
                 if type == "F" {
@@ -398,7 +398,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
         service!.callService(params, successBlock:{ (resultCall:[String:Any]?) in
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             
             if let message = resultCall!["message"] as? String {
                 if self.alertView != nil {

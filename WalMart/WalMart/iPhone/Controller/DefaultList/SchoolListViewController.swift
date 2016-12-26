@@ -233,7 +233,7 @@ class SchoolListViewController : DefaultListDetailViewController {
      Get products list
      */
     func getDetailItems(){
-        //let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        //let signalsDictionary : [String:Any] = [String:Any](dictionary: ["signals" :BaseService.getUseSignalServices()])
         let service = GRProductBySearchService()
         //let params = service.buildParamsForSearch(text: "", family:"f-papeleria-escolar", line: "l-escolar-cuadernos", sort:"rankingASC", departament: "d-papeleria", start: 0, maxResult: 20)
         let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100, brand: nil)

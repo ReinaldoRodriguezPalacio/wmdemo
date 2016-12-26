@@ -110,7 +110,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             
         case 8:
             //Notifica
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
             let controller = self.storyboard!.instantiateViewController(withIdentifier: "notificationVC")
             self.navigation.pushViewController(controller, animated: true)
         case 9:
@@ -217,7 +217,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
      */
     func loadGRServices(_ successBlock:((String) -> Void)?){
         
-        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
+        let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
         service.callService(params!, successBlock: { (respose:[[String:Any]], facet: [[String:Any]]) in

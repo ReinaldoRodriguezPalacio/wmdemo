@@ -360,7 +360,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func showEditionMode() {
         if !self.isEdditing {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
             UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 self.tableConstraint?.constant = 110
                 self.containerEditName!.alpha = 1
@@ -1067,7 +1067,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
         switch index {
         case 0:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
             if let indexPath = self.tableView!.indexPath(for: cell) {
                 if let item = self.products![(indexPath as NSIndexPath).row] as? [String:Any]{
                     
@@ -1747,7 +1747,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.add.product.list", comment:""))
         
-        let useSignalsService : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
+        let useSignalsService : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let svcValidate = ProductDetailService(dictionary: useSignalsService)
         
         let upcDesc : NSString = upc as NSString

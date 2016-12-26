@@ -606,7 +606,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
             
         case 1:
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "")
+             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "")
             let indexPath = self.tableShoppingCart.indexPath(for: cell)
             if indexPath != nil {
                 deleteRowAtIndexPath(indexPath!)

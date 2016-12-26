@@ -694,7 +694,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     }
     
     func changetonumberpad(_ sender:AnyObject) {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_OPEN_KEYBOARD_KILO.rawValue, label:"" )
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_OPEN_KEYBOARD_KILO.rawValue, label:"" )
         customValue = true
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.containerView.frame = CGRect(x: -self.containerWeightView.frame.maxX, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height)

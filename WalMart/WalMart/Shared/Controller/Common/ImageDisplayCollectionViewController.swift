@@ -186,7 +186,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     // MARK: - Actionw
     func closeModal() {
         self.dismiss(animated: true, completion: nil)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_PRODUCTDETAIL.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_PRODUCTDETAIL.rawValue, label: "")
         
     }
     

@@ -267,7 +267,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     
     func closeAlert(){
         self.dismiss(animated: true, completion: { () -> Void in
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
             if self.useDelegate {
               self.delegate!.barcodeCaptured(nil)
             }
@@ -305,7 +305,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             }
             
         }else{
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ScanBarCode.rawValue, object: character, userInfo: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.ScanBarCode.rawValue), object: character, userInfo: nil)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
         }
     }

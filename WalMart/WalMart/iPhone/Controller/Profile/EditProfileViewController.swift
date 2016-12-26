@@ -90,7 +90,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 //            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
 //        }
         
-        self.dateFmt = NSDateFormatter()
+        self.dateFmt = DateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
 
         self.parseFmt = DateFormatter()

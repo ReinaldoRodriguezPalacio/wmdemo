@@ -553,7 +553,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if (indexPath as NSIndexPath).row == 0 {
                 self.selectedFacetGr = [:]
                 self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: UITableViewRowAnimation.fade)
-                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 return
             }
             
@@ -582,7 +582,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if (indexPath as NSIndexPath).row == 0 {
                 self.selectedElementsFacet = [:]
                 self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: UITableViewRowAnimation.fade)
-                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 return
             }
             
@@ -626,7 +626,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 self.selectedElements = [Bool](repeating: false, count: (self.tableElements!.count + 1))
                 self.selectedElements![0] = true
                 self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: UITableViewRowAnimation.fade)
-                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
             return
             }
         
@@ -699,7 +699,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         else {
             self.selectedElements![(indexPath as NSIndexPath).row] = true
-            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
         }
 
         for idx in 1 ..< self.selectedElements!.count {

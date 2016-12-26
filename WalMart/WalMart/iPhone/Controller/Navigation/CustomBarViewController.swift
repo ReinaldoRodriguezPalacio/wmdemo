@@ -532,7 +532,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.closeSearch(false,sender:sender)
         }
         else {
-            let index = self.buttonList.indexOf(sender)
+            let index = self.buttonList.index(of: sender)
             let controller = self.viewControllers[index!]
             if controller === self.currentController {
                 if let navController = self.currentController as? UINavigationController {
@@ -995,7 +995,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             
             let controller = ProductDetailPageViewController()
             controller.idListSeleted  = self.idListSelected
-            let useSignalsService : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
+            let useSignalsService : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
             let svcValidate = ProductDetailService(dictionary: useSignalsService)
             
             let upcDesc : NSString = upc! as NSString
@@ -1449,7 +1449,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         //Se elimina el badge de notificaciones
         UIApplication.shared.applicationIconBadgeNumber = 0
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION.rawValue, action: WMGAIUtils.ACTION_PUSH_NOTIFICATION_OPEN.rawValue, label: value)
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION.rawValue, action: WMGAIUtils.ACTION_PUSH_NOTIFICATION_OPEN.rawValue, label: value)
        return self.handleListNotification(type, name: name, value: value, bussines: bussines, schoolName: "", grade: "")
     }
     

@@ -300,7 +300,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
         let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:Any]
         if let  listUPCItems =  shoppingCartProduct["items"] as? [[String:Any]] {
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
+             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
             
             for shoppingCartProductDetail in  listUPCItems {
                 let upc = shoppingCartProductDetail["upc"] as! String

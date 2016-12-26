@@ -142,7 +142,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         selected = (indexPath as NSIndexPath).row
 
         if  (indexPath as NSIndexPath).row  == 2 {
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_RATE_APP.rawValue , label:"")
+             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_RATE_APP.rawValue , label:"")
             
             let url  = URL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
             if UIApplication.shared.canOpenURL(url!) == true  {
@@ -150,7 +150,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             }
         }
         else  if  (indexPath as NSIndexPath).row  == 0 {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
             
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CloseShoppingCart.rawValue), object: nil)

@@ -1018,7 +1018,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         print("parametro para signals MG :::\(self.indexRowSelected)")
         
-        let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
+        let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let productService = ProductDetailService(dictionary: signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         //let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position

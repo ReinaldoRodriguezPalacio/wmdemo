@@ -76,7 +76,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
         }
         
        
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
         sender.isSelected = !sender.isSelected
         self.delegate.selectedDetail(3)
     }

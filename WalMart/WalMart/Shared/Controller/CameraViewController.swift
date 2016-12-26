@@ -442,7 +442,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     func closeCamera(){
         self.dismiss(animated: true, completion: { () -> Void in
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
             self.delegate!.photoCaptured(nil,upcs:nil, done: { () -> Void in
             })
         })

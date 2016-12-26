@@ -410,7 +410,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             var correlationId = ""
             var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
             
-            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR()  * 0 //* self.discountAssociateAply
+            let discountsAssociated:Double = UserCurrentSession.sharedInstance.estimateTotalGR()  * 0 //* self.discountAssociateAply
             
             
             if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {

@@ -48,7 +48,7 @@ class BaseService : NSObject {
             AFStatic.manager.requestSerializer = AFJSONRequestSerializer()
             AFStatic.manager.responseSerializer = AFJSONResponseSerializer()
             AFStatic.manager.responseSerializer.acceptableContentTypes = nil
-            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: .None)
+            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: .none)
             AFStatic.manager.securityPolicy.allowInvalidCertificates = true
             AFStatic.manager.securityPolicy.validatesDomainName = false
             
@@ -56,7 +56,7 @@ class BaseService : NSObject {
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer()
             AFStatic.managerGR.responseSerializer = AFJSONResponseSerializer()
             AFStatic.managerGR.responseSerializer.acceptableContentTypes = nil
-            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: .None)
+            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: .none)
             AFStatic.managerGR.securityPolicy.allowInvalidCertificates = true
         }()
     struct AFStatic {
@@ -107,12 +107,12 @@ class BaseService : NSObject {
     
     func getManager() -> AFHTTPSessionManager {
         
-        let lockQueue = dispatch_queue_create("com.test.LockQueue", nil)
-        dispatch_sync(lockQueue) {
-            var jsessionIdSend = UserCurrentSession.sharedInstance().JSESSIONID
+        let lockQueue = DispatchQueue(label: "com.test.LockQueue")
+        lockQueue.sync() {
+            var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
             
             if jsessionIdSend == "" {
-                if let param2 = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
+                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
                     print("PARAM JSESSIONID ::"+param2.value)
                     jsessionIdSend = param2.value
                 }
@@ -120,15 +120,15 @@ class BaseService : NSObject {
             
             if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
                 let timeInterval = NSDate().timeIntervalSince1970
-                let timeStamp  = String(NSNumber(double: (timeInterval * 1000) as Double).intValue)
-                let uuid  =  NSUUID().UUIDString
+                let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
+                let uuid  =  NSUUID().uuidString
                 let strUsr  = "ff24423eefbca345" + timeStamp + uuid
                 AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
                 
-                if  UserCurrentSession.sharedInstance().AUTHORIZATION != "" {
-                    AFStatic.manager.requestSerializer.setValue(UserCurrentSession.sharedInstance().AUTHORIZATION, forHTTPHeaderField: "Authorization")
+                if  UserCurrentSession.sharedInstance.AUTHORIZATION != "" {
+                    AFStatic.manager.requestSerializer.setValue(UserCurrentSession.sharedInstance.AUTHORIZATION, forHTTPHeaderField: "Authorization")
                 }
                 //Session --
                 print("URL:: \(self.serviceUrl())")
@@ -185,11 +185,11 @@ class BaseService : NSObject {
     }
 
     
-    func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) -> URLSessionDataTask {
+    func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
         let url = serviceUrl()
    
-        let task = afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
+        afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
             let resultJSON = json as! [String:Any]
             self.jsonFromObject(resultJSON as AnyObject!)
             if let errorResult = self.validateCodeMessage(resultJSON) {
@@ -205,15 +205,15 @@ class BaseService : NSObject {
 //                        })
                         
                         let loginByTocken = LoginByTokenService()
-                        loginByTocken.callService([:], successBlock: { (result:NSDictionary) in
+                        loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
                                 print("ok service")
                             
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             
                             }, errorBlock: { (error:NSError) in
                                 print("failed ")
-                                UserCurrentSession.sharedInstance().userSigned = nil
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                                UserCurrentSession.sharedInstance.userSigned = nil
+                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
 
                         })
                         
@@ -242,7 +242,6 @@ class BaseService : NSObject {
                 print("Response Error : \(error) \n Response \(request!.response)")
                 errorBlock!(error! as NSError)
         })
-       return task!
     }
     
     func callGETService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -273,14 +272,14 @@ class BaseService : NSObject {
                         
                         
                         let loginByTocken = LoginByTokenService()
-                        loginByTocken.callService([:], successBlock: { (result:NSDictionary) in
+                        loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
                             print("ok service")
                            // TODO : Pendiente profile
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) in
                                 print("failed:: ")
-                                UserCurrentSession.sharedInstance().userSigned = nil
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                                UserCurrentSession.sharedInstance.userSigned = nil
+                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                                 
                         })
                         
@@ -328,9 +327,9 @@ class BaseService : NSObject {
                 messages = message as String
             }
             
-            if codeMessage.integerValue != 0  {
+            if codeMessage.intValue != 0  {
                 print("error : Response with error \(messages)")
-                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:messages])
+                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:messages])
             }
         
         }
@@ -567,7 +566,7 @@ class BaseService : NSObject {
     }
     
     static func getUseSignalServices() ->Bool{
-        return NSBundle.mainBundle().objectForInfoDictionaryKey("useSignalsServices") as! Bool
+        return Bundle.main.object(forInfoDictionaryKey: "useSignalsServices") as! Bool
     }
 
     

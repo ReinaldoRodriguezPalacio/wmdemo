@@ -40,17 +40,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         FBSDKAppEvents.activateApp()
         //UserCurrentSession.sharedInstance.searchForCurrentUser()
         // Optional: automatically send uncaught exceptions to Google Analytics.
-        GAI.sharedInstance().trackUncaughtExceptions = true
+        //GAI.sharedInstance().trackUncaughtExceptions = true
         // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-        GAI.sharedInstance().dispatchInterval = 20
+        //GAI.sharedInstance().dispatchInterval = 20
         // Optional: set Logger to VERBOSE for debug information.
-        GAI.sharedInstance().logger.logLevel = .none
+        //GAI.sharedInstance().logger.logLevel = .none
         // Initialize tracker. Replace with your tracking ID.
-        GAI.sharedInstance().tracker(withTrackingId: WMGAIUtils.GAI_APP_KEY.rawValue)
+        //GAI.sharedInstance().tracker(withTrackingId: WMGAIUtils.GAI_APP_KEY.rawValue)
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
             if (error != nil) {
-                print("Received error while fetching deferred app link %@", error);
+                print("Received error while fetching deferred app link %@", error!);
             }
             if (url != nil) {
                 UIApplication.shared.openURL(url!)

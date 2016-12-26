@@ -12,16 +12,16 @@ import Foundation
 
 class LoginByTokenService : BaseService {
     
-    func buildParams(refreshToken:String) -> NSDictionary {
+    func buildParams(refreshToken:String) -> [String:Any] {
         return ["refreshToken":refreshToken]
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+    func callService(params:NSDictionary,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             print("succes LoginByTokenService")
-            UserCurrentSession.sharedInstance().AUTHORIZATION = "Bearer \(resultCall["accessToken"] as! String)"
+            UserCurrentSession.sharedInstance.AUTHORIZATION = "Bearer \(resultCall["accessToken"] as! String)"
             let autologinService = AutologinService()
-            autologinService.callService([:], successBlock: { (result:NSDictionary) in
+            autologinService.callService(params: [:], successBlock: { (result:[String:Any]) in
                 successBlock!(resultCall)
                 }, errorBlock: { (error:NSError) in
                     errorBlock!(error)
