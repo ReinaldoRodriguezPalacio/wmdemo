@@ -80,7 +80,7 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(UIView.removeFromSuperview), for: UIControlEvents.touchUpInside)
         viewBg.addSubview(closeButton)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_BANNER_TERMS.rawValue, action: WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_BANNER_TERMS.rawValue, action: WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue, label: "")
     }
     
     func openTermsTap(_ sender:UITapGestureRecognizer){

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DefaultListService : GRBaseService {
+class DefaultListService : BaseService {
     
     let fileName = "grdefaultlist.json"
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRLinesForSearchService: GRBaseService {
+class GRLinesForSearchService: BaseService {
 
     override init() {
         super.init()

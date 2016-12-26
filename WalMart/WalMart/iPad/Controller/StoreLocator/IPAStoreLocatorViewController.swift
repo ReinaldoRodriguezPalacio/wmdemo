@@ -139,7 +139,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let store = self.items![(indexPath as NSIndexPath).row]
          collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_SHOW_STORE_LOCATOR_IN_MAP.rawValue, label:store.name! )
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_SHOW_STORE_LOCATOR_IN_MAP.rawValue, label:store.name! )
         
         self.detailView?.removeFromSuperview()
         self.detailView = nil

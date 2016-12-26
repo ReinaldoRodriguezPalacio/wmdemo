@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ValidateActiveReferedService : GRBaseService {
+class ValidateActiveReferedService : BaseService {
        
     func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let empty: [String:Any] = [:]

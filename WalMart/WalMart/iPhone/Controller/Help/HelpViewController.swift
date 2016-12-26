@@ -173,7 +173,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                     controller.imgFile = imgFile as NSString?
                 }
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_QUESTIONS.rawValue , label:name)
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_QUESTIONS.rawValue , label:name)
 
         
                 self.navigationController!.pushViewController(controller, animated: true)
@@ -186,7 +186,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     }
     
     override func back() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
         super.back()
     }
     

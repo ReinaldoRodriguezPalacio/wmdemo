@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRProductByTicket: GRBaseService {
+class GRProductByTicket: BaseService {
 
     func buildParams(_ ticket:String) -> [String:Any] {
         //{"number":"GQ9$JAQ+9B+-ORE5"}

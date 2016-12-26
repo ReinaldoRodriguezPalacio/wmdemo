@@ -305,8 +305,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             }
             
         }else{
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ScanBarCode.rawValue), object: character, userInfo: nil)
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ScanBarCode.rawValue, object: character, userInfo: nil)
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
         }
     }
     
@@ -314,7 +314,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     
     func createList(_ barcode: AVMetadataMachineReadableCodeObject){
         let barcodeValue = barcode.stringValue!
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: barcodeValue)
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: barcodeValue)
         if useDelegate{
             self.delegate?.barcodeCaptured(barcodeValue)
         }

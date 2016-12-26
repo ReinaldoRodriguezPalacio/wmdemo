@@ -301,7 +301,7 @@ class OrderConfirmDetailView : UIView {
     }
     
     func finishSopping(){
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_FINIHS_ORDER.rawValue , label: "ok order")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_FINIHS_ORDER.rawValue , label: "ok order")
         self.delegate.didFinishConfirm()
         self.removeFromSuperview()
     }
@@ -323,10 +323,10 @@ class OrderConfirmDetailView : UIView {
                 self.finishSopping()
                 print("Save in data base")
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
                 }, rightText: "Sí", rightAction: {
                     alert?.close()
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
                     self.rankingApp()
                 }, isNewFrame: false)
             alert!.leftButton.layer.cornerRadius = 20
@@ -346,7 +346,7 @@ class OrderConfirmDetailView : UIView {
             //--
             CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
             alert?.close()
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
             self.finishSopping()
             
             }, rightText: NSLocalizedString("review.maybe.later", comment: ""), rightAction: {
@@ -354,13 +354,13 @@ class OrderConfirmDetailView : UIView {
                 CustomBarViewController.addRateParam(self.KEY_RATING, value: "true")
                 alert?.close()
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
                 self.finishSopping()
                 
             }, centerText: NSLocalizedString("review.yes.rate", comment: ""),centerAction: {
                 CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
                 alert?.close()
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 self.finishSopping()
                 let url  = URL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
                 if UIApplication.shared.canOpenURL(url!) == true  {

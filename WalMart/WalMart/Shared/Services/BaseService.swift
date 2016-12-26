@@ -45,16 +45,18 @@ enum ResultObjectType : String {
 class BaseService : NSObject {
     private static var __once: () = {
             AFStatic.manager = AFHTTPSessionManager()
-            AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as AFJSONRequestSerializer
-            //AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
-            //AFStatic.manager.securityPolicy.validatesCertificateChain = false
+            AFStatic.manager.requestSerializer = AFJSONRequestSerializer()
+            AFStatic.manager.responseSerializer = AFJSONResponseSerializer()
+            AFStatic.manager.responseSerializer.acceptableContentTypes = nil
+            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: .None)
             AFStatic.manager.securityPolicy.allowInvalidCertificates = true
+            AFStatic.manager.securityPolicy.validatesDomainName = false
             
-        
             AFStatic.managerGR = AFHTTPSessionManager()
-            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as AFJSONRequestSerializer
-            //AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
-            //AFStatic.managerGR.securityPolicy.validatesCertificateChain = false
+            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer()
+            AFStatic.managerGR.responseSerializer = AFJSONResponseSerializer()
+            AFStatic.managerGR.responseSerializer.acceptableContentTypes = nil
+            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: .None)
             AFStatic.managerGR.securityPolicy.allowInvalidCertificates = true
         }()
     struct AFStatic {
@@ -105,26 +107,36 @@ class BaseService : NSObject {
     
     func getManager() -> AFHTTPSessionManager {
         
-        let lockQueue = DispatchQueue(label: "com.test.LockQueue", attributes: [])
-        lockQueue.sync {
-            if self.shouldIncludeHeaders() { //UserCurrentSession.hasLoggedUser() && 
-                let timeInterval = Date().timeIntervalSince1970
-                let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
-                let uuid  = UUID().uuidString
+        let lockQueue = dispatch_queue_create("com.test.LockQueue", nil)
+        dispatch_sync(lockQueue) {
+            var jsessionIdSend = UserCurrentSession.sharedInstance().JSESSIONID
+            
+            if jsessionIdSend == "" {
+                if let param2 = CustomBarViewController.retrieveParamNoUser("JSESSIONID") {
+                    print("PARAM JSESSIONID ::"+param2.value)
+                    jsessionIdSend = param2.value
+                }
+            }
+            
+            if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
+                let timeInterval = NSDate().timeIntervalSince1970
+                let timeStamp  = String(NSNumber(double: (timeInterval * 1000) as Double).intValue)
+                let uuid  =  NSUUID().UUIDString
                 let strUsr  = "ff24423eefbca345" + timeStamp + uuid
-                AFStatic.manager.requestSerializer!.setValue(timeStamp, forHTTPHeaderField: "timestamp")
-                AFStatic.manager.requestSerializer!.setValue(uuid, forHTTPHeaderField: "requestID")
-                AFStatic.manager.requestSerializer!.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
+                AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+                AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+                AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
+                //Session --
+                print("URL:: \(self.serviceUrl())")
+                AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 
-//                let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: self.serviceUrl())!)
-//                let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies!)
-//                for key in headers.keys {
-//                    let strKey = key as NSString
-//                    let strVal = headers[key] as NSString
-//                    AFStatic.managerGR.requestSerializer!.setValue(strVal, forHTTPHeaderField:strKey)
-//                }
+                
             } else{
+                //Session --
+                print("URL:: \(self.serviceUrl())")
+                print("SEND JSESSIONID::" + jsessionIdSend)
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+                AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
             }
         }
         return AFStatic.manager
@@ -503,6 +515,10 @@ class BaseService : NSObject {
                 print("Response Error : \(error?.localizedDescription) \n Response \(request?.response)")
                 errorBlock!(error as! NSError)
         })
+    }
+    
+    static func getUseSignalServices() ->Bool{
+        return NSBundle.mainBundle().objectForInfoDictionaryKey("useSignalsServices") as! Bool
     }
 
     

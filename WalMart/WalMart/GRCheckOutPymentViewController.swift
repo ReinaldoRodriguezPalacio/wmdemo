@@ -7,7 +7,6 @@
 //
 
 import Foundation
-//import Tune
 
 
 class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegate,TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate, PayPalFuturePaymentDelegate,GenerateOrderViewDelegate{
@@ -389,7 +388,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         serviceCheck.callService(requestParams: paramsOrder as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
             // deliveryAmount
 //            let userEmail = UserCurrentSession.sharedInstance.userSigned!.email as String
 //            let userName = UserCurrentSession.sharedInstance.userSigned!.profile.name as String
@@ -411,9 +410,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             var correlationId = ""
             var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
             
-            //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
-            
-            let discountsAssociated:Double = UserCurrentSession.sharedInstance.estimateTotalGR()  * 0 //* self.discountAssociateAply
+            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR()  * 0 //* self.discountAssociateAply
             
             
             if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
@@ -1130,7 +1127,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         if let formFieldObj = picker.sender as? FormFieldView {
             
             if formFieldObj == self.discountAssociate!{
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate {
                     //self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                     

@@ -342,7 +342,7 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
         detailController.itemDetailProducts = shipping["items"] as! [[String:Any]]
         self.navigationController!.pushViewController(detailController, animated: true)
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
     }
     
     func addListToCart (){

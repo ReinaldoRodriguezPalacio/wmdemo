@@ -144,8 +144,8 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
     
     override func openSearchProduct(){
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
-        self.btnSearch!.isSelected =  true
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
+        self.btnSearch!.selected =  true
         
         if (self.btnShopping!.isSelected){
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {

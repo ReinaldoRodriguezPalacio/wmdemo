@@ -488,7 +488,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         if !self.isEditingUserList {
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_EDIT_LIST.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_EDIT_LIST.rawValue, label: "")
             
             UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 self.newListBtn?.alpha = 0
@@ -635,7 +635,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.tableuserlist!.reloadData()
             }
             self.stateEdit =  true
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
             self.isShowingSuperlists = false
             UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 self.tableuserlist!.setContentOffset(CGPoint.zero, animated:false)
@@ -680,7 +680,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
         else {
             stateEdit =  false
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CANCEL_NEW_LIST.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CANCEL_NEW_LIST.rawValue, label: "")
             
             self.showSearchField({
                 self.editBtn!.alpha = 1
@@ -774,7 +774,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             successBlock: { (result:[String:Any]) -> Void in
                 
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
                 
                 self.checkEditBtn()
                 self.newListEnabled = false
@@ -1214,7 +1214,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let vc = storyboard!.instantiateViewController(withIdentifier: "defaultListVC")
         self.navigationController!.pushViewController(vc, animated: true)
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_SUPERLIST.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_SUPERLIST.rawValue, label: "")
         
     }
     
@@ -1359,7 +1359,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 //        }
         
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
         
         if let listItem = self.itemsUserList![(indexPath as NSIndexPath).row] as? [String:Any] {
             if let listId = listItem["repositoryId"] as? String {

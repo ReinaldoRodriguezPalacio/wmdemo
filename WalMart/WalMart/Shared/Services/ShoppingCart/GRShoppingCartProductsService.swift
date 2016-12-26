@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class GRShoppingCartProductsService : GRBaseService {
+class GRShoppingCartProductsService : BaseService {
 
     func callService(requestParams params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //if !ShoppingCartService.isSynchronizing {

@@ -154,7 +154,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
 
         
         //addViewLoad()
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
         
         let service = AddPreferedAddress()
         service.buildParams(addressID)

@@ -9,7 +9,7 @@
 import Foundation
 
 
-class DetailedService: GRBaseService {
+class DetailedService: BaseService {
 
     
     func callService(requestParams params:AnyObject, succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){

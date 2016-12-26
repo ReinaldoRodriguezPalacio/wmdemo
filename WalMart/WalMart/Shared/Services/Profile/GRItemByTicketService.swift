@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRItemByTicketService : GRBaseService {
+class GRItemByTicketService : BaseService {
     
     
     

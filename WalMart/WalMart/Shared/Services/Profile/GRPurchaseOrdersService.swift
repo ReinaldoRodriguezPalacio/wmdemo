@@ -8,7 +8,8 @@
 
 import Foundation
 
-class GRPurchaseOrdersService : GRBaseService {
+class GRPurchaseOrdersService : 
+BaseService {
     
     
     func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {

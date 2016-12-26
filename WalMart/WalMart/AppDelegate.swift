@@ -146,17 +146,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let productionClientID =  payPalEnvironment["ProductionClientID"] as! String
         PayPalMobile.initializeWithClientIds(forEnvironments: [PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
 
-        
-        //Tune.framework
-        //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! [String:Any]
-        //let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
-        //let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
-        //Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
-        //Tune.setDelegate(self)
-        //Tune.setDebugMode(true)
-        //Tune.setAllowDuplicateRequests(false)
-        //CompuwareUEM.startupWithApplicationName("WalMart", serverURL:"https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
-        
         return true
     }
 
@@ -206,8 +195,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             IPOSplashViewController.updateUserData(true)
         }
         
-        //Tune.framework
-        //Tune.measureSession()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -614,15 +601,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
     }
     
-    //MARK: TuneDelegate
-    func tuneDidSucceedWithData(_ data: Data!) {
-        let response = NSString(data: data, encoding:String.Encoding.utf8.rawValue)
-        NSLog("Tune.success: %@", response!);
-
-    }
-    
-    
-    func tuneDidFailWithError(_ error: NSError!) {
-        NSLog("Tune.failure: %@", error);
-    }
 }  

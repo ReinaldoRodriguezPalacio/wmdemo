@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GRUpdateItemListService: GRBaseService {
+class GRUpdateItemListService: BaseService {
     
     func buildParams(upc:String, quantity:Int) -> [Any] {
         return [self.buildProductObject(upc: upc, quantity: quantity) as AnyObject]

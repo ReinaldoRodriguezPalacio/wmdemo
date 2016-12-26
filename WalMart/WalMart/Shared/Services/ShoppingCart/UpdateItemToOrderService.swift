@@ -9,7 +9,7 @@
 import Foundation
 
 
-class UpdateItemToOrderService:GRBaseService {
+class UpdateItemToOrderService:BaseService {
     
     func buildParameter(_ catalogRefIds:String, productId:String,quantity:String,quantityWithFraction:String,orderedUOM:String,orderedQTYWeight:String) -> [String:Any] {
         

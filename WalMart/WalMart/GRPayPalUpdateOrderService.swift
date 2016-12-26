@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRPaypalUpdateOrderService: GRBaseService{
+class GRPaypalUpdateOrderService: BaseService{
     
   
     

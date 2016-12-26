@@ -57,6 +57,10 @@ class UserCurrentSession : NSObject {
     var activeCommens : Bool = false
     var upcSearch : [String]! = []
     var messageInCommens : String! = ""
+    
+    var JSESSIONID = ""
+    var ACCESS_TOKEN = ""
+    var REFESH_TOKEN =  ""
 
     
     //Singleton init

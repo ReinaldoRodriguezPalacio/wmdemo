@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class GRAddItemListService: GRBaseService {
+class GRAddItemListService: BaseService {
     
     func buildParams(idList:String, upcs:[Any]?) -> [String:Any]! {
         //{"idList":"26e50bc7-3644-48d8-a51c-73d7536ab30d","itemArrImp":[{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}]}

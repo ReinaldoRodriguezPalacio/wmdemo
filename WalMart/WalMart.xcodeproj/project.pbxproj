@@ -520,8 +520,6 @@
 		AC59118419DE0D2400EB095C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AC59117F19DE0D2400EB095C /* FMResultSet.m */; };
 		AC59118919DE0D4D00EB095C /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC59118619DE0D4D00EB095C /* TPKeyboardAvoidingScrollView.m */; };
 		AC59118A19DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AC59118819DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
-		AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC59119519DE0D6100EB095C /* libAdIdAccess.a */; };
-		AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */; };
 		AC5911A419DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AC59119B19DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg */; };
 		AC5911A519DE26E600EB095C /* cancelPolicies.html in Resources */ = {isa = PBXBuildFile; fileRef = AC59119C19DE26E600EB095C /* cancelPolicies.html */; };
 		AC5911A619DE26E600EB095C /* enviocostotiempo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AC59119D19DE26E600EB095C /* enviocostotiempo.jpg */; };
@@ -577,6 +575,8 @@
 		B138487C1D7DCDA900147212 /* UserListDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B138487B1D7DCDA900147212 /* UserListDetailService.swift */; };
 		F711E2BB1DA5878400C4DC13 /* InterestCategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F711E2BA1DA5878400C4DC13 /* InterestCategoryController.swift */; };
 		F711E2BE1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F711E2BD1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift */; };
+		F7870F031E0C574200BF3B1B /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7870F021E0C574200BF3B1B /* AuthorizationService.swift */; };
+		F7870F051E0C597000BF3B1B /* AutologinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7870F041E0C597000BF3B1B /* AutologinService.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -1164,18 +1164,6 @@
 		AC59118619DE0D4D00EB095C /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingScrollView.m; path = Shared/Library/ScrollViewForm/TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		AC59118719DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+TPKeyboardAvoidingAdditions.h"; path = "Shared/Library/ScrollViewForm/UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		AC59118819DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+TPKeyboardAvoidingAdditions.m"; path = "Shared/Library/ScrollViewForm/UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
-		AC59118B19DE0D6100EB095C /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = Shared/Library/GAnalitics/GAI.h; sourceTree = "<group>"; };
-		AC59118C19DE0D6100EB095C /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIDictionaryBuilder.h; path = Shared/Library/GAnalitics/GAIDictionaryBuilder.h; sourceTree = "<group>"; };
-		AC59118D19DE0D6100EB095C /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceFields.h; path = Shared/Library/GAnalitics/GAIEcommerceFields.h; sourceTree = "<group>"; };
-		AC59118E19DE0D6100EB095C /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProduct.h; path = Shared/Library/GAnalitics/GAIEcommerceProduct.h; sourceTree = "<group>"; };
-		AC59118F19DE0D6100EB095C /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProductAction.h; path = Shared/Library/GAnalitics/GAIEcommerceProductAction.h; sourceTree = "<group>"; };
-		AC59119019DE0D6100EB095C /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommercePromotion.h; path = Shared/Library/GAnalitics/GAIEcommercePromotion.h; sourceTree = "<group>"; };
-		AC59119119DE0D6100EB095C /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIFields.h; path = Shared/Library/GAnalitics/GAIFields.h; sourceTree = "<group>"; };
-		AC59119219DE0D6100EB095C /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAILogger.h; path = Shared/Library/GAnalitics/GAILogger.h; sourceTree = "<group>"; };
-		AC59119319DE0D6100EB095C /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITrackedViewController.h; path = Shared/Library/GAnalitics/GAITrackedViewController.h; sourceTree = "<group>"; };
-		AC59119419DE0D6100EB095C /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITracker.h; path = Shared/Library/GAnalitics/GAITracker.h; sourceTree = "<group>"; };
-		AC59119519DE0D6100EB095C /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAdIdAccess.a; path = Shared/Library/GAnalitics/libAdIdAccess.a; sourceTree = "<group>"; };
-		AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = Shared/Library/GAnalitics/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		AC59119B19DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bbvabancomer_pagodeservicios.jpg; path = "Supporting Files/Help/bbvabancomer_pagodeservicios.jpg"; sourceTree = "<group>"; };
 		AC59119C19DE26E600EB095C /* cancelPolicies.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = cancelPolicies.html; path = "Supporting Files/Help/cancelPolicies.html"; sourceTree = "<group>"; };
 		AC59119D19DE26E600EB095C /* enviocostotiempo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = enviocostotiempo.jpg; path = "Supporting Files/Help/enviocostotiempo.jpg"; sourceTree = "<group>"; };
@@ -1232,6 +1220,8 @@
 		B138487B1D7DCDA900147212 /* UserListDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListDetailService.swift; path = Shared/Services/UserList/UserListDetailService.swift; sourceTree = "<group>"; };
 		F711E2BA1DA5878400C4DC13 /* InterestCategoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterestCategoryController.swift; path = iPhone/Controller/Preferences/InterestCategoryController.swift; sourceTree = "<group>"; };
 		F711E2BD1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryInterestTableViewCell.swift; path = Shared/View/Preferences/CategoryInterestTableViewCell.swift; sourceTree = "<group>"; };
+		F7870F021E0C574200BF3B1B /* AuthorizationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthorizationService.swift; path = Shared/Services/AuthorizationService.swift; sourceTree = "<group>"; };
+		F7870F041E0C597000BF3B1B /* AutologinService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AutologinService.swift; path = Shared/Services/LoginSignUp/AutologinService.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -1275,9 +1265,7 @@
 				6CA068871D3D7D4D0051200E /* GoogleSignIn.framework in Frameworks */,
 				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
-				AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
-				AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1709,7 +1697,6 @@
 				5608AF741A0AADE600176CB0 /* StickyHeaderLayout */,
 				AC59117519DE0CBF00EB095C /* fmdb */,
 				AC59117419DE0CB500EB095C /* ScrollViewForm */,
-				AC59117319DE0CA300EB095C /* GAnalitics */,
 				56AE80E319D9F47E00D5DDA4 /* ScreenShot */,
 				56DFE4C119D057A8001811F5 /* SWTableView */,
 				56823A2B19CB72D3007DD932 /* Hash */,
@@ -1776,6 +1763,7 @@
 				5696078A19B4C718005D20DC /* LoginSignUp */,
 				56C5B22419AE879600BB81DE /* BaseService.swift */,
 				5680A08F1A48C4ED009C5515 /* GRBaseService.swift */,
+				F7870F021E0C574200BF3B1B /* AuthorizationService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -2441,6 +2429,7 @@
 				4A8C992E1D493C3900DEBB87 /* LoginWithIdService.swift */,
 				6C6001461D5395250027835E /* UpdatePasswordService.swift */,
 				B13848791D7DC4C000147212 /* OccupationsService.swift */,
+				F7870F041E0C597000BF3B1B /* AutologinService.swift */,
 			);
 			name = LoginSignUp;
 			sourceTree = "<group>";
@@ -3016,25 +3005,6 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
-		AC59117319DE0CA300EB095C /* GAnalitics */ = {
-			isa = PBXGroup;
-			children = (
-				AC59118B19DE0D6100EB095C /* GAI.h */,
-				AC59118C19DE0D6100EB095C /* GAIDictionaryBuilder.h */,
-				AC59118D19DE0D6100EB095C /* GAIEcommerceFields.h */,
-				AC59118E19DE0D6100EB095C /* GAIEcommerceProduct.h */,
-				AC59118F19DE0D6100EB095C /* GAIEcommerceProductAction.h */,
-				AC59119019DE0D6100EB095C /* GAIEcommercePromotion.h */,
-				AC59119119DE0D6100EB095C /* GAIFields.h */,
-				AC59119219DE0D6100EB095C /* GAILogger.h */,
-				AC59119319DE0D6100EB095C /* GAITrackedViewController.h */,
-				AC59119419DE0D6100EB095C /* GAITracker.h */,
-				AC59119519DE0D6100EB095C /* libAdIdAccess.a */,
-				AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */,
-			);
-			name = GAnalitics;
-			sourceTree = "<group>";
-		};
 		AC59117419DE0CB500EB095C /* ScrollViewForm */ = {
 			isa = PBXGroup;
 			children = (
@@ -3483,6 +3453,7 @@
 				5686DA551B59A67B004D4211 /* SearchItemsByUPCService.swift in Sources */,
 				5669022F1A942C56000D6FA6 /* RecentProductsTableViewCell.swift in Sources */,
 				6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */,
+				F7870F031E0C574200BF3B1B /* AuthorizationService.swift in Sources */,
 				56DFE4D719D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift in Sources */,
 				AC0918CA19D1DA7700BF48CA /* FiscalAddressPersonM.swift in Sources */,
 				6C31B41F1CB81C6800AB7670 /* AddressNoStoreView.swift in Sources */,
@@ -3876,6 +3847,7 @@
 				5673D1391A9D500400DCD20B /* RSCodeGenerator.swift in Sources */,
 				6C3092D61B990CD900D00349 /* GRPayPalFuturePaymentService.swift in Sources */,
 				5673D11F1A9D278D00DCD20B /* GRPreviousOrdersService.swift in Sources */,
+				F7870F051E0C597000BF3B1B /* AutologinService.swift in Sources */,
 				56C5B22319AE877A00BB81DE /* WMColor.swift in Sources */,
 				56DFE4D319D057C9001811F5 /* SWUtilityButtonView.m in Sources */,
 				AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */,
@@ -3958,7 +3930,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3997,7 +3969,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4053,7 +4025,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -4112,7 +4084,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";

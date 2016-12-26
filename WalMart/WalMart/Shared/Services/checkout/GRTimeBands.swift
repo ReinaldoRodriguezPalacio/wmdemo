@@ -9,7 +9,7 @@
 import Foundation
 
 
-class GRTimeBands: GRBaseService {
+class GRTimeBands: BaseService {
     
     func buildParams(_ date:String,addressId:String) -> [String:Any] {
         return ["date":date,"addressId":addressId,"channelType":"20"]

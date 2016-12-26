@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.47</string>
+	<string>3.70</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -56,7 +56,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -219,30 +219,34 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.AuthorizationService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/getAuthotization</string>
+			<key>WalmartMG.AutologinService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/autologin</string>
 			<key>WalmartMG.SetPreferencesService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/setPreferences</string>
 			<key>WalmartMG.GetPreferencesService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPreferences</string>
 			<key>WalmartMG.UpdateItemToOrderService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateItemToOrder</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/cart/updateItemToOrder</string>
 			<key>WalmartMG.DetailedService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/detailed</string>
 			<key>WalmartMG.UpdateCommentsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateComments</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/cart/updateComments</string>
 			<key>WalmartMG.SelectedSlotService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/selectedSlot</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/checkout/selectedSlot</string>
 			<key>WalmartMG.DisplaySlotsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/displaySlots</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/checkout/displaySlots</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addInvoiceAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/defaultShippingAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/defaultShippingAddress</string>
 			<key>WalmartMG.AddPreferedAddressInvoice</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/defaultInvoiceAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/defaultInvoiceAddress</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addReferedCustomer</string>
 			<key>WalmartMG.AddShippingAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addShippingAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/addShippingAddress</string>
 			<key>WalmartMG.BannerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
@@ -264,15 +268,15 @@
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPractilist</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteShippingAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/deleteShippingAddress</string>
 			<key>WalmartMG.DeleteAddressesInvoiceService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteInvoiceAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/deleteInvoiceAddress</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/forgotPassword</string>
 			<key>WalmartMG.GRAddItemListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addItemToList</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressUpdateService</key>
@@ -284,9 +288,9 @@
 			<key>WalmartMG.GRCategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRDeleteItemListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToList</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/deleteItemToList</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteListByUser</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/deleteListByUser</string>
 			<key>WalmartMG.GRDeliveryTypeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountAssociateService</key>
@@ -298,7 +302,7 @@
 			<key>WalmartMG.GRHeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.GRItemByTicketService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getItemByTicket</string>
+			<string>http://localhost:9080/http;//localhost:9080/walmartmg/mustang/auth/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
@@ -311,26 +315,24 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getItemsBySearching</string>
-			<key>WalmartMG.GRProductByTicket</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.GRRecentProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getMyBasics</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/profile/getMyBasics</string>
 			<key>WalmartMG.GRSaveUserListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/createListByUser</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/createListByUser</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRTimeBands</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateItemToList</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/updateItemToList</string>
 			<key>WalmartMG.GRUpdateListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateListByUser</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/updateListByUser</string>
 			<key>WalmartMG.GRUpdateUserProfileService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/profile/updateUserProfile</string>
 			<key>WalmartMG.GRUserListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getListByUser</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/getListByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getInfoByZipCode</string>
 			<key>WalmartMG.HeaderCategory</key>
@@ -338,7 +340,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.InvoiceAddressByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/displayInvoiceAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/displayInvoiceAddress</string>
 			<key>WalmartMG.LineService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getSubCategoriesByParentId</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -368,11 +370,11 @@
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.ShippingAddressByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/displayShippingAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/displayShippingAddress</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/addItemToOrder</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/cart/addItemToOrder</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToOrder</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/cart/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/summary</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
@@ -384,17 +386,17 @@
 			<key>WalmartMG.StoreLocatorService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateInvoiceAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/updateInvoiceAddress</string>
 			<key>WalmartMG.UpdatePasswordService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/changePassword</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/profile/updatePassword</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateShippingAddress</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/address/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.UserListDetailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getGiftListByListId</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/list/getGiftListByListId</string>
 			<key>WalmartMG.UserProfileService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/displayUserProfile</string>
+			<string>http://localhost:9080/walmartmg/mustang/auth/profile/displayUserProfile</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/isReferedActive</string>
 			<key>WalmartMG.ValidateAssociateService</key>
@@ -402,6 +404,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.AutologinService</key>
+			<string>https://dl.dropboxusercontent.com/s/5dypj165uo31e36/AutologinService.txt?dl=0</string>
+			<key>WalmartMG.AuthorizationService</key>
+			<string>https://dl.dropboxusercontent.com/s/wohmstcxriozlzy/AuthorizationService.txt?dl=0</string>
 			<key>WalmartMG.SetPreferencesService</key>
 			<string>https://dl.dropboxusercontent.com/s/d3tsuq8tlwghpmv/setPreferences.txt?dl=0</string>
 			<key>WalmartMG.GetPreferencesService</key>
@@ -513,7 +519,7 @@
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListService</key>
-			<string>https://dl.dropboxusercontent.com/s/ovfimwatv4esnhs/getListUser.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/ii1bhpds82f36hn/UserListService.txt?dl=0</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getZipCode.json</string>
 			<key>WalmartMG.HeaderCategory</key>
@@ -527,7 +533,7 @@
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.LoginService</key>
-			<string>https://dl.dropboxusercontent.com/s/rhif0nc54535n0n/login_output.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/v1jps4uk817f6de/LoginService.txt?dl=0</string>
 			<key>WalmartMG.LoginWithEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/loginByEmail</string>
 			<key>WalmartMG.LoginWithIdService</key>

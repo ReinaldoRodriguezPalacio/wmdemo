@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GRUpdateListService: GRBaseService {
+class GRUpdateListService: BaseService {
     
     func buildParams(_ idList:String,name:String) -> [String:Any] {
         //{"newName":"PentonVillet30Mayo2014_Update"}

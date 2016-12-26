@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRPayPalFuturePaymentService: GRBaseService{
+class GRPayPalFuturePaymentService: BaseService{
     
     func buildParams(_ contractId:String) -> [String:Any]{
         return ["contractId":contractId]

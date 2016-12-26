@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SelectedSlotService: GRBaseService{
+class SelectedSlotService: BaseService{
 
     func buildParams(_ deliveryType:String,selectedSlotId:String) -> [String:Any]{
         return ["deliveryType": deliveryType,"selectedSlotId": selectedSlotId]

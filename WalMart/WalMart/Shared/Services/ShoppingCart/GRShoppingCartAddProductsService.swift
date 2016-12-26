@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class GRShoppingCartAddProductsService : GRBaseService {
+class GRShoppingCartAddProductsService : BaseService {
     var useSignals = false
     var parameterSend:[String:Any]?
     

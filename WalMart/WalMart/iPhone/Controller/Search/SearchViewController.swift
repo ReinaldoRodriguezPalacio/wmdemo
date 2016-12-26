@@ -457,7 +457,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 }
             }
             delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs: self.upcItems)
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action:WMGAIUtils.ACTION_TEXT_SEARCH.rawValue , label: textField.text!)
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action:WMGAIUtils.ACTION_TEXT_SEARCH.rawValue , label: textField.text!)
         }
         else{
             UIView.animate(withDuration: 1.0, animations: {
@@ -626,7 +626,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.field!.resignFirstResponder()
         }
         self.delegate?.searchControllerScanButtonClicked()
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_BARCODE_SCANNED_UPC.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_BARCODE_SCANNED_UPC.rawValue, label: "")
     }
     
     func showCamera(_ sender:UIButton) {
@@ -634,12 +634,12 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.field!.resignFirstResponder()
         }
         self.delegate?.searchControllerCamButtonClicked(self)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
     }
     
     func cancel(_ sender:UIButton) {
         delegate.closeSearch(false, sender:nil)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
     }
     
     // MARK: - CameraViewControllerDelegate

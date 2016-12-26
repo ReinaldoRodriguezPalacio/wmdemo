@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRAddressAddService : GRBaseService {
+class GRAddressAddService : BaseService {
     
     func buildParams(_ city:String,addressID:String,zipCode:String,street:String,innerNumber:String,state:String,county:String,neighborhoodID:String,phoneNumber:String,outerNumber:String,adName:String,reference1:String,reference2:String,storeID:String,storeName:String,operationType:String,preferred:Bool) -> NSMutableDictionary {
 

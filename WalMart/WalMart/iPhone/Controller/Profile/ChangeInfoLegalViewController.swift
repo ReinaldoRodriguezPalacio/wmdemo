@@ -171,7 +171,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
      */
     func save(_ sender:UIButton) {
         if  UserCurrentSession.hasLoggedUser() {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label:"")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label:"")
             self.view.endEditing(true)
             self.invokeSavepeferences()
         }

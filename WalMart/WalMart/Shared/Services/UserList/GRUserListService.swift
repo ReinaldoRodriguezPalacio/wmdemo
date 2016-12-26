@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class GRUserListService : GRBaseService {
+class GRUserListService : BaseService {
 
     var isLoadingLists = false
     

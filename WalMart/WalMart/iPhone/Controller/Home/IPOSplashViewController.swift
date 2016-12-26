@@ -22,7 +22,6 @@ struct ConfigServices {
     static var ConfigIdMGSignals : String = "WMMustangURLServices"
     static var ConfigIdGRSignalsSing : String = "WMMustangURLServicesSession"
     
-    
     static var camfindparams : String = ""
 }
 
@@ -254,22 +253,23 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         )
 
         
-        let defaultlist = DefaultListService()
-        defaultlist.callService({ (result:[String:Any]) -> Void in
-            print("Call DefaultListService sucess")
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Call DefaultListService error \(error)")
-        })
-        
-        let storeService = StoreLocatorService()
-        storeService.callService(
-            { (response:[String:Any]) -> Void in
-                print("Call StoreLocatorService sucess")
-            },
-            errorBlock: { (error:NSError) -> Void in
-                print("Call StoreLocatorService error \(error)")
-            }
-        )
+     //TODO : Llamar donde se utilizan
+//        let defaultlist = DefaultListService()
+//        defaultlist.callService({ (result:NSDictionary) -> Void in
+//            print("Call DefaultListService sucess")
+//            }, errorBlock: { (error:NSError) -> Void in
+//                print("Call DefaultListService error \(error)")
+//        })
+//        
+//        let storeService = StoreLocatorService()
+//        storeService.callService(
+//            { (response:NSDictionary) -> Void in
+//                print("Call StoreLocatorService sucess")
+//            },
+//            errorBlock: { (error:NSError) -> Void in
+//                print("Call StoreLocatorService error \(error)")
+//            }
+//        )
         
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
@@ -328,89 +328,98 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     
-    
     func configSplashAndGoToHome() {
         let confServ = ConfigService()
         confServ.callService([:], successBlock: { (result:[String:Any]) -> Void in
             var error: NSError?
             self.configureWebView(result)
-            IPOSplashViewController.callUpdateServices()
-             UserCurrentSession.sharedInstance.finishConfig  = true
-            self.invokeServiceToken()
             
-            if error == nil{
-                self.webViewSplash.loadRequest(URLRequest(url: URL(string:self.serviceUrl("WalmartMG.Splash"))!))
-                if let privateNot = result["privaceNotice"] as? [[String:Any]] {
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd/MM/yyyy"
-                    let sinceDate = dateFormatter.date(from: privateNot[0]["sinceDate"] as! String)
-                    let untilDate = dateFormatter.date(from: privateNot[0]["untilDate"] as! String)
-                    let version = privateNot[0]["version"] as! NSNumber
-                    let versionAP = "AP\(version)" as String!
-                    var isReviewActive : NSString = "false"
-                    
-                    if let value = result["isReviewActive"] as? NSString {
-                        isReviewActive = value
-                    }
-                    
-                    UserCurrentSession.sharedInstance.dateStart = sinceDate
-                    UserCurrentSession.sharedInstance.dateEnd = untilDate
-                    UserCurrentSession.sharedInstance.version = versionAP
-                    
-                    UserCurrentSession.sharedInstance.isReviewActive = isReviewActive.boolValue
-                    
-                    if let commensChck = result["alertComment"] as? [[String:Any]] {
-                        if let active = (commensChck[0] as AnyObject).object(forKey: "isActive") as? Bool {
-                            UserCurrentSession.sharedInstance.activeCommens = active
-                        }
-                        if let message = (commensChck[0] as AnyObject).object(forKey: "message") as? String {
-                            UserCurrentSession.sharedInstance.messageInCommens = message
-                        }
-                        if let upcs = (commensChck[0] as AnyObject).object(forKey: "upcs") as? [String] {
-                             UserCurrentSession.sharedInstance.upcSearch = upcs
-                        }
-                 
-                    }
-                    
-                    
-                    var requiredAP = true
-                    if let param = self.retrieveParam(versionAP!) {
-                        requiredAP = !(param.value == "false")
-                    }
-                    
-                    
-                    if requiredAP {
-                        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-                        let filePath = paths.appendingPathComponent("AvisoPrivacidad.pdf")
-                        //                    var checkValidation = NSFileManager.defaultManager()
-                        if (FileManager.default.fileExists(atPath: filePath)) {
-                            do {
-                                try FileManager.default.removeItem(atPath: filePath)
-                            } catch let error1 as NSError {
-                                error = error1
-                            } catch {
-                                fatalError()
-                            }
+            let authorizationService = AuthorizationService()
+            authorizationService.callGETService([], successBlock: { (result:NSDictionary) in
+                //success
+                IPOSplashViewController.callUpdateServices()
+                UserCurrentSession.sharedInstance().finishConfig  = true
+                self.invokeServiceToken()
+                
+                if error == nil{
+                    self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
+                    if let privateNot = result["privaceNotice"] as? NSArray {
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.dateFormat = "dd/MM/yyyy"
+                        let sinceDate = dateFormatter.dateFromString(privateNot.objectAtIndex(0).objectForKey("sinceDate") as! String)!
+                        let untilDate = dateFormatter.dateFromString(privateNot.objectAtIndex(0).objectForKey("untilDate") as! String)!
+                        let version = privateNot.objectAtIndex(0).objectForKey("version") as! NSNumber
+                        let versionAP = "AP\(version)" as String!
+                        var isReviewActive : NSString = "false"
+                        
+                        if let value = result["isReviewActive"] as? NSString {
+                            isReviewActive = value
                         }
                         
-                        let url = ((result["privaceNotice"] as AnyObject).object(at: 0) as AnyObject).object(forKey: "url") as! String
-                        let request = URLRequest(url: URL(string:url)!)
-                        let configuration = URLSessionConfiguration.default
-                        let manager = AFURLSessionManager(sessionConfiguration: configuration)
-                        let downloadTask = manager?.downloadTask(with: request, progress: nil, destination: { (url:URL?, urlResponse:URLResponse?) -> URL! in
-                            let file =  try? FileManager.default.url(for: .documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
-                            return file?.appendingPathComponent("AvisoPrivacidad.pdf")
-                            }, completionHandler: { (response:URLResponse?, fileUrl:URL?, error:Error?) -> Void in
-                                print("File Path : \(fileUrl)")
-                        })
-                        downloadTask?.resume()
+                        UserCurrentSession.sharedInstance().dateStart = sinceDate
+                        UserCurrentSession.sharedInstance().dateEnd = untilDate
+                        UserCurrentSession.sharedInstance().version = versionAP
+                        
+                        UserCurrentSession.sharedInstance().isReviewActive = isReviewActive.boolValue
+                        
+                        if let commensChck = result["alertComment"] as? NSArray {
+                            if let active = commensChck[0].objectForKey("isActive") as? Bool {
+                                UserCurrentSession.sharedInstance().activeCommens = active
+                            }
+                            if let message = commensChck[0].objectForKey("message") as? String {
+                                UserCurrentSession.sharedInstance().messageInCommens = message
+                            }
+                            if let upcs = commensChck[0].objectForKey("upcs") as? NSArray {
+                                UserCurrentSession.sharedInstance().upcSearch = upcs
+                            }
+                            
+                        }
+                        
+                        
+                        var requiredAP = true
+                        if let param = self.retrieveParam(versionAP) {
+                            requiredAP = !(param.value == "false")
+                        }
+                        
+                        
+                        if requiredAP {
+                            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
+                            let filePath = paths.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
+                            //                    var checkValidation = NSFileManager.defaultManager()
+                            if (NSFileManager.defaultManager().fileExistsAtPath(filePath)) {
+                                do {
+                                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                                } catch let error1 as NSError {
+                                    error = error1
+                                } catch {
+                                    fatalError()
+                                }
+                            }
+                            
+                            let url = result["privaceNotice"]?.objectAtIndex(0).objectForKey("url") as! String
+                            let request = NSURLRequest(URL: NSURL(string:url)!)
+                            let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+                            let manager = AFURLSessionManager(sessionConfiguration: configuration)
+                            let downloadTask = manager.downloadTaskWithRequest(request, progress: nil, destination: { (url:NSURL!, urlResponse:NSURLResponse!) -> NSURL! in
+                                let file =  try? NSFileManager.defaultManager().URLForDirectory(.DocumentDirectory, inDomain: NSSearchPathDomainMask.UserDomainMask, appropriateForURL: nil, create: false)
+                                return file?.URLByAppendingPathComponent("AvisoPrivacidad.pdf")
+                                }, completionHandler: { (response:NSURLResponse!, fileUrl:NSURL!, error:NSError!) -> Void in
+                                    print("File Path : \(fileUrl)")
+                            })
+                            downloadTask.resume()
+                        }
                     }
+                    UserCurrentSession.sharedInstance().searchForCurrentUser()
                 }
-                UserCurrentSession.sharedInstance.searchForCurrentUser()
-            }
-            }) { (error:NSError) -> Void in
+                //finish succes
+                }, errorBlock: { (error: NSError) in
+                    print(error.localizedDescription)
+            })
+            
+            
+            },errorBlock: { (error:NSError) -> Void in
                 self.gotohomecontroller()
-        }
+        })
     }
     
     func invokeServiceToken(){
