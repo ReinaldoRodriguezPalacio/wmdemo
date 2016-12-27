@@ -239,6 +239,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         keyboardN = NumericKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (160/2), y: lblQuantityN.frame.maxY + 10, width: 160, height: 196),typeKeyboard:NumericKeyboardViewType.Integer)
         keyboardN.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
         keyboardN.delegate = self
+        keyboardN.showDeleteBtn()
         
         btnOkAddN = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: keyboard.frame.maxY + 15 , width: 142, height: 36))
         //btnOkAddN.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
@@ -301,6 +302,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         keyboardP = NumericKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (160/2), y: lblQuantityN.frame.maxY + 10, width: 160, height: 196),typeKeyboard:NumericKeyboardViewType.Integer)
         keyboardP.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
         keyboardP.delegate = self
+        keyboardP.showDeleteBtn()
         keyboardP.alpha = 0
         
         containerWeightView.addSubview(lblQuantityP)
@@ -749,6 +751,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             self.keyboardN.changeType(NumericKeyboardViewType.Integer)
             self.updateLabelN()
         }
+        keyboardN.showDeleteBtn()
     }
     
     func setBackActionShoppingCart(_ backAction:@escaping (() -> Void)) {
