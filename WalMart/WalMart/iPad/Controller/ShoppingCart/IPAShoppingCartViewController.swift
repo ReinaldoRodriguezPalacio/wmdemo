@@ -86,6 +86,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     
 
     override func viewDidAppear(_ animated: Bool) {
+         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
         updateTotalItemsRow()
     }
     
