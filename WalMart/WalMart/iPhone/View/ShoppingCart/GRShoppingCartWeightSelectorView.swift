@@ -560,23 +560,50 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     
     func btnMoreAction() {
-      
         if (currentValGr + 50.0) <= CONS_MAXVAL {
-              //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_ADD_GRAMS.rawValue , label:"" )
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_ADD_GRAMS.rawValue , label:"" )
+            
+            if let weightBtn = keyboard.weightBtnSelected {
+                keyboard.seleccionboton(weightBtn)
+                keyboard.weightBtnSelected = nil
+            }
+            
             currentValGr = currentValGr + 50
-            self.updateShoppButton()
-            self.updateLabelW()
+            updateShoppButton()
+            updateLabelW()
+            
+            validateWeightSelectedBtn(gr: currentValGr)
         }
     }
     
     func btnLessAction() {
-        
-        
         if (currentValGr - 50.0) > CONS_MINVAL {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_DECREASE_GRAMS.rawValue , label:"" )
+            
+            if let weightBtn = keyboard.weightBtnSelected {
+                keyboard.seleccionboton(weightBtn)
+                keyboard.weightBtnSelected = nil
+            }
+            
             currentValGr = currentValGr - 50
-            self.updateShoppButton()
-            self.updateLabelW()
+            updateShoppButton()
+            updateLabelW()
+            
+            validateWeightSelectedBtn(gr: currentValGr)
+        }
+    }
+    
+    func validateWeightSelectedBtn(gr: Double) {
+        if gr == 100.0 {
+            keyboard.seleccionboton(keyboard.btngramos)
+        } else if gr == 250.0 {
+            keyboard.seleccionboton(keyboard.btncuarto)
+        } else if gr == 500.0 {
+            keyboard.seleccionboton(keyboard.btmediokilo)
+        } else if gr == 750.0 {
+            keyboard.seleccionboton(keyboard.bttrescuartos)
+        } else if gr == 1000.0 {
+            keyboard.seleccionboton(keyboard.btunkilo)
         }
     }
     
