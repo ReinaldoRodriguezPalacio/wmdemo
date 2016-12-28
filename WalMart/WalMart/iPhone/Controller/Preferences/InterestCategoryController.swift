@@ -198,7 +198,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
             
             self.userPreferences.addEntries(from: result)
             let categories = result["categories"] as! [[String:Any]]
-            let userPreferencesCategories = result["userPreferences"] as! [[String:Any]]
+            let userPreferencesCategories = result["userPreferences"] as! [Any]
             
             self.selectedInterestCategories = [String]()
             self.interestCategories = [InterestCategory]()

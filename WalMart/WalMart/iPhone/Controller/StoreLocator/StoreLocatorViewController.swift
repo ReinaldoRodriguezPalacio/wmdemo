@@ -51,6 +51,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var searchField: FormFieldSearch!
     var errorView: FormFieldErrorView?
     var separator: CALayer!
+    var viewLoad : WMLoadingView!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue
@@ -158,13 +159,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubCollection!.isHidden = true
         self.clubCollection!.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
         self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+        self.clubCollection!.bounces = true
+        self.clubCollection!.alwaysBounceVertical = true
         self.view.addSubview(self.clubCollection!)
 
         NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.startRunning), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.stopRunning), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        
-        self.loadAnnotations()
-        self.clubCollection!.reloadData()
+    
+           self.invokeStoreLocatorService()
         
         NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
@@ -522,6 +524,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let result: [Store] = (try! context.fetch(fetchRequest)) as! [Store]
         self.items = result
+        
         if result.count > 0 {
             for store in result {
                 let coordinate = CLLocationCoordinate2DMake(store.latitude!.doubleValue, store.longitude!.doubleValue)
@@ -675,13 +678,52 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     override func back() {
         super.back()
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-        if self.clubMap!.isHidden {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
-        } else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
+        
+    }
+    
+    func invokeStoreLocatorService() {
+        
+        self.showLoadingView()
+        
+        let storeService = StoreLocatorService()
+        storeService.callService(
+            { (response:[String:Any]) -> Void in
+                print("Call StoreLocatorService success")
+                self.removeLoadingView()
+                self.updateAnnotations()
+        },
+            errorBlock: { (error:NSError) -> Void in
+                print("Call StoreLocatorService error \(error)")
+                self.removeLoadingView()
+                self.updateAnnotations()
+        }
+        )
+        
+    }
+    
+    func updateAnnotations() {
+        self.loadAnnotations()
+        self.clubCollection!.reloadData()
+    }
+    
+    func showLoadingView() {
+        
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
         }
         
-        
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
+        self.viewLoad!.backgroundColor = UIColor.white
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(self.isVisibleTab)
+    }
+    
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
     }
     
     //MARK: - UITextFieldDelegate
@@ -724,7 +766,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         var result: [Store]? =  nil
         do{
             result =  try context.fetch(fetchRequest) as? [Store]
-            print(result)
             
         }catch{
             print("searchForItems Error")

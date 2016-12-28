@@ -25,7 +25,7 @@ class GRUserListService : BaseService {
             self.callGETService(params as AnyObject,
                 successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
-                    if let list = resultCall["responseArray"] as? [Any] {
+                    if let list = resultCall["myLists"] as? [Any] {
                         //self.manageListData(list)
                     }
                     

@@ -17,7 +17,7 @@ class StoreLocatorService: BaseService {
         let params: [String:Any] = [:]
         self.callGETService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in
-                if let values = resultCall["responseArray"] as? [[String:Any]] {
+                if let values = resultCall["responseArray"] as? [Any] {
                     for idx in 0 ..< values.count {
                         if let item = values[idx] as? [String:Any] {
                             let storeID = item["storeID"] as? String
@@ -39,16 +39,16 @@ class StoreLocatorService: BaseService {
                             store!.opens = item["opens"] as? String
 
                             if let latSpanTxt = item["latSpan"] as? NSString {
-                                store!.latSpan = NSNumber(value: latSpanTxt.doubleValue as Double)
+                                store!.latSpan = NSNumber(value: latSpanTxt.doubleValue)
                             }
                             if let lonSpanTxt = item["lonSpan"] as? NSString {
-                                store!.lonSpan = NSNumber(value: lonSpanTxt.doubleValue as Double)
+                                store!.lonSpan = NSNumber(value: lonSpanTxt.doubleValue)
                             }
                             if let latPointTxt = item["latPoint"] as? NSString {
-                                store!.latitude = NSNumber(value: latPointTxt.doubleValue as Double)
+                                store!.latitude = NSNumber(value: latPointTxt.doubleValue)
                             }
                             if let lonPointTxt = item["lonPoint"] as? NSString {
-                                store!.longitude = NSNumber(value: lonPointTxt.doubleValue as Double)
+                                store!.longitude = NSNumber(value: lonPointTxt.doubleValue)
                             }
 
                         }
