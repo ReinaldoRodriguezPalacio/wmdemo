@@ -395,7 +395,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     addShopping.didMove(toParentViewController: vc!)
                     addShopping.typeProduct = ResultObjectType.Groceries
                     
-                    addShopping.comments = self.productDetailButton!.detailProductCart!.note!
+                    addShopping.comments = self.productDetailButton!.detailProductCart!.note == nil ? "" : self.productDetailButton!.detailProductCart!.note!
                     addShopping.goToShoppingCart = {() in }
                     addShopping.removeSpinner()
                     addShopping.addActionButtons()

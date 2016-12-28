@@ -51,7 +51,7 @@ class SearchAlertView: UIView {
     {
         let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
         let attrsBold = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12)]
-        let attrsOrange = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12), NSForegroundColorAttributeName: WMColor.yellow]
+        let attrsOrange = [NSFontAttributeName : WMFont.fontMyriadProSemiboldItalicOfSize(12), NSForegroundColorAttributeName: WMColor.yellow] as [String : Any]
         
         var attrsUnderline: [String:Any] = [:]
         
