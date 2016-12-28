@@ -19,7 +19,8 @@ class LoginByTokenService : BaseService {
     func callService(params:NSDictionary,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             print("succes LoginByTokenService")
-            UserCurrentSession.sharedInstance.AUTHORIZATION = "Bearer \(resultCall["accessToken"] as! String)"
+            CustomBarViewController.addOrUpdateParamNoUser(key: "AUTHORIZATION", value: "Bearer \(resultCall["accessToken"] as! String)")
+            
             let autologinService = AutologinService()
             autologinService.callService(params: [:], successBlock: { (result:[String:Any]) in
                 successBlock!(resultCall)

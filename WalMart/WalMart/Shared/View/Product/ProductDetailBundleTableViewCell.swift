@@ -27,7 +27,7 @@ class ProductDetailBundleTableViewCell : ProductDetailCrossSellTableViewCell {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "productBundleCell", for: indexPath) as! ProductDetailBundleItemCollectionViewCell
         
-        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] as! [String:Any]
+        let itemUPC = itemsUPC[(indexPath as NSIndexPath).row] 
         let item = itemUPC["item"] as! [String:Any]
         let parentProducts = item["parentProducts"] as! [[String:Any]]
         let parent = parentProducts.first

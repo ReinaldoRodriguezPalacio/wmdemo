@@ -58,12 +58,6 @@ class UserCurrentSession : NSObject {
     var upcSearch : [String]! = []
     var messageInCommens : String! = ""
     
-    var JSESSIONID = ""
-    var ACCESS_TOKEN = ""
-    var REFESH_TOKEN =  ""
-    var AUTHORIZATION = ""
-
-    
     //Singleton init
     static let sharedInstance = UserCurrentSession()
     private override init() {}
@@ -121,7 +115,7 @@ class UserCurrentSession : NSObject {
                 
                 
                 let loginService = LoginWithIdService()
-                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                //let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                 let idUser = UserCurrentSession.sharedInstance.userSigned!.idUser
                 
                 loginService.callService(["profileId":idUser], successBlock: { (result:[String:Any]) -> Void in

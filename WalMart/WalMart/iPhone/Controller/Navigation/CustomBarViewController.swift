@@ -334,6 +334,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.addOrUpdateParam(key, value: value, forUser: true)
     }
     
+    static func addOrUpdateParamNoUser(key:String, value:String){
+        self.addOrUpdateParam(key, value: value, forUser: false)
+    }
+    
     
     /**
      Add or update params in data base

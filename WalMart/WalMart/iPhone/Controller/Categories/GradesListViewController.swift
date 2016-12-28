@@ -95,7 +95,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         let service =  LineService()
         service.callService(requestParams: self.familyId as AnyObject, successBlock: { (response:[String:Any]) -> Void in
             let grades  =  response["subCategories"] as! [[String:Any]]
-            self.gradesList = grades as? [[String : Any]]
+            self.gradesList = grades as! [[String : Any]]
             if  self.gradesList.count == 0 {
                 self.loading?.stopAnnimating()
                 self.showEmptyView()

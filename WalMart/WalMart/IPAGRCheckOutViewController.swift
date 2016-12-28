@@ -239,7 +239,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         //var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:Any]
+            let item = self.itemsInCart[idx] 
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {

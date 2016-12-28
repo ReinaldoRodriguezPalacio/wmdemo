@@ -109,11 +109,11 @@ class BaseService : NSObject {
         
         let lockQueue = DispatchQueue(label: "com.test.LockQueue")
         lockQueue.sync() {
-            var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
-            
+            //var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
+            var jsessionIdSend = ""
             if jsessionIdSend == "" {
                 if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
-                    print("PARAM JSESSIONID ::"+param2.value)
+                    print("PARAM JSESSIONID ::" + param2.value)
                     jsessionIdSend = param2.value
                 }
             }
@@ -127,13 +127,13 @@ class BaseService : NSObject {
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
                 
-                if  UserCurrentSession.sharedInstance.AUTHORIZATION != "" {
-                    AFStatic.manager.requestSerializer.setValue(UserCurrentSession.sharedInstance.AUTHORIZATION, forHTTPHeaderField: "Authorization")
+                
+                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "AUTHORIZATION") {
+                    print("AUTHORIZATION :: \(param2.value)")
+                    AFStatic.manager.requestSerializer.setValue(param2.value, forHTTPHeaderField: "AUTHORIZATION")
                 }
                 //Session --
-                print("URL:: \(self.serviceUrl())")
                 AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
-                
                 
             } else{
                 //Session --
@@ -190,6 +190,31 @@ class BaseService : NSObject {
         let url = serviceUrl()
    
         afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
+            
+            //session --
+            let response : HTTPURLResponse = request!.response as! HTTPURLResponse
+            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
+            let cookie = headers["Set-Cookie"] as? NSString ?? ""
+
+            if cookie != "" {
+                let httpResponse = response
+                if let fields = httpResponse.allHeaderFields as? [String : String] {
+                    
+                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
+                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
+                    for cookie in cookies {
+                        print("Response JSESSIONID:: \(cookie.value)")
+                        CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
+                        print("name: \(cookie.name) value: \(cookie.value)")
+                    }
+                }
+                
+            }
+            // / session -
+            
+            
+            
+            
             let resultJSON = json as! [String:Any]
             self.jsonFromObject(resultJSON as AnyObject!)
             if let errorResult = self.validateCodeMessage(resultJSON) {
@@ -255,6 +280,29 @@ class BaseService : NSObject {
     
     func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         manager.get(serviceURL, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
+            
+            
+            //session --
+            let response : HTTPURLResponse = request!.response as! HTTPURLResponse
+            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
+            let cookie = headers["Set-Cookie"] as? NSString ?? ""
+            
+            if cookie != "" {
+                let httpResponse = response
+                if let fields = httpResponse.allHeaderFields as? [String : String] {
+                    
+                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
+                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
+                    for cookie in cookies {
+                        CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
+                        print("name: \(cookie.name) value: \(cookie.value)")
+                    }
+                }
+                
+            }
+            // /session --
+            
+            
             let resultJSON = json as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode()   {

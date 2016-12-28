@@ -266,7 +266,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     }
     
     func saveImageToDisk(_ fileName:String,image:UIImage,defaultImage:UIImage) {
-        DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+       DispatchQueue.global(qos: .default).async(execute: { () -> Void in
             let imageData : Data = UIImagePNGRepresentation(image)!
             let imageDataLast : Data = UIImagePNGRepresentation(defaultImage)!
             

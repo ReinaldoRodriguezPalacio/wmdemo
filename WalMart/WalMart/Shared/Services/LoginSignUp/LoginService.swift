@@ -18,28 +18,35 @@ class LoginService : BaseService {
     }
 
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-            if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+        self.callPOSTService(params, successBlock: { (resultLoginCall:[String:Any]) -> Void in
+            if let codeMessage = resultLoginCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {
-                    let resultLogin = resultCall
-                    let idUser = resultLogin["idUser"] as! String
+                   var accessTokenVO =  resultLoginCall["accessTokenVO"] as! [String:Any]
+                    print(accessTokenVO["refreshToken"] as! NSString)
+                    print(accessTokenVO["accessToken"] as! NSString)
+                    
+                    CustomBarViewController.addOrUpdateParamNoUser(key: "ACCESS_TOKEN", value: accessTokenVO["accessToken"] as! String)
+                    CustomBarViewController.addOrUpdateParamNoUser(key: "REFESH_TOKEN", value: accessTokenVO["accessToken"] as! String)
+
+                   
+                    // let resultLogin = resultCall
+                    let idUser = resultLoginCall["idUser"] as! String
                     let profileService = UserProfileService()
                     profileService.callService(profileService.buildParams(idUser), successBlock: { (resultCall:[String:Any]) -> Void in
-                         UserCurrentSession.sharedInstance.createUpdateUser(resultLogin, profileResult: resultCall)
+                        UserCurrentSession.sharedInstance.createUpdateUser(resultLoginCall, profileResult: resultCall)
                         successBlock!(resultCall)
-                        }, errorBlock: { (errorGR:NSError) -> Void in
-                            errorBlock!(errorGR)
+                    }, errorBlock: { (errorGR:NSError) -> Void in
+                        errorBlock!(errorGR)
                     })
-                }
-                else{
+                }else{
                     let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
                     errorBlock!(error)
                 }
             }
-
-            }) { (error:NSError) -> Void in
+            
+        }, errorBlock: { (error:NSError) -> Void in
             errorBlock!(error)
-        }
+        })
     }
     
     override func shouldIncludeHeaders() -> Bool {

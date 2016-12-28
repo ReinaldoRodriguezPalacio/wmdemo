@@ -76,8 +76,7 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         //self.segmented!.setWidth(frame.size.width - frame.size.height, forSegmentAtIndex: 0)
         self.segmented!.setWidth(frame.size.height + 5, forSegmentAt: 1)
         
-        let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16),
-            NSForegroundColorAttributeName:UIColor.white]
+        let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.white] as [String : Any]
         self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, for: UIControlState())
         self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, for: .selected)
         self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, for: .highlighted)
