@@ -112,7 +112,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? GRAddressViewCell
         var prefered = false
         
-        let item = self.addressArray[(indexPath as NSIndexPath).row] as! [String:Any]
+        let item = self.addressArray[(indexPath as NSIndexPath).row] 
         let name = item["name"] as! String
         if let pref = item["preferred"] as? NSNumber{
             if pref.intValue == 1 {

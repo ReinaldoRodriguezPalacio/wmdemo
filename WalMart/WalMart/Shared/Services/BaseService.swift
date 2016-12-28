@@ -117,6 +117,7 @@ class BaseService : NSObject {
                     jsessionIdSend = param2.value
                 }
             }
+             print("URL:: \(self.serviceUrl())")
             
             if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
                 let timeInterval = NSDate().timeIntervalSince1970
@@ -132,12 +133,20 @@ class BaseService : NSObject {
                     print("AUTHORIZATION :: \(param2.value)")
                     AFStatic.manager.requestSerializer.setValue(param2.value, forHTTPHeaderField: "AUTHORIZATION")
                 }
+                
+                if let accesToken = CustomBarViewController.retrieveParamNoUser(key: "ACCESS_TOKEN") {
+                    print("ACCESS_TOKEN :: \(accesToken.value)")
+                    AFStatic.manager.requestSerializer.setValue(accesToken.value, forHTTPHeaderField: "ACCESS_TOKEN")
+                }
                 //Session --
                 AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 
             } else{
                 //Session --
-                print("URL:: \(self.serviceUrl())")
+                if let accesToken = CustomBarViewController.retrieveParamNoUser(key: "ACCESS_TOKEN") {
+                    print("ACCESS_TOKEN :: \(accesToken.value)")
+                    AFStatic.manager.requestSerializer.setValue(accesToken.value, forHTTPHeaderField: "ACCESS_TOKEN")
+                }
                 print("SEND JSESSIONID::" + jsessionIdSend)
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
                 AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")

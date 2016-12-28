@@ -17,7 +17,14 @@ class LoginByTokenService : BaseService {
     }
     
     func callService(params:NSDictionary,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+       
+        var token : [String:Any] = ["refreshToken":""]
+        if let refreshToken = CustomBarViewController.retrieveParamNoUser(key: "REFESH_TOKEN") {
+            print("REFESH_TOKEN :: \(refreshToken.value)")
+            token = ["refreshToken":refreshToken.value]
+        }
+        
+        self.callPOSTService(token, successBlock: { (resultCall:[String:Any]) -> Void in
             print("succes LoginByTokenService")
             CustomBarViewController.addOrUpdateParamNoUser(key: "AUTHORIZATION", value: "Bearer \(resultCall["accessToken"] as! String)")
             

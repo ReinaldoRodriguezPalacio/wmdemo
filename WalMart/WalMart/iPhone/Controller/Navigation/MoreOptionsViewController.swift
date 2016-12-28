@@ -178,9 +178,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             print("")
         }
         
-        print(currentOption)
         let srtOption = self.options[currentOption]
-        print(srtOption)
         var image: String?
         switch (OptionsController(rawValue: srtOption)!) {
         case .Profile : image = "Profile-icon"

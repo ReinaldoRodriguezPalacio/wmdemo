@@ -49,8 +49,5 @@ class LoginService : BaseService {
         })
     }
     
-    override func shouldIncludeHeaders() -> Bool {
-        return false
-    }
-    
+ 
 }

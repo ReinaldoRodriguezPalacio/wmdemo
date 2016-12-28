@@ -318,7 +318,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
             self.imageBackground.image = image!
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
         }, failure: { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
-            print(error)
+            print(error!.localizedDescription)
         })
         
         self.imageBackground.isHidden = false

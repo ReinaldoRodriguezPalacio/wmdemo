@@ -29,7 +29,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         
         self.buttonContainer!.backgroundColor = WMColor.blue
         
-        let storyboard = self.loadStoryboardDefinition()
+        let _ = self.loadStoryboardDefinition()
       
         /*if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
             shoppingCartVC = vc

@@ -358,7 +358,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         if let ipaCustomBar = self.window?.rootViewController as? IPACustomBarViewController{
             if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
-                ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                let _ = ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
             }else{
                 let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"reminder_alert"),imageDone:UIImage(named:"reminder_alert"),imageError:UIImage(named:"reminder_alert"))
                 alertNot?.showDoneIconWithoutClose()
@@ -372,7 +372,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                             viewLogin.removeFromSuperview()
                         }
                         
-                        ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                        let _ = ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
                         alertNot?.close()
                     },isNewFrame: false)
             }
@@ -381,7 +381,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         else if let customBar = self.window?.rootViewController as? CustomBarViewController{
             if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {
-                customBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                let _ = customBar.handleNotification(value,name:name,value:value,bussines:bussines)
             }else{
                 let alertNot = IPOWMAlertViewController.showAlert(UIImage(named:"reminder_alert"),imageDone:UIImage(named:"reminder_alert"),imageError:UIImage(named:"reminder_alert"))
                 alertNot?.showDoneIconWithoutClose()
@@ -395,7 +395,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                             viewLogin.removeFromSuperview()
                         }
                         
-                        customBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                        let _ = customBar.handleNotification(value,name:name,value:value,bussines:bussines)
                         alertNot?.close()
                     },isNewFrame: false)
             }
@@ -422,7 +422,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                 if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
                 {
                     customBar.helpView?.removeFromSuperview()
-                    customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                    let _ = customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                 }else{
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "OPEN_TUTORIAL"), object: nil)
                     let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
@@ -436,8 +436,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                             if let viewLogin =  customBar.view.viewWithTag(5000) {
                                 viewLogin.removeFromSuperview()
                             }
-                            
-                            customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                            let _ = customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                             alertNot?.close()
                         },isNewFrame: true)
                 }

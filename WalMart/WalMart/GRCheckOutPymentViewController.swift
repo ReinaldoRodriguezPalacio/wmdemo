@@ -398,7 +398,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             
             let purchaseOrderArray = resultCall["purchaseOrder"] as! [[String:Any]]
-            let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
+            let purchaseOrder = purchaseOrderArray[0] 
             
             let trakingNumber = purchaseOrder["trackingNumber"] as! String
             let deliveryDate = purchaseOrder["deliveryDate"] as! NSString

@@ -28,7 +28,7 @@ class BaseController : UIViewController {
     func loadStoryboardDefinition() -> UIStoryboard? {
         let storyboardName = UIDevice.current.userInterfaceIdiom == .phone ? "Storyboard_iphone" : "Storyboard_ipad"
         let storyboard : UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil);
-        return storyboard;
+        return storyboard
     }
         
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask {

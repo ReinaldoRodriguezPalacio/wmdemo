@@ -367,7 +367,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         var products: [Any] = []
         for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:Any]
+            let item = self.itemsInCart[idx] 
             
             let upc = item["productId"] as! String
             var quantity: Int = 0

@@ -140,7 +140,7 @@ class UserCurrentSession : NSObject {
         let idUser = loginResult["idUser"] as? String//profileId
         let predicate = NSPredicate(format: "idUser == %@ ", idUser!)
         
-        let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! [[String:Any]]
+        let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! [AnyObject]
         
         var profile : Profile
         if array.count > 0{
@@ -219,7 +219,7 @@ class UserCurrentSession : NSObject {
         
         updatePhoneProfile(true)
 
-        //TODO No llega en servicio de mustang  de registro
+        //TODO No llegan en servicio de mustang  de registro
         //UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
         //UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
         
@@ -509,7 +509,7 @@ class UserCurrentSession : NSObject {
         let service = ShoppingCartProductsService()
         service.callService([:], successBlock: { (result:[String:Any]) -> Void in
             print(result)
-            self.itemsMG = result as! [String : Any]
+            self.itemsMG = result
             endLoadSC()
             }) { (error:NSError) -> Void in
                 if error.code != -100 {
