@@ -52,6 +52,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String) {
         super.init(frame: frame)
         self.priceProduct = priceProduct
+        self.originalValGr = currentValGr
         self.equivalenceByPiece = equivalenceByPiece
         self.upcProduct = upcProduct
         setup()
@@ -637,7 +638,8 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     func updateShoppButton(){
         
-        let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
+        let result = (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs))
+        
         let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
@@ -740,7 +742,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     func updateLabelP() {
         
         let equivalence : Int = self.equivalenceByPiece.intValue * Int(currentValPzs)
-        currentValGr = Double(equivalence)
+        currentValGr = self.orderByPiece ? currentValPzs : Double(equivalence)
         
         let valueItemPzs = NSMutableAttributedString()
         valueItemPzs.append(NSAttributedString(string: "\(Int(currentValPzs)) pzas", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(40),NSForegroundColorAttributeName:UIColor.white]))

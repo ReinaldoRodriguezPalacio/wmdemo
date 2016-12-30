@@ -290,13 +290,18 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let comments = itemProduct["comments"] as? String
         
         var orderByPiece = false
-        if let orderPiece = itemProduct["orderByPieces"] as? Bool {
-            orderByPiece = orderPiece
+        if let orderPiece = itemProduct["baseUomcd"] as? String {
+            orderByPiece = (orderPiece == "EA")
         }
         
         var totalPieces = 0
-        if let pieces = itemProduct["pieces"] as? Int {
-            totalPieces = pieces
+        if orderByPiece {
+            if let pieces = itemProduct["quantity"] as? Int {
+                totalPieces = pieces
+            }
+            if let pieces = itemProduct["quantity"] as? NSString {
+                totalPieces = pieces.integerValue
+            }
         }
 
         tblShoppingCell.delegateQuantity = self

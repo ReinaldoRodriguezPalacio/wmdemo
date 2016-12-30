@@ -765,13 +765,20 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     if let typeProd = item["type"] as? NSString {
                         let quantity = item["quantity"] as! NSNumber
                         let price = item["price"] as! NSNumber
+                        let baseUomcd = item["baseUomcd"] as! String == "EA"
+                        let equivalenceByPiece = item["equivalenceByPiece"] as! NSString
                         
                         if typeProd.integerValue == 0 {
                             total += (quantity.doubleValue * price.doubleValue)
                         }
                         else {
-                            let kgrams = quantity.doubleValue / 1000.0
-                            total += (kgrams * price.doubleValue)
+                            if baseUomcd {
+                              total +=  ((quantity.doubleValue *  equivalenceByPiece.doubleValue) *  price.doubleValue) / 1000
+                                
+                            }else{
+                                let kgrams = quantity.doubleValue / 1000.0
+                                total += (kgrams * price.doubleValue)
+                            }
                         }
                     }
                 }
@@ -1000,6 +1007,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             if let item = self.products![indexPath!.row] as? [String:Any] {
                 // TODO: cast values from response
+                 quantitySelector?.validateOrderByPiece(orderByPiece: item["baseUomcd"] as! String  == "EA", quantity:item["quantity"] as! Double, pieces: item["quantity"] as! Int)
             } else if let item = self.products![indexPath!.row] as? Product {
                 quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
             }

@@ -606,6 +606,7 @@
 		04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPaymentTypeService.swift; path = Shared/Services/checkout/GRPaymentTypeService.swift; sourceTree = "<group>"; };
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
 		22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
 		4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCalendarPickerDefaultDaysProvider.m; sourceTree = "<group>"; };
@@ -4034,13 +4035,14 @@
 		4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */,
 				4AA10BBF1D1DCAEE0068083A /* WalMart.xcdatamodel */,
 				4AA10BC01D1DCAEE0068083A /* WalMart2.1.0.xcdatamodel */,
 				4AA10BC11D1DCAEE0068083A /* WalMart3.31. 2.xcdatamodel */,
 				4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */,
 				4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */,
 			);
-			currentVersion = 4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */;
+			currentVersion = 16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */;
 			path = WalMart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

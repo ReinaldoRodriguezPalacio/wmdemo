@@ -135,9 +135,14 @@ class DetailListViewCell: ProductTableViewCell {
             var total: Double = 0.0
             var orderByPiece = false
             
-            if let order = product["orderByPiece"] as? Bool {
-                orderByPiece = order
+//            if let order = product["orderByPiece"] as? Bool {
+//                orderByPiece = order
+//            }
+            
+            if let orderPiece = product["baseUomcd"] as? String {
+                orderByPiece = (orderPiece == "EA")
             }
+
             
             if Int(type)! == 0 { //Piezas
                 
@@ -151,7 +156,7 @@ class DetailListViewCell: ProductTableViewCell {
                 
             } else if orderByPiece && equivalenceByPiece!.intValue > 0 { // Gramos pero se ordena por pieza
                 
-                let pieces = Int(quantity.intValue / self.equivalenceByPiece!.intValue)
+                let pieces = quantity.intValue //Int(quantity.intValue / self.equivalenceByPiece!.intValue)
                 
                 if pieces == 1 {
                     text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), NSNumber(value: pieces))
@@ -159,8 +164,8 @@ class DetailListViewCell: ProductTableViewCell {
                     text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), NSNumber(value: pieces))
                 }
                 
-                let kgrams = quantity.doubleValue / 1000.0
-                total = (kgrams * price.doubleValue)
+                //let kgrams = quantity.doubleValue / 1000.0
+                total =  ((equivalenceByPiece!.doubleValue * Double(quantity)) * price.doubleValue) / 1000 // (kgrams * price.doubleValue)
                 
             } else { //Gramos
                 

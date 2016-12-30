@@ -24,9 +24,9 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.useSignals = self.useSignalsServices
     }
     
-    func buildParams(_ quantity:String, upc:String, comments:String) -> [Any] {
+    func buildParams(_ quantity:String, upc:String, comments:String,baseUomcd:String) -> [Any] {
         let quantityInt : Int = Int(quantity)!
-        return [["quantity":quantityInt,"upc":upc,"comments":comments]]
+        return [["quantity":quantityInt,"upc":upc,"comments":comments,"baseUomcd":baseUomcd]] //new piesas[EA]/gramos[GM]
         //return [["items":["quantity":quantityInt,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]]
     }
     
@@ -59,16 +59,16 @@ class GRShoppingCartAddProductsService : GRBaseService {
         callCoreDataService(builParams(upc, quantity: quantity, comments: comments, desc: desc, price: price, imageURL: imageURL, onHandInventory: onHandInventory, pesable: pesable, orderByPieces: orderByPieces, pieces: pieces, parameter: nil) as AnyObject, successBlock: successBlock, errorBlock: errorBlock)
     }
 
-    func callService(_ upc:String,quantity:String,comments:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callService(requestParams: buildParams(quantity, upc: upc, comments: comments), successBlock: successBlock,errorBlock:errorBlock)
+    func callService(_ upc:String,quantity:String,comments:String,baseUomcd:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callService(requestParams: buildParams(quantity, upc: upc, comments: comments,baseUomcd:""), successBlock: successBlock,errorBlock:errorBlock)
     }
 
     func buildParams(_ products:[Any]) -> [String:Any] {
         return ["strArrImp":products]
     }
     
-    func buildProductObject(upc:String, quantity:String, comments:String) -> Any {
-        return ["quantity":quantity,"upc":upc,"comments":comments]
+    func buildProductObject(upc:String, quantity:String, comments:String,baseUomcd:String) -> Any {
+        return ["quantity":quantity,"upc":upc,"comments":comments,"baseUomcd":baseUomcd]//new send baseUomcd
     }
     
     func buildProductObject(_ upcsParams:[Any]) -> Any {
@@ -98,12 +98,16 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 var  comments = ""
+                 var  orderByPieces = false
                 
                 if let comment  = itemSvc["comments"] as? String {
                     comments = comment
                 }
+                if let orderByPiece  = itemSvc["orderByPieces"] as? Bool {
+                    orderByPieces = orderByPiece
+                }
                 
-                itemsSvc.append(buildProductObject(upc: upc,quantity:quantity,comments:comments))
+                itemsSvc.append(buildProductObject(upc: upc,quantity:quantity,comments:comments,baseUomcd:orderByPieces ? "EA" :"GM"))// new //new piesas[EA]/gramos[GM]
             }
             
             let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upcSend)

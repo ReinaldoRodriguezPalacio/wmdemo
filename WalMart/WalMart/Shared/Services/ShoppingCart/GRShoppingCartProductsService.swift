@@ -68,8 +68,6 @@ class GRShoppingCartProductsService : GRBaseService {
                                     imageUrl = imagestr
                                 }
                                 
-                                
-                                
                                 carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
                                 
                                 carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
@@ -79,6 +77,10 @@ class GRShoppingCartProductsService : GRBaseService {
                                 carProductItem.price = price as NSString
                                 carProductItem.baseprice = baseprice
                                 carProductItem.img = imageUrl
+                                
+                                if let baseUomcd  = shoppingCartProduct["baseUomcd"] as? NSString {
+                                    carProductItem.orderByPiece = (baseUomcd == "EA" ? 1 : 0)
+                                }
                                 
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
                                     carProductItem.type = NSNumber(value: pesable.integerValue as Int)
@@ -98,6 +100,8 @@ class GRShoppingCartProductsService : GRBaseService {
                                 if let comment  = shoppingCartProduct["comments"] as? NSString {
                                       carProduct.note = comment.trimmingCharacters(in: CharacterSet.whitespaces)
                                 }
+                                
+                               
                                 
                                 carProduct.quantity = NSNumber(value: quantity as Int)
                                 carProduct.product = carProductItem
@@ -232,7 +236,7 @@ class GRShoppingCartProductsService : GRBaseService {
             var arrayUpcsUpdate : [Any] = []
             
             for itemUpdated in updated {
-                arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: ""))
+                arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: "",baseUomcd:""))//baseUomcd
             }
             serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)

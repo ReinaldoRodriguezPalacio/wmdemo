@@ -96,8 +96,13 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.comments = comments.trimmingCharacters(in: CharacterSet.whitespaces)
         
         var totalInProducts = productPrice.doubleValue * Double(quantity)
+       
+        
         if self.typeProd == 1 {
             totalInProducts = (productPrice.doubleValue / 1000.0) * Double(quantity)
+            if orderByPiece{
+                totalInProducts = ((equivalenceByPiece.doubleValue * Double(quantity)) * productPrice.doubleValue) / 1000
+            }
             pesable = true
         } else {
             pesable = false
