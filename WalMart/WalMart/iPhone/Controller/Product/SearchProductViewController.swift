@@ -2032,7 +2032,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                     NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                 }else{
-                    self.addItemToList(cell, quantity:quantity)
+                    self.addItemToList(cell, quantity:quantity,orderByPiece:self.selectQuantityGR!.orderByPiece)
                 }
                 
             } else {
@@ -2177,13 +2177,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK AddToList
     
-    func addItemToList(_ cell:SearchProductCollectionViewCell,quantity:String){
+    func addItemToList(_ cell:SearchProductCollectionViewCell,quantity:String,orderByPiece:Bool){
        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.message.addingProductToList.fromList", comment:""))
         
         let service = GRAddItemListService()
         let pesable = cell.pesable! ? "1" : "0"
-        let productObject = service.buildProductObject(upc: cell.upc as String, quantity:Int(quantity)!,pesable:pesable,active:true)
+        let productObject = service.buildProductObject(upc: cell.upc as String, quantity:Int(quantity)!,pesable:pesable,active:true,baseUomcd:orderByPiece ? "EA" : "GM")//baseUomcd
         service.callService(service.buildParams(idList: self.idListFromSearch!, upcs: [productObject]),
             successBlock: { (result:[String:Any]) -> Void in
                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))

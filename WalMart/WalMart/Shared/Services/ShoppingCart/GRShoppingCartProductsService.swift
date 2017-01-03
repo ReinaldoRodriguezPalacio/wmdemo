@@ -236,7 +236,7 @@ class GRShoppingCartProductsService : GRBaseService {
             var arrayUpcsUpdate : [Any] = []
             
             for itemUpdated in updated {
-                arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: "",baseUomcd:""))//baseUomcd
+                arrayUpcsUpdate.append(serviceUpdate.buildParams(itemUpdated.product.upc, upc: itemUpdated.quantity.stringValue, comments: "",baseUomcd:itemUpdated.product.orderByPiece.boolValue ? "EA" : "GM"))//baseUomcd
             }
             serviceUpdate.callService(requestParams: arrayUpcsUpdate as AnyObject, successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)

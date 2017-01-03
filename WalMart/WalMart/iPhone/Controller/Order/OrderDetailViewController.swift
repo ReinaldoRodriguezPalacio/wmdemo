@@ -798,7 +798,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if let stock = item["stock"] as? Bool {
                 active = stock
             }
-            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active) as AnyObject)
+            
+            var baseUomcd = "EA"
+            if  let baseUomcdItem = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdItem
+            }
+            
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
             
             // 360 Event
             BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
@@ -884,8 +890,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             let imgUrl = item["imageUrl"] as? String
             let description = item["description"] as? String
             let type = item["type"] as? String
+            let baseUomcdParam = item["baseUomcd"] as? String
             
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type)
+            
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type,baseUomcd:baseUomcdParam,equivalenceByPiece: 0)//baseUomcd and equivalenceByPiece
             products.append(serviceItem as AnyObject)
         }
         

@@ -32,8 +32,10 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                         let quantity = product["quantity"] as! NSNumber
                         let price = product["price"] as! NSNumber
                         let dsc = product["description"] as! String
+                        let baseUomcd = product["baseUomcd"] as! String
+                        
                         if let upc = product["upc"] as? String {
-                            let item = service.buildProductObject(upc: upc, quantity: quantity.intValue, image: nil, description: nil, price: nil, type:nil)
+                            let item = service.buildProductObject(upc: upc, quantity: quantity.intValue, image: nil, description: nil, price: nil, type:nil,baseUomcd: baseUomcd,equivalenceByPiece: 0 )//baseUomcd and equivalenceByPiece
                             items.append(item)
                             
                             // 360 Event

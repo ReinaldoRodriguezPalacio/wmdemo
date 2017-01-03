@@ -54,6 +54,7 @@
 		04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */; };
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
+		16DCF4E51E1B08AC00D4ED06 /* GTM-N7Z7PWM in Resources */ = {isa = PBXBuildFile; fileRef = 16DCF4E41E1B08AC00D4ED06 /* GTM-N7Z7PWM */; };
 		22FC6B5D1E11E8C00019D375 /* NumericKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */; };
 		4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */; };
 		4A5A9CFE1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFC1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m */; };
@@ -607,6 +608,7 @@
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
+		16DCF4E41E1B08AC00D4ED06 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = SOURCE_ROOT; };
 		22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
 		4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCalendarPickerDefaultDaysProvider.m; sourceTree = "<group>"; };
@@ -1646,6 +1648,7 @@
 		564578C019AE2FAA006A7152 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				16DCF4E41E1B08AC00D4ED06 /* GTM-N7Z7PWM */,
 				4ADF7B761DB518910095B961 /* GTM-TCGRR6 */,
 				04312C951A6EDBC50009A940 /* Extension */,
 				56DE027119DE2BDA00FA2042 /* Certs */,
@@ -3227,6 +3230,7 @@
 				8B44A1BD1AA7E16C008E3CC0 /* Politicasdevolucion.pdf in Resources */,
 				AC59115E19DDEEDD00EB095C /* termsOfUse.html in Resources */,
 				8B5B7ED61AC0B48B00F880D1 /* PreguntasFrecuentes.pdf in Resources */,
+				16DCF4E51E1B08AC00D4ED06 /* GTM-N7Z7PWM in Resources */,
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
 				AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */,
 				AC59115C19DDEEB700EB095C /* privacy.pdf in Resources */,

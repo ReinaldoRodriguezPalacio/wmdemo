@@ -574,7 +574,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
                 let service = GRAddItemListService()
             let pesable =  self.isPesable ? "1" : "0"
-            let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
+            let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:self.selectQuantityGR!.orderByPiece ? "EA": "GM")//baseUomcd
                 service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                     successBlock: { (result:[String:Any]) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
@@ -657,9 +657,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             detail!.price = self.price
             detail!.quantity = NSNumber(value: Int(quantity)! as Int)
             detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
-            detail!.pieces =  NSNumber(value: self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!))
+            detail!.pieces = NSNumber(value:Int(quantity)!)
             detail!.type = NSNumber(value: self.isPesable as Bool)
             detail!.list = list
+            detail!.equivalenceByPiece = self.selectQuantityGR!.equivalenceByPiece as NSNumber
             
             if self.imageUrl.count > 0 {
                 detail!.img = self.imageUrl[0] as! NSString as String

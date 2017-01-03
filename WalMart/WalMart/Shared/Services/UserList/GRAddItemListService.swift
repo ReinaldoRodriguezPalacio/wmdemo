@@ -16,14 +16,14 @@ class GRAddItemListService: GRBaseService {
         return ["idList":idList, "itemArrImp":upcs!]
     }
     
-    func buildProductObject(upc:String, quantity:Int,pesable:String,active:Bool) -> [String:Any] {
+    func buildProductObject(upc:String, quantity:Int,pesable:String,active:Bool,baseUomcd:String) -> [String:Any] {
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
-        return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : "","isActive":active]
+        return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : "","isActive":active,"baseUomcd":baseUomcd]
     }
     
-    func buildProductObject(upc:String, quantity:Int,pesable:String) -> [String:Any] {
+    func buildProductObject(upc:String, quantity:Int,pesable:String,baseUomcd:String) -> [String:Any] {
         // {"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
-        return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : ""]
+        return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : "","baseUomcd":baseUomcd]
     }
     
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
@@ -34,7 +34,9 @@ class GRAddItemListService: GRBaseService {
             let paramUpc = item["upc"] as! String
             let paramQuantity = item["quantity"] as! Int
             let paramPesable = item["pesable"] as! String
-            let toSendUPC = buildProductObject(upc: paramUpc, quantity: paramQuantity, pesable: paramPesable)
+            let paramBaseUomcd = item["baseUomcd"] as! String
+            
+            let toSendUPC = buildProductObject(upc: paramUpc, quantity: paramQuantity, pesable: paramPesable,baseUomcd:paramBaseUomcd)
             arrayToSend.append(toSendUPC)
         }
         toSneditem["idList"] = params["idList"] as! String

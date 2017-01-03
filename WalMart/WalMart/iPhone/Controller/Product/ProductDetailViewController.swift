@@ -105,6 +105,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var indexRowSelected : String = ""
     var completeDelete : (() -> Void)? = nil
     var detailOf: String! = ""
+    var baseUomcd : String = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue

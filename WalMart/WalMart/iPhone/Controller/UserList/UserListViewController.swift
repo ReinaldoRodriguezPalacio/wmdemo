@@ -1546,7 +1546,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue)
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:"" )//send baseUomcd
                         products.append(param)
                         
                         guard let name = item["description"] as? String,

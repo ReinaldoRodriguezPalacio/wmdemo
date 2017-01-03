@@ -385,7 +385,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 } else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
                     item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
-                    item.pieces = NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
+                    item.pieces =  NSNumber(value: Int(quantity)!) //NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
                     self.saveContext()
                     self.retrieveProductsLocally(true)
                     self.removeSelector()

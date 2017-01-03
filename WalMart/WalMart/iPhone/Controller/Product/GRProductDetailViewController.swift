@@ -81,6 +81,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.price = "\(priceR)" as NSString
             }
 
+            self.baseUomcd = result["baseUomcd"] as! String// new
+            
             self.detail = result["longDescription"] as! NSString
             
             if let savingResult = result["promoDescription"] as? NSString {
@@ -537,7 +539,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
                 let service = GRAddItemListService()
                 let pesable = self.isPesable ? "1" : "0"
-                let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
+                let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:self.selectQuantityGR!.orderByPiece ? "EA": "GM")//baseUomcd
                 service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                     successBlock: { (result:[String:Any]) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
@@ -641,7 +643,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             detail!.desc = self.name as String
             detail!.price = self.price
             detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
-            detail!.pieces =  NSNumber(value: self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!))
+            detail!.pieces =  NSNumber(value: Int(quantity)!)//NSNumber(value: self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!))
             detail!.quantity = NSNumber(value: Int(quantity)! as Int)
             detail!.type = NSNumber(value: self.isPesable as Bool)
             detail!.list = list

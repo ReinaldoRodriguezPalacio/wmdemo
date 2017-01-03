@@ -60,7 +60,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
 
     func callService(_ upc:String,quantity:String,comments:String,baseUomcd:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callService(requestParams: buildParams(quantity, upc: upc, comments: comments,baseUomcd:""), successBlock: successBlock,errorBlock:errorBlock)
+        self.callService(requestParams: buildParams(quantity, upc: upc, comments: comments,baseUomcd:baseUomcd), successBlock: successBlock,errorBlock:errorBlock)
     }
 
     func buildParams(_ products:[Any]) -> [String:Any] {

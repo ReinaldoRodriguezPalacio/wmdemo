@@ -224,7 +224,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     
                     self.selectQuantityGR?.closeAction()
                     cell.orderByPieces = self.selectQuantityGR!.orderByPiece
-                    cell.pieces = cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
+                    cell.pieces = Int(quantity)! // cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                     

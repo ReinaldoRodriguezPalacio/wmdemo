@@ -206,7 +206,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
                 active = stock
             }
             
-            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active) as AnyObject)
+            var baseUomcd = "EA"
+            if  let baseUomcdP = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdP
+            }
+            
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
             
             // 360 Event
             BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
@@ -395,7 +400,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             let description = item["description"] as? String
             let type = item["type"] as! String
             
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
+            var baseUomcd =  "EA"
+            if  let baseUomcdP = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdP
+            }
+            
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd: baseUomcd,equivalenceByPiece: 0)//send baseUomcd  and equivalenceByPiece
             products.append(serviceItem as AnyObject)
         }
         

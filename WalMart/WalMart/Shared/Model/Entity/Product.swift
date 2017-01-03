@@ -25,6 +25,7 @@ class Product : NSManagedObject {
     @NSManaged var orderByPiece : NSNumber
     @NSManaged var pieces: NSNumber
     @NSManaged var department : String
+    @NSManaged var equivalenceByPiece : NSNumber
     
     @NSManaged var cart : Cart
     @NSManaged var list: List

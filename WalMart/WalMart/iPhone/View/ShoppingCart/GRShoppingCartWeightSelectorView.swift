@@ -37,7 +37,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var currentValPzs : Double! = 1.0
     
     var currentValCstmGr : Double! = 0.0
-    var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
     
     var customValue  = false
     var gramsBase  = true
@@ -50,7 +49,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var currentValKg : String? = nil
     
     init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String) {
-        super.init(frame: frame)
+        super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
         self.priceProduct = priceProduct
         self.originalValGr = currentValGr
         self.equivalenceByPiece = equivalenceByPiece
@@ -59,7 +58,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     }
     
     init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,equivalenceByPiece:NSNumber,upcProduct:String) {
-        super.init(frame: frame)
+        super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
         self.priceProduct = priceProduct
         self.currentValGr = Double(quantity)
         self.originalValGr = currentValGr

@@ -789,8 +789,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         total += (quantity.doubleValue * price)
                     }
                     else {
-                        let kgrams = quantity.doubleValue / 1000.0
-                        total += (kgrams * price)
+                        if item.orderByPiece.boolValue {
+                             total +=  ((quantity.doubleValue *  item.equivalenceByPiece.doubleValue) * price) / 1000
+                        }else{
+                            let kgrams = quantity.doubleValue / 1000.0
+                            total += (kgrams * price)
+                        }
                     }
                 }
             }
@@ -1020,7 +1024,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
                     item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
-                    item.pieces = NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
+                    item.pieces =  NSNumber(value:Int(quantity)!) //NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
                     self.saveContext()
                     self.retrieveProductsLocally(true)
                     self.removeSelector()
@@ -1653,6 +1657,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         var isPesable  = ""
         var isActive =  true
         var upcAdd = ""
+        var baseUomcdAdd = ""
         if response != nil {
             if let pesable = response!["type"] as? String {
                 isPesable = pesable
@@ -1663,9 +1668,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if let upc =  response!["upc"] as? String{
                 upcAdd = upc
             }
+            
+            if let baseUomcd =  response!["baseUomcd"] as? String{
+                baseUomcdAdd = baseUomcd
+            }
         }
         
-        let productObject = response == nil ? [] : [service.buildProductObject(upc:upcAdd, quantity:1,pesable:isPesable,active:isActive)]
+        let productObject = response == nil ? [] : [service.buildProductObject(upc:upcAdd, quantity:1,pesable:isPesable,active:isActive,baseUomcd:baseUomcdAdd)]//send baseUomcd
       
         service.callService(service.buildParams(idList: self.listId!, upcs: products != nil ? products : productObject),
             successBlock: { (result:[String:Any]) -> Void in
@@ -1721,7 +1730,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if let stock = item["stock"] as? Bool {
                             active = stock
                         }
-                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:""))//baseUomcd
                     }
                     
                     self.invokeAddproductTolist(nil, products:products, succesBlock: { () -> Void in

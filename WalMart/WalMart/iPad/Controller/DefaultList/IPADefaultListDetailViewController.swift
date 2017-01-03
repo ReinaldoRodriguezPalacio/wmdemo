@@ -124,7 +124,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         }
         
         if let orderByPiece = item["orderByPiece"] as? Bool {
-            quantitySelector?.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity!.doubleValue, pieces: 0)
+            quantitySelector?.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity!.doubleValue, pieces: Int(quantity!))
         } else {
             quantitySelector?.first = true
             quantitySelector?.userSelectValue(quantity!.stringValue)

@@ -28,11 +28,11 @@ class GRSaveUserListService : GRBaseService {
         return ["name":name!, "items":items]
     }
 
-    func buildBaseProductObject(upc:String, quantity:Int) -> [String:Any] {
-        return ["upc":upc, "quantity":quantity]
+    func buildBaseProductObject(upc:String, quantity:Int,baseUomcd:String) -> [String:Any] {
+        return ["upc":upc, "quantity":quantity,"baseUomcd":baseUomcd]
     }
     
-    func buildProductObject(upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?) -> [String:Any] {
+    func buildProductObject(upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?,baseUomcd:String?,equivalenceByPiece:NSNumber) -> [String:Any] {
         //Este JSON de ejemplo es tomado del servicio de addItemToList
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         //Los argumentos: image, description y price son usados solo localmente
@@ -50,6 +50,11 @@ class GRSaveUserListService : GRBaseService {
         if type != nil {
             base["type"] = type!
         }
+        if baseUomcd != nil {
+            base["baseUomcd"] = baseUomcd!
+        }
+        base["equivalenceByPiece"] = equivalenceByPiece
+        
         return base
     }
 
@@ -141,6 +146,7 @@ class GRSaveUserListService : GRBaseService {
                 else if let type = item["type"] as? NSNumber {
                     detail!.type = type
                 }
+                
                 detail!.list = entity!
             }
         }
@@ -199,6 +205,21 @@ class GRSaveUserListService : GRBaseService {
                 if let stock = item["stock"] as? Bool {
                     detail!.isActive = stock == true ? "true" : "false"
                 }
+                
+                if let baseUomcd = item["baseUomcd"] as? String {
+                    let bUd = (baseUomcd == "EA" || baseUomcd == "pieces")//TODO: quitar pieces
+                    detail!.orderByPiece = bUd  as NSNumber
+                    detail!.pieces =  detail!.quantity
+                }
+                print(item["description"])
+                print(item["equivalenceByPiece"])
+                if let equivalenceByPiece = item["equivalenceByPiece"] as? String {
+                    detail!.equivalenceByPiece = NSNumber(value: Int(equivalenceByPiece)!)
+                }
+                if let equivalenceByPiece = item["equivalenceByPiece"] as? NSNumber {
+                    detail!.equivalenceByPiece = equivalenceByPiece
+                }
+                
                detail!.list = localList!
             }
         }

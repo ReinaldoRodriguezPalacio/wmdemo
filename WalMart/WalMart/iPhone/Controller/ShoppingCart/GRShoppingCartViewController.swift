@@ -420,7 +420,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     }
                     
                     cell.orderByPieces = self.selectQuantityGR!.orderByPiece
-                    cell.pieces = cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
+                    cell.pieces = Int(quantity)! //cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
                     let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity)
                     
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
@@ -941,7 +941,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if let stock = item["stock"] as? Bool {
                 active = stock
             }
-            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active) as AnyObject)
+            
+            var baseUomcd = "EA"
+            if  let baseUomcdP = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdP
+            }
+            
+            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
             
             // 360 Event
             BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
@@ -1081,8 +1087,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let imgUrl = item["imageUrl"] as? String
             let description = item["description"] as? String
             let type = item["type"] as? String
+            let baseUomcd = item["baseUomcd"] as? String
 
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd:baseUomcd,equivalenceByPiece: 0)//baseUomcd and equivalenceByPiece
             products.append(serviceItem as AnyObject)
         }
         

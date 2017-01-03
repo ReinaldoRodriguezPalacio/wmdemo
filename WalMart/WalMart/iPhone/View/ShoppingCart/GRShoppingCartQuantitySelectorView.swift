@@ -26,8 +26,9 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var isUpcInShoppingCart : Bool = false
     var orderByPiece = true
     var backgroundView: UIView?
+    var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
     
-    override init(frame: CGRect) {
+    init(frame: CGRect,equivalenceByPiece:NSNumber) {
         super.init(frame: frame)
     }
     

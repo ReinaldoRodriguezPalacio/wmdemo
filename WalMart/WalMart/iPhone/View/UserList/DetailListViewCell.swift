@@ -140,7 +140,7 @@ class DetailListViewCell: ProductTableViewCell {
 //            }
             
             if let orderPiece = product["baseUomcd"] as? String {
-                orderByPiece = (orderPiece == "EA")
+                orderByPiece = (orderPiece == "EA" || orderPiece == "pieces" ) //TODO: quitar pieces
             }
 
             
@@ -154,7 +154,7 @@ class DetailListViewCell: ProductTableViewCell {
                 }
                 total = (quantity.doubleValue * price.doubleValue)
                 
-            } else if orderByPiece && equivalenceByPiece!.intValue > 0 { // Gramos pero se ordena por pieza
+            } else if orderByPiece  { // Gramos pero se ordena por pieza //&& equivalenceByPiece!.intValue > 0
                 
                 let pieces = quantity.intValue //Int(quantity.intValue / self.equivalenceByPiece!.intValue)
                 
@@ -247,6 +247,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.promoDescription!.text = ""
         self.productShortDescriptionLabel!.text = description
         self.orderByPieces = product.orderByPiece.boolValue
+        self.pieces = Int(product.pieces)
         
         let quantity = product.quantity
         let price = product.price.doubleValue
@@ -264,7 +265,7 @@ class DetailListViewCell: ProductTableViewCell {
             
             total = (quantity.doubleValue * price)
             
-        } else if self.orderByPieces && equivalenceByPiece!.intValue > 0{ // Gramos pero se ordena por pieza
+        } else if self.orderByPieces { // Gramos pero se ordena por pieza //&& equivalenceByPiece!.intValue > 0
             
             if pieces == 1 {
                 text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), NSNumber(value: pieces))
@@ -272,8 +273,8 @@ class DetailListViewCell: ProductTableViewCell {
                 text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), NSNumber(value: pieces))
             }
             
-            let kgrams = quantity.doubleValue / 1000.0
-            total = (kgrams * price)
+            //let kgrams = quantity.doubleValue / 1000.0
+            total = ((product.price.doubleValue * quantity.doubleValue) * product.equivalenceByPiece.doubleValue) / 1000 //(kgrams * price)
             
         } else { //Gramos
             let q = quantity.doubleValue
@@ -354,11 +355,6 @@ class DetailListViewCell: ProductTableViewCell {
      */
     func changeQuantity() {
         self.detailDelegate?.didChangeQuantity(self)
-        if defaultList {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: "GR_\(WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue)", label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
-        } else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: "GR_\(WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue)", label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
-        }
         
     }
     /**

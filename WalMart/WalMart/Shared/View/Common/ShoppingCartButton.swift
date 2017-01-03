@@ -125,15 +125,14 @@ class ShoppingCartButton : UIButton {
             }
             
         } else {
-            if quantity < 1000 {
+            //--
+            let q = Double(quantity)
+            if q < 1000.0 {
                 quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.gr", comment:""), NSNumber(value: quantity as Int))
             }
             else {
-                
-               let y =  Double(quantity)
-                let kg = y/1000
-                let value  = String(format:"%.2f",kg)
-                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.kg", comment:""),value)
+                let kg = q/1000.0
+                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.kg", comment:""), NSNumber(value: kg as Double))
             }
         }
   
