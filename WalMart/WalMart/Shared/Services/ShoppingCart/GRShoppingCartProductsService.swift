@@ -141,7 +141,7 @@ class GRShoppingCartProductsService : GRBaseService {
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         let service = GRProductsByUPCService()
         for item in array {
-            arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
+            arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue,baseUomcd:item.product.orderByPiece.boolValue ? "EA" : "GM" ))// send baseUomcd
         }
         
         service.callService(requestParams: arrayUPCQuantity as AnyObject, successBlock: { (response:[String:Any]) -> Void in

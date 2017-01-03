@@ -17,13 +17,13 @@ class GRProductsByUPCService : GRBaseService {
     func buildParamServiceUpcs(_ upcs:[String]) -> [[String:String]] {
         var paramsForOneQuantity : [[String:String]] = []
         for upcSearch in upcs {
-            paramsForOneQuantity.append(buildParamService(upcSearch, quantity: "1"))
+            paramsForOneQuantity.append(buildParamService(upcSearch, quantity: "1",baseUomcd:""))
         }
         return paramsForOneQuantity
     }
     
-    func buildParamService(_ upc:String,quantity:String) -> [String:String] {
-        return ["upc":upc,"quantity":quantity]
+    func buildParamService(_ upc:String,quantity:String,baseUomcd:String) -> [String:String] {
+        return ["upc":upc,"quantity":quantity,baseUomcd:baseUomcd]
     }
     
     
