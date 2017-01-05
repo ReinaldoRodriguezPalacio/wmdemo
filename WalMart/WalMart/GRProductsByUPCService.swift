@@ -23,7 +23,7 @@ class GRProductsByUPCService : GRBaseService {
     }
     
     func buildParamService(_ upc:String,quantity:String,baseUomcd:String) -> [String:String] {
-        return ["upc":upc,"quantity":quantity,baseUomcd:baseUomcd]
+        return ["upc":upc,"quantity":quantity,"baseUomcd":baseUomcd]
     }
     
     
