@@ -381,7 +381,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 
                 if let item = self.products![indexPath!.row] as? [String:Any] {
                     let upc = item["upc"] as? String
-                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
+                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd: self.quantitySelector!.orderByPiece ? "EA" : "GM")
                 } else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
                     item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)

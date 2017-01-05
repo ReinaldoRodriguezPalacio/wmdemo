@@ -1019,7 +1019,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 if let item = self.products![indexPath!.row] as? [String:Any] {
                     let upc = item["upc"] as? String
-                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
+                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
                 }
                 else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
@@ -1205,7 +1205,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         )
     }
     
-    func invokeUpdateProductFromListService(_ upc:String, quantity:Int) {
+    func invokeUpdateProductFromListService(_ upc:String, quantity:Int,baseUomcd:String) {
         if quantity == 0 {
             invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
                 print("succesDelete")
@@ -1221,7 +1221,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     
         
         let service = GRUpdateItemListService()
-        service.callService(service.buildParams(upc: upc, quantity: quantity),
+        service.callService(service.buildParams(upc: upc, quantity: quantity,baseUomcd:baseUomcd),
             successBlock: { (result:[String:Any]) -> Void in
                 self.invokeDetailListService({ () -> Void in
                     self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))

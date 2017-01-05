@@ -419,6 +419,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             }
             updateShoppButtonN()
         } else {
+            self.orderByPiece =  false
             let resultText : NSString = "\(value!)" as NSString
             currentValGr = resultText.doubleValue
             originalValGr = currentValGr
@@ -637,7 +638,8 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     func updateShoppButton(){
         
-        let result = (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs))
+        
+        let result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValGr
         
         let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
