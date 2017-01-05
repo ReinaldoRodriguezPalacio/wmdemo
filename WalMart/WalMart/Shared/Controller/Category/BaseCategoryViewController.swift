@@ -94,12 +94,14 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
      */
     func closeDepartment() {
         self.currentIndexSelected = nil
-        self.categories!.reloadData()
+
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.categories!.contentInset = UIEdgeInsets.zero
+            
             }, completion: { (end:Bool) -> Void in
                 self.categories!.isScrollEnabled = true
                 self.categories!.isUserInteractionEnabled = true
+                self.categories!.reloadData()
         }) 
     }
     

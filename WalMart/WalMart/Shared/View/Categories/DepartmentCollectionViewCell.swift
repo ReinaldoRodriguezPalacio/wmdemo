@@ -36,7 +36,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         self.clipsToBounds = true
         
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.left
+        //imageBackground.contentMode = UIViewContentMode.left
         imageBackground.clipsToBounds = true
         
         imageIcon = UIImageView()
@@ -171,11 +171,6 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     
     func closeDepartment() {
         
-        
-        let label = self.titleLabel.text!
-        let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
-        //BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_CANCEL.rawValue, label: label)
-        
         if customCloseDep {
             if self.onclose != nil {
                 self.onclose!()
@@ -188,6 +183,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
                 self.titleLabel.frame = CGRect(x: (self.startFrame.width / 2) - (self.titleLabel.frame.width / 2), y: self.titleLabel.frame.minY, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
                 self.imageIcon.frame = CGRect(x: (self.startFrame.width / 2) - 14,  y: self.imageIcon.frame.minY ,  width: self.imageIcon.frame.width,  height: self.imageIcon.frame.height)
                 self.buttonClose.alpha = 0
+                
                 }, completion: { (complete:Bool) -> Void in
                     self.removeFromSuperview()
                     if self.onclose != nil {

@@ -12,7 +12,7 @@ class IPODepartmentCollectionViewCell : DepartmentCollectionViewCell {
     
     override func setup() {
         super.setup()
-        imageBackground.contentMode = UIViewContentMode.left
+        //imageBackground.contentMode = UIViewContentMode.left
         titleLabel.font  = WMFont.fontMyriadProRegularOfSize(16)
         
         imageBackground.frame = self.bounds

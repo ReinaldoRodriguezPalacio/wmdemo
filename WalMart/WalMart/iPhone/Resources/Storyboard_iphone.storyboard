@@ -38,9 +38,8 @@
                                             <constraint firstAttribute="width" constant="183" id="zKA-96-HTh"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
-                                        <rect key="frame" x="327" y="19" width="48" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
+                                        <rect key="frame" x="322" y="20" width="48" height="44"/>
                                         <state key="normal" image="navBar_cart">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -51,8 +50,11 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.4392156862745098" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="doD-nc-whc" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="19" id="9m1-uX-Qgi"/>
+                                    <constraint firstAttribute="bottom" secondItem="doD-nc-whc" secondAttribute="bottom" id="C1H-Ng-dsN"/>
                                     <constraint firstItem="DNA-XG-hNj" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="L07-2H-MD8"/>
                                     <constraint firstAttribute="height" constant="63" id="TL6-DP-aJ6"/>
+                                    <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="5" id="XhI-UQ-MWz"/>
                                     <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="hT9-bU-95x"/>
                                     <constraint firstAttribute="bottom" secondItem="DNA-XG-hNj" secondAttribute="bottom" id="meQ-N0-ltB"/>
                                 </constraints>
@@ -319,8 +321,10 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="CzW-jR-AzM" firstAttribute="leading" secondItem="7cO-tB-hfR" secondAttribute="leading" id="FiS-qX-8ps"/>
+                            <constraint firstAttribute="trailing" secondItem="CzW-jR-AzM" secondAttribute="trailing" id="bZC-5v-bxy"/>
                             <constraint firstAttribute="trailing" secondItem="CzW-jR-AzM" secondAttribute="trailing" id="e4l-py-aqe"/>
                             <constraint firstItem="CzW-jR-AzM" firstAttribute="top" secondItem="7cO-tB-hfR" secondAttribute="top" id="fU3-3M-Bxs"/>
+                            <constraint firstItem="CzW-jR-AzM" firstAttribute="leading" secondItem="7cO-tB-hfR" secondAttribute="leading" id="xDi-tI-lit"/>
                             <constraint firstItem="CzW-jR-AzM" firstAttribute="bottom" secondItem="mrl-Au-tup" secondAttribute="top" id="yOu-ed-KEG"/>
                         </constraints>
                     </view>

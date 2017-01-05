@@ -159,6 +159,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: "@2x.jpg", with: ".jpg" )
             itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: ".jpg", with: "@\(Int(scale))x.jpg" )
             categoryCell.setValuesLanding("https://\(itemBannerPhone!)")
+            categoryCell.imageBackground.contentMode = UIViewContentMode.left
             return categoryCell
             
         }// if indexPath.item == 0 {
@@ -172,7 +173,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let bgDepartment = item["idDept"] as! String
         
         categoryCell.setValues(descDepartment,imageBackgroundURL: bgDepartment + ".png",keyBgUrl:svcUrlCar!,imageIconURL:"i_" + bgDepartment + ".png",keyIconUrl:svcUrl!,hideImage:hideView)
-        
+        categoryCell.imageBackground.contentMode = UIViewContentMode.left
         return categoryCell
     }
     
