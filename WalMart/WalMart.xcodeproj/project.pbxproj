@@ -52,6 +52,7 @@
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		161DAE451E117ECB008BCA39 /* LoginByTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161DAE441E117ECB008BCA39 /* LoginByTokenService.swift */; };
+		16DA088D1E1478B30069701C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16DA088C1E1478B30069701C /* LaunchScreen.storyboard */; };
 		4A223E721DA2A8F20033B310 /* GetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */; };
 		4A223E741DA2A91A0033B310 /* SetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */; };
 		4A26BC841D47C03600714FF5 /* ListHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26BC831D47C03600714FF5 /* ListHelpView.swift */; };
@@ -627,6 +628,7 @@
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		161DAE441E117ECB008BCA39 /* LoginByTokenService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginByTokenService.swift; path = Shared/Services/LoginSignUp/LoginByTokenService.swift; sourceTree = "<group>"; };
+		16DA088C1E1478B30069701C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = iPhone/Resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetPreferencesService.swift; path = Shared/Services/Profile/GetPreferencesService.swift; sourceTree = "<group>"; };
 		4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetPreferencesService.swift; path = Shared/Services/Profile/SetPreferencesService.swift; sourceTree = "<group>"; };
 		4A26BC831D47C03600714FF5 /* ListHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHelpView.swift; sourceTree = "<group>"; };
@@ -1834,6 +1836,7 @@
 			isa = PBXGroup;
 			children = (
 				564578CD19AE327A006A7152 /* Storyboard_iphone.storyboard */,
+				16DA088C1E1478B30069701C /* LaunchScreen.storyboard */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3278,6 +3281,7 @@
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = E896UUML7L;
 						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -3334,6 +3338,7 @@
 				8B44A1BE1AA7E16C008E3CC0 /* TerminosUso.pdf in Resources */,
 				8B44A1BD1AA7E16C008E3CC0 /* Politicasdevolucion.pdf in Resources */,
 				AC59115E19DDEEDD00EB095C /* termsOfUse.html in Resources */,
+				16DA088D1E1478B30069701C /* LaunchScreen.storyboard in Resources */,
 				8B5B7ED61AC0B48B00F880D1 /* PreguntasFrecuentes.pdf in Resources */,
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
 				6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */,
@@ -3927,7 +3932,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
@@ -3967,7 +3972,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
 				SDKROOT = iphoneos;
@@ -3983,7 +3988,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4025,8 +4031,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
-				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -4043,7 +4049,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4085,8 +4092,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
-				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";

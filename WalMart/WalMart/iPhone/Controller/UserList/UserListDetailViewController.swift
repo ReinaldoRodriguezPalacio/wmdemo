@@ -967,7 +967,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         if (indexPath as NSIndexPath).section == 1 { //self.products!.count
             let totalCell = tableView.dequeueReusableCell(withIdentifier: self.TOTAL_CELL_ID, for: indexPath) as! ShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
@@ -975,7 +975,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             totalCell.setValuesTotalSaving(Total: "\(total)", saving: "")
             return totalCell
         }
-
+        
         let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
         let controller = self.view.window!.rootViewController
         listCell.viewIpad = controller!.view
@@ -985,9 +985,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.detailDelegate = self
         listCell.delegate = self
         
-            if self.products!.count > 0{
-                let items = self.products![(indexPath as NSIndexPath).row]
-           
+        if self.products!.count > 0{
+            let items = self.products![(indexPath as NSIndexPath).row]
+            
+            if UserCurrentSession.hasLoggedUser() {
                 var upc = ""
                 let dicItem = items as! [String:Any]
                 if let sku = dicItem["sku"] as? [String:Any] {
@@ -996,17 +997,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         upc = item["repositoryId"] as! String
                     }
                 }
-
-                
-                if UserCurrentSession.hasLoggedUser() {
                 listCell.setValuesDictionary(items as! [String:Any],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
-                }else{
-                    //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
-                    let product =  items as! Product
-                    print(product.upc)
-                    listCell.setValues(product,disabled:!self.selectedItems!.contains(product.upc))
-                }
+            }else{
+                //let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
+                let product =  items as! Product
+                print(product.upc)
+                listCell.setValues(product,disabled:!self.selectedItems!.contains(product.upc))
             }
+        }
         
         
         if self.isEdditing {

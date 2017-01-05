@@ -46,7 +46,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.upcProduct = upcProduct
         setup()
         let text = String(quantity).characters.count < 2 ? "0" : ""
-        lblQuantity.text = "\(text)"+"\(quantity)"
+        lblQuantity.text = "\(text)"+"\(quantity!)"
         self.updateQuantityBtn()
     }
     

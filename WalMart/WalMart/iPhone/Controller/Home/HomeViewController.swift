@@ -318,9 +318,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch  ((indexPath as NSIndexPath).section,(indexPath as NSIndexPath).row) {
         case (0,0):
-            return CGSize(width: 320, height: 217)
+            return CGSize(width: self.view.frame.width, height: 217)
         case (0,1):
-            return CGSize(width: 320, height: 44)
+            return CGSize(width: self.view.frame.width, height: 44)
         default:
             return CGSize(width: 106.66, height: 146)
         }

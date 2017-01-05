@@ -105,6 +105,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             self.categories!.reloadItems(at: [indexPath])
             categoryCell = self.categories!.cellForItem(at: indexPath) as? DepartmentCollectionViewCell
         }
+        
         let frameOriginal = self.categories!.convert(categoryCell!.frame, to:  self.view)
         selectedView = IPODepartmentCollectionViewCell(frame:frameOriginal)
         selectedView.isOpen = true
@@ -185,7 +186,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                 return CGSize(width: 154, height: 98)
             }
         }
-        return CGSize(width: 154, height: 98)
+        return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

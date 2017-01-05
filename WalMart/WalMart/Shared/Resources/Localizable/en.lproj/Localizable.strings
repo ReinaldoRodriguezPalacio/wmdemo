@@ -437,7 +437,7 @@
 
 
 //Checkout
-"checkout.title" = "Check out";
+"checkout.title" = "Checkout";
 "checkout.gr.title" = "Generar Pedido";
 "checkout.gr.totalArt" = "%@ artículos";
 "checkout.gr.totalCost" = "Total";
