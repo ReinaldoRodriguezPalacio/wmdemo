@@ -499,7 +499,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func buildParamsUpdateShoppingCart(_ cell: GRProductShoppingCartTableViewCell,quantity:String) -> [String:Any] {
         let pesable = cell.pesable ? "1" : "0"
-        return ["upc":cell.upc, "desc":cell.desc, "imgUrl": cell.imageurl, "price": cell.price, "quantity": quantity, "comments": cell.comments, "onHandInventory": cell.onHandInventory, "wishlist":false, "type":ResultObjectType.Groceries.rawValue, "pesable": pesable, "orderByPieces": cell.orderByPieces, "pieces": cell.pieces]
+        return ["upc":cell.upc, "desc":cell.desc, "imgUrl": cell.imageurl, "price": cell.price, "quantity": quantity, "comments": cell.comments, "onHandInventory": cell.onHandInventory, "wishlist":false, "type":ResultObjectType.Groceries.rawValue, "pesable": pesable, "orderByPieces": cell.orderByPieces, "pieces": cell.pieces,"baseUomcd":cell.orderByPieces ? "EA" : "GM"]
     }
     
     func updateShopButton(_ total:String) {

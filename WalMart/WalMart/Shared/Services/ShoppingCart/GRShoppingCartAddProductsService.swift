@@ -43,8 +43,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return [["comments": comments, "quantity": quantity, "upc": upc, "desc": desc, "price": price, "imageURL": imageURL, "onHandInventory": onHandInventory, "pesable": pesable, "orderByPieces": orderByPieces, "pieces": pieces,]]
     }
     
-    func builParamSvc(_ upc:String, quantity:String, comments:String) -> [String:Any] {
-        return ["comments":comments,"quantity":quantity,"upc":upc]
+    func builParamSvc(_ upc:String, quantity:String, comments:String,baseUomcd:String) -> [String:Any] {
+        return ["comments":comments,"quantity":quantity,"upc":upc,"baseUomcd":baseUomcd]
     }
     
     func builParam(_ upc:String, quantity:String, comments:String, desc:String, price:String, imageURL:String, onHandInventory:NSString, wishlist:Bool, pesable:NSString, isPreorderable:String, category:String, orderByPieces: NSNumber, pieces: NSNumber) -> [String:Any] {

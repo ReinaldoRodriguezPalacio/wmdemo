@@ -264,7 +264,7 @@ class GRShoppingCartProductsService : GRBaseService {
             var arrayUpcsUpdate : [Any] = []
             for itemUpdated in updated {
                 let ntVal = itemUpdated.note != nil ? itemUpdated.note! : ""
-                arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ntVal))
+                arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ntVal,baseUomcd:itemUpdated.product.orderByPiece.boolValue ? "EA" : "GM" ))
             }
             
             
