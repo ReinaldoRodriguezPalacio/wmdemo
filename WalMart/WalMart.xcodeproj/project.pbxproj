@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		029895EA4D81B09EBC1CA67D /* libPods-WalMart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC099D28F6488D95F849ED8 /* libPods-WalMart.a */; };
 		041A73A81A7ADA4000AED884 /* ClubLocatorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A73A71A7ADA4000AED884 /* ClubLocatorTableViewCell.swift */; };
 		041CC49F1A85807C00750B5E /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041CC49E1A85807C00750B5E /* NewListView.swift */; };
 		04203FDD1A6F077900008366 /* UserListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04203FDC1A6F077900008366 /* UserListDetailViewController.swift */; };
@@ -52,6 +53,7 @@
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		161DAE451E117ECB008BCA39 /* LoginByTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161DAE441E117ECB008BCA39 /* LoginByTokenService.swift */; };
+		16AD9E6A1E201F29004421DA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD9E691E201F28004421DA /* ImageIO.framework */; };
 		16DA088D1E1478B30069701C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16DA088C1E1478B30069701C /* LaunchScreen.storyboard */; };
 		4A223E721DA2A8F20033B310 /* GetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */; };
 		4A223E741DA2A91A0033B310 /* SetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */; };
@@ -144,18 +146,6 @@
 		5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5645789B19AE2E00006A7152 /* AppDelegate.swift */; };
 		564578CC19AE3231006A7152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564578CB19AE3231006A7152 /* HomeViewController.swift */; };
 		564578CE19AE327A006A7152 /* Storyboard_iphone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564578CD19AE327A006A7152 /* Storyboard_iphone.storyboard */; };
-		564578EA19AE33AB006A7152 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D119AE33AB006A7152 /* AFHTTPRequestOperation.m */; };
-		564578EB19AE33AB006A7152 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D319AE33AB006A7152 /* AFHTTPRequestOperationManager.m */; };
-		564578EC19AE33AB006A7152 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D519AE33AB006A7152 /* AFHTTPSessionManager.m */; };
-		564578ED19AE33AB006A7152 /* AFNetworkActivityLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D719AE33AB006A7152 /* AFNetworkActivityLogger.m */; };
-		564578EE19AE33AB006A7152 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578DA19AE33AB006A7152 /* AFNetworkReachabilityManager.m */; };
-		564578EF19AE33AB006A7152 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578DC19AE33AB006A7152 /* AFSecurityPolicy.m */; };
-		564578F019AE33AB006A7152 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578DE19AE33AB006A7152 /* AFURLConnectionOperation.m */; };
-		564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E019AE33AB006A7152 /* AFURLRequestSerialization.m */; };
-		564578F219AE33AB006A7152 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E219AE33AB006A7152 /* AFURLResponseSerialization.m */; };
-		564578F319AE33AB006A7152 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E419AE33AB006A7152 /* AFURLSessionManager.m */; };
-		564578F419AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E719AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m */; };
-		564578F519AE33AB006A7152 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578E919AE33AB006A7152 /* UIImageView+AFNetworking.m */; };
 		564578FA19AE3718006A7152 /* CustomBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564578F919AE3718006A7152 /* CustomBarViewController.swift */; };
 		564A98AD19D320DE0047D898 /* ShoppingCartQuantitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564A98AC19D320DE0047D898 /* ShoppingCartQuantitySelectorView.swift */; };
 		564A98B119D3644A0047D898 /* HighlightedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564A98B019D3644A0047D898 /* HighlightedButton.swift */; };
@@ -628,7 +618,10 @@
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		161DAE441E117ECB008BCA39 /* LoginByTokenService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginByTokenService.swift; path = Shared/Services/LoginSignUp/LoginByTokenService.swift; sourceTree = "<group>"; };
+		16AD9E691E201F28004421DA /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16DA088C1E1478B30069701C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = iPhone/Resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		29947F6DAD641B4D6317D1AB /* Pods-WalMart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.release.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.release.xcconfig"; sourceTree = "<group>"; };
+		3F9AF542B27E495990A3F50A /* Pods-WalMart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.debug.xcconfig"; sourceTree = "<group>"; };
 		4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetPreferencesService.swift; path = Shared/Services/Profile/GetPreferencesService.swift; sourceTree = "<group>"; };
 		4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetPreferencesService.swift; path = Shared/Services/Profile/SetPreferencesService.swift; sourceTree = "<group>"; };
 		4A26BC831D47C03600714FF5 /* ListHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHelpView.swift; sourceTree = "<group>"; };
@@ -750,31 +743,6 @@
 		564578B119AE2E00006A7152 /* WalMartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalMartTests.swift; sourceTree = "<group>"; };
 		564578CB19AE3231006A7152 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = iPhone/Controller/Home/HomeViewController.swift; sourceTree = "<group>"; };
 		564578CD19AE327A006A7152 /* Storyboard_iphone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard_iphone.storyboard; path = iPhone/Resources/Storyboard_iphone.storyboard; sourceTree = "<group>"; };
-		564578D019AE33AB006A7152 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = Shared/Library/AFNetworking/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
-		564578D119AE33AB006A7152 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPRequestOperation.m; path = Shared/Library/AFNetworking/AFHTTPRequestOperation.m; sourceTree = "<group>"; };
-		564578D219AE33AB006A7152 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperationManager.h; path = Shared/Library/AFNetworking/AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
-		564578D319AE33AB006A7152 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPRequestOperationManager.m; path = Shared/Library/AFNetworking/AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
-		564578D419AE33AB006A7152 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPSessionManager.h; path = Shared/Library/AFNetworking/AFHTTPSessionManager.h; sourceTree = "<group>"; };
-		564578D519AE33AB006A7152 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPSessionManager.m; path = Shared/Library/AFNetworking/AFHTTPSessionManager.m; sourceTree = "<group>"; };
-		564578D619AE33AB006A7152 /* AFNetworkActivityLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworkActivityLogger.h; path = Shared/Library/AFNetworking/AFNetworkActivityLogger.h; sourceTree = "<group>"; };
-		564578D719AE33AB006A7152 /* AFNetworkActivityLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFNetworkActivityLogger.m; path = Shared/Library/AFNetworking/AFNetworkActivityLogger.m; sourceTree = "<group>"; };
-		564578D819AE33AB006A7152 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworking.h; path = Shared/Library/AFNetworking/AFNetworking.h; sourceTree = "<group>"; };
-		564578D919AE33AB006A7152 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworkReachabilityManager.h; path = Shared/Library/AFNetworking/AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
-		564578DA19AE33AB006A7152 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFNetworkReachabilityManager.m; path = Shared/Library/AFNetworking/AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
-		564578DB19AE33AB006A7152 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFSecurityPolicy.h; path = Shared/Library/AFNetworking/AFSecurityPolicy.h; sourceTree = "<group>"; };
-		564578DC19AE33AB006A7152 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFSecurityPolicy.m; path = Shared/Library/AFNetworking/AFSecurityPolicy.m; sourceTree = "<group>"; };
-		564578DD19AE33AB006A7152 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLConnectionOperation.h; path = Shared/Library/AFNetworking/AFURLConnectionOperation.h; sourceTree = "<group>"; };
-		564578DE19AE33AB006A7152 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLConnectionOperation.m; path = Shared/Library/AFNetworking/AFURLConnectionOperation.m; sourceTree = "<group>"; };
-		564578DF19AE33AB006A7152 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLRequestSerialization.h; path = Shared/Library/AFNetworking/AFURLRequestSerialization.h; sourceTree = "<group>"; };
-		564578E019AE33AB006A7152 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLRequestSerialization.m; path = Shared/Library/AFNetworking/AFURLRequestSerialization.m; sourceTree = "<group>"; };
-		564578E119AE33AB006A7152 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLResponseSerialization.h; path = Shared/Library/AFNetworking/AFURLResponseSerialization.h; sourceTree = "<group>"; };
-		564578E219AE33AB006A7152 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLResponseSerialization.m; path = Shared/Library/AFNetworking/AFURLResponseSerialization.m; sourceTree = "<group>"; };
-		564578E319AE33AB006A7152 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLSessionManager.h; path = Shared/Library/AFNetworking/AFURLSessionManager.h; sourceTree = "<group>"; };
-		564578E419AE33AB006A7152 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLSessionManager.m; path = Shared/Library/AFNetworking/AFURLSessionManager.m; sourceTree = "<group>"; };
-		564578E619AE33AB006A7152 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
-		564578E719AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
-		564578E819AE33AB006A7152 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
-		564578E919AE33AB006A7152 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		564578F619AE3554006A7152 /* WalMart-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WalMart-Bridging-Header.h"; sourceTree = "<group>"; };
 		564578F919AE3718006A7152 /* CustomBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomBarViewController.swift; path = iPhone/Controller/Navigation/CustomBarViewController.swift; sourceTree = "<group>"; };
 		564A98AC19D320DE0047D898 /* ShoppingCartQuantitySelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartQuantitySelectorView.swift; path = iPhone/View/ShoppingCart/ShoppingCartQuantitySelectorView.swift; sourceTree = "<group>"; };
@@ -1220,6 +1188,7 @@
 		B12FA3501D78DE0700251416 /* TotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TotalView.swift; path = Shared/View/General/TotalView.swift; sourceTree = "<group>"; };
 		B13848791D7DC4C000147212 /* OccupationsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OccupationsService.swift; path = Shared/Services/LoginSignUp/OccupationsService.swift; sourceTree = "<group>"; };
 		B138487B1D7DCDA900147212 /* UserListDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListDetailService.swift; path = Shared/Services/UserList/UserListDetailService.swift; sourceTree = "<group>"; };
+		BCC099D28F6488D95F849ED8 /* libPods-WalMart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WalMart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F711E2BA1DA5878400C4DC13 /* InterestCategoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterestCategoryController.swift; path = iPhone/Controller/Preferences/InterestCategoryController.swift; sourceTree = "<group>"; };
 		F711E2BD1DA59C5F00C4DC13 /* CategoryInterestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryInterestTableViewCell.swift; path = Shared/View/Preferences/CategoryInterestTableViewCell.swift; sourceTree = "<group>"; };
 		F7870F021E0C574200BF3B1B /* AuthorizationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthorizationService.swift; path = Shared/Services/AuthorizationService.swift; sourceTree = "<group>"; };
@@ -1232,6 +1201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16AD9E6A1E201F29004421DA /* ImageIO.framework in Frameworks */,
 				4A4E7B2B1D516361001514BD /* UIKit.framework in Frameworks */,
 				4A4E7B271D5161B5001514BD /* CFNetwork.framework in Frameworks */,
 				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
@@ -1268,6 +1238,7 @@
 				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
+				029895EA4D81B09EBC1CA67D /* libPods-WalMart.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1598,6 +1569,7 @@
 				5645789819AE2E00006A7152 /* WalMart */,
 				564578AE19AE2E00006A7152 /* WalMartTests */,
 				5645789719AE2E00006A7152 /* Products */,
+				E61724D95A6457C1F9E8532C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1705,7 +1677,6 @@
 				5680B7D319C3975B00108F34 /* LoadingView */,
 				5606BC2D19BA6586002A70ED /* BlurImage */,
 				56527DE319AFE9EE008032C6 /* iCarousel */,
-				564578CF19AE3367006A7152 /* AFNetworking */,
 				04D2A3931A2FD27A008DAE37 /* MapUtils */,
 			);
 			name = Library;
@@ -1896,47 +1867,6 @@
 				56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */,
 			);
 			name = Home;
-			sourceTree = "<group>";
-		};
-		564578CF19AE3367006A7152 /* AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				564578D019AE33AB006A7152 /* AFHTTPRequestOperation.h */,
-				564578D119AE33AB006A7152 /* AFHTTPRequestOperation.m */,
-				564578D219AE33AB006A7152 /* AFHTTPRequestOperationManager.h */,
-				564578D319AE33AB006A7152 /* AFHTTPRequestOperationManager.m */,
-				564578D419AE33AB006A7152 /* AFHTTPSessionManager.h */,
-				564578D519AE33AB006A7152 /* AFHTTPSessionManager.m */,
-				564578D619AE33AB006A7152 /* AFNetworkActivityLogger.h */,
-				564578D719AE33AB006A7152 /* AFNetworkActivityLogger.m */,
-				564578D819AE33AB006A7152 /* AFNetworking.h */,
-				564578D919AE33AB006A7152 /* AFNetworkReachabilityManager.h */,
-				564578DA19AE33AB006A7152 /* AFNetworkReachabilityManager.m */,
-				564578DB19AE33AB006A7152 /* AFSecurityPolicy.h */,
-				564578DC19AE33AB006A7152 /* AFSecurityPolicy.m */,
-				564578DD19AE33AB006A7152 /* AFURLConnectionOperation.h */,
-				564578DE19AE33AB006A7152 /* AFURLConnectionOperation.m */,
-				564578DF19AE33AB006A7152 /* AFURLRequestSerialization.h */,
-				564578E019AE33AB006A7152 /* AFURLRequestSerialization.m */,
-				564578E119AE33AB006A7152 /* AFURLResponseSerialization.h */,
-				564578E219AE33AB006A7152 /* AFURLResponseSerialization.m */,
-				564578E319AE33AB006A7152 /* AFURLSessionManager.h */,
-				564578E419AE33AB006A7152 /* AFURLSessionManager.m */,
-				564578E519AE33AB006A7152 /* UIKit+AFNetworking */,
-			);
-			name = AFNetworking;
-			sourceTree = "<group>";
-		};
-		564578E519AE33AB006A7152 /* UIKit+AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				564578E619AE33AB006A7152 /* AFNetworkActivityIndicatorManager.h */,
-				564578E719AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m */,
-				564578E819AE33AB006A7152 /* UIImageView+AFNetworking.h */,
-				564578E919AE33AB006A7152 /* UIImageView+AFNetworking.m */,
-			);
-			name = "UIKit+AFNetworking";
-			path = "Shared/Library/AFNetworking/UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
 		564578F719AE35E7006A7152 /* Model */ = {
@@ -3205,6 +3135,7 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16AD9E691E201F28004421DA /* ImageIO.framework */,
 				4A4E7B2A1D516361001514BD /* UIKit.framework */,
 				4A4E7B281D51627F001514BD /* Foundation.framework */,
 				4A4E7B261D5161B5001514BD /* CFNetwork.framework */,
@@ -3233,8 +3164,18 @@
 				569BB3151B0635E000E8A657 /* MobileCoreServices.framework */,
 				569BB3131B0635CE00E8A657 /* AssetsLibrary.framework */,
 				04D2A3971A2FD4FF008DAE37 /* MapKit.framework */,
+				BCC099D28F6488D95F849ED8 /* libPods-WalMart.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E61724D95A6457C1F9E8532C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3F9AF542B27E495990A3F50A /* Pods-WalMart.debug.xcconfig */,
+				29947F6DAD641B4D6317D1AB /* Pods-WalMart.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		F711E2BC1DA59C2700C4DC13 /* Preferences */ = {
@@ -3252,10 +3193,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 564578B519AE2E00006A7152 /* Build configuration list for PBXNativeTarget "WalMart" */;
 			buildPhases = (
+				8539A1924665819A82DC9B54 /* [CP] Check Pods Manifest.lock */,
 				5645789219AE2E00006A7152 /* Sources */,
 				5645789319AE2E00006A7152 /* Frameworks */,
 				5645789419AE2E00006A7152 /* Resources */,
 				6C1E263A1D3EA47A00D3B606 /* ShellScript */,
+				8259E32C618AC815B4EEA20D /* [CP] Embed Pods Frameworks */,
+				572ADB0AA4C9FA0F8C37D804 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3371,6 +3315,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		572ADB0AA4C9FA0F8C37D804 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WalMart/Pods-WalMart-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6C1E263A1D3EA47A00D3B606 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3384,6 +3343,36 @@
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run 9b0d22d3404acd30b8fde2901ed4a4e6069caeff 2bbd29a31a892c3b12d11c29d89fd299d553b740cbff42d3cfe2e38536ea17c3";
 		};
+		8259E32C618AC815B4EEA20D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WalMart/Pods-WalMart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8539A1924665819A82DC9B54 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3393,7 +3382,6 @@
 			files = (
 				56ED1B631A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift in Sources */,
 				4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */,
-				564578F019AE33AB006A7152 /* AFURLConnectionOperation.m in Sources */,
 				AC6AAE9E19CCD408004081C4 /* AddressViewCell.swift in Sources */,
 				04D5E9421A30CD390043437C /* StoreView.swift in Sources */,
 				4A7DE2291D1224E900150C94 /* IPOWMAlertRatingViewController.swift in Sources */,
@@ -3435,7 +3423,6 @@
 				56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */,
 				567023331AB255D300FDCD91 /* IPOWebViewController.swift in Sources */,
 				5663A62419DA11AC00EF0B17 /* Wishlist.swift in Sources */,
-				564578EE19AE33AB006A7152 /* AFNetworkReachabilityManager.m in Sources */,
 				AC7A0BEE19D9D99B004ED6CC /* AddPreferedAddress.swift in Sources */,
 				5614A6551A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift in Sources */,
 				569E004E19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift in Sources */,
@@ -3500,7 +3487,6 @@
 				04C2342E1A70125100AEFC09 /* ListSelectorViewCell.swift in Sources */,
 				568A42B319ED8F8D00608297 /* ProductDetailCrossSellView.swift in Sources */,
 				5612FC991A8BD2DA007CA2FD /* RecentProductsViewController.swift in Sources */,
-				564578F319AE33AB006A7152 /* AFURLSessionManager.m in Sources */,
 				56527DE619AFEA3E008032C6 /* iCarousel.m in Sources */,
 				AC37F6BF19B90E7B000BB80D /* DeleteAddressesByUserService.swift in Sources */,
 				56C211851A24E278002D1C91 /* IPASearchLastViewTableViewController.swift in Sources */,
@@ -3535,7 +3521,6 @@
 				569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */,
 				568A42B119ED8E7500608297 /* IPAProductDetailCrossSellView.swift in Sources */,
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
-				564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */,
 				56253D9119D2242B002E128A /* OrderProductTableViewCell.swift in Sources */,
 				04203FDF1A6F247400008366 /* GRDeleteUserListService.swift in Sources */,
 				56C5B22019AE871800BB81DE /* WMFont.swift in Sources */,
@@ -3652,13 +3637,11 @@
 				AC3B64F019BE657000564845 /* SearchSingleViewCell.swift in Sources */,
 				5688470719E8775A00D5C45D /* IPACustomBarViewController.swift in Sources */,
 				4AE7FA941C802805007C43B3 /* IPALinesListViewController.swift in Sources */,
-				564578F219AE33AB006A7152 /* AFURLResponseSerialization.m in Sources */,
 				56DE026619DE073C00FA2042 /* IPOEmptyView.swift in Sources */,
 				6C3092D41B990C9600D00349 /* GRPayPalUpdateOrderService.swift in Sources */,
 				6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */,
 				5696078F19B4D955005D20DC /* BannerService.swift in Sources */,
 				4AB4838F1D81B01A001856CB /* DisplaySlotsService.swift in Sources */,
-				564578ED19AE33AB006A7152 /* AFNetworkActivityLogger.m in Sources */,
 				6C8DC8871D8B09C1002852B9 /* SelectedSlotService.swift in Sources */,
 				5688470A19E87E2800D5C45D /* IPACategoriesViewController.swift in Sources */,
 				04D605A21A9F9DFB006B36D5 /* IPAListTableViewCell.swift in Sources */,
@@ -3673,7 +3656,6 @@
 				AC6BC2C819EEC89C00835D03 /* IPAAddressViewController.swift in Sources */,
 				AC37F6C719B91907000BB80D /* UpdateFiscalAddressService.swift in Sources */,
 				ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */,
-				564578EB19AE33AB006A7152 /* AFHTTPRequestOperationManager.m in Sources */,
 				4A5A9D4E1C84A99B00A2A7F4 /* ABCalendarPickerDefaultSeasonedMonthsProvider.m in Sources */,
 				56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */,
 				56253D8D19D21883002E128A /* PreviousDetailTableViewCell.swift in Sources */,
@@ -3691,7 +3673,6 @@
 				AC1CF41D19EC831A006F1BC6 /* IPAProfileViewController.swift in Sources */,
 				56527DE019AFC689008032C6 /* IPOBaseController.swift in Sources */,
 				5698842D1BE1B1A700FEF4FA /* PromotionsMgService.swift in Sources */,
-				564578EA19AE33AB006A7152 /* AFHTTPRequestOperation.m in Sources */,
 				5673D13A1A9D500400DCD20B /* RSCodeLayer.swift in Sources */,
 				B117CFEE1D79EC09004A16D3 /* ComfirmViewCell.swift in Sources */,
 				56DB80481B0225B8002E65F7 /* GRProductsByUPCService.swift in Sources */,
@@ -3737,8 +3718,6 @@
 				AC6AAE9719CC94FB004081C4 /* ProfileViewCell.swift in Sources */,
 				56BB629D1A5F2C3A0008BD1F /* ProductDetailBundleCollectionViewCell.swift in Sources */,
 				5662252F1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift in Sources */,
-				564578EF19AE33AB006A7152 /* AFSecurityPolicy.m in Sources */,
-				564578F519AE33AB006A7152 /* UIImageView+AFNetworking.m in Sources */,
 				561657D919B1423900DA056A /* FamilyViewController.swift in Sources */,
 				5608AF711A0AA24D00176CB0 /* IPASearchCatProductViewController.swift in Sources */,
 				04C711CA1A856C800095090E /* NewListSelectorViewCell.swift in Sources */,
@@ -3795,7 +3774,6 @@
 				04203FE11A6F2B2800008366 /* GRDeleteItemListService.swift in Sources */,
 				56B044AE1A6DB5E300BA173A /* GRTimeBands.swift in Sources */,
 				56DA713D1A3F9AEB00048539 /* IPOCategoriesViewController.swift in Sources */,
-				564578EC19AE33AB006A7152 /* AFHTTPSessionManager.m in Sources */,
 				56DB7C881B260E51005D0600 /* KeyboardPicesViewController.swift in Sources */,
 				568A42B519ED919100608297 /* IPAProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
 				5673D1411A9D500400DCD20B /* RSITFGenerator.swift in Sources */,
@@ -3845,7 +3823,6 @@
 				5673D13B1A9D500400DCD20B /* RSCodeReaderViewController.swift in Sources */,
 				56527DB019AFA2C7008032C6 /* ProductCollectionViewCell.swift in Sources */,
 				56D69D781A9BAD93009FFC77 /* ShoppingCartButton.swift in Sources */,
-				564578F419AE33AB006A7152 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				AC59118219DE0D2400EB095C /* FMDatabasePool.m in Sources */,
 				56BB62991A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift in Sources */,
 				041CC49F1A85807C00750B5E /* NewListView.swift in Sources */,
@@ -3983,6 +3960,7 @@
 		};
 		564578B619AE2E00006A7152 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F9AF542B27E495990A3F50A /* Pods-WalMart.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -4028,6 +4006,7 @@
 					"$(DT_LDFLAGS)",
 					"$(OTHER_LDFLAGS)",
 					"-w",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
@@ -4044,6 +4023,7 @@
 		};
 		564578B719AE2E00006A7152 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29947F6DAD641B4D6317D1AB /* Pods-WalMart.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -4089,6 +4069,7 @@
 					"$(DT_LDFLAGS)",
 					"$(OTHER_LDFLAGS)",
 					"-w",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;

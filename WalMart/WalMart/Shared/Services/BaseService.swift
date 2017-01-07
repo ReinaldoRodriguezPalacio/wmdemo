@@ -49,20 +49,13 @@ class BaseService : NSObject {
             AFStatic.manager.responseSerializer = AFJSONResponseSerializer()
             AFStatic.manager.responseSerializer.acceptableContentTypes = nil
             AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: .none)
-            AFStatic.manager.securityPolicy.allowInvalidCertificates = true
+            AFStatic.manager.securityPolicy.allowInvalidCertificates = false
             AFStatic.manager.securityPolicy.validatesDomainName = false
             
-            AFStatic.managerGR = AFHTTPSessionManager()
-            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer()
-            AFStatic.managerGR.responseSerializer = AFJSONResponseSerializer()
-            AFStatic.managerGR.responseSerializer.acceptableContentTypes = nil
-            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: .none)
-            AFStatic.managerGR.securityPolicy.allowInvalidCertificates = true
         }()
     struct AFStatic {
         static var cookie : String!
         static var manager : AFHTTPSessionManager!
-        static var managerGR : AFHTTPSessionManager!
         static var onceToken : Int = 0
     }
     
@@ -117,21 +110,37 @@ class BaseService : NSObject {
                     jsessionIdSend = param2.value
                 }
             }
-             print("URL:: \(self.serviceUrl())")
+            print("URL:: \(self.serviceUrl())")
+            let timeInterval = NSDate().timeIntervalSince1970
+            let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
+            let uuid  =  NSUUID().uuidString
+            let strUsr  = "ff24423eefbca345" + timeStamp + uuid
+            //let strUsr  = "ff24423eefbca345" + "1400705132881" + "e0fe3951-963e-4edf-a655-4ec3922b1116"
+            let shaData = sha256(string:strUsr)
+            let shaHex =  shaData!.map { String(format: "%02hhx", $0) }.joined()
             
-            if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
-                let timeInterval = NSDate().timeIntervalSince1970
-                let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
-                let uuid  =  NSUUID().uuidString
-                let strUsr  = "ff24423eefbca345" + timeStamp + uuid
+            
+            print("timeStamp")
+            print(timeStamp)
+            print("uuid")
+            print(uuid)
+            print("shaHex")
+            print(shaHex)
+            print("strUsr.sha256()")
+            print(strUsr.sha256())
+            print("SEND JSESSIONID::" + jsessionIdSend)
+            
+            if UserCurrentSession.hasLoggedUser()  && self.shouldIncludeHeaders() {
+               AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+
                 AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
-                AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
+                AFStatic.manager.requestSerializer.setValue(strUsr.sha256(), forHTTPHeaderField: "control")
                 
-                
-                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "AUTHORIZATION") {
+
+                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "ACCESS_TOKEN") {
                     print("AUTHORIZATION :: \(param2.value)")
-                    AFStatic.manager.requestSerializer.setValue(param2.value, forHTTPHeaderField: "AUTHORIZATION")
+                    AFStatic.manager.requestSerializer.setValue(param2.value, forHTTPHeaderField: "Authorization")
                 }
                 
                 if let accesToken = CustomBarViewController.retrieveParamNoUser(key: "ACCESS_TOKEN") {
@@ -142,13 +151,18 @@ class BaseService : NSObject {
                 AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 
             } else{
+                AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+
                 //Session --
+                AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+                AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+                AFStatic.manager.requestSerializer.setValue(strUsr.sha256(), forHTTPHeaderField: "control")
+                
                 if let accesToken = CustomBarViewController.retrieveParamNoUser(key: "ACCESS_TOKEN") {
                     print("ACCESS_TOKEN :: \(accesToken.value)")
                     AFStatic.manager.requestSerializer.setValue(accesToken.value, forHTTPHeaderField: "ACCESS_TOKEN")
                 }
-                print("SEND JSESSIONID::" + jsessionIdSend)
-                AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+                
                 AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
             }
         }
@@ -203,26 +217,17 @@ class BaseService : NSObject {
             //session --
             let response : HTTPURLResponse = request!.response as! HTTPURLResponse
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
-            let cookie = headers["Set-Cookie"] as? NSString ?? ""
+          //  let cookie = headers["Set-Cookie"] as? NSString ?? ""
 
-            if cookie != "" {
-                let httpResponse = response
-                if let fields = httpResponse.allHeaderFields as? [String : String] {
-                    
-                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
-                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
-                    for cookie in cookies {
-                        print("Response JSESSIONID:: \(cookie.value)")
-                        CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-                        print("name: \(cookie.name) value: \(cookie.value)")
-                    }
-                }
+            for headerstxt in headers {
                 
+                print(headerstxt.value)
+                
+                if headerstxt.key == "JSESSIONID" {
+                    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: headerstxt.value as! String)
+                }
+            
             }
-            // / session -
-            
-            
-            
             
             let resultJSON = json as! [String:Any]
             self.jsonFromObject(resultJSON as AnyObject!)
@@ -294,23 +299,17 @@ class BaseService : NSObject {
             //session --
             let response : HTTPURLResponse = request!.response as! HTTPURLResponse
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
-            let cookie = headers["Set-Cookie"] as? NSString ?? ""
+            //let cookie = headers["Set-Cookie"] as? NSString ?? ""
             
-            if cookie != "" {
-                let httpResponse = response
-                if let fields = httpResponse.allHeaderFields as? [String : String] {
-                    
-                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
-                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
-                    for cookie in cookies {
-                        CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-                        print("name: \(cookie.name) value: \(cookie.value)")
-                    }
+            for headerstxt in headers {
+                
+                print(headerstxt.value)
+                if headerstxt.key == "JSESSIONID" {
+                    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: headerstxt.value as! String)
                 }
                 
             }
-            // /session --
-            
+
             
             let resultJSON = json as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {
@@ -349,6 +348,9 @@ class BaseService : NSObject {
             }
             successBlock!(resultJSON)
             }, failure: {(request:URLSessionDataTask?, error:Error?) -> Void in
+               
+                
+                
                 if (error as! NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request?.response)")
                     self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
@@ -518,6 +520,24 @@ class BaseService : NSObject {
         return -101
     }
     
+    func sha256(string: String) -> Data? {
+//        guard let messageData = string.data(using:String.Encoding.utf8) else { return nil }
+//        var digestData = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
+//        
+//        _ = digestData.withUnsafeMutableBytes {digestBytes in
+//            messageData.withUnsafeBytes {messageBytes in
+//                CC_SHA256(messageBytes, CC_LONG(messageData.count), digestBytes)
+//            }
+//        }
+        guard let messageData = string.data(using:String.Encoding.utf8) else { return nil }
+        var digestData = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
+        var hash = [UInt8](repeating: 0,  count: Int(CC_SHA256_DIGEST_LENGTH))
+        digestData.withUnsafeBytes {
+            _ = CC_SHA256($0, CC_LONG(digestData.count), &hash)
+        }
+        return Data(bytes: hash)
+        
+    }
     
     
 
@@ -587,8 +607,8 @@ class BaseService : NSObject {
                 let localeStr = params["image_request[locale]"] as! String
                 let langStr = params["image_request[language]"] as! String
                 formData?.appendPart(withFileData: imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
-                formData?.appendPart(withForm: localeStr.data(using: String.Encoding.utf8), name:"image_request[locale]")
-                formData?.appendPart(withForm: langStr.data(using: String.Encoding.utf8), name:"image_request[language]")
+                formData?.appendPart(withForm: localeStr.data(using: String.Encoding.utf8)!, name:"image_request[locale]")
+                formData?.appendPart(withForm: langStr.data(using: String.Encoding.utf8)!, name:"image_request[language]")
             },
             success: {(request:URLSessionDataTask?, json:Any?) in
                 let resultJSON = json as! [String:Any]

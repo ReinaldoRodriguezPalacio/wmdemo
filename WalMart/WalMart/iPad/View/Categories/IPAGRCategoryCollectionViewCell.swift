@@ -103,10 +103,10 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let imgURLName = "\(svcUrl)\(imageIconURL)"
         let imageIconDsk = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
         
-    
-        iconCategory.setImageWith(URL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+        
+        iconCategory.setImageWith(URLRequest(url: URL(string: imgURLName)!), placeholderImage: imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.iconCategory.image = image
-            self.saveImageToDisk(imageIconURL, image: image!,defaultImage:imageIconDsk!)
+            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
             }, failure: { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                 
         })
@@ -116,9 +116,9 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
         
-        imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage: imageHeader, success:  { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
-            self.imageBackground.image = image!
-            self.saveImageToDisk(imageBackgroundURL, image: image!,defaultImage:imageHeader!)
+        imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+            self.imageBackground.image = image
+            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
         }, failure: { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
             
         })
@@ -314,8 +314,8 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     func setValuesLanding(_ imageBackgroundURL:String) {
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWith(URL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
-            self.imageBackground.image = image!
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+            self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
         }, failure: { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
             print(error!.localizedDescription)

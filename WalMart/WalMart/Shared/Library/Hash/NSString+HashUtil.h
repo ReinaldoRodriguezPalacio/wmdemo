@@ -10,5 +10,6 @@
 @interface NSString (HashUtil)
 
 - (NSString *)sha1;
+- (NSString *)sha256;
 
 @end

@@ -980,7 +980,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let controller = self.view.window!.rootViewController
         listCell.viewIpad = controller!.view
         listCell.productImage!.image = nil
-        listCell.productImage!.cancelImageRequestOperation()
+        //listCell.productImage!.cancelImageRequestOperation()
         listCell.defaultList = false
         listCell.detailDelegate = self
         listCell.delegate = self

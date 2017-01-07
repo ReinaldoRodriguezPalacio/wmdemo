@@ -236,7 +236,7 @@
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/addShippingAddress</string>
 			<key>WalmartMG.AuthorizationService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getAuthotization</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getAuthorization</string>
 			<key>WalmartMG.AutologinService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/autologin</string>
 			<key>WalmartMG.BannerService</key>
@@ -252,9 +252,9 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/getCategories</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getCategories</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getCrossell</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -346,11 +346,11 @@
 			<key>WalmartMG.LoginByTokenService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/loginByToken</string>
 			<key>WalmartMG.LoginService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/login</string>
 			<key>WalmartMG.LoginWithEmailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/loginByEmail</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/loginByEmail</string>
 			<key>WalmartMG.LoginWithIdService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/loginById</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/loginById</string>
 			<key>WalmartMG.NotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/saveToken</string>
 			<key>WalmartMG.OccupationsService</key>

@@ -339,7 +339,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 successBlock: { (result:[String:Any]) -> Void in
                     self.itemsUserList = result["myLists"] as? [[String : Any]]
                     
-                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:AnyObject, second:AnyObject) -> Bool in
+                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
+                        
                         
                         let dicFirst = first as! [String:Any]
                         let dicSecond = second as! [String:Any]

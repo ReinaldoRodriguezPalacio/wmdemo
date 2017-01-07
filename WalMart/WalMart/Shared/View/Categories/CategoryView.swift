@@ -49,11 +49,11 @@ class CategoryView : UITableViewCell {
     func setValues(_ title:String,imageBackgroundURL:String,imageIconURL:String) {
         let svcUrl = serviceUrl("WalmartMG.CategoryIcon")
         let imgURLName = "\(svcUrl)\(imageIconURL)"
-        self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
+        self.imageIcon.setImageWith(URL(string: imgURLName)!, placeholderImage: UIImage(named: imageIconURL))
         
         let svcUrlCar = serviceUrl("WalmartMG.HeaderCategory")
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
-        self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage: UIImage(named: imageBackgroundURL))
+        self.imageBackground.setImageWith(URL(string: imgURLNamehead)!, placeholderImage: UIImage(named: imageBackgroundURL))
         
         self.titleLabel.text = title
         

@@ -137,7 +137,7 @@ class UserCurrentSession : NSObject {
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var usr : User
-        let idUser = loginResult["idUser"] as? String//profileId
+        let idUser = loginResult["profileId"] as? String//profileId
         let predicate = NSPredicate(format: "idUser == %@ ", idUser!)
         
         let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! [AnyObject]
@@ -155,13 +155,13 @@ class UserCurrentSession : NSObject {
         usr.idUser = idUser! as NSString
         
         usr.email = loginResult["email"] as! String as NSString
-        usr.idUser = loginResult["idUser"] as! String as NSString
+        usr.idUser = loginResult["profileId"] as! String as NSString
         usr.cartId = loginResult["cartId"] as! String as NSString
     
         if let addressArray = profileResult["address"] as? [[String:Any]] {
             for address in addressArray{
-                let prefered = address["preferred"] as! String
-                if prefered == "true"{
+                let prefered = address["preferred"] as? Bool ?? false
+                if prefered { //== "true"
                     self.addressId = address["id"] as? String
                     self.storeId = userProfile["storeId"] as? String
                     self.storeName = profileResult["nameStore"] as? String

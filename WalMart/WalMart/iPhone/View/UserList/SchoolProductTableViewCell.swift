@@ -24,10 +24,10 @@ class SchoolProductTableViewCell: DetailListViewCell {
         }
     
         self.productImage!.contentMode = UIViewContentMode.center
-        self.productImage!.setImageWith(URL(string: imageUrl!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+    self.productImage!.setImageWith(URLRequest(url:URL(string: imageUrl!)!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.productImage!.contentMode = self.contentModeOrig
             self.productImage!.image = image
-            self.imageGrayScale = self.convertImageToGrayScale(image!)
+            self.imageGrayScale = self.convertImageToGrayScale(image)
             self.imageNormal = image
             }, failure: nil)
     

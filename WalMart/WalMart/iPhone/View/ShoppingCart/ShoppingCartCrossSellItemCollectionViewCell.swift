@@ -44,12 +44,12 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
         
         self.productImage!.contentMode = UIViewContentMode.center
         
-        self.productImage!.setImageWith(URL(string: productImageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+        self.productImage!.setImageWith(URLRequest(url:URL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.productImage!.contentMode = self.contentModeOrig
             if grayScale == true {
-                self.productImage!.image = self.convertImageToGrayScale(image!)
+                self.productImage!.image = self.convertImageToGrayScale(image)
             } else {
-                self.productImage!.image = image!
+                self.productImage!.image = image
             }
             
         }, failure: nil)

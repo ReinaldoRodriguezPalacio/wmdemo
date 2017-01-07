@@ -72,9 +72,9 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         }
         
         if loadHeader {
-            self.imageBackground.setImageWith(URL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+            self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageBackground.image = image
-                self.saveImageToDisk(imageBackgroundURL, image: image!,defaultImage:imageHeader!)
+                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
                 }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
@@ -83,9 +83,9 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         }
         
         if loadImageIcon {
-            self.imageIcon.setImageWith(URL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+            self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageIcon.image = image
-                self.saveImageToDisk(imageIconURL, image: image!,defaultImage:imageIconDsk!)
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
                 }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in
                     
             }
@@ -186,7 +186,7 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
     func setValuesLanding(_ imageBackgroundURL:String) {
         
         //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWith(URL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
             }) { (request:URLRequest?, response:HTTPURLResponse?, error:Error?) -> Void in

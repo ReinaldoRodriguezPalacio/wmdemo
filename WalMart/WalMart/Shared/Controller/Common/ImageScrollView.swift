@@ -110,11 +110,11 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         self.addSubview(self.imageView!)
 
         self.imageView!.contentMode = UIViewContentMode.center
-        self.imageView!.setImageWith(URL(string: urlImage), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest?, response:HTTPURLResponse?, image:UIImage?) -> Void in
+        self.imageView!.setImageWith(URLRequest(url:URL(string: urlImage)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageView!.contentMode = self.contentModeOrig
             self.imageView!.image = image
-            self.imageView!.frame = CGRect(x: 0.0,y: 0.0,width: image!.size.width, height: image!.size.height)
-            self.contentSize = image!.size
+            self.imageView!.frame = CGRect(x: 0.0,y: 0.0,width: image.size.width, height: image.size.height)
+            self.contentSize = image.size
             self.setMaxMinZoomScalesForCurrentBounds()
             self.zoomScale = self.minimumZoomScale
             }, failure: nil)
