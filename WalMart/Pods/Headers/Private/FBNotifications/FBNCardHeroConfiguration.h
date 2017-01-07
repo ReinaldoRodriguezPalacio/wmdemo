@@ -1,0 +1,1 @@
+../../../FBNotifications/iOS/FBNotifications/FBNotifications/Internal/Models/Hero/FBNCardHeroConfiguration.h

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>AFNetworkActivityLogger.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FBNotifications.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-WalMart.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>0AF640870302BCA3AE3B48B7378B67C7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4E3AB06AD9F96A1AC61F606027777621</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>97BFA4132FCA9A78290976D5F651761E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E44A4F2FD2EA117B83A56F704CA0C0A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
