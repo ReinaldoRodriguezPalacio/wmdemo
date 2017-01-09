@@ -389,7 +389,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     
                     let addShopping = ShoppingCartUpdateController()
                     let quantity = self.productDetailButton!.detailProductCart!.quantity
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(quantity.stringValue, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: quantity.intValue) as! [String:Any]
+                    let paramsToSC = self.buildParamsUpdateShoppingCart(quantity.stringValue, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: quantity.intValue,equivalenceByPiece:Int(self.selectQuantityGR!.equivalenceByPiece) ) as! [String:Any]
                     addShopping.params = paramsToSC
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
@@ -431,7 +431,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
                             
                             let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
-                            let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: pieces)
+                            let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: pieces,equivalenceByPiece:self.equivalenceByPiece.intValue)
                             if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(String(self.upc)) {
                                 //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
                             } else {
@@ -818,13 +818,13 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     //MARK: -
     
-    override func buildParamsUpdateShoppingCart(_ quantity: String, orderByPiece: Bool, pieces: Int) -> [AnyHashable : Any] {
+    override func buildParamsUpdateShoppingCart(_ quantity: String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [AnyHashable : Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable, "orderByPiece": orderByPiece, "pieces": pieces]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable, "orderByPiece": orderByPiece, "pieces": pieces,"equivalenceByPiece":equivalenceByPiece]
     }
     
     

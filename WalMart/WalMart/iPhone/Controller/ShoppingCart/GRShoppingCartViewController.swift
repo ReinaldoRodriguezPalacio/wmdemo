@@ -724,7 +724,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     self.itemsInCart.remove(at: indexPath.row)
                     self.removeViewLoad()
                 if self.itemsInCart.count == 0 {
-                    self.navigationController!.popToRootViewController(animated: true)
+                    self.navigationController?.popToRootViewController(animated: true)
                 } else {
                     self.tableShoppingCart.reloadData()
                     self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")

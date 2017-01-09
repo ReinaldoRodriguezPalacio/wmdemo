@@ -682,7 +682,11 @@ class UserCurrentSession : NSObject {
                 if  prodCart.product.type == 0 {
                     totalGR += prodCart.quantity.doubleValue * prodCart.product.price.doubleValue
                 } else {
-                    totalGR += (prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
+                    if prodCart.product.orderByPiece.boolValue {
+                        totalGR += ((prodCart.quantity.doubleValue * prodCart.product.equivalenceByPiece.doubleValue) * prodCart.product.price.doubleValue ) / 1000
+                    }else{
+                        totalGR += (prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
+                    }
                 }
             }
         }
