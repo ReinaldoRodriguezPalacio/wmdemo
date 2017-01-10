@@ -169,6 +169,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.view.addSubview(containerinfo)
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
+        NSLog("finish viewDidLoad", "")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -318,6 +319,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter idList:       list identifier
      */
     func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
+        NSLog("goTODetailProduct", "ProductDetailViewController")
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items as [Any]
         controller.ixSelected = index
@@ -329,6 +331,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Shows crossSell and reload collectionView
      */
     func showCrossSell() {
+        NSLog("showCrossSell", "ProductDetailViewController")
         isHideCrossSell = false
         //let numberOfRows = self.detailCollectionView.numberOfItemsInSection(0)
         //var indexPaths = [NSIndexPath(forRow: numberOfRows, inSection: 0)]
@@ -338,9 +341,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     func loadCrossSell() {
+        NSLog("loadCrossSell", "ProductDetailViewController")
         let crossService = CrossSellingProductService()
         crossService.callService(requestParams:self.upc, successBlock: { (result:[[String:Any]]?) -> Void in
-            
+             NSLog("CrossSellingProductService successBlock", "ProductDetailViewController")
             if result != nil {
                 
                 self.itemsCrossSellUPC = result!
@@ -364,6 +368,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             
         }, errorBlock: { (error:NSError) -> Void in
+            NSLog("CrossSellingProductService error \(error.localizedDescription)", "ProductDetailViewController")
             print("Termina sevicio app")
         })
         
@@ -826,7 +831,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func loadDataFromService() {
         
-        
+         NSLog("loadDataFromService", "ProductDetailViewController")
         print("parametro para signals MG Iphone :::\(self.indexRowSelected)")
         
         self.type = ResultObjectType.Mg
@@ -836,6 +841,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
             let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
             productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
+                
+                 NSLog("ProductDetailService successBlock ", "ProductDetailViewController")
                 self.reloadViewWithData(result)
                 
                 if let facets = result["facets"] as? [[String:Any]] {
@@ -854,8 +861,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     }
                    
                 }
+                //--Tag manager 
+                 let linea = result["linea"] as? String ?? ""
+                 let isBundle = result["isBundle"] as? Bool ?? false
+                // Remove "event": "ecommerce",
+                BaseController.sendAnalyticsPush(["ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
                 
                 }) { (error:NSError) -> Void in
+                    NSLog("ProductDetailService error : \(error.localizedDescription) ", "ProductDetailViewController")
                     //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
                     let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
                     
@@ -877,6 +890,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter result: product detail data
      */
     func reloadViewWithData(_ result:[String:Any]){
+        NSLog("reloadViewWithData init ", "ProductDetailViewController")
         self.name = result["description"] as! NSString
         self.price = result["price"] as! NSString
         self.detail = result["detail"] as! NSString
@@ -989,8 +1003,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
 
         BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
+
+        //TODO Add timer time
         
-        BaseController.sendAnalyticsPush(["event": "ecommerce","ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
+       // BaseController.sendAnalyticsPush(["event": "ecommerce","ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
+        
+         NSLog("reloadViewWithData finish ", "ProductDetailViewController")
     }
     
     //MARK: - Collection view Data Source
@@ -1155,6 +1173,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }*/
     
     class func validateUpcPromotion(_ upc:String) -> Bool{
+        NSLog("validateUpcPromotion::", "ProductDetailViewController")
         let upcs =  UserCurrentSession.sharedInstance.upcSearch
         return upcs!.contains(where: { return $0 == upc})
     }
@@ -1229,6 +1248,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter additionalAnimationOpen: other animation block
      */
     func openContainer(_ viewShow:UIView,additionalAnimationOpen: @escaping (() -> Void)) {
+         NSLog("openContainer::", "ProductDetailViewController")
         self.isContainerHide = false
         
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
@@ -1368,6 +1388,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - returns: dictionary wit facet details
      */
     func getFacetsDetails() -> [String:Any]{
+        NSLog("getFacetsDetails::", "ProductDetailViewController")
         var facetsDetails : [String:Any] = [String:Any]()
         self.selectedDetailItem = [:]
         for product in self.facets! {
