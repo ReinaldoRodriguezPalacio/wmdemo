@@ -26,7 +26,7 @@ class LoginByTokenService : BaseService {
         
         self.callPOSTService(token, successBlock: { (resultCall:[String:Any]) -> Void in
             print("succes LoginByTokenService")
-            CustomBarViewController.addOrUpdateParamNoUser(key: "AUTHORIZATION", value: "Bearer \(resultCall["accessToken"] as! String)")
+            CustomBarViewController.addOrUpdateParamNoUser(key: "ACCESS_TOKEN", value: "Bearer \(resultCall["accessToken"] as! String)")
             
             let autologinService = AutologinService()
             autologinService.callService(params: [:], successBlock: { (result:[String:Any]) in

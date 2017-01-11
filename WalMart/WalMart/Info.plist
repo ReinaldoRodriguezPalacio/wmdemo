@@ -254,7 +254,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getCategories</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
+			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getCrossell</string>
 			<key>WalmartMG.DefaultListService</key>

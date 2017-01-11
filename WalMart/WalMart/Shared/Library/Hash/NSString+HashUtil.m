@@ -38,8 +38,8 @@
     NSMutableData *macOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
 
     
-    CC_SHA256(data.bytes,data.length, digest);
-    //CC_SHA256(data.bytes, data.length,  macOut.mutableBytes);
+    //CC_SHA256(data.bytes,data.length, digest);
+    CC_SHA256(data.bytes, data.length,  macOut.mutableBytes);
     
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
     
