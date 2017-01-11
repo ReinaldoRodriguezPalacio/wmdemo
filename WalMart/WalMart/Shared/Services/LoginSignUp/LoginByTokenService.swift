@@ -23,7 +23,8 @@ class LoginByTokenService : BaseService {
             print("REFESH_TOKEN :: \(refreshToken.value)")
             token = ["refreshToken":refreshToken.value]
         }
-        
+        print("LoginByTokenService params")
+        print(token)
         self.callPOSTService(token, successBlock: { (resultCall:[String:Any]) -> Void in
             print("succes LoginByTokenService")
             CustomBarViewController.addOrUpdateParamNoUser(key: "ACCESS_TOKEN", value: "Bearer \(resultCall["accessToken"] as! String)")

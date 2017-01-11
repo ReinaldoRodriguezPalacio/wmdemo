@@ -163,7 +163,7 @@ class UserCurrentSession : NSObject {
                 let prefered = address["preferred"] as? Bool ?? false
                 if prefered { //== "true"
                     self.addressId = address["id"] as? String
-                    self.storeId = userProfile["storeId"] as? String
+                    self.storeId = loginResult["storeId"] as? String
                     self.storeName = profileResult["nameStore"] as? String
                     break
                 }
@@ -174,7 +174,7 @@ class UserCurrentSession : NSObject {
         let date = Date()
         usr.lastLogin = date
 
-        if let idProfile = loginResult["idUser"] as? String{
+        if let idProfile = loginResult["profileId"] as? String{
             profile.idProfile = idProfile as NSString
         }
         

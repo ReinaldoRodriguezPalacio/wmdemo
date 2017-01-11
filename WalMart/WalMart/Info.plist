@@ -220,7 +220,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
@@ -238,7 +238,7 @@
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getAuthorization</string>
 			<key>WalmartMG.AutologinService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/autologin</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/autoLogin</string>
 			<key>WalmartMG.BannerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
@@ -328,11 +328,11 @@
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/updateUserProfile</string>
 			<key>WalmartMG.GRUserListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getListByUser</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getInfoByZipCode</string>
 			<key>WalmartMG.GetPreferencesService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getPreferences</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/pets/getPreferences</string>
 			<key>WalmartMG.HeaderCategory</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
@@ -344,7 +344,7 @@
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getLinesForSearch</string>
 			<key>WalmartMG.LoginByTokenService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/loginByToken</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/loginByToken</string>
 			<key>WalmartMG.LoginService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/login</string>
 			<key>WalmartMG.LoginWithEmailService</key>
@@ -354,7 +354,7 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/saveToken</string>
 			<key>WalmartMG.OccupationsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/getOccupations</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/getOccupations</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderById.txt</string>
 			<key>WalmartMG.PreviousOrdersService</key>
@@ -384,7 +384,7 @@
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/2/userRegistry</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/userRegistry</string>
 			<key>WalmartMG.Splash</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>

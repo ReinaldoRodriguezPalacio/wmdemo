@@ -11,8 +11,14 @@ import Foundation
 class GRRecentProductsService : BaseService  {
     
     
-    func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
-        self.callGETService([:] as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
+    func buildParamsRecentProducts(profileId:String,storeId:String) -> [String:Any]{
+        return ["profileId":profileId,"storeId":storeId]
+    }
+    
+    //func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        print(params)
+        self.callPOSTService(params , successBlock: { (resultCall:[String:Any]) -> Void in
             self.jsonFromObject(resultCall as AnyObject!)
             successBlock!(resultCall)
            

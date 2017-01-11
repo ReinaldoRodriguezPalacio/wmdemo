@@ -79,10 +79,11 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
    
     func invokeRecentProducts(){
         let service = GRRecentProductsService()
-        service.callService({ (resultado:[String:Any]) -> Void in
-            self.contResult(resultado)
+        service.callService(requestParams: service.buildParamsRecentProducts(profileId: UserCurrentSession.sharedInstance.userSigned?.profile.idProfile as! String, storeId: UserCurrentSession.sharedInstance.storeId!) , successBlock: { (result:[String:Any]) -> Void in
+            print(result)
+            self.contResult(result)
             // TODO : Servicios En walmart validar con servicio
-            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]! as AnyObject , isShoppingCart: false) 
+            self.recentProductItems = RecentProductsViewController.adjustDictionary(result["responseArray"]! as AnyObject , isShoppingCart: false)
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
