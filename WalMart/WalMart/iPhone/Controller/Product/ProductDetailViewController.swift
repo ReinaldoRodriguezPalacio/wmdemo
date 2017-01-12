@@ -1257,7 +1257,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "crossSellCell", for: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
                 cellPromotion!.idListSelectdFromSearch =  self.idListFromlistFind
-                cellPromotion!.itemsUPC = itemsCrossSellUPC as! [[String : Any]]
+                cellPromotion!.itemsUPC = itemsCrossSellUPC as [[String : Any]]
                 self.cellRelated = cellPromotion
             }
             cell = self.cellRelated
@@ -1809,7 +1809,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             detail!.list = list
             
             if self.imageUrl.count > 0 {
-                detail!.img = self.imageUrl[0] as! NSString as String
+                detail!.img = self.imageUrl[0] as NSString as String
             }
             
             //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue , action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label:"\(self.name as String) \(self.upc as String)")

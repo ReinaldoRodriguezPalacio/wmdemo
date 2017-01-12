@@ -32,14 +32,16 @@
 
 - (NSString *)sha256
 {
-    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    //NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:cstr length:self.length];
     
     uint8_t digest[CC_SHA256_DIGEST_LENGTH];
     NSMutableData *macOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
 
     
-    //CC_SHA256(data.bytes,data.length, digest);
-    CC_SHA256(data.bytes, data.length,  macOut.mutableBytes);
+    CC_SHA256(data.bytes,data.length, digest);
+    //CC_SHA256(data.bytes, data.length,  macOut.mutableBytes);
     
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
     

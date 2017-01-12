@@ -352,7 +352,7 @@
 			<key>WalmartMG.LoginWithIdService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/loginById</string>
 			<key>WalmartMG.NotificationService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/saveToken</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/saveToken</string>
 			<key>WalmartMG.OccupationsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/getOccupations</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>

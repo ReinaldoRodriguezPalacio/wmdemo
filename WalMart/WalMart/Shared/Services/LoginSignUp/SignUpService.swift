@@ -10,17 +10,19 @@ import Foundation
 
 class SignUpService : BaseService {
     
-    func buildParamsWithMembershipAndBirthDate(_ username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,birthdate:String,gender:String,allowTransfer:String) -> [String:Any] {
+    func buildParamsWithMembershipAndBirthDate(_ username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,birthdate:String,gender:String,allowTransfer:String) ->  NSDictionary {
         let lowCaseUser = username.lowercased()
         return ["email":lowCaseUser,"password":password,"firstName":name,"lastName":lastName,"allowMarketingEmail":allowMarketingEmail == "true" ? "Si":"No","forOBIEE":allowTransfer,"birthdate":birthdate,"gender":gender]
     }
     
-    func buildParamsWithMembership(_ username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,allowTransfer:String) -> [String:Any] {
+    func buildParamsWithMembership(_ username:String,password: String,name:String,lastName:String,allowMarketingEmail:String,allowTransfer:String) -> NSDictionary {
         let lowCaseUser = username.lowercased()
         return ["email":lowCaseUser,"password":password,"firstName":name,"lastName":lastName,"allowMarketingEmail":allowMarketingEmail == "true" ? "Si":"No","forOBIEE":allowTransfer == "true" ? "Si":"No"]
     }
     
-    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        print("SignUpService::::params")
+        print(params)
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
