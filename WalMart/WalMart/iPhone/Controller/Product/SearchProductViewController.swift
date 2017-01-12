@@ -590,14 +590,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let upc = item["upc"] as! String
         let description = item["description"] as? String
         
-        var price: NSString?
+        var price: NSString = "0"
         var through: NSString! = ""
         if let priceTxt = item["price"] as? NSString {
             price = priceTxt
         }
         else if let pricenum = item["price"] as? NSNumber {
             let txt = pricenum.stringValue
-            price = txt as NSString?
+            price = (txt as NSString?)!
         }
         
         if let priceThr = item["saving"] as? NSString {
@@ -620,7 +620,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         //??????
         if isActive {
-            isActive = price!.doubleValue > 0
+            isActive = price.doubleValue > 0
         }
         
         var isPreorderable = false
@@ -660,7 +660,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         cell.setValues(upc,
             productImageURL: imageUrl!,
             productShortDescription: description!,
-            productPrice: price! as String,
+            productPrice: price as String,
             productPriceThrough: through! as String,
             isActive: isActive,
             onHandInventory: onHandDefault,

@@ -364,8 +364,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
             
             var pieces = 0
-            if let totalPieces = params["pieces"] as? Int {
-                pieces = totalPieces
+            if let totalPieces = params["quantity"] as? NSString {
+                pieces = Int(totalPieces as String)!
             }
             
             if let type = params["type"] as? String {

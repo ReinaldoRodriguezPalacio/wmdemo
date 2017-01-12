@@ -215,6 +215,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             if cell.orderByPieces {
                 selectQuantityGR?.validateOrderByPiece(orderByPiece: cell.orderByPieces, quantity: Double(cell.quantity), pieces: cell.pieces)
+            } else {
+                selectQuantityGR?.userSelectValue(String(cell.quantity))
+                selectQuantityGR?.first = true
             }
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
