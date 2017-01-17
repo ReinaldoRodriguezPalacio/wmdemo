@@ -837,7 +837,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         comps.year = -18
         let maxDate = (calendar as NSCalendar).date(byAdding: comps, to: currentDate, options: NSCalendar.Options())
         
-        if self.inputBirthdateView?.date.compare(maxDate!) != ComparisonResult.orderedDescending
+        if self.inputBirthdateView!.date > maxDate! // self.inputBirthdateView?.date .compare(maxDate!) != ComparisonResult.orderedDescending
         {
             if self.errorView == nil{
             self.errorView = FormFieldErrorView()

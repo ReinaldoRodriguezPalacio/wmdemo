@@ -105,8 +105,8 @@ class FiscalAddressPersonF: AddressView {
             self.name!.text = self.item!["firstName"] as? String
             self.lastName!.text = self.item!["middleName"] as? String
             self.lastName2!.text = self.item!["lastName2"] as? String
-            self.rfc!.text = self.item!["rfc"] as? String
-            self.ieps!.text = self.item!["ieps"] as? String
+            self.rfc!.text = self.item!["RFC"] as? String
+            self.ieps!.text = self.item!["IEPS"] as? String
             self.email!.text = self.item!["email"] as? String
             self.telephone!.text = self.item!["mobileNumber"] as? String
         }

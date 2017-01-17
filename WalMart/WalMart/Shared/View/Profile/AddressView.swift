@@ -363,13 +363,13 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
         self.item = itemValues
         if self.item != nil{
             //TODO:Checar por que las direcciones no traen Id
-            if let id = self.item!["addressId"] as! String?{
+            if let id = self.item!["repositoryId"] as! String?{
                 idAddress = id
-                self.shortNameField!.text  = self.item!["name"] as? String
+                self.shortNameField!.text  = self.item!["addressNickName"] as? String
                 self.street!.text = self.item!["street"] as? String
-                self.zipcode!.text = self.item!["zipCode"] as? String
-                self.outdoornumber!.text = self.item!["outerNumber"] as? String
-                self.indoornumber!.text = self.item!["innerNumber"] as? String
+                self.zipcode!.text = self.item!["postalCode"] as? String
+                self.outdoornumber!.text = self.item!["address2"] as? String
+                self.indoornumber!.text = self.item!["address3"] as? String
                 self.idSuburb = self.item!["neighborhoodId"] as? String
                 
                 self.idStoreSelected = self.item!["storeId"] as? String

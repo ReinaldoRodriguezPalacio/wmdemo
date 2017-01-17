@@ -81,10 +81,10 @@ class FiscalAddressPersonM: AddressView {
     override func setItemWithDictionary(_ itemValues: [String:Any]) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
-            self.corporateName!.text = self.item!["corporateName"] as? String
-            self.rfc!.text = self.item!["rfc"] as? String
-            self.ieps!.text = self.item!["ieps"] as? String
-            self.email!.text = self.item!["rfcEmail"] as? String
+            self.corporateName!.text = self.item!["firstName"] as? String
+            self.rfc!.text = self.item!["RFC"] as? String
+            self.ieps!.text = self.item!["IEPS"] as? String
+            self.email!.text = self.item!["email"] as? String
             self.telephone!.text = self.item!["phoneNumber"] as? String
         }
     }
@@ -119,7 +119,7 @@ class FiscalAddressPersonM: AddressView {
     override func getParams() -> Dictionary<String,Any> {
         var paramsAddress : Dictionary<String,Any>? = [:]
         paramsAddress!.update(from: super.getParams())
-        paramsAddress!.update(from: [ "RFC":self.rfc!.text!, "rfcEmail":self.email!.text!,"ieps":self.ieps!.text!,"phoneNumber":self.telephone!.text!, "corporateName":self.corporateName!.text!, "name":"Empresa","persona":"M"])
+        paramsAddress!.update(from: [ "RFC":self.rfc!.text!, "email":self.email!.text!,"IEPS":self.ieps!.text!,"mobileNumber":self.telephone!.text!, "corporateName":self.corporateName!.text!, "firstName":self.corporateName!.text!,"persona":"M"])
         
         return paramsAddress!
     }

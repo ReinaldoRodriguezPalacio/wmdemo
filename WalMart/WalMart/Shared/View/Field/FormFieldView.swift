@@ -170,7 +170,7 @@ class FormFieldView : UIEdgeTextField {
         if maxLength > 0 && elementsInText > 0 {
             if elementsInText > maxLength {
                 self.isValid = false
-                message = NSLocalizedString("field.validate.maxlength",comment:"") + "\(maxLength)"
+                message = NSLocalizedString("field.validate.maxlength",comment:"") + "\(maxLength!)"
                 
                 switch (typeField) {
                     case .number:
@@ -186,7 +186,7 @@ class FormFieldView : UIEdgeTextField {
         if minLength > 0 && elementsInText > 0{
             if elementsInText < minLength {
                 self.isValid = false
-                message = NSLocalizedString("field.validate.minlength",comment:"") + "\(minLength)"
+                message = NSLocalizedString("field.validate.minlength",comment:"") + "\(minLength!)"
                 switch (typeField) {
                 case .number:
                     let digits = NSLocalizedString("field.validate.minmaxlength.digit",comment:"")

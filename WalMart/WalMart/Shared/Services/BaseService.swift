@@ -114,11 +114,7 @@ class BaseService : NSObject {
             let timeStamp = String(NSNumber(value: timeInterval * 1000).intValue)
             let uuid = NSUUID().uuidString
             let strUsr : NSString = "ff24423eefbca345\(timeStamp)\(uuid)" as NSString
-//            let strUsr : NSString = "ff24423eefbca34514841791398760003f5238cd-92ff-4592-b7c7-9af6d1afaa4a" as NSString
             
-            //let rc = self.sha256(string: strUsr as String)?.base64EncodedString(options: [])
-            
-            //print(rc)
             print(strUsr)
             print(strUsr.sha256())
             print("SEND JSESSIONID::" + jsessionIdSend)
@@ -201,84 +197,10 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
         print(params)
-        afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
-            
-            //session --
-            let response : HTTPURLResponse = request!.response as! HTTPURLResponse
-            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
-            //  let cookie = headers["Set-Cookie"] as? NSString ?? ""
-            
-            for headerstxt in headers {
-                
-                print(headerstxt.value)
-                
-                if headerstxt.key == "JSESSIONID" {
-                    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: headerstxt.value as! String)
-                }
-                
-            }
-            
-            let resultJSON = json as! [String:Any]
-            self.jsonFromObject(resultJSON as AnyObject!)
-            if let errorResult = self.validateCodeMessage(resultJSON) {
-                print(errorResult.code)
-                print(self.needsLogin())
-                print(self.needsToLoginCode())
-                
-                if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
-                    if UserCurrentSession.hasLoggedUser() {
-                        //                        let loginService = LoginWithIdService()
-                        //                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-                        //                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
-                        //                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
-                        //                            }, errorBlock: { (error:NSError) -> Void in
-                        //                                UserCurrentSession.sharedInstance().userSigned = nil
-                        //                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
-                        //                        })
-                        
-                        let loginByTocken = LoginByTokenService()
-                        loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
-                            print("ok service")
-                            
-                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
-                            
-                        }, errorBlock: { (error:NSError) in
-                            print("failed ")
-                            UserCurrentSession.sharedInstance.userSigned = nil
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                            
-                        })
-                        
-                        
-                    }
-                    errorBlock!(errorResult)
-                    return
-                }
-                errorBlock!(errorResult)
-                return
-            }
-            successBlock!(resultJSON)
-        }, failure: {(request:URLSessionDataTask?, error:Error?) in
-            
-            if (error as! NSError).code == -1005 {
-                print("Response Error : \(error) \n Response \(request?.response)")
-                self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
-                return
-            }
-            if (error as! NSError).code == -1001 || (error as! NSError).code == -1003 || (error as! NSError).code == -1009 {
-                let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
-                errorBlock!(newError)
-                return
-            }
-            
-            print("Response Error : \(error) \n Response \(request!.response)")
-            errorBlock!(error! as NSError)
-        })
-//        afManager.post(url, parameters: params as! [String:Any], progress: { (progress:Progress) in
-//            print("post progress")
-//        }, success: { (request:URLSessionDataTask, json:Any?) in
+//        afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
+//            
 //            //session --
-//            let response : HTTPURLResponse = request.response as! HTTPURLResponse
+//            let response : HTTPURLResponse = request!.response as! HTTPURLResponse
 //            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
 //            //  let cookie = headers["Set-Cookie"] as? NSString ?? ""
 //            
@@ -292,18 +214,13 @@ class BaseService : NSObject {
 //                
 //            }
 //            
-//            var jsonData : Any? = []
-//            do {
-//                jsonData = try JSONSerialization.jsonObject(with: json as! Data,options: [])
+//            let resultJSON = json as! [String:Any]
+//            self.jsonFromObject(resultJSON as AnyObject!)
+//            if let errorResult = self.validateCodeMessage(resultJSON) {
+//                print(errorResult.code)
+//                print(self.needsLogin())
+//                print(self.needsToLoginCode())
 //                
-//            } catch var error1 as NSError {
-//                print(error1)
-//            } catch {
-//                fatalError()
-//            }
-//            
-//            self.jsonFromObject(jsonData as AnyObject!)
-//            if let errorResult = self.validateCodeMessage(jsonData as! [String : Any]) {
 //                if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
 //                    if UserCurrentSession.hasLoggedUser() {
 //                        //                        let loginService = LoginWithIdService()
@@ -336,42 +253,136 @@ class BaseService : NSObject {
 //                errorBlock!(errorResult)
 //                return
 //            }
-//            successBlock!(jsonData as! [String : Any])
+//            successBlock!(resultJSON)
+//        }, failure: {(request:URLSessionDataTask?, error:Error?) in
 //            
-//        }) { (request:URLSessionDataTask?, error:Error) in
-//            print(error.localizedDescription)
-//             print((error as NSError).code)
-//            if (error as NSError).code == -1005 {
+//            if (error as! NSError).code == -1005 {
 //                print("Response Error : \(error) \n Response \(request?.response)")
 //                self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
 //                return
 //            }
-//            if (error as NSError).code == -1001 || (error as NSError).code == -1003 || (error as NSError).code == -1009 {
+//            if (error as! NSError).code == -1001 || (error as! NSError).code == -1003 || (error as! NSError).code == -1009 {
 //                let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
 //                errorBlock!(newError)
 //                return
 //            }
-//           
+//            
 //            print("Response Error : \(error) \n Response \(request!.response)")
-//            if  (error as NSError).code == 101 {
-//                
-//                let loginByTocken = LoginByTokenService()
-//                loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
-//                    print("ok service")
-//                    // TODO : Pendiente profile
-//                    self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
-//                }, errorBlock: { (error:NSError) in
-//                    print("failed:: ")
-//                    UserCurrentSession.sharedInstance.userSigned = nil
-//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-//                })
-//                
-//                return
-//            }
-//            
-//            errorBlock!(error as NSError)
-//            
-//        }
+//            errorBlock!(error! as NSError)
+//        })
+        afManager.post(url, parameters: params as! [String:Any], progress: { (progress:Progress) in
+            print("post progress")
+        }, success: { (request:URLSessionDataTask, json:Any?) in
+            //session --
+            let response : HTTPURLResponse = request.response as! HTTPURLResponse
+            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
+            //  let cookie = headers["Set-Cookie"] as? NSString ?? ""
+            
+            for headerstxt in headers {
+                
+                print(headerstxt.value)
+                
+                if headerstxt.key == "JSESSIONID" {
+                    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: headerstxt.value as! String)
+                }
+                
+            }
+            
+            var jsonData : Any? = []
+            if let responseObl = json as? NSDictionary {
+                print("ok NSDictionary \(responseObl)")
+                jsonData = responseObl
+            }else if let responseObl = json as? [String:Any] {
+                print("ok  [String:Any] : \(responseObl)")
+                jsonData = responseObl
+            }
+            if jsonData ==  nil{
+                
+                do {
+                    jsonData = try JSONSerialization.jsonObject(with: json as! Data,options: [])
+                    
+                } catch let error1 as NSError {
+                    print(error1.localizedDescription)
+                } catch {
+                    fatalError()
+                }
+            }
+            
+            self.jsonFromObject(jsonData as AnyObject!)
+            if let errorResult = self.validateCodeMessage(jsonData as! [String : Any]) {
+                if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
+                    if UserCurrentSession.hasLoggedUser() {
+                        //                        let loginService = LoginWithIdService()
+                        //                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
+                        //                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
+                        //                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                        //                            }, errorBlock: { (error:NSError) -> Void in
+                        //                                UserCurrentSession.sharedInstance().userSigned = nil
+                        //                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                        //                        })
+                        
+                        let loginByTocken = LoginByTokenService()
+                        loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
+                            print("ok service")
+                            
+                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                            
+                        }, errorBlock: { (error:NSError) in
+                            print("failed ")
+                            UserCurrentSession.sharedInstance.userSigned = nil
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                            
+                        })
+                        
+                        return
+                    }
+                    errorBlock!(errorResult)
+                    return
+                }
+                errorBlock!(errorResult)
+                return
+            }
+            successBlock!(jsonData as! [String : Any])
+            
+        }) { (request:URLSessionDataTask?, error:Error) in
+            print(error.localizedDescription)
+            print((error as NSError).code)
+            print(self.serviceUrl())
+            if let urlResponse = request?.response as? HTTPURLResponse {
+                let status = urlResponse.statusCode
+                print(status)
+                if status == 401 {
+                    let loginByTocken = LoginByTokenService()
+                    loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
+                        print("ok service")
+                        // TODO : Pendiente profile
+                        self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
+                    }, errorBlock: { (error:NSError) in
+                        print("failed::LoginByTokenService : \(error.localizedDescription)")
+                        UserCurrentSession.sharedInstance.userSigned = nil
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                    })
+                    return
+                }
+            }
+            
+            if (error as NSError).code == -1005 {
+                print("Response Error : \(error) \n Response \(request?.response)")
+                self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
+                return
+            }
+            if (error as NSError).code == -1001 || (error as NSError).code == -1003 || (error as NSError).code == -1009 {
+                let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
+                errorBlock!(newError)
+                return
+            }
+            
+            print("Response Error : \(error) \n Response \(request!.response)")
+            
+            
+            errorBlock!(error as NSError)
+            
+        }
         
     }
     
@@ -454,7 +465,7 @@ class BaseService : NSObject {
             successBlock!(jsonData as! [String : Any])
             
         }, failure: { (request:URLSessionDataTask?, error:Error) in
-            
+            print(self.serviceUrl())
             if let urlResponse = request?.response as? HTTPURLResponse {
                 let status = urlResponse.statusCode
                 print(status)
@@ -646,26 +657,6 @@ class BaseService : NSObject {
     func needsToLoginCode() -> Int {
         return -101
     }
-    
-    func sha256(string: String) -> Data? {
-//        guard let messageData = string.data(using:String.Encoding.utf8) else { return nil }
-//        var digestData = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
-//        
-//        _ = digestData.withUnsafeMutableBytes {digestBytes in
-//            messageData.withUnsafeBytes {messageBytes in
-//                CC_SHA256(messageBytes, CC_LONG(messageData.count), digestBytes)
-//            }
-//        }
-        guard let messageData = string.data(using:String.Encoding.utf8) else { return nil }
-        var digestData = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
-        var hash = [UInt8](repeating: 0,  count: Int(CC_SHA256_DIGEST_LENGTH))
-        digestData.withUnsafeBytes {
-            _ = CC_SHA256($0, CC_LONG(digestData.count), &hash)
-        }
-        return Data(bytes: hash)
-        
-    }
-    
     
 
     func loadKeyFieldCategories( _ items:AnyObject!, type:String ) {

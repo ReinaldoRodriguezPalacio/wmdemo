@@ -112,10 +112,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.setupTypeAddress()
             self.titleLabel!.text = NSLocalizedString("profile.address.new.title", comment: "")
         }else{
-            //TODO:Checar por que las direcciones no traen Id
-            if let id = self.item!["addressId"] as! String?{
-                self.idAddress = id as NSString?
-                self.titleLabel!.text = self.item!["name"] as! String?
+
+            if let id = self.item!["repositoryId"] as! String?{
+                self.idAddress = id as NSString
+                self.titleLabel!.text = self.item!["addressNickName"] as! String?
                 deleteButton = UIButton()
                 deleteButton?.addTarget(self, action: #selector(AddressViewController.deleteAddress(_:)), for: .touchUpInside)
                 deleteButton!.setImage(UIImage(named: "deleteAddress"), for: UIControlState())

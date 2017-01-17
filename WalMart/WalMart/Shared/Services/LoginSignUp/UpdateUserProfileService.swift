@@ -28,8 +28,8 @@ class UpdateUserProfileService : BaseService {
                     
                     let email = params["email"] as! String;
                     let predicate = NSPredicate(format: "email == %@ ", email)
-                    let array =  self.retrieve("User" ,sortBy:nil,isAscending:true,predicate:predicate) as! [[String:Any]]
-        
+                    let array =  self.retrieve("User" ,sortBy:nil,isAscending:true,predicate:predicate) as! [Any]
+                    
                     if array.count > 0{
                         usr = array[0] as! User
                         
@@ -37,6 +37,11 @@ class UpdateUserProfileService : BaseService {
                         
                         usr.profile.name = params["firstName"] as! NSString
                         usr.profile.lastName = params["lastName"] as! NSString
+                        usr.profile.sex = params["gender"] as! NSString
+                        usr.profile.phoneHomeNumber = params["phoneNumber"] as! NSString
+                        usr.profile.homeNumberExtension = params["phoneExtension"] as! NSString
+                        usr.profile.cellPhone = params["mobileNumber"] as! NSString
+                        
                         do {
                             try context.save()
                         } catch let error1 as NSError {
