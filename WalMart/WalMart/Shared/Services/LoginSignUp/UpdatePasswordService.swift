@@ -11,7 +11,7 @@ import Foundation
 class UpdatePasswordService : BaseService {
     
     func buildParams(_ password:String,newPassword:String) -> [String:Any] {
-        return ["password":password,"newPassword":newPassword]
+        return ["password":password,"newPassword":newPassword,"profileId":UserCurrentSession.sharedInstance.userSigned!.profile.idProfile]
     }
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {

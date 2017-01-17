@@ -330,7 +330,7 @@
 			<key>WalmartMG.GRUserListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/getInfoByZipCode</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getInfoByZipCode</string>
 			<key>WalmartMG.GetPreferencesService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/pets/getPreferences</string>
 			<key>WalmartMG.HeaderCategory</key>
@@ -400,7 +400,7 @@
 			<key>WalmartMG.UpdateShippingAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/updateUserProfile</string>
 			<key>WalmartMG.UserListDetailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getGiftListByListId</string>
 			<key>WalmartMG.UserProfileService</key>

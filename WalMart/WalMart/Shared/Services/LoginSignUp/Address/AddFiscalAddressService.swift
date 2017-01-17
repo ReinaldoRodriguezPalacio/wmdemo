@@ -10,9 +10,6 @@ import Foundation
 
 class AddFiscalAddressService : BaseService {
 
-    override func needsLogin() -> Bool {
-        return false
-    }
     
     override func needsToLoginCode() -> Int {
         return -101

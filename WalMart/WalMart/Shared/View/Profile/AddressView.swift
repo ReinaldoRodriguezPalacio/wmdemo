@@ -530,8 +530,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 if !setElement && self.storesDic.count > 0  {
                     self.selectedStore = IndexPath(row: 0, section: 0)
                     let name = self.storesDic[0]["storeName"] as! String!
-                    let cost = self.storesDic[0]["cost"] as! String!
-                    self.store!.text = "\(name) - \(cost)"
+                    let cost = self.storesDic[0]["cost"] as! String! ?? "0"
+                    self.store!.text = "\(name!) - \(cost)"
                     self.idStoreSelected = self.storesDic[0]["storeId"] as! String!
                 }//if setElement && self.listSuburb.count > 0  {
                 
@@ -651,11 +651,12 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     
     func validateShortName()-> Bool {
         let id = self.idAddress == nil ? "-1" : self.idAddress!
-        for item in  self.allAddress as! [[String:Any]]{
-            let idItem = item["addressId"] as? NSString
-            let name = item["name"] as! NSString
-            if idItem != nil && id != idItem! as String && name.uppercased ==  shortNameField!.text!.uppercased() {
-                self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
+        let addressList  =  self.allAddress as [[String:Any]]!
+        for item in addressList! {
+            let idItem = item["repositoryId"] as? NSString
+            let name = item["addressNickName"] as? NSString
+            if idItem != nil && id != idItem! as String && name?.uppercased ==  shortNameField!.text!.uppercased() {
+                let _ = self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true
             }
         }

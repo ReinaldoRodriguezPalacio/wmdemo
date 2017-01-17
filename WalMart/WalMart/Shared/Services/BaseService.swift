@@ -221,6 +221,10 @@ class BaseService : NSObject {
             let resultJSON = json as! [String:Any]
             self.jsonFromObject(resultJSON as AnyObject!)
             if let errorResult = self.validateCodeMessage(resultJSON) {
+                print(errorResult.code)
+                print(self.needsLogin())
+                print(self.needsToLoginCode())
+                
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         //                        let loginService = LoginWithIdService()

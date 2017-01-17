@@ -196,7 +196,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         if let name = item["name"] as? String {
             addressName = name
         }
-        if let name = item["addressName"] as? String {
+        if let name = item["addressNickName"] as? String {
             addressName = name
         }
         if (indexPath as NSIndexPath).row == 0{
@@ -208,7 +208,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             addressId = addId
         }
 
-        if let addId =  item["id"] as? String {
+        if let addId =  item["repositoryId"] as? String {
             addressId = addId
         }
         
@@ -255,7 +255,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                         item = self.arrayAddressFiscal![(indexPath! as NSIndexPath).row] as! [String:Any]
                         isFiscalAddress = true
                     }
-                    if let addId =  item["addressId"] as? String {
+                    if let addId =  item["repositoryId"] as? String {
                         addressId = addId
                     }
                     self.deleteAddress(addressId, isFisicalAddress: isFiscalAddress)
@@ -412,8 +412,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             }
             , errorBlock: {(error: NSError) in
                 print("error")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
+                self.alertView?.setMessage(error.localizedDescription)
+                self.alertView?.showErrorIcon("Ok")
                 self.alertView = nil
         })
         
