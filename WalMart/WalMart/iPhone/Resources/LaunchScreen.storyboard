@@ -24,11 +24,16 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVs-WG-XJp">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="spash_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="qbE-0R-3JH">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="spash_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="qbE-0R-3JH">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="qbE-0R-3JH" secondAttribute="trailing" id="TZB-tc-otl"/>
+                                    <constraint firstItem="qbE-0R-3JH" firstAttribute="leading" secondItem="NVs-WG-XJp" secondAttribute="leading" id="kXi-nZ-IS7"/>
+                                    <constraint firstItem="qbE-0R-3JH" firstAttribute="top" secondItem="NVs-WG-XJp" secondAttribute="top" id="s2j-ca-CPo"/>
+                                    <constraint firstAttribute="bottom" secondItem="qbE-0R-3JH" secondAttribute="bottom" id="zff-Vx-LkH"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -99,13 +99,13 @@ class HelpHomeView: UIView {
     }
     
     override func layoutSubviews() {
-        self.logo?.frame = CGRect(x: 104,y: 29,width: 112,height: 28)
+        self.logo?.frame = CGRect(x: self.frame.midX - 56 ,y: 28,width: 112,height: 28)
         self.arrowImage?.frame = CGRect(x: self.logo!.frame.midX - 4,y: self.logo!.frame.maxY - 4,width: 9,height: 29)
-        self.logoLabel?.frame = CGRect(x: 96,y: self.logo!.frame.maxY + 29,width: 128,height: 14)
+        self.logoLabel?.frame = CGRect(x: self.frame.midX - 64,y: self.logo!.frame.maxY + 29,width: 128,height: 14)
         self.searchIcon?.frame = CGRect(x: 13,y: 32,width: 20,height: 20)
         self.searchLabel?.frame = CGRect(x: 8,y: self.searchIcon!.frame.maxY + 15,width: 35,height: 14)
-        self.shoppingCartIcon?.frame = CGRect(x: 269,y: 24,width: 35,height: 35)
-        self.shoppingCartLabel?.frame = CGRect(x: 269,y: self.shoppingCartIcon!.frame.maxY + 8,width: 35,height: 14)
+        self.shoppingCartIcon?.frame = CGRect(x: self.frame.maxX - (35 + 5)  ,y: 24,width: 35,height: 35)
+        self.shoppingCartLabel?.frame = CGRect(x: self.shoppingCartIcon!.frame.origin.x ,y: self.shoppingCartIcon!.frame.maxY + 8,width: 35,height: 14)
         self.continueButton?.frame = CGRect(x: (self.frame.width - 140)/2,y: (self.frame.height - 40)/2,width: 140,height: 40)
         self.helpLabel?.frame = CGRect(x: (self.frame.width - 162)/2,y: self.continueButton!.frame.minY - 42,width: 162,height: 20)
         self.helloLabel?.frame = CGRect(x: (self.frame.width - 80)/2,y: self.helpLabel!.frame.minY - 40,width: 80,height: 32)
@@ -143,10 +143,11 @@ class HelpHomeView: UIView {
     
     func createTabBarButtons() {
         let images = self.retrieveTabBarOptions()
-        let spaceLabel: CGFloat = -5
-        var xLabel: CGFloat = 8
-        let spaceImage: CGFloat = 33.6
-        var xImage: CGFloat = 25.4
+        let spaceLabel: CGFloat = (self.frame.width - (5 * 65))/6
+        var xLabel: CGFloat = (self.frame.width - (5 * 65))/6
+        let spaceImage: CGFloat = (self.frame.width - (5 * 35))/6
+        var xImage: CGFloat = spaceImage
+        
         for image in images {
             var title = NSString(format: "tabbar.%@", image)
             title = NSLocalizedString(title as String, comment: "") as NSString
@@ -163,7 +164,7 @@ class HelpHomeView: UIView {
             let imageView = UIImageView()
             imageView.image = UIImage(named: NSString(format: "%@_active", image) as String)
             imageView.frame = CGRect(x: xImage, y: self.frame.height - 34.5, width: 27, height: 27)
-            xImage = imageView.frame.maxX + spaceImage
+            xImage = imageView.frame.maxX + spaceImage + 10
             self.addSubview(imageView)
         }
     }

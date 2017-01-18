@@ -79,7 +79,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
    
     func invokeRecentProducts(){
         let service = GRRecentProductsService()
-        service.callService(requestParams: service.buildParamsRecentProducts(profileId: UserCurrentSession.sharedInstance.userSigned?.profile.idProfile as! String, storeId: UserCurrentSession.sharedInstance.storeId!) , successBlock: { (result:[String:Any]) -> Void in
+        let storeId  = UserCurrentSession.sharedInstance.storeId
+        service.callService(requestParams: service.buildParamsRecentProducts(profileId: UserCurrentSession.sharedInstance.userSigned?.profile.idProfile as! String, storeId: storeId == nil ? "" : storeId!) , successBlock: { (result:[String:Any]) -> Void in
             print(result)
             self.contResult(result)
             // TODO : Servicios En walmart validar con servicio

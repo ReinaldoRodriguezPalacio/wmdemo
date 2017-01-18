@@ -186,9 +186,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         var item : [String:Any]
         var isFisicalAddress = false
         if (indexPath as NSIndexPath).section == 0{
-            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item] as! [String:Any]
+            item = self.arrayAddressShipping![(indexPath as NSIndexPath).item] 
         }else{
-            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item] as! [String:Any]
+            item = self.arrayAddressFiscal![(indexPath as NSIndexPath).item] 
             isFisicalAddress = true
         }
         
@@ -201,6 +201,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
         if (indexPath as NSIndexPath).row == 0{
             prefered = true
+            UserCurrentSession.sharedInstance.storeId = item["repositoryId"] as? String
         }
         
         var addressId = ""
