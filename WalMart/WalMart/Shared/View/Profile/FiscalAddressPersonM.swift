@@ -85,7 +85,7 @@ class FiscalAddressPersonM: AddressView {
             self.rfc!.text = self.item!["RFC"] as? String
             self.ieps!.text = self.item!["IEPS"] as? String
             self.email!.text = self.item!["email"] as? String
-            self.telephone!.text = self.item!["phoneNumber"] as? String
+            self.telephone!.text = self.item!["mobileNumber"] as? String
         }
     }
  

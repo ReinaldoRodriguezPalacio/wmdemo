@@ -72,12 +72,15 @@ class GRUserListService : BaseService {
                 let service = GRSaveUserListService()
                 
                 var items:[Any] = []
-                list!.products.enumerateObjects({ (obj:AnyObject, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
+                //..
+                list!.products.enumerateObjects({ (obj:Any, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
                     if let product = obj as? Product {
                         let param = service.buildProductObject(upc: product.upc, quantity: product.quantity.intValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)",nameLine: product.nameLine)
                         items.append(param as AnyObject)
                     }
-                } as! (Any, UnsafeMutablePointer<ObjCBool>) -> Void)
+                })
+                
+                
 
                 service.callService(service.buildParams(list!.name, items: items),
                     successBlock: { (result:[String:Any]) -> Void in

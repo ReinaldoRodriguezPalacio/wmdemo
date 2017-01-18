@@ -366,7 +366,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
             if let id = self.item!["repositoryId"] as! String?{
                 idAddress = id
                 self.shortNameField!.text  = self.item!["addressNickName"] as? String
-                self.street!.text = self.item!["street"] as? String
+                self.street!.text = self.item!["address1"] as? String
                 self.zipcode!.text = self.item!["postalCode"] as? String
                 self.outdoornumber!.text = self.item!["address2"] as? String
                 self.indoornumber!.text = self.item!["address3"] as? String

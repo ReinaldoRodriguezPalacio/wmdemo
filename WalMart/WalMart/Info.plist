@@ -225,6 +225,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.GRProductByTicket</key>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getItemByTicket</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>

@@ -642,9 +642,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
 
         let service = UpdatePasswordService()
+        
         let params = service.buildParams(self.passworCurrent!.text!,newPassword:self.password!.text!)
-        service.callService(params as! [String : Any],  successBlock:{ (resultCall:[String : Any]?) in
-            self.alertView!.setMessage("Cambiando contraseña ....")
+        service.callService(params ,  successBlock:{ (resultCall:[String : Any]?) in
+           
+            self.alertView!.setMessage(resultCall?["message"] as! String)
+            self.alertView!.showDoneIcon()
             self.showPasswordInfo = false
             self.save(self.saveButton!)
             }, errorBlock: {(error: NSError) in
