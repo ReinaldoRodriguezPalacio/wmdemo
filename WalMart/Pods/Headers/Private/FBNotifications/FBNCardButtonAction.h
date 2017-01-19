@@ -1,1 +1,0 @@
-../../../FBNotifications/iOS/FBNotifications/FBNotifications/Internal/Models/Actions/FBNCardButtonAction.h
