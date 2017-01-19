@@ -67,6 +67,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var picker : AlertPickerView!
     var selectedGender: IndexPath!
     var dateBriday  = ""
+    var joinDate  = ""
+    
     
     var occupationList: [String]! = []
     var selectedOccupation: IndexPath?
@@ -221,8 +223,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         let viewAccess = FieldInputView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width , height: 44), inputViewStyle: .keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
-                self.dateChanged()
-                self.associateDateChanged()
+                if field == self.birthDate!{
+                    self.dateChanged()
+                }
+                else if field == self.associateDate! {
+                    self.associateDateChanged()
+                }
+                
                 field?.resignFirstResponder()
             }
         })
@@ -245,7 +252,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.inputBirthdateView!.addTarget(self, action: #selector(EditProfileViewController.dateChanged), for: .valueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess
-        self.dateChanged()
         
         self.phoneInformationLabel = UILabel()
         self.phoneInformationLabel.font = WMFont.fontMyriadProLightOfSize(14)
@@ -333,6 +339,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDate!.nameField = NSLocalizedString("profile.edit.dateAdmission",comment:"")
         self.associateDate!.disablePaste = true
         self.associateDate!.alpha = 0.0
+        
         self.content?.addSubview(self.associateDate!)
         
         self.inputAssociateDateView = UIDatePicker()
@@ -578,6 +585,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.string(from: date)
         self.dateSelected = date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        self.dateBriday = dateFormatter.string(from: date)
     }
     
     /**
@@ -591,7 +601,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         //TODO: validar al entrar al perfil que se mande con el formato correcto.
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
-        self.dateBriday = dateFormatter.string(from: date)
+        self.joinDate = dateFormatter.string(from: date)
        
     }
     
@@ -708,7 +718,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
         let service = UpdateUserProfileService()
         let profileId = UserCurrentSession.sharedInstance.userSigned?.profile.idProfile as! String
-        let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.dateBriday , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
+        let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.joinDate , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
             
         if self.passworCurrent != nil{
             // Evente change password

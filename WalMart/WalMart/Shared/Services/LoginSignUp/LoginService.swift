@@ -28,17 +28,17 @@ class LoginService : BaseService {
                     CustomBarViewController.addOrUpdateParamNoUser(key: "ACCESS_TOKEN", value: "Bearer \(accessTokenVO["accessToken"] as! String)")
                     CustomBarViewController.addOrUpdateParamNoUser(key: "REFESH_TOKEN", value: accessTokenVO["refreshToken"] as! String)
 
-                   UserCurrentSession.sharedInstance.createUpdateUser(resultLoginCall, profileResult: resultLoginCall)
+                  // UserCurrentSession.sharedInstance.createUpdateUser(resultLoginCall, profileResult: resultLoginCall)
                     successBlock!(resultLoginCall)
-                    // let resultLogin = resultCall
-//                    let idUser = resultLoginCall["profileId"] as! String
-//                    let profileService = UserProfileService()
-//                    profileService.callService(profileService.buildParams(idUser), successBlock: { (resultCall:[String:Any]) -> Void in
-//                        UserCurrentSession.sharedInstance.createUpdateUser(resultLoginCall, profileResult: resultCall)
-//                        successBlock!(resultCall)
-//                    }, errorBlock: { (errorGR:NSError) -> Void in
-//                        errorBlock!(errorGR)
-//                    })
+                     let resultLogin = resultLoginCall
+                    let idUser = resultLoginCall["profileId"] as! String
+                    let profileService = UserProfileService()
+                    profileService.callService(profileService.buildParams(idUser), successBlock: { (resultCall:[String:Any]) -> Void in
+                        UserCurrentSession.sharedInstance.createUpdateUser(resultLoginCall, profileResult: resultCall)
+                        successBlock!(resultCall)
+                    }, errorBlock: { (errorGR:NSError) -> Void in
+                        errorBlock!(errorGR)
+                    })
                 }else{
                     let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
                     errorBlock!(error)

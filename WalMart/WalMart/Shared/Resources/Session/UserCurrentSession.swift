@@ -183,9 +183,9 @@ class UserCurrentSession : NSObject {
         }
         
         profile.name = loginProfile["name"] as! String as NSString
-        profile.lastName = loginProfile["lastName"] as? String as NSString? ?? ""
+        profile.lastName = loginProfile["middleName"] as? String as NSString? ?? ""
         
-        profile.lastName2 = loginProfile["lastName2"] as! String as NSString
+        profile.lastName2 = loginProfile["middleName"] as! String as NSString
         
         profile.allowMarketingEmail = userProfile["receivePromoEmail"] as? String as NSString? ?? ""
         
