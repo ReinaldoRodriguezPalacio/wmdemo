@@ -8,10 +8,10 @@
 
 
 //AFNetworking
-#import "AFNetworking.h"
-#import "UIImageView+AFNetworking.h"
-#import "AFNetworkActivityIndicatorManager.h"
-#import "AFNetworkActivityLogger.h"
+//#import "AFNetworking.h"
+//#import "UIImageView+AFNetworking.h"
+//#import "AFNetworkActivityIndicatorManager.h"
+//#import "AFNetworkActivityLogger.h"
 
 //Calendar
 #import "ABCalendarPicker.h"
@@ -73,12 +73,11 @@
 
 //Facebook
 //#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <Bolts/Bolts.h>
 
-#import <FBNotifications/FBNotificationsManager.h>
-#import <FBNotifications/FBNConstants.h>
-#import <FBNotifications/FBNCardViewController.h>
+
+//#import <FBNotifications/FBNotificationsManager.h>
+//#import <FBNotifications/FBNConstants.h>
+//#import <FBNotifications/FBNCardViewController.h>
 
 //Dynatrace
 //#import "CompuwareUEM.h"

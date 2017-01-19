@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import AFNetworking
 
 struct ShoppingCartParams {
     static var maxProducts : Int = 5

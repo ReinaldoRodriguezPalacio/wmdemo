@@ -55,6 +55,7 @@
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		22FC6B5D1E11E8C00019D375 /* NumericKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */; };
+		2A4746A371E2EE08B10DF3E5 /* Pods_WalMart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */; };
 		4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */; };
 		4A5A9CFE1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFC1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m */; };
 		4A5A9D4A1C84A99B00A2A7F4 /* ABCalendarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D2A1C84A99B00A2A7F4 /* ABCalendarPicker.m */; };
@@ -73,7 +74,6 @@
 		4A7DE2291D1224E900150C94 /* IPOWMAlertRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */; };
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
 		4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */; };
-		4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */; };
 		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
@@ -424,9 +424,6 @@
 		6C7E3FC91D11B74C00E814AC /* CMSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E3FC81D11B74C00E814AC /* CMSwitchView.m */; };
 		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */; };
-		6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */; };
-		6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */; };
-		6C836D831C15FB8C00C4BE16 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
 		6C8913B31D2C6F23005DC27F /* HelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */; };
 		6C8977841DA7F1D900BABE85 /* IPALandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */; };
@@ -551,7 +548,6 @@
 		ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA91C063A64009709B5 /* libc++.tbd */; };
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
-		E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */; };
 		F74F128F1DF5DB4C00F74E4B /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F74F128E1DF5DB4C00F74E4B /* ImageIO.framework */; };
 		F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
@@ -646,7 +642,6 @@
 		4AA10BC11D1DCAEE0068083A /* WalMart3.31. 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 2.xcdatamodel"; sourceTree = "<group>"; };
 		4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 3.xcdatamodel"; sourceTree = "<group>"; };
 		4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
-		4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		4ADF7B761DB518910095B961 /* GTM-TCGRR6 */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GTM-TCGRR6"; path = "../GTM-TCGRR6"; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
@@ -1025,9 +1020,6 @@
 		6C7E3FC81D11B74C00E814AC /* CMSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMSwitchView.m; path = Lib/CMSwitchView/CMSwitchView.m; sourceTree = "<group>"; };
 		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
 		6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRGetPromotionsService.swift; sourceTree = "<group>"; };
-		6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Shared/Library/Facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Shared/Library/Facebook/Bolts.framework; sourceTree = "<group>"; };
-		6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = Shared/Library/Facebook/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
 		6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpHomeView.swift; path = iPhone/View/Home/HelpHomeView.swift; sourceTree = "<group>"; };
 		6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALandingPageViewController.swift; path = iPad/Controller/SearchProduct/IPALandingPageViewController.swift; sourceTree = "<group>"; };
@@ -1164,7 +1156,7 @@
 		ACF20CA91C063A64009709B5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WalMart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalMart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F713F4E31DF63B2E0050211F /* WalmartMG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WalmartMG.entitlements; sourceTree = "<group>"; };
 		F74F128E1DF5DB4C00F74E4B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthorizationService.swift; path = Shared/Services/LoginSignUp/AuthorizationService.swift; sourceTree = "<group>"; };
@@ -1194,16 +1186,13 @@
 				6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
 				ACEB8D341BFE824900063E3B /* Security.framework in Frameworks */,
-				4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */,
 				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
-				6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */,
 				6C3180911B87C9C10015FC2E /* AudioToolbox.framework in Frameworks */,
 				5512FEDF1DD2936800411BF6 /* libDynatraceUEM.a in Frameworks */,
 				6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */,
-				6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
-				E5378A30149B2927CF1C4AAA /* libPods-WalMart.a in Frameworks */,
+				2A4746A371E2EE08B10DF3E5 /* Pods_WalMart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1623,7 +1612,6 @@
 		564578BF19AE2F9C006A7152 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				6C836D701C15F58A00C4BE16 /* Facebook */,
 				6CEB11831B8B74D30013FE44 /* PayPalMobile */,
 				56E1DFA51B556171001F42DF /* NMRangeSlider */,
 				569BB30F1B06350D00E8A657 /* CustomPhoto */,
@@ -2751,17 +2739,6 @@
 			name = CMSwitchView;
 			sourceTree = "<group>";
 		};
-		6C836D701C15F58A00C4BE16 /* Facebook */ = {
-			isa = PBXGroup;
-			children = (
-				4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */,
-				6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */,
-				6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */,
-				6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */,
-			);
-			name = Facebook;
-			sourceTree = "<group>";
-		};
 		6C8D5C251BF250DD0020962E /* Refered */ = {
 			isa = PBXGroup;
 			children = (
@@ -3113,7 +3090,7 @@
 				569BB3151B0635E000E8A657 /* MobileCoreServices.framework */,
 				569BB3131B0635CE00E8A657 /* AssetsLibrary.framework */,
 				04D2A3971A2FD4FF008DAE37 /* MapKit.framework */,
-				F06E6E9F6F5A673F3AC2B556 /* libPods-WalMart.a */,
+				B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3241,7 +3218,6 @@
 				56527DD719AFA8C2008032C6 /* MyriadPro-SemiExt.otf in Resources */,
 				56527DD119AFA8C2008032C6 /* MyriadPro-LightCondIt.otf in Resources */,
 				AC5911A919DE26E600EB095C /* proceso-devolucion.jpg in Resources */,
-				6C836D831C15FB8C00C4BE16 /* FacebookSDKStrings.bundle in Resources */,
 				56527DCB19AFA8C2008032C6 /* MyriadPro-Bold.otf in Resources */,
 				56527DD819AFA8C2008032C6 /* MyriadPro-SemiExtIt.otf in Resources */,
 				56054B891B210E0C003F8536 /* WeightPiceKeyboard.storyboard in Resources */,
@@ -3890,6 +3866,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
@@ -3903,7 +3880,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/WalMart/Shared/Library/Facebook",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SAMS/Lib",
 					"$(PROJECT_DIR)/WalMart",
@@ -3952,6 +3928,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
@@ -3965,7 +3942,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/WalMart/Shared/Library/Facebook",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SAMS/Lib",
 					"$(PROJECT_DIR)/WalMart",
@@ -3993,6 +3969,7 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
+					"-force_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 BCG Inc. All rights reserved.
 //
 
+import FBSDKCoreKit
 import Foundation
 import QuartzCore
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
