@@ -5,7 +5,7 @@
 //  Created by Gerardo Ramirez on 1/21/15.
 //  Copyright (c) 2015 BCG Inc. All rights reserved.
 //
-
+import FBSDKCoreKit
 import Foundation
 import CoreData
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
@@ -395,8 +395,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
             
             if cell.typeProd == 1 {
-                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
-            } else{
+
+                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity!,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+                
+            }else{
                 selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.upc)
             }
             

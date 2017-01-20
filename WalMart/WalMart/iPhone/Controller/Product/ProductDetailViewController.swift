@@ -5,7 +5,8 @@
 //  Created by Gerardo Ramirez on 9/1/14.
 //  Copyright (c) 2014 BCG Inc. All rights reserved.
 //
-
+import FBSDKCoreKit
+import FBNotifications
 import Foundation
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.

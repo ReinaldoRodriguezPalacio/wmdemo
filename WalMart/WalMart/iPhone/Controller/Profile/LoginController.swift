@@ -6,7 +6,9 @@
 //  Copyright (c) 2014 BCG Inc. All rights reserved.
 //
 
+import FBSDKLoginKit
 import Foundation
+import FBSDKCoreKit
 //import Tune
 
 class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate {

@@ -252,15 +252,20 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     func reloadTermsAndPages() {
         let array = self.pointButtons! as [Any]
         if array.count > 0 {
-            if let button = array[self.visibleItem!] as? UIButton {
-                for inner: UIButton in self.pointButtons! {
-                    inner.isSelected = button === inner
+            if self.pointButtons!.count != self.visibleItem! {
+                
+                if let button = array[self.visibleItem!] as? UIButton {
+                    for inner: UIButton in self.pointButtons! {
+                        inner.isSelected = button === inner
+                    }
                 }
-            }
-            UIView.animate(withDuration: 0.1, animations: { () -> Void in
-                self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
+                UIView.animate(withDuration: 0.1, animations: { () -> Void in
+                    self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
                 }, completion: { (complete:Bool) -> Void in
-            }) 
+                })
+            
+            }
+          
         }
     }
     

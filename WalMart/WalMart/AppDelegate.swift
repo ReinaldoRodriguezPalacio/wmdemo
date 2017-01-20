@@ -9,6 +9,12 @@
 import UIKit
 import CoreData
 import UserNotifications
+import FBNotifications
+import FBSDKCoreKit
+import FBSDKLoginKit
+import AFNetworking
+import AFNetworkActivityLogger
+//import FBNotifications
 
 
 
@@ -33,7 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             UIApplication.shared.registerUserNotificationSettings(setting);
             UIApplication.shared.registerForRemoteNotifications();
         }
-        
         
         
         //Facebook
@@ -169,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         //TAGManager
         let GTM = TAGManager.instance()
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
-       
+    
         //TODO Cambiar a produccion 
         //TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
         TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
@@ -324,7 +329,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         NSLog("Device token: hexString \(deviceToken.hexString)")
         print("Device token: hexString \(deviceToken.hexString)")
         //TODO
-       // FBSDKAppEvents.setPushNotificationsDeviceToken(deviceToken)
+        
+        FBSDKAppEvents.setPushNotificationsDeviceToken(deviceToken)
 
         UserCurrentSession.sharedInstance.deviceToken = deviceToken.hexString
         
@@ -380,7 +386,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         self.handleNotification(application,userInfo: userInfo)
        
         
-        //FBSDKAppEvents.logPushNotificationOpen(userInfo)
+        FBSDKAppEvents.logPushNotificationOpen(userInfo)
         
         FBNotificationsManager.shared().presentPushCard(forRemoteNotificationPayload: userInfo, from: nil, completion: { (control:FBNCardViewController?, error: Error?) in
             
