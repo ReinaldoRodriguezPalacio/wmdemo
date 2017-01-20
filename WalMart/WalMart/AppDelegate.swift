@@ -176,7 +176,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
        
         
-        TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", 
+        TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+        //TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM", //Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)

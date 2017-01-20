@@ -1163,6 +1163,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 let listCell = tableView.dequeueReusableCell(withIdentifier: self.NEWCELL_ID) as! NewListTableViewCell
                 listCell.delegate = self
                 listCell.accessoryView = nil
+                let _ = searchField?.resignFirstResponder()
+                Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(UserListViewController.become(timer:)), userInfo: listCell, repeats: false)
+                
                 return listCell
             }
             var currentRow = (self.newListEnabled ? 1 : 0)
@@ -1221,6 +1224,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         listCell.accessoryView = nil
         listCell.selectionStyle = .none
         return listCell
+    }
+    
+    func become(timer:Timer){
+      let cell =  timer.userInfo as? NewListTableViewCell
+       cell?.inputNameList?.becomeFirstResponder()
     }
     
     

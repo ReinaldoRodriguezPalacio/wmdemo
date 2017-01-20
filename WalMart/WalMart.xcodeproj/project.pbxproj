@@ -602,6 +602,7 @@
 		04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPaymentTypeService.swift; path = Shared/Services/checkout/GRPaymentTypeService.swift; sourceTree = "<group>"; };
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
 		22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
 		4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCalendarPickerDefaultDaysProvider.m; sourceTree = "<group>"; };
@@ -1633,6 +1634,7 @@
 		564578C019AE2FAA006A7152 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */,
 				4ADF7B761DB518910095B961 /* GTM-TCGRR6 */,
 				04312C951A6EDBC50009A940 /* Extension */,
 				56DE027119DE2BDA00FA2042 /* Certs */,

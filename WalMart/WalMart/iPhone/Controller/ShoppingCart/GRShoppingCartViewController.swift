@@ -418,7 +418,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         if self.isEdditing == false {
             let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
             if cell.typeProd == 1 {
-                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity!,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
                 
             }else{
                 selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.upc)
@@ -465,7 +465,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     
                     
                     let addShopping = ShoppingCartUpdateController()
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+                    let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
                     addShopping.params = paramsToSC
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
