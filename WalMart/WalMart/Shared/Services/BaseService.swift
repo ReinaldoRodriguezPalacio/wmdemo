@@ -97,10 +97,7 @@ class BaseService : NSObject {
     func getManager() -> AFHTTPSessionManager {
         
         let lockQueue = DispatchQueue(label: "com.test.LockQueue")
-        lockQueue.sync() {
-            
-             //AFStatic.manager.acceptableContentTypes = NSSet(Objects:"application/json", "text/html","text/json", "text/javascript", nil)
-            
+        lockQueue.sync() {            
             AFStatic.manager.responseSerializer.acceptableStatusCodes = NSIndexSet(indexesIn: NSMakeRange(200, 200)) as IndexSet
             var jsessionIdSend = ""
             if jsessionIdSend == "" {
@@ -197,79 +194,6 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
         print(params)
-//        afManager.post(url, parameters: params, success: {(request:URLSessionDataTask?, json:Any?) in
-//            
-//            //session --
-//            let response : HTTPURLResponse = request!.response as! HTTPURLResponse
-//            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
-//            //  let cookie = headers["Set-Cookie"] as? NSString ?? ""
-//            
-//            for headerstxt in headers {
-//                
-//                print(headerstxt.value)
-//                
-//                if headerstxt.key == "JSESSIONID" {
-//                    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: headerstxt.value as! String)
-//                }
-//                
-//            }
-//            
-//            let resultJSON = json as! [String:Any]
-//            self.jsonFromObject(resultJSON as AnyObject!)
-//            if let errorResult = self.validateCodeMessage(resultJSON) {
-//                print(errorResult.code)
-//                print(self.needsLogin())
-//                print(self.needsToLoginCode())
-//                
-//                if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
-//                    if UserCurrentSession.hasLoggedUser() {
-//                        //                        let loginService = LoginWithIdService()
-//                        //                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-//                        //                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
-//                        //                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
-//                        //                            }, errorBlock: { (error:NSError) -> Void in
-//                        //                                UserCurrentSession.sharedInstance().userSigned = nil
-//                        //                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
-//                        //                        })
-//                        
-//                        let loginByTocken = LoginByTokenService()
-//                        loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
-//                            print("ok service")
-//                            
-//                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
-//                            
-//                        }, errorBlock: { (error:NSError) in
-//                            print("failed ")
-//                            UserCurrentSession.sharedInstance.userSigned = nil
-//                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-//                            
-//                        })
-//                        
-//                        
-//                    }
-//                    errorBlock!(errorResult)
-//                    return
-//                }
-//                errorBlock!(errorResult)
-//                return
-//            }
-//            successBlock!(resultJSON)
-//        }, failure: {(request:URLSessionDataTask?, error:Error?) in
-//            
-//            if (error as! NSError).code == -1005 {
-//                print("Response Error : \(error) \n Response \(request?.response)")
-//                self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
-//                return
-//            }
-//            if (error as! NSError).code == -1001 || (error as! NSError).code == -1003 || (error as! NSError).code == -1009 {
-//                let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
-//                errorBlock!(newError)
-//                return
-//            }
-//            
-//            print("Response Error : \(error) \n Response \(request!.response)")
-//            errorBlock!(error! as NSError)
-//        })
         afManager.post(url, parameters: params as! [String:Any], progress: { (progress:Progress) in
             print("post progress")
         }, success: { (request:URLSessionDataTask, json:Any?) in
@@ -312,15 +236,6 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(jsonData as! [String : Any]) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
-                        //                        let loginService = LoginWithIdService()
-                        //                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-                        //                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
-                        //                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
-                        //                            }, errorBlock: { (error:NSError) -> Void in
-                        //                                UserCurrentSession.sharedInstance().userSigned = nil
-                        //                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
-                        //                        })
-                        
                         let loginByTocken = LoginByTokenService()
                         loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
                             print("ok service")
@@ -331,7 +246,6 @@ class BaseService : NSObject {
                             print("failed ")
                             UserCurrentSession.sharedInstance.userSigned = nil
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                            
                         })
                         
                         return
@@ -403,11 +317,8 @@ class BaseService : NSObject {
             //session --
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
-            //let cookie = headers["Set-Cookie"] as? NSString ?? ""
-            
+
             for headerstxt in headers {
-                
-                print(headerstxt.value)
                 if headerstxt.key == "JSESSIONID" {
                     CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: headerstxt.value as! String)
                 }
@@ -437,19 +348,9 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(jsonData as! [String : Any]) {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
-                        //                        let loginService = LoginWithIdService()
-                        //                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
-                        //                        loginService.callService(["profileId":idUser], successBlock: { (response:NSDictionary) -> Void in
-                        //                            //TODO:QUITAR IMPORTANTE DESCOMENTAR
-                        //                            self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
-                        //                            }, errorBlock: { (error:NSError) -> Void in
-                        //                                UserCurrentSession.sharedInstance().userSigned = nil
-                        //                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
-                        //                        })
                         let loginByTocken = LoginByTokenService()
                         loginByTocken.callService(params: [:], successBlock: { (result:[String:Any]) in
                             print("ok service")
-                            // TODO : Pendiente profile
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                         }, errorBlock: { (error:NSError) in
                             print("failed:: ")
@@ -518,7 +419,7 @@ class BaseService : NSObject {
             }
         }
         if let codeMessage = response["errorCode"] as? NSNumber {
-           
+            
             var messages =  ""
             if  let message = response["errorMessage"] as? NSString{
                 messages = message as String
@@ -528,7 +429,6 @@ class BaseService : NSObject {
                 print("error : Response with error \(messages)")
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:messages])
             }
-        
         }
         
         return nil

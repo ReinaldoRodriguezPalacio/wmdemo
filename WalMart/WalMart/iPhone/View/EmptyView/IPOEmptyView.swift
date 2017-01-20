@@ -75,7 +75,7 @@ class IPOEmptyView : UIView {
     
     override func layoutSubviews() {
         if iconImageView != nil && iconImageView.image != nil {
-         iconImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height: iconImageView.image!.size.height)//  self.bounds.height)
+         iconImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height:self.bounds.height)//  self.bounds.height)
         }
         self.descLabel.frame = CGRect(x: 0.0, y: 28.0, width: self.bounds.width, height: 16.0)
         self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.size.height - 200, width: 160 , height: 40)
