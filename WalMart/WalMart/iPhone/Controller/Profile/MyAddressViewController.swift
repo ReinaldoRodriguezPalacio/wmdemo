@@ -247,9 +247,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             print("delete pressed")
             let indexPath = self.table.indexPath(for: cell)
             if indexPath != nil {
-                var addressId = ""
-                var item : [String:Any]
-                var isFiscalAddress = false
+                if self.arrayAddressShipping.count > 1 {
+                    var addressId = ""
+                    var item : [String:Any]
+                    var isFiscalAddress = false
                     if (indexPath! as NSIndexPath).section == 0{
                         item = self.arrayAddressShipping![(indexPath! as NSIndexPath).row] as! [String:Any]
                     }else{
@@ -260,6 +261,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                         addressId = addId
                     }
                     self.deleteAddress(addressId, isFisicalAddress: isFiscalAddress)
+                }else{//mensaje de validacion
+                
+                }
             }
         default:
             print("other pressed")

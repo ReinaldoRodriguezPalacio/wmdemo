@@ -12,15 +12,15 @@ class UserListDetailService: BaseService {
     
     
     func buildParams(_ idList:String) -> [String:Any] {
-        return ["giftlistId":idList]
+        return ["giftlistId":idList,"idStore":UserCurrentSession.sharedInstance.storeId == nil ? "" :UserCurrentSession.sharedInstance.storeId!]
     }
     
     
     func callService(_ params:AnyObject, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params,
                              successBlock: { (resultCall:[String:Any]) -> Void in
-                                let  responseObject  =  resultCall["responseObject"] as? [String:Any]
-                                successBlock?(responseObject!["giftlist"] as! [String:Any])
+                                let  responseObject  =  resultCall["giftlist"] as? [String:Any]
+                                successBlock?(responseObject!)
                                 return
             },
                              errorBlock: { (error:NSError) -> Void in

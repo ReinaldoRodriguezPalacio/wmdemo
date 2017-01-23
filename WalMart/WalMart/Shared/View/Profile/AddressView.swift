@@ -508,11 +508,11 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 for dic in  self.storesDic {
                     let name = dic["storeName"] as! String!
                     let cost = dic["cost"] as! String!
-                    self.stores.append("\(name) - \(cost)")
+                    self.stores.append("\(name!) - \(cost!)")
                     self.idStoreArray.append(dic["storeId"] as! String!)
                     
                     if dic["storeId"] as? String ==  self.idStoreSelected{
-                        self.store!.text = "\(name) - \(cost)"
+                        self.store!.text = "\(name!) - \(cost!)"
                         self.selectedStore = IndexPath(row: self.stores.count - 1, section: 0)
                         //self.currentZipCode = self.zipcode.text!
                     }

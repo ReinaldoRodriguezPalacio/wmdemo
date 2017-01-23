@@ -11,9 +11,9 @@ import CoreData
 
 class UpdateUserProfileService : BaseService {
     
-    func buildParamsWithMembership(_ profileId:String,name:String,lastName:String,email:String,gender:String,ocupation:String,phoneNumber:String,phoneExtension:String,mobileNumber:String,updateAssociate:Bool,associateStore:String,joinDate:String,associateNumber:String,updatePassword:Bool,oldPassword:String,newPassword:String) -> [String:Any] {
+    func buildParamsWithMembership(_ profileId:String,name:String,lastName:String,email:String,gender:String,ocupation:String,phoneNumber:String,phoneExtension:String,mobileNumber:String,updateAssociate:Bool,associateStore:String,joinDate:String,associateNumber:String,updatePassword:Bool,oldPassword:String,newPassword:String,dateOfBird:String) -> [String:Any] {
         
-        return ["profileId":profileId,"firstName":name,"lastName":lastName,"email":email,"gender":gender,"occupation":ocupation,"phoneNumber":phoneNumber,"phoneExtension":phoneExtension,"mobileNumber":mobileNumber,"associateCheckBox":updateAssociate ? "true" : "false","associateNumber":associateNumber,"associateStore":associateStore,"joinDate":joinDate,"passwordCheckBox":updatePassword ? "true" : "false","oldPassword":oldPassword,"newPassword":newPassword]
+        return ["profileId":profileId,"firstName":name,"lastName":lastName,"email":email,"gender":gender,"occupation":ocupation,"phoneNumber":phoneNumber,"phoneExtension":phoneExtension,"mobileNumber":mobileNumber,"associateCheckBox":updateAssociate ? "true" : "false","associateNumber":associateNumber,"associateStore":associateStore,"joinDate":joinDate,"passwordCheckBox":updatePassword ? "true" : "false","oldPassword":oldPassword,"newPassword":newPassword,"dateOfBirth":dateOfBird]
     }
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {

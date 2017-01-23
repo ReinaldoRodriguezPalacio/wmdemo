@@ -207,7 +207,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     }
 
     override func editProfile(_ sender:UIButton) {
-       self.delegate.selectedDetail(11)
+       self.delegate.selectedDetail(12)
        NotificationCenter.default.addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadProfile), name: NSNotification.Name(rawValue: "RELOAD_PROFILE"), object: nil)
 
     }

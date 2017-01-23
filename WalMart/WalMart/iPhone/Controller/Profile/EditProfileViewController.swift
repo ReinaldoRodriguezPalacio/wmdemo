@@ -345,8 +345,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.inputAssociateDateView = UIDatePicker()
         self.inputAssociateDateView!.datePickerMode = .date
         self.inputAssociateDateView!.date = Date()
-        self.inputAssociateDateView!.maximumDate = Date()
-        self.inputAssociateDateView!.minimumDate = Date()
         
         self.inputAssociateDateView!.addTarget(self, action: #selector(EditProfileViewController.associateDateChanged), for: .valueChanged)
         self.associateDate!.inputView = self.inputAssociateDateView!
@@ -718,7 +716,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
         let service = UpdateUserProfileService()
         let profileId = UserCurrentSession.sharedInstance.userSigned?.profile.idProfile as! String
-        let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.joinDate , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
+        let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.joinDate , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!,dateOfBird: self.dateBriday)
             
         if self.passworCurrent != nil{
             // Evente change password
@@ -728,7 +726,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             
         self.view.endEditing(true)
         self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-        service.callService(params as! [String : Any],  successBlock:{ (resultCall:[String : Any]?) in
+        service.callService(params ,  successBlock:{ (resultCall:[String : Any]?) in
             if let message = resultCall!["message"] as? String {
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()

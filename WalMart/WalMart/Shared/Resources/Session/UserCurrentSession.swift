@@ -191,7 +191,9 @@ class UserCurrentSession : NSObject {
         
         profile.allowTransfer = loginProfile["allowTransfer"] as? String as NSString? ?? "\(false)" as NSString
         
-        profile.birthDate = userProfile["dateOfBirth"] as? String as NSString? ?? "01/01/2015"
+        let dateB = userProfile["dateOfBirth"] as! NSDictionary
+        
+        profile.birthDate = dateB["formattedDate"] as! String as NSString? ?? "01/01/2015"
         
         profile.cellPhone = userProfile["mobileNumber"] as? String as NSString? ?? ""
         
