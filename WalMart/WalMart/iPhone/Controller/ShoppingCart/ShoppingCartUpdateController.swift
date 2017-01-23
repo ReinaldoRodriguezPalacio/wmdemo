@@ -244,6 +244,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 var orderByPiece = true
                 if let orderpiece = itemToShop["orderByPiece"] as? Bool {
                     orderByPiece = orderpiece
+                }else if let orderpiece = itemToShop["orderByPieces"] as? Bool {
+                    orderByPiece = orderpiece
                 }
                 
                 var pieces = 0
@@ -695,11 +697,13 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             var orderByPiece = true
                             if let orderpiece = self.params["orderByPiece"] as? Bool {
                                 orderByPiece = orderpiece
+                            }else if let orderpiece = self.params["orderByPieces"] as? Bool{
+                                 orderByPiece = orderpiece
                             }
                             
                             var pieces = 0
-                            if let totalPieces = self.params["pieces"] as? Int {
-                                pieces = totalPieces
+                            if let totalPieces = self.params["quantity"] as? NSString {
+                                pieces = Int(totalPieces as String)!
                             }
                             
                             let serviceAddProduct = GRShoppingCartAddProductsService()
