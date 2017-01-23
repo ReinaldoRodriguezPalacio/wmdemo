@@ -652,7 +652,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                         self.alertView!.showDoneIcon()
                         var count = 0
+                        
                         if UserCurrentSession.hasLoggedUser() {
+                            self.newListEnabled = true
+                            self.cancelNewList()
+                            
                             for itemList in self.itemsUserList! as! [[String:Any]] {
                                 if (itemList["name"] as! String) == value {
                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
@@ -661,6 +665,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                 count += 1
                             }
                         }
+                        self.newListEnabled = true
+                        self.cancelNewList()
+                      
                     },
                     failure: { (error) -> Void in
                         self.alertView!.setMessage(error.localizedDescription)
@@ -722,6 +729,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
                             self.alertView!.showDoneIcon()
+                          //TODO
+                            //---
+                            self.newListEnabled = true
+                            self.cancelNewList()
+                            //---
                         },
                         failure: { (error) -> Void in
                             self.alertView!.setMessage(error.localizedDescription)
@@ -777,6 +789,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
                             self.alertView!.showDoneIcon()
+                            //---
+                            self.newListEnabled = true
+                            self.cancelNewList()
+                            //---
                         },
                         failure: { (error) -> Void in
                             self.alertView!.setMessage(error.localizedDescription)
