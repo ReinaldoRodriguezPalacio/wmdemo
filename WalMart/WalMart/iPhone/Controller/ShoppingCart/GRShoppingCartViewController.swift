@@ -483,7 +483,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
             let addShopping = ShoppingCartUpdateController()
-            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
             addShopping.params = params
             vc!.addChildViewController(addShopping)
             addShopping.view.frame = frame
