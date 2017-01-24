@@ -410,7 +410,7 @@
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/isReferedActive</string>
 			<key>WalmartMG.ValidateAssociateService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/isAssociated</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/isAssociated</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>

@@ -14,8 +14,7 @@ class StoreLocatorService: BaseService {
     var managedObjectContext: NSManagedObjectContext?
 
     func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let params: [String:Any] = [:]
-        self.callGETService(params,
+        self.callGETService([],
             successBlock: { (resultCall:[String:Any]) -> Void in
                 if let values = resultCall["responseArray"] as? [Any] {
                     for idx in 0 ..< values.count {
