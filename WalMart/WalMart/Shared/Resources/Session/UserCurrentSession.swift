@@ -131,7 +131,7 @@ class UserCurrentSession : NSObject {
     func createUpdateUser(_ loginResult:[String:Any], profileResult:[String:Any]) {
         
         let loginProfile = loginResult["profile"] as! [String:Any]
-        let userProfile = loginResult["profile"] as! [String:Any]
+        let userProfile = profileResult["profile"] as! [String:Any]
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

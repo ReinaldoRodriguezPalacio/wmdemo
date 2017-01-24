@@ -220,7 +220,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
@@ -334,7 +334,7 @@
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getInfoByZipCode</string>
 			<key>WalmartMG.GetPreferencesService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/pets/getPreferences</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/getPreferences</string>
 			<key>WalmartMG.HeaderCategory</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
@@ -390,7 +390,7 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/plp/endecaStoreLocator</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.UpdateCommentsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/updateComments</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
@@ -579,7 +579,7 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/getStoreLocatorCoordinates</string>
+			<string>https://dl.dropboxusercontent.com/s/9se7k88vvw6skfx/getStoreLocatorCoordinates.txt?dl=0</string>
 			<key>WalmartMG.UpdateCommentsService</key>
 			<string>https://dl.dropboxusercontent.com/s/wzc56m5dtvkyorw/updateComments.txt</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
@@ -595,7 +595,7 @@
 			<key>WalmartMG.UserListDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/3tk0zsbgacuguvb/detalleLista.txt?dl=0</string>
 			<key>WalmartMG.UserProfileService</key>
-			<string>https://dl.dropboxusercontent.com/s/yodb3yz694mhyue/responseProfile.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/4ftdr3i53qc0ov9/responseProfile.txt?dl=0</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isReferedActive</string>
 			<key>WalmartMG.ValidateAssociateService</key>

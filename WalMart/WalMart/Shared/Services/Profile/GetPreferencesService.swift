@@ -14,8 +14,8 @@ class GetPreferencesService : BaseService  {
     let fileName =  "preferences.json"
     
     func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let empty: [String:Any] = [:]
-        self.callGETService(empty as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
+        
+        self.callPOSTService(["profileId":UserCurrentSession.sharedInstance.userSigned!.profile.idProfile] as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             self.saveDictionaryToFile(resultCall, fileName:self.fileName)
             successBlock!(resultCall)
         }) { (error:NSError) -> Void in
