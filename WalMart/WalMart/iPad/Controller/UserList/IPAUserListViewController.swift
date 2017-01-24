@@ -411,6 +411,8 @@ class IPAUserListViewController: UserListViewController {
                                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                                         self.alertView!.showDoneIcon()
                                         var count = 0
+                                        self.newListEnabled = true
+                                        self.cancelNewList()
                                         if UserCurrentSession.hasLoggedUser() {
                                             for itemList in self.itemsUserList! as! [[String:Any]] {
                                                 
