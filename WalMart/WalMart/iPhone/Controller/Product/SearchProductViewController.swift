@@ -2024,7 +2024,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.selectQuantityGR?.closeAction()
                 if self.idListFromSearch == ""{
                    
-                    let pieces = Int(cell.equivalenceByPiece)! > 0 ? ((Int(quantity)! / Int(cell.equivalenceByPiece)!)) : (Int(quantity)!)
+                    var pieces = 0
+                    if cell.equivalenceByPiece != "" {
+                       pieces =  Int(cell.equivalenceByPiece)! > 0 ? ((Int(quantity)! / Int(cell.equivalenceByPiece)!)) : (Int(quantity)!)
+                    }else {
+                        pieces = (Int(quantity)!)
+                    }
+                    
                     let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: pieces)
                     
                     //CAMBIA IMAGEN CARRO SELECCIONADO

@@ -140,7 +140,7 @@ class DetailListViewCell: ProductTableViewCell {
 //            }
             
             if let orderPiece = product["baseUomcd"] as? String {
-                orderByPiece = (orderPiece == "EA" || orderPiece == "pieces" ) //TODO: quitar pieces
+                orderByPiece = (orderPiece == "EA"  ) //TODO: quitar pieces
             }
 
             
