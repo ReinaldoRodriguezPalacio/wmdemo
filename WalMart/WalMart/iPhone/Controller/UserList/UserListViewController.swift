@@ -54,6 +54,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var needsToShowWishList = true
     var cellEditing: SWTableViewCell? = nil
     var selectedIndex: IndexPath? = nil
+    var changeNames =  true
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -478,7 +479,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.invokeUpdateListService()
                     }
                     else {
-                        self.changeEntityNames()
+                        if self.changeNames {
+                            self.changeEntityNames()
+                        }
                     }
                     
                     self.isShowingWishList = true
@@ -822,6 +825,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
+    }
+    func didListChangeNameFailed(){
+        changeNames =  false
     }
     
     func editCell(_ cell: SWTableViewCell) {

@@ -143,7 +143,8 @@ class GRShoppingCartProductsService : GRBaseService {
             print("")
             self.saveItemsAndSuccess(arrayUPCQuantity,resultCall: response,successBlock: successBlock)
             }) { (error:NSError) -> Void in
-                print("")
+                print(self.serviceUrl())
+                print("Error::" + error.localizedDescription)
             errorBlock?(error)
         }
         

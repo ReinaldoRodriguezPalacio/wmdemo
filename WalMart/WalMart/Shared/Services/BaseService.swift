@@ -341,6 +341,7 @@ class BaseService : NSObject {
             successBlock!(resultJSON)
             }, failure: {(request:URLSessionDataTask?, error:Error) in
                 
+                print("Error en ::" + self.serviceUrl())
                 if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
                     BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)

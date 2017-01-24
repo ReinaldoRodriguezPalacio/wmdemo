@@ -145,10 +145,13 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         let alphanumericset = CharacterSet(charactersIn: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").inverted
         let cleanedName = (trimmedString.components(separatedBy: alphanumericset) as NSArray).componentsJoined(by: "")
         if trimmedString != cleanedName {
+           
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))
             alert!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
             alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+            field?.becomeFirstResponder()
+            field?.resignFirstResponder()
             return false
         }
         
