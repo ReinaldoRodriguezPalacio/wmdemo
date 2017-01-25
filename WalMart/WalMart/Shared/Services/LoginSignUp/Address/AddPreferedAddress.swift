@@ -28,8 +28,4 @@ class AddPreferedAddress : BaseService {
         }
     }
     
-//    override func serviceUrl() -> (String){
-//        return super.serviceUrl() + "/"  + self.code!
-//    }
-    
 }

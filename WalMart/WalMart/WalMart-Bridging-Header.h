@@ -7,12 +7,6 @@
 //
 
 
-//AFNetworking
-#import "AFNetworking.h"
-#import "UIImageView+AFNetworking.h"
-#import "AFNetworkActivityIndicatorManager.h"
-#import "AFNetworkActivityLogger.h"
-
 //Calendar
 #import "ABCalendarPicker.h"
 #import "CustomCalendarStyleProvider.h"
@@ -26,14 +20,6 @@
 
 //FMDB
 #import "FMDB.h"
-
-//Google Analitics
-//#import "GAI.h"
-//#import "GAIFields.h"
-//#import "GAIDictionaryBuilder.h"
-//#import "GAIEcommerceProduct.h"
-//#import "GAIEcommerceProductAction.h"
-//#import "GAIEcommerceFields.h"
 
 //Loading
 #import "LoadingIconView.h"
@@ -70,11 +56,6 @@
 
 //PayPal
 #import "PayPalMobile.h"
-
-//Facebook
-//#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <Bolts/Bolts.h>
 
 //Google
 #import <GoogleSignIn/GoogleSignIn.h>

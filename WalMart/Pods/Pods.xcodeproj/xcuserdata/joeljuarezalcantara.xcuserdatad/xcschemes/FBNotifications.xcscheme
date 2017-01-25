@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'E44A4F2FD2EA117B83A56F704CA0C0A4'
+               BlueprintIdentifier = '73B8742CDCEB8C1DB5075F5FD078CAC8'
                BlueprintName = 'FBNotifications'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libFBNotifications.a'>
+               BuildableName = 'FBNotifications.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

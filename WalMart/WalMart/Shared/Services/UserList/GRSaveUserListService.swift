@@ -9,13 +9,6 @@
 import Foundation
 import CoreData
 
-//    {
-//    "id" : "fdaefb72-f630-41b6-8d41-4681afd35665",
-//    "codeMessage" : 0,
-//    "items" : [ ],
-//    "name" : "Okas",
-//    "message" : "La lista se ha guardado correctamente."
-//    }
 
 class GRSaveUserListService : BaseService {
     

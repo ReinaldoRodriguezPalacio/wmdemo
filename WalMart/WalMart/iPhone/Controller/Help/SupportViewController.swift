@@ -8,6 +8,7 @@
 
 import Foundation
 import MessageUI
+import AFNetworking
 
     let EMAIL_GROSERIES = "Atencionaclientes@wal-mart.com"
     let EMAIL_MG = "Atencionaclientes@wal-mart.com"

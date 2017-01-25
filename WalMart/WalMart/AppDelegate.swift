@@ -11,6 +11,10 @@ import CoreData
 import Fabric
 import TwitterKit
 import SafariServices
+import AFNetworking
+import FBSDKCoreKit
+import FBSDKLoginKit
+import AFNetworkActivityLogger
 
 
 @UIApplicationMain

@@ -8,6 +8,7 @@
 
 import Foundation
 import TwitterKit
+import FBSDKLoginKit
 
 class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate, GIDSignInUIDelegate,GIDSignInDelegate {
     var close: UIButton?

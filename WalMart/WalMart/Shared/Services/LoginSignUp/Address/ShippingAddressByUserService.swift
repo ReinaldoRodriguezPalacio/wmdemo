@@ -15,7 +15,6 @@ class ShippingAddressByUserService : BaseService {
     
     func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
-        //self.setManagerTempHeader()
         let params: [String:AnyObject] = [:]
         self.callGETService(afManager,serviceURL:self.serviceUrl(),params:params as AnyObject, successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)

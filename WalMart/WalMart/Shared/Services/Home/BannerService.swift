@@ -54,8 +54,6 @@ class BannerService : BaseService {
             return bannerItems
         }
         
-      
-        
         bannerItems = values![JSON_BANNER_EMBEDDEDLIST] as! [[String:String]]
         if var moreBanner = values![JSON_BANNER_BANNERLIST] as? [[String:String]] {
             moreBanner.sort(by: { (one:[String : String], second:[String : String]) -> Bool in
@@ -63,39 +61,6 @@ class BannerService : BaseService {
                 let secondString = second["order"] as String?
                 return Int(firstString!) < Int(secondString!)
             })
-            
-            //                Se quita validación por que el server es quen va a validar, Fecha y quien solicito: 09032015 Miguel Pahua
-            //                let dateFormatter = NSDateFormatter()
-            //                dateFormatter.dateFormat = "dd/MM/yyyy"
-            //                let dateServer = values!["serverDate"] as String
-            //                let todayDateServer = dateFormatter.dateFromString(dateServer)
-            //                let arrayResultInicio =  banner.keys.filter {$0 == "inicio"}
-            //                let arrayResultExpiration =  banner.keys.filter {$0 == "expiration"}
-            //                if arrayResultInicio.array.count > 0 && arrayResultExpiration.array.count > 0 {
-            //                    let beginShow = banner["inicio"]!
-            //                    let expirationShow = banner["expiration"]!
-            //
-            //                    if beginShow != "" && expirationShow != "" {
-            //                        let dateStart = dateFormatter.dateFromString(beginShow)
-            //                        let dateEnd = dateFormatter.dateFromString(expirationShow)
-            //
-            //                        if dateStart!.compare(todayDateServer!) == NSComparisonResult.OrderedDescending {
-            //                            println("Baner con fecha de inicio que aun no llega")
-            //                            continue;
-            //                        }
-            //                        if todayDateServer!.compare(dateEnd!) == NSComparisonResult.OrderedDescending {
-            //                            println("Baner con fecha de inicio que aun no llega")
-            //                            continue;
-            //                        }
-            //                    }
-            //                    if beginShow != "" {
-            //                        let dateStart = dateFormatter.dateFromString(beginShow) as NSDate?
-            //                        if dateStart!.compare(todayDateServer!) == NSComparisonResult.OrderedDescending {
-            //                            println("Baner con fecha de inicio que aun no llega")
-            //                            continue;
-            //                        }
-            //                    }
-            //                }
             
             for banner in moreBanner {
                 bannerItems.append(banner)

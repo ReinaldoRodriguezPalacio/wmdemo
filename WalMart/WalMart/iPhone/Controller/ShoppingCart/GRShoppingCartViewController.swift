@@ -8,6 +8,9 @@
 
 import Foundation
 import CoreData
+import FBSDKCoreKit
+import FBSDKLoginKit
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import AFNetworking
 
 let ERROR_SERIVCE_DOMAIN = "com.bcg.service.error"
 let JSON_KEY_DESCRIPTION = "description"

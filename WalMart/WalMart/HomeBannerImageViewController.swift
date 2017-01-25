@@ -27,7 +27,7 @@ class HomeBannerImageViewController : UIViewController {
     }
     
     func setCurrentImage(_ urlImage:String){
-        if let urlObj = URL(string:"https://\(urlImage)" ) {
+        if let urlObj = URL(string:"https://\(urlImage)2" ) {
             if imageView  ==  nil {
                 imageView = UIImageView(frame: self.view.bounds)
             }

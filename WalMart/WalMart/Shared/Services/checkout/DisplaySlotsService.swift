@@ -10,18 +10,6 @@ import Foundation
 
 
 class DisplaySlotsService: BaseService{
-
-
-//    Request for homeDelivery-Taxi
-//    {
-//    "deliveryType": "homeDeliveryTaxi"
-//    }
-//    
-//    Request for StorePickUp and Click & Collect
-//    {
-//    "deliveryType": " storePickUp "
-//    }
-    
     
     func buildParamsHomeDelivery(_ deliveryType:String) -> [String:Any]{
         return ["deliveryType":deliveryType]
