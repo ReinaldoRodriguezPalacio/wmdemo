@@ -150,8 +150,6 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
                 UIImage(named:"noAvaliable"))
             alert!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
             alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-            field?.becomeFirstResponder()
-            field?.resignFirstResponder()
             return false
         }
         
