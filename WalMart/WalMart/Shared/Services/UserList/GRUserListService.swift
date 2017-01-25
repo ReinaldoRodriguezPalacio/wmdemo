@@ -26,7 +26,7 @@ class GRUserListService : BaseService {
                 successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
                     if let list = resultCall["myLists"] as? [Any] {
-                        //self.manageListData(list)
+                        self.manageListData(list as! [[String : Any]])
                     }
                     
                     self.mergeList(resultCall, successBlock: successBlock, errorBlock: errorBlock)
@@ -266,10 +266,10 @@ class GRUserListService : BaseService {
                                 var item = items[idx] as! [String:Any]
                                 let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
                                 print("UPC:::")
-                                print(item["upc"] as! String)
-                                detail!.upc = item["upc"] as! String
-                                detail!.img = item["imageUrl"] as! String
-                                detail!.desc = item["description"] as! String
+                                print(item["upc"] as? String ?? "--upc")
+                                detail!.upc = item["upc"] as? String ?? ""
+                                detail!.img = item["imageUrl"] as? String ?? ""
+                                detail!.desc = item["description"] as? String ?? ""
                                 if let price = item["price"] as? NSNumber {
                                     detail!.price = "\(price)" as NSString
                                 }

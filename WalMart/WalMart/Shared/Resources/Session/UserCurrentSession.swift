@@ -225,9 +225,9 @@ class UserCurrentSession : NSObject {
         //UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
         //UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
         
-//        self.loadShoppingCarts { () -> Void in
-//            self.invokeGroceriesUserListService()
-//        }
+        self.loadShoppingCarts { () -> Void in
+            self.invokeGroceriesUserListService()
+        }
     }
     
     func deleteAllUsers() {
@@ -498,12 +498,14 @@ class UserCurrentSession : NSObject {
     
     func loadShoppingCarts(_ result:@escaping (() -> Void)) {
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateShoppingCartBegin.rawValue), object: nil)
-        self.loadMGShoppingCart { () -> Void in
-            //self.loadGRShoppingCart({ () -> Void in
-                //TODO: Decide shop preShopping Cart, Empty or cart
-              result()
-            //})
-        }
+         result()
+        //TODO Mustang
+//        self.loadMGShoppingCart { () -> Void in
+//            //self.loadGRShoppingCart({ () -> Void in
+//                //TODO: Decide shop preShopping Cart, Empty or cart
+//              result()
+//            //})
+//        }
     }
     
     //Shopping Cart para combinar
