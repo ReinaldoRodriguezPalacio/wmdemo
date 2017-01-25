@@ -1452,11 +1452,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         let priceOne:Double = self.priceValueFrom(dictionary1)
                         let priceTwo:Double = self.priceValueFrom(dictionary2)
                         
-                        if priceOne < priceTwo {
-                            return true
-                        }
-                        else if (priceOne > priceTwo) {
+                        if priceOne > priceTwo {
                             return false
+                        }
+                        else if (priceOne < priceTwo) {
+                            return true
                         }
                         else {
                             return false
@@ -1472,14 +1472,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         let priceOne:Double = self.priceValueFrom(dictionary1)
                         let priceTwo:Double = self.priceValueFrom(dictionary2)
                         
+                        
                         if priceOne > priceTwo {
-                            return false
-                        }
-                        else if (priceOne < priceTwo) {
                             return true
                         }
-                        else {
+                        else if (priceOne < priceTwo) {
                             return false
+                        }
+                        else {
+                            return true
                         }
                         
                     })
