@@ -1434,11 +1434,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func updateLustName() {
+        
         if self.nameField?.text != self.titleLabel?.text {
+            
             
             let _ = self.nameField?.resignFirstResponder()
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
+            
+            if UserCurrentSession.hasLoggedUser() {
             
             let detailService = GRUserListDetailService()
             detailService.buildParams(self.listId == nil ? "" : self.listId!)
@@ -1465,7 +1469,45 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                 }
-            )
+            )//service
+            }else{
+                
+                if NewListTableViewCell.isValidName(self.nameField!){
+                    let service = GRUserListService()
+                    let listIndb = service.retrieveNotSyncList()
+                    var savecontinue = true
+                    
+                    for mylist in listIndb! {
+                        if mylist.name == self.nameField!.text!{
+                            self.alertView!.setMessage(NSLocalizedString("gr.list.samename", comment: ""))
+                            self.alertView!.showErrorIcon("Ok")
+                            self.nameField?.text =  self.listName
+                            savecontinue =  false
+                            break
+                        }
+                    }
+                    if savecontinue {
+                        for mylist in listIndb! {
+                            if mylist.name == self.listName {
+                                mylist.name = self.nameField!.text!
+                                self.titleLabel?.text = self.nameField!.text!
+                                self.listName = self.nameField!.text!
+                                
+                                break
+                            }
+                        }
+                        self.saveContext()
+                        
+                        self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
+                        self.alertView!.showDoneIcon()
+                    }
+                }else{
+                     self.nameField?.text =  self.listName
+                    self.alertView!.close()
+                }
+            
+            }//else
+
         }
     }
     
