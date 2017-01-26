@@ -476,7 +476,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     if let _ = UserCurrentSession.sharedInstance.userSigned {
                         self.alertView = nil
-                        self.invokeUpdateListService()
+                        if self.changeNames {
+                            self.invokeUpdateListService()
+                        }
                     }
                     else {
                         if self.changeNames {
