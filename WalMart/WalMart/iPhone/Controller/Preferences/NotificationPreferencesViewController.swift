@@ -22,6 +22,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     var alertView: IPOWMAlertViewController?
     var cellPreferences : PreferencesNotificationsCell?
     var fieldValidate : FormFieldView?
+    var viewLoad: WMLoadingView!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREFERENCES_NOTIFICATION.rawValue
@@ -89,14 +90,11 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     }
     
     func cancel() {
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
     }
     
     func save(){
-        
         print("invoke service set preferences")
-        
-
         if cellPreferences!.validate(self.tableview?.cellForRow(at: IndexPath(row: 2, section: 0)) as! PreferencesNotificationsCell) {
             
             let peferencesService =  SetPreferencesService()
@@ -115,24 +113,44 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
                     print("Hubo un error al guardar las Preferencias")
                     self.alertView!.setMessage(NSLocalizedString("preferences.message.errorSave", comment:""))
                     self.alertView!.showErrorIcon("Ok")
+                    self.invokePreferenceService()
             })
         }
-
     }
     
     
     //MARK: Services
     
     func invokePreferenceService(){
+        self.addViewLoad()
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result: [String:Any]) in
-            self.userPreferences.addEntries(from: result as! [String:Any])
+            self.userPreferences.addEntries(from: result )
             self.tableview?.reloadData()
+            self.removeViewLoad()
             print("Termina servicio de preferencias ")
             }, errorBlock: { (error:NSError) in
                 print("Error invokePreferenceService \(error.localizedDescription)")
         })
-        
+    }
+    
+    //MARK : WMLoadingView
+    
+    func addViewLoad(){
+        if viewLoad == nil {
+            let bounds = IS_IPAD ? CGRect(x: 0, y: 0, width: 341, height: 705) : self.view.bounds
+            viewLoad = WMLoadingView(frame: bounds)
+            viewLoad.backgroundColor = UIColor.white
+            viewLoad.startAnnimating(true)
+            self.view.addSubview(viewLoad)
+        }
+    }
+    
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad.stopAnnimating()
+            self.viewLoad = nil
+        }
     }
     
     //MARK: PreferencesNotificationsCellDelegate
@@ -154,18 +172,15 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
                 cellPreferences?.errorView?.removeFromSuperview()
             }
         }
-        
     }
     
     func editPhone(inEdition edition: Bool, field: FormFieldView) {
-    
         if edition {
             self.tableview?.setContentOffset(CGPoint(x: 0, y:IS_IPAD ? self.view.frame.midY - 64  :self.view.frame.midY + (IS_IPHONE_4_OR_LESS ? 60: 20)), animated:false)
             self.userPreferences.setObject("", forKey:"mobileNumber" as NSCopying)
         }else{
             self.tableview?.setContentOffset(CGPoint.zero, animated:false)
              self.userPreferences.setObject(field.text!, forKey:"mobileNumber" as NSCopying)
-            
         }
         self.fieldValidate = field
     }
@@ -207,38 +222,29 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
             cell?.setValues(self.titles[(indexPath as NSIndexPath).row], description: self.descriptios[(indexPath as NSIndexPath).row], isOn: onSwich,contenField: (indexPath as NSIndexPath).row == self.titles.count - 1,position: (indexPath as NSIndexPath).row,phone: self.userPreferences["mobileNumber"] as! String)
             cell?.selectionStyle =  .none
             cell?.delegate = self
-            
             cellPreferences =  cell
         }
         
         return cell!
-        
     }
 
-    
+    //MARK : FooterView
     override func willHideTabbar() {
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.viewFooter?.frame = CGRect(x:0 , y:self.tableview!.frame.maxY , width:self.view.bounds.width , height: 64 )
         })
-
     }
     
     override func willShowTabbar() {
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.viewFooter?.frame = CGRect(x:0 , y:self.tableview!.frame.maxY - 46, width:self.view.bounds.width , height: 64 )
-
         })
-
     }
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
-    
-    
-    
-    
     
 }

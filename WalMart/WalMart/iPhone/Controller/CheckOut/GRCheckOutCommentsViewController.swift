@@ -231,6 +231,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.buildSubViews()
+        self.selectPreferences()
+    }
+    
+    func selectPreferences(){
         if userPreferences.count > 0 {
             if  userPreferences["onlyTelephonicAlert"] != nil {
                 switch userPreferences["onlyTelephonicAlert"] as!  String {
@@ -255,7 +259,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 }
             }
         }
-        
     }
     
     override func willShowTabbar() {
@@ -548,7 +551,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func invokePreferenceService(){
         let peferences = GetPreferencesService()
         peferences.getLocalPreferences({ (result:[String:Any]) in
-                self.userPreferences.addEntries(from: result as! [String:Any])
+                self.userPreferences.addEntries(from: result )
             
         }, errorBlock: { (error:NSError) in
                 print("Error invokePreferenceService \(error.localizedDescription)")
@@ -586,6 +589,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 self.alertView!.setMessage(NSLocalizedString("preferences.message.errorSave", comment:""))
                 self.alertView!.showErrorIcon("Ok")
             }
+            self.invokePreferenceService()
+            self.selectPreferences()
             
         })
     

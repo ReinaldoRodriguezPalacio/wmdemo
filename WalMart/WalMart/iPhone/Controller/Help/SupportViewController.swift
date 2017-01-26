@@ -114,7 +114,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         
         self.buttomCall.setImage(UIImage(named:"support-call"), for: UIControlState())
-        self.buttomCall.setImage(UIImage(named:"support-call."), for: UIControlState.selected)
+        self.buttomCall.setImage(UIImage(named:"support-call"), for: UIControlState.selected)
         self.buttomCall.addTarget(self , action: #selector(SupportViewController.selectecButton(_:)), for:UIControlEvents.touchUpInside)
         self.buttomCall.backgroundColor = UIColor.clear
         
@@ -139,19 +139,10 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.stores.append(NSLocalizedString("Support.label.list.reason.close", comment:""))
         self.stores.append(NSLocalizedString("Support.label.list.reason.other", comment:""))
         
-        //let margin: CGFloat = 15.0
-        //var width = self.view.frame.width - (2*margin)
-        //var fheight: CGFloat = 44.0
-        //var lheight: CGFloat = 25.0
         
         self.selectedType = IndexPath(row: 0, section: 0)
         
-        /*self.picker!.selected = self.selectedType
-        self.picker!.delegate = self
-        self.picker!.setValues(NSLocalizedString("Support.label.title.by", comment:""), values: self.stores)
-        */
-        
-        //self.picker!.selected = self.selectedType
+  
         self.pikerBtn!.delegate = self
         self.pikerBtn!.setValues(NSLocalizedString("Support.label.write.to", comment:"") as NSString, values: self.stores)
         self.pikerBtn.setNameBtn(NSLocalizedString("Support.label.super", comment:"") as NSString, titleBtnDown:NSLocalizedString("Support.label.home.more", comment:"") as NSString )
@@ -171,17 +162,24 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         super.viewDidLayoutSubviews()
         
         let bounds = self.view.bounds
-        self.imgConfirm.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: self.imgConfirm.image!.size.width, height: self.imgConfirm.image!.size.height)
+        self.imgConfirm.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY )
         self.labelQuestion1.frame = CGRect(x: 0,  y: self.header!.frame.maxY + 28 , width: bounds.width, height: 15 )
         self.labelQuestion2.frame = CGRect(x: 0,  y: self.labelQuestion1.frame.maxY  , width: bounds.width, height: 15 )
         
         if IS_IPHONE {
             let referenceHeight = IS_IPHONE_4_OR_LESS ? bounds.midY + 30 : bounds.midY
-            callmeNumber.frame =  CGRect(x: 32 , y: referenceHeight + 120 , width: 131, height: 15)
-            callme.frame =  CGRect(x: 64 , y: referenceHeight + 106  , width: 64, height: 15)
-            sendmeMail.frame =   CGRect(x: callme.frame.maxX + 67 , y: referenceHeight + 106 , width: 64, height: 15)
-            buttomCall.frame =  CGRect(x: 64 , y: referenceHeight + 40 , width: 64, height: 64)
+            let xLabel = (self.view.frame.width - (64 * 3) )/2
+            
+            buttomCall.frame =  CGRect(x: xLabel , y: referenceHeight + 40 , width: 64, height: 64) //64 separate
             buttomMail.frame =  CGRect(x: buttomCall.frame.maxX + 64 , y: referenceHeight + 40 , width: 64, height: 64)
+            
+            callme.frame =  CGRect(x: xLabel , y: referenceHeight + 106  , width: 64, height: 15)
+            sendmeMail.frame =   CGRect(x: callme.frame.maxX + 67 , y: referenceHeight + 106 , width: 64, height: 15)
+            
+            callmeNumber.frame =  CGRect(x: callme.frame.midX - 65 , y: referenceHeight + 120 , width: 131, height: 15)
+
+            
+           
         }else{
             callmeNumber.isHidden = true
             callme.isHidden = true
@@ -213,9 +211,6 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
             self.buttomCall.isSelected = false
             self.pikerBtn!.showPicker()
         }
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: sender == self.buttomCall ? WMGAIUtils.ACTION_CALL_SUPPORT.rawValue :WMGAIUtils.ACTION_EMAIL_SUPPORT.rawValue, label:"")
-        
     }
     
     func buildSectionTitle(_ title: String, frame: CGRect) -> UILabel {
@@ -229,9 +224,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     
     //Marck: select Picker
     func didSelectOption(_ picker: AlertPickerView, indexPath: IndexPath, selectedStr: String) {
-        /*print(selectedStr)
-        self.selectedType = indexPath
-        self.pikerBtn!.showPicker()*/
+        /*print(selectedStr)*/
     }
     
     func didDeSelectOption(_ picker: AlertPickerView) {

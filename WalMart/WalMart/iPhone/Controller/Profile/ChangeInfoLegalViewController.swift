@@ -185,13 +185,11 @@ class ChangeInfoLegalViewController : NavigationViewController {
      */
     func checkSelected(_ sender:UIButton) {
         sender.isSelected = true
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action:sender.selected ? WMGAIUtils.ACTION_ENABLE_PROMO.rawValue : WMGAIUtils.ACTION_DISBALE_PROMO.rawValue, label: "")
         self.openPrivacyNotice()
     }
     
     func checkPromoEmail(_ sender:UIButton) {
         sender.isSelected = !sender.isSelected
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action:sender.selected ? WMGAIUtils.ACTION_ENABLE_PROMO.rawValue : WMGAIUtils.ACTION_DISBALE_PROMO.rawValue, label: "")
     }
     
     /**
@@ -201,11 +199,9 @@ class ChangeInfoLegalViewController : NavigationViewController {
      */
     func changeCons(_ sender:UIButton) {
         if sender == self.acceptSharePersonal {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action: WMGAIUtils.ACTION_LEGAL_ACEPT.rawValue, label: "")
             self.acceptSharePersonal?.isSelected = true
             self.declineSharePersonal?.isSelected = false
         } else if sender == self.declineSharePersonal  {
-             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action: WMGAIUtils.ACTION_LEGAL_NO_ACEPT.rawValue, label: "")
             self.acceptSharePersonal?.isSelected = false
             self.declineSharePersonal?.isSelected = true
         }
@@ -282,6 +278,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
                 print("Hubo un error al guardar las Preferencias")
                 self.alertView!.setMessage(NSLocalizedString("preferences.message.errorSave", comment:""))
                 self.alertView!.showErrorIcon("Ok")
+                self.invokePreferenceService()
         })
         
     }

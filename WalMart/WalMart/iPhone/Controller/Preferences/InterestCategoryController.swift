@@ -255,6 +255,7 @@ class InterestCategoryController: NavigationViewController, UITableViewDataSourc
             print("Hubo un error al guardar las Preferencias")
             self.alertView!.setMessage(NSLocalizedString("preferences.message.errorSave", comment:""))
             self.alertView!.showErrorIcon("Ok")
+            self.invokePreferenceService()
         })
         
     }

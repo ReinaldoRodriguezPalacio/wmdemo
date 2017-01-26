@@ -26,21 +26,25 @@ class SetPreferencesService : BaseService {
     
     func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-            self.getPreferences({ (result:[String:Any]) in
+
+            self.getPreferences({ (result:[String : Any]) in
                 successBlock!(resultCall)
+            }, errorBlock: { (error:NSError) in
+                 errorBlock!(error)
             })
+            
         }) { (error:NSError) -> Void in
             errorBlock!(error)
         }
     }
     
     
-    func getPreferences(_ successBlock:(([String:Any]) -> Void)?){
+    func getPreferences(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ){
         let servicePreference  = GetPreferencesService()
         servicePreference.callService({ (result:[String:Any]) in
             successBlock!(result)
         }, errorBlock: { (error:NSError) in
-            
+            errorBlock!(error)
         })
         
         
