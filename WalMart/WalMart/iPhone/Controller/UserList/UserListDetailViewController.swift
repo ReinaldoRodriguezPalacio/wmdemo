@@ -1415,12 +1415,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         separator.backgroundColor = WMColor.light_light_gray
         
         self.nameField = FormFieldView()
-        self.nameField!.maxLength = 100
+        self.nameField!.maxLength = 25
         self.nameField!.delegate = self
         self.nameField!.typeField = .string
         self.nameField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
         self.nameField!.frame = CGRect(x: 16.0, y: 12.0, width: self.view.bounds.width - 32.0, height: 40.0)
         self.nameField!.text = listName
+        self.nameField!.delegate = self
+        
         
         containerEditName?.addSubview(separator)
         containerEditName?.addSubview(nameField!)
@@ -1456,39 +1458,107 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func updateLustName() {
+        
         if self.nameField?.text != self.titleLabel?.text {
+            
             
             let _ = self.nameField?.resignFirstResponder()
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             
-            let detailService = GRUserListDetailService()
-            detailService.buildParams(self.listId == nil ? "" : self.listId!)
-            detailService.callService([:],
-                successBlock: { (result:[String:Any]) -> Void in
-                    let service = GRUpdateListService()
-                    service.callService(self.nameField!.text!,
-                        successBlock: { (result:[String:Any]) -> Void in
-                           self.titleLabel?.text = self.nameField?.text
-                            self.reminderService!.updateListName(self.nameField!.text!)
-                            self.loadServiceItems({ () -> Void in
-                                self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
-                                self.alertView!.showDoneIcon()
-                            })
-                        },
-                        errorBlock: { (error:NSError) -> Void in
-                                self.alertView!.setMessage(error.localizedDescription)
-                                self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                },
-                errorBlock: { (error:NSError) -> Void in
-                    
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
+            if UserCurrentSession.hasLoggedUser() {
+                if  NewListTableViewCell.isValidName(self.nameField!){
+                if saveUpdateListContinue() {
+                    let detailService = GRUserListDetailService()
+                    detailService.buildParams(self.listId == nil ? "" : self.listId!)
+                    detailService.callService([:],
+                                              successBlock: { (result:[String:Any]) -> Void in
+                                                let service = GRUpdateListService()
+                                                service.callService(self.nameField!.text!,
+                                                                    successBlock: { (result:[String:Any]) -> Void in
+                                                                        self.titleLabel?.text = self.nameField?.text
+                                                                        self.reminderService!.updateListName(self.nameField!.text!)
+                                                                        self.loadServiceItems({ () -> Void in
+                                                                            self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
+                                                                            self.alertView!.showDoneIcon()
+                                                                        })
+                                                },
+                                                                    errorBlock: { (error:NSError) -> Void in
+                                                                        self.alertView!.setMessage(error.localizedDescription)
+                                                                        self.alertView!.showErrorIcon("Ok")
+                                                }
+                                                )
+                    },
+                                              errorBlock: { (error:NSError) -> Void in
+                                                
+                                                self.alertView!.setMessage(error.localizedDescription)
+                                                self.alertView!.showErrorIcon("Ok")
+                    }
+                    )//service
+                    }
+                }else{
+                    self.nameField?.text =  self.listName
+                    self.alertView!.close()
                 }
-            )
+                
+            }else{
+                
+                if NewListTableViewCell.isValidName(self.nameField!){
+        
+                    if self.saveUpdateListContinue() {
+                        let service = GRUserListService()
+                        let listIndb = service.retrieveNotSyncList()
+                        for mylist in listIndb! {
+                            if mylist.name == self.listName {
+                                mylist.name = self.nameField!.text!
+                                self.titleLabel?.text = self.nameField!.text!
+                                self.listName = self.nameField!.text!
+                                
+                                break
+                            }
+                        }
+                        self.saveContext()
+                        
+                        self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
+                        self.alertView!.showDoneIcon()
+                    }
+                }else{
+                    self.nameField?.text =  self.listName
+                    self.alertView!.close()
+                }
+                
+            }//else
+            
         }
+    }
+    
+    func saveUpdateListContinue()->Bool {
+    
+        var savecontinue = true
+        let service = GRUserListService()
+        let listIndb = service.retrieveUserList()
+        
+        for mylist in listIndb! {
+            if mylist.name == self.nameField!.text!{
+                self.alertView!.setMessage(NSLocalizedString("gr.list.samename", comment: ""))
+                self.alertView!.showErrorIcon("Ok")
+                self.nameField?.text =  self.listName
+                savecontinue =  false
+                break
+            }
+        }
+        
+        return savecontinue
+        
+    }
+    
+    //MAR: - UITextFieldDelegate
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text! as NSString
+        let newString = strNSString.replacingCharacters(in: range, with: string)
+        
+        return (newString.characters.count > 25) ? false : true
     }
     
     

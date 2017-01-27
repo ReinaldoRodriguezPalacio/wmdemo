@@ -974,8 +974,15 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func listSelectorDidAddProductLocally(inList list:List) {
+        
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
+        
+        
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        
 
         for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] 
@@ -1000,19 +1007,36 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if let typeProd = item["type"] as? NSString {
                 typeProdVal = typeProd.integerValue
             }
-     
+           
             
-            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
-            detail!.upc = item["upc"] as! String
-            detail!.desc = item["description"] as! String
-            detail!.price = "\(price)" as NSString
-            detail!.quantity = NSNumber(value: quantity as Int)
-            detail!.type = NSNumber(value: typeProdVal as Int)
-            detail!.list = list
-            detail!.img = item["imageUrl"] as! String
             
-            // 360 Event
-            BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
+            var addInList = true
+            for prod  in list.products {
+                let myprod = prod as! Product
+                
+                if  myprod.upc == item["upc"] as! String {
+                    addInList =  false
+                    myprod.quantity =  NSNumber(value:Int(myprod.quantity) + quantity)
+                    break
+                }
+            }
+            
+            if addInList {
+                
+                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
+                detail!.upc = item["upc"] as! String
+                detail!.desc = item["description"] as! String
+                detail!.price = "\(price)" as NSString
+                detail!.quantity = NSNumber(value: quantity as Int)
+                detail!.type = NSNumber(value: typeProdVal as Int)
+                detail!.list = list
+                detail!.img = item["imageUrl"] as! String
+                
+                // 360 Event
+                BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
+            }
+            
+           
         }
         
         do {
@@ -1028,7 +1052,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         } catch {
            print("Error save context listSelectorDidAddProductLocally")
         }
-        self.removeListSelector(action: nil)
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
+        self.alertView!.showDoneIcon()
+        self.alertView!.afterRemove = {
+            self.removeListSelector(action: nil)
+        }
 
     }
     

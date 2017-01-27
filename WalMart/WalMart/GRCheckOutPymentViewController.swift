@@ -637,7 +637,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func invokeGetPromotionsService(_ pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:@escaping ((Bool) -> Void))
     {
         var savinAply : Double = 0.0
-        var items = UserCurrentSession.sharedInstance.itemsGR!
+        var items =  UserCurrentSession.sharedInstance.itemsGR ==  nil ? [:] : UserCurrentSession.sharedInstance.itemsGR!
+        
         if let savingGR = items["saving"] as? NSNumber {
             savinAply =  savingGR.doubleValue
             

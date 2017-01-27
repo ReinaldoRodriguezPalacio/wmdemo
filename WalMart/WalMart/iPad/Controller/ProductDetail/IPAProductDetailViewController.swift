@@ -387,7 +387,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             
         case (0,3) :
             let cellPrice = tabledetail.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as? ProductDetailCurrencyCollectionView
-            let formatedValue = CurrencyCustomLabel.formatString(self.price)
+            let formatedValue = CurrencyCustomLabel.formatString(self.price.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\r", with: "") as NSString)
             cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.orange, interLine: false)
             cell = cellPrice
         case (0,4) :

@@ -54,6 +54,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var needsToShowWishList = true
     var cellEditing: SWTableViewCell? = nil
     var selectedIndex: IndexPath? = nil
+    var changeNames =  true
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -475,10 +476,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     if let _ = UserCurrentSession.sharedInstance.userSigned {
                         self.alertView = nil
-                        self.invokeUpdateListService()
+                        if self.changeNames {
+                            self.invokeUpdateListService()
+                        }
                     }
                     else {
-                        self.changeEntityNames()
+                        if self.changeNames {
+                            self.changeEntityNames()
+                        }
                     }
                     
                     self.isShowingWishList = true
@@ -656,7 +661,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         if UserCurrentSession.hasLoggedUser() {
                             self.newListEnabled = true
                             self.cancelNewList()
-                            
+
                             for itemList in self.itemsUserList! as! [[String:Any]] {
                                 if (itemList["name"] as! String) == value {
                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
@@ -667,7 +672,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         }
                         self.newListEnabled = true
                         self.cancelNewList()
-                      
                     },
                     failure: { (error) -> Void in
                         self.alertView!.setMessage(error.localizedDescription)
@@ -729,7 +733,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
                             self.alertView!.showDoneIcon()
-                          //TODO
                             //---
                             self.newListEnabled = true
                             self.cancelNewList()
@@ -838,6 +841,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
+    }
+    func didListChangeNameFailed(){
+        changeNames =  false
     }
     
     func editCell(_ cell: SWTableViewCell) {

@@ -847,6 +847,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                 self.titleLabel.isHidden = true
                                 if  self.comments != "" {
                                 self.commentTextView!.field?.text = self.comments
+                                }else{
+                                self.commentTextView!.field?.text = NSLocalizedString("shoppingcart.AddtexNote", comment: "")
                                 }
                                
                             }

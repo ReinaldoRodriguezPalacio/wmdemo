@@ -28,7 +28,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
         self.field!.autocorrectionType = .no
         self.field!.enablesReturnKeyAutomatically = true
         self.field!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.field!.text = "Agrega tu nota aqui";
+        //self.field!.text = "Agrega tu nota aqui";
         self.field!.textColor = UIColor.gray
         self.field!.delegate = self
         
@@ -61,7 +61,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     {
         if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
             self.delegate?.showBottonAddNote(false)
-            textView.text = "Agrega tu nota aqui"
+            textView.text = NSLocalizedString("shoppingcart.AddtexNote", comment: "")
             textView.resignFirstResponder()
             textView.textColor = UIColor.gray
         }else{
@@ -73,7 +73,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if textView.text == "Agrega tu nota aqui" {
+        if textView.text == NSLocalizedString("shoppingcart.AddtexNote", comment: ""){
             textView.text = ""
             textView.textColor = WMColor.dark_gray
         }
@@ -83,7 +83,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text == "" {
-            textView.text = "Agrega tu nota aqui"
+            textView.text = NSLocalizedString("shoppingcart.AddtexNote", comment: "")
             textView.textColor = UIColor.gray
         }
     }

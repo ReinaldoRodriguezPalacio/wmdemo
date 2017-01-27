@@ -12,6 +12,7 @@ protocol ListTableViewCellDelegate {
     func duplicateList(_ cell:ListTableViewCell)
     func didListChangeName(_ cell:ListTableViewCell, text:String?)
     func editCell(_ cell:SWTableViewCell)
+    func didListChangeNameFailed()
 }
 
 class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
@@ -288,6 +289,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         if textField.text != nil && originalName != textField.text! {
             if NewListTableViewCell.isValidName(textField) {
                 self.listDelegate?.didListChangeName(self, text:textField.text!)
+            }else{
+                self.listDelegate?.didListChangeNameFailed()
             }
         }
     }

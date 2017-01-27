@@ -484,22 +484,26 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let index = self.wishlist.indexPath(for: cell)
             let superCell = self.wishlist.cellForRow(at: index!) as! WishlistProductTableViewCell
             superCell.moveRightImagePresale(false)
+            cell.hideUtilityButtons(animated: true)
             cell.showRightUtilityButtons(animated: true)
         default :
             print("other pressed")
         }
     }
     
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
-        switch state {
-        case SWCellState.cellStateLeft:
-            return self.isEdditing
-        case SWCellState.cellStateRight:
-            return !self.isEdditing
-        case SWCellState.cellStateCenter:
-            return !self.isEdditing
-        }
-    }
+//    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
+//        switch state {
+//        case SWCellState.cellStateLeft:
+//            print("cellStateLeft \(self.isEdditing)")
+//            return self.isEdditing
+//        case SWCellState.cellStateRight:
+//            print("cellStateRight \(self.isEdditing)")
+//            return !self.isEdditing
+//        case SWCellState.cellStateCenter:
+//            print("cellStateCenter \(!self.isEdditing)")
+//            return !self.isEdditing
+//        }
+//    }
     
     func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
         return !self.isEdditing
