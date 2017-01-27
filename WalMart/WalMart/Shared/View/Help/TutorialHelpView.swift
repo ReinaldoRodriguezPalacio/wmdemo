@@ -148,14 +148,12 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
     func removeHelp() {
         if onClose != nil {
               NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "OPEN_TUTORIAL"), object: nil)
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_CLOSE_TUTORIAL.rawValue, label: "")
             onClose()
         }
     }
     
     func finishRemoveHelp(){
         if onClose != nil {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_END_TUTORIAL.rawValue, label: "")
             onClose()
         }
     }

@@ -407,10 +407,48 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
             }, errorBlock: { (error:NSError) -> Void in
                 print("")
-                self.alertView!.setMessage(error.localizedDescription)
+                
+                //self.alertView!.setMessage(error.localizedDescription) //Descomentar
+                self.alertView!.setMessage("se cerro sesión correctamente ")
                 self.alertView!.showErrorIcon("Ok")
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                //TODO -  walmart mustang
+                //UserCurrentSession.sharedInstance.userSigned = nil
+                //UserCurrentSession.sharedInstance.deleteAllUsers()
+                //self.reloadButtonSession()
+                
+                //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
         })
+        
+        //logout mustang
+        let logoutService = LogoutService()
+        logoutService.callService(params: Dictionary<String, String>(),
+                                  successBlock: { (response:[String:Any]) -> Void in
+                                    
+                                    let authorizationService =  AuthorizationService()
+                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+                                        print("::Call service AuthorizationService in LogoutService ::")
+                                        //TODO
+                                        UserCurrentSession.sharedInstance.userSigned = nil
+                                        UserCurrentSession.sharedInstance.deleteAllUsers()
+                                        self.reloadButtonSession()
+                                        
+                                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+
+                                        
+                                    },errorBlock:{ (error:NSError) in
+                                        print(error.localizedDescription)
+                                        
+                                    })
+                                    
+                                    print("Call service LogoutService success")
+        },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Call service LogoutService error \(error)")
+        }
+        )
+        
+        
+        
     }
     
     //MARK CameraViewControllerDelegate

@@ -225,6 +225,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.LogoutService</key>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/logout</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -414,6 +416,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.LogoutService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/auth/profile/logout</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
