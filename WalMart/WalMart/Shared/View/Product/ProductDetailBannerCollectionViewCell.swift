@@ -305,13 +305,16 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ProductDetailBannerMediaCollectionViewCell
         let imageURL = items[indexPath.row] as! String
-        
+        if imageURL != "" {
         cell.imageView!.contentMode = UIViewContentMode.center
         cell.imageView!.setImageWith(URLRequest(url:URL(string: imageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             cell.imageView!.contentMode = self.contentModeOrig
             cell.imageView!.image = image
             self.imagesRef.insert(image, at: indexPath.row)
             }, failure: nil)
+        }else{
+            cell.imageView!.image = UIImage(named:"img_default_cell")
+        }
     
         return cell
     }
