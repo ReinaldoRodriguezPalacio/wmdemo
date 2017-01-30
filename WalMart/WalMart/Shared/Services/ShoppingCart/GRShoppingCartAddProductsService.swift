@@ -88,34 +88,42 @@ class GRShoppingCartAddProductsService : GRBaseService {
         self.jsonFromObject(params as AnyObject!)
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [Any] = []
+            var itemsSvcUpdate : [Any] = []
+            
             var upcSend = ""
             for itemSvc in params as! [[String:Any]] {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
+                print(upcSend)
                 let quantity = itemSvc["quantity"] as! String
                 var  comments = ""
                 if let comment  = itemSvc["comments"] as? String {
                     comments = comment
                 }
-                itemsSvc.append(buildProductObject(upc: upc,quantity:quantity,comments:comments))
+               
+                
+                let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upcSend)
+                if hasUPC{
+                // update
+                    itemsSvcUpdate.append(itemSvc)
+                }else{
+                 //Add
+                     itemsSvc.append(buildProductObject(upc: upc,quantity:quantity,comments:comments))
+                }
+                
             }
-            
-            let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upcSend)
-            if !hasUPC {
-              
+
+            //Service Add
+            if itemsSvc.count > 0 {
                 
                 var send  : Any?
                 if useSignals  && self.parameterSend != nil{
-                send = buildProductObject(itemsSvc)
+                    send = buildProductObject(itemsSvc)
                 }else{
                     send = itemsSvc as Any?
                 }
-                //self.jsonFromObject(send!)
                 self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
-                     //BaseController.sendAnalyticsAddOrRemovetoCart(send as! [Any],isAdd: true)
                     if self.updateShoppingCart() {
-//                        let shoppingService = GRShoppingCartProductsService()
-//                        shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
                         UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                             successBlock!([:])
@@ -123,19 +131,17 @@ class GRShoppingCartAddProductsService : GRBaseService {
                     }else{
                         successBlock!([:])
                     }
-                    }) { (error:NSError) -> Void in
-                        errorBlock!(error)
+                }) { (error:NSError) -> Void in
+                    errorBlock!(error)
                 }
-            } else {
+            
+            }
+            //Service Update
+            if itemsSvcUpdate.count > 0 {
                 
                 let svcUpdateShoppingCart = GRShoppingCartUpdateProductsService()
                 BaseController.sendAnalyticsAddOrRemovetoCart(params as! [Any],isAdd: true)
-                svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
-
-//                UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-//                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-//                    successBlock!([:])
-//                })
+                svcUpdateShoppingCart.callService(itemsSvcUpdate,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
             }
 
         
