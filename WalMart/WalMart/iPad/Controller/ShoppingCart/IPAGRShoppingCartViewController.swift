@@ -258,7 +258,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 }
                 
                 let addShopping = ShoppingCartUpdateController()
-                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
                 addShopping.params = paramsToSC
                 vc!.addChildViewController(addShopping)
                 addShopping.view.frame = frame
@@ -273,8 +273,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 self.popup?.dismiss(animated: true)
                 
             }
-            
-            selectQuantityGR?.userSelectValue(String(cell.quantity))
+            selectQuantityGR?.userSelectValue(String(cell.quantity!))
             selectQuantityGR?.first = true
             
             if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
@@ -303,7 +302,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             
             let addShopping = ShoppingCartUpdateController()
-            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
             addShopping.params = params
             vc!.addChildViewController(addShopping)
             addShopping.view.frame = frame

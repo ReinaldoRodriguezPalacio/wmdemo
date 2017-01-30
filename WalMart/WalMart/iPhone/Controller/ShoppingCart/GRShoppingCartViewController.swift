@@ -462,7 +462,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     addShopping.addActionButtons()
                     addShopping.addNoteToProduct(nil)
             }
-            
+
+            selectQuantityGR?.userSelectValue(String(cell.quantity!))
+            selectQuantityGR?.first = true
             if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
                 selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
             } else {
@@ -594,7 +596,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     
                     
                     let addShopping = ShoppingCartUpdateController()
-                    let params = self.buildParamsUpdateShoppingCart(cellSC,quantity: "\(cellSC.quantity)")
+                    let params = self.buildParamsUpdateShoppingCart(cellSC,quantity: "\(cellSC.quantity!)")
                     addShopping.params = params
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
