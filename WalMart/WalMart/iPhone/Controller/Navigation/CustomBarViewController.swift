@@ -816,7 +816,17 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         openSearch = false
         if (!btn.isSelected){
             if (self.btnShopping!.isSelected){
-                self.closeShoppingCart()
+                
+                UIView.animate(withDuration: 0.5,
+                    animations: { () -> Void in
+                        self.closeShoppingCart()
+                }, completion: { (finished:Bool) -> Void in
+                    if finished {
+                        self.clearSearch()
+                        self.contextSearch = .withText
+                        self.openSearchProduct()
+                    }
+                })
             }
             else{
                 self.clearSearch()
