@@ -555,9 +555,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
 
 
         }
-        
-        if self.phoneWorkNumber.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == ""
-            && self.phoneHomeNumber.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == ""
+
+        if self.phoneHomeNumber.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == ""
             && self.cellPhone.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == ""
             && !delete  {
                 let _ = self.viewError(self.phoneHomeNumber,message: "Es necesario capturar un teléfono")
