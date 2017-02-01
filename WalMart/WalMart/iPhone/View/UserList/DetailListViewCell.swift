@@ -355,7 +355,6 @@ class DetailListViewCell: ProductTableViewCell {
      */
     func changeQuantity() {
         self.detailDelegate?.didChangeQuantity(self)
-        
     }
     /**
      Action check button and send analitycs if list or default list
@@ -363,24 +362,10 @@ class DetailListViewCell: ProductTableViewCell {
      - parameter sender: action button
      */
     func checked(_ sender:UIButton) {
-        if defaultList {
-        if sender.isSelected {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
-        } else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
-        }
-        } else {
-            if sender.isSelected {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
-            } else {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label: "\(self.productShortDescriptionLabel!.text!) - \(upcVal)")
-            }
-        }
-        
+     
         sender.isSelected = !sender.isSelected
         checkDisabled(!sender.isSelected)
         detailDelegate?.didDisable(!sender.isSelected,cell:self)
-        
         
     }
     
