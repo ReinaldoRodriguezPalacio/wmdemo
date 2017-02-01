@@ -35,6 +35,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSelectorDelegate , IPAUserListDetailDelegate{
+   
     var idFamily : String =  ""
     var idLine : String =  ""
     var idDepartment: String = ""
@@ -385,7 +386,6 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
         self.listSelectorController!.didMove(toParentViewController: self)
         self.listSelectorController!.view.clipsToBounds = true
-        self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.tabledetail, frame: frameDetail)
         self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, at: 0)
         let bg = UIView(frame: frameDetail)
         bg.backgroundColor = WMColor.light_blue
@@ -542,7 +542,12 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.removeListSelector(action: nil, closeRow:true)
     }
     
-    func listSelectorDidAddProduct(inList listId:String) {
+    internal func listSelectorDidAddProduct(inList listId: String) {
+        listSelectorDidAddProduct(inList:listId,included:false)
+    }
+
+    
+    func listSelectorDidAddProduct(inList listId:String, included: Bool) {
         NSLog("22")
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)

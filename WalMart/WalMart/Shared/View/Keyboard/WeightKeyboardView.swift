@@ -133,6 +133,7 @@ class WeightKeyboardView : UIView {
         self.addSubview(bttrescuartos)
         self.addSubview(btunkilo)
         
+        
     }
     
     func seleccionboton(_ sender:UIButton) {

@@ -119,6 +119,7 @@ class GRAddItemListService: GRBaseService {
                     detail!.upc = item["upc"] as! String
                     detail!.img = item["imageUrl"] as! String
                     detail!.desc = item["description"] as! String
+                    detail!.quantity = item["quantity"] as! NSNumber
                     if let active = item["isActive"] as? Bool {
                         detail!.isActive = active ? "true" : "false"
                     }

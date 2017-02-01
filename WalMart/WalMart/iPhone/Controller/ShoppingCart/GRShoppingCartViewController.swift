@@ -34,6 +34,8 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate {
+   
+
     
     var onClose : ((_ isClose:Bool) -> Void)? = nil
     var viewLoad : WMLoadingView!
@@ -483,12 +485,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
             selectQuantityGR?.userSelectValue(String(cell.quantity))
             selectQuantityGR?.first = true
-            if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
-                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
-            }else {
-                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
-            }
-            selectQuantityGR?.showNoteButtonComplete()
+//            if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
+//                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
+//            }else {
+//                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
+//            }
+//            selectQuantityGR?.showNoteButtonComplete()
             selectQuantityGR?.closeAction = { () in
                 self.selectQuantityGR.removeFromSuperview()
                 
@@ -884,8 +886,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-            self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
             
             UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
@@ -943,7 +943,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.removeListSelector(action: nil)
     }
     
-    func listSelectorDidAddProduct(inList listId:String) {
+    internal func listSelectorDidAddProduct(inList listId: String) {
+        listSelectorDidAddProduct(inList:listId,included:false)
+    }
+    
+    func listSelectorDidAddProduct(inList listId:String, included: Bool) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         

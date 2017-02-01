@@ -790,7 +790,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.tabledetail.reloadData()
             }, closeRow:true)
         }
-        selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
+        //selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantity?.addToCartAction = { (quantity:String) in
             let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
             if maxProducts >= Int(quantity) {

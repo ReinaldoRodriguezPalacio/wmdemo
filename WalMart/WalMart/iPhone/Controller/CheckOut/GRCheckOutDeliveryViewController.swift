@@ -465,8 +465,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         return CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.animationClose()
     }
      //MARK: AlertPickerViewDelegate

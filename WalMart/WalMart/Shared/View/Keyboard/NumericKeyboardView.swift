@@ -119,14 +119,14 @@ class NumericKeyboardView : UIView {
             
         }
         
-        btnDelete = UIButton(frame: CGRect(x: currentX, y: currentY, width: self.widthButton, height: self.widthButton))
-        btnDelete.setTitle("Borrar", for: UIControlState())
-        let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
-        btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(buttonFontSize)
-        btnDelete.addTarget(self, action: #selector(NumericKeyboardView.deletequantity(_:)), for: UIControlEvents.touchUpInside)
-        btnDelete.tag = 999
-        hideDeleteBtn()
-        self.addSubview(btnDelete)
+//        btnDelete = UIButton(frame: CGRect(x: currentX, y: currentY, width: self.widthButton, height: self.widthButton))
+//        btnDelete.setTitle("Borrar", for: UIControlState())
+//        let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
+//        btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(buttonFontSize)
+//        btnDelete.addTarget(self, action: #selector(NumericKeyboardView.deletequantity(_:)), for: UIControlEvents.touchUpInside)
+//        btnDelete.tag = 999
+//        hideDeleteBtn()
+//        self.addSubview(btnDelete)
     
     }
     

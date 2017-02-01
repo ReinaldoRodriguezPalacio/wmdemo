@@ -892,10 +892,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                             self.asociateDiscount = false
                             self.isAssociateSend =  false
                         }
-                        //TODO invocar servico para actualizar cosntos de envio
-                        //                        self.invokeDeliveryTypesService({ () -> Void in
-                        //
-                        //                        })
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
                         let _ = self.buildPromotionButtons()

@@ -49,7 +49,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
     var addToCartButton: UIButton?
     var customLabel: CurrencyCustomLabel?
     var enableScrollUpdateByTabBar = true
-    var isShowingTabBar : Bool = true
     var isSharing: Bool = false
     var duplicateButton: UIButton?
     var lineId: String?
@@ -92,9 +91,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(DefaultListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-         self.tabBarActions()
     }
     
     override func setup() {
@@ -118,12 +114,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             }
         }
         
-        if TabBarHidden.isTabBarHidden {
-            self.footerSection = UIView(frame:CGRect(x: 0,  y: self.view.frame.maxY - 132 , width: self.view.frame.width, height: 72))
-        }
-        else{
-            self.footerSection = UIView(frame:CGRect(x: 0,  y: self.view.frame.maxY - 180 , width: self.view.frame.width, height: 72))
-        }
+        self.footerSection = UIView(frame:CGRect(x: 0,  y: self.view.frame.height - 72 , width: self.view.frame.width, height: 72))
         self.footerSection!.backgroundColor = UIColor.white
         self.view.addSubview(footerSection!)
         
@@ -156,14 +147,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
         self.addToCartButton!.addSubview(self.customLabel!)
         self.addToCartButton!.sendSubview(toBack: self.customLabel!)
         
-        self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-        self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         
-        if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
-            let tabBarHeight:CGFloat = 45.0
-            self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
-            self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
-        }
+        self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height , 0)
+        self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height , 0)
         
         self.isSharing = false
         updateTotalLabel()
@@ -172,9 +158,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        if !self.isSharing {
-            tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
-        }
+        footerSection?.frame = CGRect(x: 0,  y: self.view.frame.height - 72 , width: self.view.frame.width, height: 72)
+        tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY )
         let x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2
         addToCartButton?.frame = CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + 16.0), height: 34.0)
@@ -533,22 +518,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     
     
-    
-    override func willShowTabbar() {
-        isShowingTabBar = true
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 117 , width: self.view.frame.width, height: 72)
-        })
-    }
-    
-    override func willHideTabbar() {
-        isShowingTabBar = false
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 72, width: self.view.frame.width, height: 72)
-        })
-    }
-    
-
+   
     func duplicate() {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label: self.defaultListName!)
         self.invokeSaveListToDuplicateService(defaultListName!, successDuplicateList: { () -> Void in
@@ -705,11 +675,4 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
     }
 
-    func tabBarActions(){
-        if TabBarHidden.isTabBarHidden {
-            self.willHideTabbar()
-        }else{
-            self.willShowTabbar()
-        }
-    }
 }

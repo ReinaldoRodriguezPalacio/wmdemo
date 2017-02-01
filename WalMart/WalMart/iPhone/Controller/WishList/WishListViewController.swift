@@ -94,9 +94,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         reloadWishlist()
         
         NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-        if isShowingTabBar {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-        }
+       
         
     }
     
@@ -107,40 +105,17 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        if isShowingTabBar {
-            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 109 - self.header!.frame.height)
-            self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
-        }else{
-            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
-            self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
-        }
+        self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
+        self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
         self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(WishListViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        self.tabBarActions()
     }
     
-    override func willShowTabbar() {
-       isShowingTabBar = true
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 119 - self.header!.frame.height)
-             self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
-        })
-    }
-    
-    override func willHideTabbar() {
-       isShowingTabBar = false
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
-             self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
-        })
-    }
-    
+       
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
@@ -871,9 +846,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 self.items = wishlist["items"] as! [[String:Any]]
             
                 self.emptyView.isHidden = self.items.count > 0
-                if self.items.count == 0 {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-                }
                 self.edit.isHidden = self.items.count == 0
             
                 var total : Double = 0
@@ -970,12 +942,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
 
-    func tabBarActions(){
-        if TabBarHidden.isTabBarHidden {
-            self.willHideTabbar()
-        }else{
-            self.willShowTabbar()
-        }
-    }
+ 
     
 }

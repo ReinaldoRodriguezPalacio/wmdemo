@@ -159,15 +159,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         self.reminderImage = UIImageView(image: UIImage(named: "white_arrow"))
         
-        if !TabBarHidden.isTabBarHidden {
-            let tabBarHeight:CGFloat = 45.0
-            self.footerConstraint?.constant = tabBarHeight
-            self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
-            self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
-        }else if !self.enableScrollUpdateByTabBar && TabBarHidden.isTabBarHidden {
-            self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-            self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-        }
+//        let tabBarHeight:CGFloat = 45.0
+//        self.footerConstraint?.constant = tabBarHeight
+        self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height , 0)
+        self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height , 0)
+      
         
         self.isSharing = false
         buildEditNameSection()
@@ -193,8 +189,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
         //Solo para presentar los resultados al presentar el controlador sin delay
         if UIDevice.current.userInterfaceIdiom == .phone {
             loadServiceItems(nil)
@@ -202,7 +196,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        self.tabBarActions()
+        
         
         if products != nil && !analyticsSent {
             
@@ -1313,58 +1307,59 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-    //MARK: - IPOBaseController scrollViewDelegate
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.addProductsView?.textFindProduct?.resignFirstResponder()
-        
-        if !self.enableScrollUpdateByTabBar {
-            return
-        }
-        
-        let currentOffset: CGFloat = scrollView.contentOffset.y
-        let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
-        let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
-        lastContentOffset = currentOffset
-        
-        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
-            TabBarHidden.isTabBarHidden = true
-            self.isVisibleTab = false
-            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
+    //TODO: Delete
+//    //MARK: - IPOBaseController scrollViewDelegate
+//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        self.addProductsView?.textFindProduct?.resignFirstResponder()
+//        
+//        if !self.enableScrollUpdateByTabBar {
+//            return
+//        }
+//        
+//        let currentOffset: CGFloat = scrollView.contentOffset.y
+//        let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
+//        let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
+//        lastContentOffset = currentOffset
+//        
+//        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
+//            TabBarHidden.isTabBarHidden = true
+//            self.isVisibleTab = false
+//            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
+//                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
+//                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
+//
+//                //self.willHideTabbar()
+//                //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
+//            }
+//        }
+//        if differenceFromStart > 0 && TabBarHidden.isTabBarHidden {
+//            TabBarHidden.isTabBarHidden = false
+//            self.isVisibleTab = true
+//            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
+//                let bottom : CGFloat = self.footerSection!.frame.height + 45.0
+//                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
+//                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
+//                
+//                self.willShowTabbar()
+//                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
+//            }
+//        }
+//    }
 
-                self.willHideTabbar()
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-            }
-        }
-        if differenceFromStart > 0 && TabBarHidden.isTabBarHidden {
-            TabBarHidden.isTabBarHidden = false
-            self.isVisibleTab = true
-            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-                let bottom : CGFloat = self.footerSection!.frame.height + 45.0
-                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
-                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
-                
-                self.willShowTabbar()
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-            }
-        }
-    }
-
-    
-    override func willShowTabbar() {
-        self.footerConstraint!.constant = 45.0
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    override func willHideTabbar() {
-        self.footerConstraint!.constant = 0.0
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        })
-    }
+    //TODO: Delete
+//    override func willShowTabbar() {
+//        self.footerConstraint!.constant = 45.0
+//        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+//            self.view.layoutIfNeeded()
+//        })
+//    }
+//    
+//    override func willHideTabbar() {
+//        self.footerConstraint!.constant = 0.0
+//        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+//            self.view.layoutIfNeeded()
+//        })
+//    }
     
     func reloadTableListUser(){
         
@@ -1812,13 +1807,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú& ]{0,100}$";
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
-    
-    func tabBarActions(){
-        if TabBarHidden.isTabBarHidden {
-            self.willHideTabbar()
-        }else{
-            self.willShowTabbar()
-        }
-    }
+   
     
 }

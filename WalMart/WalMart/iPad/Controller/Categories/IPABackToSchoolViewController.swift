@@ -61,15 +61,6 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
         self.schoolsTable.frame = CGRect(x: 0, y: self.searchView!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.searchView!.frame.maxY)
     }
     
-    /**
-     Hides tap bar only in iPhone
-     */
-    override func willHideTabbar() {}
-    
-    /**
-     Shows tap bar only in iPhone
-     */
-    override func willShowTabbar() {}
     
     /**
      Shows or hides image header only in iPhone

@@ -74,8 +74,8 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 16 , width: 100 , height: 19)
         self.separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
         self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
-        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
-        changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
+        //let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
+        changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  98, y: self.productPriceLabel!.frame.minY, width: 98, height: 30)
     }
     
     func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
@@ -124,8 +124,8 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
 //        }
 
         // changeQuantity.frame =  CGRectMake((self.frame.width - 16) -  width!, self.productPriceLabel!.frame.minY, width!, 30)
-        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
-        changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
+        //let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
+        changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  98, y: self.productPriceLabel!.frame.minY, width: 98, height: 30)
     }
     
     

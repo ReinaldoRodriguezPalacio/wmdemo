@@ -86,9 +86,6 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(DefaultListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        self.tabBarActions()
     }
     
     override func setup() {
@@ -331,7 +328,7 @@ class SchoolListViewController : DefaultListDetailViewController {
             self.quantitySelectorMg!.closeAction = { () in
                 self.removeSelector()
             }
-            self.quantitySelectorMg!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
+            //self.quantitySelectorMg!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
             self.quantitySelectorMg!.addToCartAction = { (quantity:String) in
                 let maxProducts = (cell.onHandInventory <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory : 5
                 if maxProducts >= Int(quantity) {
@@ -653,10 +650,5 @@ class SchoolListViewController : DefaultListDetailViewController {
         
         
     }
-    
-    //MARK: ScrollViewDelegate
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        self.tabBarActions()
-    }
+
 }

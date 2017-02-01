@@ -180,8 +180,9 @@ class IPAHomeViewController : HomeViewController {
         let controller = IPAProductDetailPageViewController()
         controller.itemsToShow = [["upc":upcProduct,"description":"","type":type]]
         
-        willHideTabbar()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
+        //TODO: Delete
+        //willHideTabbar()
+        //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
         
         self.navigationController!.delegate = nil
         self.navigationController!.pushViewController(controller, animated: true)

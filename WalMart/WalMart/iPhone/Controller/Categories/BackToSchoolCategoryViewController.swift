@@ -251,22 +251,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         
     }
     
-    /**
-     Hides tap bar and hides image header
-     */
-   override func willHideTabbar() {
-        super.willHideTabbar()
-        self.showImageHeader(false)
-    }
-    
-    /**
-     Shows tap bar and hiddes image header
-     */
-    override func willShowTabbar() {
-        super.willShowTabbar()
-        self.showImageHeader(true)
-    }
-    
+
     /**
      Validates search text with regular expression
      
@@ -328,7 +313,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     }
 
     //MARK: ScrollViewDelegate
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
         self.searchField.resignFirstResponder()
     }
     

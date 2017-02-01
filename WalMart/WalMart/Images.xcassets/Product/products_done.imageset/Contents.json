@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "products_done.png"
+      "filename" : "icon_article_added.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "products_done@2x.png"
+      "filename" : "icon_article_added@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -16,13 +16,13 @@
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "products_cart_done.png"
+      "filename" : "icon_article_added-1.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "products_cart_done@2x.png"
+      "filename" : "icon_article_added@2x-1.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

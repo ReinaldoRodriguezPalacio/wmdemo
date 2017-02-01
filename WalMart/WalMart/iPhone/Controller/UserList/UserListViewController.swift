@@ -1319,11 +1319,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if self.isToggleBarEnabled {
-            super.scrollViewDidScroll(scrollView)
-        }
-    }
+
     
     
     
@@ -1650,24 +1646,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     
     
-    //MARK: - TabBar
-    
-    override func willShowTabbar() {
-        self.isShowingTabBar = true
-        /*UIView.animateWithDuration(0.2, animations: { () -> Void in
-            var bounds = self.view.frame.size
-            self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 101.0, 40.0, 40.0)
-        })*/
-    }
-    
-    override func willHideTabbar() {
-        self.isShowingTabBar = false
-        /*UIView.animateWithDuration(0.2, animations: { () -> Void in
-            var bounds = self.view.frame.size
-            self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 56.0, 40.0, 40.0)
-        })*/
-    }
-    
+       
     //MARK: - UITextFieldDelegate
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -1757,8 +1736,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        super.scrollViewWillBeginDragging(scrollView)
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
         
     }

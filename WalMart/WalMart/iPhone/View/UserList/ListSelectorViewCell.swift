@@ -10,6 +10,7 @@ import UIKit
 
 protocol ListSelectorCellDelegate {
     func didShowListDetail(_ cell: ListSelectorViewCell)
+    func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell)
 }
 
 class ListSelectorViewCell: UITableViewCell {
@@ -20,8 +21,10 @@ class ListSelectorViewCell: UITableViewCell {
     var articlesTitle: UILabel?
     var separator: UIView?
     var hiddenOpenList : Bool = false
+    var pesable : Bool = false
     
     var delegate: ListSelectorCellDelegate?
+    let viewBg = UIView(frame: CGRect(x: 0, y: 0, width: 100, height:18))
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -54,11 +57,11 @@ class ListSelectorViewCell: UITableViewCell {
         self.contentView.addSubview(self.articlesTitle!)
 
         self.openDetail = UIButton(type: .custom) as UIButton
-        self.openDetail!.setTitle(NSLocalizedString("list.selector.openDetail", comment:""), for: UIControlState())
+        //self.openDetail!.setTitle(NSLocalizedString("list.selector.openDetail", comment:""), for: UIControlState())
         self.openDetail!.setTitleColor(UIColor.white, for: UIControlState())
         self.openDetail!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.openDetail!.backgroundColor = UIColor.clear
-        self.openDetail!.addTarget(self, action: #selector(ListSelectorViewCell.showListDetail), for: .touchUpInside)
+        self.openDetail!.addTarget(self, action: #selector(ListSelectorViewCell.showKeyboardUpdateQuantity), for: .touchUpInside)
         self.openDetail!.isHidden = hiddenOpenList
         self.contentView.addSubview(self.openDetail!)
 
@@ -79,14 +82,35 @@ class ListSelectorViewCell: UITableViewCell {
             self.setupIcon(title: name, productIncluded: productIncluded)
         }
         self.openDetail!.isHidden = hiddenOpenList
+        self.openDetail!.isHidden = !productIncluded
     }
     
-    func setListEntity(_ entity:List, productIncluded:Bool) {
+    func setListEntity(_ entity:List,_ upc:String, productIncluded:Bool) {
         self.indicator!.isSelected = productIncluded
         self.listName!.text = entity.name
         self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), entity.countItem)
         self.setupIcon(title: entity.name, productIncluded: productIncluded)
         self.openDetail!.isHidden = hiddenOpenList
+        
+        if productIncluded {
+            let productsFound = (entity.products.allObjects as! [Product]).filter { (product) -> Bool in
+                return product.upc == upc
+            }
+            if productsFound.first?.quantity ?? 0 > -1 {
+                viewBg.layer.cornerRadius = 9
+                viewBg.backgroundColor = WMColor.yellow
+                viewBg.isUserInteractionEnabled = false
+                openDetail?.addSubview(viewBg)
+                openDetail?.sendSubview(toBack: viewBg)
+                
+                let strQuantity = ShoppingCartButton.quantityString(productsFound.first?.quantity.intValue ?? 0, pesable: self.pesable)
+                openDetail?.setTitle(strQuantity, for: .normal)
+                
+
+            }
+        }
+        self.openDetail!.isHidden = !productIncluded
+        
     }
     
     func setupIcon(title:String, productIncluded:Bool) {
@@ -96,11 +120,16 @@ class ListSelectorViewCell: UITableViewCell {
             self.indicator!.isSelected = false
         }
     }
+//    
+//    func showListDetail() {
+//        //EVENT
+//        //BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_LIST.rawValue, label: self.listName!.text!)
+//        self.delegate?.didShowListDetail(self)
+//    }
     
-    func showListDetail() {
-        //EVENT
-        //BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_LIST.rawValue, label: self.listName!.text!)
-        self.delegate?.didShowListDetail(self)
+    
+    func showKeyboardUpdateQuantity() {
+        self.delegate?.showKeyboardUpdateQuantity(self)
     }
     
     func generateCircleImage(_ colorImage:UIColor) -> UIImage {
@@ -124,9 +153,14 @@ class ListSelectorViewCell: UITableViewCell {
         let x = self.indicator!.frame.maxX + 16.0
         self.listName!.frame = CGRect(x: x, y: 16.0, width: frame.width - (x + 72.0), height: 16.0)
         self.articlesTitle!.frame = CGRect(x: x, y: self.listName!.frame.maxY, width: frame.width - (x + 72.0), height: 14.0)
-        self.openDetail!.frame = CGRect(x: frame.width - 56.0, y: 8.0, width: 40.0, height: 40.0)
         self.separator!.frame = CGRect(x: x, y: frame.height - 1.0, width: frame.width - x, height: 1.0)
         self.selectedBackgroundView!.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
+        
+        if let sizeButton = openDetail?.titleLabel?.sizeThatFits(CGSize.zero) {
+            self.openDetail!.frame = CGRect(x: frame.width - (sizeButton.width + 26), y: 8.0, width: sizeButton.width + 10, height: 40.0)
+            viewBg.frame = CGRect(x: 0, y: 0, width: sizeButton.width + 10, height: 18)
+            viewBg.center = CGPoint(x: openDetail!.frame.width / 2, y: openDetail!.frame.height / 2)
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

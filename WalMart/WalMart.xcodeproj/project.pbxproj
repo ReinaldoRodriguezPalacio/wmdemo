@@ -3870,8 +3870,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DEVELOPMENT_TEAM = E896UUML7L;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
@@ -3912,8 +3912,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "438026fb-bf7b-426c-8c5a-aa3665847781";
-				PROVISIONING_PROFILE_SPECIFIER = "Walmart BCG DIS";
+				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
+				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -3932,8 +3932,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DEVELOPMENT_TEAM = E896UUML7L;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;

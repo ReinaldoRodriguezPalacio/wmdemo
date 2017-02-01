@@ -35,8 +35,9 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 enum CustomBarNotification : String {
-    case HideBar = "kCustomBarHideBarNotification"
-    case ShowBar = "kCustomBarShowBarNotification"
+    //TODO: Delete
+    //case HideBar = "kCustomBarHideBarNotification"
+    //case ShowBar = "kCustomBarShowBarNotification"
     case AddUPCToShopingCart = "kAddUPCToShopingCart"
     case AddItemsToShopingCart = "kAddItemsToShopingCart"
     case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
@@ -58,7 +59,6 @@ enum CustomBarNotification : String {
     case UpdateNotificationBadge = "kUpdateNotificationBadge"
     
     case ShowGRLists = "kShowGRLists"
-    case TapBarFinish = "kTapBarFinish"
     case ShowHomeSelected = "kShowHomeSelected"
     
 }
@@ -135,8 +135,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.hideTabBar(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showTabBar(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemToShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemsToShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.notificaUpdateBadge(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
@@ -159,10 +158,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.scanBarcode(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.ScanBarCode.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.updateNotificationBadge), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         
-        
-        
-        
-        self.isTabBarHidden = false
         
         buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 45))
         self.view.addSubview(buttonContainer!)
@@ -211,6 +206,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         createTabBarButtons()
+        setTabBarHidden(false, animated: false, delegate: nil)
         
         gestureCloseShoppingCart = UISwipeGestureRecognizer(target: self, action: #selector(CustomBarViewController.closeShoppingCart))
         gestureCloseShoppingCart.direction = UISwipeGestureRecognizerDirection.up
@@ -233,7 +229,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
         }
         layoutButtons()
-        self.setTabBarHidden(self.isTabBarHidden, animated: false, delegate:nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -639,72 +634,20 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         content.removeFromParentViewController()
     }
     
-
     func setTabBarHidden(_ hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
-        //self.badgeNotification.hidden = hidden
-        //let bounds: CGRect = self.view.frame
         let badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         let showBadgeNotification = (badgeNumber > 0) && !hidden
-        if(hidden)
-        {
-            self.isTabBarHidden = true
-            TabBarHidden.isTabBarHidden = true
-            if(animated)
-            {
-                
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.buttonContainer!.frame = CGRect(x: self.buttonContainer!.frame.minX, y: self.view.frame.maxY,
-                        width: self.buttonContainer!.frame.width, height: self.buttonContainer!.frame.height)
-                    },
-                    completion: {(value: Bool) in
-                        self.badgeNotification.isHidden = !showBadgeNotification
-                         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-                })
-            }
-            else
-            {
-                self.buttonContainer!.frame = CGRect(x: self.buttonContainer!.frame.minX, y: self.view.frame.maxY,
-                width: self.buttonContainer!.frame.width, height: self.buttonContainer!.frame.height)
-                self.badgeNotification.isHidden = !showBadgeNotification
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-            }
-        }
-        else {
-            self.isTabBarHidden = false
-            TabBarHidden.isTabBarHidden = false
-            if(animated)
-            {
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.buttonContainer!.frame = CGRect(x: self.buttonContainer!.frame.minX, y: self.view.frame.maxY - self.buttonContainer!.frame.height,width: self.buttonContainer!.frame.width, height: self.buttonContainer!.frame.height)
-                    },
-                    completion: {(value: Bool) in
-                        if value {
-                            UIView.animate(withDuration: 0.2, delay: 0.0, options: .beginFromCurrentState, animations: {
-                                },
-                                completion: {(value: Bool) in
-                                    self.badgeNotification.isHidden = !showBadgeNotification
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-                            })
-                        }
-                })
-            }
-            else
-            {
-                self.badgeNotification.isHidden = !showBadgeNotification
-                self.buttonContainer!.frame = CGRect(x: self.buttonContainer!.frame.minX, y: self.view.frame.maxY - self.buttonContainer!.frame.height,width: self.buttonContainer!.frame.width, height: self.buttonContainer!.frame.height)
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-            }
-        }
+        
+        self.isTabBarHidden = false
+        TabBarHidden.isTabBarHidden = false
+        
+        self.badgeNotification.isHidden = !showBadgeNotification
+        self.buttonContainer!.frame = CGRect(x: self.buttonContainer!.frame.minX, y: self.view.frame.maxY - self.buttonContainer!.frame.height,width: self.buttonContainer!.frame.width, height: self.buttonContainer!.frame.height)
+        
+        
         
     }
     
-    func hideTabBar(_ notification:Notification) {
-        self.setTabBarHidden(true, animated: true, delegate:notification.object as! CustomBarDelegate?)
-    }
-    
-    func showTabBar(_ notification:Notification) {
-        self.setTabBarHidden(false, animated: true, delegate:notification.object as! CustomBarDelegate?)
-    }
     
     class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String,isPreorderable:String) -> [AnyHashable: Any] {
         return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable]
@@ -733,9 +676,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         let addShopping = ShoppingCartUpdateController()
         if !btnShopping!.isSelected {
-            addShopping.goToShoppingCart = {() in
-                self.showShoppingCart(self.btnShopping!)
-            }
+//            addShopping.goToShoppingCart = {() in
+//                self.showShoppingCart(self.btnShopping!)
+//            }
         }
         let params = notification.userInfo as! [String:Any]
         
@@ -794,9 +737,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else {
             addShopping.typeProduct = (type == ResultObjectType.Mg.rawValue ? ResultObjectType.Mg : ResultObjectType.Groceries)
         }
-        addShopping.goToShoppingCart = {() in
-            self.showShoppingCart(self.btnShopping!)
-        }
+//        addShopping.goToShoppingCart = {() in
+//            self.showShoppingCart(self.btnShopping!)
+//        }
         addShopping.multipleItems = notification.userInfo as? [String:Any]
         self.addChildViewController(addShopping)
         addShopping.view.frame = self.view.bounds
@@ -1213,8 +1156,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.showBadge()
         self.btnShopping?.alpha = 1
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
-        
         if let vcRoot = shoppingCartVC.viewControllers.first as? PreShoppingCartViewController {
             vcRoot.delegate = self
             vcRoot.closeShoppingCart()
@@ -1334,7 +1275,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.endUpdatingShoppingCart(self)
                 self.hidebadge()
                 self.btnShopping?.alpha = 0
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue , label: "")
                 
                 if self.btnCloseShopping == nil {
                     self.btnCloseShopping = UIButton()
@@ -1346,12 +1286,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 }
                 self.btnCloseShopping?.isEnabled = false
                 self.btnCloseShopping?.alpha = 1
-                
             }
             else {
-                
                 if closeIfNeedded {
-                    
                     self.closeShoppingCart()
                 }
             }
@@ -1365,7 +1302,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func addtoShopingCar(){
         self.addChildViewController(shoppingCartVC)
-        shoppingCartVC.view.frame = self.container!.frame
+        shoppingCartVC.view.frame = CGRect(x: 0, y: 0, width: self.container!.frame.width, height: self.container!.frame.height + 44)
         self.view.addSubview(shoppingCartVC.view)
         self.view.bringSubview(toFront: self.headerView)
         shoppingCartVC.didMove(toParentViewController: self)

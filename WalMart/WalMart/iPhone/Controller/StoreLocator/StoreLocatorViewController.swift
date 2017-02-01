@@ -165,14 +165,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
         self.invokeStoreLocatorService()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
+        //TODO: Delete
+        //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         BaseController.setOpenScreenTagManager(titleScreen: NSLocalizedString("moreoptions.title.StoreLocator", comment: ""), screenName: WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue)
     }
     
@@ -339,7 +339,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         return ClubLocatorTableViewCell.calculateCellHeight(forStore: store, width: collectionView.frame.width)
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
         self.searchField.resignFirstResponder()
     }
 
@@ -426,7 +426,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
         else {
             //Event
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showtable",comment:""), for: UIControlState())
             self.clubMap!.isHidden = false
             self.clubCollection!.isHidden = true
@@ -667,7 +666,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
 
     func showInMap(_ store:Store) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         self.viewBgDetailView?.removeFromSuperview()
         self.viewBgDetailView = nil
         self.detailView?.removeFromSuperview()
@@ -710,15 +708,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     func hideTabBar() {
     }
     
-    override func back() {
-        super.back()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-        if self.clubMap!.isHidden {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
-        } else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
-        }
-    }
+   
     
     //MARK: - UITextFieldDelegate
     

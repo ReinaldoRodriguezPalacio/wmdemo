@@ -16,6 +16,8 @@ protocol IPAGRCheckOutViewControllerDelegate {
 }
 
 class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelectorDelegate {
+   
+
     
     var addToListButton: UIButton!
     var buttonShare: UIButton!
@@ -110,8 +112,6 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-            self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
             self.view.addSubview(self.listSelectorController!.view)
             
             UIView.animate(withDuration: 0.5,
@@ -175,7 +175,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      
      - parameter listId: id list Selected.
      */
-    func listSelectorDidAddProduct(inList listId:String) {
+    
+    internal func listSelectorDidAddProduct(inList listId: String) {
+        listSelectorDidAddProduct(inList:listId, included:false)
+    }
+    
+    func listSelectorDidAddProduct(inList listId:String, included: Bool) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
@@ -454,4 +459,6 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.delegateCheckOut?.showViewBackground(true)
         super.nextStep()
     }
+    
+    
 }

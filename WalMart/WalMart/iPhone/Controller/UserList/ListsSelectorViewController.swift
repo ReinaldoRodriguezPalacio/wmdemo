@@ -25,6 +25,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 protocol ListSelectorDelegate {
     func listSelectorDidShowList(_ listId: String, andName name:String)
     func listSelectorDidAddProduct(inList listId:String)
+    func listSelectorDidAddProduct(inList listId:String,included: Bool)
     func listSelectorDidDeleteProduct(inList listId:String)
     
     func listSelectorDidShowListLocally(_ list: List)
@@ -37,6 +38,8 @@ protocol ListSelectorDelegate {
 }
 
 class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableViewDataSource, ListSelectorCellDelegate, NewListTableViewCellDelegate , UIScrollViewDelegate{
+    
+
 
     let CELL_ID = "listCell"
     let NEWCELL_ID = "newlistCell"
@@ -50,6 +53,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var alertView: IPOWMAlertViewController?
     
     var productUpc: String?
+    var pesable: Bool? = false
     var list: [Any]?
     var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
@@ -66,6 +70,20 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+         self.view.backgroundColor = UIColor.clear
+        
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.alpha = 0.3
+        blurEffectView.frame = self.view.bounds
+        //self.imageBlurView = blurEffectView
+        self.view.addSubview(blurEffectView)
+        
+        let bgView = UIView(frame:CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
+        bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.95)
+        self.view.addSubview(bgView)
+
         
         self.titleLabel = UILabel()
         self.titleLabel!.text = NSLocalizedString("list.selector.title", comment:"")
@@ -155,31 +173,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.showLoadingIfNeeded()
     }
 
-    func generateBlurImage(_ viewBg:UIView, frame:CGRect) {
-        self.imageBlurView = self.createBlurImage(viewBg, frame: frame)
-        self.view.insertSubview(self.imageBlurView!, at: 0)
-        
-        let bg = UIView(frame: frame)
-        bg.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
-        self.view.insertSubview(bg, aboveSubview: self.imageBlurView!)
-    }
     
-    func createBlurImage(_ viewBg:UIView, frame:CGRect) -> UIImageView {
-        UIGraphicsBeginImageContextWithOptions(frame.size, false, 2.0);
-        viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)
-        
-        let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
-        UIGraphicsEndImageContext();
-        
-        let blurredImage = cloneImage.applyLightEffect()
-        let imageView = UIImageView()
-        imageView.frame = frame
-        imageView.clipsToBounds = true
-        imageView.image = blurredImage
-
-        return imageView
-    }
-
     /*
     // MARK: - Navigation
 
@@ -210,6 +204,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         cell.backgroundColor = UIColor.clear
         cell.contentView.backgroundColor = UIColor.clear
         cell.hiddenOpenList = self.hiddenOpenList
+        cell.pesable = self.pesable ?? false
         let idx = indexPath.row - 1
         if let item = self.list![idx] as? [String:Any] {
             let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
@@ -218,7 +213,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         
         if let entity = self.list![idx] as? List {
             let isIncluded = self.validateProductInList(forProduct: self.productUpc, inList: entity)
-            cell.setListEntity(entity, productIncluded: isIncluded)
+            cell.setListEntity(entity,self.productUpc!, productIncluded: isIncluded)
         }
         
         return cell
@@ -238,7 +233,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             let listId = item["id"] as? String
             let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
             if product != nil {
-                self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
+                //self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
+                if let celldetail = tableView.cellForRow(at: indexPath) as? ListSelectorViewCell {
+                    self.didShowListDetail(celldetail)
+                }
             }
             else {
                 self.delegate?.listSelectorDidAddProduct(inList: listId!)
@@ -249,7 +247,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             //Actualizacion a servicio a traves del delegate
             if entity.idList != nil {
                 if product != nil {
-                    self.delegate?.listSelectorDidDeleteProduct(inList: entity.idList!)
+                    //self.delegate?.listSelectorDidDeleteProduct(inList: entity.idList!)
+                    if let celldetail = tableView.cellForRow(at: indexPath) as? ListSelectorViewCell {
+                        self.didShowListDetail(celldetail)
+                    }
                 }
                 else {
                     self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
@@ -257,12 +258,14 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             }
             //Actualizacion local a DB
             else {
-                if product != nil {
-                    self.delegate?.listSelectorDidDeleteProductLocally(product!, inList: entity)
-                }
-                else {
-                    self.delegate?.listSelectorDidAddProductLocally(inList: entity)
-                }
+                self.delegate?.listSelectorDidAddProductLocally(inList: entity)
+                //TODO: Delete action
+//                if product != nil {
+//                    self.delegate?.listSelectorDidDeleteProductLocally(product!, inList: entity)
+//                }
+//                else {
+//
+//                }
             }
         }
         
@@ -428,5 +431,26 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.endEditing(true)
     }
 
+    
+    internal func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell) {
+        
+        if let indexPath = self.tableView!.indexPath(for: cell) {
+            let idx = indexPath.row - 1
+            if let item = self.list![idx] as? [String:Any] {
+                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
+                self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
+            }
+            else if let entity = self.list![idx] as? List {
+                if entity.idList == nil {
+                    self.delegate!.listSelectorDidShowListLocally(entity)
+                }
+                else {
+                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
+                    self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
+                }
+            }
+        }
+        
+    }
     
 }

@@ -453,9 +453,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
        
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    }
-    
     
     /**
      iyect info to webview to login user
