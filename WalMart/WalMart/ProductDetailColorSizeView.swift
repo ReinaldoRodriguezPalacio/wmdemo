@@ -181,7 +181,15 @@ class ProductDetailColorSizeView: UIView {
         sizeButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         sizeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
         sizeButton.addTarget(self, action: #selector(ProductDetailColorSizeView.selectSize(_:)), for: UIControlEvents.touchUpInside)
-        sizeButton.isEnabled = item["enabled"] as! Bool
+        if let enabled = item["enabled"] as? Bool {
+             sizeButton.isEnabled = enabled
+        }else if let enabled = item["enabled"] as? NSNumber {
+            sizeButton.isEnabled = enabled.boolValue
+        }else{
+            print("Error no return enabled value")
+            sizeButton.isEnabled = false
+        }
+       
         sizeButton.tag = count
         
         if item["selected"]! as! Bool {
