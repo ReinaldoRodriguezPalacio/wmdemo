@@ -121,6 +121,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var waitToSplash = false
     var contextSearch : SearchServiceContextType!
     var showHelpHome: Bool = false
+    var finishOpen =  false
     
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -816,19 +817,19 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         openSearch = false
         if (!btn.isSelected){
             if (self.btnShopping!.isSelected){
-                
-                UIView.animate(withDuration: 0.5,
-                    animations: { () -> Void in
-                        self.closeShoppingCart()
-                }, completion: { (finished:Bool) -> Void in
-                    if finished {
-                        self.clearSearch()
-                        self.contextSearch = .withText
-                        self.openSearchProduct()
-                    }
-                })
-            }
-            else{
+                if finishOpen {
+                    UIView.animate(withDuration: 0.5,
+                                   animations: { () -> Void in
+                                    self.closeShoppingCart()
+                    }, completion: { (finished:Bool) -> Void in
+                        if finished {
+                            self.clearSearch()
+                            self.contextSearch = .withText
+                            self.openSearchProduct()
+                        }
+                    })
+                }
+            }else{
                 self.clearSearch()
                 self.contextSearch = .withText
                 self.openSearchProduct()
@@ -1040,7 +1041,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
             if upcDesc.length < 13 {
-                let toFill = "".padding(toLength: 13 - upcDesc.length, withPad: "0", startingAt: 0)
+                let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)" as NSString
             }
             let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position: "")//
@@ -1217,7 +1218,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func validateCloseShoppingCart() {
-        
+        self.finishOpen =  false
         self.btnShopping?.isSelected = false
         self.btnCloseShopping?.alpha = 0
         self.showBadge()
@@ -1387,6 +1388,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
                 self.btnShopping?.isUserInteractionEnabled = true
                 self.btnCloseShopping?.isEnabled = true
+                self.finishOpen =  true
             }
             vcRoot.openShoppingCart()
         }

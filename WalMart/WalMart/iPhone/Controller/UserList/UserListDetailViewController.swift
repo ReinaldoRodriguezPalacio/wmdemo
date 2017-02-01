@@ -1671,7 +1671,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let upcDesc : NSString = upc as NSString
         var paddedUPC = upcDesc
         if upcDesc.length < 13 {
-            let toFill = "".padding(toLength: 13 - upcDesc.length, withPad: "0", startingAt: 0)
+            let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
             paddedUPC = "\(toFill)\(paddedUPC)" as NSString
         }
         let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position: "")//position
