@@ -30,10 +30,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var lblQuantityP : UILabel!
     var quantityWAnimate : UIView!
     
-    var originalValGr: Double! = 100.0
+    var originalValGr: Double! = 50.0
     var originalValPzs: Double! = 1.0
     
-    var currentValGr : Double! = 100.0
+    var currentValGr : Double! = 50.0
     var currentValPzs : Double! = 1.0
     
     var currentValCstmGr : Double! = 0.0
