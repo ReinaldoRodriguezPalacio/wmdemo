@@ -26,7 +26,11 @@ class DeleteItemWishlistService : BaseService {
     }
     
     func callCoreDataService(_ UPC:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callCoreDataServiceWithParams(buildParams(UPC),successBlock: successBlock, errorBlock: errorBlock)
+        self.callCoreDataServiceWithParams(buildParams(UPC),successBlock: { (result:[String:Any]) -> Void in
+            
+            //Se actualza la lista del usuario
+            self.callServiceWithParams(self.buildParams(UPC),successBlock: successBlock, errorBlock: errorBlock)
+            }, errorBlock: errorBlock)
     }
     
     
