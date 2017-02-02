@@ -438,7 +438,6 @@
 		6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
 		6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */; };
-		6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */; };
 		6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11851B8B7D880013FE44 /* AdSupport.framework */; };
 		6CF6CAE81BF2C9900026689F /* ReferedForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6CAE71BF2C9900026689F /* ReferedForm.swift */; };
 		6CFBA2211BED0CEA00573754 /* InvoiceConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */; };
@@ -1037,8 +1036,6 @@
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
 		6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextboxTableViewCell.swift; sourceTree = "<group>"; };
-		6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPayPalMobile.a; path = WalMart/Shared/Library/PayPalMobile/libPayPalMobile.a; sourceTree = "<group>"; };
-		6CEB11831B8B74D30013FE44 /* PayPalMobile */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PayPalMobile; path = Shared/Library/PayPalMobile; sourceTree = "<group>"; };
 		6CEB11851B8B7D880013FE44 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		6CF6CAE71BF2C9900026689F /* ReferedForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedForm.swift; path = iPhone/View/Refered/ReferedForm.swift; sourceTree = "<group>"; };
 		6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceConfirmView.swift; path = iPhone/View/Invoice/InvoiceConfirmView.swift; sourceTree = "<group>"; };
@@ -1188,7 +1185,6 @@
 				6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
 				ACEB8D341BFE824900063E3B /* Security.framework in Frameworks */,
-				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
 				6C3180911B87C9C10015FC2E /* AudioToolbox.framework in Frameworks */,
 				5512FEDF1DD2936800411BF6 /* libDynatraceUEM.a in Frameworks */,
 				6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */,
@@ -1614,7 +1610,6 @@
 		564578BF19AE2F9C006A7152 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				6CEB11831B8B74D30013FE44 /* PayPalMobile */,
 				56E1DFA51B556171001F42DF /* NMRangeSlider */,
 				569BB30F1B06350D00E8A657 /* CustomPhoto */,
 				5673D1231A9D4FA400DCD20B /* BarcodeGenerator */,
@@ -3081,7 +3076,6 @@
 				ACEB8D331BFE824900063E3B /* Security.framework */,
 				ACEB8D2E1BFE813D00063E3B /* CoreTelephony.framework */,
 				6CEB11851B8B7D880013FE44 /* AdSupport.framework */,
-				6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */,
 				6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */,
 				6C3180981B87CA150015FC2E /* MessageUI.framework */,
 				6C3180961B87C9FC0015FC2E /* CoreMedia.framework */,
