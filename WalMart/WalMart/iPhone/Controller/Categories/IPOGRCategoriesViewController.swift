@@ -397,8 +397,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         controller.idLine = line
         
         self.navigationController!.pushViewController(controller, animated: true)
-        //EVENT
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_VIEW_RECOMMENDED.rawValue, label: name)
+
     }
 
     
@@ -421,10 +420,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                         let lineTwo = lineDest["line"].stringValue
                         if lineOne.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                             == lineTwo.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
-                            let itemToShow = ["fineLineName": line["fineLineName"].stringValue,
+                            let itemToShow = ["fineLineName": line["displayName"].stringValue,
                                             "imageUrl": lineDest["imageUrl"].stringValue,
                                             "line": lineTwo ,
-                                            "family": family["id"].stringValue ,
+                                            "family": family["familyId"].stringValue ,
                                             "department":depto]
                             resultDict.append(itemToShow)
                             
