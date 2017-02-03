@@ -81,7 +81,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     
-    var facebookButton : UIButton!
+    var sharedButton : UIButton!
     var deltailButton : UIButton!
     var listButton : UIButton!
     var delegate : ProductDetailButtonBarCollectionViewCellDelegate!
@@ -126,15 +126,15 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         listButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToWishlist), for: UIControlEvents.touchUpInside)
         
-        facebookButton = UIButton()
-        facebookButton.frame = CGRect(x: listButton.frame.maxX , y: 0, width: widthButtons, height: self.frame.height)
-        facebookButton.setImage(UIImage(named:"detail_shareOff"), for: UIControlState())
-        facebookButton.setImage(UIImage(named:"detail_share"), for: UIControlState.highlighted)
-        facebookButton.setImage(UIImage(named:"detail_share"), for: UIControlState.selected)
-        facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), for: UIControlEvents.touchUpInside)
+        sharedButton = UIButton()
+        sharedButton.frame = CGRect(x: listButton.frame.maxX , y: 0, width: widthButtons, height: self.frame.height)
+        sharedButton.setImage(UIImage(named:"detail_shareOff"), for: UIControlState())
+        sharedButton.setImage(UIImage(named:"detail_share"), for: UIControlState.highlighted)
+        sharedButton.setImage(UIImage(named:"detail_share"), for: UIControlState.selected)
+        sharedButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), for: UIControlEvents.touchUpInside)
       
         self.addToShoppingCartButton = UIButton()
-        self.addToShoppingCartButton.frame = CGRect(x: facebookButton.frame.maxX + 10, y: (self.frame.height / 2) - 17, width: 102, height: 34)
+        self.addToShoppingCartButton.frame = CGRect(x: sharedButton.frame.maxX + 10, y: (self.frame.height / 2) - 17, width: 102, height: 34)
         self.addToShoppingCartButton!.layer.cornerRadius = 17
         self.addToShoppingCartButton!.backgroundColor = WMColor.yellow
         self.addToShoppingCartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -143,10 +143,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
          self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: UIControlState())
         self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: UIControlState.selected)
-        
         self.addToShoppingCartButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
-        //addToShoppingCartButton.setImage(UIImage(named:"detail_cart"), forState: UIControlState.Normal)
-       
         self.addToShoppingCartButton!.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToShoppingCart), for: UIControlEvents.touchUpInside)
         
         let upBorder = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: AppDelegate.separatorHeigth()))
@@ -157,7 +154,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         self.addSubview(upBorder)
         self.addSubview(downBorder)
-        self.addSubview(facebookButton)
+        self.addSubview(sharedButton)
         self.addSubview(deltailButton)
         self.addSubview(listButton)
         self.addSubview(self.addToShoppingCartButton)

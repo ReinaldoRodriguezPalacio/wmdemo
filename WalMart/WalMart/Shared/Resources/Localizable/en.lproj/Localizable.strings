@@ -248,7 +248,7 @@
 "profile.misbasicos.title" = "Mis Favoritos";
 "profile.myAddress" = "Mis Direcciones";
 "profile.myOrders" = "Mis Pedidos";
-"profile.no.account" = "Inicia sesión o crea una cuenta con:";
+"profile.no.account" = "¿No tienes cuenta?";
 "profile.shipping" = "Direcciones de Entrega";
 "profile.fiscal" = "Direcciones de Facturación";
 "profile.address.new" = "nueva";

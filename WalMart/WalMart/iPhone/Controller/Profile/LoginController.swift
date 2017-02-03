@@ -147,28 +147,31 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginFacebookButton!.backgroundColor = UIColor.white
         self.loginFacebookButton!.addTarget(self, action: #selector(LoginController.facebookLogin), for: .touchUpInside)
         self.loginFacebookButton!.setImage(UIImage(named: "facebook_login"), for: UIControlState())
-        self.content!.addSubview(self.loginFacebookButton)
+        //self.content!.addSubview(self.loginFacebookButton)
         
         self.loginGoogleButton = UIButton(type: .custom)
         self.loginGoogleButton.layer.cornerRadius =  20.0
         self.loginGoogleButton!.backgroundColor = UIColor.white
         self.loginGoogleButton!.addTarget(self, action: #selector(LoginController.googleSignIn), for: .touchUpInside)
         self.loginGoogleButton!.setImage(UIImage(named: "google_login"), for: UIControlState())
-        self.content!.addSubview(self.loginGoogleButton)
+        //self.content!.addSubview(self.loginGoogleButton)
         
         self.loginTwitterButton = UIButton(type: .custom)
         self.loginTwitterButton.layer.cornerRadius =  20.0
         self.loginTwitterButton!.backgroundColor = UIColor.white
         self.loginTwitterButton!.addTarget(self, action: #selector(LoginController.twitterSignIn), for: .touchUpInside)
         self.loginTwitterButton!.setImage(UIImage(named: "twitter_login"), for: UIControlState())
-        self.content?.addSubview(loginTwitterButton!)
+        //self.content?.addSubview(loginTwitterButton!)
         
-        self.registryButton = UIButton(type: .custom)
-        self.registryButton!.backgroundColor = UIColor.white
-        self.registryButton!.setImage(UIImage(named: "walmart_login"), for: UIControlState())
-        self.registryButton!.addTarget(self, action: #selector(LoginController.registryUser), for: .touchUpInside)
-        self.registryButton!.layer.cornerRadius = 20.0
-        self.content?.addSubview(registryButton!)
+        registryButton = UIButton()
+        registryButton!.setTitle(NSLocalizedString("profile.create.an.account", comment: ""), for: UIControlState.normal)
+        registryButton!.setTitleColor(UIColor.white, for: UIControlState.normal)
+        registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        registryButton!.backgroundColor = WMColor.blue
+        registryButton!.layer.cornerRadius = 20.0
+        registryButton?.addTarget(self, action: #selector(LoginController.registryUser), for: .touchUpInside)
+         self.content?.addSubview(registryButton!)
+        
     }
     
     
@@ -204,17 +207,22 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.signInButton?.frame = CGRect(x: leftRightPadding, y: password!.frame.maxY+56, width: self.password!.frame.width, height: 40)
             self.noAccount?.frame = CGRect(x: leftRightPadding, y: self.signInButton!.frame.maxY + 24, width: self.password!.frame.width, height: 20)
             
-            if self.registryButton!.isHidden {
-                self.loginFacebookButton?.frame = CGRect(x: 68,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-                self.loginGoogleButton?.frame = CGRect(x: self.loginFacebookButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-                self.loginTwitterButton?.frame = CGRect(x: self.loginGoogleButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-                self.registryButton?.frame = CGRect(x: self.loginTwitterButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-            }else{
-                self.loginFacebookButton?.frame = CGRect(x: 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-                self.loginGoogleButton?.frame = CGRect(x: self.loginFacebookButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-                self.loginTwitterButton?.frame = CGRect(x: self.loginGoogleButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-                self.registryButton?.frame = CGRect(x: self.loginTwitterButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
-            }
+//            if self.registryButton!.isHidden {
+//                
+////                self.loginFacebookButton?.frame = CGRect(x: 68,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+////                
+////                self.loginGoogleButton?.frame = CGRect(x: self.loginFacebookButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+////                
+////                self.loginTwitterButton?.frame = CGRect(x: self.loginGoogleButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+//                
+//                self.registryButton?.frame = CGRect(x: 68,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+//            }else{
+////                self.loginFacebookButton?.frame = CGRect(x: 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+////                self.loginGoogleButton?.frame = CGRect(x: self.loginFacebookButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+////                self.loginTwitterButton?.frame = CGRect(x: self.loginGoogleButton!.frame.maxX + 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+//                self.registryButton?.frame = CGRect(x: 32,  y: self.noAccount!.frame.maxY + 24 , width: 40, height: 40)
+//            }
+            self.registryButton?.frame = CGRect(x:self.password!.frame.minX,y:  self.noAccount!.frame.maxY + 20 ,width: self.password!.frame.width,height: 40)
             
             
             self.bgView!.frame = self.view.bounds

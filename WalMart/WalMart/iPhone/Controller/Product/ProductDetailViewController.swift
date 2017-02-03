@@ -304,7 +304,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func backButton (){
         self.navigationController!.popViewController(animated: true)
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
     }
     
     
@@ -335,8 +334,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter idList:       list identifier
      */
     func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
-        //Event
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
+
         
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items as [Any]
@@ -381,7 +379,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if isShowShoppingCart {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
@@ -393,17 +391,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     }
             })
         }
-        
-        
-        //EVENT
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(self.name) - \(self.upc)")
+    
         
         self.detailCollectionView.scrollsToTop = true
         self.detailCollectionView.isScrollEnabled = false
         gestureCloseDetail.isEnabled = true
         
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
+            self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.view.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
             }, completion: { (complete:Bool) -> Void in
                 if self.listSelectorContainer != nil {
                     self.removeListSelector(action: nil)
@@ -438,7 +433,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if isShowShoppingCart {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
@@ -451,13 +446,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             })
         }
         
-        //Event
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "\(self.name) - \(self.upc)")
-        
-        
-        
         if self.listSelectorController == nil {
-            self.listSelectorContainer = UIView(frame: CGRect(x: 0, y: 360.0, width: 320.0, height: 0.0))
+            self.listSelectorContainer = UIView(frame: CGRect(x: 0, y: 360.0, width: self.view.frame.width, height: 0.0))
             self.listSelectorContainer!.clipsToBounds = true
             self.view.addSubview(self.listSelectorContainer!)
             
@@ -465,13 +455,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.listSelectorController!.delegate = self
             self.listSelectorController!.productUpc = self.upc as String
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0)
             self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: 320, height: 360))
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: 320, height: 360))
+            self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360))
+            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360))
             
             self.detailCollectionView.isScrollEnabled = false
             UIView.animate(withDuration: 0.3,
@@ -480,11 +470,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 },
                                        completion: { (complete:Bool) -> Void in
                                         if complete {
-                                            self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: -360.0, width: 320.0, height: 360.0)
+                                            self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: -360.0, width: self.view.frame.width, height: 360.0)
                                             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                                                self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
-                                                self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
-                                                self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+                                                self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
+                                                self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
+                                                self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0)
                                                 self.productDetailButton?.listButton.isSelected = true
                                             })
                                         }
@@ -507,8 +497,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                             delay: 0.0,
                                             options: .layoutSubviews,
                                             animations: { () -> Void in
-                                                self.listSelectorContainer?.frame = CGRect(x: 0, y: 360.0, width: 320.0, height: 0.0)
-                                                self.listSelectorBackgroundView?.frame = CGRect(x: 0, y: -360.0, width: 320.0, height: 360.0)
+                                                self.listSelectorContainer?.frame = CGRect(x: 0, y: 360.0, width: self.view.frame.width, height: 0.0)
+                                                self.listSelectorBackgroundView?.frame = CGRect(x: 0, y: -360.0, width: self.view.frame.width, height: 360.0)
                                             }, completion: { (complete:Bool) -> Void in
                                                 if complete {
                                                     self.listSelectorController!.willMove(toParentViewController: nil)
@@ -555,18 +545,18 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             
             isShowShoppingCart = true
-             let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
+             let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
             
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRect(x: 0, y: 360, width: 320, height: 360),priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:upc)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRect(x: 0, y: 360, width: self.view.frame.width, height: 360),priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:upc)
             //selectQuantity!.priceProduct = NSNumber(double:self.price.doubleValue)
-            selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+            selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
             selectQuantity!.closeAction =
                 { () in
                     UIView.animate(withDuration: 0.5,
                         animations: { () -> Void in
                             self.productDetailButton?.reloadShoppinhgButton()
                             self.isShowShoppingCart = false
-                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
                             //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                         },
                         completion: { (animated:Bool) -> Void in
@@ -607,7 +597,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         UIView.animate(withDuration: 0.2,
                             animations: { () -> Void in
                                 self.productDetailButton?.reloadShoppinhgButton()
-                                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
+                                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0	)
                                // self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                             },
                             completion: { (animated:Bool) -> Void in
@@ -710,7 +700,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         if isShowShoppingCart == true && isShowProductDetail == false{
             if selectQuantity != nil {
-                let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
+                let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
                 
                 selectQuantity!.clipsToBounds = true
                 self.view.addSubview(selectQuantity!)
@@ -737,10 +727,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Animates product detail view
      */
     func startAnimatingProductDetail() {
-        let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
+        let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
         
         if self.nutrimentalInfo.count == 0 {
-            viewDetail = ProductDetailTextDetailView(frame: CGRect(x: 0,y: 360, width: 320, height: 0))
+            viewDetail = ProductDetailTextDetailView(frame: CGRect(x: 0,y: 360, width: self.view.frame.width, height: 0))
             viewDetail!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             //self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
             viewDetail.setTextDetail(detail as String)
@@ -759,15 +749,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             })
         } else {
             
-            let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
+            let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
             if nutrimentalsView == nil {
-                nutrimentalsView = GRNutrimentalInfoView(frame: CGRect(x: 0,y: 360, width: 320, height: 0))
+                nutrimentalsView = GRNutrimentalInfoView(frame: CGRect(x: 0,y: 360, width: self.view.frame.width, height: 0))
                 nutrimentalsView?.setup(self.ingredients, nutrimentals: self.nutrimentalInfo)
                 nutrimentalsView!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             }
             
-            nutrimentalsView!.frame = CGRect(x: 0,y: 360, width: 320, height: 0)
-            self.nutrimentalsView!.imageBlurView.frame =  CGRect(x: 0, y: -360, width: 320, height: 360)
+            nutrimentalsView!.frame = CGRect(x: 0,y: 360, width: self.view.frame.width, height: 0)
+            self.nutrimentalsView!.imageBlurView.frame =  CGRect(x: 0, y: -360, width: self.view.frame.width, height: 360)
             
             
             nutrimentalsView!.closeDetail = { () in
@@ -811,8 +801,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.detailCollectionView.isScrollEnabled = true
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 
-                self.nutrimentalsView?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: 320, height: 360)
-                self.nutrimentalsView?.frame = CGRect(x: 0,y: 360, width: 320, height: 0)
+                self.nutrimentalsView?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: self.view.frame.width, height: 360)
+                self.nutrimentalsView?.frame = CGRect(x: 0,y: 360, width: self.view.frame.width, height: 0)
             }, completion: { (ended:Bool) -> Void in
                 if self.nutrimentalsView != nil {
                     self.nutrimentalsView?.removeFromSuperview()
@@ -832,8 +822,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.detailCollectionView.isScrollEnabled = true
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 
-                self.viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: 320, height: 360)
-                self.viewDetail.frame = CGRect(x: 0,y: 360, width: 320, height: 0)
+                self.viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: self.view.frame.width, height: 360)
+                self.viewDetail.frame = CGRect(x: 0,y: 360, width: self.view.frame.width, height: 0)
             }, completion: { (ended:Bool) -> Void in
                 if self.viewDetail != nil {
                     self.viewDetail.removeFromSuperview()
@@ -853,8 +843,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter indexPath: indexPath or image to show
      */
     func sleectedImage(_ indexPath: IndexPath) {
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_PRODUCT_DETAIL_IMAGE_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
-        
         let controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
         controller.imagesToDisplay = imageUrl
@@ -867,16 +855,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func showMessageProductNotAviable() {
         self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
-        let addedAlertNA = WishlistAddProductStatus(frame: CGRect(x: 0, y: 360, width: 320, height: 0))
-        addedAlertNA.generateBlurImage(self.view,frame:CGRect(x: 0, y: 312, width: 320, height: 360))
+        let addedAlertNA = WishlistAddProductStatus(frame: CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0))
+        addedAlertNA.generateBlurImage(self.view,frame:CGRect(x: 0, y: 312, width: self.view.frame.width, height: 360))
         addedAlertNA.clipsToBounds = true
-        addedAlertNA.imageBlurView.frame = CGRect(x: 0, y: -312, width: 320, height: 360)
+        addedAlertNA.imageBlurView.frame = CGRect(x: 0, y: -312, width: self.view.frame.width, height: 360)
         addedAlertNA.textView.text = NSLocalizedString("productdetail.notaviable",comment:"")
 
         self.view.addSubview(addedAlertNA)
         self.isWishListProcess = false
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            addedAlertNA.frame = CGRect(x: 0, y: 312, width: 320, height: 48)
+            addedAlertNA.frame = CGRect(x: 0, y: 312, width: self.view.frame.width, height: 48)
             addedAlertNA.prepareToClose()
         })
 
@@ -889,12 +877,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         print("parametro para signals MG Iphone :::\(self.indexRowSelected)")
         
         self.type = ResultObjectType.Mg
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
+
             //TODO signals
             let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
             let productService = ProductDetailService(dictionary: signalsDictionary)
-            let eventType = self.fromSearch ? "clickdetails" : "pdpview"
-            //let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
             let params = productService.buildMustangParams(upc as String, skuId:self.sku as String)
             productService.callService(requestParams:params as AnyObject, successBlock: { (result: [String:Any]) -> Void in
                 self.reloadViewWithData(result)
@@ -948,7 +934,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.price = "0.0"
         }
         
-        if let resultDetail = sku["description"] as? NSString {
+        if let resultDetail = sku["longDescription"] as? NSString {
             self.detail = resultDetail
         }else {
             self.detail = ""
@@ -1688,9 +1674,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     func listSelectorDidAddProduct(inList listId:String) {
-        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
+        let frameDetail = CGRect(x: 320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
-        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0))
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil)
         }
@@ -1705,14 +1691,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
                 
-                let service = GRAddItemListService()
-                let pesable = self.isPesable ? "1" : "0"
-                //let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
+               let service = GRAddItemListService()
                let productObject =  service.buildItemMustang(self.upc as String, sku: self.sku as String, quantity: Int(quantity)!)
                 service.callService(service.buildItemMustangObject(idList: listId, upcs: [productObject]),
                                     successBlock: { (result:[String:Any]) -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
-                                        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
                                         
                                         self.alertView!.showDoneIcon()
                                         self.alertView!.afterRemove = {
@@ -1738,7 +1721,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
             
-            //}
         }
         
         //--
@@ -1747,8 +1729,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         UIView.animate(withDuration: 0.5,
                                    animations: { () -> Void in
-                                    self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
-                                    self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+                                    self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
+                                    self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0)
             }, completion: { (finished:Bool) -> Void in
                 
             }
@@ -1792,9 +1774,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func listSelectorDidAddProductLocally(inList list:List) {
         
-        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
+        let frameDetail = CGRect(x: 320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
-        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0))
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil)
         }
@@ -1858,7 +1840,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         UIView.animate(withDuration: 0.5,
                                    animations: { () -> Void in
                                     self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
-                                    self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+                                    self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0)
             }, completion: { (finished:Bool) -> Void in
                 
             }
