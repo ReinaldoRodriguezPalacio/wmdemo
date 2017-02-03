@@ -241,14 +241,14 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
                     for line in family["fineContent"].arrayValue {
-                        let lineOne = line["fineLineId"].stringValue
+                        let lineOne = line["id"].stringValue
                         let lineTwo = lineDest["line"].stringValue
                         if lineOne.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                             == lineTwo.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
-                                let itemToShow = ["fineLineName": line["fineLineName"].stringValue,
+                                let itemToShow = ["fineLineName": line["displayName"].stringValue,
                                     "imageUrl": lineDest["imageUrl"].stringValue,
                                     "line": lineTwo ,
-                                    "family": family["id"].stringValue ,
+                                    "family": family["familyId"].stringValue ,
                                     "department":depto]
                                 resultDict.append(itemToShow)
                                 

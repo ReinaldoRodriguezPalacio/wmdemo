@@ -170,7 +170,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         for  lineToShow in jsonLines.arrayValue {
             let product = GRProductSpecialCollectionViewCell(frame: CGRect(x: currentX, y: 151, width: width, height: 123))
             let imageProd =  lineToShow["imageUrl"].stringValue
-            let descProd =  lineToShow["name"].stringValue
+            let descProd =  lineToShow["fineLineName"].stringValue
             product.jsonItemSelected = lineToShow
             product.setValues(imageProd,
                 productShortDescription: descProd,
@@ -217,7 +217,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
         
 
-        delegate.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
+        delegate.didTapLine(viewC.jsonItemSelected["fineLineName"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
         //delegate.didTapLine(name: String, department: String, family: String, line: String)
         
         
