@@ -159,7 +159,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
         
         self.suburb = FormFieldView()
-        self.suburb!.isRequired = false
+        self.suburb!.isRequired = true
         self.suburb!.setCustomPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
         self.suburb!.typeField = TypeField.list
         self.suburb!.nameField = NSLocalizedString("gr.address.field.suburb",comment:"")
@@ -373,13 +373,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         self.neighborhoods = []
                         self.stores = []
                         
-                        if !self.store.isRequired
-                        {
-                            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                            alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
-                            alertView!.showDoneIconWithoutClose()
-                            alertView!.showOkButton("OK", colorButton: WMColor.green)
-                        }
                         self.showErrorLabel(true)                     
                         if self.errorView == nil{
                             self.errorView = FormFieldErrorView()

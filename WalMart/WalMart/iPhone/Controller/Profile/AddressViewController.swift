@@ -542,7 +542,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         let grAddressAddService = GRAddressAddService()
         var params = self.viewAddress!.getParams()
         
-        let paramsSend =  grAddressAddService.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" ,storeName: "", operationType:"A" , preferred: true)
+        let paramsSend =  grAddressAddService.buildParams(params["city"] as! String, addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:params["state"] as! String , county:params["county"] as! String, neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" ,storeName: "", operationType:"A" , preferred: true)
         
             grAddressAddService.callService(requestParams: paramsSend, successBlock: { (resultCall:[String:Any]) -> Void  in
             print("Se realizao la direccion")
