@@ -1501,7 +1501,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let cookie = cookies![idx] 
             storage.deleteCookie(cookie)
         }
-        cookies =   storage.cookies(for: URL(string: "https://www.aclaraciones.com.mx")!)
+        cookies =   storage.cookies(for: URL(string: "https://www.walmartmobile.com.mx")!)
         for idx in 0 ..< cookies!.count {
             let cookie = cookies![idx] 
             storage.deleteCookie(cookie)
