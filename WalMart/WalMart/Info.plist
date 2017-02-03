@@ -220,7 +220,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
@@ -555,7 +555,7 @@
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>https://dl.dropboxusercontent.com/u/49807601/getPurchaseOrderByUser.txt</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/9cqa0ywl4z51vhp/getProductDEtail.txt?dl=0</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/getPushNotifications</string>
 			<key>WalmartMG.ReferedCustomerService</key>

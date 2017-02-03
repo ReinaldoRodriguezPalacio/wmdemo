@@ -306,7 +306,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                                     
                             })
                         }
-                        //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_ACCESSORY_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_ACCESSORY_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
+                     
                     }
                     
                     newView.startFrame = newView.bounds
@@ -349,10 +349,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                             
                         })
                     }
-                    //EVENT
-                    let label = item["description"] as? String ?? ""
-                    let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
-                    //BaseController.sendAnalytics("GR_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "GR_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
+                    
                     print("End")
                     self.view.addSubview(newView)
                 }
@@ -381,7 +378,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                 default:
                     return
                 }
-                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"gr")
+               let _ =  customBar.handleNotification(strAction,name:"",value:strValue,bussines:"gr")
             }
         }
     }
@@ -420,7 +417,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
                     for line in family["fineContent"].arrayValue {
-                        let lineOne = line["fineLineId"].stringValue
+                        let lineOne = line["id"].stringValue
                         let lineTwo = lineDest["line"].stringValue
                         if lineOne.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                             == lineTwo.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {

@@ -73,7 +73,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
             sView.removeFromSuperview()
         }
         
-        var currentX : CGFloat = 0.0
+        var currentX : CGFloat = (self.frame.width - ((width * 3) + 64)  ) / 5
         for  lineToShow in jsonLines.arrayValue {
             let product = GRProductSpecialCollectionViewCell(frame: CGRect(x: currentX, y: 12, width: width, height: 111))
             let imageProd =  lineToShow["imageUrl"].stringValue
@@ -87,8 +87,8 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
             
             let tapOnProdut =  UITapGestureRecognizer(target: self, action: #selector(IPOGRDepartmentSpecialTableViewCell.productTap(_:)))
             product.addGestureRecognizer(tapOnProdut)
-            
-            currentX = currentX + width
+            print( product.frame.width )
+            currentX = currentX + product.frame.width + ((self.frame.width - ((width * 3) + 64) ) / 5)
         }
         
         self.moreButton?.frame = CGRect(x: currentX + 24, y: 43, width: 16, height: 16)

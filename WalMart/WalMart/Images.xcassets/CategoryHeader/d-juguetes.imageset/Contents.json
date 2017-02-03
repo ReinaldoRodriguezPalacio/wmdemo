@@ -2,27 +2,27 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "d-juguetes-1.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "d-juguetes@2x-1.png"
+      "filename" : "d-juguetes@2x-1.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
+      "filename" : "d-juguetes@3x.jpg",
       "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "d-juguetes.png"
+      "filename" : "d-juguetes.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "d-juguetes@2x.png"
+      "filename" : "d-juguetes@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

@@ -224,7 +224,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                 default:
                     return
                 }
-                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
+               let _ = customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
             }
         }
     }
