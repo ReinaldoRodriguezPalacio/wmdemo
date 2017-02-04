@@ -305,6 +305,10 @@
 "profile.address.shipping.error.max" = "Se ha alcanzado el máximo de direcciones\n de entrega,elimine ó actualice las existentes";
 "profile.address.update.ok" = "La actualización de la dirección\n ha sido exitosa.";
 "profile.address.add.ok" = "La Dirección ha sido Agregada\n Exitosamente.";
+"profile.address.save.change" = "Guardar cambios";
+"profile.address.exit.notSave" = "Salir sin guardar";
+"profile.address.alert.exit" = "¿Deseas salir sin guardar los cambios?";
+
 
 //field
 "field.validate.required" = " Es requerido";
