@@ -31,7 +31,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var nameField: FormFieldView?
     
     var loading: WMLoadingView?
-    var emptyView: UIView?
+    var emptyView: UIImageView?
     var quantitySelector: GRShoppingCartQuantitySelectorView?
     //var alertView: IPOWMAlertViewController?
     
@@ -662,16 +662,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
+            self.emptyView = UIImageView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
         }else{
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
+            self.emptyView = UIImageView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height - 64))
         }
-        self.emptyView!.backgroundColor = UIColor.white
-        self.view.addSubview(self.emptyView!)
+
         
-        let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height: bg.image!.size.height)
-        self.emptyView!.addSubview(bg)
+        self.emptyView!.image = UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" )
+        //bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height:  bounds.height - self.header!.frame.maxY )
+        
+   
+        self.view.addSubview(self.emptyView!)
         
         let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
         labelOne.textAlignment = .center

@@ -255,29 +255,17 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
 
         switch (OptionsController(rawValue: optionTxt)!) {
         case .Help : self.performSegue(withIdentifier: "showHelp", sender: self)
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HOW_USE_APP.rawValue, label: "")
-        case .Profile :
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
-            let controller = EditProfileViewController()
+        case .Profile : let controller = EditProfileViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         case .Terms: self.performSegue(withIdentifier: "termsHelp", sender: self)
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_TERMS_AND_CONDITIONS.rawValue, label: "")
         case .Contact: self.performSegue(withIdentifier: "supportHelp", sender: self)
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SUPPORT.rawValue, label: "")
         case .StoreLocator: self.performSegue(withIdentifier: "storeLocator", sender: self)
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_STORE_LOCATOR.rawValue, label: "")
         case .Notification: self.performSegue(withIdentifier: "notificationController", sender: self)
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
-        case .Recents:
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_ITEMES_PURCHASED.rawValue, label: "")
-                let controller = RecentProductsViewController()
+        case .Recents: let controller = RecentProductsViewController()
                 self.navigationController!.pushViewController(controller, animated: true)
-        case .Address:
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
-            let controller = MyAddressViewController()
+        case .Address: let controller = MyAddressViewController()
             self.navigationController!.pushViewController(controller, animated: true)
-        case .Orders :
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PREVIOUS_ORDERS.rawValue, label: "")
+        case .Orders:
             let controller = OrderViewController()
             //controller.reloadPreviousOrders()
             self.navigationController!.pushViewController(controller, animated: true)
@@ -285,27 +273,19 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.present(cameraController, animated: true, completion: nil)
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         case .Invoice:
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.present(webCtrl,animated:true,completion:nil)
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
         case .TicketList:
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_TICKET.rawValue, label: "")
             scanTicket()
 //        case .Refered:
-//            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_REFERED.rawValue, label: "")
 //            openRefered()
         case .Promotions:
             self.openPromotios()
-                print("Abrir promosiones")
-            
         case .Preferences:
             let controller = PreferencesController()
             self.navigationController!.pushViewController(controller, animated: true)
-             print("Abrir preferencias")
-            
         }
         
         let notificationOptions = (self.showCamfind! ? 9 : 8)

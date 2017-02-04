@@ -377,7 +377,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                     let message = "\(NSLocalizedString("profile.login.welcome",comment:""))\n\n\(NSLocalizedString("profile.login.addAddress",comment:""))"
                     self.alertView!.setMessage(message)
                     self.alertView!.showDoneIconWithoutClose()
-                    self.alertView!.addActionButtonsWithCustomText("Más tarde", leftAction: {
+                    self.alertView!.addActionButtonsWithCustomText(NSLocalizedString("update.later", comment: ""), leftAction: {
                         self.successCallBack?()
                         self.backRegistry(self.backButton!)
                         self.alertView!.rightButton?.removeFromSuperview()
