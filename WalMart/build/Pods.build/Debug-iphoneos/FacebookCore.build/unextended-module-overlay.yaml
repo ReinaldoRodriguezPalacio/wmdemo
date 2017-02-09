@@ -1,0 +1,13 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': '/Users/joeljuarezalcantara/walmart-ios-mustang/WalMart/build/Debug-iphoneos/FacebookCore/FacebookCore.framework/Modules'
+    'contents': [{
+      'type': 'file',
+      'name': 'module.modulemap',
+      'external-contents': '/Users/joeljuarezalcantara/walmart-ios-mustang/WalMart/build/Pods.build/Debug-iphoneos/FacebookCore.build/unextended-module.modulemap',
+    }]
+  }]
+}
