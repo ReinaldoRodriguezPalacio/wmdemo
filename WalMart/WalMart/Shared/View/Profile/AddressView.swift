@@ -114,9 +114,9 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                 }else if field == self.suburb{
                     field!.resignFirstResponder()
                 }else if field == self.ieps {
-                    self.email!.becomeFirstResponder()
+                    let _ = self.email!.becomeFirstResponder()
                 }else {
-                    self.shortNameField!.becomeFirstResponder()
+                    let _ = self.shortNameField!.becomeFirstResponder()
                 }
                 
             }
@@ -318,7 +318,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
                     self.picker!.sender = self.suburb!
                     self.picker!.delegate = self
                     self.picker!.setValues(self.suburb!.nameField as NSString, values: self.neighborhoods)
-                    self.picker!.showPicker()
+                    //self.picker!.showPicker()
                 }else{
                     self.endEditing(true)
                     self.popupTableSelected = self.selectedNeighborhood
@@ -681,7 +681,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate,UITableVi
     
     func getParams() -> [String:Any] {//"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser,
         var paramsAdd : [String:Any]? = [:]
-        let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text!,"innerNumber":self.indoornumber!.text!,"state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!]
+        let paramsAddress = ["city":self.city!.text!,"zipCode":self.zipcode!.text!,"street":self.street!.text ?? "" ,"innerNumber":self.indoornumber!.text ?? "","state":self.state!.text! ,"county":self.city!.text! ,"neighborhoodId":self.idSuburb!,"addressName":self.shortNameField!.text!,"outerNumber":self.outdoornumber!.text! , "setAsPreferredAdress": self.defaultPrefered ? "true":"false","storeId":self.idStoreSelected!] as [String : Any]
         if idAddress != nil{
            paramsAdd?.update(from: paramsAddress)
             paramsAdd?.update(from: ["addressId":self.idAddress!,"profileId":UserCurrentSession.sharedInstance.userSigned!.idUser])

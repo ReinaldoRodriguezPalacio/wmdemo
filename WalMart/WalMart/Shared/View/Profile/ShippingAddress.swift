@@ -13,8 +13,8 @@ class ShippingAddress: AddressView {
     var name : FormFieldView? = nil
     var lastName : FormFieldView? = nil
     var titleLabelBetween : UILabel!
-    var betweenFisrt : FormFieldView!
-    var betweenSecond : FormFieldView!
+    var betweenStrets : FormFieldView!
+    var reference : FormFieldView!
    
     var titleLabelShiping: UILabel!
     //var lineViewShiping : UIView!
@@ -70,25 +70,26 @@ class ShippingAddress: AddressView {
         self.titleLabelBetween!.text =  NSLocalizedString("gr.address.section.between.title", comment: "")
         self.titleLabelBetween!.textColor = WMColor.light_blue
         
-        self.betweenFisrt = FormFieldView()
-        self.betweenFisrt!.isRequired = false
-        self.betweenFisrt!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenFisrt",comment:""))
-        self.betweenFisrt!.typeField = TypeField.alphanumeric
-        self.betweenFisrt!.nameField = NSLocalizedString("gr.address.field.betweenFisrt",comment:"")
-        self.betweenFisrt!.minLength = 2
-        self.betweenFisrt!.maxLength = 50
+        self.betweenStrets = FormFieldView()
+        self.betweenStrets!.isRequired = false
+        self.betweenStrets!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenFisrt",comment:""))
+        self.betweenStrets!.typeField = TypeField.alphanumeric
+        self.betweenStrets!.nameField = NSLocalizedString("gr.address.field.betweenFisrt",comment:"")
+        self.betweenStrets!.minLength = 2
+        self.betweenStrets!.maxLength = 50
+    
         
-        self.betweenSecond = FormFieldView()
-        self.betweenSecond!.isRequired = false
-        self.betweenSecond!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenSecond",comment:""))
-        self.betweenSecond!.typeField = TypeField.alphanumeric
-        self.betweenSecond!.nameField = NSLocalizedString("gr.address.field.betweenSecond",comment:"")
-        self.betweenSecond!.minLength = 2
-        self.betweenSecond!.maxLength = 50
+        self.reference = FormFieldView()
+        self.reference!.isRequired = false
+        self.reference!.setCustomPlaceholder(NSLocalizedString("gr.address.field.holder",comment:""))
+        self.reference!.typeField = TypeField.alphanumeric
+        self.reference!.nameField = NSLocalizedString("gr.address.field.betweenReference",comment:"")
+        self.reference!.minLength = 2
+        self.reference!.maxLength = 50
         
         self.addSubview(titleLabelBetween!)
-        self.addSubview(betweenFisrt!)
-        self.addSubview(betweenSecond!)
+        self.addSubview(betweenStrets!)
+        self.addSubview(reference!)
         
        
     }
@@ -107,6 +108,11 @@ class ShippingAddress: AddressView {
         self.lastName?.frame = CGRect(x: leftRightPadding, y: self.name!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
          self.telephone?.frame = CGRect(x: leftRightPadding,  y: lastName!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
         self.viewAddress.frame = CGRect(x: 0, y: self.telephone!.frame.maxY + 8, width: self.bounds.width, height: showSuburb == true ? self.store!.frame.maxY : self.zipcode!.frame.maxY )
+        
+        self.titleLabelBetween.frame =  CGRect(x: leftRightPadding,  y: self.viewAddress.frame.maxY , width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.betweenStrets.frame =  CGRect(x: leftRightPadding,  y: self.titleLabelBetween.frame.maxY  , width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.reference.frame =  CGRect(x: leftRightPadding,  y: self.betweenStrets.frame.maxY + 8, width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        
     }
     
     
@@ -116,6 +122,9 @@ class ShippingAddress: AddressView {
             self.name!.text = self.item!["firstName"] as? String
             self.lastName!.text = self.item!["lastName"] as? String
             self.telephone!.text = self.item!["mobileNumber"] as? String
+            self.betweenStrets.text = self.item!["btwStreets"] as? String
+            self.reference.text = self.item!["reference"] as? String
+            
         }
     }
     
@@ -142,7 +151,8 @@ class ShippingAddress: AddressView {
      override func getParams() -> [String:Any] {
         var paramsAdd : [String:Any]? = [:]
         paramsAdd!.update(from: super.getParams())
-        paramsAdd!.update(from: ["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":self.telephone!.text!,"phoneExtension":"","mobileNumber":self.telephone!.text!])
+        //TODO : Agrear parametros
+        paramsAdd!.update(from: ["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":self.telephone!.text!,"phoneExtension":"","mobileNumber":self.telephone!.text ?? "","reference":self.reference!.text ?? "","btwStreets":self.betweenStrets!.text ?? ""])
         return paramsAdd!
         
     }

@@ -490,7 +490,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         let bounds = self.view.bounds
         switch (typeAddress ) {
         case .shiping:
-            let height : CGFloat = self.viewAddress!.showSuburb == true ? 640 : 600-190
+            let height : CGFloat = self.viewAddress!.showSuburb == true ? 640 + 184  : (600-190) + 184
             self.viewAddress?.frame = CGRect(x: 0.0, y: self.viewTypeAdress != nil ? 45 : 0 , width: bounds.width , height: height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 40 )
             self.content.bringSubview(toFront: self.viewAddress!)

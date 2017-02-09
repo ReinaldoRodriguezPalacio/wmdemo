@@ -530,8 +530,10 @@
 "gr.address.field.suburb" = "Colonia";
 "gr.address.section.between.title" = "Entre las calles";
 "gr.address.section.between.phone" = "Información telefónica";
-"gr.address.field.betweenFisrt" = "Primer calle";
+"gr.address.field.betweenFisrt" = "Primera y segunda calle";
 "gr.address.field.betweenSecond" = "Segunda calle";
+"gr.address.field.betweenReference" = "Referencia";
+"gr.address.field.holder" = "Ejemplos: Frente a la tienda... Es la casa azul de la esquina.";
 "gr.address.field.addressNotOk" = "Por el momento, no tenemos cobertura para llevar tu súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
 "gr.address.field.notStore" = "Este C.P, sólo tiene cobertura para comprar artículos de Tecnología, Hogar y más; no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
 "gr.address.MyAddress" = "Mis Direcciones de Súper";

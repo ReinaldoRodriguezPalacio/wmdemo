@@ -569,7 +569,7 @@
 			<key>WalmartMG.SetPreferencesService</key>
 			<string>https://dl.dropboxusercontent.com/s/d3tsuq8tlwghpmv/setPreferences.txt?dl=0</string>
 			<key>WalmartMG.ShippingAddressByUserService</key>
-			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getAddress.json</string>
+			<string>https://dl.dropboxusercontent.com/s/89vse854xuo39ev/getAddresShippingcopy.txt</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://dl.dropboxusercontent.com/s/eqadxhjmktdodso/addItemToOrder.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
