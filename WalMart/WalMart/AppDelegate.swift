@@ -21,7 +21,8 @@ import AFNetworkActivityLogger
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier{
+
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
@@ -151,6 +152,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let sandboxClientID = payPalEnvironment["SandboxClientID"] as! String
         let productionClientID =  payPalEnvironment["ProductionClientID"] as! String
         PayPalMobile.initializeWithClientIds(forEnvironments: [PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
+        
+        
+        //TAGManager
+        let GTM = TAGManager.instance()
+        GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
+        
+        TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM", //Desarrollo
+            tagManager: GTM, openType: kTAGOpenTypePreferFresh,
+            timeout: nil,
+            notifier: self)
 
         return true
     }
@@ -626,4 +637,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
     }
     
-}  
+    /**
+     * Called when the container is available.
+     *
+     * @param container The requested container.
+     */
+    public func containerAvailable(_ container: TAGContainer!) {
+     container.refresh()
+    }
+}

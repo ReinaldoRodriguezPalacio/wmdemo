@@ -55,6 +55,8 @@
 		16AD9E6A1E201F29004421DA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD9E691E201F28004421DA /* ImageIO.framework */; };
 		16DA088D1E1478B30069701C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16DA088C1E1478B30069701C /* LaunchScreen.storyboard */; };
 		16F076261E3BC6DA003C9B81 /* LogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F076251E3BC6DA003C9B81 /* LogoutService.swift */; };
+		16F865671E4BFEB1006E5B74 /* GTM-N7Z7PWM in Resources */ = {isa = PBXBuildFile; fileRef = 16F865661E4BFEB1006E5B74 /* GTM-N7Z7PWM */; };
+		16F865691E4BFEFA006E5B74 /* GTM-TCGRR6 in Resources */ = {isa = PBXBuildFile; fileRef = 16F865681E4BFEFA006E5B74 /* GTM-TCGRR6 */; };
 		4A223E721DA2A8F20033B310 /* GetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */; };
 		4A223E741DA2A91A0033B310 /* SetPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A223E731DA2A91A0033B310 /* SetPreferencesService.swift */; };
 		4A26BC841D47C03600714FF5 /* ListHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26BC831D47C03600714FF5 /* ListHelpView.swift */; };
@@ -617,6 +619,8 @@
 		16AD9E691E201F28004421DA /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16DA088C1E1478B30069701C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = iPhone/Resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16F076251E3BC6DA003C9B81 /* LogoutService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogoutService.swift; path = Shared/Services/LoginSignUp/LogoutService.swift; sourceTree = "<group>"; };
+		16F865661E4BFEB1006E5B74 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
+		16F865681E4BFEFA006E5B74 /* GTM-TCGRR6 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-TCGRR6"; sourceTree = "<group>"; };
 		29947F6DAD641B4D6317D1AB /* Pods-WalMart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.release.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.release.xcconfig"; sourceTree = "<group>"; };
 		3F9AF542B27E495990A3F50A /* Pods-WalMart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.debug.xcconfig"; sourceTree = "<group>"; };
 		4A223E711DA2A8F20033B310 /* GetPreferencesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetPreferencesService.swift; path = Shared/Services/Profile/GetPreferencesService.swift; sourceTree = "<group>"; };
@@ -1673,6 +1677,8 @@
 		564578C019AE2FAA006A7152 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				16F865681E4BFEFA006E5B74 /* GTM-TCGRR6 */,
+				16F865661E4BFEB1006E5B74 /* GTM-N7Z7PWM */,
 				04312C951A6EDBC50009A940 /* Extension */,
 				56DE027119DE2BDA00FA2042 /* Certs */,
 				565E5A7519C0BE7600444DF7 /* Session */,
@@ -3261,6 +3267,7 @@
 				AC59115E19DDEEDD00EB095C /* termsOfUse.html in Resources */,
 				16DA088D1E1478B30069701C /* LaunchScreen.storyboard in Resources */,
 				8B5B7ED61AC0B48B00F880D1 /* PreguntasFrecuentes.pdf in Resources */,
+				16F865671E4BFEB1006E5B74 /* GTM-N7Z7PWM in Resources */,
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
 				6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */,
 				AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */,
@@ -3269,6 +3276,7 @@
 				56527DCD19AFA8C2008032C6 /* MyriadPro-BoldIt.otf in Resources */,
 				AC5911AC19DE26E600EB095C /* shippingCosts.html in Resources */,
 				8B44A1BF1AA7E16C008E3CC0 /* TiempoEntrega.pdf in Resources */,
+				16F865691E4BFEFA006E5B74 /* GTM-TCGRR6 in Resources */,
 				56527DC819AFA8C2008032C6 /* MyriadPro-BlackCond.otf in Resources */,
 				AC5911A719DE26E600EB095C /* howToBuy.html in Resources */,
 				AC5911AB19DE26E600EB095C /* returnPolicies.html in Resources */,

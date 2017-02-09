@@ -9,19 +9,17 @@
 import Foundation
 
 
+var messageError:String  = ""
+
 class BaseController : UIViewController {
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            let valueScreenName = self.getScreenGAIName()
-//            if !valueScreenName.isEmpty {
-//                tracker.set(kGAIScreenName, value: self.getScreenGAIName())
-//                let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
-//                tracker.send(eventTracker as! [NSObject : AnyObject])
-//            }
-//        }
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["event": "openScreen", "screenName": self.getScreenGAIName()])
+
     }
 
     
@@ -66,6 +64,33 @@ class BaseController : UIViewController {
    
     func getScreenGAIName() -> String {
         fatalError("SCreeen name not implemented")
+    }
+    
+    // MARK: - Analytics 360
+    
+    class func sendAnalyticsPush(_ pushData:[String:Any]) {
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        dataLayer.push(pushData)
+    }
+    
+    //MARK: Tag de Errores
+    class func sendTagManagerErrors(_ event:String,detailError:String){
+        switch event {
+        case "ErrorEvent":
+            self.sendAnalyticsPush(["event":event,"detailError":detailError])
+            break
+        case "ErrorEventBusiness":
+            
+            if  messageError != detailError {
+                self.sendAnalyticsPush(["event":event,"detailErrorBusiness":detailError])
+            }
+            messageError = detailError
+            break
+        default:
+            break
+        }
+        
     }
     
 }
