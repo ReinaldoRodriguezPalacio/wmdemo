@@ -1193,6 +1193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				16AD9E6A1E201F29004421DA /* ImageIO.framework in Frameworks */,
 				4A4E7B2B1D516361001514BD /* UIKit.framework in Frameworks */,
 				4A4E7B271D5161B5001514BD /* CFNetwork.framework in Frameworks */,
@@ -1224,7 +1225,6 @@
 				6C3180911B87C9C10015FC2E /* AudioToolbox.framework in Frameworks */,
 				6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */,
 				6CA068871D3D7D4D0051200E /* GoogleSignIn.framework in Frameworks */,
-				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
 				DE9489CBB8E75D75A04DA7E4 /* Pods_WalMart.framework in Frameworks */,

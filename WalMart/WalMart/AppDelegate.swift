@@ -12,8 +12,11 @@ import Fabric
 import TwitterKit
 import SafariServices
 import AFNetworking
+import UserNotifications
+import FBNotifications
 import FBSDKCoreKit
 import FBSDKLoginKit
+import AFNetworking
 import AFNetworkActivityLogger
 
 
@@ -42,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
+        
         //UserCurrentSession.sharedInstance.searchForCurrentUser()
         // Optional: automatically send uncaught exceptions to Google Analytics.
         //GAI.sharedInstance().trackUncaughtExceptions = true
@@ -64,17 +68,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         FBSDKAppLinkUtility.fetchDeferredAppLink(fbDeferredAppLink)
       
         
-        //Google Login
-        GIDSignIn.sharedInstance().clientID = Bundle.main.object(forInfoDictionaryKey: "GoogleClientId") as! String
+        //Google Login //Se comenta por cambios en walmart 
+//        GIDSignIn.sharedInstance().clientID = Bundle.main.object(forInfoDictionaryKey: "GoogleClientId") as! String
         
-        //Twitter
-        let fabric =  Bundle.main.object(forInfoDictionaryKey: "Fabric") as! [String:Any]
-        let kits = (fabric["Kits"] as! [[String:Any]])[0]
-        let kitInfo = kits["KitInfo"] as! [String:Any]
-        let twitterKey = kitInfo["consumerKey"] as! String
-        let twitterSecret = kitInfo["consumerSecret"] as! String
-        Twitter.sharedInstance().start(withConsumerKey: twitterKey, consumerSecret: twitterSecret)
-        Fabric.with([Twitter.self()])
+        //Twitter  //Se comenta por cambios en walmart 
+//        let fabric =  Bundle.main.object(forInfoDictionaryKey: "Fabric") as! [String:Any]
+//        let kits = (fabric["Kits"] as! [[String:Any]])[0]
+//        let kitInfo = kits["KitInfo"] as! [String:Any]
+//        let twitterKey = kitInfo["consumerKey"] as! String
+//        let twitterSecret = kitInfo["consumerSecret"] as! String
+//        Twitter.sharedInstance().start(withConsumerKey: twitterKey, consumerSecret: twitterSecret)
+//        Fabric.with([Twitter.self()])
         
         //Set url image cache to application
         let sharedCache  = URLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
@@ -285,17 +289,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
     
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let characterSet: CharacterSet = CharacterSet( charactersIn: "<>" )
+ func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        let characterSet: CharacterSet = CharacterSet( charactersIn: "<>" )
+//        
+//        let token = String(data: deviceToken.base64EncodedData(), encoding: .utf8)?.trimmingCharacters(in: CharacterSet.whitespaces).trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
+//        
+//                let deviceTokenString: String = ( deviceToken.description as NSString )
+//                    .trimmingCharacters( in: characterSet )
+//                    .replacingOccurrences( of: " ", with: "" ) as String
+    
+        NSLog("Device token: hexString \(deviceToken.hexString)")
+        print("Device token: hexString \(deviceToken.hexString)")
+        //TODO
         
-        let deviceTokenString: String = ( deviceToken.description as NSString )
-            .trimmingCharacters( in: characterSet )
-            .replacingOccurrences( of: " ", with: "" ) as String
+        FBSDKAppEvents.setPushNotificationsDeviceToken(deviceToken)
         
-        NSLog("Device token: \(deviceTokenString)")
-        print("Device token: \(deviceTokenString)")
-        
-        UserCurrentSession.sharedInstance.deviceToken = deviceTokenString
+        UserCurrentSession.sharedInstance.deviceToken = deviceToken.hexString
         
         
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
@@ -303,7 +312,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
         let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
         
-        let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
+        let params = notService.buildParams(deviceToken.hexString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
         print(notService.jsonFromObject(params as AnyObject!))
         if UserCurrentSession.sharedInstance.finishConfig {
@@ -315,7 +324,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             }
         }
         
-        print("deviceTokenString \(deviceTokenString)" )
+        print("deviceTokenString \(deviceToken.hexString)" )
     }
     
     func application( _ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error ) {
@@ -334,13 +343,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         return 1.0 / scaleFactor()
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [String:Any]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable:Any]) {
         let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
-       UIApplication.shared.applicationIconBadgeNumber = 1
+        if userInfo["notification"] != nil {
+            UIApplication.shared.applicationIconBadgeNumber = 1
+        }
        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
         self.handleNotification(application,userInfo: userInfo)
+        
+        // Facebook Push
+        FBSDKAppEvents.logPushNotificationOpen(userInfo)
+        FBNotificationsManager.shared().presentPushCard(forRemoteNotificationPayload: userInfo, from: nil, completion: { (control:FBNCardViewController?, error: Error?) in
+        
+        })
 
     }
     
@@ -349,6 +366,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
         self.handleLocalNotification(application, localNotification: notification)
+        
+      
     }
     
     func handleLocalNotification(_ application: UIApplication, localNotification notification: UILocalNotification){
@@ -405,7 +424,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 
     }
 
-    func handleNotification(_ application: UIApplication,userInfo: [String:Any]) {
+    func handleNotification(_ application: UIApplication,userInfo: [AnyHashable:Any]) {
         if let notiicationInfo = userInfo["notification"] as? [String:Any] {
             
             //let notiicationInfo = userInfo["notification"] as! [String:Any]
@@ -417,7 +436,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             let bussines = notiicationInfo["business"] as! String
             
             let serviceSave = NotificationFileService()
-            serviceSave.saveNotification(userInfo)
+            serviceSave.saveNotification(userInfo as! [String : Any])
             
             if let customBar = self.window?.rootViewController as? CustomBarViewController {
                
@@ -480,6 +499,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
         
         return fb || gid || twitter
+    }
+    
+    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable : Any], completionHandler: @escaping () -> Void) {
+        
+        FBSDKAppEvents.logPushNotificationOpen(userInfo, action: identifier)
     }
     
     @available(iOS 9.0, *)

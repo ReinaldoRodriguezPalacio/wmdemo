@@ -12,6 +12,9 @@ class ShippingAddress: AddressView {
 
     var name : FormFieldView? = nil
     var lastName : FormFieldView? = nil
+    var titleLabelBetween : UILabel!
+    var betweenFisrt : FormFieldView!
+    var betweenSecond : FormFieldView!
    
     var titleLabelShiping: UILabel!
     //var lineViewShiping : UIView!
@@ -59,6 +62,33 @@ class ShippingAddress: AddressView {
         self.addSubview(lastName!)
         self.addSubview(telephone!)
         self.addSubview(titleLabelShiping!)
+        
+        //Add title
+        
+        self.titleLabelBetween = UILabel()
+        self.titleLabelBetween!.font = WMFont.fontMyriadProLightOfSize(14)
+        self.titleLabelBetween!.text =  NSLocalizedString("gr.address.section.between.title", comment: "")
+        self.titleLabelBetween!.textColor = WMColor.light_blue
+        
+        self.betweenFisrt = FormFieldView()
+        self.betweenFisrt!.isRequired = false
+        self.betweenFisrt!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenFisrt",comment:""))
+        self.betweenFisrt!.typeField = TypeField.alphanumeric
+        self.betweenFisrt!.nameField = NSLocalizedString("gr.address.field.betweenFisrt",comment:"")
+        self.betweenFisrt!.minLength = 2
+        self.betweenFisrt!.maxLength = 50
+        
+        self.betweenSecond = FormFieldView()
+        self.betweenSecond!.isRequired = false
+        self.betweenSecond!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenSecond",comment:""))
+        self.betweenSecond!.typeField = TypeField.alphanumeric
+        self.betweenSecond!.nameField = NSLocalizedString("gr.address.field.betweenSecond",comment:"")
+        self.betweenSecond!.minLength = 2
+        self.betweenSecond!.maxLength = 50
+        
+        self.addSubview(titleLabelBetween!)
+        self.addSubview(betweenFisrt!)
+        self.addSubview(betweenSecond!)
         
        
     }

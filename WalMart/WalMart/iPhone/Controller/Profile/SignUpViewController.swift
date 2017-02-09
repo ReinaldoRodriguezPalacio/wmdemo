@@ -448,9 +448,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         if !error{
             error = viewError(confirmPassword!)
         }
-//        if !error{
-//            error = viewError(birthDate!)
-//        }
+
         if !error{
             if self.password!.text !=  self.confirmPassword!.text{
                 if self.errorView == nil{
@@ -463,13 +461,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         if error{
             return false
         }
-//        if !maleButton!.selected && !femaleButton!.selected {
-//            if self.errorView == nil {
-//                self.errorView = FormFieldErrorView()
-//            }
-//            self.presentMessageTerms(self.femaleButton!, message: NSLocalizedString("field.validate.minmaxlength.gender", comment: ""), errorView: self.errorView!)
-//            return false
-//        }
+
         if !error{
 
             self.errorView?.removeFromSuperview()

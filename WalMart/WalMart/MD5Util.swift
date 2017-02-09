@@ -26,6 +26,10 @@ extension Data {
         
         return NSString(format: output)
     }
+    
+    var hexString: String {
+        return map { String(format: "%02.2hhx", arguments: [$0]) }.joined()
+    }
 }
 
 extension NSString {

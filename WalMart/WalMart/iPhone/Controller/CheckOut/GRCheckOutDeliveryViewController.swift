@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate {
+class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate,AddressViewDelegate {
 
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -402,32 +402,34 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func viewReplaceContent(_ frame:CGRect) -> UIView! {
         let sender = self.picker.sender as? FormFieldView
+        let typeAddress: TypeAddress = TypeAddress.shiping
         if sender == self.address {
-            let addAddressView = GRAddAddressView(frame: frame)
-            addAddressView.showCancelButton = true
+            let addAddressView = ShippingAddress(frame: frame, isLogin: false, isIpad: IS_IPAD, typeAddress: typeAddress)
+            addAddressView.delegate =  self
+            //addAddressView.showCancelButton = true
             self.picker!.closeButton!.isHidden =  true
             if !self.selectedAddressHasStore{
                 self.picker!.closeButton!.isHidden =  false
                 let serviceAddress = GRAddressesByIDService()
                 serviceAddress.addressId = self.selectedAddress!
                 serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
-                    addAddressView.sAddredssForm!.addressName.text = result["name"] as! String!
-                    addAddressView.sAddredssForm!.outdoornumber.text = result["outerNumber"] as! String!
-                    addAddressView.sAddredssForm!.indoornumber.text = result["innerNumber"] as! String!
-                    addAddressView.sAddredssForm!.betweenFisrt.text = result["reference1"] as! String!
-                    addAddressView.sAddredssForm!.betweenSecond.text = result["reference2"] as! String!
-                    addAddressView.sAddredssForm!.zipcode.text = result["zipCode"] as! String!
-                    addAddressView.sAddredssForm!.street.text = result["street"] as! String!
-                    let neighborhoodID = result["neighborhoodID"] as! String!
-                    let storeID = result["storeID"] as! String!
-                    addAddressView.sAddredssForm!.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
-                    addAddressView.sAddredssForm!.idAddress = result["addressID"] as! String!
+//                    addAddressView.sAddredssForm!.addressName.text = result["name"] as! String!
+//                    addAddressView.sAddredssForm!.outdoornumber.text = result["outerNumber"] as! String!
+//                    addAddressView.sAddredssForm!.indoornumber.text = result["innerNumber"] as! String!
+//                    addAddressView.sAddredssForm!.betweenFisrt.text = result["reference1"] as! String!
+//                    addAddressView.sAddredssForm!.betweenSecond.text = result["reference2"] as! String!
+//                    addAddressView.sAddredssForm!.zipcode.text = result["zipCode"] as! String!
+//                    addAddressView.sAddredssForm!.street.text = result["street"] as! String!
+//                    let neighborhoodID = result["neighborhoodID"] as! String!
+//                    let storeID = result["storeID"] as! String!
+//                    addAddressView.sAddredssForm!.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
+//                    addAddressView.sAddredssForm!.idAddress = result["addressID"] as! String!
                     }) { (error:NSError) -> Void in
                 }
             }
-            addAddressView.onClose = { Void -> Void in
-                self.picker!.closeNew()
-            }
+//            addAddressView.onClose = { Void -> Void in
+//                self.picker!.closeNew()
+//            }
             self.picker!.titleLabel.text = "Nueva Dirección"
             return addAddressView
         }
@@ -602,6 +604,15 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             return self.viewError(self.addressInvoice!,message: "Selecciona una dirección de facturación")
         }
         return true
+    }
+    
+    // MARK: AddressViewDelegate
+    
+    func textModify(_ sender: UITextField!) {
+        print("My text")
+    }
+    func setContentSize() {
+        print("setContentSize")
     }
 
     

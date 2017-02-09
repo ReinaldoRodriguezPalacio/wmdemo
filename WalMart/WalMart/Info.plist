@@ -225,8 +225,6 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.LogoutService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/logout</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -355,6 +353,8 @@
 			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/loginByEmail</string>
 			<key>WalmartMG.LoginWithIdService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/loginById</string>
+			<key>WalmartMG.LogoutService</key>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/logout</string>
 			<key>WalmartMG.NotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/saveToken</string>
 			<key>WalmartMG.OccupationsService</key>
@@ -416,8 +416,6 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.LogoutService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/auth/profile/logout</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -546,6 +544,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/loginByEmail</string>
 			<key>WalmartMG.LoginWithIdService</key>
 			<string>https://dl.dropboxusercontent.com/s/lsnkwozi84teul2/responseLogin.txt?dl=0</string>
+			<key>WalmartMG.LogoutService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/auth/profile/logout</string>
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/saveToken</string>
 			<key>WalmartMG.OccupationsService</key>
