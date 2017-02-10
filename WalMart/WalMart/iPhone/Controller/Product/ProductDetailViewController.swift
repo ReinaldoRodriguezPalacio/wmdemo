@@ -680,7 +680,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.selectQuantity = nil
         
         
-        let itemToDelete = self.buildParamsUpdateShoppingCart("0")
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
         }

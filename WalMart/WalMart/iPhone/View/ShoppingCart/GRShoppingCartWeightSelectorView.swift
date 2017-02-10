@@ -327,13 +327,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         addToCartAction(ZERO_QUANTITY_STRING)
     }
     
-    
-    func showError (_ message: String ){
-        if !visibleLabel  {
-        visibleLabel = true
-        }
-    }
-    
     override func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
         viewBg.layer.render(in: UIGraphicsGetCurrentContext()!)

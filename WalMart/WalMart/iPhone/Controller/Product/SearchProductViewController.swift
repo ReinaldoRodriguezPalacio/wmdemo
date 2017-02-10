@@ -2079,7 +2079,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.selectQuantityGR?.closeAction()
         self.selectQuantityGR = nil
         
-        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position)
+        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position,orderByPiece:true, pieces: 0)
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
         }
@@ -2108,7 +2108,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.selectQuantity!.closeAction()
         self.selectQuantity = nil
         
-        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position)
+        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position,orderByPiece:true, pieces: 0)
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
         }

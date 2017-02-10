@@ -77,7 +77,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
         self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
 
-        //let size = ShoppingCartButton.sizeForQuantity(quantity, pesable: pesable, hasNote: self.comments != "", orderByPieces: self.orderByPieces, pieces: self.pieces)
+        let size = ShoppingCartButton.sizeForQuantity(quantity, pesable: pesable, hasNote: self.comments != "", orderByPieces: self.orderByPieces, pieces: self.pieces)
         changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
     }
     
@@ -133,7 +133,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
 //        }
 
         // changeQuantity.frame =  CGRectMake((self.frame.width - 16) -  width!, self.productPriceLabel!.frame.minY, width!, 30)
-        //let size = ShoppingCartButton.sizeForQuantity(quantity, pesable: pesable, hasNote: self.comments != "", orderByPieces: self.orderByPieces, pieces: self.pieces)
+        let size = ShoppingCartButton.sizeForQuantity(quantity, pesable: pesable, hasNote: self.comments != "", orderByPieces: self.orderByPieces, pieces: self.pieces)
         changeQuantity.frame =  CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
 
     }

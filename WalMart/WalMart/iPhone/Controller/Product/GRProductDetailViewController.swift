@@ -485,7 +485,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         self.selectQuantityGR?.closeAction()
         self.selectQuantityGR = nil
         
-        let itemToDelete = self.buildParamsUpdateShoppingCart("0")
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
         }
@@ -631,7 +631,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         let service = GRAddItemListService()
         let pesable = self.isPesable ? "1" : "0"
-        let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
+        let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:"")
         service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                             successBlock: { (result:[String:Any]) -> Void in
                                 self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
