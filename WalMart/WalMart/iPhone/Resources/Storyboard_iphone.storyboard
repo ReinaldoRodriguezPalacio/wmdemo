@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,24 +22,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-3R-LDa">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-3R-LDa">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-Qu-tY2">
-                                        <rect key="frame" x="0.0" y="19" width="46" height="43"/>
+                                        <rect key="frame" x="-1" y="21" width="46" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="navBar_search">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
-                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="navBar_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DNA-XG-hNj">
-                                        <rect key="frame" x="96" y="20" width="183" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="183" id="aWq-dm-tpB"/>
-                                        </constraints>
+                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="navBar_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DNA-XG-hNj">
+                                        <rect key="frame" x="69" y="20" width="183" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
-                                        <rect key="frame" x="311" y="18" width="48" height="44"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
+                                        <rect key="frame" x="253" y="19" width="67" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="navBar_cart">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -49,14 +49,6 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.4392156862745098" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="7vY-ok-m7s"/>
-                                    <constraint firstAttribute="height" constant="64" id="P0z-rG-PZ3"/>
-                                    <constraint firstAttribute="bottom" secondItem="DNA-XG-hNj" secondAttribute="bottom" id="XEW-j2-egs"/>
-                                    <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="16" id="tBn-4H-OPf"/>
-                                    <constraint firstAttribute="bottom" secondItem="doD-nc-whc" secondAttribute="bottom" constant="5" id="tr0-oC-0Kg"/>
-                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="wbg-5i-gDj"/>
-                                </constraints>
                             </view>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">
                                 <rect key="frame" x="0.0" y="63" width="320" height="461"/>
@@ -68,15 +60,6 @@
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="bwT-nf-vKG" secondAttribute="trailing" id="HrC-dx-m5k"/>
-                            <constraint firstItem="bwT-nf-vKG" firstAttribute="top" secondItem="oAl-dF-abv" secondAttribute="bottom" constant="43" id="d00-Gk-Okq"/>
-                            <constraint firstAttribute="trailing" secondItem="rL3-3R-LDa" secondAttribute="trailing" id="hn3-M7-UGU"/>
-                            <constraint firstItem="BE3-jZ-yHI" firstAttribute="top" secondItem="bwT-nf-vKG" secondAttribute="bottom" id="kdM-6u-pQ9"/>
-                            <constraint firstItem="bwT-nf-vKG" firstAttribute="leading" secondItem="VMm-1L-o4v" secondAttribute="leading" id="ubF-aW-8Dk"/>
-                            <constraint firstItem="rL3-3R-LDa" firstAttribute="leading" secondItem="VMm-1L-o4v" secondAttribute="leading" id="wQZ-O6-eI8"/>
-                            <constraint firstItem="rL3-3R-LDa" firstAttribute="top" secondItem="VMm-1L-o4v" secondAttribute="top" id="xe2-4q-1aA"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xZh-A1-rAj"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -234,7 +217,7 @@
         <scene sceneID="2Xy-ed-Oja">
             <objects>
                 <navigationController navigationBarHidden="YES" id="V74-Hq-4gN" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="yS4-NV-OuD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yS4-NV-OuD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -255,11 +238,11 @@
                         <viewControllerLayoutGuide type="bottom" id="8DJ-lB-xEZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dF5-zr-zVJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="604"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZAK-7z-RFS">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="604"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="fSC-rf-4RO"/>

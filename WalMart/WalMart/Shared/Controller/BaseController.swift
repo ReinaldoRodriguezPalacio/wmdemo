@@ -49,11 +49,7 @@ struct ItemTag {
 }
    var messageError:String  = ""
 class BaseController : UIViewController {
-    
- 
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
