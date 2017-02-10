@@ -123,7 +123,8 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
+        //TODO: Delete
+        //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
         
     }
     

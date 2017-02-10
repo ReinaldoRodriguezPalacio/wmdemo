@@ -320,9 +320,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
              self.editWishlist.tag = 1
             self.editWishlist(self.editWishlist)
             self.deleteAllWishlist.isHidden = self.items.count == 0
-            if self.items.count == 0 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-            }
+            
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")
         })

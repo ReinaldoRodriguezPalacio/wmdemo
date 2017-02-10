@@ -275,14 +275,12 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             }
             selectQuantityGR?.userSelectValue(String(cell.quantity!))
             selectQuantityGR?.first = true
-            
-            if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
-                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
-            }else {
-                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
-            }
-            
-            selectQuantityGR?.showNoteButtonComplete()
+//            if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
+//                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
+//            }else {
+//                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
+//            }
+//            selectQuantityGR?.showNoteButtonComplete()
             selectQuantityGR?.closeAction = { () in
                 self.popup!.dismiss(animated: true)
                 
@@ -461,8 +459,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-            self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
             self.view.addSubview(self.listSelectorController!.view)
             
             UIView.animate(withDuration: 0.5,

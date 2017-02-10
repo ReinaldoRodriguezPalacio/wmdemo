@@ -443,13 +443,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.sharePopover = nil
     }
 
-    override func willShowTabbar() {
-        
-    }
-    
-    override func willHideTabbar() {
-        
-    }
     
     override func reloadTableListUser() {
         if delegate != nil {

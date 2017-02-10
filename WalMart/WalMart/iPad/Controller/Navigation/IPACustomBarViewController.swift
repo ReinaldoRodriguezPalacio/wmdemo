@@ -75,17 +75,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         return ["home_ipad", "mg_ipad","wishlist_ipad","super_ipad",  "list_ipad","ubicacion_ipad","more_menu_ipad"]
     }
     
-    override func setTabBarHidden(_ hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
-    }
-    
-    override func hideTabBar(_ notification:Notification) {
-        // EN IPAD NO SE VA A ESCONDER LA BARRA CON EL SCROLL
-        //self.setTabBarHidden(true, animated: true, delegate:notification.object as CustomBarDelegate?)
-    }
-    
-    override func showTabBar(_ notification:Notification) {
-        //self.setTabBarHidden(false, animated: true, delegate:notification.object as CustomBarDelegate?)
-    }
+   
     
     override func layoutButtons() {
         let space = (320 - (5 * TABBAR_HEIGHT))/7

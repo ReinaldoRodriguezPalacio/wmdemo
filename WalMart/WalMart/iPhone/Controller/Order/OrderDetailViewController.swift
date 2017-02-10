@@ -20,7 +20,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var viewFooter : UIView!
     var shareButton: UIButton?
     var addToCartButton: UIButton?
-    var isShowingTabBar : Bool = true
     var showFedexGuide : Bool = false
     
     var itemDetail : [String:Any]!
@@ -125,18 +124,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         self.addToCartButton!.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: y, width: (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, height: 34.0)
   
-        if isShowingTabBar {
             self.self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
-        }else{
-            self.self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
-        }
+        
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         reloadPreviousOrderDetail()
         
         if itemDetailProducts != nil {
@@ -553,8 +548,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-            self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
             
             UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
@@ -709,24 +702,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
     }
     
-    override func willShowTabbar() {
-        isShowingTabBar = true
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
-            self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 109, 0)
-            self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 109, 0)
-        })
-    }
-    
-    override func willHideTabbar() {
-        isShowingTabBar = false
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
-            self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-            self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
-        })
-    }
-    
+       
     
     /**
      Present loader in screen list
@@ -760,7 +736,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.removeListSelector(action: nil)
     }
     
-    func listSelectorDidAddProduct(inList listId:String) {
+    func listSelectorDidAddProduct(inList listId: String) {
+        listSelectorDidAddProduct(inList : listId, included: false)
+    }
+    
+    func listSelectorDidAddProduct(inList listId:String, included: Bool) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         

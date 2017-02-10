@@ -32,6 +32,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                     if successBlock != nil {
                         successBlock!(resultCall)
                     }
+                    self.callCoreDataService(params, successBlock: nil, errorBlock: nil)
                 })
                
                 }) { (error:NSError) -> Void in
@@ -78,7 +79,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
             }
         }
         UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
-                successBlock!([:])
+                successBlock?([:])
         }
         
         

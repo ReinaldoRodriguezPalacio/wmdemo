@@ -439,10 +439,7 @@ class IPAUserListViewController: UserListViewController {
         )
     }
     
-    //MARK: - TabBar
     
-    override func willShowTabbar() { }
-    override func willHideTabbar() { }
 
     
     override func scanTicket() {

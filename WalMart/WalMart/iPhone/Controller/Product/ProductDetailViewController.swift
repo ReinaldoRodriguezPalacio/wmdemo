@@ -590,6 +590,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         }
                     )
             }
+            
+            
             //Event
              ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
             
@@ -599,6 +601,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
+                    
+                    if quantity == "00" {
+                        self.deleteFromCart()
+                        return
+                    }
+                    
                     let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
                     if maxProducts >= Int(quantity) {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
@@ -660,6 +668,40 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.closeContainerDetail()
         }
     }
+    
+    
+    
+    func deleteFromCart() {
+        
+        //Add Alert
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
+        self.selectQuantity!.closeAction()
+        self.selectQuantity = nil
+        
+        
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0")
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
+        }
+        let upc = itemToDelete["upc"] as! String
+        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
+            UserCurrentSession.sharedInstance.loadMGShoppingCart {
+                print("delete pressed OK")
+                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+                alertView?.showDoneIcon()
+                alertView?.afterRemove = {
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }
+            }
+        }) { (error) in
+            print("delete pressed Errro \(error)")
+        }
+        
+        
+    }
+    
     
     //MARK: Shopping cart
     /**

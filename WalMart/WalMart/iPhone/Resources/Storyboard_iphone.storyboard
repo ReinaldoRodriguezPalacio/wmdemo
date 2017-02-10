@@ -58,8 +58,9 @@
                                     <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="wbg-5i-gDj"/>
                                 </constraints>
                             </view>
-                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">
-                                <rect key="frame" x="0.0" y="63" width="375" height="604"/>
+                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">
+                                <rect key="frame" x="0.0" y="63" width="320" height="461"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <segue destination="V74-Hq-4gN" kind="embed" identifier="homeEmbedSegue" id="X0a-aJ-NBY"/>
@@ -100,13 +101,13 @@
                         <viewControllerLayoutGuide type="bottom" id="fN6-Uu-WcO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rfZ-FJ-pyo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="505"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="KDh-px-qYC"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="461"/>
+                    <size key="freeformSize" width="320" height="505"/>
                     <connections>
                         <segue destination="WCq-Da-cor" kind="custom" identifier="shoppingCartMG" customClass="PreShoppingCartAnimationController" customModule="WalmartMG" customModuleProvider="target" id="YdZ-ay-dex"/>
                         <segue destination="MeF-hG-Xw7" kind="custom" identifier="shoppingCartGR" customClass="PreShoppingCartAnimationController" customModule="WalmartMG" customModuleProvider="target" id="7tA-zY-sFC"/>
@@ -185,7 +186,7 @@
                 <navigationController storyboardIdentifier="shoppingCartVC" navigationBarHidden="YES" id="e8N-Xt-D8k" sceneMemberID="viewController">
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="461"/>
+                    <size key="freeformSize" width="320" height="505"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zvN-LX-utm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

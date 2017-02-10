@@ -112,10 +112,5 @@ class IPAOrderViewController: OrderViewController {
         })
     }
     
-    //MARK: - ScrollDelegate
-    override func willShowTabbar() {
-    }
-    
-    override func willHideTabbar() {
-    }
+   
 }

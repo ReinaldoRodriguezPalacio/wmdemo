@@ -197,7 +197,6 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             }, completion: { (completed:Bool) -> Void in
                 self.view.removeFromSuperview()
                 self.navigationController!.popToRootViewController(animated: false)
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
                 //self.view.frame = CGRectMake(self.view.frame.minX, self.view.frame.minY,self.view.frame.width,originalHeight)
                 self.delegate.returnToView()
 

@@ -46,10 +46,11 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class GRProductDetailViewController : ProductDetailViewController, ListSelectorDelegate {
+   
+
     
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var listSelectorContainer: UIView?
-    var listSelectorBackgroundView: UIImageView?
     var listSelectorController: ListsSelectorViewController?
     var alertView: IPOWMAlertViewController?
    
@@ -311,14 +312,13 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
             self.listSelectorController!.productUpc = self.upc as String
+            self.listSelectorController!.pesable = self.isPesable
             self.addChildViewController(self.listSelectorController!)
             self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
             self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             
-            self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: 320, height: 360))
-            self.listSelectorController!.generateBlurImage(self.view, frame: CGRect(x: 0, y: 0, width: 320, height: 360))
             
             self.detailCollectionView.isScrollEnabled = false
             UIView.animate(withDuration: 0.3,
@@ -327,10 +327,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 },
                 completion: { (complete:Bool) -> Void in
                     if complete {
-                        self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: -360.0, width: 320.0, height: 360.0)
                         UIView.animate(withDuration: 0.5, animations: { () -> Void in
                             self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
-                            self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
                             self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
                         })
                     }
@@ -423,6 +421,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
+                if quantity == "00" {
+                    self.deleteFromCartGR()
+                    return
+                }
+                
                 if self.onHandInventory.integerValue >= Int(quantity) {
                     self.closeContainer({ () -> Void in
                         self.productDetailButton?.reloadShoppinhgButton()
@@ -454,6 +457,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
             }
             
+            
+          
             self.opencloseContainer(true, viewShow:selectQuantityGR!,
                 additionalAnimationOpen: { () -> Void in
                     self.productDetailButton?.setOpenQuantitySelector()
@@ -470,6 +475,36 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.closeContainerDetail()
         }
 
+    }
+    
+    
+    func deleteFromCartGR() {
+        //Add Alert
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
+        self.selectQuantityGR?.closeAction()
+        self.selectQuantityGR = nil
+        
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0")
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
+        }
+        let upc = itemToDelete["upc"] as! String
+        let deleteShoppingCartService = GRShoppingCartDeleteProductsService()
+        
+        deleteShoppingCartService.callService([upc], successBlock: { (result:[String:Any]) -> Void in
+            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                print("delete pressed OK")
+                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+                alertView?.showDoneIcon()
+                alertView?.afterRemove = {
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }
+            })
+        }) { (error) in
+            alertView?.showDoneIcon()
+            print("delete pressed Errro \(error)")
+        }
     }
 
     override func closeContainerDetail() {
@@ -515,76 +550,111 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CANCEL_ADD_TO_LIST.rawValue, label: "")
     }
 
-    func listSelectorDidAddProduct(inList listId:String) {
-        
+    internal func listSelectorDidAddProduct(inList listId: String) {
+        listSelectorDidAddProduct(inList:listId,included: false)
+    }
+    
+    func listSelectorDidAddProduct(inList listId:String,included: Bool ) {
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
-        self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
-        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
-        self.selectQuantityGR!.closeAction = { () in
-            self.removeListSelector(action: nil)
-        }
         
-        self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-            /*if quantity.toInt() == 0 {
-                self.listSelectorDidDeleteProduct(inList: listId)
+        if self.isPesable ||  included {
+            self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+            self.selectQuantityGR.isFromList = true
+            self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+            self.selectQuantityGR!.closeAction = { () in
+                self.removeListSelector(action: nil)
             }
-            else {*/
-            if Int(quantity) <= 20000 {
             
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
-            
-                let service = GRAddItemListService()
-                let pesable = self.isPesable ? "1" : "0"
-                let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:self.selectQuantityGR!.orderByPiece ? "EA": "GM")//baseUomcd
-                service.callService(service.buildParams(idList: listId, upcs: [productObject]),
-                    successBlock: { (result:[String:Any]) -> Void in
-                        self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
-                        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
-                        
-                        self.alertView!.showDoneIcon()
-                        self.alertView!.afterRemove = {
-                            self.removeListSelector(action: nil)
-                        }
-                        
-                        // 360 Event
-                        BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
-                        
-                    }, errorBlock: { (error:NSError) -> Void in
-                        print("Error at add product to list: \(error.localizedDescription)")
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                        self.alertView!.afterRemove = {
-                            self.removeListSelector(action: nil)
+            self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+                if quantity.toIntNoDecimals() == 0 {
+                    self.listSelectorDidDeleteProduct(inList: listId)
+                    return
+                }
+                
+                if Int(quantity) <= 20000 {
+                    
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
+                    if let imageURL = self.productDetailButton?.image {
+                        if let urlObject = URL(string:imageURL) {
+                            self.alertView?.imageIcon.setImageWith(urlObject)
                         }
                     }
-                )
+                    self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+                    
+                    self.addItemsToList(quantity:quantity,listId:listId)
+                    
+                }else{
+                    
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                    let msgInventory = "\(firstMessage) 20000 \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
                 
-            }else{
-                
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
-                let secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
-                let msgInventory = "\(firstMessage) 20000 \(secondMessage)"
-                alert!.setMessage(msgInventory)
-                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                //}
             }
             
-            //}
-        }
-        
-        //--
-        
-        self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
-        
-        UIView.animate(withDuration: 0.5,
-            animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
-                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+            //--
+            
+            self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
+            
+            UIView.animate(withDuration: 0.5,
+                           animations: { () -> Void in
+                            self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
+                            self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
             }, completion: { (finished:Bool) -> Void in
                 
             }
+            )
+        } else {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
+            if let imageURL = self.productDetailButton?.image {
+                if let urlObject = URL(string:imageURL) {
+                    self.alertView?.imageIcon.setImageWith(urlObject)
+                    
+                    
+                }
+            }
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+            
+             addItemsToList(quantity:"1",listId:listId)
+        }
+        
+        
+        
+    }
+    
+    
+    func addItemsToList(quantity:String,listId:String) {
+        
+        let service = GRAddItemListService()
+        let pesable = self.isPesable ? "1" : "0"
+        let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
+        service.callService(service.buildParams(idList: listId, upcs: [productObject]),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+                                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
+                                
+                                self.alertView?.showDoneIcon()
+                                self.alertView?.afterRemove = {
+                                    self.removeListSelector(action: nil)
+                                }
+                                
+                                // 360 Event
+                                BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+                                
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error at add product to list: \(error.localizedDescription)")
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Ok")
+            self.alertView!.afterRemove = {
+                self.removeListSelector(action: nil)
+            }
+        }
         )
+    
     }
     
     func listSelectorDidDeleteProduct(inList listId:String) {
@@ -625,81 +695,90 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     func listSelectorDidAddProductLocally(inList list:List) {
         
-        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
-        self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
-        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
-        self.selectQuantityGR!.closeAction = { () in
-            self.removeListSelector(action: nil)
+        let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
+            return product.upc == self.upc as String
         }
-        self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-            
-            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
-            detail!.upc = self.upc as String
-            detail!.desc = self.name as String
-            detail!.price = self.price
-            detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
-            detail!.pieces =  NSNumber(value: Int(quantity)!)//NSNumber(value: self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!))
-            detail!.quantity = NSNumber(value: Int(quantity)! as Int)
-            detail!.type = NSNumber(value: self.isPesable as Bool)
-            detail!.list = list
-            
-            if self.imageUrl.count > 0 {
-                detail!.img = self.imageUrl[0] as! NSString as String
-            }
-            
-            //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue , action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label:"\(self.name as String) \(self.upc as String)")
-            
-
-            var error: NSError? = nil
-            do {
-                try context.save()
-            } catch let error1 as NSError {
-                error = error1
-            } catch {
-                fatalError()
-            }
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-
-            let count:Int = list.products.count
-            list.countItem = NSNumber(value: count as Int)
-
-            error = nil
-            do {
-                try context.save()
-            } catch let error1 as NSError {
-                error = error1
-            } catch {
-                fatalError()
-            }
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-
-            self.removeListSelector(action: nil)
-            
-            //TODO: Add message
-            self.showMessageWishList("Se agregó a la lista")
-            
-            self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
-            
-            // 360 Event
-            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
-            
-        }
-        self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         
-        UIView.animate(withDuration: 0.5,
-            animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
-                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+        if self.isPesable || exist  {
+            let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
+            self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+            self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+            self.selectQuantityGR!.closeAction = { () in
+                self.removeListSelector(action: nil)
+            }
+            self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+                self.addToListLocally(quantity:quantity,list:list)
+            }
+            self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
+            
+            UIView.animate(withDuration: 0.5,
+                           animations: { () -> Void in
+                            self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
+                            self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
             }, completion: { (finished:Bool) -> Void in
                 
             }
-        )
+            )
+        } else {
+            self.addToListLocally(quantity:"1",list:list)
+        }
+    }
+    
+    func addToListLocally(quantity:String,list:List) {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
+        detail!.upc = self.upc as String
+        detail!.desc = self.name as String
+        detail!.price = self.price
+        detail!.quantity = NSNumber(value: Int(quantity)! as Int)
+        detail!.type = NSNumber(value: self.isPesable as Bool)
+        detail!.list = list
+        
+        if self.imageUrl.count > 0 {
+            detail!.img = self.imageUrl[0] as! NSString as String
+        }
+        
+        //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue , action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label:"\(self.name as String) \(self.upc as String)")
+        
+        
+        var error: NSError? = nil
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        } catch {
+            fatalError()
+        }
+        if error != nil {
+            print(error!.localizedDescription)
+        }
+        
+        let count:Int = list.products.count
+        list.countItem = NSNumber(value: count as Int)
+        
+        error = nil
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        } catch {
+            fatalError()
+        }
+        if error != nil {
+            print(error!.localizedDescription)
+        }
+        
+        self.removeListSelector(action: nil)
+        
+        //TODO: Add message
+        self.showMessageWishList("Se agregó a la lista")
+        
+        self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
+        
+        // 360 Event
+        BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
     }
     
     func showMessageWishList(_ message:String) {
@@ -762,7 +841,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         options: .layoutSubviews,
                         animations: { () -> Void in
                             self.listSelectorContainer!.frame = CGRect(x: 0, y: 360.0, width: 320.0, height: 0.0)
-                            self.listSelectorBackgroundView!.frame = CGRect(x: 0, y: -360.0, width: 320.0, height: 360.0)
                         }, completion: { (complete:Bool) -> Void in
                             if complete {
                                 self.listSelectorController!.willMove(toParentViewController: nil)
@@ -770,8 +848,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 self.listSelectorController!.removeFromParentViewController()
                                 self.listSelectorController = nil
                                 
-                                self.listSelectorBackgroundView!.removeFromSuperview()
-                                self.listSelectorBackgroundView = nil
                                 self.listSelectorContainer!.removeFromSuperview()
                                 self.listSelectorContainer = nil
                                 

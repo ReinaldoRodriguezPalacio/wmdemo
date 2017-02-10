@@ -106,7 +106,10 @@
 "shoppingcart.texNote" = "No has Agregado Nota para Envío";
 "shoppingcart.saveNote" = "Guardar";
 "shoppingcart.AddtexNote" = "Agrega tu nota aqui";
-
+"shoppingcart.deleteofcart" = "Eliminar de carrito";
+"shoppingcart.deleteoflist" = "Eliminar de lista";
+"shoppingcart.deleteProductAlert" = "Eliminando producto de carrito";
+"shoppingcart.deleteProductDone" = "Producto eliminado de carrito";
 
 
 //WishList
@@ -193,6 +196,7 @@
 "shoppingcart.keepshopping" = "Seguir comprando";
 "shoppingcart.goshoppingcart" = "Ir al carrito";
 "shoppingcart.addquantitytitle" = "Número de Artículos";
+"shoppingcart.updatequantitytitle" = "Actualizar cantidad en el carrito";
 "shoppingcart.addweighttitle" = "Cantidad";
 "shoppingcart.edit" = "editar";
 "shoppingcart.keepshoppinginsidecart" = "Seguir comprando";
@@ -202,6 +206,8 @@
 "price.saving" = "Ahorras";
 "shoppingcart.addtoshoppingcart" = "Añadir";
 "shoppingcart.updatetoshoppingcart" = "Actualizar";
+"shoppingcart.delete" = "Borrar";
+"shoppingcart.addnotebtn" = "+ Nota";
 "order.shop.title.btn" = "Comprar";
 "shoppingcart.multiple.50" = "Solo múltiplos de 50";
 "shoppingcart.update.product" = "Artículo actualizado";

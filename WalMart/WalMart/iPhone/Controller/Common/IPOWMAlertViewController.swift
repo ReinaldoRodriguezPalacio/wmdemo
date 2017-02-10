@@ -19,7 +19,7 @@ class IPOWMAlertViewController : UIViewController {
     var spinImage : UIImageView!
     var imageIcon : UIImageView!
     var bgView : UIView!
-    var imageblur : UIImageView? = nil
+    var imageblur : UIVisualEffectView? = nil
     var doneButton : UIButton! = nil
     
     var leftButton :UIButton!
@@ -38,8 +38,10 @@ class IPOWMAlertViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = UIColor.clear
+        
         self.bgView = UIView()
-        self.bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
+        self.bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.95)
         
         viewBgImage = UIView()
         viewBgImage.layer.cornerRadius = 80 / 2
@@ -48,6 +50,10 @@ class IPOWMAlertViewController : UIViewController {
         if imageWaiting != nil {
             imageIcon = UIImageView()
             imageIcon.image = imageWaiting
+            imageIcon.contentMode = .scaleAspectFit
+            imageIcon.layer.cornerRadius = 40
+            imageIcon.layer.masksToBounds = true
+            imageIcon.clipsToBounds = true
             //imageIcon.frame = CGRectMake(0,0,imageIcon.image!.size.width,imageIcon.image!.size.height)
             //imageIcon.center = CGPointMake(viewBgImage.frame.width / 2, viewBgImage.frame.width / 2)
             viewBgImage.addSubview(imageIcon)
@@ -96,7 +102,7 @@ class IPOWMAlertViewController : UIViewController {
         spinImage.frame = CGRect(x: (bounds.width - 84)  / 2, y: (bounds.height - 84 - 200)  / 2, width: 84, height: 84)
        
         if imageIcon != nil && imageIcon.image != nil {
-            imageIcon.frame = CGRect(x: 0,y: 0,width: imageIcon.image!.size.width,height: imageIcon.image!.size.height)
+            imageIcon.frame = CGRect(x: 0,y: 0,width: 80,height: 80)
             imageIcon.center = CGPoint(x: viewBgImage.frame.width / 2, y: viewBgImage.frame.width / 2)
         }
         
@@ -318,24 +324,15 @@ class IPOWMAlertViewController : UIViewController {
      Create image blur it presented width alert view
      */
     func generateBlurImage() {
-        var cloneImage : UIImage? = nil
-        autoreleasepool {
-            UIGraphicsBeginImageContextWithOptions(self.view.frame.size,false,1.0);
-            //let context = UIGraphicsGetCurrentContext()!
-            self.parent?.view.drawHierarchy(in: view.bounds,afterScreenUpdates:true)
-            //self.parentViewController?.view.layer.renderInContext(context)
-            cloneImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            self.parent!.view.layer.contents = nil
-        }
-
-        let blurredImage = cloneImage!.applyLightEffect()
-        self.imageblur = UIImageView()
-        self.imageblur!.frame = self.view.bounds
-        self.imageblur!.clipsToBounds = true
-        self.imageblur!.image = blurredImage
-        self.view.addSubview(self.imageblur!)
+        
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.alpha = 0.3
+        self.imageblur = blurEffectView
+        self.view.addSubview(imageblur!)
         self.view.sendSubview(toBack: self.imageblur!)
+
     }
     
     func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
@@ -368,7 +365,6 @@ class IPOWMAlertViewController : UIViewController {
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.view.alpha = 0.0
             }, completion: { (complete:Bool) -> Void in
-                self.imageblur?.image = nil
                 self.removeFromParentViewController()
                 self.successCallBack = nil
                 self.okCancelCallBack  = nil

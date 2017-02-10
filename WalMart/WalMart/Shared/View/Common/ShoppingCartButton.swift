@@ -35,7 +35,13 @@ class ShoppingCartButton : UIButton {
         self.layer.cornerRadius = frame.height / 2
     }
     
-    func setValues(_ upc: String, quantity: Int , hasNote: Bool, aviable: Bool, pesable: Bool, orderByPieces: Bool, pieces: Int){
+    func setValues(_ upc:String,quantity:Int ,hasNote: Bool, aviable:Bool, pesable:Bool){
+        
+        
+        self.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        self.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        self.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        
         
         self.quantity = quantity
         self.hasNote = hasNote

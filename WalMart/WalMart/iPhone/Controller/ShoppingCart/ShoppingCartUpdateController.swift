@@ -64,6 +64,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     var btnAddNote : UIButton!
     var content : UIView!
     var showBtnAddNote: Bool = true
+    var imageBlurView : UIVisualEffectView!
   
     
     override func viewDidLoad() {
@@ -78,7 +79,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
         }
         
-        generateBlurImage()
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.alpha = 0.3
+        blurEffectView.frame = self.view.bounds
+        self.imageBlurView = blurEffectView
+        self.view.addSubview(imageBlurView!)
         
         if IS_IPAD == true {
             minContentY = 62
@@ -88,7 +94,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.content.backgroundColor = UIColor.clear
         
         bgView = UIView(frame: self.view.bounds)
-        bgView.backgroundColor = WMColor.light_blue
+        bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.95)
         
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
@@ -158,7 +164,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         bgView.frame = self.view.bounds
-        
+        self.imageBlurView.frame = self.view.bounds
         content.frame =  CGRect(x: 0, y: minContentY, width: self.view.frame.width, height: 340)
         
         closeButton.frame = CGRect(x: 0, y: 5, width: 44, height: 44)
@@ -568,22 +574,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     }
     
     func addActionButtons() {
+        
         if goToShoppingCart != nil {
-            if typeProduct == ResultObjectType.Groceries && self.showBtnAddNote {
-                btnAddNote = UIButton(frame: CGRect(x: 0, y: 248, width: self.view.frame.width, height: 20))
-                btnAddNote.setImage(UIImage(named: "notes_alert"), for: UIControlState())
-                self.btnAddNote!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
-                if self.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
-                     self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.updateNote",comment:""), for: UIControlState())
-                }else {
-                    self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.addNote",comment:""), for: UIControlState())
-                }
-                btnAddNote.setTitleColor(UIColor.white, for: UIControlState())
-                btnAddNote.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-                btnAddNote.addTarget(self, action: #selector(ShoppingCartUpdateController.addNoteToProduct(_:)), for: UIControlEvents.touchUpInside)
-                self.content.addSubview(btnAddNote)
-            }
-            
             keepShoppingButton = UIButton(frame:CGRect(x: (self.view.frame.width / 2) - 134, y: 288, width: 128, height: 40))
             keepShoppingButton.layer.cornerRadius = 20
             keepShoppingButton.setTitle(NSLocalizedString("shoppingcart.keepshopping",comment:""), for: UIControlState())
@@ -603,9 +595,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             self.content.addSubview(keepShoppingButton)
             self.content.addSubview(goToShoppingCartButton)
-        } else{
+        } else {
             Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ShoppingCartUpdateController.close), userInfo: nil, repeats: false)
         }
+        
+        
+        
     }
     
     func closeAlert(){
@@ -647,11 +642,11 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.commentTextView!.alpha = 0.0
-            self.btnAddNote.alpha = 0.0
+            //self.btnAddNote.alpha = 0.0
             self.commentTextView!.alpha = 0.0
             self.goToShoppingCartButton!.alpha = 0.0
             self.keepShoppingButton!.alpha = 0.0
-            self.btnAddNote!.alpha = 0.0
+            //self.btnAddNote!.alpha = 0.0
             
             }, completion: { (complete:Bool) -> Void in
                 
@@ -661,7 +656,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.commentTextView!.isHidden = true
                     self.goToShoppingCartButton!.isHidden = true
                     self.keepShoppingButton!.isHidden = true
-                    self.btnAddNote!.isHidden = true
+                    //self.btnAddNote!.isHidden = true
                     self.spinImage.isHidden = false
                     self.titleLabel.isHidden = false
                     if  self.imageDone != nil {
@@ -745,25 +740,15 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         }) 
     }
     
-    func generateBlurImage() {
-        var cloneImage : UIImage? = nil
-        autoreleasepool {
-            UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parent!.view.layer.render(in: UIGraphicsGetCurrentContext()!)
-            cloneImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-        }
-        let blurredImage = cloneImage!.applyLightEffect()
-        let imageView = UIImageView()
-        imageView.frame = self.view.bounds
-        imageView.clipsToBounds = true
-        imageView.image = blurredImage
-        self.view.addSubview(imageView)
-    }
     
     func close() {
-        self.removeFromParentViewController()
-        self.view.removeFromSuperview()
+        UIView.animate(withDuration: 0.2, animations: { 
+            self.view.alpha = 0
+        }) { (animate) in
+            self.removeFromParentViewController()
+            self.view.removeFromSuperview()
+        }
+        
     }
     
     func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
@@ -776,13 +761,11 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     }
     
     func addNoteToProduct(_ sender:UIButton?) {
-        self.btnAddNote!.alpha = 0.0
+        //self.btnAddNote!.alpha = 0.0
         
         if IS_IPHONE_4_OR_LESS == true {
-             self.btnAddNote.frame = CGRect(x: self.btnAddNote.frame.minX, y: 46, width: self.btnAddNote.frame.width,height: self.btnAddNote.frame.height)
             self.commentTextView = CommentBubbleView(frame: CGRect(x: (self.view.frame.width - 300) / 2 , y: 77, width: 300, height: 115))
         }else {
-            self.btnAddNote.frame = CGRect(x: self.btnAddNote.frame.minX, y: 76, width: self.btnAddNote.frame.width,height: self.btnAddNote.frame.height)
             self.commentTextView = CommentBubbleView(frame: CGRect(x: (self.view.frame.width - 300) / 2 , y: 110, width: 300, height: 155))
         }
         self.commentTextView?.delegate = self
@@ -806,10 +789,11 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             self.goToShoppingCartButton.setTitle(NSLocalizedString("shoppingcart.saveNote",comment:""), for: UIControlState())
             self.goToShoppingCartButton.removeTarget(self, action: #selector(ShoppingCartUpdateController.goShoppingCart), for: UIControlEvents.touchUpInside)
             self.goToShoppingCartButton.addTarget(self, action: #selector(ShoppingCartUpdateController.saveNote(_:)), for: UIControlEvents.touchUpInside)
-            self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.noteTile",comment:""), for: UIControlState())
+            //            self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.noteTile",comment:""), for: UIControlState())
             self.goToShoppingCartButton.alpha = 0.0
             
-            self.btnAddNote.removeTarget(self, action: #selector(ShoppingCartUpdateController.addNoteToProduct(_:)), for: UIControlEvents.touchUpInside)
+            
+//            self.btnAddNote.removeTarget(self, action: #selector(ShoppingCartUpdateController.addNoteToProduct(_:)), for: UIControlEvents.touchUpInside)
             
             if self.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
                 self.keepShoppingButton.removeTarget(self, action: #selector(ShoppingCartUpdateController.close), for: UIControlEvents.touchUpInside)
@@ -826,7 +810,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.content.addSubview(self.commentTextView!)
                     UIView.animate(withDuration: 0.3, animations: { () -> Void in
                         self.commentTextView!.alpha = 1.0
-                        self.btnAddNote.alpha = 1.0
+                        //self.btnAddNote.alpha = 1.0
                         
                         if IS_IPHONE_4_OR_LESS {
                             self.goToShoppingCartButton.frame = CGRect(x: self.goToShoppingCartButton.frame.minX , y: self.goToShoppingCartButton.frame.minY - 81.0 , width: self.goToShoppingCartButton.frame.width, height: 40)

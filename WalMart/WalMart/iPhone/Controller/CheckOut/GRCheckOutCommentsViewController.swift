@@ -577,8 +577,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     //MARK: -Scroll
 
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        super.scrollViewWillBeginDragging(scrollView)
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.comments!.resignFirstResponder()
         let _ = self.phoneField!.resignFirstResponder()
     }
