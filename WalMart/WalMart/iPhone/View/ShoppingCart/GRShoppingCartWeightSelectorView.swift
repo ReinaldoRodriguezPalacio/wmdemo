@@ -330,9 +330,8 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     func showError (_ message: String ){
         if !visibleLabel  {
-
         visibleLabel = true
-        
+        }
     }
     
     override func generateBlurImage(_ viewBg:UIView,frame:CGRect) {
