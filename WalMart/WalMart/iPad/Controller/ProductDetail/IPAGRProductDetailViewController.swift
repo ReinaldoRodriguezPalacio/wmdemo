@@ -428,7 +428,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     let pesable = self.isPesable ? "1" : "0"
                     let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
                     
-                    var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,orderByPieces: self.selectQuantityGR!.orderByPiece,onHandInventory:"1",pieces: pieces, pesable:pesable, isPreorderable:"false")
+                    var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,comments: comments,onHandInventory:"1",type: self.type as String, pesable:pesable, isPreorderable:"false")
                     params.updateValue(comments, forKey: "comments")
                     params.updateValue(self.type, forKey: "type")
                     

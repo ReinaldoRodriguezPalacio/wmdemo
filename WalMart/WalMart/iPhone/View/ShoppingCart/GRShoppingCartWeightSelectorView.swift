@@ -49,22 +49,23 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var keyboardN : NumericKeyboardView!
     var currentValKg : String? = nil
     
-    init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String) {
+    
+    init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0) {
         super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
         self.priceProduct = priceProduct
-        self.originalValGr = currentValGr
         self.equivalenceByPiece = equivalenceByPiece
         self.upcProduct = upcProduct
+        self.originalValGr = currentValGr
         self.startY = startY
         setup()
     }
     
-    init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,equivalenceByPiece:NSNumber,upcProduct:String) {
+    init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0) {
         super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
         self.priceProduct = priceProduct
         self.currentValGr = Double(quantity)
-        self.originalValGr = currentValGr
         self.equivalenceByPiece = equivalenceByPiece
+        self.originalValGr = currentValGr
         self.upcProduct = upcProduct
         self.startY = startY
         setup()
