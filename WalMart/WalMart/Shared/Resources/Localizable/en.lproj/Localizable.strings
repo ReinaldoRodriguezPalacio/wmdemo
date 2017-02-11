@@ -529,6 +529,7 @@
 "gr.address.field.store" = "Tienda";
 "gr.address.field.suburb" = "Colonia";
 "gr.address.section.between.title" = "Entre las calles";
+"gr.address.section.references.title" = "Referencias";
 "gr.address.section.between.phone" = "Información telefónica";
 "gr.address.field.betweenFisrt" = "Primera y segunda calle";
 "gr.address.field.betweenSecond" = "Segunda calle";

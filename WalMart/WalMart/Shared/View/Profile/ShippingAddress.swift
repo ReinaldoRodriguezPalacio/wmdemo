@@ -8,13 +8,16 @@
 
 import UIKit
 
-class ShippingAddress: AddressView {
+class ShippingAddress: AddressView,UITextViewDelegate {
 
     var name : FormFieldView? = nil
     var lastName : FormFieldView? = nil
     var titleLabelBetween : UILabel!
     var betweenStrets : FormFieldView!
     var reference : FormFieldView!
+    var titleLabelReference : UILabel!
+    var comments: UITextView?
+    var commentsString : NSMutableAttributedString?
    
     var titleLabelShiping: UILabel!
     //var lineViewShiping : UIView!
@@ -29,6 +32,12 @@ class ShippingAddress: AddressView {
     
     override func setup(){
         super.setup()
+        
+        
+        let viewAccessComments = FieldInputView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44), inputViewStyle: .keyboard , titleSave:"Ok", saveText: { (field:UITextView?) -> Void in
+          self.comments?.resignFirstResponder()
+        })
+        
         self.name = FormFieldView()
         self.name!.isRequired = true
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.name",comment:""))
@@ -78,6 +87,10 @@ class ShippingAddress: AddressView {
         self.betweenStrets!.minLength = 2
         self.betweenStrets!.maxLength = 50
     
+        self.titleLabelReference = UILabel()
+        self.titleLabelReference!.font = WMFont.fontMyriadProLightOfSize(14)
+        self.titleLabelReference!.text =  NSLocalizedString("gr.address.section.references.title", comment: "")
+        self.titleLabelReference!.textColor = WMColor.light_blue
         
         self.reference = FormFieldView()
         self.reference!.isRequired = false
@@ -87,9 +100,24 @@ class ShippingAddress: AddressView {
         self.reference!.minLength = 2
         self.reference!.maxLength = 50
         
+        self.comments = UITextView()
+        self.comments!.layer.cornerRadius = 5.0
+        self.comments!.returnKeyType = .default
+        self.comments!.autocapitalizationType = .none
+        self.comments!.autocorrectionType = .no
+        self.comments!.enablesReturnKeyAutomatically = true
+        self.comments!.font = WMFont.fontMyriadProItOfSize(12)
+        self.comments!.text = NSLocalizedString("gr.address.field.holder", comment:"")
+        self.comments!.textColor = UIColor.gray
+        self.comments!.backgroundColor = WMColor.light_light_gray
+        self.comments!.delegate = self
+        self.comments!.inputAccessoryView = viewAccessComments
+        
         self.addSubview(titleLabelBetween!)
         self.addSubview(betweenStrets!)
-        self.addSubview(reference!)
+        self.addSubview(titleLabelReference!)
+       // self.addSubview(reference!)
+        self.addSubview(self.comments!)
         
        
     }
@@ -111,7 +139,12 @@ class ShippingAddress: AddressView {
         
         self.titleLabelBetween.frame =  CGRect(x: leftRightPadding,  y: self.viewAddress.frame.maxY , width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
         self.betweenStrets.frame =  CGRect(x: leftRightPadding,  y: self.titleLabelBetween.frame.maxY  , width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
-        self.reference.frame =  CGRect(x: leftRightPadding,  y: self.betweenStrets.frame.maxY + 8, width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        self.titleLabelReference.frame =  CGRect(x: leftRightPadding,  y: self.betweenStrets.frame.maxY , width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        
+        //self.reference.frame =  CGRect(x: leftRightPadding,  y: self.betweenStrets.frame.maxY + 8, width: self.bounds.width - (leftRightPadding*2), height: fieldHeight)
+        
+        self.comments!.frame = CGRect(x: leftRightPadding,  y: self.titleLabelReference.frame.maxY + 8, width: self.bounds.width - (leftRightPadding*2), height: 95)
+
         
     }
     
@@ -124,6 +157,7 @@ class ShippingAddress: AddressView {
             self.telephone!.text = self.item!["mobileNumber"] as? String
             self.betweenStrets.text = self.item!["btwStreets"] as? String
             self.reference.text = self.item!["reference"] as? String
+            self.comments!.text = self.item!["reference"] as? String
             
         }
     }
@@ -152,8 +186,36 @@ class ShippingAddress: AddressView {
         var paramsAdd : [String:Any]? = [:]
         paramsAdd!.update(from: super.getParams())
         //TODO : Agrear parametros
-        paramsAdd!.update(from: ["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":self.telephone!.text!,"phoneExtension":"","mobileNumber":self.telephone!.text ?? "","reference":self.reference!.text ?? "","btwStreets":self.betweenStrets!.text ?? ""])
+        paramsAdd!.update(from: ["firstName":self.name!.text! ,"lastName":self.lastName!.text!,"phoneNumber":self.telephone!.text!,"phoneExtension":"","mobileNumber":self.telephone!.text ?? "","reference":self.comments!.text ?? "","btwStreets":self.betweenStrets!.text ?? ""])
         return paramsAdd!
         
+    }
+    
+    //MARK: -TextViewDelegate
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+    {
+        if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
+            textView.text = NSLocalizedString("gr.address.field.holder", comment:"")
+            textView.resignFirstResponder()
+            textView.textColor = UIColor.gray
+            
+        }
+        
+        return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        
+        if textView.text ==  NSLocalizedString("gr.address.field.holder", comment:"") || textView.text == self.commentsString?.string {
+            textView.text = ""
+            textView.textColor = WMColor.dark_gray
+        }
+        return true
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text =  NSLocalizedString("gr.address.field.holder", comment:"")
+            textView.textColor = UIColor.gray
+        }
     }
 }
