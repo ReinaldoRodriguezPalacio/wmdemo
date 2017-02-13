@@ -201,6 +201,10 @@ class BaseService : NSObject {
         afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             //session --
             //TODO Loginbyemail
+            if let data = request.currentRequest?.httpBody {
+                let bodyRequest = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+                print(bodyRequest ?? "")
+            }
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? NSString ?? ""

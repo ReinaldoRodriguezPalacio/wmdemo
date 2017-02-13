@@ -453,7 +453,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
            BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "Groceries", revenue: String(describing: total), tax: "", shipping: shipmentAmount, coupon: "")
             
             //PayPal
-            if self.paymentId == "-1"{
+            if self.paymentId == "-3"{
                 self.showPayPalPaymentController()
                 return
             }
@@ -531,7 +531,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     */
     func showPayPalPaymentController()
     {
-        let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
+        /*let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
         var payPalItems: [PayPalItem] = []
         for item in items {
             var itemPrice = item["price"] as! Double
@@ -551,16 +551,19 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         {
             payPalItems.append(PayPalItem(name: "Descuentos", withQuantity:1 , withPrice: NSDecimalNumber(value: discounts as Double), withCurrency: "MXN", withSku: "0000000000001"))
         }
-        let subtotal = PayPalItem.totalPrice(forItems: payPalItems)
+ */
+        
+        let subtotal = NSDecimalNumber(string: self.completeOrderDictionary["subtotal"] as! String)
+        //let subtotal = PayPalItem.totalPrice(forItems: payPalItems)
         // Optional: include payment details
         let shipping = NSDecimalNumber(value: self.shipmentAmount as Double)
         let tax = NSDecimalNumber(value: 0.0 as Double)
         let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shipping, withTax: tax)
         let total = subtotal.adding(shipping).adding(tax)
-        
+ 
         let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .authorize)
         
-        payment.items = payPalItems
+        //payment.items = payPalItems
         payment.paymentDetails = paymentDetails
         
         if (payment.processable) {
