@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E44A4F2FD2EA117B83A56F704CA0C0A4"
-               BuildableName = "libFBNotifications.a"
+               BlueprintIdentifier = "73B8742CDCEB8C1DB5075F5FD078CAC8"
+               BuildableName = "FBNotifications.framework"
                BlueprintName = "FBNotifications"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
@@ -45,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E44A4F2FD2EA117B83A56F704CA0C0A4"
-            BuildableName = "libFBNotifications.a"
+            BlueprintIdentifier = "73B8742CDCEB8C1DB5075F5FD078CAC8"
+            BuildableName = "FBNotifications.framework"
             BlueprintName = "FBNotifications"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
@@ -63,8 +63,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E44A4F2FD2EA117B83A56F704CA0C0A4"
-            BuildableName = "libFBNotifications.a"
+            BlueprintIdentifier = "73B8742CDCEB8C1DB5075F5FD078CAC8"
+            BuildableName = "FBNotifications.framework"
             BlueprintName = "FBNotifications"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>

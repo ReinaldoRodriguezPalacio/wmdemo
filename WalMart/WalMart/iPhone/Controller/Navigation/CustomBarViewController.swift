@@ -35,9 +35,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 enum CustomBarNotification : String {
-    //TODO: Delete
-    //case HideBar = "kCustomBarHideBarNotification"
-    //case ShowBar = "kCustomBarShowBarNotification"
     case AddUPCToShopingCart = "kAddUPCToShopingCart"
     case AddItemsToShopingCart = "kAddItemsToShopingCart"
     case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
