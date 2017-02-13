@@ -228,59 +228,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             }
         }
     }
-    
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentOffset: CGFloat = scrollView.contentOffset.y
-        let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
-        let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
-        lastContentOffset = currentOffset;
-        
-        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
-            
-            
-            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-                
-                var insetToUse : CGFloat = scrollView.contentInset.bottom  - 45
-                if insetToUse < 0 {
-                    insetToUse = CGFloat(0)
-                }
-                if let collectionView = scrollView as? UICollectionView {
-                    if let layoutFlow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                        if originalInset == nil {
-                            originalInset = layoutFlow.sectionInset
-                        }
-                        insetToUse = layoutFlow.sectionInset.bottom  - 45
-                        if insetToUse < 0 {
-                            insetToUse = layoutFlow.sectionInset.bottom
-                        }
-                        layoutFlow.sectionInset = UIEdgeInsetsMake(layoutFlow.sectionInset.top, layoutFlow.sectionInset.left,  insetToUse, layoutFlow.sectionInset.right)
-                    }
-                }
-                willHideTabbar()
-                isVisibleTab = false
-                TabBarHidden.isTabBarHidden = true
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-            }
-        }
-        if (differenceFromStart > 0 && TabBarHidden.isTabBarHidden) {
-            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-                
-                if let collectionView = scrollView as? UICollectionView {
-                    if let layoutFlow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                        if originalInset == nil {
-                            originalInset = layoutFlow.sectionInset
-                        }
-                        layoutFlow.sectionInset = UIEdgeInsetsMake(layoutFlow.sectionInset.top, layoutFlow.sectionInset.left, originalInset!.bottom + 45, layoutFlow.sectionInset.right)
-                    }
-                }
-                
-                willShowTabbar()
-                isVisibleTab = true
-                TabBarHidden.isTabBarHidden = false
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-            }
-        }
-    }
 
     func tabBarFinish(){
         if let layoutFlow = self.categories?.collectionViewLayout as? UICollectionViewFlowLayout {

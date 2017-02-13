@@ -507,12 +507,6 @@ class IPAUserListViewController: UserListViewController {
         )
     }
     
-    //MARK: - TabBar
-    
-    override func willShowTabbar() { }
-    override func willHideTabbar() { }
-
-    
     override func scanTicket() {
         let barCodeController = IPABarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")

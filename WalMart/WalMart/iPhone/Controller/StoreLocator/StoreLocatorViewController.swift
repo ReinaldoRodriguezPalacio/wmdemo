@@ -166,16 +166,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.startRunning), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.stopRunning), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     
-           self.invokeStoreLocatorService()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-        
+        self.invokeStoreLocatorService()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
     }
     
     override func viewWillLayoutSubviews() {
@@ -354,7 +349,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         return ClubLocatorTableViewCell.calculateCellHeight(forStore: store, width: collectionView.frame.width)
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
         self.searchField.resignFirstResponder()
     }
 
@@ -441,7 +436,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
         else {
             //Event
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showtable",comment:""), for: UIControlState())
             self.clubMap!.isHidden = false
             self.clubCollection!.isHidden = true
@@ -632,7 +626,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
 
     func showInMap(_ store:Store) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         self.viewBgDetailView?.removeFromSuperview()
         self.viewBgDetailView = nil
         self.detailView?.removeFromSuperview()
@@ -669,17 +662,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
     }
     
-    func showTabBar() {
-    }
-    
-    func hideTabBar() {
-    }
-    
-    override func back() {
-        super.back()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-        
-    }
     
     func invokeStoreLocatorService() {
         

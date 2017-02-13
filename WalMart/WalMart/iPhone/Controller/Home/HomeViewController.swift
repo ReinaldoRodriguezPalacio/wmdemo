@@ -198,7 +198,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         self.bannerCell?.startTimmer()
         self.showPleca()
     }
@@ -508,9 +507,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func showProductDetail(_ upcProduct:String,type:String){
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = [["upc":upcProduct,"description":"","type":type,"sku":upcProduct]]//sku
-        
-        willHideTabbar()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
         
         self.navigationController!.pushViewController(controller, animated: true)
     }

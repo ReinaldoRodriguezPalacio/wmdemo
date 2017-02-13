@@ -238,25 +238,4 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         self.present(webCtrl,animated:true,completion:nil)
     }
     
-    override func willShowTabbar() {
-        isShowingTabBar = true
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 110 , width: self.view.frame.width, height: 64)
-            self.tableOrders!.frame = CGRect(x: 0, y: 46 , width: self.view.frame.width, height: self.view.frame.height - 109)
-        })
-    }
-    
-    override func willHideTabbar() {
-        isShowingTabBar = false
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
-            self.tableOrders!.frame = CGRect(x: 0, y: 46 , width: self.view.frame.width, height: self.view.frame.height - 64)
-        })
-    }
-    
-    override func back() {
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
-        super.back()
-    }
-    
 }

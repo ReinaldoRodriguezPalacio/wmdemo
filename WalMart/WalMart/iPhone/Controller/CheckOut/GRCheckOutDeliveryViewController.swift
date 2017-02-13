@@ -331,13 +331,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
  
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-    }
     
      //MARK: AlertPickerViewDelegate
     func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String) {

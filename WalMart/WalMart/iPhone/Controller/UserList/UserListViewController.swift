@@ -1395,12 +1395,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if self.isToggleBarEnabled {
-            super.scrollViewDidScroll(scrollView)
-        }
-    }
-    
     
     
     //MARK: - Utils
@@ -1709,20 +1703,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         )
     }
     
-    
-    
-    
-    //MARK: - TabBar
-    
-    override func willShowTabbar() {
-        self.isShowingTabBar = true
-    }
-    
-    override func willHideTabbar() {
-        self.isShowingTabBar = false
-
-    }
-    
     //MARK: - UITextFieldDelegate
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -1812,8 +1792,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        super.scrollViewWillBeginDragging(scrollView)
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
         
     }

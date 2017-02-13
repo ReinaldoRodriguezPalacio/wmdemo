@@ -428,10 +428,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         isRateActive =  true
        
     }
-    
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    }
-    
+
     
     /**
      iyect info to webview to login user

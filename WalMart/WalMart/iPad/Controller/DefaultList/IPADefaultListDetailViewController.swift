@@ -17,14 +17,6 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
     var sharePopover: UIPopoverController?
     var delegate : IPADefaultListDetailViewControllerDelegate?
     var isShared =  false
-    
-    override func willShowTabbar() {
-        isShowingTabBar = false
-    }
-    
-    override func willHideTabbar() {
-        isShowingTabBar = false
-    }
 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -97,13 +97,6 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-        
-    }
-    
     //MARK: PageViewControllerDataSource
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         ixSelected =  viewController.view.tag

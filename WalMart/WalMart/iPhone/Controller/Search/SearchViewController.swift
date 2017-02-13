@@ -714,8 +714,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return false
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
-        super.scrollViewWillBeginDragging(scrollView)
+     func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
         self.view.endEditing(true)
     }
     

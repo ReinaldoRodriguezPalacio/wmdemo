@@ -62,16 +62,6 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
     }
     
     /**
-     Hides tap bar only in iPhone
-     */
-    override func willHideTabbar() {}
-    
-    /**
-     Shows tap bar only in iPhone
-     */
-    override func willShowTabbar() {}
-    
-    /**
      Shows or hides image header only in iPhone
      
      - parameter didShow: Bool

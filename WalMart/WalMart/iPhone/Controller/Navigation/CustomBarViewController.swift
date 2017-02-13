@@ -31,8 +31,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 enum CustomBarNotification : String {
-    case HideBar = "kCustomBarHideBarNotification"
-    case ShowBar = "kCustomBarShowBarNotification"
     case AddUPCToShopingCart = "kAddUPCToShopingCart"
     case AddItemsToShopingCart = "kAddItemsToShopingCart"
     case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
@@ -136,9 +134,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.hideTabBar(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showTabBar(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
+    
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemToShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemsToShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.notificaUpdateBadge(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
