@@ -363,6 +363,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             var orderByPiece = true
             if let orderpiece = params["orderByPieces"] as? Bool {
                 orderByPiece = orderpiece
+            }else if let orderpiece = params["orderByPiece"] as? Bool {
+                orderByPiece = orderpiece
             }
             
             var pieces = 0

@@ -394,7 +394,7 @@ class GRShoppingCartProductsService : GRBaseService {
             carProductItem.img = imageUrl
             carProductItem.orderByPiece = carProduct.product.orderByPiece
             carProductItem.pieces = carProduct.product.pieces
-            
+           
             if let pesable = shoppingCartProduct["type"] as?  NSString {
                 carProductItem.type = NSNumber(value: pesable.integerValue as Int)
             }
@@ -408,6 +408,16 @@ class GRShoppingCartProductsService : GRBaseService {
             if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
                 carProductItem.isPreorderable = preorderable
             }
+            print(shoppingCartProduct)
+            if let equivalenceByPiece = shoppingCartProduct["equivalenceByPiece"] as? NSNumber {
+               carProductItem.equivalenceByPiece = equivalenceByPiece
+            }
+            if let equivalenceByPiece = shoppingCartProduct["equivalenceByPiece"] as? String {
+                carProductItem.equivalenceByPiece =  NSNumber(value:Int(equivalenceByPiece)!)
+            }
+            
+            
+                
             
 //            if let comment  = shoppingCartProduct["comments"] as? NSString {
 //                carProduct.note = comment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())

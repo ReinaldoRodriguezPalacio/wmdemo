@@ -30,10 +30,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var lblQuantityP : UILabel!
     var quantityWAnimate : UIView!
     
-    var originalValGr: Double! = 100.0
+    var originalValGr: Double! = 50.0
     var originalValPzs: Double! = 1.0
     
-    var currentValGr : Double! = 100.0
+    var currentValGr : Double! = 50.0
     var currentValPzs : Double! = 1.0
     
     var currentValCstmGr : Double! = 0.0
@@ -671,7 +671,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     func updateShoppButtonN(){
         
-        let result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
+        let result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
@@ -845,6 +845,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         } else {
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.orderByPiece = true
+                self.btnChankePices.isSelected =  true
                 self.currentValPzs = self.originalValPzs
                 self.updateLabelP()
                 self.updateShoppButton()
@@ -857,7 +858,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
                 self.keyboardP.alpha = 1
             }, completion: { (Bool) -> Void in
                 self.btnChankePices.isEnabled = true
-                self.btnChankePices.isSelected = !self.btnChankePices.isSelected
+                self.btnChankePices.isSelected = true// !self.btnChankePices.isSelected
             })
         }
 

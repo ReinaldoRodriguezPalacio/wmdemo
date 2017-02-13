@@ -608,6 +608,20 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
+    
+    func getRightButtonOnlyDelete() -> [UIButton] {
+        var toReturn : [UIButton] = []
+        
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
+        buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        buttonDelete.backgroundColor = WMColor.red
+        toReturn.append(buttonDelete)
+        
+        return toReturn
+    }
+    
+    
     /**
      Delete element from cell
      
@@ -943,6 +957,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
         if index == 0{
+            cell.rightUtilityButtons = getRightButtonOnlyDelete()
             cell.showRightUtilityButtons(animated: true)
         }
     }

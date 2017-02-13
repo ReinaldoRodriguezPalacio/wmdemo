@@ -66,7 +66,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Cart", in: self.managedContext!)
             
-            let predicate = NSPredicate(format: "product.upc == %@ && status != %@", self.upc as NSString,NSNumber(value: CartStatus.deleted.rawValue as Int))
+            let predicate = NSPredicate(format: "product.upc == %@ && status != %@", self.upc! as NSString,NSNumber(value: CartStatus.deleted.rawValue as Int))
             fetchRequest.predicate = predicate
             
             //var error: NSError? = nil
@@ -255,6 +255,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
 
        
+        
         
         self.addToShoppingCartButton!.backgroundColor = buttonColor
         
