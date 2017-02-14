@@ -69,7 +69,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         
         self.header?.addSubview(buttonCollapse)
         
-        self.titleLabel?.text = "Walmart Buenavista"
+        self.titleLabel?.text = "Súper"
         self.titleLabel?.textAlignment = .left
         
         self.viewFamily = UIView()
@@ -443,7 +443,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance.addressId == nil {
+        if titleLabel!.text! == "Súper ￼" && UserCurrentSession.sharedInstance.addressId == nil {
             let noAddressView = GRAddressNoStoreView(frame: CGRect(x: 0,y: 0,width: 288,height: 210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRect(x: 0,y: 49,width: 288,height: self.view.frame.height - 90))
@@ -503,7 +503,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
             var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance.storeName!.capitalized)  ", attributes:attrs)
             if UserCurrentSession.sharedInstance.storeName == "" {
-                 boldString = NSMutableAttributedString(string:"Walmart Buenavista ", attributes:attrs)
+                 boldString = NSMutableAttributedString(string:"Súper ", attributes:attrs)
             }
             boldString.append(attachmentString)
             self.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -514,7 +514,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(IPOGRCategoriesViewController.changeStore))
             self.titleLabel?.addGestureRecognizer(tapGesture)
         }else{
-            self.titleLabel?.text = "Walmart Buenavista"
+            self.titleLabel?.text = "Súper"
         }
         
     }

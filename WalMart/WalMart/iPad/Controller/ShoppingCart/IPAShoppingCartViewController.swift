@@ -98,8 +98,17 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.viewHerader.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
         self.viewContent.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         self.viewFooter.frame = CGRect(x: self.viewContent.frame.width - 341, y: viewContent.frame.height - 72 , width: 341 , height: 72)
-        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
-        self.beforeLeave.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewContent.frame.width - 341, height: viewContent.frame.height - self.viewShoppingCart.frame.maxY)
+        if itemsUPC.count > 0 {
+            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
+            self.beforeLeave.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewContent.frame.width - 341, height: viewContent.frame.height - self.viewShoppingCart.frame.maxY)
+            self.beforeLeave.labelTitle!.alpha = 1.0
+        }else {
+            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.viewContent.frame.width - 341, height: viewContent.frame.height)
+            self.beforeLeave.frame = CGRect(x: 0,y: 0,width: 0, height: 0)
+            self.beforeLeave.labelTitle!.alpha = 0.0
+        }
+        
+        
         self.imagePromotion.frame = CGRect(x: self.viewContent.frame.width - 341, y: self.viewHerader.frame.maxY, width: 341, height: 434)
         self.totalsView.frame = CGRect(x: self.viewContent.frame.width - 341, y: self.imagePromotion.frame.maxY, width: 341, height: 168)
         
@@ -221,6 +230,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return itemsInShoppingCart.count
     }
     
@@ -429,9 +439,19 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             selectQuantity!.addToCartAction = { (quantity:String) in
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
+                    
+                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_cart"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+                    alertView!.setMessage(NSLocalizedString("shoppingcart.additem", comment:""))
+                    
                     let updateService = ShoppingCartUpdateProductsService()
                     updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: nil,errorBlock: nil)
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:[String:Any]) -> Void in
+                        delay(0.3, completion: {
+                            alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))
+                            alertView!.showDoneIcon()
+                        })
+                        print("done")
+                    },errorBlock: nil)
                     self.reloadShoppingCart()
                     self.popup!.dismiss(animated: false)
                 } else {
