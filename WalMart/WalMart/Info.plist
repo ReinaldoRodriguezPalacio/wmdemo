@@ -366,7 +366,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getSkuSummaryDetails</string>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/getPushNotifications</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/getPushNotifications</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
