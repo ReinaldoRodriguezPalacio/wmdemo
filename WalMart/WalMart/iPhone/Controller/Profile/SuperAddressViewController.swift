@@ -108,7 +108,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     }
     
     override func back(){
-        if self.flagToSave {
+        if self.saveButton!.isHidden {
             super.back()
             return
         }
