@@ -38,7 +38,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         super.viewDidLoad()
         self.backButton?.isHidden = true
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
-        self.titleLabel?.text = "Walmart Buenavista"
+        self.titleLabel?.text = "Súper"
         self.titleLabel?.textAlignment = .center
         
         colCategories.backgroundColor = WMColor.light_light_gray
@@ -305,7 +305,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance.addressId == nil{
+        if titleLabel!.text! == "Súper ￼" && UserCurrentSession.sharedInstance.addressId == nil{
             let noAddressView = GRAddressNoStoreView(frame: CGRect(x: 0,y: 0,width: 338,height: 210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRect(x: 0,y: 49,width: 338,height: self.view.frame.height - 90))
@@ -365,7 +365,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
             var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance.storeName!.capitalized)  ", attributes:attrs)
             if UserCurrentSession.sharedInstance.storeName == "" {
-                boldString = NSMutableAttributedString(string:"Walmart Buenavista ", attributes:attrs)
+                boldString = NSMutableAttributedString(string:"Súper ", attributes:attrs)
             }
             boldString.append(attachmentString)
             self.titleLabel?.numberOfLines = 2;
@@ -375,7 +375,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             self.titleLabel?.addGestureRecognizer(tapGesture)
             self.titleLabel!.frame = CGRect(x: 0, y: 0, width: self.header!.frame.width, height: self.header!.frame.maxY)
         }else{
-            self.titleLabel?.text = "Walmart Buenavista"
+            self.titleLabel?.text = "Súper "
             self.titleLabel!.frame = CGRect(x: 0, y: 0, width: self.header!.frame.width, height: self.header!.frame.maxY)
         }
         

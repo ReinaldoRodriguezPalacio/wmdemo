@@ -321,13 +321,6 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                         self.neighborhoods = []
                         self.stores = []
                         
-                        if !self.store.isRequired
-                        {
-                            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                            alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
-                            alertView!.showDoneIconWithoutClose()
-                            alertView!.showOkButton("OK", colorButton: WMColor.green)
-                        }
                         self.showErrorLabel(true)
                         if self.errorView == nil{
                             self.errorView = FormFieldErrorView()
