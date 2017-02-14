@@ -70,8 +70,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(DefaultListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-         self.tabBarActions()
     }
     
     override func setup() {
@@ -511,23 +509,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
         return count
     }
     
-    
-    
-    
-    override func willShowTabbar() {
-        isShowingTabBar = true
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 117 , width: self.view.frame.width, height: 72)
-        })
-    }
-    
-    override func willHideTabbar() {
-        isShowingTabBar = false
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 72, width: self.view.frame.width, height: 72)
-        })
-    }
-    
 
     func duplicate() {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label: self.defaultListName!)
@@ -684,13 +665,5 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
         return localList != nil//true no exsite
         
-    }
-
-    func tabBarActions(){
-        if TabBarHidden.isTabBarHidden {
-            self.willHideTabbar()
-        }else{
-            self.willShowTabbar()
-        }
     }
 }

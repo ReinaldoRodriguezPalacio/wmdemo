@@ -83,8 +83,6 @@ class SchoolListViewController : DefaultListDetailViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(DefaultListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        self.tabBarActions()
     }
     
     override func setup() {
@@ -653,11 +651,5 @@ class SchoolListViewController : DefaultListDetailViewController {
         }) 
         
         
-    }
-    
-    //MARK: ScrollViewDelegate
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        self.tabBarActions()
     }
 }

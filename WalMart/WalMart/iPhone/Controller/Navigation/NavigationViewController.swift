@@ -61,6 +61,7 @@ class NavigationViewController: IPOBaseController {
         super.didReceiveMemoryWarning()
     }
     
+    
     func back(){
         if self.navigationController != nil {
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)

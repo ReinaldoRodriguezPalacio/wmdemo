@@ -185,6 +185,4 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         self.sharePopover = nil
     }
-    
-    override func willShowTabbar() { }
 }

@@ -195,7 +195,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
         //Solo para presentar los resultados al presentar el controlador sin delay
         if !openDetailOrReminder {
             if UIDevice.current.userInterfaceIdiom == .phone {
@@ -204,9 +203,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        self.tabBarActions()
     }
     
     override func viewWillLayoutSubviews() {
@@ -1484,59 +1480,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-    //MARK: - IPOBaseController scrollViewDelegate
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.addProductsView?.textFindProduct?.resignFirstResponder()
-        
-        if !self.enableScrollUpdateByTabBar {
-            return
-        }
-        
-        let currentOffset: CGFloat = scrollView.contentOffset.y
-        let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
-        let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
-        lastContentOffset = currentOffset
-        
-        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
-            TabBarHidden.isTabBarHidden = true
-            self.isVisibleTab = false
-            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-
-                self.willHideTabbar()
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-            }
-        }
-        if differenceFromStart > 0 && TabBarHidden.isTabBarHidden {
-            TabBarHidden.isTabBarHidden = false
-            self.isVisibleTab = true
-            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-                let bottom : CGFloat = self.footerSection!.frame.height + 45.0
-                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
-                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
-                
-                self.willShowTabbar()
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-            }
-        }
-    }
-
-    
-    override func willShowTabbar() {
-        self.footerConstraint!.constant = 45.0
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    override func willHideTabbar() {
-        self.footerConstraint!.constant = 0.0
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        })
-    }
-    
     func reloadTableListUser(){
         
     }
@@ -1901,14 +1844,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func validateSearch(_ toValidate:String) -> Bool{
         let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú ]{0,100}$";
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
-    }
-    
-    func tabBarActions(){
-        if TabBarHidden.isTabBarHidden {
-            self.willHideTabbar()
-        }else{
-            self.willShowTabbar()
-        }
     }
     
 }

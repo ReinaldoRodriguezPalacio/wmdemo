@@ -115,8 +115,6 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
             self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
             self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
             self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
-        } else if !IS_IPAD {
-            willShowTabbar()
         }
     }
     
@@ -303,24 +301,6 @@ class OrderShippingViewController: NavigationViewController, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-    }
-    
-    override func willShowTabbar() {
-        isShowingTabBar = true
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
-            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 109, 0)
-            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 109, 0)
-        })
-    }
-    
-    override func willHideTabbar() {
-        isShowingTabBar = false
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  , width: self.view.frame.width, height: 64)
-            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
-        })
     }
     
     func showShippingDetail(_ sender:UIButton){

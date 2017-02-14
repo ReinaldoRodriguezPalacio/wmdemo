@@ -260,27 +260,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             }
         }
     }
-    
-    override func willShowTabbar() {
-        if isPreferencesView {
-            UIView.animate(withDuration: 0.2, animations: { () -> Void in
-                self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 112,  width: self.view.frame.width, height: 1)
-                self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 96, width: 140, height: 34)
-                self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 96, width: 140, height: 34)
-            })
-        }
-    }
-    
-    override func willHideTabbar() {
-        if isPreferencesView {
-            UIView.animate(withDuration: 0.2, animations: { () -> Void in
-                self.layerLine.frame = CGRect(x: 0, y: self.view.frame.height - 66,  width: self.view.frame.width, height: 1)
-                self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.view.frame.height - 50, width: 140, height: 34)
-                self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.frame.height - 50, width: 140, height: 34)
-            })
-
-        }
-    }
 
     /**
      Build view components
@@ -762,8 +741,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     //MARK: -Scroll
 
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        super.scrollViewWillBeginDragging(scrollView)
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.comments!.resignFirstResponder()
         self.phoneField!.resignFirstResponder()
     }

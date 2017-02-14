@@ -67,7 +67,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         super.viewWillAppear(animated)
         
         isShowingTabBar = !TabBarHidden.isTabBarHidden
-        //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.tableDetailOrder.reloadData()
         self.removeLoadingView()
     }

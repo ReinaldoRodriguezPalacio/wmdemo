@@ -1713,9 +1713,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    }
-    
     //MARK: - PayPal
     func showPayPalPaymentController()
     {

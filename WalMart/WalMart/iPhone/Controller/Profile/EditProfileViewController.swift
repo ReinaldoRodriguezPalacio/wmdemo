@@ -441,16 +441,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:NSNotification.Name(rawValue: CustomBarNotification.TapBarFinish.rawValue), object: nil)
         self.setValues()
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.tabBarActions()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
     }
     
     //MARK: - Actions
@@ -604,11 +595,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(_ sender:AnyObject) -> CGSize {
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
         return CGSize(width: self.view.frame.width, height: content.contentSize.height)
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     
@@ -935,29 +926,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         })
     }
     
-    //MARK: Tabbar Notification
-    override func willShowTabbar() {
-        self.showTabbar = true
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.buildComponetViews()
-        })
-    }
-    
-    override func willHideTabbar() {
-        self.showTabbar = false
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.buildComponetViews()
-        })
-    }
-    
-    
-    func tabBarActions(){
-        if TabBarHidden.isTabBarHidden {
-            self.willHideTabbar()
-        }else{
-            self.willShowTabbar()
-        }
-    }
     
     /**
      Push Notice Privacy view controller

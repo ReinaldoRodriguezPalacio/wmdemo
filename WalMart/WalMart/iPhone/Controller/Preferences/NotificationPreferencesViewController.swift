@@ -229,21 +229,7 @@ class NotificationPreferencesViewController : NavigationViewController,UITableVi
     }
 
     //MARK : FooterView
-    override func willHideTabbar() {
-        
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.viewFooter?.frame = CGRect(x:0 , y:self.tableview!.frame.maxY , width:self.view.bounds.width , height: 64 )
-        })
-    }
-    
-    override func willShowTabbar() {
-        
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.viewFooter?.frame = CGRect(x:0 , y:self.tableview!.frame.maxY - 46, width:self.view.bounds.width , height: 64 )
-        })
-    }
-    
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     

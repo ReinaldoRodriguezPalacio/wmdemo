@@ -475,14 +475,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         self.sharePopover = nil
     }
-
-    override func willShowTabbar() {
-        
-    }
-    
-    override func willHideTabbar() {
-        
-    }
     
     override func reloadTableListUser() {
         if delegate != nil {
