@@ -664,8 +664,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     
                     }
                     , errorBlock: {(error: NSError) in
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
+                        self.alertView?.setMessage(error.localizedDescription)
+                        self.alertView?.showErrorIcon("Ok")
                 })
             }
         

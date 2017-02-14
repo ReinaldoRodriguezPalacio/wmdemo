@@ -25,7 +25,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
             let dateFmtBD = DateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
             
-            let dateOfBirth = dateFmtBD.string(from: self.dateVal! as Date)
+            let dateOfBirth = self.dateVal ==  nil ? "" : dateFmtBD.string(from: self.dateVal!)
             let gender = femaleButton!.isSelected ? "Female" : "Male"
             let allowTransfer = "\(self.acceptSharePersonal!.isSelected)"
             let allowPub = "\(self.promoAccept!.isSelected)"

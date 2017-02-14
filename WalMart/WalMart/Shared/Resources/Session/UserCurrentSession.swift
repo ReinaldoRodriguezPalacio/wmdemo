@@ -925,7 +925,7 @@ class UserCurrentSession : NSObject {
         self.storeId = address["storeID"] as? String
         self.storeName = address["storeName"] as? String
         self.addressId = address["addressID"] as? String
-        if self.storeId != nil && (self.storeName == nil || self.storeName!.isEmpty) {
+        if self.storeId != nil {
             let serviceZip = GRZipCodeService()
             serviceZip.buildParams(address["zipCode"] as! String)
             serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
@@ -936,6 +936,7 @@ class UserCurrentSession : NSObject {
                     if self.storeId != nil{
                         if idStore == self.storeId! {
                             self.storeName = name
+                            self.storeId = idStore
                             break
                         }
                     }
