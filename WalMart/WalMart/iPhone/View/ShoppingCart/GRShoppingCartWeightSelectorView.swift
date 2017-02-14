@@ -136,7 +136,8 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(GRShoppingCartWeightSelectorView.updateAnimation), userInfo: nil, repeats: true)
         
-        let closeButton = UIButton(frame: CGRect(x: 0, y: startH - 3.0, width: 44, height: 44))
+        let closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
+        let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
