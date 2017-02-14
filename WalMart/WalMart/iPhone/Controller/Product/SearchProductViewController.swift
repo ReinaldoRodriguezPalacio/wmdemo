@@ -2000,16 +2000,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect){
         
         var prodQuantity = "1"
-        
+        let startY: CGFloat = IS_IPAD ? 0 : 46
         if cell.pesable! {
             prodQuantity = "50"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:46)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY)
             
         }else{
             prodQuantity = "1"
-            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc,startY:46)
+            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc,startY:startY)
         }
         
         //EVENT
@@ -2146,7 +2146,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func buildMGSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect){
-        selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),upcProduct:cell.upc,startY:64)
+        let startY: CGFloat = IS_IPAD ? 20 : 64
+        selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),upcProduct:cell.upc,startY:startY)
         selectQuantity!.closeAction = { () in
             UIView.animate(withDuration: 0.2, animations: {
                 self.selectQuantity.alpha = 0

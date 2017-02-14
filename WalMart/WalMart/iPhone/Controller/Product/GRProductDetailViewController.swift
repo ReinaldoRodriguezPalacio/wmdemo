@@ -46,9 +46,7 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class GRProductDetailViewController : ProductDetailViewController, ListSelectorDelegate {
-   
-
-    
+  
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var listSelectorContainer: UIView?
     var listSelectorController: ListsSelectorViewController?
@@ -631,7 +629,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         let service = GRAddItemListService()
         let pesable = self.isPesable ? "1" : "0"
-        let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:"")
+        let orderByPiece = self.selectQuantityGR.orderByPiece
+        let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:orderByPiece ? "EA" : "GM")
         service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                             successBlock: { (result:[String:Any]) -> Void in
                                 self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))

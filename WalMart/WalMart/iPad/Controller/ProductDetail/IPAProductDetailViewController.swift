@@ -552,9 +552,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,2),(0,4) :
             return 15.0
         case (0,5) :
-            return 15.0
+            return (msi.count == 0 ? 302.0 : 222.0)
         case (0,6) :
-            return 292.0
+            return 222.0
         case (1,0) :
             if  msi.count != 0 {
                 return 36.0
@@ -871,31 +871,27 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func openContainer(_ viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void),additionalAnimationFinish:@escaping (() -> Void)) {
         self.isContainerHide = false
-        
+        self.tabledetail!.setContentOffset(CGPoint.zero, animated:true)
         CATransaction.begin()
         CATransaction.setCompletionBlock({ () -> Void in
-            self.tabledetail.isScrollEnabled = false
             
             let finalFrameOfQuantity = CGRect(x: self.tabledetail.frame.minX, y: self.headerView.frame.maxY, width: self.tabledetail.frame.width, height: self.heightDetail)
             self.containerinfo.frame = CGRect(x: self.tabledetail.frame.minX, y: self.headerView.frame.maxY + self.heightDetail, width: self.tabledetail.frame.width, height: 0)
             self.containerinfo.addSubview(viewShow)
-            
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.containerinfo.frame = finalFrameOfQuantity
                 additionalAnimationOpen()
-                }, completion: { (complete:Bool) -> Void in
+            }, completion: { (complete:Bool) -> Void in
+                self.tabledetail.isScrollEnabled = false
                 additionalAnimationFinish()
             })
             
         })
-       
-        if self.tabledetail.numberOfRows(inSection: 0) == 5 {
-            self.tabledetail.beginUpdates()
-            self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
-            self.tabledetail.endUpdates()
-            
-             self.pagerController!.enabledGesture(false)
-        }
+        
+        self.tabledetail.beginUpdates()
+        self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
+        self.tabledetail.endUpdates()
+        self.pagerController!.enabledGesture(false)
         
         CATransaction.commit()
     }

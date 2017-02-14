@@ -380,16 +380,15 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.listSelectorContainer!.clipsToBounds = true
         self.listSelectorController = ListsSelectorViewController()
         self.listSelectorController!.delegate = self
+        self.listSelectorController!.pesable = self.isPesable
         self.listSelectorController!.productUpc = self.upc as String
         self.addChildViewController(self.listSelectorController!)
         self.listSelectorController!.view.frame = frameDetail
         self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
         self.listSelectorController!.didMove(toParentViewController: self)
         self.listSelectorController!.view.clipsToBounds = true
-        self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, at: 0)
         let bg = UIView(frame: frameDetail)
         bg.backgroundColor = WMColor.light_blue
-        self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
         opencloseContainer(true,viewShow:self.listSelectorContainer!, additionalAnimationOpen: { () -> Void in
             self.productDetailButton?.listButton.isSelected = true
             },additionalAnimationClose:{ () -> Void in
@@ -560,7 +559,6 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        NSLog("22")
         
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
@@ -575,7 +573,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
             else {*/
             
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
             
                 let service = GRAddItemListService()

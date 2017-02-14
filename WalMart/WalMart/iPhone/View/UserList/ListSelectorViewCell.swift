@@ -103,7 +103,7 @@ class ListSelectorViewCell: UITableViewCell {
                 openDetail?.addSubview(viewBg)
                 openDetail?.sendSubview(toBack: viewBg)
                 
-                let strQuantity = ShoppingCartButton.quantityString(productsFound.first?.quantity.intValue ?? 0, pesable: self.pesable, orderByPieces: true, pieces: productsFound.first?.quantity.intValue ?? 0)
+                let strQuantity = ShoppingCartButton.quantityString(productsFound.first?.quantity.intValue ?? 0, pesable: self.pesable, orderByPieces:productsFound.first?.orderByPiece.boolValue ?? false, pieces: productsFound.first?.pieces.intValue ?? 0)
                 openDetail?.setTitle(strQuantity, for: .normal)
                 
 

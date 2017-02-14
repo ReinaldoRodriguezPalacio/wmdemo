@@ -91,7 +91,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         
         
-        let closeButton = UIButton(frame: CGRect(x: 0, y: 20, width: 44, height: 44))
+        let closeButton = UIButton(frame: CGRect(x: 0, y: startH - 3.0, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
