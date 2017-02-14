@@ -406,6 +406,15 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 //            let idUser = UserCurrentSession.sharedInstance.userSigned!.profile.user.idUser as String
 //            let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
             
+            
+            //PayPal
+            if self.paymentId == "-3"{
+                
+                self.confirmOrderDictionary = paramsOrder
+                self.showPayPalPaymentController(resultCall)
+                return
+            }
+            
             let purchaseOrderArray = resultCall["purchaseOrder"] as! [Any]
             let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
             
@@ -414,10 +423,20 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
             let hour = purchaseOrder["hour"] as! String
             let subTotal = purchaseOrder["subTotal"] as! NSNumber
-            let total = purchaseOrder["total"] as! NSNumber
+            var total = NSNumber(value:0.0)
+            if let totalVal = purchaseOrder["total"] as? NSNumber {
+                total = totalVal
+            }
+            
+            
             var authorizationId = ""
             var correlationId = ""
-            var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+            
+            var deliveryAmount = 0.0
+            if let shippingVal  = purchaseOrder["deliveryAmount"] as? Double {
+                deliveryAmount = shippingVal
+            }
+            
             
             //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
             
@@ -440,7 +459,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             let formattedDate = deliveryDate.substring(to: 10)
             let slot = purchaseOrder["slot"] as! [String:Any]
             
-            self.confirmOrderDictionary = ["paymentType": self.paymentId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
+            
             self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": self.paymentId,"deliveryType": deliveryType!,"trackingNumber": trakingNumber]
             self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal, "deliveryAmount" : "\(formattedDeliveryAmount)","discountsAssociated" : "\(discountsAssociated)"]
             
@@ -452,11 +471,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
            BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "Groceries", revenue: String(describing: total), tax: "", shipping: shipmentAmount, coupon: "")
             
-            //PayPal
-            if self.paymentId == "-3"{
-                self.showPayPalPaymentController()
-                return
-            }
+            
             //
             //                if paymentSelectedId == "-3"{
             //                    self.invokePaypalUpdateOrderService()
@@ -529,7 +544,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     /**
     Show paypal controller
     */
-    func showPayPalPaymentController()
+    func showPayPalPaymentController(_ responsePaypal : [String:Any])
     {
         /*let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
         var payPalItems: [PayPalItem] = []
@@ -553,20 +568,41 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         }
  */
         
-        let subtotal = NSDecimalNumber(string: self.completeOrderDictionary["subtotal"] as! String)
+        
+        let subtotal = NSDecimalNumber(string: (responsePaypal["subtotal"] as! String))
+        let shippingCost = NSDecimalNumber(string: (responsePaypal["shippingCost"] as! String))
+        let tax = NSDecimalNumber(string: (responsePaypal["tax"] as! String))
+        let currency = responsePaypal["currency"] as! String
+        
+        //Address
+        let addressLine1 = responsePaypal["address1"] as! String
+        let addressLine2 = responsePaypal["address2"] as! String
+        let city = responsePaypal["city"] as! String
+        let state = responsePaypal["state"] as! String
+        let postalCode = responsePaypal["postalCode"] as! String
+        let country = "MX"
+        
+        //Name
+        let firstName = responsePaypal["firstName"] as! String
+        let middleName = responsePaypal["middleName"] as! String
+        let lastName = responsePaypal["lastName"] as! String
+        
         //let subtotal = PayPalItem.totalPrice(forItems: payPalItems)
         // Optional: include payment details
-        let shipping = NSDecimalNumber(value: self.shipmentAmount as Double)
-        let tax = NSDecimalNumber(value: 0.0 as Double)
-        let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shipping, withTax: tax)
-        let total = subtotal.adding(shipping).adding(tax)
+        //let shipping = NSDecimalNumber(value: shippingCost)
+        let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shippingCost, withTax: tax)
+        let total = subtotal.adding(shippingCost).adding(tax)
  
-        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .authorize)
+        let payment = PayPalPayment(amount: total, currencyCode: currency, shortDescription: "Walmart", intent: .authorize)
+        
+       let shippingAddress =  PayPalShippingAddress(recipientName: "\(firstName) \(middleName) \(lastName)", withLine1: addressLine1, withLine2: addressLine2, withCity: city, withState: state, withPostalCode: postalCode, withCountryCode: country)
         
         //payment.items = payPalItems
         payment.paymentDetails = paymentDetails
+        payment.shippingAddress = shippingAddress
         
         if (payment.processable) {
+            PayPalMobile.preconnect(withEnvironment: self.getPayPalEnvironment())
             let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
             paymentViewController!.modalPresentationStyle = UIModalPresentationStyle.formSheet
             self.present(paymentViewController!, animated: true, completion: nil)
@@ -589,9 +625,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         payPalConfig.merchantName = "Walmart"
         payPalConfig.merchantPrivacyPolicyURL = URL(string: "https://www.paypal.com/webapps/mpp/ua/privacy-full")
         payPalConfig.merchantUserAgreementURL = URL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
-        payPalConfig.rememberUser = true
+        payPalConfig.rememberUser = false
         payPalConfig.languageOrLocale = Locale.preferredLanguages[0]
         payPalConfig.payPalShippingAddressOption = .provided
+        
         return payPalConfig
     }
     
@@ -805,8 +842,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             successBlock: { (result:[Any]) -> Void in
                 print(result)
                 self.paymentOptionsItems = result as [Any]
-                //TODO: Borrar despues de validar paypal
-                //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])
+                
                 
                 for paymentOption in self.paymentOptionsItems!{
                     if let payment = paymentOption as? [String:Any] {
@@ -824,6 +860,18 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         }
                     }
                 }
+                //Delete duplicate paypal
+                self.paymentOptionsItems = self.paymentOptionsItems?.filter({ (element) -> Bool in
+                    if let payment = element as? [String:Any] {
+                        if let option = payment["id"] as? String {
+                            if option == "-1" || option == "-3" {
+                                return false
+                            }
+                        }
+                    }
+                    return true
+                })
+                
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
@@ -935,17 +983,27 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     - parameter message:   Message to show in orderDetail
     */
     func invokePayPalCancelService(_ message: String){
-        let cancelPayPalService = GRPaypalUpdateOrderService()
-        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:[String:Any]) -> Void in
+        let updatePaypalService = GRPaypalUpdateOrderService()
+        self.confirmOrderDictionary["paypalAuthorizationNumber"] = ""
+        self.confirmOrderDictionary["payPalPaymentStatus"] = "2"
+        
+        //self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
+        //self.confirmOrderDictionary["paymentType"] = paymentType
+        //self.confirmOrderDictionary["authorization"] = idAuthorization
+        //print("idAuthorization::::\(idAuthorization)::::")
+        
+        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:[String:Any]) -> Void in
             self.serviceDetail?.errorOrder(message)
-            }, errorBlock: { (error:NSError) -> Void in
-                if error.code == -400 {
-                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
-                }
-                else {
-                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
-                }
+            
+        }, errorBlock: { (error:NSError) -> Void in
+            if error.code == -400 {
+                self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+            }
+            else {
+                self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+            }
         })
+        
         
     }
     
@@ -956,12 +1014,14 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
      - parameter paymentType:     paymentType selected
      - parameter idAuthorization: idAuthorization
      */
-    func invokePaypalUpdateOrderService(_ authorizationId:String,paymentType:String,idAuthorization:String){
+    func invokePaypalUpdateOrderService(_ authorizationId:String,paymentType:String,idAuthorization:String,status:String){
         let updatePaypalService = GRPaypalUpdateOrderService()
-        self.confirmOrderDictionary["authorizationId"] = authorizationId
-        self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
-        self.confirmOrderDictionary["paymentType"] = paymentType
-        self.confirmOrderDictionary["authorization"] = idAuthorization
+        self.confirmOrderDictionary["paypalAuthorizationNumber"] = authorizationId
+        self.confirmOrderDictionary["payPalPaymentStatus"] = "1"
+        
+        //self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
+        //self.confirmOrderDictionary["paymentType"] = paymentType
+        //self.confirmOrderDictionary["authorization"] = idAuthorization
         print("idAuthorization::::\(idAuthorization)::::")
         
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:[String:Any]) -> Void in
@@ -1217,15 +1277,18 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func payPalPaymentViewController(_ paymentViewController: PayPalPaymentViewController, didComplete completedPayment: PayPalPayment) {
         print("PayPal Payment Success !")
         print(completedPayment.description)
-        
-        
         if let completeDict = completedPayment.confirmation["response"] as? [String:Any] {
             if let idPayPal = completeDict["id"] as? String {
+                var autorization = ""
                 if let idAuthorization = completeDict["authorization_id"] as? String {
-                    self.invokePaypalUpdateOrderService(idPayPal,paymentType:"-1",idAuthorization:idAuthorization)
+                    autorization = idAuthorization
                 }
+                let statePaypal = completeDict["state"] as? String
+                let status = statePaypal == "approved" ? "1" : "0"
+                self.invokePaypalUpdateOrderService(idPayPal,paymentType:self.paymentId,idAuthorization:autorization,status:status)
             }
         }
+        
         
         self.dismiss(animated: true, completion: nil)
     }
@@ -1264,20 +1327,16 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
        self.paymentOptionsView!.deselectOptions()
         if sender == self.payPalPaymentField {
             self.paymentString = "Paypal"
-            self.paymentId = "-1"
+            self.paymentId = "-3"
         }
-        if sender == self.payPalFuturePaymentField {
-            if !sender.isSelected {
-                self.paymentString = "Paypal"
-                self.paymentId = "-3"
-                self.payPalPaymentField!.isSelected = true
-                self.payPalFuturePayment = true
-            }else{
-                self.paymentString = "Paypal"
-                self.paymentId = "-1"
-                self.payPalFuturePayment = false
-            }
-        }
+//        if sender == self.payPalFuturePaymentField {
+//            if !sender.isSelected {
+//                self.paymentString = "Paypal"
+//                self.paymentId = "-3"
+//                self.payPalPaymentField!.isSelected = true
+//                self.payPalFuturePayment = true
+//            }
+//        }
         sender.isSelected = (sender == self.payPalPaymentField) ? true : !sender.isSelected
         self.changeButonTitleColor(sender)
     }
