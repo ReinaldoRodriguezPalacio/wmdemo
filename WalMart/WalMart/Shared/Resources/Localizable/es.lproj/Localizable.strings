@@ -197,6 +197,7 @@
 "shoppingcart.goshoppingcart" = "Ir al carrito";
 "shoppingcart.addquantitytitle" = "Número de Artículos";
 "shoppingcart.updatequantitytitle" = "Actualizar cantidad en el carrito";
+"shoppingcart.updatequantitytitle.list" = "Actualizar cantidad en listas";
 "shoppingcart.addweighttitle" = "Cantidad";
 "shoppingcart.edit" = "editar";
 "shoppingcart.keepshoppinginsidecart" = "Seguir comprando";

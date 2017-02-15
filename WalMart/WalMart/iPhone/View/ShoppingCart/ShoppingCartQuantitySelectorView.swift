@@ -75,7 +75,8 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         lblQuantity.textAlignment = NSTextAlignment.center
         
      
-        let closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 44
+        var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 44
+        closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
         let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)

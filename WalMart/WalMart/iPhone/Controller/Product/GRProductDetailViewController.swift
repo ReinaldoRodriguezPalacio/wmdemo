@@ -369,6 +369,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }else{
                 selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
             }
+            self.selectQuantityGR.isFromList = false
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
@@ -629,7 +630,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         let service = GRAddItemListService()
         let pesable = self.isPesable ? "1" : "0"
-        let orderByPiece = self.selectQuantityGR.orderByPiece
+        let orderByPiece = self.selectQuantityGR?.orderByPiece ?? true
         let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:orderByPiece ? "EA" : "GM")
         service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                             successBlock: { (result:[String:Any]) -> Void in
@@ -705,6 +706,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.selectQuantityGR!.closeAction = { () in
                 self.removeListSelector(action: nil)
             }
+            self.selectQuantityGR.isFromList = true
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
                 self.addToListLocally(quantity:quantity,list:list)
             }

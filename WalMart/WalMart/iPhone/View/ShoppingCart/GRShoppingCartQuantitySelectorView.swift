@@ -15,6 +15,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     var numericKeyboard = NumericKeyboardView()
     var lblQuantity : UILabel!
+    var lblTitle : UILabel!
     var imageBlurView : UIImageView!
     var first : Bool = true
     var isFromList : Bool = false {
@@ -22,6 +23,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             if isFromList {
                 self.btnNote.alpha = 0
             }
+            self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.updatequantitytitle.list",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
         }
     }
     var addToCartAction : ((String) -> Void)!
@@ -77,11 +79,11 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.backgroundView = UIView(frame:CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
         self.backgroundView!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
         
-        let lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 17, width: 230, height: 14))
-        lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
-        lblTitle.textColor = UIColor.white
-        lblTitle.text = NSLocalizedString("shoppingcart.addweighttitle",comment:"")
-        lblTitle.textAlignment = NSTextAlignment.center
+        self.lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 17, width: 230, height: 14))
+        self.lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
+        self.lblTitle.textColor = UIColor.white
+        self.lblTitle.text = self.isFromList ? NSLocalizedString("shoppingcart.updatequantitytitle",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle.list",comment:"")
+        self.lblTitle.textAlignment = NSTextAlignment.center
         
         lblQuantity = UILabel(frame:CGRect(x: (self.frame.width / 2) - (200 / 2), y: lblTitle.frame.maxY + 20 , width: 200, height: 40))
         lblQuantity.font = WMFont.fontMyriadProRegularOfSize(40)
@@ -90,7 +92,8 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         lblQuantity.textAlignment = NSTextAlignment.center
         
         
-        let closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
+        var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
+        closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
         let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
