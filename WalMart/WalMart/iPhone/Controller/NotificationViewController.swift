@@ -223,12 +223,12 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.reg_gray
 
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
-        let notService = NotificationService()
+        let notificationService = NotificationService()
         let stringBool = value ? "true" : "false"
         if  UserCurrentSession.sharedInstance.deviceToken != "" {
-            let params = notService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !value)
-            notService.jsonFromObject(params as AnyObject!)
-            notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
+            let params = notificationService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !value)
+            notificationService.jsonFromObject(params as AnyObject!)
+            notificationService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 CustomBarViewController.addOrUpdateParam("showNotification", value: stringBool,forUser: false)
             }) { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )

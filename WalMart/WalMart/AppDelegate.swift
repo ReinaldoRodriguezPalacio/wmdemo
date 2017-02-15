@@ -319,15 +319,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         
         let idDevice = UIDevice.current.identifierForVendor!.uuidString
-        let notService = NotificationService()
+        let notificationService = NotificationService()
         let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
         let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
         
-        let params = notService.buildParams(deviceToken.hexString, identifierDevice: idDevice, enablePush: !showNotification)
+        let params = notificationService.buildParams(deviceToken.hexString, identifierDevice: idDevice, enablePush: !showNotification)
         print("AppDelegate")
-        print(notService.jsonFromObject(params as AnyObject!))
+        print(notificationService.jsonFromObject(params as AnyObject!))
         if UserCurrentSession.sharedInstance.finishConfig {
-            notService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
+            notificationService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
                 //println( "Registrado para notificaciones")
                 CustomBarViewController.addOrUpdateParam("showNotification", value: "true",forUser: false)
             }) { (error:NSError) -> Void in
