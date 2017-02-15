@@ -716,9 +716,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
     }
     
-    class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,comments:String,onHandInventory:String,type:String,pesable:String,isPreorderable:String) -> [AnyHashable: Any] {
+    class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,comments:String,onHandInventory:String,type:String,pesable:String,isPreorderable:String,orderByPieces: Bool) -> [AnyHashable: Any] {
         return
-            ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"comments":comments,"onHandInventory":onHandInventory,"wishlist":false,"type":type,"pesable":pesable,"isPreorderable":isPreorderable]
+            ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"comments":comments,"onHandInventory":onHandInventory,"wishlist":false,"type":type,"pesable":pesable,"isPreorderable":isPreorderable, "orderByPieces": orderByPieces]
     }
     
     class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String, type:String ,isPreorderable:String) -> [AnyHashable: Any] {
