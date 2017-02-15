@@ -575,17 +575,18 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let currency = responsePaypal["currency"] as! String
         
         //Address
-        let addressLine1 = responsePaypal["address1"] as! String
-        let addressLine2 = responsePaypal["address2"] as! String
-        let city = responsePaypal["city"] as! String
-        let state = responsePaypal["state"] as! String
-        let postalCode = responsePaypal["postalCode"] as! String
+        let responseAddress = responsePaypal["address"] as! [String:Any]
+        let addressLine1 = responseAddress["address1"] as! String
+        let addressLine2 = responseAddress["address2"] as! String
+        let city = responseAddress["city"] as! String
+        let state = responseAddress["state"] as! String
+        let postalCode = responseAddress["postalCode"] as! String
         let country = "MX"
         
         //Name
-        let firstName = responsePaypal["firstName"] as! String
-        let middleName = responsePaypal["middleName"] as! String
-        let lastName = responsePaypal["lastName"] as! String
+        let firstName = responseAddress["firstName"] as! String
+        let middleName = responseAddress["middleName"] as! String
+        let lastName = responseAddress["lastName"] as! String
         
         //let subtotal = PayPalItem.totalPrice(forItems: payPalItems)
         // Optional: include payment details
@@ -600,6 +601,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //payment.items = payPalItems
         payment.paymentDetails = paymentDetails
         payment.shippingAddress = shippingAddress
+        
         
         if (payment.processable) {
             PayPalMobile.preconnect(withEnvironment: self.getPayPalEnvironment())
@@ -1025,6 +1027,21 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         print("idAuthorization::::\(idAuthorization)::::")
         
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:[String:Any]) -> Void in
+            
+            let deliveryDate = result["deliveryDate"] as! NSString
+            let trackingNumber = result["trackingNumber"] as! NSString
+            let subTotal = result["subTotal"] as! NSNumber
+            let total = result["total"] as! NSNumber
+            let deliveryAmount = result["deliveryAmount"] as! NSString
+            let slotH = result["hour"] as! NSString
+            let formattedDate = deliveryDate.substring(to: 10)
+            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue as NSString)
+            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
+            let formattedDeliveryAmount = CurrencyCustomLabel.formatString(deliveryAmount)
+            
+            self.completeOrderDictionary = ["trakingNumber":trackingNumber, "deliveryDate": formattedDate, "deliveryHour": slotH, "paymentType": self.paymentString, "subtotal": formattedSubtotal, "total": formattedTotal, "deliveryAmount" : "\(formattedDeliveryAmount)","discountsAssociated" : ""]
+            
+            
             self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
             
             }, errorBlock: { (error:NSError) -> Void in

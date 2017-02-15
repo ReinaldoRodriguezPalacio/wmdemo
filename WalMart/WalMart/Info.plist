@@ -335,7 +335,7 @@
 			<key>WalmartMG.GRPaymentTypeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateOrderStatusPaypal</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
@@ -749,7 +749,7 @@
 			<key>WalmartMG.GRPaymentTypeService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateOrderStatusPaypal</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
@@ -844,7 +844,7 @@
 			<key>WalmartMG.GRPaymentTypeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateOrderStatusPaypal</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
