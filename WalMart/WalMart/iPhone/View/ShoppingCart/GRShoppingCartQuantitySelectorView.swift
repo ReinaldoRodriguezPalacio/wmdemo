@@ -82,7 +82,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 17, width: 230, height: 14))
         self.lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
         self.lblTitle.textColor = UIColor.white
-        self.lblTitle.text = self.isFromList ? NSLocalizedString("shoppingcart.updatequantitytitle",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle.list",comment:"")
+        self.lblTitle.text = NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
         self.lblTitle.textAlignment = NSTextAlignment.center
         
         lblQuantity = UILabel(frame:CGRect(x: (self.frame.width / 2) - (200 / 2), y: lblTitle.frame.maxY + 20 , width: 200, height: 40))
