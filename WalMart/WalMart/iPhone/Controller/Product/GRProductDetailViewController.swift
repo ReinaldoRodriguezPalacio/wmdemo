@@ -644,6 +644,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             detail!.quantity = NSNumber(value: Int(quantity)! as Int)
             detail!.type = NSNumber(value: self.isPesable as Bool)
             detail!.list = list
+            detail!.equivalenceByPiece = self.equivalenceByPiece
             
             if self.imageUrl.count > 0 {
                 detail!.img = self.imageUrl[0] as! NSString as String
