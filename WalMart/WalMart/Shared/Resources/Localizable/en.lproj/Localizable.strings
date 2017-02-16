@@ -142,7 +142,7 @@
 "list.articles" = "%@ artículos";
 "list.empty" = "Aún no haz creado una Lista de Súper";
 "list.search.placeholder" = "Buscar en Listas";
-"list.selector.title" = "Añadir a Lista de Súper";
+"list.selector.title" = "¿A que lista?";
 "list.selector.openDetail" = "Abrir";
 "list.selector.new.placeholder" = "Nueva Lista";
 

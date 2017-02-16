@@ -400,12 +400,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     override func addToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String) {
         let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
         
-        if self.isPesable {
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct: self.upc as String)
-        } else {
-            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
-        }
-        
+        self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR.isFromList = false
         selectQuantityGR?.closeAction = { () in
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
@@ -562,6 +558,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR.isFromList = true
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil, closeRow:true)
         }
@@ -647,6 +644,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     func listSelectorDidAddProductLocally(inList list:List) {
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0,  width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR.isFromList = true
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil, closeRow:true)
         }
