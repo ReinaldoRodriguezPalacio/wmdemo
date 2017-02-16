@@ -21,6 +21,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var showGRAddressForm: Bool = false
     var isPreferred: Bool = false
     var saveButtonBottom: WMRoundButton?
+    var flagToSave: Bool = true
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue
@@ -106,6 +107,34 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
     }
     
+    override func back(){
+        if self.saveButton!.isHidden {
+            super.back()
+            return
+        }
+        
+        let dictSend = sAddredssForm.getAddressDictionary(self.addressId, delete:false)
+        if dictSend != nil {
+            if self.flagToSave {
+                super.back()
+            } else {
+                //print("Mensaje de Guardar")
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"tabBar_storeLocator_active"),imageDone:UIImage(named:"tabBar_storeLocator_active"),imageError:UIImage(named:"noAvaliable"))
+                self.alertView!.spinImage.isHidden =  true
+                self.alertView!.setMessage(NSLocalizedString("profile.address.alert.exit", comment: ""))
+                
+                self.alertView!.addActionButtonsWithCustomText(NSLocalizedString("profile.address.exit.notSave", comment: ""), leftAction: {
+                    super.back()
+                    self.alertView!.close()
+                }, rightText: NSLocalizedString("profile.address.save.change", comment: ""), rightAction: {
+                    self.alertView!.showDoneIcon()
+                    self.alertView!.close()
+                    
+                    self.save(self.saveButton!)
+                }, isNewFrame: false)
+            }
+        }
+    }
     
     
     func changeTitleLabel(){
@@ -171,6 +200,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
                 print("Se realizao la direccion")
+                self.flagToSave = true
                 let _ = self.navigationController?.popViewController(animated: true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
@@ -212,6 +242,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             if self.viewLoad != nil{
                 self.viewLoad.stopAnnimating()
             }
+            self.flagToSave = false
             self.viewLoad = nil
             self.titleLabel?.text = result["name"] as! String!
             self.sAddredssForm.addressName.text = result["name"] as! String!

@@ -119,7 +119,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         
         self.birthDate = FormFieldView()
-        self.birthDate!.isRequired = true
+        self.birthDate!.isRequired = false
         self.birthDate!.setCustomPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
         self.birthDate!.typeField = .none
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
@@ -400,7 +400,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             let dateFmtBD = DateFormatter()
             dateFmtBD.dateFormat = "dd/MM/yyyy"
             
-            let dateOfBirth = dateFmtBD.string(from: self.dateVal!)
+            let dateOfBirth = self.dateVal ==  nil ? "" : dateFmtBD.string(from: self.dateVal!)
             let gender = femaleButton!.isSelected ? "Female" : "Male"
             let allowTransfer = "\(self.acceptSharePersonal!.isSelected)"
             let allowPub = "\(self.promoAccept!.isSelected)"
@@ -528,13 +528,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         if error{
             return false
         }
-        if !maleButton!.isSelected && !femaleButton!.isSelected {
-            if self.errorView == nil {
-                self.errorView = FormFieldErrorView()
-            }
-            self.presentMessageTerms(self.femaleButton!, message: NSLocalizedString("field.validate.minmaxlength.gender", comment: ""), errorView: self.errorView!)
-            return false
-        }
+
         if !error{
 
             self.errorView?.removeFromSuperview()

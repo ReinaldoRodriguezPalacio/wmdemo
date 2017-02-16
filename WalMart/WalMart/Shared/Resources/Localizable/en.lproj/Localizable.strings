@@ -181,7 +181,7 @@
 "list.new.validation.name" = "El nombre de la lista no puede estar vacío.";
 "list.new.validation.name.tiny" = "El nombre de la lista es muy corto";
 "list.new.validation.name.notvalid" = "El nombre de la lista no puede contener caracteres especiales";
-"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, elimine ó actualice las existentes.";
+"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, elimine o actualice las existentes.";
 "list.message.addingProductToList.fromList" = "Agregando producto a tu lista";
 
 //ShoppingCart
@@ -305,6 +305,10 @@
 "profile.address.shipping.error.max" = "Se ha alcanzado el máximo de direcciones\n de entrega,elimine ó actualice las existentes";
 "profile.address.update.ok" = "La actualización de la dirección\n ha sido exitosa.";
 "profile.address.add.ok" = "La Dirección ha sido Agregada\n Exitosamente.";
+"profile.address.save.change" = "Guardar cambios";
+"profile.address.exit.notSave" = "Salir sin guardar";
+"profile.address.alert.exit" = "¿Deseas salir sin guardar los cambios?";
+
 
 //field
 "field.validate.required" = " Es requerido";
