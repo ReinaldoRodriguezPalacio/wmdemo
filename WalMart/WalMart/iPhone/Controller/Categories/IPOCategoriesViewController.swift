@@ -183,10 +183,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             case (0,0):
                 return CGSize(width: 312, height: 98)
             default:
-                return CGSize(width: 154, height: 98)
+                return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
             }
         }
-        return CGSize(width: 154, height: 98)
+        return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
