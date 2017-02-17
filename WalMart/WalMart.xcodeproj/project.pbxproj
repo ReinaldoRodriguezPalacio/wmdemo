@@ -54,6 +54,7 @@
 		04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */; };
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
+		1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */; };
 		166761151E31A42A00A3D27A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166761141E31A42A00A3D27A /* ImageIO.framework */; };
 		22FC6B5D1E11E8C00019D375 /* NumericKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */; };
 		2A4746A371E2EE08B10DF3E5 /* Pods_WalMart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */; };
@@ -601,6 +602,7 @@
 		04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPaymentTypeService.swift; path = Shared/Services/checkout/GRPaymentTypeService.swift; sourceTree = "<group>"; };
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = iPhone/Resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
 		166761141E31A42A00A3D27A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
@@ -1752,6 +1754,7 @@
 		564578C619AE3038006A7152 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */,
 				564578CD19AE327A006A7152 /* Storyboard_iphone.storyboard */,
 			);
 			name = Resources;
@@ -3207,6 +3210,7 @@
 				56527DCD19AFA8C2008032C6 /* MyriadPro-BoldIt.otf in Resources */,
 				AC5911AC19DE26E600EB095C /* shippingCosts.html in Resources */,
 				8B44A1BF1AA7E16C008E3CC0 /* TiempoEntrega.pdf in Resources */,
+				1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */,
 				56527DC819AFA8C2008032C6 /* MyriadPro-BlackCond.otf in Resources */,
 				AC5911A719DE26E600EB095C /* howToBuy.html in Resources */,
 				AC5911AB19DE26E600EB095C /* returnPolicies.html in Resources */,
