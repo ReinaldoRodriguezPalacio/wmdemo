@@ -495,8 +495,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
  
     func layoutButtons() {
-        let space = (320 - (5 * TABBAR_HEIGHT))/6
-        var x: CGFloat = ((self.view.bounds.width / 2) - (320 / 2))  + CGFloat(space)
+        let space = (self.view.frame.width - (5 * TABBAR_HEIGHT))/6
+        var x: CGFloat = ((self.view.bounds.width / 2) - (self.view.frame.width / 2))  + CGFloat(space)
         for button in  self.buttonList {
             button.frame = CGRect(x: x, y: 2, width: TABBAR_HEIGHT, height: TABBAR_HEIGHT)
             //var spacing: CGFloat = 1.0 // the space between the image and text
