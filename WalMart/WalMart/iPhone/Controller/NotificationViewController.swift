@@ -258,4 +258,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         }
     }
     
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
+    
 }

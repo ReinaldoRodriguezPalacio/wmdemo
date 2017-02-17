@@ -238,4 +238,8 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         super.back()
     }
     
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
+    
 }

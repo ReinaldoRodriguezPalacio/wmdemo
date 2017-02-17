@@ -173,6 +173,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var changebtns  =  false
     var validate = false
     var mgServiceIsInvike =  false
+    //tap Priority
+    var priority = ""
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -957,7 +959,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params!,
             successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
-               
+                self.priority = resultDic["priority"] as? String ?? ""
                 let landingMg = resultDic["landingPage"] as! [String:Any]
                 self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
                 if self.landingPageMG != nil && self.landingPageMG!.count > 0 && arrayProduct!.count == 0 {// && self.btnTech.selected {
@@ -1093,7 +1095,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params!, successBlock: { (arrayProduct:[[String:Any]]?, resultDic:[String:Any]) -> Void in
-            
+            self.priority = resultDic["priority"] as? String ?? ""
             self.landingPageGR = resultDic["landingPage"] as? [String:Any]
             if arrayProduct != nil && arrayProduct!.count > 0 {
                 self.grResponceDic = resultDic
@@ -1278,8 +1280,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func updateViewAfterInvokeService(resetTable:Bool) {
         if !validate {
-            self.validateSeletctedTap()
+            if self.priority != "" {
+                validate =  true
+                btnSuper.isSelected = self.priority == "gr"
+                btnTech.isSelected = self.priority == "mg"
+                print("updateViewAfterInvokeService: Seleccionar tap \(self.priority)")
+            }else{
+             self.validateSeletctedTap()
+            }
         }
+            
         if  self.searchContextType == .withCategoryForGR {
             if self.idDepartment !=  nil {
                 self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
