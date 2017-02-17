@@ -457,5 +457,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         super.back()
     }
     
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
+    
     
 }

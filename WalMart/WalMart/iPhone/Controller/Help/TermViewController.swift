@@ -234,6 +234,9 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         super.back()
     }
     
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
     
 }
 

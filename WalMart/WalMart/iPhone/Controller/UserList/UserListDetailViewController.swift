@@ -593,6 +593,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.listEntity!.countItem = NSNumber(value: 0 as Int)
                 self.saveContext()
                 self.editBtn!.isHidden = true
+                self.deleteAllBtn!.isHidden =  true
+                self.titleLabel!.alpha = 1.0
                 self.showEmptyView()
                 self.reloadTableListUser()
             }
