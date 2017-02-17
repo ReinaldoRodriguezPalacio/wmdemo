@@ -464,7 +464,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             UIView.animate(withDuration: 0.5,
                            animations: { () -> Void in
                             self.listSelectorController!.view.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
-                            self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
+                            //self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
             },
                            completion: { (finished:Bool) -> Void in
                             if finished {
@@ -486,7 +486,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                             let frame = self.viewShowLogin!.frame
                             let originX = self.view.frame.width - frame.width
                             self.listSelectorController!.view.frame = CGRect(x: originX, y: frame.height, width: frame.width, height: 0.0)
-                            self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: -frame.height, width: frame.width, height: frame.height)
+                            //self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: -frame.height, width: frame.width, height: frame.height)
             }, completion: { (complete:Bool) -> Void in
                 if complete {
                     if self.listSelectorController != nil {

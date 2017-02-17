@@ -213,7 +213,8 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         
         if let entity = self.list![idx] as? List {
             let isIncluded = self.validateProductInList(forProduct: self.productUpc, inList: entity)
-            cell.setListEntity(entity,self.productUpc!, productIncluded: isIncluded)
+            let upc = self.productUpc ?? ""
+            cell.setListEntity(entity,upc, productIncluded: isIncluded)
         }
         
         return cell

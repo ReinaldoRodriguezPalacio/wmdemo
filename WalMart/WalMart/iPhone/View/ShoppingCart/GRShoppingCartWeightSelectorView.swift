@@ -143,7 +143,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
-        keyboard = WeightKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (289/2), y: lblQuantityW.frame.maxY + 20, width: 289, height: 196))
+        keyboard = WeightKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (289/2), y: lblQuantityW.frame.maxY + 10, width: 289, height: 196))
         //keyboard.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboard.delegate = self
 
@@ -195,7 +195,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         containerWeightView.addSubview(btnNote)
         containerWeightView.addSubview(btnNoteComplete)
         
-        let lblTitleNum = UILabel(frame:CGRect(x: (self.frame.width / 2.0) - 115.0, y: startH + 17, width: 230, height: 14))
+        let lblTitleNum = UILabel(frame:CGRect(x: (self.frame.width / 2.0) - 115.0, y: startH + 10, width: 230, height: 14))
         lblTitleNum.font = WMFont.fontMyriadProSemiboldSize(14)
         lblTitleNum.textColor = UIColor.white
         lblTitleNum.text = NSLocalizedString("shoppingcart.addquantitytitle",comment:"")
@@ -240,7 +240,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         keyboardN.delegate = self
         keyboardN.showDeleteBtn()
         
-        btnOkAddN = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: keyboard.frame.maxY + 15 , width: 142, height: 36))
+        btnOkAddN = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: keyboardN.frame.maxY + 12 , width: 142, height: 36))
         //btnOkAddN.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
