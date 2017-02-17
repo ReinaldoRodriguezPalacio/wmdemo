@@ -60,7 +60,17 @@ class BaseController : UIViewController {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["event": "openScreen", "screenName": self.getScreenGAIName()])
         
+        let returnSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(BaseController.swipeHandler(swipe:)))
+        returnSwipe.direction = .right
+        self.view.addGestureRecognizer(returnSwipe)
+        
     }
+    
+    func swipeHandler (swipe:UISwipeGestureRecognizer){
+        NSLog("Swipe received.")
+    }
+    
+    
     
     func loadStoryboardDefinition() -> UIStoryboard? {
         let storyboardName = UIDevice.current.userInterfaceIdiom == .phone ? "Storyboard_iphone" : "Storyboard_ipad"
@@ -167,6 +177,8 @@ class BaseController : UIViewController {
     func getScreenGAIName() -> String {
         fatalError("SCreeen name not implemented")
     }
+    
+    
 }
 
 

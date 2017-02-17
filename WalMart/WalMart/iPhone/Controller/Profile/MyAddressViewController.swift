@@ -661,4 +661,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
         super.back()
     }
+    
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
 }
