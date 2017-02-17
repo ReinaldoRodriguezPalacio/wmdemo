@@ -2333,8 +2333,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        //self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
-        present(viewControllerToCommit, animated: true, completion: nil)
+        self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
+        //present(viewControllerToCommit, animated: true, completion: nil)
     }
  }
  
