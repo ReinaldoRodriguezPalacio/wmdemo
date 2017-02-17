@@ -324,7 +324,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CzW-jR-AzM">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="505"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="nxA-Jy-yWs">
                                     <size key="itemSize" width="154" height="98"/>
@@ -349,7 +349,7 @@
                             <constraint firstItem="CzW-jR-AzM" firstAttribute="leading" secondItem="7cO-tB-hfR" secondAttribute="leading" id="FiS-qX-8ps"/>
                             <constraint firstAttribute="trailing" secondItem="CzW-jR-AzM" secondAttribute="trailing" id="e4l-py-aqe"/>
                             <constraint firstItem="CzW-jR-AzM" firstAttribute="top" secondItem="7cO-tB-hfR" secondAttribute="top" id="fU3-3M-Bxs"/>
-                            <constraint firstItem="CzW-jR-AzM" firstAttribute="bottom" secondItem="mrl-Au-tup" secondAttribute="top" id="yOu-ed-KEG"/>
+                            <constraint firstItem="CzW-jR-AzM" firstAttribute="bottom" secondItem="mrl-Au-tup" secondAttribute="top" constant="44" id="yOu-ed-KEG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xC7-S4-IxQ"/>
@@ -917,9 +917,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
-                                <rect key="frame" x="0.0" y="46" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
+                                <rect key="frame" x="0.0" y="46" width="320" height="371"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewLayout key="collectionViewLayout" id="x5F-0N-HoN" customClass="CSStickyHeaderFlowLayout"/>
                                 <cells/>
@@ -930,6 +929,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="leading" secondItem="IBt-Kr-i66" secondAttribute="leading" id="1si-4f-iCB"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="46" id="6b3-Pz-NKj"/>
+                            <constraint firstAttribute="trailing" secondItem="gAa-Bu-aYo" secondAttribute="trailing" id="7l7-7n-s8Z"/>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" constant="44" id="a3N-Ur-cid"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -959,7 +964,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hrw-5l-DPo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1390" y="-235"/>
+            <point key="canvasLocation" x="1400" y="-35"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="Tzo-Nw-O5L">
@@ -973,9 +978,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
-                                <rect key="frame" x="0.0" y="46" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
+                                <rect key="frame" x="0.0" y="46" width="375" height="577"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zoi-Hb-PDp" customClass="CSStickyHeaderFlowLayout">
                                     <size key="itemSize" width="50" height="50"/>
@@ -991,6 +995,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="top" secondItem="5O4-f5-eNr" secondAttribute="bottom" constant="46" id="VC9-7g-XQN"/>
+                            <constraint firstAttribute="trailing" secondItem="ZTg-Af-AOZ" secondAttribute="trailing" id="bqR-QY-Qh8"/>
+                            <constraint firstItem="N1T-IX-YRP" firstAttribute="top" secondItem="ZTg-Af-AOZ" secondAttribute="bottom" constant="44" id="gnb-wu-BeF"/>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="leading" secondItem="2oy-zj-fzv" secondAttribute="leading" id="wOa-Wq-US0"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
@@ -999,7 +1009,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6cc-wl-1e5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1822" y="-707"/>
+            <point key="canvasLocation" x="1821.5" y="-707.5"/>
         </scene>
         <!--Login Controller-->
         <scene sceneID="AGW-8E-bQb">
