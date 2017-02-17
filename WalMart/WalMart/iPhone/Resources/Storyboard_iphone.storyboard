@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,11 +19,11 @@
                         <viewControllerLayoutGuide type="bottom" id="BE3-jZ-yHI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="VMm-1L-o4v">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-3R-LDa">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-Qu-tY2">
                                         <rect key="frame" x="1" y="21" width="46" height="43"/>
@@ -62,7 +62,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">
-                                <rect key="frame" x="0.0" y="63" width="414" height="673"/>
+                                <rect key="frame" x="0.0" y="63" width="375" height="604"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <segue destination="V74-Hq-4gN" kind="embed" identifier="homeEmbedSegue" id="X0a-aJ-NBY"/>
@@ -128,7 +128,7 @@
                         <viewControllerLayoutGuide type="bottom" id="DS8-iJ-04Z"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NyV-mV-dEK">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -150,7 +150,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Za5-ls-gcJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1uj-ZY-p6K">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -172,7 +172,7 @@
                         <viewControllerLayoutGuide type="bottom" id="PNP-Dd-CMU"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ogh-Zq-upo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -257,7 +257,7 @@
                         <viewControllerLayoutGuide type="bottom" id="8DJ-lB-xEZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dF5-zr-zVJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="673"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="604"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZAK-7z-RFS">
@@ -400,7 +400,7 @@
             <objects>
                 <tableViewController id="1Ag-8r-Lvj" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Y8u-m3-qZ8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <connections>
@@ -646,31 +646,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="t4y-XR-WcP">
-                                <rect key="frame" x="0.0" y="134" width="320" height="331"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="t4y-XR-WcP">
+                                <rect key="frame" x="0.0" y="90" width="320" height="327"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="uF1-3y-63A"/>
-                                </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="ceM-IS-94f" id="bsd-dY-qWp"/>
                                     <outlet property="delegate" destination="ceM-IS-94f" id="R2K-CQ-OUT"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJX-yf-xlB">
-                                <rect key="frame" x="0.0" y="389" width="320" height="72"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EJX-yf-xlB">
+                                <rect key="frame" x="0.0" y="345" width="320" height="72"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="72" id="Al9-xM-BSC"/>
-                                    <constraint firstAttribute="width" constant="320" id="dGA-Er-VP0"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="t4y-XR-WcP" firstAttribute="top" secondItem="Qrh-HU-L6w" secondAttribute="bottom" constant="134" id="2bI-9c-JB7"/>
-                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="EJX-yf-xlB" secondAttribute="bottom" id="DF4-ep-pB4"/>
-                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="t4y-XR-WcP" secondAttribute="bottom" id="DdJ-hz-hVf"/>
+                            <constraint firstItem="t4y-XR-WcP" firstAttribute="top" secondItem="Qrh-HU-L6w" secondAttribute="bottom" constant="90" id="2bI-9c-JB7"/>
+                            <constraint firstItem="EJX-yf-xlB" firstAttribute="leading" secondItem="mkY-b9-adw" secondAttribute="leading" id="A1i-vv-QAO"/>
+                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="EJX-yf-xlB" secondAttribute="bottom" constant="44" id="DF4-ep-pB4"/>
+                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="t4y-XR-WcP" secondAttribute="bottom" constant="44" id="DdJ-hz-hVf"/>
+                            <constraint firstItem="EJX-yf-xlB" firstAttribute="leading" secondItem="mkY-b9-adw" secondAttribute="leading" id="LUg-4B-5aw"/>
+                            <constraint firstItem="EJX-yf-xlB" firstAttribute="trailing" secondItem="t4y-XR-WcP" secondAttribute="trailing" id="UGD-h9-iT6"/>
+                            <constraint firstAttribute="trailing" secondItem="EJX-yf-xlB" secondAttribute="trailing" id="kPF-uJ-qXQ"/>
+                            <constraint firstItem="EJX-yf-xlB" firstAttribute="leading" secondItem="t4y-XR-WcP" secondAttribute="leading" id="zPv-QX-VvL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="u9P-sd-um3"/>
@@ -949,7 +950,7 @@
                         <viewControllerLayoutGuide type="bottom" id="KS1-v3-pb1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="lYd-cm-6LP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -968,7 +969,7 @@
                         <viewControllerLayoutGuide type="bottom" id="N1T-IX-YRP"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2oy-zj-fzv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
@@ -1121,7 +1122,7 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina5_5.fullscreen"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="s4G-YC-bI8"/>
