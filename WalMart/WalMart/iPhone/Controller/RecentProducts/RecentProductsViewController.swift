@@ -151,5 +151,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         super.back()
     }
     
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
+    
     
 }

@@ -706,6 +706,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         super.back()
     }
     
-    
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
 }
 

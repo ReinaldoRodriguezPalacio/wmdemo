@@ -54,6 +54,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         self.originalValGr = currentValGr
         self.equivalenceByPiece = equivalenceByPiece
         self.upcProduct = upcProduct
+        self.orderByPiece =  false
         setup()
     }
     

@@ -62,11 +62,11 @@ class ProductbySearchService : BaseService {
                     errorBlock?(error)
                     return
                 }
-                
+                let priority = resultJSON["priority"] as? String ?? ""
                 let suggestion:String = resultJSON["suggestion"] as? String ?? ""
                 let alternativeCombination:String = resultJSON["alternativeCombination"]as? String ?? ""
                 let landingPage = resultJSON["landingPage"] as? [String:Any] ?? [:]
-                let dic: [String:Any] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage]
+                let dic: [String:Any] = ["suggestion":suggestion,"alternativeCombination":alternativeCombination,"landingPage":landingPage,"priority":priority]
                 let arrayKey = (suggestion != "" ? JSON_KEY_RESPONSEARRAY_CORRECTION : (alternativeCombination != "" ? JSON_KEY_RESPONSEARRAY_ALTERNATIVE: JSON_KEY_RESPONSEARRAY))
                 
                 var newItemsArray = Array<[String:Any]>()

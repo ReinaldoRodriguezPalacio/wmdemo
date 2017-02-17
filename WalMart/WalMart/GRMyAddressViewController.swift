@@ -189,4 +189,8 @@ class GRMyAddressViewController: MyAddressViewController {
        self.onClosePicker?()
        self.onOkAction?()
     }
+    
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
 }

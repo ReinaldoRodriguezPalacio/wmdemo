@@ -187,5 +187,9 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         super.back()
     }
     
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
+    
 }
 
