@@ -238,4 +238,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         super.back()
     }
     
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
+    
 }

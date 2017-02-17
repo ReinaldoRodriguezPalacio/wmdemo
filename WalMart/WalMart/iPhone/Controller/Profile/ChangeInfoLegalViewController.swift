@@ -222,6 +222,10 @@ class ChangeInfoLegalViewController : NavigationViewController {
         }
         
     }
+    
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
 
     
 }

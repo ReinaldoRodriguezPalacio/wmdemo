@@ -321,6 +321,9 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         super.back()
     }
   
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
     
 }
 

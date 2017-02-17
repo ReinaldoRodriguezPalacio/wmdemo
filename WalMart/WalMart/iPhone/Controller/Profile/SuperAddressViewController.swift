@@ -299,5 +299,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
     }
 
-    
+    override func swipeHandler(swipe: UISwipeGestureRecognizer) {
+        self.back()
+    }
 }
