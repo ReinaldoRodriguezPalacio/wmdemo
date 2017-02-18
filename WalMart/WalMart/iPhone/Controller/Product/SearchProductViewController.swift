@@ -2124,7 +2124,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         let upc = itemToDelete["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
+        let params = deleteShoppingCartService.builParams(upc)
+        deleteShoppingCartService.callService(params, successBlock: { (response) in
             UserCurrentSession.sharedInstance.loadMGShoppingCart {
                 print("delete pressed OK")
                 alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
