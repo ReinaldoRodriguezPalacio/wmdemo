@@ -461,6 +461,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.loading!.frame = self.collection!.frame
     }
     
+    override func back(){
+        if self.navigationController != nil {
+            self.navigationController!.popViewController(animated: true)
+        }
+        if self.searchContextType == SearchServiceContextType.withText || self.searchContextType == SearchServiceContextType.withTextForCamFind {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: "")
+        }
+    }
+    
     //MARK: - UICollectionViewDataSource
     
 //    Camfind Results
