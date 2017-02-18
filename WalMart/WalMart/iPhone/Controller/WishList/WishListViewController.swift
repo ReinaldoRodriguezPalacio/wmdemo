@@ -85,6 +85,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.view.addSubview(emptyView)
         
         BaseController.setOpenScreenTagManager(titleScreen: "WishList", screenName: self.getScreenGAIName())
+        
+        //The 'view' argument should be the view receiving the 3D Touch.
+        if #available(iOS 9.0, *) {
+            registerForPreviewing(with: self, sourceView: wishlist!)
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -229,6 +235,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = self.getDetailController(indexPath: indexPath)
+        self.navigationController!.pushViewController(controller, animated: true)
+    }
+    
+
+    func getDetailController(indexPath:IndexPath) -> ProductDetailPageViewController {
         var itemsToSend : [[String:String]] = []
         
         for itemWishlist in self.items {
@@ -238,21 +250,16 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let type = ResultObjectType.Mg.rawValue
             let dict = ["upc":upc,"description":desc,"type":type]
             itemsToSend.append(dict)
-
+            
         }
         
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = itemsToSend as [Any]
         controller.ixSelected = indexPath.row
         controller.detailOf = "Wish List"
-               
-        self.navigationController!.pushViewController(controller, animated: true)
-        
-        
-        
-    }
-    
 
+        return controller
+    }
     
     func deleteFromWishlist(_ UPC:String) {
         let serviceWishDelete = DeleteItemWishlistService()
@@ -940,8 +947,23 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
         }
     }
-    
+}
 
- 
+extension WishListViewController: UIViewControllerPreviewingDelegate {
+    //registerForPreviewingWithDelegate
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        if let indexPath = wishlist?.indexPathForRow(at: location) {
+            //This will show the cell clearly and blur the rest of the screen for our peek.
+            if #available(iOS 9.0, *) {
+                previewingContext.sourceRect = wishlist!.rectForRow(at: indexPath)
+            }
+            return self.getDetailController(indexPath:indexPath)
+        }
+        return nil
+    }
     
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
+        //present(viewControllerToCommit, animated: true, completion: nil)
+    }
 }

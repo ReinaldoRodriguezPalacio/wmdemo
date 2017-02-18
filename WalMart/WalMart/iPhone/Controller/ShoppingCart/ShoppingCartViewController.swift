@@ -185,6 +185,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
         UserCurrentSession.sharedInstance.nameListToTag = "Shopping Cart"
         
+        //The 'view' argument should be the view receiving the 3D Touch.
+        if #available(iOS 9.0, *) {
+            registerForPreviewing(with: self, sourceView: viewShoppingCart!)
+        }
     }
     
     /**
@@ -581,11 +585,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
-            let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [Any]
-            controller.ixSelected = indexPath.row
-            controller.detailOf = "Shopping Cart"
-            
+            let controller = self.getProductDetailController(indexPath: indexPath)
             
             if self.navigationController != nil {
                  self.navigationController?.view.backgroundColor =  UIColor.white
@@ -598,6 +598,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 cell.priceSelector.removeBand()
             }
         }*/
+    }
+    
+    func getProductDetailController(indexPath:IndexPath) -> ProductDetailPageViewController {
+        let controller = ProductDetailPageViewController()
+        controller.itemsToShow = getUPCItems() as [Any]
+        controller.ixSelected = indexPath.row
+        controller.detailOf = "Shopping Cart"
+        return controller
     }
 
     
@@ -1678,3 +1686,23 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
 }
+
+extension ShoppingCartViewController: UIViewControllerPreviewingDelegate {
+    //registerForPreviewingWithDelegate
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        if let indexPath = viewShoppingCart?.indexPathForRow(at: location) {
+            //This will show the cell clearly and blur the rest of the screen for our peek.
+            if #available(iOS 9.0, *) {
+                previewingContext.sourceRect = viewShoppingCart!.rectForRow(at: indexPath)
+            }
+            return self.getProductDetailController(indexPath:indexPath)
+        }
+        return nil
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
+        //present(viewControllerToCommit, animated: true, completion: nil)
+    }
+}
+

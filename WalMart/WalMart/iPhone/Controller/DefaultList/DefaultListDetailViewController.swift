@@ -87,6 +87,11 @@ DetailListViewCellDelegate,UIActivityItemSource {
         BaseController.setOpenScreenTagManager(titleScreen: self.defaultListName!, screenName: self.getScreenGAIName())
         UserCurrentSession.sharedInstance.nameListToTag = self.defaultListName!
         
+        //The 'view' argument should be the view receiving the 3D Touch.
+        if #available(iOS 9.0, *) {
+            registerForPreviewing(with: self, sourceView: tableView!)
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -185,27 +190,31 @@ DetailListViewCellDelegate,UIActivityItemSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = self.getDetailController(indexPath: indexPath)
+        self.navigationController!.pushViewController(controller, animated: true)
+        
+    }
+    
+    func getDetailController(indexPath:IndexPath) -> ProductDetailPageViewController {
         let controller = ProductDetailPageViewController()
         var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString
-
+            
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
         }
         controller.itemsToShow = productsToShow
         controller.ixSelected = indexPath.row
         controller.detailOf = self.defaultListName!
         
-//        let product = self.detailItems![indexPath.row]
-//        let upc = product["upc"] as! NSString
-//        let description = product["description"] as! NSString
-//        
-//        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
-        
-        self.navigationController!.pushViewController(controller, animated: true)
-        
+        //        let product = self.detailItems![indexPath.row]
+        //        let upc = product["upc"] as! NSString
+        //        let description = product["description"] as! NSString
+        //
+        //        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
+        return controller
     }
     
     
@@ -688,4 +697,23 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
     }
 
+}
+
+extension DefaultListDetailViewController: UIViewControllerPreviewingDelegate {
+    //registerForPreviewingWithDelegate
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        if let indexPath = tableView?.indexPathForRow(at: location) {
+            //This will show the cell clearly and blur the rest of the screen for our peek.
+            if #available(iOS 9.0, *) {
+                previewingContext.sourceRect = tableView!.rectForRow(at: indexPath)
+            }
+            return self.getDetailController(indexPath:indexPath)
+        }
+        return nil
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
+        //present(viewControllerToCommit, animated: true, completion: nil)
+    }
 }

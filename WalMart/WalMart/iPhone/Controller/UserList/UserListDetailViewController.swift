@@ -183,7 +183,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         UserCurrentSession.sharedInstance.nameListToTag = self.listName!
         BaseController.setOpenScreenTagManager(titleScreen: self.listName!, screenName: self.getScreenGAIName())
         
-        // self.showLoadingView()
+        //The 'view' argument should be the view receiving the 3D Touch.
+        if #available(iOS 9.0, *) {
+            registerForPreviewing(with: self, sourceView: tableView!)
+        }
+        
        
     }
     
@@ -911,36 +915,42 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let cell = tableView.cellForRow(at: indexPath)
         if cell!.isKind(of: DetailListViewCell.self) {
 
-            let controller = ProductDetailPageViewController()
-            var productsToShow:[Any] = []
-            for idx in 0 ..< self.products!.count {
-                if let product = self.products![idx] as? [String:Any] {
-                    let upc = product["upc"] as! String
-                    let description = product["description"] as! String
-                    
-                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                }
-                else if let product = self.products![idx] as? Product {
-                    
-                   
-                    
-                    productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                }
+            let controller = self.getDetailController(index:indexPath)
+            self.navigationController!.pushViewController(controller, animated: true)
+        }
+    }
+    
+    func getDetailController(index: IndexPath) -> ProductDetailPageViewController {
+        let controller = ProductDetailPageViewController()
+        var productsToShow:[Any] = []
+        for idx in 0 ..< self.products!.count {
+            if let product = self.products![idx] as? [String:Any] {
+                let upc = product["upc"] as! String
+                let description = product["description"] as! String
+                
+                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
             }
+            else if let product = self.products![idx] as? Product {
+                
+                
+                
+                productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+            }
+        }
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
         
-        if indexPath.row < productsToShow.count {
+        if index.row < productsToShow.count {
             controller.itemsToShow = productsToShow
-            controller.ixSelected = indexPath.row
+            controller.ixSelected = index.row
             controller.completeDeleteItem = {() in
-                    print("completeDelete")
-                    self.fromDelete =  true
+                print("completeDelete")
+                self.fromDelete =  true
             }
             controller.detailOf = self.listName!
-            self.navigationController!.pushViewController(controller, animated: true)
         }
-      }
+            
+            return controller
     }
     
     //MARK: - SWTableViewCellDelegate
@@ -1853,4 +1863,23 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
    
     
+}
+
+extension UserListDetailViewController: UIViewControllerPreviewingDelegate {
+    //registerForPreviewingWithDelegate
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        if let indexPath = tableView?.indexPathForRow(at: location) {
+            //This will show the cell clearly and blur the rest of the screen for our peek.
+            if #available(iOS 9.0, *) {
+                previewingContext.sourceRect = tableView!.rectForRow(at: indexPath)
+            }
+            return self.getDetailController(index:indexPath)
+        }
+        return nil
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
+        //present(viewControllerToCommit, animated: true, completion: nil)
+    }
 }
