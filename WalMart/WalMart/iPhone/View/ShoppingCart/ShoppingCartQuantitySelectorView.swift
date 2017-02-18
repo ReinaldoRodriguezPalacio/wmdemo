@@ -177,7 +177,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     }
     
     func addtoshoppingcart(_ sender:Any) {
-        
         addToCartAction(lblQuantity.text!)
     }
     

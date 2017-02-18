@@ -198,8 +198,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
-                self.selectQuantity!.imageBlurView.frame = CGRect(x: 0, y: -360, width: 320, height: 360)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
+                self.selectQuantity!.imageBlurView.frame = CGRect(x: 0, y: -360, width: self.view.frame.width, height: 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
                         self.selectQuantity!.removeFromSuperview()
@@ -382,7 +382,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if isShowShoppingCart {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
@@ -446,11 +446,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 }
             }else{*/
                 let frameWishListbtn = self.view.convert(self.view.frame, from:self.productDetailButton?.listButton)
-                let addedAlertWL = WishlistAddProductStatus(frame: CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 0))
-                addedAlertWL.generateBlurImage(self.view,frame:CGRect(x: 0, y: frameWishListbtn.origin.y, width: 320, height: 360))
+                let addedAlertWL = WishlistAddProductStatus(frame: CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: self.view.frame.width, height: 0))
+                addedAlertWL.generateBlurImage(self.view,frame:CGRect(x: 0, y: frameWishListbtn.origin.y, width: self.view.frame.width, height: 360))
                 
                 addedAlertWL.clipsToBounds = true
-                addedAlertWL.imageBlurView.frame = CGRect(x: 0, y: -312, width: 320, height: 360)
+                addedAlertWL.imageBlurView.frame = CGRect(x: 0, y: -312, width: self.view.frame.width, height: 360)
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
                     serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
@@ -464,7 +464,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.isWishListProcess = false
                         UIView.animate(withDuration: 0.3, animations: { () -> Void in
                             
-                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48 , width: 320, height: 48)
+                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48 , width: self.view.frame.width, height: 48)
                             addedAlertWL.prepareToClose()
                             self.gestureCloseDetail.isEnabled = false
                             self.detailCollectionView.isScrollEnabled = true
@@ -478,7 +478,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
                                 UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320 , height: 48)
+                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: self.view.frame.width , height: 48)
                                     addedAlertWL.prepareToClose()
                                     self.gestureCloseDetail.isEnabled = false
                                     self.detailCollectionView.isScrollEnabled = true
@@ -493,7 +493,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.view.addSubview(addedAlertWL)
                         self.isWishListProcess = false
                         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
+                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: self.view.frame.width, height: 48)
                             addedAlertWL.prepareToClose()
                             self.gestureCloseDetail.isEnabled = false
                             self.detailCollectionView.isScrollEnabled = true
@@ -510,7 +510,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
                                 UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
+                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: self.view.frame.width, height: 48)
                                     addedAlertWL.prepareToClose()
                                     self.gestureCloseDetail.isEnabled = false
                                     self.detailCollectionView.isScrollEnabled = true
@@ -524,7 +524,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if isShowShoppingCart {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
@@ -566,18 +566,18 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             
             isShowShoppingCart = true
-             let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
+             let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
             
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRect(x: 0, y: 360, width: 320, height: 360),priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:upc)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRect(x: 0, y: 360, width: self.view.frame.width, height: 360),priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:upc)
             //selectQuantity!.priceProduct = NSNumber(double:self.price.doubleValue)
-            selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+            selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
             selectQuantity!.closeAction =
                 { () in
                     UIView.animate(withDuration: 0.5,
                         animations: { () -> Void in
                             self.productDetailButton?.reloadShoppinhgButton()
                             self.isShowShoppingCart = false
-                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
+                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
                             //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                         },
                         completion: { (animated:Bool) -> Void in
@@ -626,7 +626,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         UIView.animate(withDuration: 0.2,
                             animations: { () -> Void in
                                 self.productDetailButton?.reloadShoppinhgButton()
-                                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
+                                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0	)
                                // self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                             },
                             completion: { (animated:Bool) -> Void in
@@ -762,7 +762,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         if isShowShoppingCart == true && isShowProductDetail == false{
             if selectQuantity != nil {
-                let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
+                let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
                 
                 selectQuantity!.clipsToBounds = true
                 self.view.addSubview(selectQuantity!)
@@ -790,8 +790,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Animates product detail view
      */
     func startAnimatingProductDetail() {
-        let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: 320, height: 360)
-        viewDetail = ProductDetailTextDetailView(frame: CGRect(x: 0,y: 360, width: 320, height: 0))
+        let finalFrameOfQuantity = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
+        viewDetail = ProductDetailTextDetailView(frame: CGRect(x: 0,y: 360, width: self.view.frame.width, height: 0))
         viewDetail!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
         //self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
         viewDetail.setTextDetail(detail as String)
@@ -820,8 +820,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.detailCollectionView.isScrollEnabled = true
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             
-            self.viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: 320, height: 360)
-            self.viewDetail.frame = CGRect(x: 0,y: 360, width: 320, height: 0)
+            self.viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -360, width: self.view.frame.width, height: 360)
+            self.viewDetail.frame = CGRect(x: 0,y: 360, width: self.view.frame.width, height: 0)
             }, completion: { (ended:Bool) -> Void in
                 if self.viewDetail != nil {
                 self.viewDetail.removeFromSuperview()
@@ -854,16 +854,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func showMessageProductNotAviable() {
         self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
-        let addedAlertNA = WishlistAddProductStatus(frame: CGRect(x: 0, y: 360, width: 320, height: 0))
-        addedAlertNA.generateBlurImage(self.view,frame:CGRect(x: 0, y: 312, width: 320, height: 360))
+        let addedAlertNA = WishlistAddProductStatus(frame: CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0))
+        addedAlertNA.generateBlurImage(self.view,frame:CGRect(x: 0, y: 312, width: self.view.frame.width, height: 360))
         addedAlertNA.clipsToBounds = true
-        addedAlertNA.imageBlurView.frame = CGRect(x: 0, y: -312, width: 320, height: 360)
+        addedAlertNA.imageBlurView.frame = CGRect(x: 0, y: -312, width: self.view.frame.width, height: 360)
         addedAlertNA.textView.text = NSLocalizedString("productdetail.notaviable",comment:"")
 
         self.view.addSubview(addedAlertNA)
         self.isWishListProcess = false
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            addedAlertNA.frame = CGRect(x: 0, y: 312, width: 320, height: 48)
+            addedAlertNA.frame = CGRect(x: 0, y: 312, width: self.view.frame.width, height: 48)
             addedAlertNA.prepareToClose()
         })
 

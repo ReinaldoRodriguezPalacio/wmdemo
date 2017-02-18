@@ -124,6 +124,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
            
         }
+        
+        //The 'view' argument should be the view receiving the 3D Touch.
+        if #available(iOS 9.0, *) {
+            registerForPreviewing(with: self, sourceView: collection!)
+        }
                 
     }
     
@@ -386,29 +391,34 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 {
             
-            let controller = ProductDetailPageViewController()
-            
-            let catNameFilter = self.categories[selectedIndexCategory]
-            let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
-            let arrayItemsResult =  arrayItems as! [Any]
-            let recommendProduct = arrayItemsResult[indexPath.row] as! [String:Any]
-            
-            var upc = ""
-            if let upcSV = recommendProduct["upc"] as? String {
-                upc = upcSV
-            }
-            var desc = ""
-            if let descs = recommendProduct["description"] as? String {
-                desc = descs
-            }
-            
-            let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
-
-            
-            controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
-            controller.detailOf = "Especiales \(catNameFilter)"
+            let controller = self.getProductDetailController(index: indexPath)
             self.navigationController!.pushViewController(controller, animated: true)
         }
+    }
+    
+    func getProductDetailController(index:IndexPath) -> ProductDetailPageViewController{
+        let controller = ProductDetailPageViewController()
+        
+        let catNameFilter = self.categories[selectedIndexCategory]
+        let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]! as AnyObject
+        let arrayItemsResult =  arrayItems as! [Any]
+        let recommendProduct = arrayItemsResult[index.row] as! [String:Any]
+        
+        var upc = ""
+        if let upcSV = recommendProduct["upc"] as? String {
+            upc = upcSV
+        }
+        var desc = ""
+        if let descs = recommendProduct["description"] as? String {
+            desc = descs
+        }
+        
+        let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
+        
+        
+        controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
+        controller.detailOf = "Especiales \(catNameFilter)"
+        return controller
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
@@ -744,4 +754,28 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.present(ctrlWeb, animated: true, completion: nil)
     }
     
+}
+
+
+extension HomeViewController: UIViewControllerPreviewingDelegate {
+    //registerForPreviewingWithDelegate
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        if let indexPath = collection?.indexPathForItem(at: location), let cellAttributes = collection?.layoutAttributesForItem(at: indexPath) {
+            //This will show the cell clearly and blur the rest of the screen for our peek.
+            if #available(iOS 9.0, *) {
+                previewingContext.sourceRect = cellAttributes.frame
+            } else {
+                // Fallback on earlier versions
+            }
+            
+            let controller = self.getProductDetailController(index: indexPath)
+            return controller
+        }
+        return nil
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
+        //present(viewControllerToCommit, animated: true, completion: nil)
+    }
 }
