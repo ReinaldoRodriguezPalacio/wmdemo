@@ -14,4 +14,6 @@ class IPOBaseController : BaseController {
     var originalInset: UIEdgeInsets? = nil
     var isVisibleTab: Bool = true
 
+    
+    
 }
