@@ -43,8 +43,8 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         
         
         
-        labelTitle = UILabel(frame: CGRect(x: 30, y: 72, width: self.frame.width - 60, height: 44))
-        labelTitle.font = WMFont.fontMyriadProLightOfSize(16)
+        labelTitle = UILabel(frame: CGRect(x: 30, y: 110, width: self.frame.width - 60, height: 44))
+        labelTitle.font = WMFont.fontMyriadProLightOfSize(14)
         labelTitle.textAlignment = .center
         labelTitle.textColor = UIColor.white
         labelTitle.text = ""
@@ -57,12 +57,13 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         logoImage.contentMode = .center
         self.addSubview(logoImage)
         
-        scrollHelp = UIScrollView(frame:CGRect(x: 0, y: buttonClose.frame.maxY, width: self.bounds.width, height: self.bounds.height - buttonClose.frame.maxY))
+        scrollHelp = UIScrollView(frame:CGRect(x: 0, y: buttonClose.frame.maxY, width: self.bounds.width, height: 400))
+            //self.bounds.height - buttonClose.frame.maxY))
        self.addSubview(scrollHelp)
         
         self.pointSection = UIView()
         self.pointSection?.backgroundColor = UIColor.clear
-        self.pointSection?.frame = CGRect(x: 0, y: self.scrollHelp.frame.maxY + 32 , width: self.frame.width, height: 20)
+        self.pointSection?.frame = CGRect(x: 0, y: self.frame.height - 60 , width: self.frame.width, height: 20)
         self.addSubview(self.pointSection!)
 
         
@@ -80,10 +81,10 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         if scrollHelp != nil && buttonClose != nil   {
             self.buildViewImages()
             
-            labelTitle.frame = CGRect(x: 30, y: 72, width: self.frame.width - 60, height: 44)
+            labelTitle.frame = CGRect(x: 30, y: 110, width: self.frame.width - 60, height: 44)
             scrollHelp.frame = CGRect(x: 0, y: scrollHelp.frame.minY, width: self.bounds.width, height: scrollHelp.frame.height)
             logoImage.frame = CGRect(x: (self.frame.width / 2) - 55, y: 20, width: 110, height: 44)
-            pointSection?.frame = CGRect(x: 0, y: self.scrollHelp.frame.maxY + 32 , width: self.frame.width, height: 20)
+            pointSection?.frame = CGRect(x: 0, y: self.frame.height - 60, width: self.frame.width, height: 20)
         }
     }
 
@@ -135,7 +136,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             scrollHelp.addSubview(viewFinish)
             currentX = currentX + self.frame.width
             
-            scrollHelp.frame = CGRect(x: 0, y: buttonClose.frame.maxY + 60, width: self.bounds.width, height: currentHeigth)
+            scrollHelp.frame = CGRect(x: 0, y: buttonClose.frame.maxY + 140, width: self.bounds.width, height: currentHeigth)
             scrollHelp.contentSize = CGSize(width: currentX,height: scrollHelp.frame.height)
             scrollHelp.showsHorizontalScrollIndicator = false
             
