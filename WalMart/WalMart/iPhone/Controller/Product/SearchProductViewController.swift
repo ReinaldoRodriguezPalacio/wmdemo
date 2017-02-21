@@ -751,13 +751,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let cell = self.collection?.cellForItem(at: indexPath)
         if cell!.isKind(of: SearchProductCollectionViewCell.self){
             let controller = self.getDetailController(newIndexPath: newIndexPath)
-            self.navigationController!.pushViewController(controller, animated: true)
+            self.navigationController!.pushViewController(controller!, animated: true)
         }
     }
     
     
     
-    func getDetailController(newIndexPath: IndexPath) -> ProductDetailPageViewController{
+    func getDetailController(newIndexPath: IndexPath) -> ProductDetailPageViewController? {
+        if self.isLandingPage && newIndexPath.row == 0 {
+            return nil
+        }
+
+        
         let controller = ProductDetailPageViewController()
         var productsToShow : [[String:String]] = []
         if newIndexPath.section == 0 && self.upcsToShow?.count > 0 {
@@ -2367,23 +2372,25 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         let p = gestureReconizer.location(in: self.collection)
         let indexPath = collection!.indexPathForItem(at: p)
-        let viewControllerToCommit = self.getDetailController(newIndexPath: indexPath!)
         
-        
-        viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 430)
-        
-        if self.preview == nil {
-            self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
-        }
-        
-        if gestureReconizer.state == UIGestureRecognizerState.ended {
-            self.preview?.closePicker()
-            self.preview = nil
-        }
-        
-        if gestureReconizer.state == UIGestureRecognizerState.began {
-            if indexPath != nil {
-                self.preview?.showPreview()
+        if let viewControllerToCommit = self.getDetailController(newIndexPath: indexPath!) {
+            viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 430)
+            
+            if self.preview == nil {
+                let cellAttributes = collection!.layoutAttributesForItem(at: indexPath!)
+                self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
+                self.preview?.cellFrame = cellAttributes!.frame
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.ended {
+                self.preview?.closePicker()
+                self.preview = nil
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.began {
+                if indexPath != nil {
+                    self.preview?.showPreview()
+                }
             }
         }
     }

@@ -11,6 +11,9 @@ import Foundation
 
 class PreviewModalView : AlertModalView {
     
+    var cellFrame: CGRect = CGRect.zero
+    
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -73,67 +76,28 @@ class PreviewModalView : AlertModalView {
     
     override func startAnimating() {
         
-        
-        //        let imgBgView = UIImageView(frame: self.bgView.bounds)
-        //        let imgBack = UIImage(fromView: self.superview!)
-        //        let imgBackBlur = imgBack.applyLightEffect()
-        //        imgBgView.image = imgBackBlur
-        //        self.bgView.addSubview(imgBgView)
-        
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
         bgViewAlpha.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         self.bgView.addSubview(bgViewAlpha)
         
         
         bgView.alpha = 0
-        viewContent.transform = CGAffineTransform(translationX: 0,y: 500)
+        let finalContentFrame = CGRect(x: viewContent.frame.origin.x, y: viewContent.frame.origin.y, width: 306, height: 436)
+        viewContent.frame = cellFrame
         
-        UIView.animateKeyframes(withDuration: 0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.calculationModeCubicPaced, animations: { () -> Void in
-            
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.bgView.alpha = 1.0
-            })
-            
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.viewContent.transform = CGAffineTransform.identity
-            })
-            
-            //            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-            //                 self.viewContent.transform = CGAffineTransformMakeScale(1,0.01)
-            //            })
-            //
-            //            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-            //                self.viewContent.transform = CGAffineTransformMakeScale(1,1)
-            //            })
-            
-        }) { (complete:Bool) -> Void in
-            
-        }
-        
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
+            self.viewContent.frame = finalContentFrame
+            self.bgView.alpha = 1.0
+        }, completion: nil)
     }
     
     override func removeFromSuperview() {
-        UIView.animateKeyframes(withDuration: 0.7, delay: 0.0, options: UIViewKeyframeAnimationOptions.calculationModePaced, animations: { () -> Void in
-            
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.bgView.alpha = 0.0
-            })
-            
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0, animations: { () -> Void in
-                self.viewContent.transform = CGAffineTransform(translationX: 0,y: 500)
-            })
-            
-            //            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-            //                 self.viewContent.transform = CGAffineTransformMakeScale(1,0.01)
-            //            })
-            //
-            //            UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.0, animations: { () -> Void in
-            //                self.viewContent.transform = CGAffineTransformMakeScale(1,1)
-            //            })
-            
-        }) { (complete:Bool) -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.viewContent.frame = CGRect(x: self.cellFrame.origin.x, y: self.cellFrame.origin.y, width: 0, height: 0) 
+        },completion: { (complete:Bool) -> Void in
+            self.bgView.alpha = 0.0
             self.removeComplete()
-        }
+        })
         
     }
 }
