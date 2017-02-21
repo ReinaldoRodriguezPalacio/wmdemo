@@ -182,7 +182,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.removeButton!.frame = CGRect(x: self.applyButton!.frame.minX - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
 
         let bounds = self.view.frame
-        self.tableView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.height)
+        self.tableView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.height - 44)
     }
     
     //MARK: - Actions
