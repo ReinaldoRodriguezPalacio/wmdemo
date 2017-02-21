@@ -146,8 +146,8 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        viewSuper.frame =  CGRect(x: 16, y: 16, width: self.view.frame.width - 32, height: (self.view.frame.height - 48) / 2)
-        viewMG.frame = CGRect(x: 16, y: viewSuper.frame.maxY + 16, width: self.view.frame.width - 32, height: (self.view.frame.height - 48) / 2)
+        viewSuper.frame =  CGRect(x: 16, y: 16, width: self.view.frame.width - 32, height: (self.view.frame.height - 48 - 44) / 2)
+        viewMG.frame = CGRect(x: 16, y: viewSuper.frame.maxY + 16, width: self.view.frame.width - 32, height: (self.view.frame.height - 48 - 44) / 2)
     }
     
 

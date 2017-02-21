@@ -175,6 +175,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var mgServiceIsInvike =  false
     //tap Priority
     var priority = ""
+    var preview: PreviewModalView? = nil
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -299,10 +300,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
          //self.header!.bringSubviewToFront(self.bannerView)
         BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
+        
         //The 'view' argument should be the view receiving the 3D Touch.
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: collection!)
+        }else{
+            addLongTouch(view:collection!)
         }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -440,7 +445,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPoint.zero
-        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:self.view.bounds.height - startPoint)
+        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:self.view.bounds.height - startPoint - 44)
         self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y:(self.header!.frame.size.height - 22)/2 ,width: 55, height:22)
         if isLandingPage {
             //self.maxYBanner == 0.0 ? self.header!.frame.maxY + 20 : self.maxYBanner
@@ -448,7 +453,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y:self.bannerView!.frame.maxY - 28,width: 288, height:28)
             viewBgSelectorBtn.alpha = 0
             startPoint = 46
-            self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:(self.view.bounds.height - startPoint))
+            self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:(self.view.bounds.height - startPoint - 44))
         }
 
         //if self.searchContextType == SearchServiceContextType.WithTextForCamFind {
@@ -467,6 +472,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         //self.loading!.frame = self.collection!.frame
+    }
+    
+    override func back(){
+        if self.navigationController != nil {
+            self.navigationController!.popViewController(animated: true)
+        }
+        if self.searchContextType == SearchServiceContextType.withText || self.searchContextType == SearchServiceContextType.withTextForCamFind {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: "")
+        }
     }
     
     //MARK: - UICollectionViewDataSource
@@ -745,13 +759,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let cell = self.collection?.cellForItem(at: indexPath)
         if cell!.isKind(of: SearchProductCollectionViewCell.self){
             let controller = self.getDetailController(newIndexPath: newIndexPath)
-            self.navigationController!.pushViewController(controller, animated: true)
+            self.navigationController!.pushViewController(controller!, animated: true)
         }
     }
     
     
     
-    func getDetailController(newIndexPath: IndexPath) -> ProductDetailPageViewController{
+    func getDetailController(newIndexPath: IndexPath) -> ProductDetailPageViewController? {
+        if self.isLandingPage && newIndexPath.row == 0 {
+            return nil
+        }
+
+        
         let controller = ProductDetailPageViewController()
         var productsToShow : [[String:String]] = []
         if newIndexPath.section == 0 && self.upcsToShow?.count > 0 {
@@ -2346,6 +2365,49 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
+    }
+ }
+ 
+ extension SearchProductViewController: UIGestureRecognizerDelegate {
+    
+    func addLongTouch(view:UIView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(SearchProductViewController.handleLongPress(gestureReconizer:)))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.allowableMovement = 15 // 15 points
+        longPressGesture.delegate = self
+        view.addGestureRecognizer(longPressGesture)
+    }
+    
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        
+        let p = gestureReconizer.location(in: self.collection)
+        let indexPath = collection!.indexPathForItem(at: p)
+        
+        if indexPath == nil {
+            return
+        }
+        
+        if let viewControllerToCommit = self.getDetailController(newIndexPath: indexPath!) {
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
+            
+            if self.preview == nil {
+                let cellAttributes = collection!.layoutAttributesForItem(at: indexPath!)
+                let cellFrameInSuperview = collection!.convert(cellAttributes!.frame, to: collection!.superview)
+                self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
+                self.preview?.cellFrame = cellFrameInSuperview
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.ended {
+                self.preview?.closePicker()
+                self.preview = nil
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.began {
+                if indexPath != nil {
+                    self.preview?.showPreview()
+                }
+            }
+        }
     }
  }
  

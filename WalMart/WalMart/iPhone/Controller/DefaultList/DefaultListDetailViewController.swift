@@ -57,6 +57,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     var nameLine: String! = ""
     
     var alertView : IPOWMAlertViewController?
+    var preview: PreviewModalView? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PACTILISTASDETAILS.rawValue
@@ -88,10 +89,11 @@ DetailListViewCellDelegate,UIActivityItemSource {
         UserCurrentSession.sharedInstance.nameListToTag = self.defaultListName!
         
         //The 'view' argument should be the view receiving the 3D Touch.
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: tableView!)
+        }else{
+            addLongTouch(view:tableView!)
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -163,8 +165,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        footerSection?.frame = CGRect(x: 0,  y: self.view.frame.height - 72 , width: self.view.frame.width, height: 72)
-        tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY )
+        footerSection?.frame = CGRect(x: 0,  y: self.view.frame.height - 72 - 44, width: self.view.frame.width, height: 72)
+        tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY - 44)
         let x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2
         addToCartButton?.frame = CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + 16.0), height: 34.0)
@@ -191,11 +193,11 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = self.getDetailController(indexPath: indexPath)
-        self.navigationController!.pushViewController(controller, animated: true)
+        self.navigationController!.pushViewController(controller!, animated: true)
         
     }
     
-    func getDetailController(indexPath:IndexPath) -> ProductDetailPageViewController {
+    func getDetailController(indexPath:IndexPath) -> ProductDetailPageViewController? {
         let controller = ProductDetailPageViewController()
         var productsToShow:[Any] = []
         for idx in 0 ..< self.detailItems!.count {
@@ -715,5 +717,44 @@ extension DefaultListDetailViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
+    }
+}
+
+extension DefaultListDetailViewController: UIGestureRecognizerDelegate {
+    
+    func addLongTouch(view:UIView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(DefaultListDetailViewController.handleLongPress(gestureReconizer:)))
+        longPressGesture.minimumPressDuration = 0.6 // 1 second press
+        longPressGesture.allowableMovement = 15 // 15 points
+        longPressGesture.delegate = self
+        view.addGestureRecognizer(longPressGesture)
+    }
+    
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        
+        let p = gestureReconizer.location(in: self.tableView)
+        let indexPath = tableView!.indexPathForRow(at: p)
+        
+        if let viewControllerToCommit = self.getDetailController(indexPath: indexPath!) {
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
+            
+            if self.preview == nil {
+                let cellFrame =  tableView!.rectForRow(at: indexPath!)
+                let cellFrameInSuperview = tableView!.convert(cellFrame, to: tableView!.superview)
+                self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
+                self.preview?.cellFrame = cellFrameInSuperview
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.ended {
+                self.preview?.closePicker()
+                self.preview = nil
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.began {
+                if indexPath != nil {
+                    self.preview?.showPreview()
+                }
+            }
+        }
     }
 }

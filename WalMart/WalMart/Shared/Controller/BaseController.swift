@@ -174,7 +174,15 @@ class BaseController : UIViewController {
         fatalError("SCreeen name not implemented")
     }
     
-    
+    //Validation for LongTouch or 3DTouch
+    func is3DTouchAvailable() -> Bool
+    {
+        if #available(iOS 9.0, *) {
+            return self.traitCollection.forceTouchCapability == UIForceTouchCapability.available
+        } else {
+            return false
+        }
+    }
 }
 
 

@@ -36,7 +36,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.tableView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
+        self.tableView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY - 44)
     }
     
     

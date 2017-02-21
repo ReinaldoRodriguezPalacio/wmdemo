@@ -118,7 +118,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     override func viewWillLayoutSubviews() {
         let bounds = self.view.bounds.size
-        self.tableView!.frame = CGRect(x: 0.0, y: profileView!.frame.maxY, width: bounds.width, height: bounds.height - profileView!.frame.maxY)
+        self.tableView!.frame = CGRect(x: 0.0, y: profileView!.frame.maxY, width: bounds.width, height: bounds.height - profileView!.frame.maxY-44)
         self.profileView?.backgroundColor = WMColor.light_blue
         self.editProfileButton!.frame = CGRect(x: bounds.width - 63, y: -13 , width: 63, height: 63 )
          signInOrClose?.frame = CGRect(x: (self.view.frame.width / 2) - 45, y: 109, width: 90, height: 24)

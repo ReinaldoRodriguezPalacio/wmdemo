@@ -139,7 +139,6 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.clearButton!.setImage(UIImage(named:"searchClear"), for: .highlighted)
         self.clearButton!.setImage(UIImage(named:"searchClear"), for: .selected)
         self.clearButton!.addTarget(self, action: #selector(SearchViewController.clearSearch), for: UIControlEvents.touchUpInside)
-        self.clearButton!.isHidden = true
         self.header!.addSubview(self.clearButton!)
         
         self.camButton = UIButton(type: .custom)
@@ -200,6 +199,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
         self.cancelButton!.frame = CGRect(x: btnCancelX , y: 0 , width: btnCancelWidth, height: Int(self.header!.frame.height))
+
         
         //        self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
         //        self.fieldArrow!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 - 24 , (self.header!.frame.height - 24.0) / 2, 24 , 24)

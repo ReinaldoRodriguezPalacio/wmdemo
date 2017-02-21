@@ -53,6 +53,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var typeAction =  ""
     var bussinesTerms = ""
     var banners = [Banner]()
+    var preview: PreviewModalView? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
@@ -126,10 +127,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
         
         //The 'view' argument should be the view receiving the 3D Touch.
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: collection!)
+        }else{
+            addLongTouch(view:collection!)
         }
-                
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -392,11 +394,15 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if indexPath.section == 1 {
             
             let controller = self.getProductDetailController(index: indexPath)
-            self.navigationController!.pushViewController(controller, animated: true)
+            self.navigationController!.pushViewController(controller!, animated: true)
         }
     }
     
-    func getProductDetailController(index:IndexPath) -> ProductDetailPageViewController{
+    func getProductDetailController(index:IndexPath) -> ProductDetailPageViewController? {
+        if index.section != 1 {
+           return nil
+        }
+        
         let controller = ProductDetailPageViewController()
         
         let catNameFilter = self.categories[selectedIndexCategory]
@@ -777,5 +783,44 @@ extension HomeViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
+    }
+}
+
+extension HomeViewController: UIGestureRecognizerDelegate {
+    
+    func addLongTouch(view:UIView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(HomeViewController.handleLongPress(gestureReconizer:)))
+        longPressGesture.minimumPressDuration = 0.6 // 1 second press
+        longPressGesture.allowableMovement = 15 // 15 points
+        longPressGesture.delegate = self
+        view.addGestureRecognizer(longPressGesture)
+    }
+    
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        
+        let p = gestureReconizer.location(in: self.collection)
+        let indexPath = collection.indexPathForItem(at: p)
+        
+        if let viewControllerToCommit = self.getProductDetailController(index: indexPath!) {
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
+        
+            if self.preview == nil {
+                let cellAttributes = collection!.layoutAttributesForItem(at: indexPath!)
+                let cellFrameInSuperview = collection!.convert(cellAttributes!.frame, to: collection!.superview)
+                self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
+                self.preview?.cellFrame = cellFrameInSuperview
+            }
+        
+            if gestureReconizer.state == UIGestureRecognizerState.ended {
+                self.preview?.closePicker()
+                self.preview = nil
+            }
+        
+            if gestureReconizer.state == UIGestureRecognizerState.began {
+                if indexPath != nil {
+                    self.preview?.showPreview()
+                }
+            }
+        }
     }
 }

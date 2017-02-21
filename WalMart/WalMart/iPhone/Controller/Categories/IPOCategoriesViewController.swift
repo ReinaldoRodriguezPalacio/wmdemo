@@ -181,7 +181,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         if landingItem != nil {
             switch (indexPath.section,indexPath.row) {
             case (0,0):
-                return CGSize(width: 312, height: 98)
+                return CGSize(width: self.view.frame.width , height: 98)
             default:
                 return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
             }
