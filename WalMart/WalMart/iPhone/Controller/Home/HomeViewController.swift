@@ -53,6 +53,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var typeAction =  ""
     var bussinesTerms = ""
     var banners = [Banner]()
+    var preview: PreviewModalView? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
@@ -126,7 +127,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
         
         //The 'view' argument should be the view receiving the 3D Touch.
-        
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: collection!)
         }else{
@@ -783,6 +783,7 @@ extension HomeViewController: UIViewControllerPreviewingDelegate {
 }
 
 extension HomeViewController: UIGestureRecognizerDelegate {
+    
     func addLongTouch(view:UIView) {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(HomeViewController.handleLongPress(gestureReconizer:)))
         longPressGesture.minimumPressDuration = 1.0 // 1 second press
@@ -797,18 +798,22 @@ extension HomeViewController: UIGestureRecognizerDelegate {
         let indexPath = collection.indexPathForItem(at: p)
         let viewControllerToCommit = self.getProductDetailController(index: indexPath!)
         
-        viewControllerToCommit.preferredContentSize = CGSize(width: 300, height: 420)
-        viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 420)
-        let preview = PreviewModalView.initPreviewModal(viewControllerToCommit)
         
-        if gestureReconizer.state == UIGestureRecognizerState.began {
-            if indexPath != nil {
-                preview?.showPreview()
-            }
+        viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 430)
+        
+        if self.preview == nil {
+          self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
         }
         
         if gestureReconizer.state == UIGestureRecognizerState.ended {
-            preview?.closePicker()
+            self.preview?.closePicker()
+            self.preview = nil
+        }
+        
+        if gestureReconizer.state == UIGestureRecognizerState.began {
+            if indexPath != nil {
+                self.preview?.showPreview()
+            }
         }
     }
 }

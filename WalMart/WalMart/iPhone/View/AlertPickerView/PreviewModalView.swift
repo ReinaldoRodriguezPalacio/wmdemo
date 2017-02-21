@@ -30,33 +30,40 @@ class PreviewModalView : AlertModalView {
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
-        viewContent = UIView(frame: CGRect(x: 0, y: 0, width:300,height: 420))
+        viewContent = UIView(frame: CGRect.zero)
         viewContent.layer.cornerRadius = 8.0
         viewContent.backgroundColor = UIColor.white
-        initView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 420))
+        initView = UIView(frame: CGRect.zero)
         initView!.layer.cornerRadius = 8.0
         initView!.backgroundColor = UIColor.white
-        self.stopRemoveView! = false
         self.addSubview(viewContent)
     }
     
+    override func setContentView(_ view:UIView){
+        let width = view.frame.size.width + 6
+        let height = view.frame.size.height + 6
+        self.initView = view
+        self.viewContent.frame.size = CGSize(width: width, height: height)  //controllerShow.view.frame.size
+        self.viewContent.addSubview(self.initView!)
+        self.initView!.center =  self.viewContent.center
+    }
     
-    class func initPreviewModal(_ controllerShow:UIViewController) -> PreviewModalView? {
+    class func initPreviewWithDefault() -> PreviewModalView {
         let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         let newAlert = PreviewModalView(frame:vc!.view.bounds)
-        newAlert.paddingTop = 0.0
-        //vc?.addChildViewController(controllerShow)
-        newAlert.viewContent.frame.size = CGSize(width: controllerShow.view.frame.size.width + 4, height: controllerShow.view.frame.size.height + 4)  //controllerShow.view.frame.size
-        newAlert.viewContent.addSubview(controllerShow.view)
-        controllerShow.view.center = newAlert.viewContent.center
-            
         return newAlert
+    }
+    
+    class func initPreviewModal(_ viewShow:UIView) -> PreviewModalView? {
+        let modalView = PreviewModalView.initPreviewWithDefault()
+        modalView.setContentView(viewShow)
+        return modalView
     }
     
     func showPreview() {
         let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         vc!.view.addSubview(self)
-        //vc!.view.bringSubviewToFront(self)
+        vc!.view.bringSubview(toFront: self)
         self.startAnimating()
         
     }
