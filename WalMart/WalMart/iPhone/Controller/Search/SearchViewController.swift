@@ -186,13 +186,20 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     override func viewDidLayoutSubviews() {
         let bounds = self.view.frame.size
+
+        let separation:Int = 16
+        let btnCancelWidth:Int = 55
+        let btnFieldWidth = ( Int(bounds.width) - Int(separation * 3 + btnCancelWidth) )
+        let btnCancelX = Int(self.field!.frame.maxX) + separation
+        
         self.header!.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: 73 )
         self.headerTable!.frame = CGRect(x: 0.0, y: 73 , width: bounds.width, height: 24.0)
-        self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
+        self.field!.frame = CGRect(x: separation, y: 15, width: Int(btnFieldWidth), height: 40)
         //        self.labelHelpScan!.frame = CGRectMake(40 , 17.0, self.field!.frame.width  -  49 - 24 - 20, 40.0)
         
-        self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 44 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
-        self.cancelButton!.frame = CGRect(x: self.field!.frame.maxX , y: 0 , width: bounds.width - self.field!.frame.maxX, height: self.header!.frame.height)
+        self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
+        self.cancelButton!.frame = CGRect(x: btnCancelX , y: 0 , width: btnCancelWidth, height: Int(self.header!.frame.height))
+
         
         //        self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
         //        self.fieldArrow!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 - 24 , (self.header!.frame.height - 24.0) / 2, 24 , 24)

@@ -44,7 +44,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         
         
         labelTitle = UILabel(frame: CGRect(x: 30, y: 110, width: self.frame.width - 60, height: 44))
-        labelTitle.font = WMFont.fontMyriadProLightOfSize(14)
+        labelTitle.font = WMFont.fontMyriadProLightOfSize(16)
         labelTitle.textAlignment = .center
         labelTitle.textColor = UIColor.white
         labelTitle.text = ""

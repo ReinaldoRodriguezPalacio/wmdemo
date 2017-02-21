@@ -238,11 +238,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
         self.header?.addSubview(self.filterButton!)
     
+        let viewBgSelectorBtnWidth = 288
+        let viewBgSelectorBtnX = Int(view.frame.width / 2) - (viewBgSelectorBtnWidth / 2)
         
-        viewBgSelectorBtn = UIView(frame: CGRect(x: 16,  y: self.header!.frame.maxY + 16, width: 288, height: 28))
+        viewBgSelectorBtn = UIView(frame: CGRect(x: viewBgSelectorBtnX, y: Int(self.header!.frame.maxY + 16), width: 288, height: 28))
         viewBgSelectorBtn.layer.borderWidth = 1
         viewBgSelectorBtn.layer.cornerRadius = 14
         viewBgSelectorBtn.layer.borderColor = WMColor.light_blue.cgColor
+     //   viewBgSelectorBtn.center = CGPoint(x: CGFloat(viewBgSelectorBtnX), y: self.header!.frame.maxY + 16)
+        
         
         let titleSupper = NSLocalizedString("profile.address.super",comment:"")
         btnSuper = UIButton(frame: CGRect(x: 1, y: 1, width: (viewBgSelectorBtn.frame.width / 2) , height: viewBgSelectorBtn.frame.height - 2))
@@ -413,12 +417,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         var startPoint = self.header!.frame.maxY
+        
+        let viewBgSelectorBtnWidth = 288
+        let viewBgSelectorBtnX = Int(view.frame.width / 2) - (viewBgSelectorBtnWidth / 2)
+        
         if self.isTextSearch || self.isOriginalTextSearch {
             if self.showAlertView {
                 searchAlertView!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY, width: self.view.frame.width, height: 46)
-                viewBgSelectorBtn.frame =  CGRect(x: 16,  y: self.searchAlertView!.frame.maxY + 20, width: 288, height: 28)
+                viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y: self.searchAlertView!.frame.maxY + 20, width: 288, height: 28)
             }else{
-                viewBgSelectorBtn.frame =  CGRect(x: 16,  y: self.header!.frame.maxY + 20, width: 288, height: 28)
+                viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y: self.header!.frame.maxY + 20, width: 288, height: 28)
             }
             searchAlertView!.alpha = self.showAlertView ? 1 : 0
             startPoint = viewBgSelectorBtn.frame.maxY + 20
@@ -442,7 +450,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if isLandingPage {
             //self.maxYBanner == 0.0 ? self.header!.frame.maxY + 20 : self.maxYBanner
             bannerView!.frame = CGRect(x: 0,y: 0, width:self.view.frame.width, height:IS_IPAD ?  216 :93)
-            viewBgSelectorBtn.frame =  CGRect(x: 16,  y:self.bannerView!.frame.maxY - 28,width: 288, height:28)
+            viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y:self.bannerView!.frame.maxY - 28,width: 288, height:28)
             viewBgSelectorBtn.alpha = 0
             startPoint = 46
             self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:(self.view.bounds.height - startPoint - 44))
@@ -1215,6 +1223,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func setAlertViewValues(_ resultDic: [String:Any]){
+        let viewBgSelectorBtnWidth = 288
+        let viewBgSelectorBtnX = Int(view.frame.width / 2) - (viewBgSelectorBtnWidth / 2)
         
         if resultDic.count == 0 || self.isLandingPage {
             self.showAlertView = false
@@ -1239,9 +1249,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if self.isTextSearch || self.isOriginalTextSearch{
                     if self.showAlertView {
                         self.searchAlertView!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY, width: self.view.frame.width, height: 46)
-                        self.viewBgSelectorBtn.frame =  CGRect(x: 16,  y: self.searchAlertView!.frame.maxY + 20, width: 288, height: 28)
+                        self.viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y: self.searchAlertView!.frame.maxY + 20, width: 288, height: 28)
                     }else{
-                        self.viewBgSelectorBtn.frame =  CGRect(x: 16,  y: self.header!.frame.maxY + 20, width: 288, height: 28)
+                        self.viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y: self.header!.frame.maxY + 20, width: 288, height: 28)
                     }
                     self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
                 }else {
@@ -1268,7 +1278,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             UIView.animate(withDuration: 0.3, animations: {
                 
                 if self.isTextSearch || self.isOriginalTextSearch {
-                    self.viewBgSelectorBtn.frame =  CGRect(x: 16,  y: self.header!.frame.maxY + 20, width: 288, height: 28)
+                    self.viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y: self.header!.frame.maxY + 20, width: 288, height: 28)
                     self.searchAlertView!.alpha = self.showAlertView ? 1 : 0
                 }else {
                     self.searchAlertView!.alpha = 0
@@ -1612,12 +1622,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.loading?.stopAnnimating()
       
         if self.emptyMGGR == nil {
-            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY))
+            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY - 44))
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
         } else {
-            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY)
+            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY - 44)
         }
 
         if btnSuper.isSelected {

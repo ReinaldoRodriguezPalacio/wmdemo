@@ -130,7 +130,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.footerSection!.addSubview(self.shareButton!)
         
         x = self.shareButton!.frame.maxX + 16.0
-        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + 16.0), height: 34.0))
+        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x), height: 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
         self.addToCartButton!.addTarget(self, action: #selector(UserListDetailViewController.addListToCart), for: .touchUpInside)
@@ -675,15 +675,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 54))
         }else{
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height - 44 - 54))
         }
         self.emptyView!.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView!)
         
         let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height: bg.image!.size.height)
+        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height:self.emptyView!.frame.height)
         self.emptyView!.addSubview(bg)
         
         let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
@@ -701,7 +701,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRect(x: 98.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
+        icon.frame = CGRect(x: labelTwo.frame.midX - 63, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .custom)

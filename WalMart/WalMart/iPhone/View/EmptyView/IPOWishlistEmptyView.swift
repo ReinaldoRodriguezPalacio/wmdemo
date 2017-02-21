@@ -22,7 +22,10 @@ class IPOWishlistEmptyView : IPOEmptyView {
         iconImageView.isHidden = true
         
         imageEmptyView = UIImageView(image: UIImage(named: "empty_wishlist"))
+ //       imageEmptyView.frame = CGRect(x: 0.0, y: 0.0,  width: self.frame.width, height:self.frame.height - 54)
         self.insertSubview(imageEmptyView, at: 0)
+ //       self.addSubview(imageEmptyView)
+ //       self.backgroundColor = UIColor.red
         
         imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_wishlist_icon"))
         self.addSubview(imageEmptyViewIconBtn)
@@ -45,7 +48,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
         super.layoutSubviews()
         self.textLabel!.frame = CGRect(x: 0.0, y: self.descLabel.frame.maxY + 12.0, width: self.frame.width, height: 16.0)
         //var size = self.imageEmptyViewIconBtn.image!.size
-        self.imageEmptyViewIconBtn.frame = CGRect(x: 98.0, y: self.descLabel!.frame.maxY + 12.0, width: 16.0, height: 16.0)
+        self.imageEmptyViewIconBtn.frame = CGRect(x: self.descLabel.frame.midX - 62, y: self.descLabel!.frame.maxY + 12.0, width: 16.0, height: 16.0)
     }
     
     override func returnActionSel() {
