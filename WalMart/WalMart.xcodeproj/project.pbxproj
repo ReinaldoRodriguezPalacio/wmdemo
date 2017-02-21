@@ -427,6 +427,7 @@
 		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
+		6C83F6BA1E5B7A92008FA966 /* PreviewModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C83F6B91E5B7A92008FA966 /* PreviewModalView.swift */; };
 		6C8913B31D2C6F23005DC27F /* HelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */; };
 		6C8977841DA7F1D900BABE85 /* IPALandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */; };
 		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
@@ -1025,6 +1026,7 @@
 		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
 		6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRGetPromotionsService.swift; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
+		6C83F6B91E5B7A92008FA966 /* PreviewModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewModalView.swift; path = iPhone/View/AlertPickerView/PreviewModalView.swift; sourceTree = "<group>"; };
 		6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpHomeView.swift; path = iPhone/View/Home/HelpHomeView.swift; sourceTree = "<group>"; };
 		6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALandingPageViewController.swift; path = iPad/Controller/SearchProduct/IPALandingPageViewController.swift; sourceTree = "<group>"; };
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
@@ -2648,6 +2650,7 @@
 				8BCA19711AAA619100065072 /* AlertButtomView.swift */,
 				6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */,
 				6C512F521BC6CD6200EA47ED /* AlertModalView.swift */,
+				6C83F6B91E5B7A92008FA966 /* PreviewModalView.swift */,
 			);
 			name = AlertPickerView;
 			sourceTree = "<group>";
@@ -3754,6 +3757,7 @@
 				56603D2B19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift in Sources */,
 				56E54E4919EC6B570004161C /* IPASearchProductViewController.swift in Sources */,
 				4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */,
+				6C83F6BA1E5B7A92008FA966 /* PreviewModalView.swift in Sources */,
 				567AC2031A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
