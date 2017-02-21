@@ -20,11 +20,11 @@ class WishlistAddProductStatus : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        viewBg = UIView(frame:CGRect(x: 0, y: 0,width: 320,height: 48))
+        viewBg = UIView(frame:CGRect(x: 0, y: 0,width: self.frame.width,height: 48))
         viewBg.backgroundColor = WMColor.light_blue
         self.addSubview(viewBg)
         
-        textView = UILabel(frame:CGRect(x: 0, y: 0, width: 320, height: 48))
+        textView = UILabel(frame:CGRect(x: 0, y: 0, width: self.frame.width, height: 48))
         textView.font = WMFont.fontMyriadProLightOfSize(18)
         textView.textColor = UIColor.white
         textView.numberOfLines = 2
