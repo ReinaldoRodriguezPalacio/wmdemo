@@ -87,7 +87,7 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
             self.titleLabelEdit!.frame = CGRect(x: 46, y: 0, width: self.header!.frame.width - 92, height: self.header!.frame.maxY)
         }
         if backButton != nil{
-            self.backButton!.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)
+            self.backButton!.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)  
         }
         
         self.searchField.frame = CGRect(x: 16, y: 22, width: self.view.frame.width - (self.searchFieldSpace + 32), height: 0.0)

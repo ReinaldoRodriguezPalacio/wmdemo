@@ -92,6 +92,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     var selectQuantity: ShoppingCartQuantitySelectorView?
+    var preview: PreviewModalView? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MGSHOPPINGCART.rawValue
@@ -186,8 +187,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         UserCurrentSession.sharedInstance.nameListToTag = "Shopping Cart"
         
         //The 'view' argument should be the view receiving the 3D Touch.
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: viewShoppingCart!)
+        }else{
+            addLongTouch(view:viewShoppingCart!)
         }
     }
     
@@ -589,7 +592,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             if self.navigationController != nil {
                  self.navigationController?.view.backgroundColor =  UIColor.white
-                self.navigationController!.pushViewController(controller, animated: true)
+                self.navigationController!.pushViewController(controller!, animated: true)
                 
             }
         }
@@ -600,12 +603,16 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }*/
     }
     
-    func getProductDetailController(indexPath:IndexPath) -> ProductDetailPageViewController {
-        let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems() as [Any]
-        controller.ixSelected = indexPath.row
-        controller.detailOf = "Shopping Cart"
-        return controller
+    func getProductDetailController(indexPath:IndexPath) -> ProductDetailPageViewController? {
+        if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
+            let controller = ProductDetailPageViewController()
+            controller.itemsToShow = getUPCItems() as [Any]
+            controller.ixSelected = indexPath.row
+            controller.detailOf = "Shopping Cart"
+            return controller
+        }
+        
+        return nil
     }
 
     
@@ -1703,6 +1710,45 @@ extension ShoppingCartViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
+    }
+}
+
+extension ShoppingCartViewController: UIGestureRecognizerDelegate {
+    
+    func addLongTouch(view:UIView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(ShoppingCartViewController.handleLongPress(gestureReconizer:)))
+        longPressGesture.minimumPressDuration = 0.6 // 1 second press
+        longPressGesture.allowableMovement = 15 // 15 points
+        longPressGesture.delegate = self
+        view.addGestureRecognizer(longPressGesture)
+    }
+    
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        
+        let p = gestureReconizer.location(in: self.viewShoppingCart)
+        let indexPath = viewShoppingCart!.indexPathForRow(at: p)
+        
+        if let viewControllerToCommit = self.getProductDetailController(indexPath: indexPath!) {
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
+            
+            if self.preview == nil {
+                let cellFrame =  viewShoppingCart!.rectForRow(at: indexPath!)
+                let cellFrameInSuperview = viewShoppingCart!.convert(cellFrame, to: viewShoppingCart!.superview)
+                self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
+                self.preview?.cellFrame = cellFrameInSuperview
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.ended {
+                self.preview?.closePicker()
+                self.preview = nil
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.began {
+                if indexPath != nil {
+                    self.preview?.showPreview()
+                }
+            }
+        }
     }
 }
 

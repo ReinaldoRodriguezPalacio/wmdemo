@@ -60,6 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var retunrFromSearch =  false
     var isDeleting = false
     var analyticsSent = false
+    var preview: PreviewModalView? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -184,11 +185,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         BaseController.setOpenScreenTagManager(titleScreen: self.listName!, screenName: self.getScreenGAIName())
         
         //The 'view' argument should be the view receiving the 3D Touch.
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: tableView!)
+        }else{
+            addLongTouch(view:tableView!)
         }
-        
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -674,15 +675,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 54))
         }else{
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height - 44 - 54))
         }
         self.emptyView!.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView!)
         
         let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height: bg.image!.size.height)
+        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height:self.emptyView!.frame.height)
         self.emptyView!.addSubview(bg)
         
         let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
@@ -700,7 +701,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRect(x: 98.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
+        icon.frame = CGRect(x: labelTwo.frame.midX - 63, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .custom)
@@ -916,41 +917,42 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if cell!.isKind(of: DetailListViewCell.self) {
 
             let controller = self.getDetailController(index:indexPath)
-            self.navigationController!.pushViewController(controller, animated: true)
+            self.navigationController!.pushViewController(controller!, animated: true)
         }
     }
     
-    func getDetailController(index: IndexPath) -> ProductDetailPageViewController {
-        let controller = ProductDetailPageViewController()
-        var productsToShow:[Any] = []
-        for idx in 0 ..< self.products!.count {
-            if let product = self.products![idx] as? [String:Any] {
-                let upc = product["upc"] as! String
-                let description = product["description"] as! String
+    func getDetailController(index: IndexPath) -> ProductDetailPageViewController? {
+        let cell = tableView!.cellForRow(at: index)
+        if cell!.isKind(of: DetailListViewCell.self) {
+            let controller = ProductDetailPageViewController()
+            var productsToShow:[Any] = []
+            for idx in 0 ..< self.products!.count {
+                if let product = self.products![idx] as? [String:Any] {
+                    let upc = product["upc"] as! String
+                    let description = product["description"] as! String
                 
-                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                }
+                else if let product = self.products![idx] as? Product {
+                    productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                }
             }
-            else if let product = self.products![idx] as? Product {
-                
-                
-                
-                productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-            }
-        }
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
         
-        if index.row < productsToShow.count {
-            controller.itemsToShow = productsToShow
-            controller.ixSelected = index.row
-            controller.completeDeleteItem = {() in
-                print("completeDelete")
-                self.fromDelete =  true
+            if index.row < productsToShow.count {
+                controller.itemsToShow = productsToShow
+                controller.ixSelected = index.row
+                controller.completeDeleteItem = {() in
+                    print("completeDelete")
+                    self.fromDelete =  true
+                }
+                controller.detailOf = self.listName!
             }
-            controller.detailOf = self.listName!
-        }
-            
+
             return controller
+        }
+        return nil
     }
     
     //MARK: - SWTableViewCellDelegate
@@ -1881,5 +1883,45 @@ extension UserListDetailViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
+    }
+}
+
+extension UserListDetailViewController: UIGestureRecognizerDelegate {
+    
+    func addLongTouch(view:UIView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(UserListDetailViewController.handleLongPress(gestureReconizer:)))
+        longPressGesture.minimumPressDuration = 0.6 // 1 second press
+        longPressGesture.allowableMovement = 15 // 15 points
+        longPressGesture.delegate = self
+        view.addGestureRecognizer(longPressGesture)
+    }
+    
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        
+        let p = gestureReconizer.location(in: self.tableView)
+        let indexPath = tableView!.indexPathForRow(at: p)
+        
+        if let viewControllerToCommit = self.getDetailController(index: indexPath!) {
+
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
+            
+            if self.preview == nil {
+                let cellFrame =  tableView!.rectForRow(at: indexPath!)
+                let cellFrameInSuperview = tableView!.convert(cellFrame, to: tableView!.superview)
+                self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
+                self.preview?.cellFrame = cellFrameInSuperview
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.ended {
+                self.preview?.closePicker()
+                self.preview = nil
+            }
+            
+            if gestureReconizer.state == UIGestureRecognizerState.began {
+                if indexPath != nil {
+                    self.preview?.showPreview()
+                }
+            }
+        }
     }
 }
