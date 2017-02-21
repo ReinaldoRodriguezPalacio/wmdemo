@@ -802,12 +802,13 @@ extension HomeViewController: UIGestureRecognizerDelegate {
         let indexPath = collection.indexPathForItem(at: p)
         
         if let viewControllerToCommit = self.getProductDetailController(index: indexPath!) {
-            viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 430)
+            viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 460)
         
             if self.preview == nil {
                 let cellAttributes = collection!.layoutAttributesForItem(at: indexPath!)
+                let cellFrameInSuperview = collection!.convert(cellAttributes!.frame, to: collection!.superview)
                 self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
-                self.preview?.cellFrame = cellAttributes!.frame
+                self.preview?.cellFrame = cellFrameInSuperview
             }
         
             if gestureReconizer.state == UIGestureRecognizerState.ended {

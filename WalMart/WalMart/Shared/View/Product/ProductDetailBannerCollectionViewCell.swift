@@ -258,14 +258,16 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        var widthNew = self.bounds.width + self.bounds.height - 314
+        let viewWidth: CGFloat = self.bounds.width
+        let widthDifference: CGFloat = self.bounds.width - 6
+        var widthNew = self.bounds.width + self.bounds.height - widthDifference
         if widthNew <= self.bounds.width {
             widthNew = self.bounds.width
         }
         
      
-            if widthNew > 320 {
-                let heightNew = widthNew  - 320
+            if widthNew > viewWidth {
+                let heightNew = widthNew  - viewWidth
                 self.collection.alpha = 0
                 
                 let cellImg = self.collection.cellForItem(at: IndexPath(item: self.currentItem!, section: 0)) as? ProductDetailBannerMediaCollectionViewCell
