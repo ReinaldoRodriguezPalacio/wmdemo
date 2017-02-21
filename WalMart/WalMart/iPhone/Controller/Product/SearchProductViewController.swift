@@ -175,6 +175,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var mgServiceIsInvike =  false
     //tap Priority
     var priority = ""
+    var preview: PreviewModalView? = nil
     
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -295,10 +296,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
          //self.header!.bringSubviewToFront(self.bannerView)
         BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
+        
         //The 'view' argument should be the view receiving the 3D Touch.
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: collection!)
+        }else{
+            addLongTouch(view:collection!)
         }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -2345,6 +2350,42 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
+    }
+ }
+ 
+ extension SearchProductViewController: UIGestureRecognizerDelegate {
+    
+    func addLongTouch(view:UIView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(SearchProductViewController.handleLongPress(gestureReconizer:)))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.allowableMovement = 15 // 15 points
+        longPressGesture.delegate = self
+        view.addGestureRecognizer(longPressGesture)
+    }
+    
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        
+        let p = gestureReconizer.location(in: self.collection)
+        let indexPath = collection!.indexPathForItem(at: p)
+        let viewControllerToCommit = self.getDetailController(newIndexPath: indexPath!)
+        
+        
+        viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 430)
+        
+        if self.preview == nil {
+            self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
+        }
+        
+        if gestureReconizer.state == UIGestureRecognizerState.ended {
+            self.preview?.closePicker()
+            self.preview = nil
+        }
+        
+        if gestureReconizer.state == UIGestureRecognizerState.began {
+            if indexPath != nil {
+                self.preview?.showPreview()
+            }
+        }
     }
  }
  
