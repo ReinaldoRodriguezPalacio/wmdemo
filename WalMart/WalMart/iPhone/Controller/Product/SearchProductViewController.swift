@@ -745,29 +745,60 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.isLandingPage && indexPath.row == 0 {
             return
         }
-        
-        let newIndexPath = self.isLandingPage ? IndexPath(row: indexPath.row - 1, section:indexPath.section) : indexPath
 
         let cell = self.collection?.cellForItem(at: indexPath)
         if cell!.isKind(of: SearchProductCollectionViewCell.self){
-            let controller = self.getDetailController(newIndexPath: newIndexPath)
+            let controller = self.getDetailController(indexPath: indexPath)
             self.navigationController!.pushViewController(controller!, animated: true)
         }
     }
     
     
     
-    func getDetailController(newIndexPath: IndexPath) -> ProductDetailPageViewController? {
-        if self.isLandingPage && newIndexPath.row == 0 {
+    func getDetailController(indexPath: IndexPath) -> ProductDetailPageViewController? {
+        if self.isLandingPage && indexPath.row == 0 {
             return nil
         }
-
         
-        let controller = ProductDetailPageViewController()
-        var productsToShow : [[String:String]] = []
-        if newIndexPath.section == 0 && self.upcsToShow?.count > 0 {
-            if self.btnSuper.isSelected {
+        let newIndexPath = self.isLandingPage ? IndexPath(row: indexPath.row - 1, section:indexPath.section) : indexPath
+
+        let cell = self.collection?.cellForItem(at: indexPath)
+        if cell!.isKind(of: SearchProductCollectionViewCell.self){
+            let controller = ProductDetailPageViewController()
+            var productsToShow : [[String:String]] = []
+            if newIndexPath.section == 0 && self.upcsToShow?.count > 0 {
+                if self.btnSuper.isSelected {
+                    if newIndexPath.row < self.allProducts!.count {
+                        for strUPC in self.allProducts! {
+                            let upc = strUPC["upc"] as! String
+                            let description = strUPC["description"] as! String
+                            let type = strUPC["type"] as! String
+                            var through = ""
+                            if let priceThr = strUPC["saving"] as? String {
+                                through = priceThr as String
+                            }
+                            productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
+                        }
+                        
+                    }
+                } else {
+                    if newIndexPath.row < self.allProducts!.count {
+                        //for strUPC in self.itemsUPCMG! {
+                        for strUPC in self.allProducts! {
+                            let upc = strUPC["upc"] as! String
+                            let description = strUPC["description"] as! String
+                            let type = strUPC["type"] as! String
+                            var through = ""
+                            if let priceThr = strUPC["saving"] as? String {
+                                through = priceThr as String
+                            }
+                            productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
+                        }
+                    }
+                }
+            } else {
                 if newIndexPath.row < self.allProducts!.count {
+                    
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
@@ -780,45 +811,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     
                 }
-            } else {
-                if newIndexPath.row < self.allProducts!.count {
-                    //for strUPC in self.itemsUPCMG! {
-                    for strUPC in self.allProducts! {
-                        let upc = strUPC["upc"] as! String
-                        let description = strUPC["description"] as! String
-                        let type = strUPC["type"] as! String
-                        var through = ""
-                        if let priceThr = strUPC["saving"] as? String {
-                            through = priceThr as String
-                        }
-                        productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
-                    }
-                }
             }
-        } else {
-            if newIndexPath.row < self.allProducts!.count {
-                
-                for strUPC in self.allProducts! {
-                    let upc = strUPC["upc"] as! String
-                    let description = strUPC["description"] as! String
-                    let type = strUPC["type"] as! String
-                    var through = ""
-                    if let priceThr = strUPC["saving"] as? String {
-                        through = priceThr as String
-                    }
-                    productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
-                }
-                
-            }
+            controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
+            controller.itemsToShow = productsToShow as [Any]
+            controller.ixSelected = newIndexPath.row
+            controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(newIndexPath.row)"
+            controller.idListSeleted =  self.idListFromSearch!
+            controller.stringSearching =  self.titleHeader!
+            controller.detailOf = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+            return controller
         }
-        controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
-        controller.itemsToShow = productsToShow as [Any]
-        controller.ixSelected = newIndexPath.row
-        controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(newIndexPath.row)"
-        controller.idListSeleted =  self.idListFromSearch!
-        controller.stringSearching =  self.titleHeader!
-        controller.detailOf = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
-        return controller
+        return nil
     }
     
     //MARK: - Services
@@ -2346,7 +2349,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 // Fallback on earlier versions
             }
             
-            let controller = self.getDetailController(newIndexPath: indexPath)
+            let controller = self.getDetailController(indexPath: indexPath)
             return controller
         }
         return nil
@@ -2377,7 +2380,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             return
         }
         
-        if let viewControllerToCommit = self.getDetailController(newIndexPath: indexPath!) {
+        if let viewControllerToCommit = self.getDetailController(indexPath: indexPath!) {
             viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
             
             if self.preview == nil {
