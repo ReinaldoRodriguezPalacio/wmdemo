@@ -43,7 +43,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.titleLabel!.text = NSLocalizedString("wishlist.title",comment:"")
         
         self.edit = UIButton(type: .custom)
-        self.edit.frame = CGRect(x: 248.0, y: 12.0, width: 55.0, height: 22.0)
+        self.edit.frame = CGRect(x: (self.view.bounds.width - 71), y: 12.0, width: 55.0, height: 22.0)
 
         self.edit.setTitle(NSLocalizedString("wishlist.edit", comment:""), for: UIControlState())
         self.edit.setTitle(NSLocalizedString("wishlist.endedit", comment:""), for: .selected)
@@ -56,7 +56,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.header!.addSubview(self.edit)
         
         self.deleteall = UIButton(type: .custom)
-        self.deleteall.frame = CGRect(x: 165.0, y: 12.0, width: 75.0, height: 22.0)
+        self.deleteall.frame = CGRect(x: (self.edit.frame.minX - 83), y: 12.0, width: 75.0, height: 22.0)
         self.deleteall.setTitle(NSLocalizedString("wishlist.deleteall", comment:""), for: UIControlState())
         self.deleteall.backgroundColor = WMColor.red
         self.deleteall.setTitleColor(UIColor.white, for: UIControlState())
@@ -530,7 +530,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         shareButton.setImage(UIImage(named:"wishlist_share"), for: UIControlState())
         shareButton.addTarget(self, action: #selector(WishListViewController.shareItem), for: UIControlEvents.touchUpInside)
         
-        buttonShop = UIButton(frame: CGRect(x: shareButton.frame.maxX + 16, y: 14, width: 240, height: 34))
+        buttonShop = UIButton(frame: CGRect(x: shareButton.frame.maxX + 16, y: 14, width: self.view.frame.width - (shareButton.frame.maxX + 32) , height: 34))
         //buttonShop.setTitle("Comprar todo", forState: UIControlState.Normal)
         buttonShop.backgroundColor = WMColor.green
         buttonShop.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)

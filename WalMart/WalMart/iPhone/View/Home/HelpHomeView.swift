@@ -99,12 +99,12 @@ class HelpHomeView: UIView {
     }
     
     override func layoutSubviews() {
-        self.logo?.frame = CGRect(x: (self.frame.width - 112)/2,y: 29,width: 112,height: 28)
+        self.logo?.frame = CGRect(x: (self.frame.width - 112)/2,y: 28,width: 112,height: 28)
         self.arrowImage?.frame = CGRect(x: self.logo!.frame.midX - 4,y: self.logo!.frame.maxY - 4,width: 9,height: 29)
         self.logoLabel?.frame = CGRect(x: (self.frame.width - 128)/2,y: self.logo!.frame.maxY + 29,width: 128,height: 14)
-        self.searchIcon?.frame = CGRect(x: 13,y: 32,width: 20,height: 20)
+        self.searchIcon?.frame = CGRect(x: 15,y: 31.5,width: 20,height: 20)
         self.searchLabel?.frame = CGRect(x: 8,y: self.searchIcon!.frame.maxY + 15,width: 35,height: 14)
-        self.shoppingCartIcon?.frame = CGRect(x: (self.frame.width - 50),y: 22,width: 35,height: 35)
+        self.shoppingCartIcon?.frame = CGRect(x: (self.frame.width - 50),y: 24,width: 35,height: 35)
         self.shoppingCartLabel?.frame = CGRect(x: (self.frame.width - 50),y: self.shoppingCartIcon!.frame.maxY + 8,width: 35,height: 14)
         self.continueButton?.frame = CGRect(x: (self.frame.width - 140)/2,y: (self.frame.height - 40)/2,width: 140,height: 40)
         self.helpLabel?.frame = CGRect(x: (self.frame.width - 162)/2,y: self.continueButton!.frame.minY - 42,width: 162,height: 20)
@@ -143,10 +143,15 @@ class HelpHomeView: UIView {
     
     func createTabBarButtons() {
         let images = self.retrieveTabBarOptions()
-        //let spaceLabel: CGFloat = 20
-        var xLabel: CGFloat = 14
-        let spaceImage: CGFloat = 50
-        var xImage: CGFloat = 39
+        let spaceLabel: CGFloat = -1
+        var xLabel: CGFloat = 2
+        //let spaceImage: CGFloat = 43
+        var xImage: CGFloat = ((self.frame.width - 135) / 4) / 2
+        xImage = xImage + 3.0
+        
+        let widthLabel = (self.frame.width - 4.0) / 5
+        let spaceImage = (self.frame.width - (xImage * 2) - 135) / 4
+        
         for image in images {
             var title = NSString(format: "tabbar.%@", image)
             title = NSLocalizedString(title as String, comment: "") as NSString
@@ -154,10 +159,10 @@ class HelpHomeView: UIView {
             imageLabel.font = WMFont.fontMyriadProLightOfSize(12)
             imageLabel.textColor = UIColor.white
             imageLabel.text = title as String
-            imageLabel.frame = CGRect(x: xLabel, y: self.frame.height - 71, width: 75, height: 26)
+            imageLabel.frame = CGRect(x: xLabel, y: self.frame.height - 71, width: widthLabel, height: 26)
             imageLabel.numberOfLines = 2
             imageLabel.textAlignment = .center
-            xLabel = imageLabel.frame.maxX + 2.0// + spaceLabel
+            xLabel = imageLabel.frame.maxX + spaceLabel
             self.addSubview(imageLabel)
             
             let imageView = UIImageView()

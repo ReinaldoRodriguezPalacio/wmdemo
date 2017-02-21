@@ -261,7 +261,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 return UIView()
             }
             
-            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
+            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 65.0))
             productDetailButton!.upc = self.upc as String
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
@@ -1141,7 +1141,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if kind == UICollectionElementKindSectionHeader {
             let view = detailCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) 
             
-            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
+            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 65.0))
             productDetailButton!.upc = self.upc as String
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
