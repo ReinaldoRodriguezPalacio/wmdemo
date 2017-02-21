@@ -2378,7 +2378,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if let viewControllerToCommit = self.getDetailController(newIndexPath: indexPath!) {
-            viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 460)
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
             
             if self.preview == nil {
                 let cellAttributes = collection!.layoutAttributesForItem(at: indexPath!)

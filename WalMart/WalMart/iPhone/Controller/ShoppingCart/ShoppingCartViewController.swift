@@ -1729,7 +1729,7 @@ extension ShoppingCartViewController: UIGestureRecognizerDelegate {
         let indexPath = viewShoppingCart!.indexPathForRow(at: p)
         
         if let viewControllerToCommit = self.getProductDetailController(indexPath: indexPath!) {
-            viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 460)
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
             
             if self.preview == nil {
                 let cellFrame =  viewShoppingCart!.rectForRow(at: indexPath!)

@@ -802,7 +802,7 @@ extension HomeViewController: UIGestureRecognizerDelegate {
         let indexPath = collection.indexPathForItem(at: p)
         
         if let viewControllerToCommit = self.getProductDetailController(index: indexPath!) {
-            viewControllerToCommit.view.frame.size = CGSize(width: 300, height: 460)
+            viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
         
             if self.preview == nil {
                 let cellAttributes = collection!.layoutAttributesForItem(at: indexPath!)
