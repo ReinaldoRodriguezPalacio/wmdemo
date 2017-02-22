@@ -1319,7 +1319,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             vcRoot.delegate = self
             self.btnShopping?.isUserInteractionEnabled = false
             vcRoot.finishAnimation = {() -> Void in
-                print("")
                 vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
                 self.btnShopping?.isUserInteractionEnabled = true
                 self.btnCloseShopping?.isEnabled = true

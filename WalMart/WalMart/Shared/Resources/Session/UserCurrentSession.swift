@@ -580,34 +580,28 @@ class UserCurrentSession : NSObject {
         }
     }
     
-    func loadMGShoppingCart(_ endLoadSC:@escaping (() -> Void)) {
+    func loadMGShoppingCart(_ endLoadSC: @escaping (() -> Void)) {
         let service = ShoppingCartProductsService()
         service.callService([:], successBlock: { (result:[String:Any]) -> Void in
             print(result)
             self.itemsMG = result
             endLoadSC()
-            }) { (error:NSError) -> Void in
-                if error.code != -100 {
-                    endLoadSC()
-                }
-                
+        }) { (error:NSError) -> Void in
+            if error.code != -100 {
+                endLoadSC()
+            }
         }
     }
     
-    
-    
-    func loadGRShoppingCart(_ endLoadSC:@escaping (() -> Void)) {
+    func loadGRShoppingCart(_ endLoadSC: @escaping (() -> Void)) {
         let service = GRShoppingCartProductsService()
-        service.callService(requestParams: [:],
-            successBlock: { (resultCall:[String:Any]) -> Void in
-                self.itemsGR = resultCall
-                endLoadSC()
-            },
-            errorBlock: { (error:NSError) -> Void in
-                self.itemsGR = nil
-                endLoadSC()
-            }
-        )
+        service.callService(requestParams: [:],  successBlock: { (resultCall:[String:Any]) -> Void in
+            self.itemsGR = resultCall
+            endLoadSC()
+        }, errorBlock: { (error:NSError) -> Void in
+            self.itemsGR = nil
+            endLoadSC()
+        })
     }
     
     func isEmptyMG() -> Bool {
