@@ -2355,17 +2355,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             //This will show the cell clearly and blur the rest of the screen for our peek.
             if #available(iOS 9.0, *) {
                 previewingContext.sourceRect = cellAttributes.frame
-            } else {
-                // Fallback on earlier versions
             }
             
-            let controller = self.getDetailController(indexPath: indexPath)
+            guard let controller = self.getDetailController(indexPath: indexPath) else {return nil}
             return controller
         }
         return nil
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
     }

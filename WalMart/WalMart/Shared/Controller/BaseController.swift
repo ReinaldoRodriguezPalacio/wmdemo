@@ -178,7 +178,7 @@ class BaseController : UIViewController {
     func is3DTouchAvailable() -> Bool
     {
         if #available(iOS 9.0, *) {
-            return self.traitCollection.forceTouchCapability == UIForceTouchCapability.available
+            return self.traitCollection.forceTouchCapability != UIForceTouchCapability.unavailable
         } else {
             return false
         }
