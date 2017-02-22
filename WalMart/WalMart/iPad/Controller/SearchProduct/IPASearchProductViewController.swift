@@ -361,6 +361,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
+                    
+                    if quantity == "00" {
+                        self.deleteFromCart(cell: cell,position: cell.positionSelected)
+                        return
+                    }
                     //let quantity : Int = quantity.toInt()!
                     let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                     if maxProducts >= Int(quantity) {

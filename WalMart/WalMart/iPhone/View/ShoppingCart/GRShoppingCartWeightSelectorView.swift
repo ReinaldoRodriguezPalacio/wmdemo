@@ -12,7 +12,7 @@ import Foundation
 
 class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
-    var CONS_MINVAL = 50.0
+    var CONS_MINVAL = 0.0
     var CONS_MAXVAL = 20000.0
     
     
