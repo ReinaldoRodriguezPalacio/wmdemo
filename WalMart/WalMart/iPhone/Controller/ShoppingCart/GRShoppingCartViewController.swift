@@ -177,7 +177,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHerader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHerader.frame.height - 72 )
+        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHerader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHerader.frame.height - 72 - 44)
         self.viewFooter.frame = CGRect(x: 0, y:self.view.bounds.height - 72 - 44 , width: self.view.bounds.width, height: 72)
     }
     

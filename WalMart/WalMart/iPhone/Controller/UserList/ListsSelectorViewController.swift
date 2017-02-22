@@ -81,7 +81,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.addSubview(blurEffectView)
         
         let bgView = UIView(frame:CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
-        bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.95)
+        bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
         self.view.addSubview(bgView)
 
         

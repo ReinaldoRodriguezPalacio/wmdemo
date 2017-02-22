@@ -53,7 +53,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.addSubview(imageBlurView!)
         
         let bgView = UIView(frame:CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
-        bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.95)
+        bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
         
         
         

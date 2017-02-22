@@ -103,7 +103,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.view.backgroundColor = WMColor.light_light_gray
         
-        viewShoppingCart = UITableView(frame:CGRect(x: 0, y: 46 , width: self.viewContent.frame.width, height: viewContent.frame.height - 46))
+        viewShoppingCart = UITableView(frame:CGRect(x: 0, y: 46 , width: self.viewContent.frame.width, height: viewContent.frame.height - (46 + 44)))
         viewShoppingCart.clipsToBounds = false
         viewShoppingCart.backgroundColor =  WMColor.light_light_gray
         //self.navigationController?.view.clipsToBounds = true
@@ -260,8 +260,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
        // self.buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
         
         self.viewContent.frame = self.view.bounds
-        self.viewFooter.frame = CGRect(x: 0, y: viewContent.frame.height - 72 , width: self.viewContent.frame.width, height: 72)
-        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
+        self.viewFooter.frame = CGRect(x: 0, y: viewContent.frame.height - 72 - 44 , width: self.viewContent.frame.width, height: 72)
+        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 72)
 
         if !self.isEdditing {
         self.titleView.frame = CGRect(x: (self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHerader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHerader.bounds.height)
