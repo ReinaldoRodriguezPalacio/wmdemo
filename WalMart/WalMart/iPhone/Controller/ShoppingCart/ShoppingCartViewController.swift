@@ -260,7 +260,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
        // self.buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
         
         self.viewContent.frame = self.view.bounds
-        self.viewFooter.frame = CGRect(x: 0, y: viewContent.frame.height - 72 , width: self.viewContent.frame.width, height: 72)
+        self.viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 72 - 44, width: self.viewContent.frame.width, height: 72)
         self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
 
         if !self.isEdditing {
@@ -318,9 +318,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
         }
         if buttonShop == nil {
-            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop - 16, height: 34))
+            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop + 32.0, height: 34))
         }else {
-            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop - 16, height: 34)
+            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop + 32.0, height: 34)
         }
 
     

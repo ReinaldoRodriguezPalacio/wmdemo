@@ -33,7 +33,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var isActive : String!
     var onHandInventory : String!
     var isPreorderable : String!
-    var spaceBetweenButtons : CGFloat = 12.0
+    var spaceBetweenButtons : CGFloat = 8.0
     var widthButtons : CGFloat = 57.0
     var detailProductCart: Cart?
     var isAddingOrRemovingWishlist: Bool = false
@@ -134,7 +134,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), for: UIControlEvents.touchUpInside)
       
         self.addToShoppingCartButton = UIButton()
-        self.addToShoppingCartButton.frame = CGRect(x: facebookButton.frame.maxX, y: (self.frame.height / 2) - 17, width: (self.frame.width - facebookButton.frame.maxX) - 16.0, height: 34)
+        self.addToShoppingCartButton.frame = CGRect(x: facebookButton.frame.maxX + 8.0, y: (self.frame.height / 2) - 17, width: (self.frame.width - facebookButton.frame.maxX) - 24.0, height: 34)
         self.addToShoppingCartButton!.layer.cornerRadius = 17
         self.addToShoppingCartButton!.backgroundColor = WMColor.yellow
         self.addToShoppingCartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
