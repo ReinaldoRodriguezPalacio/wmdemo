@@ -144,12 +144,12 @@ class HelpHomeView: UIView {
     func createTabBarButtons() {
         let images = self.retrieveTabBarOptions()
         let spaceLabel: CGFloat = -1
-        var xLabel: CGFloat = 2
+        var xLabel: CGFloat = 0
         //let spaceImage: CGFloat = 43
         var xImage: CGFloat = ((self.frame.width - 135) / 4) / 2
-        xImage = xImage + 3.0
+        xImage = xImage + 5.0
         
-        let widthLabel = (self.frame.width - 4.0) / 5
+        let widthLabel = (self.frame.width - 14.0) / 5
         let spaceImage = (self.frame.width - (xImage * 2) - 135) / 4
         
         for image in images {
@@ -159,10 +159,11 @@ class HelpHomeView: UIView {
             imageLabel.font = WMFont.fontMyriadProLightOfSize(12)
             imageLabel.textColor = UIColor.white
             imageLabel.text = title as String
+            xLabel = (xImage - (spaceImage / 2)) - 2.0
             imageLabel.frame = CGRect(x: xLabel, y: self.frame.height - 71, width: widthLabel, height: 26)
             imageLabel.numberOfLines = 2
             imageLabel.textAlignment = .center
-            xLabel = imageLabel.frame.maxX + spaceLabel
+            //xLabel = imageLabel.frame.maxX + spaceLabel
             self.addSubview(imageLabel)
             
             let imageView = UIImageView()

@@ -130,7 +130,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.footerSection!.addSubview(self.shareButton!)
         
         x = self.shareButton!.frame.maxX + 16.0
-        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x), height: 34.0))
+        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: self.view.bounds.width - (x + 16.0), height: 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
         self.addToCartButton!.addTarget(self, action: #selector(UserListDetailViewController.addListToCart), for: .touchUpInside)
