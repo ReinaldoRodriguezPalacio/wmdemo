@@ -620,7 +620,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var price: NSString = "0"
         var through: NSString! = ""
         if let priceTxt = item["price"] as? NSString {
-            price = priceTxt
+            price = priceTxt.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: " ", with: "") as NSString
         }
         else if let pricenum = item["price"] as? NSNumber {
             let txt = pricenum.stringValue
@@ -628,7 +628,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if let priceThr = item["saving"] as? NSString {
-            through = priceThr
+            through = priceThr.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: " ", with: "") as NSString
         }
         
         var imageUrl: String? = ""
@@ -2235,6 +2235,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                     )
                 } else {
+                    
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
                     let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
@@ -2243,6 +2244,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     alert!.setMessage(msgInventory)
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                     self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                    self.selectQuantity?.closeSelectQuantity()
                 }
         }
     }
