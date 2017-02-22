@@ -39,6 +39,7 @@ class PreShoppingCartView : UIView {
     func setup() {
         
         imgBackground = UIImageView(frame: CGRect.zero)
+        imgBackground.contentMode = .scaleAspectFill
         self.addSubview(imgBackground)
         
         imgIcon = UIImageView(frame: CGRect.zero)
@@ -50,12 +51,6 @@ class PreShoppingCartView : UIView {
         title.textAlignment = .center
         self.addSubview(title)
         
-//        articles = UILabel(frame: CGRectZero)
-//        articles.font = WMFont.fontMyriadProRegularOfSize(14)
-//        articles.textColor = UIColor.whiteColor()
-//        articles.textAlignment = .Center
-//        self.addSubview(articles)
-        
         shopButton = UIButton(frame: CGRect.zero)
         shopButton.layer.cornerRadius = 17
         shopButton.backgroundColor = UIColor.white
@@ -64,12 +59,6 @@ class PreShoppingCartView : UIView {
         shopButton.addTarget(self, action: #selector(PreShoppingCartView.tapGR), for: UIControlEvents.touchUpInside)
         self.addSubview(shopButton)
         
-//        customlabel = CurrencyCustomLabel(frame:CGRectMake(0, 0, 137, 34))
-//        customlabel.backgroundColor = UIColor.clearColor()
-//        customlabel.setCurrencyUserInteractionEnabled(true)
-       // shopButton.addSubview(customlabel)
-        //shopButton.sendSubviewToBack(customlabel)
-
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(PreShoppingCartView.tapGR))
         self.addGestureRecognizer(tapGesture)
         

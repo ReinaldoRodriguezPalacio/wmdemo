@@ -50,7 +50,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewTitleCheckout = UILabel(frame: viewHerader.bounds)
+        viewTitleCheckout = UILabel(frame: viewHeader.bounds)
         viewTitleCheckout.font = WMFont.fontMyriadProRegularOfSize(14)
         viewTitleCheckout.textColor = WMColor.light_blue
         viewTitleCheckout.text = "Verifica tu pedido"
@@ -93,16 +93,16 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.viewHerader.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 46)
-        self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHerader.frame.maxY)
+        self.viewHeader.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 46)
+        self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHeader.frame.maxY)
         viewSeparator!.frame = CGRect(x: self.tableShoppingCart.frame.maxX, y: 0, width: 1.0, height: self.view.bounds.width)
         viewShowLogin?.frame = containerGROrder.bounds
         checkoutVC?.view.frame = containerGROrder.bounds
         ctrlCheckOut?.view.frame = containerGROrder.bounds
         self.editButton.frame = CGRect(x: self.viewSeparator.frame.maxX - 71, y: 12, width: 55, height: 22)
-        self.viewTitleCheckout.frame = CGRect(x: self.viewSeparator.frame.maxX , y: 0, width: self.view.frame.width - self.viewSeparator.frame.maxX, height: self.viewHerader.frame.height )
-        self.deleteall.frame = CGRect(x: self.editButton.frame.minX - 80, y: 12, width: 75, height: 22)
-        self.titleView.frame = CGRect(x: 0, y: 0, width: self.viewSeparator.frame.maxX,height: self.viewHerader.frame.height)
+        self.viewTitleCheckout.frame = CGRect(x: self.viewSeparator.frame.maxX , y: 0, width: self.view.frame.width - self.viewSeparator.frame.maxX, height: self.viewHeader.frame.height )
+        self.deleteAll.frame = CGRect(x: self.editButton.frame.minX - 80, y: 12, width: 75, height: 22)
+        self.titleView.frame = CGRect(x: 0, y: 0, width: self.viewSeparator.frame.maxX,height: self.viewHeader.frame.height)
 
     }
     
@@ -183,7 +183,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func shareShoppingCart() {
         self.removeListSelector(action: nil)
         let imageHead = UIImage(named:"detail_HeaderMail")
-        let imageHeader = UIImage(from: self.viewHerader)
+        let imageHeader = UIImage(from: self.viewHeader)
         let screen = self.tableShoppingCart.screenshot()
         let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,screen!])
         let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
