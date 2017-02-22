@@ -2195,6 +2195,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                     )
                 } else {
+                    
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     
                     let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
@@ -2203,6 +2204,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     alert!.setMessage(msgInventory)
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                     self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                    self.selectQuantity?.closeSelectQuantity()
                 }
         }
     }
