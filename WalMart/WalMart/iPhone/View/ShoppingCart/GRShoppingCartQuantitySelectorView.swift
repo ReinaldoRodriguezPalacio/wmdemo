@@ -40,6 +40,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
     var startY:CGFloat = 0
     var isFullView = false
+    var isSearchProductView = false
     
     init(frame: CGRect,equivalenceByPiece:NSNumber) {
         super.init(frame: frame)

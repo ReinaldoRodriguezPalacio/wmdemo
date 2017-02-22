@@ -8,13 +8,10 @@
 
 import Foundation
 
-
-
 class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     var CONS_MINVAL = 0.0
     var CONS_MAXVAL = 20000.0
-    
     
     var containerView : UIView!
     var containerWeightView : UIView!
@@ -49,8 +46,9 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var keyboardN : NumericKeyboardView!
     var currentValKg : String? = nil
     
-    init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0) {
+    init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0, isSearchProductView: Bool) {
         super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
+        self.isSearchProductView = isSearchProductView
         self.priceProduct = priceProduct
         self.equivalenceByPiece = equivalenceByPiece
         self.upcProduct = upcProduct
@@ -60,8 +58,9 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         setup()
     }
     
-    init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0) {
+    init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0, isSearchProductView: Bool) {
         super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
+        self.isSearchProductView = isSearchProductView
         self.priceProduct = priceProduct
         self.currentValGr = Double(quantity)
         self.equivalenceByPiece = equivalenceByPiece
@@ -222,11 +221,12 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         //let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
         
-        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: 0, width: 44, height: 44))
+        let yPosition = isSearchProductView ? closePossitionY : 0
+        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: yPosition, width: 44, height: 44))
         closeButtonN.setImage(UIImage(named:"close"), for: UIControlState())
         closeButtonN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
-        let backToW = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        let backToW = UIButton(frame: CGRect(x: 0, y: yPosition, width: 44, height: 44))
         backToW.setImage(UIImage(named:"search_back"), for: UIControlState())
         backToW.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.backToWeight), for: UIControlEvents.touchUpInside)
         
