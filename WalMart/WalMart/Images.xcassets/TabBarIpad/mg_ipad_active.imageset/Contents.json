@@ -2,16 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "mg_ipad_active.png"
+      "filename" : "mg_ipad_active.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "mg_ipad_active@2x.png"
+      "filename" : "mg_ipad_active@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "tabBar_mg_active@3x.png",
       "scale" : "3x"
     }
   ],

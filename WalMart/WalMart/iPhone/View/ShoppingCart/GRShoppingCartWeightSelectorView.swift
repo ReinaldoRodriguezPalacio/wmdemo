@@ -42,6 +42,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var btnOkAddN : UIButton!
     var buttonGramsKG : UIButton!
     var buttonKg : UIButton!
+    var buttonDelet : UIButton!
     var backAction : (() -> Void)!
     var keyboardN : NumericKeyboardView!
     var currentValKg : String? = nil
@@ -236,6 +237,12 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         btnOkAddN.backgroundColor = WMColor.green
         btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
+        buttonDelet = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
+        buttonDelet.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
+        buttonDelet.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        buttonDelet.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
+        buttonDelet.alpha = 1
+        
         let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
         keyboardN = NumericKeyboardView(frame: CGRect(x: margin, y: lblQuantityN.frame.maxY + 10, width: frame.width - (margin * 2), height: btnOkAddN.frame.minY - 12),typeKeyboard:NumericKeyboardViewType.Integer)
         keyboardN.widthButton = isFullView ? 70 : 40
@@ -258,6 +265,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         containerNumericView.addSubview(closeButtonN)
         containerNumericView.addSubview(backToW)
         containerNumericView.addSubview(btnNoteN)
+        containerNumericView.addSubview(buttonDelet)
         
         containerView.addSubview(containerWeightView)
         containerView.addSubview(containerNumericView)
@@ -270,7 +278,8 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         if isUpcInShoppingCart  {
             self.showNoteButton()
-            let btnDelete = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX, y: btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX, height: 36))
+            buttonDelet.alpha = 0
+            let btnDelete = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
             btnDelete.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
             btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             btnDelete.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
