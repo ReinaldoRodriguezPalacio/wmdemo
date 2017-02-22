@@ -129,7 +129,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: collection!)
-        }else{
+        }else if !IS_IPAD{
             addLongTouch(view:collection!)
         }
     }

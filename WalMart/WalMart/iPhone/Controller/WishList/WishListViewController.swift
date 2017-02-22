@@ -90,7 +90,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: wishlist!)
-        }else{
+        }else if !IS_IPAD{
             addLongTouch(view:wishlist!)
         }
     }
