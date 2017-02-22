@@ -595,7 +595,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var price: NSString = "0"
         var through: NSString! = ""
         if let priceTxt = item["price"] as? NSString {
-            price = priceTxt
+            price = priceTxt.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: " ", with: "") as NSString
         }
         else if let pricenum = item["price"] as? NSNumber {
             let txt = pricenum.stringValue
@@ -603,7 +603,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if let priceThr = item["saving"] as? NSString {
-            through = priceThr
+            through = priceThr.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: " ", with: "") as NSString
         }
         
         var imageUrl: String? = ""
