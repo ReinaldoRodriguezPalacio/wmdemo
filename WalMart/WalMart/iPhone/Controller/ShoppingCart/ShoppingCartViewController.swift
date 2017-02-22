@@ -189,7 +189,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: viewShoppingCart!)
-        }else{
+        }else if !IS_IPAD{
             addLongTouch(view:viewShoppingCart!)
         }
     }

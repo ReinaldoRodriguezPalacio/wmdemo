@@ -32,32 +32,29 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate {
-   
 
-    
-    var onClose : ((_ isClose:Bool) -> Void)? = nil
-    var viewLoad : WMLoadingView!
-    var viewHerader : UIView!
-    var titleView : UILabel!
-    var closeButton : UIButton!
-    var itemsInCart : [[String:Any]] = []
-    var tableShoppingCart : UITableView!
-    var viewFooter : UIView!
-    var buttonShop : UIButton!
+    var onClose: ((_ isClose:Bool) -> Void)? = nil
+    var viewLoad: WMLoadingView!
+    var viewHeader: UIView!
+    var titleView: UILabel!
+    var closeButton: UIButton!
+    var itemsInCart: [[String:Any]] = []
+    var tableShoppingCart: UITableView!
+    var viewFooter: UIView!
+    var buttonShop: UIButton!
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var listSelectorController: ListsSelectorViewController?
     var alertView: IPOWMAlertViewController?
     
     var addToListButton: UIButton?
-    var editButton : UIButton!
-    var deleteall: UIButton!
+    var editButton: UIButton!
+    var deleteAll: UIButton!
     
     var customlabel : CurrencyCustomLabel!
     var isEdditing = false
-    var showCloseButton : Bool = true
-    var emptyView : IPOShoppingCartEmptyView!
+    var showCloseButton: Bool = true
+    var emptyView: IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
     var preview: PreviewModalView? = nil
     
@@ -69,21 +66,21 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         super.viewDidLoad()
         
-        viewHerader = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46))
-        viewHerader.backgroundColor = WMColor.light_light_gray
+        viewHeader = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46))
+        viewHeader.backgroundColor = WMColor.light_light_gray
         
-        titleView = UILabel(frame: viewHerader.bounds)
+        titleView = UILabel(frame: viewHeader.bounds)
         titleView.font = WMFont.fontMyriadProRegularOfSize(14)
         titleView.textColor = WMColor.light_blue
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
         titleView.textAlignment = .center
         
-        closeButton = UIButton(frame:CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height))
+        closeButton = UIButton(frame:CGRect(x: 0, y: 0, width: viewHeader.frame.height, height: viewHeader.frame.height))
         closeButton.setImage(UIImage(named: "BackProduct"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartViewController.closeShoppingCart), for: UIControlEvents.touchUpInside)
         
-        viewHerader.addSubview(closeButton)
-        viewHerader.addSubview(titleView)
+        viewHeader.addSubview(closeButton)
+        viewHeader.addSubview(titleView)
         
         tableShoppingCart = UITableView(frame: self.view.bounds)
         tableShoppingCart.delegate = self
@@ -94,17 +91,17 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
 
         tableShoppingCart.clipsToBounds = false
 
-        self.view.addSubview(tableShoppingCart)
-        self.view.addSubview(viewHerader)
+        view.addSubview(tableShoppingCart)
+        view.addSubview(viewHeader)
         
         viewFooter = UIView(frame: CGRect(x: 0, y: self.view.bounds.height - 72 - 44 , width: self.view.bounds.width, height: 72))
         viewFooter.backgroundColor = UIColor.white
         viewFooter.alpha = 0
         
-        self.addToListButton = UIButton(frame: CGRect(x: 8 ,y: 0, width: 50, height: viewFooter.frame.height))
-        self.addToListButton!.setImage(UIImage(named: "detail_list"), for: UIControlState())
-        self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), for: .selected)
-        self.addToListButton!.addTarget(self, action: #selector(GRShoppingCartViewController.addCartToList), for: .touchUpInside)
+        addToListButton = UIButton(frame: CGRect(x: 8 ,y: 0, width: 50, height: viewFooter.frame.height))
+        addToListButton!.setImage(UIImage(named: "detail_list"), for: UIControlState())
+        addToListButton!.setImage(UIImage(named: "detail_list_selected"), for: .selected)
+        addToListButton!.addTarget(self, action: #selector(GRShoppingCartViewController.addCartToList), for: .touchUpInside)
         
         let buttonShare = UIButton(frame: CGRect(x: self.addToListButton!.frame.maxX, y: 0, width: 50, height: viewFooter.frame.height))
         buttonShare.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
@@ -119,7 +116,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         viewFooter.addSubview(self.addToListButton!)
         viewFooter.addSubview(buttonShare)
         viewFooter.addSubview(buttonShop)
-        self.view.addSubview(viewFooter)
+        view.addSubview(viewFooter)
         
         //Edit 
         editButton = UIButton(frame:CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22))
@@ -132,27 +129,26 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         editButton.addTarget(self, action: #selector(GRShoppingCartViewController.editAction(_:)), for: UIControlEvents.touchUpInside)
         editButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
         
-        deleteall = UIButton(frame: CGRect(x: editButton.frame.minX - 80, y: 12, width: 75, height: 22))
-        deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), for: UIControlState())
-        deleteall.backgroundColor = WMColor.red
-        deleteall.setTitleColor(UIColor.white, for: UIControlState())
-        deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        deleteall.layer.cornerRadius = 11
-        deleteall.alpha = 0
-        deleteall.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
-        deleteall.addTarget(self, action: #selector(GRShoppingCartViewController.deleteAll), for: UIControlEvents.touchUpInside)
+        deleteAll = UIButton(frame: CGRect(x: editButton.frame.minX - 80, y: 12, width: 75, height: 22))
+        deleteAll.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), for: UIControlState())
+        deleteAll.backgroundColor = WMColor.red
+        deleteAll.setTitleColor(UIColor.white, for: UIControlState())
+        deleteAll.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+        deleteAll.layer.cornerRadius = 11
+        deleteAll.alpha = 0
+        deleteAll.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
+        deleteAll.addTarget(self, action: #selector(GRShoppingCartViewController.deleteAllProducts), for: UIControlEvents.touchUpInside)
         
-        viewHerader.addSubview(editButton)
-        viewHerader.addSubview(deleteall)
+        viewHeader.addSubview(editButton)
+        viewHeader.addSubview(deleteAll)
         
         initEmptyView()
-        //loadGRShoppingCart()
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
         
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: tableShoppingCart!)
-        }else{
+        }else if !IS_IPAD{
             addLongTouch(view:tableShoppingCart!)
         }
  
@@ -177,7 +173,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHerader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHerader.frame.height - 72 - 44)
+        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHeader.frame.height - 72 - 44)
         self.viewFooter.frame = CGRect(x: 0, y:self.view.bounds.height - 72 - 44 , width: self.view.bounds.width, height: 72)
     }
     
@@ -195,14 +191,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func initEmptyView(){
+        
         emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHerader.frame.height)
+        emptyView.frame = CGRect(x: 0,  y: viewHeader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHeader.frame.height)
         emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
-        self.view.addSubview(emptyView)
         
-        self.emptyView.iconImageView.image =  UIImage(named:"empty_cart")
+        view.addSubview(emptyView)
+        
+        emptyView.iconImageView.image = UIImage(named:"empty_cart")
     }
     
     func closeShoppingCart() {
@@ -253,7 +251,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let upc = itemProduct["upc"] as! String
         
-        var quantity : Int = 0
+        var quantity: Int = 0
         if let qIntProd = itemProduct["quantity"] as? Int {
             quantity = qIntProd
         }
@@ -324,11 +322,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece, orderByPiece: orderByPiece, pieces: totalPieces)
         }
         
-        
         if isEdditing == true {
             tblShoppingCell.setEditing(true, animated: false)
             tblShoppingCell.showLeftUtilityButtons(animated: false)
-        }else{
+        } else {
             tblShoppingCell.setEditing(false, animated: false)
             tblShoppingCell.hideUtilityButtons(animated: true)
         }
@@ -345,13 +342,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInCart.count > indexPath.row   {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
             
             let controller = self.getProductDetailController(indexPath: indexPath)
-            
             if self.navigationController  != nil {
                 self.navigationController!.pushViewController(controller!, animated: true)
             }
+            
         }
     }
     
@@ -421,10 +417,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
             
             if cell.typeProd == 1 {
-
                 selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity!,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
-                
-            }else{
+            } else {
                 selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.upc)
             }
             
@@ -436,19 +430,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
-                //let quantity : Int = quantity.toInt()!
                 
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     self.selectQuantityGR?.closeAction()
                     
-                    if cell.typeProd == 0 {
-                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "")
-                    } else {
-                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue, label: "")
-                    }
-                    
                     cell.orderByPieces = self.selectQuantityGR!.orderByPiece
-                    cell.pieces = Int(quantity)! //cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
+                    cell.pieces = Int(quantity)!
                     let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity)
                     
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
@@ -572,7 +559,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             editButton.backgroundColor = WMColor.green
             
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                self.deleteall.alpha = 1
+                self.deleteAll.alpha = 1
                 self.titleView.frame = CGRect(x: self.titleView.frame.minX - 30, y: self.titleView.frame.minY, width: self.titleView.frame.width, height: self.titleView.frame.height)
             })
             
@@ -595,7 +582,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             editButton.backgroundColor = WMColor.light_blue
             
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                self.deleteall.alpha = 0
+                self.deleteAll.alpha = 0
                 self.titleView.frame = CGRect(x: self.titleView.frame.minX + 30, y: self.titleView.frame.minY, width: self.titleView.frame.width, height: self.titleView.frame.height)
             })
             
@@ -789,7 +776,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
     }
     
-    func deleteAll() {
+    func deleteAllProducts() {
         
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         
@@ -844,7 +831,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     func shareShoppingCart() {
         self.removeListSelector(action: nil)
         let imageHead = UIImage(named:"detail_HeaderMail")
-        let imageHeader = UIImage(from: self.viewHerader)
+        let imageHeader = UIImage(from: self.viewHeader)
         let screen = self.tableShoppingCart.screenshot()
         let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,screen!])
         let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)

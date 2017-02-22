@@ -733,7 +733,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         detail!.upc = self.upc as String
         detail!.desc = self.name as String
         detail!.price = self.price
-        detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
+        detail!.orderByPiece = self.selectQuantityGR?.orderByPiece as? NSNumber ?? 0
         detail!.pieces =  NSNumber(value: Int(quantity)!)
         detail!.quantity = NSNumber(value: Int(quantity)! as Int)
         detail!.type = NSNumber(value: self.isPesable as Bool)
