@@ -374,16 +374,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fRy-LZ-TgT">
-                                <rect key="frame" x="0.0" y="46" width="320" height="371"/>
+                                <rect key="frame" x="0.0" y="46" width="320" height="307"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="fRy-LZ-TgT" secondAttribute="trailing" id="XSV-wh-dhf"/>
-                            <constraint firstItem="fRy-LZ-TgT" firstAttribute="top" secondItem="EjJ-Z5-97z" secondAttribute="bottom" constant="46" id="YCA-7M-ywx"/>
-                            <constraint firstItem="hYQ-e3-REx" firstAttribute="top" secondItem="fRy-LZ-TgT" secondAttribute="bottom" constant="44" id="Zek-LW-Fgu"/>
-                            <constraint firstItem="fRy-LZ-TgT" firstAttribute="leading" secondItem="4du-Gd-KC2" secondAttribute="leading" id="iKu-04-Ii7"/>
+                            <constraint firstItem="fRy-LZ-TgT" firstAttribute="top" secondItem="EjJ-Z5-97z" secondAttribute="bottom" constant="46" id="CXm-Bg-2I1"/>
+                            <constraint firstItem="hYQ-e3-REx" firstAttribute="top" secondItem="fRy-LZ-TgT" secondAttribute="bottom" constant="108" id="WRN-Tk-Sz6"/>
+                            <constraint firstAttribute="trailing" secondItem="fRy-LZ-TgT" secondAttribute="trailing" id="WnQ-ot-IX5"/>
+                            <constraint firstItem="fRy-LZ-TgT" firstAttribute="leading" secondItem="4du-Gd-KC2" secondAttribute="leading" id="Xpk-Pd-M4C"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="s6r-Cu-ZSH"/>
