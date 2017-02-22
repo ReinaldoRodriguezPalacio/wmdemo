@@ -30,7 +30,7 @@ class LoginWithEmailService : BaseService {
                         if cadUserId != nil && cadUserId != "" && cadUserId!.length > 0 {
                             let serviceGr = GRLoginService()
                             serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
-                                UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                                UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!,fullLogin: false)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance.userSignedOnService = false
                                 }
@@ -69,7 +69,7 @@ class LoginWithEmailService : BaseService {
                     let resultCallMG = resultCall
                     let serviceGr = GRLoginService()
                     serviceGr.callService(["email":"","password":"","idUser":resultCall["idUser"] as! String], successBlock:{ (resultCall:[String:Any]?) in
-                        UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                        UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!,fullLogin: true)
                         successBlock!(resultCall!)
                         UserCurrentSession.sharedInstance.userSignedOnService = false
                         }
