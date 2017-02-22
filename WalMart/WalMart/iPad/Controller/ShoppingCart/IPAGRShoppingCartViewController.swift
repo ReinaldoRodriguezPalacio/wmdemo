@@ -46,6 +46,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     var backgroundView: UIView?
 
     //MARK: - ViewCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -126,13 +127,14 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     }
     
     override func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemGRSC = itemsInCart[indexPath.row] 
+        
+        let itemGRSC = itemsInCart[indexPath.row]
         let upc = itemGRSC["upc"] as! String
+        let serviceWishDelete = GRShoppingCartDeleteProductsService()
+        let allUPCS: [String] = [upc]
+        
         //360 delete
         BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
-        let serviceWishDelete = GRShoppingCartDeleteProductsService()
-        var allUPCS : [String] = []
-        allUPCS.append(upc)
         
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
@@ -142,45 +144,39 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
             
         serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+            
+            self.itemsInCart.remove(at: indexPath.row)
+            if self.itemsInCart.count > 0 {
+                self.tableShoppingCart.reloadData()
                 
-                self.itemsInCart.remove(at: indexPath.row)
-                if self.itemsInCart.count > 0 {
-                    self.tableShoppingCart.reloadData()
-                    
-                    if self.viewLoad != nil {
-                        self.viewLoad.stopAnnimating()
-                        self.viewLoad = nil
-                    }
-                    
-                    if self.viewShowLogin != nil {
-                        self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
-                            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
-                            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
-                        
-                    }
-                    
-                    self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
-                        subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
-                        saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
-                    
-                    self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
-                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
-                    
-                    //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
-                } else {
-                    self.navigationController!.popViewController(animated: true)
-                    self.onClose?(true)
-                  
+                if self.viewLoad != nil {
+                    self.viewLoad.stopAnnimating()
+                    self.viewLoad = nil
                 }
                 
-            })
-            }, errorBlock: { (error:NSError) -> Void in
-                print("error")
+                if self.viewShowLogin != nil {
+                    self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                        subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                        saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
+                }
+                
+                self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
+                    subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
+                    saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
+                
+                self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
+                
+                //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
+            } else {
+                self.navigationController!.popViewController(animated: true)
+                self.onClose?(true)
+                
+            }
+ 
+        }, errorBlock: { (error:NSError) -> Void in
+            print("error")
         })
-        
-        
-      
         
     }
     
@@ -326,7 +322,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
     
-    func showBackgroundView(_ show:Bool){
+    func showBackgroundView(_ show:Bool) {
         if show {
             self.backgroundView?.alpha = 0.0
             self.view.addSubview(self.backgroundView!)
@@ -349,7 +345,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         let _ = self.checkoutVC?.navigationController?.popToRootViewController(animated: true)
     }
     
-    func openclose(){
+    func openclose() {
         self.closeShoppingCart()
     }
 
@@ -358,7 +354,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func reloadGRShoppingCart(){
         UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
-           
             self.loadGRShoppingCart()
         }
     }
@@ -366,18 +361,15 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func loadGRShoppingCart() {
         super.loadGRShoppingCart()
         
-        
         if viewShowLogin != nil {
             self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
                 subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
                 saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
-            
         }
         
         self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
             saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
-        
         
         self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
         
@@ -392,6 +384,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     }
     
     func showlogin() {
+       
         var cont = IPALoginController.showLogin()
         cont!.closeAlertOnSuccess = false
         cont!.successCallBack = {() in
@@ -400,18 +393,17 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 
                 if cont!.alertView != nil {
                     cont!.closeAlert(true, messageSucesss: true)
-                }else {
+                } else {
                     cont!.closeModal()
                 }
+                
                 cont = nil
                 self.loadGRShoppingCart()
                 
                 if self.itemsInCart.count == 0 {
                     self.navigationController!.popViewController(animated: true)
                     self.onClose?(true)
-                }else{
-                    
-                    
+                } else {
                     self.checkoutVC = IPAGRCheckOutViewController()
                     self.checkoutVC?.view.frame = self.containerGROrder.bounds
                     self.ctrlCheckOut = UINavigationController(rootViewController: self.checkoutVC!)
@@ -421,7 +413,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.ctrlCheckOut!.isNavigationBarHidden = true
                     self.addChildViewController(self.ctrlCheckOut!)
                     self.containerGROrder.addSubview(self.ctrlCheckOut!.view)
-                    
                 }
                 
                 self.viewShowLogin?.alpha = 0
@@ -429,6 +420,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 self.viewShowLogin = nil
             }
         }
+        
         return
     }
     
@@ -444,7 +436,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     //MARK: - IPAGRCheckOutViewControllerDelegate
     
     override func addCartToList(){
+        
         if self.listSelectorController == nil {
+            
             self.addToListButton!.isSelected = true
             let frame = self.viewShowLogin!.frame
             let originX = self.view.frame.width - frame.width
@@ -461,18 +455,12 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             self.view.addSubview(self.listSelectorController!.view)
             
-            UIView.animate(withDuration: 0.5,
-                           animations: { () -> Void in
-                            self.listSelectorController!.view.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
-                            //self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
-            },
-                           completion: { (finished:Bool) -> Void in
-                            if finished {
-                            }
-            }
-            )
-        }
-        else {
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.listSelectorController!.view.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
+                //self.listSelectorController!.imageBlurView!.frame = CGRect(x: originX, y: 0, width: frame.width, height: frame.height)
+            })
+            
+        } else {
             self.removeListSelector(action: nil)
         }
     }

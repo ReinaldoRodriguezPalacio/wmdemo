@@ -224,6 +224,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
+    
     //MARK: - Table View Data Source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -369,7 +370,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func showshoppingcart() {
+        
         self.buttonShop!.isEnabled = false
+        
         if UserCurrentSession.sharedInstance.userSigned != nil {
             self.addViewload()
             //FACEBOOKLOG
@@ -379,15 +382,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 self.performSegue(withIdentifier: "checkoutVC", sender: self)
             }
         } else {
+            
             let cont = LoginController.showLogin()
             self.buttonShop!.isEnabled = true
             cont!.closeAlertOnSuccess = false
             cont!.successCallBack = {() in
+                
                 UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
+                    
                     self.loadGRShoppingCart()
                     
-                    
-                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
                     if self.itemsInCart.count == 0 {
                         
                         if IS_IPAD {
@@ -403,7 +407,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     }
                     
                     cont?.closeAlert(true, messageSucesss: true)
-                    
                     self.buttonShop!.isEnabled = true
                     
                 }
@@ -613,12 +616,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             } else {
                 if let cellSC = cell as? GRProductShoppingCartTableViewCell {
                     
-                    let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
+                    let vc: UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                     let frame = vc!.view.frame
-                    
-                    
                     let addShopping = ShoppingCartUpdateController()
                     let params = self.buildParamsUpdateShoppingCart(cellSC,quantity: "\(cellSC.quantity!)")
+                    
                     addShopping.params = params
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
@@ -736,30 +738,30 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     //MARK: Delete item 
     
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemGRSC = itemsInCart[indexPath.row] 
+        
+        let itemGRSC = itemsInCart[indexPath.row]
         let upc = itemGRSC["upc"] as! String
-        //360 delete
-        BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
-        var allUPCS : [String] = []
-         allUPCS.append(upc)
-        self.addViewload()
+        let allUPCS: [String] = [upc]
+        addViewload()
+        
+        BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
+        
+        serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
             
-            serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
-                    self.itemsInCart.remove(at: indexPath.row)
-                    self.removeViewLoad()
-                if self.itemsInCart.count == 0 {
-                    self.navigationController?.popToRootViewController(animated: true)
-                } else {
-                    self.tableShoppingCart.reloadData()
-                    self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
-                }
-            })
-            }, errorBlock: { (error:NSError) -> Void in
-                 self.removeViewLoad()
-                print("error")
-            })
+            self.itemsInCart.remove(at: indexPath.row)
+            self.removeViewLoad()
+            if self.itemsInCart.count == 0 {
+                _ = self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                self.tableShoppingCart.reloadData()
+                self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
+            }
+            
+        }, errorBlock: { (error:NSError) -> Void in
+            self.removeViewLoad()
+            print("error")
+        })
         
     }
     
@@ -789,16 +791,17 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func deleteAll() {
         
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
-        
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(value: WishlistStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
+        
         if UserCurrentSession.hasLoggedUser() {
             predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance.userSigned!,NSNumber(value: CartStatus.deleted.rawValue as Int),ResultObjectType.Groceries.rawValue)
         }
-        var arrayUPCQuantity : [[String:String]] = []
+        
+        var arrayUPCQuantity: [[String:String]] = []
         var arrayDeleteItems: [[String:Any]] = []
         let array  =  self.retrieveParam("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         let service = GRProductsByUPCService()
+        
         for item in array {
             arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue,baseUomcd:item.product.orderByPiece.boolValue ? "EA" : "GM" ))// send baseUomcd
             arrayDeleteItems.append(["desc":item.product.desc,"upc":item.product.upc,"quantity":"\(item.product.quantity)","pesable":false])
@@ -815,27 +818,23 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
            allUPCS.append("\(upc!)")
         }
         
-        self.addViewload()
+        addViewload()
         
         serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-                //self.loadGRShoppingCart()
-                
-                self.removeViewLoad()
-                
-                print("done")
-                if self.onClose != nil {
-                    self.onClose?(true)
-                    let _ = self.navigationController?.popViewController(animated: true)
-                }
-                else {
-                    let _ = self.navigationController?.popToRootViewController(animated: true)
-                }
-                
-            })
-            }, errorBlock: { (error:NSError) -> Void in
-                print("error")
+            
+            self.removeViewLoad()
+            
+            if self.onClose != nil {
+                self.onClose?(true)
+                let _ = self.navigationController?.popViewController(animated: true)
+            } else {
+                let _ = self.navigationController?.popToRootViewController(animated: true)
+            }
+            
+        }, errorBlock: { (error: NSError) -> Void in
+            print("error")
         })
+        
         self.editAction(self.editButton)
     }
     
