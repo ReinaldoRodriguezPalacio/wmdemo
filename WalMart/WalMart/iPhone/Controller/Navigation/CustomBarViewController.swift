@@ -119,6 +119,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var contextSearch : SearchServiceContextType!
     var showHelpHome: Bool = false
     var finishOpen =  false
+    var onCloseSearch: ((Void) -> Void)?
     
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -842,6 +843,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 let current = self.currentController!
                 self.searchController = SearchViewController()
                 current.addChildViewController(self.searchController!)
+                self.searchController!.didMove(toParentViewController: current)
                 self.searchController!.delegate = self
                 //            self.searchController!.view.frame = CGRectMake(0,-90, current.view.frame.width, current.view.frame.height)
                 self.searchController!.view.frame = CGRect(x: 0,y: current.view.frame.height * -1, width: current.view.frame.width, height: current.view.frame.height)
@@ -971,9 +973,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func selectKeyWord(_ keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
         if upc != nil {
-            
-            
-            
             let controller = ProductDetailPageViewController()
             controller.idListSeleted  = self.idListSelected
             let useSignalsService : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
@@ -996,8 +995,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.isEditingSearch = false
                 }
                 controller.detailOf = "Search results"
-                controllernav?.pushViewController(controller, animated: true)
-                
+                self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
                 }, errorBlock: { (error:NSError) -> Void in
                     
                     if upcDesc.length < 14 {
@@ -1013,7 +1011,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         self.isEditingSearch = false
                     }
                     controller.detailOf = "Search results"
-                    controllernav?.pushViewController(controller, animated: true)
+                    self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
             })
         }
         else{
@@ -1030,17 +1028,17 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controllernav?.viewControllers.remove(at: controllersInNavigation! - 3)
                 isEditingSearch = false
             }
-            self.closeSearch(false, sender: nil)
-            let controller = SearchProductViewController()
-            controller.upcsToShow = upcs
-            controller.searchContextType = .withText
-            controller.titleHeader = keyWord
-            controller.textToSearch = keyWord
-            controllernav?.pushViewController(controller, animated: true)
+            
+            self.onCloseSearch = {
+                let controller = SearchProductViewController()
+                controller.upcsToShow = upcs
+                controller.searchContextType = .withText
+                controller.titleHeader = keyWord
+                controller.textToSearch = keyWord
+                controllernav?.pushViewController(controller, animated: true) }
         }
         
         self.btnSearch!.isSelected = true
-//        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
         self.closeSearch(false, sender: nil)
     }
     
@@ -1118,6 +1116,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.btnSearch!.isEnabled = true
             self.btnShopping!.isEnabled = true
             self.btnSearch!.isSelected = false
+            self.onCloseSearch?()
         }
     }
     
