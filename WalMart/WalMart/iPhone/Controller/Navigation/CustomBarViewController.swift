@@ -1117,6 +1117,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.btnShopping!.isEnabled = true
             self.btnSearch!.isSelected = false
             self.onCloseSearch?()
+            self.onCloseSearch = nil
         }
     }
     
