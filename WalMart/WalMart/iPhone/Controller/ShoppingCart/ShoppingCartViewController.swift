@@ -318,9 +318,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
         }
         if buttonShop == nil {
-            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop - 16, height: 34))
+            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop + 32.0, height: 34))
         }else {
-            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop - 16, height: 34)
+            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop + 32.0, height: 34)
         }
 
     
