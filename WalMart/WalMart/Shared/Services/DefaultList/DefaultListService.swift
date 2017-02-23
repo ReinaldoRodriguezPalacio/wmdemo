@@ -35,11 +35,11 @@ class DefaultListService : GRBaseService {
     }
     
     
-    func getDefaultContent() -> [[String:Any]] {
-        var response : [[String:Any]] = []
+    func getDefaultContent() -> [Any] {
+        var response : [Any] = []
         let values = self.getDataFromFile(self.fileName as NSString)
         if values != nil {
-            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
+            response = values![JSON_KEY_RESPONSEARRAY] as! [Any]
         }
         return response
     }

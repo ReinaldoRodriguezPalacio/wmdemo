@@ -7,10 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class GRUserListDetailService: GRBaseService {
 
     var listId: String?
+    lazy var managedContext: NSManagedObjectContext? = {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        return context
+    }()
     
     func buildParams(_ listId:String?) {
         self.listId = listId
@@ -33,6 +39,36 @@ class GRUserListDetailService: GRBaseService {
         return super.serviceUrl() + "/"  + (self.listId == nil ? "" : self.listId!)
     }
 
+    
+    func callCoreDataService(listId:String, successBlock:((List?,[Product]?) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        
+        let list = findListById(listId)
+        let products = getProductsFor(list: list!)
+        
+        successBlock?(list,products)
+    }
+    
+    
+    func getProductsFor(list:List) -> [Product] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product" as String, in: self.managedContext!)
+        fetchRequest.predicate = NSPredicate(format: "list == %@", list)
+        let result: [Product] = (try! self.managedContext!.fetch(fetchRequest) as! [Product])
+        
+        return result
+    }
+    
+    func findListById(_ listId:String) -> List? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List" as String, in: self.managedContext!)
+        fetchRequest.predicate = NSPredicate(format: "idList == %@", listId)
+        var result: [List] = (try! self.managedContext!.fetch(fetchRequest)) as! [List]
+        var list: List? = nil
+        if result.count > 0 {
+            list = result[0]
+        }
+        return list
+    }
 /*
     {
     "id" : "3a5be959-a91e-46a1-9944-69d955242279",

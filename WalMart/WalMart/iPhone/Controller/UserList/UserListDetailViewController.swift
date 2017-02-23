@@ -1085,10 +1085,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     //MARK: - Services
     func invokeDetailListService(_ action:(()->Void)? , reloadList : Bool) {
         let detailService = GRUserListDetailService()
-        detailService.buildParams(self.listId)
-        detailService.callService([:],
-            successBlock: { (result:[String:Any]) -> Void in
-                self.products = result["items"] as? [[String:Any]]
+        detailService.callCoreDataService(listId: self.listId!,
+                                          successBlock: { (result:List?,products:[Product]?) -> Void in
+                self.products = products!
                 
                 if !self.analyticsSent {
                     
@@ -1103,11 +1102,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     let listName = self.listName!
                     let subCategory = ""
                     let subSubCategory = ""
-                    BaseController.sendAnalyticsTagImpressions(self.products! as! [[String : Any]], positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
+                    BaseController.sendAnalyticsTagImpressionsFor(self.products! as! [Product], positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                     self.analyticsSent = true
                 }
                 
-                self.titleLabel?.text = result["name"] as? String
+                self.titleLabel?.text = result!.name
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {

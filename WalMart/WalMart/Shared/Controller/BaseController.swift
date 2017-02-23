@@ -313,6 +313,51 @@ extension BaseController {
         
     }
     
+    
+    class func sendAnalyticsTagImpressionsFor(_ productList:[Product], positionArray:[Int], listName: String, mainCategory: String, subCategory: String, subSubCategory: String) {
+        
+        let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
+        dataLayer.push(["ecommerce": NSNull()])
+        var impressions: [[String : String]] = []
+        var index = 0
+        
+        for product in productList {
+            
+            index += 1
+            
+            let name = product.desc
+            let id = product.upc
+            let price = product.price
+            
+            var category = mainCategory
+            
+            let brand = ""
+            var variant = "pieza"
+            
+            if let type = product.type as? Int {
+                if type == 1 {
+                    variant = "gramos"
+                }
+            }
+            
+            let list = listName
+            let position = "\(positionArray[index - 1])"
+            let dimensions21 = "" // sku bundle
+            let dimensions22 = subCategory // sub categoría del producto
+            let dimensions23 = subSubCategory // sub sub categoría del producto
+            let dimensions24 = "" // big item o no big item
+            let dimensions25 = "" // super, exclusivo o compartido
+            
+            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
+            impressions.append(impression)
+        }
+        
+        let data = [ "ecommerce": ["currencyCode": "MXN", "impressions": impressions], "event": "ecommerce"] as [String : Any]
+        dataLayer.push(data)
+        dataLayer.push(["ecommerce": NSNull()])
+        
+    }
+    
     class func sendAnalyticsAddOrRemovetoCart(_ items:[Any],isAdd:Bool) {
         let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer
         dataLayer.push(["ecommerce": NSNull()])

@@ -43,17 +43,10 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     func loadDefaultLists() {
        
         self.showLoadingView()
-       
-        let svcDefaulLists = DefaultListService()
-        svcDefaulLists.callService({ (result:[String:Any]) -> Void in
-                self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
-                self.tableView?.reloadData()
-                self.removeLoadingView()
-            }, errorBlock: { (error:NSError) -> Void in
-                self.itemsLists = []
-                self.removeLoadingView()
-        })
-        
+        let defaultListService = DefaultListService()
+        self.itemsLists = defaultListService.getDefaultContent()
+        self.tableView?.reloadData()
+        self.removeLoadingView()
     }
     
     
