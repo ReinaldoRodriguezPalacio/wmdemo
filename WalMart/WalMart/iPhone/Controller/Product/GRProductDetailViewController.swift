@@ -554,7 +554,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     func listSelectorDidAddProduct(inList listId:String,included: Bool ) {
-        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
+        
+        let frameDetail = CGRect(x: self.view.frame.width, y: 0.0, width: self.view.frame.width, height: 360.0)
         
         if self.isPesable ||  included {
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
