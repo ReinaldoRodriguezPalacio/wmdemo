@@ -31,10 +31,8 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 class IPAShoppingCartViewController : ShoppingCartViewController {
     
-
     var imagePromotion : UIImageView!
     var totalsView : IPAShoppingCartTotalView!
     var beforeLeave : IPAShoppingCartBeforeToLeave!
@@ -75,7 +73,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.updateTotalItemsRow()
         
     }
- 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -84,7 +81,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.updateTotalItemsRow()
     }
     
-
     override func viewDidAppear(_ animated: Bool) {
          NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
         updateTotalItemsRow()
@@ -159,7 +155,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     
     }
 
-    
     override func updateTotalItemsRow() {
         let totalsItems = totalItems()
         let subTotalText = totalsItems["subtotal"] as String!
@@ -233,21 +228,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         return itemsInShoppingCart.count
     }
-    
-    func openShoppingCart(){
-        if self.viewContent != nil {
-            let originalY : CGFloat = self.navigationController!.view.frame.minY
-            self.navigationController!.view.frame = CGRect(x: self.navigationController!.view.frame.minX,y: -self.navigationController!.view.frame.height , width: self.navigationController!.view.frame.width,  height: self.navigationController!.view.frame.height)
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.navigationController!.view.frame = CGRect(x: self.navigationController!.view.frame.minX,y: originalY , width: self.navigationController!.view.frame.width,  height: self.navigationController!.view.frame.height)
-                }, completion: { (completed:Bool) -> Void in
-            }) 
-            loadShoppingCartService()
-            self.updateTotalItemsRow()
-        }
-    }
-    
-    override func deleteRowAtIndexPath(_ indexPath : IndexPath){
+ 
+    override func deleteRowAtIndexPath(_ indexPath : IndexPath) {
         let itemWishlist = itemsInShoppingCart[indexPath.row] 
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
@@ -270,7 +252,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         })
     }
     
-
     override func showloginshop() {
         self.canceledAction = false
         self.buttonShop.isEnabled = false
@@ -311,7 +292,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 if let shippingAddress = resultCall["shippingAddresses"] as? [Any]
                 {
                     if shippingAddress.count > 0 {
-                        if(cont!.password?.text == nil || cont!.password?.text == "" ){
+                        if(cont!.password?.text == nil || cont!.password?.text == "" ) {
                             self.showloginshop()
                             cont!.closeAlert(true, messageSucesss: true)
                             return
@@ -346,7 +327,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
     }
 
-   override func loadCrossSell() {
+    override func loadCrossSell() {
         if self.itemsInShoppingCart.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
@@ -391,7 +372,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
     }
     
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
             let controller = IPAProductDetailPageViewController()
@@ -418,14 +398,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         return upcItems
     }
     
-    func serviceUrl(_ serviceName:String) -> String {
-        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
-        let services = Bundle.main.object(forInfoDictionaryKey: "WMURLServices") as! [String:Any]
-        let environmentServices = services[environment] as! [String:Any]
-        let serviceURL =  environmentServices[serviceName] as! String
-        return serviceURL
-    }
-    
     override func userShouldChangeQuantity(_ cell:ProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
             let frameDetail = CGRect(x: 0, y: 0, width: 320, height: 568)
@@ -440,17 +412,17 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
                     
-                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_cart"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
                     alertView!.setMessage(NSLocalizedString("shoppingcart.additem", comment:""))
                     
                     let updateService = ShoppingCartUpdateProductsService()
                     updateService.isInCart = true
                     updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:[String:Any]) -> Void in
-                        delay(0.3, completion: {
+                        delay(0.5, completion: {
                             alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))
                             alertView!.showDoneIcon()
                         })
-                        print("done")
+                        
                     },errorBlock: nil)
                     self.reloadShoppingCart()
                     self.popup!.dismiss(animated: false)
@@ -475,13 +447,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
     }
 
-    
-    //On Close
     override func closeShoppingCart() {
         onClose?(false)
         let _ = self.navigationController?.popViewController(animated: true)
     }
-    
     
     override func deleteAll() {
         let serviceSCDelete = ShoppingCartDeleteProductsService()
@@ -522,8 +491,29 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         return IPACheckOutViewController()
     }
    
-   //alerta
-    override func associateDiscount (_ message: String ){
+    override func associateDiscount (_ message: String ) {
         super.associateDiscount(message)
         self.imageView?.frame = CGRect(x: (self.view.frame.width/2) + 178, y: viewFooter.frame.minY - 28, width: self.viewFooter.frame.minY - 100, height: 38)  }
+    
+    func openShoppingCart() {
+        if self.viewContent != nil {
+            let originalY : CGFloat = self.navigationController!.view.frame.minY
+            self.navigationController!.view.frame = CGRect(x: self.navigationController!.view.frame.minX,y: -self.navigationController!.view.frame.height , width: self.navigationController!.view.frame.width,  height: self.navigationController!.view.frame.height)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.navigationController!.view.frame = CGRect(x: self.navigationController!.view.frame.minX,y: originalY , width: self.navigationController!.view.frame.width,  height: self.navigationController!.view.frame.height)
+            }, completion: { (completed:Bool) -> Void in
+            })
+            loadShoppingCartService()
+            self.updateTotalItemsRow()
+        }
+    }
+    
+    func serviceUrl(_ serviceName: String) -> String {
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
+        let services = Bundle.main.object(forInfoDictionaryKey: "WMURLServices") as! [String:Any]
+        let environmentServices = services[environment] as! [String:Any]
+        let serviceURL =  environmentServices[serviceName] as! String
+        return serviceURL
+    }
+    
 }
