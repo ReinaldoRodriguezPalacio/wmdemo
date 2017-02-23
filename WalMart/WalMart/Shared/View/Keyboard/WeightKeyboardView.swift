@@ -38,8 +38,9 @@ class WeightKeyboardView : UIView {
         
         let imageNotSelected = generateCircleImage(normal, size: CGSize(width: widthButton, height: widthButton))
         let imageSelected = generateCircleImage(selected, size:CGSize(width: widthButton, height: widthButton))
+        let yPosition = frame.height > 400 ? (frame.height - 183) / 3 : 0
         
-        btngramos = UIButton(frame: CGRect(x: 1, y: 1, width: widthButton, height: widthButton))
+        btngramos = UIButton(frame: CGRect(x: 1, y: yPosition, width: widthButton, height: widthButton))
         btngramos.setTitle(strTitles[0], for: UIControlState())
         btngramos.setImage(imageNotSelected, for: UIControlState())
         btngramos.setImage(imageSelected, for: UIControlState.selected)
@@ -55,7 +56,7 @@ class WeightKeyboardView : UIView {
         let insetTitle : CGFloat = btngramos.frame.width * -1
         btngramos.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitle , 0.0, 0.0);
         
-        btncuarto = UIButton(frame: CGRect(x: btngramos.frame.maxX + separatorR, y: 1, width: widthButton, height: widthButton))
+        btncuarto = UIButton(frame: CGRect(x: btngramos.frame.maxX + separatorR, y: yPosition, width: widthButton, height: widthButton))
         btncuarto.setTitle(strTitles[1], for: UIControlState())
         btncuarto.setImage(imageNotSelected, for: UIControlState())
         btncuarto.setImage(imageSelected, for: UIControlState.selected)
@@ -70,7 +71,7 @@ class WeightKeyboardView : UIView {
         let insetTitleC : CGFloat = btncuarto.frame.width * -1
         btncuarto.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitleC , 0.0, 0.0);
         
-        btmediokilo = UIButton(frame: CGRect(x: btncuarto.frame.maxX + separatorR, y: 1, width: widthButton, height: widthButton))
+        btmediokilo = UIButton(frame: CGRect(x: btncuarto.frame.maxX + separatorR, y: yPosition, width: widthButton, height: widthButton))
         btmediokilo.setTitle(strTitles[2], for: UIControlState())
         btmediokilo.setImage(imageNotSelected, for: UIControlState())
         btmediokilo.setImage(imageSelected, for: UIControlState.selected)
@@ -86,7 +87,7 @@ class WeightKeyboardView : UIView {
         let insetTitleM : CGFloat = btmediokilo.frame.width * -1
         btmediokilo.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitleM , 0.0, 0.0);
         
-        bttrescuartos = UIButton(frame: CGRect(x: 49, y: btngramos.frame.maxY+10, width: widthButton, height: widthButton))
+        bttrescuartos = UIButton(frame: CGRect(x: 49, y: btngramos.frame.maxY + 10, width: widthButton, height: widthButton))
         bttrescuartos.setTitle(strTitles[3], for: UIControlState())
         bttrescuartos.setImage(imageNotSelected, for: UIControlState())
         bttrescuartos.setImage(imageSelected, for: UIControlState.selected)

@@ -11,22 +11,20 @@ import Foundation
 
 class ShoppingCartTotalsTableViewCell : UITableViewCell {
     
-    var subtotalTitle : UILabel!
+    let labelSize: CGFloat = 14
+    
+    var subtotalTitle: UILabel!
     var iva : UILabel!
     var total : UILabel!
-    var totalSavingTitle : UILabel!
-    
-    var valueSubtotal : CurrencyCustomLabel!
-    var valueIva : CurrencyCustomLabel!
-    var valueTotal : CurrencyCustomLabel!
-    var valueTotalSaving : CurrencyCustomLabel!
-    
-    
+    var totalSavingTitle: UILabel!
+    var valueSubtotal: CurrencyCustomLabel!
+    var valueIva: CurrencyCustomLabel!
+    var valueTotal: CurrencyCustomLabel!
+    var valueTotalSaving: CurrencyCustomLabel!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
-        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -34,98 +32,108 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         setup()
     }
     
+    override func layoutSubviews() {
+        
+        let titleWidth: CGFloat = 101
+        let valueWidth: CGFloat = 50
+        let xPosition: CGFloat = frame.width - titleWidth - valueWidth - 28
+        let labelHeight: CGFloat = 14
+        
+        subtotalTitle.frame = CGRect(x: xPosition, y: 18, width: titleWidth, height: labelHeight)
+        iva.frame = CGRect(x: xPosition, y: subtotalTitle.frame.maxY + 6, width: titleWidth, height: labelHeight)
+        total.frame = CGRect(x: xPosition, y: iva.frame.maxY + 20, width: titleWidth, height: labelHeight)
+        totalSavingTitle.frame = CGRect(x: xPosition, y: iva.frame.maxY + 3, width: titleWidth, height: labelHeight)
+        
+        valueSubtotal.frame = CGRect(x: subtotalTitle.frame.maxX + 12, y: subtotalTitle.frame.minY, width: valueWidth, height: labelHeight)
+        valueIva.frame = CGRect(x: iva.frame.maxX + 12, y: iva.frame.minY, width: valueWidth, height: labelHeight)
+        valueTotal.frame = CGRect(x: total.frame.maxX + 12, y: total.frame.minY, width: valueWidth, height: labelHeight)
+        valueTotalSaving.frame = CGRect(x: iva.frame.maxX + 12, y: totalSavingTitle.frame.minY, width: valueWidth, height: labelHeight)
+        
+    }
+    
     func setup() {
         self.selectionStyle = .none
         backgroundColor = WMColor.light_light_gray
         
-
-        
         subtotalTitle = UILabel()
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
         subtotalTitle.textColor = WMColor.gray
-        subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(labelSize)
         subtotalTitle.textAlignment = .right
-        subtotalTitle.frame = CGRect(x: 146, y: 18, width: 101, height: 12)
         
         iva = UILabel()
         iva.text = NSLocalizedString("shoppingcart.iva",comment:"")
         iva.textColor = WMColor.gray
-        iva.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        iva.font = WMFont.fontMyriadProSemiboldOfSize(labelSize)
         iva.textAlignment = .right
-        iva.frame = CGRect(x: 146, y: subtotalTitle.frame.maxY + 6, width: 101, height: 12)
         
         total = UILabel()
         total.text = NSLocalizedString("shoppingcart.total",comment:"")
         total.textColor = WMColor.gray
-        total.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        total.font = WMFont.fontMyriadProSemiboldOfSize(labelSize)
         total.textAlignment = .right
-        total.frame = CGRect(x: 146, y: iva.frame.maxY + 20, width: 101, height: 12)
         
         totalSavingTitle = UILabel()
         totalSavingTitle.text = NSLocalizedString("shoppingcart.saving",comment:"")
-        totalSavingTitle.textColor =  WMColor.green
-        totalSavingTitle.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        totalSavingTitle.textColor = WMColor.green
+        totalSavingTitle.font = WMFont.fontMyriadProSemiboldOfSize(labelSize)
         totalSavingTitle.textAlignment = .right
-        totalSavingTitle.frame = CGRect(x: 146, y: iva.frame.maxY + 3, width: 101, height: 12)
         
-        valueSubtotal = CurrencyCustomLabel(frame: CGRect(x: subtotalTitle.frame.maxX + 8, y: subtotalTitle.frame.minY, width: 50, height: 12))
+        valueSubtotal = CurrencyCustomLabel()
+        valueIva = CurrencyCustomLabel()
+        valueTotal = CurrencyCustomLabel()
+        valueTotalSaving = CurrencyCustomLabel()
+        
         valueSubtotal.textAlignment = .right
-        valueIva = CurrencyCustomLabel(frame: CGRect(x: iva.frame.maxX + 8, y: iva.frame.minY, width: 50, height: 12))
         valueIva.textAlignment = .right
-        valueTotal = CurrencyCustomLabel(frame: CGRect(x: total.frame.maxX + 8, y: total.frame.minY, width: 50, height: 12))
         valueTotal.textAlignment = .right
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRect(x: iva.frame.maxX + 8, y: totalSavingTitle.frame.minY, width: 50, height: 12))
         valueTotalSaving.textAlignment = .right
-
         
         self.addSubview(subtotalTitle)
         self.addSubview(iva)
         self.addSubview(total)
         self.addSubview(totalSavingTitle)
-        
-        
         self.addSubview(valueSubtotal)
         self.addSubview(valueIva)
         self.addSubview(valueTotal)
         self.addSubview(valueTotalSaving)
         
-        
     }
     
-    func setValues(_ subtotal: String,iva: String,total: String,totalSaving:String){
+    func setValues(_ subtotal: String, iva: String, total: String, totalSaving: String) {
         
         if iva != "" {
             let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
             let formatedIVA = CurrencyCustomLabel.formatString(iva as NSString)
-            valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
-            valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
+            valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(labelSize), color: WMColor.gray, interLine: false)
+            valueIva.updateMount(formatedIVA, font: WMFont.fontMyriadProRegularOfSize(labelSize), color: WMColor.gray, interLine: false)
             self.valueSubtotal.isHidden = false
             self.valueIva.isHidden = false
             self.subtotalTitle.isHidden = false
             self.iva.isHidden = false
             
-        }else{
+        } else {
             self.valueSubtotal.isHidden = true
             self.valueIva.isHidden = true
             self.subtotalTitle.isHidden = true
             self.iva.isHidden = true
         }
+       
         let formatedTotal = CurrencyCustomLabel.formatString(total as NSString)
-        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
+        valueTotal.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(labelSize), color: WMColor.gray, interLine: false)
         
         let totSaving = totalSaving as NSString
+        
         if totSaving.doubleValue > 0 {
             let formatedTotalSaving = CurrencyCustomLabel.formatString(totalSaving as NSString)
-            valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(12), color:  WMColor.green, interLine: false)
+            valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(labelSize), color:  WMColor.green, interLine: false)
             
             totalSavingTitle.isHidden = false
             valueTotalSaving.isHidden = false
-        }else{
+        } else {
             totalSavingTitle.isHidden = true
             valueTotalSaving.isHidden = true
         }
-        
-        
         
     }
     
