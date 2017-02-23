@@ -38,7 +38,7 @@ class WeightKeyboardView : UIView {
         
         let imageNotSelected = generateCircleImage(normal, size: CGSize(width: widthButton, height: widthButton))
         let imageSelected = generateCircleImage(selected, size:CGSize(width: widthButton, height: widthButton))
-        let yPosition = frame.height > 400 ? (frame.height - 183) / 3 : 0
+        let yPosition = frame.height > 400 ? (frame.height - 183) / 3 : 20
         
         btngramos = UIButton(frame: CGRect(x: 1, y: yPosition, width: widthButton, height: widthButton))
         btngramos.setTitle(strTitles[0], for: UIControlState())

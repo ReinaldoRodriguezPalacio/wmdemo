@@ -8,24 +8,24 @@
 
 import Foundation
 
-class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
+class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
     
     let ZERO_QUANTITY_STRING = "00"
     
-    var lblQuantity : UILabel!
-    var imageBlurView : UIVisualEffectView!
-    var first : Bool = true
-    var addToCartAction : ((String) -> Void)!
-    var closeAction : (() -> Void)!
-    var priceProduct : NSNumber!
-    var upcProduct : String!
-    var btnOkAdd : UIButton!
-    var keyboardView : NumericKeyboardView!
-    var isUpcInShoppingCart : Bool = false
-    var startY : CGFloat! = 0
+    var lblQuantity: UILabel!
+    var imageBlurView: UIVisualEffectView!
+    var first: Bool = true
+    var addToCartAction: ((String) -> Void)!
+    var closeAction: (() -> Void)!
+    var priceProduct: NSNumber!
+    var upcProduct: String!
+    var btnOkAdd: UIButton!
+    var keyboardView: NumericKeyboardView!
+    var isUpcInShoppingCart: Bool = false
+    var startY: CGFloat! = 0
+    var isFullView = false
     
-    
-    init(frame: CGRect, priceProduct : NSNumber!,upcProduct:String,startY: CGFloat = 0 ) {
+    init(frame: CGRect, priceProduct: NSNumber!,upcProduct:String,startY: CGFloat = 0 ) {
         super.init(frame: frame)
         self.priceProduct = priceProduct
         self.upcProduct = upcProduct
@@ -41,9 +41,10 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 
     func setup() {
         
-        let startH : CGFloat = startY //(self.bounds.height - 360) / 2
+        let startH: CGFloat = startY //(self.bounds.height - 360) / 2
         self.backgroundColor = UIColor.clear
         
+        isFullView = (frame.height > 600)
         
         let blurEffect = UIBlurEffect(style: .light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -54,9 +55,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         let bgView = UIView(frame:CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
         bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
-        
-        
-        
         
         let lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 17, width: 230, height: 14))
         lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
@@ -74,19 +72,14 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         lblQuantity.text = "01"
         lblQuantity.textAlignment = NSTextAlignment.center
         
-     
-        var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 44
-        closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
-        let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
+        var closePossitionY: CGFloat = IS_IPAD ? startH - 3:  startH - 44
+        closePossitionY = closePossitionY <= 0 ? 0: closePossitionY
+        let closeButton = UIButton(frame: CGRect(x: 4, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
-        self.keyboardView = NumericKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (160/2), y: lblQuantity.frame.maxY + 10, width: 160, height: 196))
-        //289
-        self.keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
-        self.keyboardView.delegate = self
-        
-        btnOkAdd = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: self.keyboardView.frame.maxY + 15 , width: 142, height: 36))
+        let botomMargin: CGFloat = isFullView ? 110 : 140
+        btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: frame.height - botomMargin, width: 142, height: 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
         let strPrice = CurrencyCustomLabel.formatString(priceProduct.stringValue as NSString)
@@ -96,33 +89,38 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
+        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
+        self.keyboardView = NumericKeyboardView(frame: CGRect(x: margin, y: lblQuantity.frame.maxY + 10, width: frame.width - (margin * 2), height: btnOkAdd.frame.minY - 12), typeKeyboard: NumericKeyboardViewType.Integer)
+        keyboardView.widthButton = isFullView ? 70 : 40
+        self.keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
+        self.keyboardView.delegate = self
+        
         var rectSize = CGRect.zero
         
         if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(self.upcProduct) {
             btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName: WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
             isUpcInShoppingCart = true
             
             
         } else {
             btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName: WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
             isUpcInShoppingCart = false
         }
         
         
-        btnOkAdd.frame =  CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2), y: self.keyboardView.frame.maxY + 15 , width: rectSize.width + 32, height: 36)
-        
+        btnOkAdd.frame = CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2), y: frame.height - botomMargin, width: rectSize.width + 32, height: 36)
         
         self.addSubview(bgView)
         self.addSubview(lblTitle)
         self.addSubview(lblQuantity)
+        self.addSubview(keyboardView)
         self.addSubview(btnOkAdd)
         self.addSubview(closeButton)
-        self.addSubview(self.keyboardView)
-        
+
         if isUpcInShoppingCart {
             let btnDelete = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
             btnDelete.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
@@ -142,13 +140,13 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func chngequantity(_ sender:Any) {
         
         if let btnSender = sender as? UIButton {
-            var resultText : String = ""
+            var resultText: String = ""
             resultText = lblQuantity.text! + btnSender.titleLabel!.text!
             resultText = (resultText as NSString).substring(from: 1)
             if (resultText as NSString).integerValue > 0 && (resultText as NSString).integerValue <= 10 {
                 lblQuantity.text = resultText as String
             }else {
-                let tmpResult : String = "0" + btnSender.titleLabel!.text!
+                let tmpResult: String = "0" + btnSender.titleLabel!.text!
                 if (tmpResult as NSString).integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }
@@ -190,10 +188,10 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func userSelectValue(_ value:String!) {
         
-        var resultText : NSString = ""
+        var resultText: NSString = ""
         if first {
-            var tmpResult : String = value as String
-            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value!)" : value!
+            var tmpResult: String = value as String
+            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value!)": value!
             if tmpResult != ZERO_QUANTITY_STRING{
                 lblQuantity.text = tmpResult as String
                 first = false
@@ -204,7 +202,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             if resultText.integerValue > 0 && resultText.integerValue <= 99 {
                 lblQuantity.text = resultText as String
             }else {
-                let tmpResult : NSString = "0\(value!)" as NSString
+                let tmpResult: NSString = "0\(value!)" as NSString
                 if tmpResult.integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }
@@ -223,7 +221,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 
     func userSelectDelete() {
         
-        let resultText : String = "0" + lblQuantity.text!
+        let resultText: String = "0" + lblQuantity.text!
         lblQuantity.text = (resultText as NSString).substring(to: 2)
         
         if lblQuantity.text == "01" {
@@ -244,12 +242,12 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         var rectSize = CGRect.zero
         if isUpcInShoppingCart {
             btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName: WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
             
         } else {
             btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName: WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         }
         

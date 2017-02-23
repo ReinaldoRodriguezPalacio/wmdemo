@@ -40,7 +40,6 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
     var startY:CGFloat = 0
     var isFullView = false
-    var isSearchProductView = false
     
     init(frame: CGRect,equivalenceByPiece:NSNumber) {
         super.init(frame: frame)
@@ -77,7 +76,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         self.backgroundColor = UIColor.clear
         
-        isFullView = (frame.height > 400)
+        isFullView = (frame.height > 600)
         
         backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: self.bounds.height))
         backgroundView!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
@@ -97,12 +96,12 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         var closePossitionY: CGFloat = IS_IPAD ? startH - 3 : startH - 26
         closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
         
-        let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
+        let closeButton = UIButton(frame: CGRect(x: 4, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        let botomMargin: CGFloat = isFullView ? 110 : 50
+        let botomMargin: CGFloat = isFullView ? 110 : 140
         btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: frame.height - botomMargin, width: 142, height: 36))
         btnOkAdd.setTitle("\(strAdddToSC) $0.00", for: UIControlState())
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
