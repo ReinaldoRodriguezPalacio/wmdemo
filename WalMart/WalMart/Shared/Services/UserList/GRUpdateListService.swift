@@ -11,12 +11,6 @@ import CoreData
 
 class GRUpdateListService: GRBaseService {
     
-    lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        return context
-    }()
-    
     func buildParams(_ name:String) -> [Any] {
         //{"newName":"PentonVillet30Mayo2014_Update"}
         //return ["newName":name]
@@ -51,15 +45,7 @@ class GRUpdateListService: GRBaseService {
             list?.setValue(listName, forKey: "name")
         }
         var error: NSError? = nil
-        do {
-            try self.managedContext!.save()
-        } catch let error1 as NSError {
-            error = error1
-        }
-        if error != nil {
-            print("error at delete details: \(error!.localizedDescription)")
-        }
-
+        self.saveContext()
     }
 
 }

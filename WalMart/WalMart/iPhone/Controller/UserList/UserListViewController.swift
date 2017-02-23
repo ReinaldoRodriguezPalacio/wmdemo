@@ -1691,10 +1691,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func saveContext() {
-        do {
-            try self.managedContext!.save()
-        } catch {
-            print("error at save context on UserListViewController")
+        if self.managedContext!.hasChanges {
+            do {
+                try self.managedContext!.save()
+            } catch {
+                print("error at save context on UserListViewController")
+            }
         }
     }
     
