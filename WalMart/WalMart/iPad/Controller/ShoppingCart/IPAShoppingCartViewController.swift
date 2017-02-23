@@ -217,8 +217,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.viewShoppingCart.delegate = self
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
-       
-        self.removeLoadingView()
         
     }
     

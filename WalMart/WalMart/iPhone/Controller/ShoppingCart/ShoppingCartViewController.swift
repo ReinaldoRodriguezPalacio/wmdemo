@@ -216,6 +216,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             
             UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
                 self.loadShoppingCartService()
+                self.removeLoadingView()
             }
             
         } else {
@@ -241,7 +242,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         super.viewDidLayoutSubviews()
        
         self.viewContent.frame = self.view.bounds
-        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 72)
+        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 75)
 
         if !self.isEdditing {
         self.titleView.frame = CGRect(x: (self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHerader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHerader.bounds.height)
@@ -365,8 +366,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
         
-        self.removeLoadingView()
-
     }
     
     /**
@@ -1434,6 +1433,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      Call delete itmes in sopping car,
      */
     func deleteAll() {
+        
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs: [String] = []
         
