@@ -286,52 +286,37 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      */
     func reloadList(success:(()->Void)?, failure:((_ error:NSError)->Void)?){
         if let _ = UserCurrentSession.sharedInstance.userSigned {
-            let userListsService = GRUserListService()
-            userListsService.callService([:],
-                successBlock: { (result:[String:Any]) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [Any]
-                    
-                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
-                        
-                        let dicFirst = first as! [String:Any]
-                        let dicSecond = second as! [String:Any]
-                        let stringFirst  =  dicFirst["name"] as! String
-                        let stringSecond  =  dicSecond["name"] as! String
-                        
-                        return stringFirst < stringSecond
-                        
-                    })
-                    
-                    self.tableuserlist?.reloadData()
-                    self.checkEditBtn()
-                    if !self.newListEnabled && !self.isEditingUserList {
-                        self.showSearchField({ () -> Void in
-                            }, atFinished: { () -> Void in
-                            }, animated:false)
-                    }
-                    
-                    if !self.isEditingUserList {
-                        self.changeFrameEditBtn(true, side: "left")
-                        if self.itemsUserList!.count == 0{
-                            self.changeVisibilityBtn(self.editBtn!, visibility: 0)
-                        }
-                        else{
-                            self.changeVisibilityBtn(self.editBtn!, visibility: 1)
-                        }
-                    }
-                    self.checkEditBtn()
-                    success?()
-                    return
-                },
-                errorBlock: { (error:NSError) -> Void in
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveUserList()
+            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
+                let firstString = first as! List
+                let secondString = second as! List
+                return firstString.name < secondString.name
+                
+            })
+            
+            self.tableuserlist?.reloadData()
+            self.checkEditBtn()
+            if !self.newListEnabled && !self.isEditingUserList {
+                self.showSearchField({ () -> Void in
+                    }, atFinished: { () -> Void in
+                    }, animated:false)
+            }
+            
+            if !self.isEditingUserList {
+                self.changeFrameEditBtn(true, side: "left")
+                if self.itemsUserList!.count == 0{
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
-                    self.changeFrameEditBtn(true, side: "left")
-                    failure?(error)
-                    return
                 }
-            )
-        }
-        else {
+                else{
+                    self.changeVisibilityBtn(self.editBtn!, visibility: 1)
+                }
+            }
+            self.checkEditBtn()
+            success?()
+            return
+            
+        }else {
             self.isShowingWishList = !self.isEditingUserList
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
@@ -374,27 +359,17 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      */
     func reloadWithoutTableReload(success:(()->Void)?, failure:((_ error:NSError)->Void)?){
         if let _ = UserCurrentSession.sharedInstance.userSigned {
-            let userListsService = GRUserListService()
-            userListsService.callService([:],
-                successBlock: { (result:[String:Any]) -> Void in
-                    self.isShowingWishList = !self.isEditingUserList
-                    self.isShowingSuperlists = !self.isEditingUserList
-                    self.itemsUserList = result["responseArray"] as? [Any]
-                    if !self.newListEnabled && !self.isEditingUserList {
-                        self.showSearchField({ () -> Void in
-                            }, atFinished: { () -> Void in
-                            }, animated:false)
-                    }
-                    //self.editBtn!.hidden = (self.itemsUserList == nil || self.itemsUserList!.count == 0)
-                    success?()
-                    return
-                },
-                errorBlock: { (error:NSError) -> Void in
-                    //                    self.editBtn!.hidden = true
-                    failure?(error)
-                    return
-                }
-            )
+            self.isShowingWishList = !self.isEditingUserList
+            self.isShowingSuperlists = !self.isEditingUserList
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveNotSyncList()
+            if !self.newListEnabled && !self.isEditingUserList {
+                self.showSearchField({ () -> Void in
+                }, atFinished: { () -> Void in
+                }, animated:false)
+            }
+            //self.editBtn!.hidden = (self.itemsUserList == nil || self.itemsUserList!.count == 0)
+            success?()
         }
         else {
             self.isShowingWishList = !self.isEditingUserList

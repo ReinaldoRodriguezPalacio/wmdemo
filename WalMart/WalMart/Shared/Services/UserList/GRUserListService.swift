@@ -273,6 +273,14 @@ class GRUserListService : GRBaseService {
                                 else if let price = item["price"] as? String {
                                     detail!.price = price as NSString
                                 }
+                                
+                                if let price = item["price"] as? NSNumber {
+                                    detail!.baseprice = "\(price)" as String
+                                }
+                                else if let price = item["price"] as? String {
+                                    detail!.baseprice = price
+                                }
+                                
                                 if let quantity = item["quantity"] as? NSNumber {
                                     detail!.quantity = quantity
                                 }
