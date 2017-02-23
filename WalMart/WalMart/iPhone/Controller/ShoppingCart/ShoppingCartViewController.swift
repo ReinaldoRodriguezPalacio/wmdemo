@@ -539,8 +539,8 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             }
             
             cell = cellProduct
-        }
-        else {
+        } else {
+            
             if itemsInShoppingCart.count == indexPath.row  {
                 let cellTotals = viewShoppingCart.dequeueReusableCell(withIdentifier: "productTotalsCell", for: indexPath) as! ShoppingCartTotalsTableViewCell
                 
@@ -563,6 +563,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                 cellTotals.setValues(subTotalText!, iva: iva!, total:newTotal!,totalSaving:newTotalSavings!)
                 cell = cellTotals
             }
+            
             if itemsInShoppingCart.count < indexPath.row  {
                 
                 let cellPromotion = viewShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
