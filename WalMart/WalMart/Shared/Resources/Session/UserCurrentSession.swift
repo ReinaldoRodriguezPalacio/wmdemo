@@ -149,7 +149,7 @@ class UserCurrentSession : NSObject {
     }
     
   
-    func createUpdateUser(_ userDictionaryMG:[String:Any], userDictionaryGR:[String:Any],fullLogin:Bool) {
+    func createUpdateUser(_ userDictionaryMG:[String:Any], userDictionaryGR:[String:Any]) {
         
         let resultProfileJSONMG = userDictionaryMG["profile"] as! [String:Any]
         var resultProfileJSONGR : [String:Any]? = nil
@@ -275,14 +275,10 @@ class UserCurrentSession : NSObject {
             UserCurrentSession.sharedInstance.phoneNumber = homeNumber
         }
 
-        if fullLogin {
-            self.loadShoppingCarts { () -> Void in
-                self.invokeGroceriesUserListService()
-            }
-        }else{
-            
-            print(" UserCurrentSession:CreateUpdateUser::: Solo login")
+        self.loadShoppingCarts { () -> Void in
+          self.invokeGroceriesUserListService()
         }
+        
     }
     
     func deleteAllUsers() {

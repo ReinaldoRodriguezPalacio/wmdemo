@@ -46,6 +46,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var backAction : (() -> Void)!
     var keyboardN : NumericKeyboardView!
     var currentValKg : String? = nil
+    var isSearchProductView = false
     
     init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0, isSearchProductView: Bool) {
         super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
@@ -79,7 +80,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     override func setup() {
         
-        isFullView = (frame.height > 400)
+        isFullView = (frame.height > 600)
         
         containerView = UIView(frame: CGRect(x: self.bounds.minX, y: self.bounds.minY, width: self.bounds.width * 2, height: self.bounds.height))
         containerWeightView = UIView(frame: self.bounds)
@@ -140,11 +141,11 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
         closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
-        let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
+        let closeButton = UIButton(frame: CGRect(x: 4, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
-        let botomMargin: CGFloat = isFullView ? 110 : 50
+        let botomMargin: CGFloat = isFullView ? 110 : 140
         btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: frame.height - botomMargin, width: 142, height: 36))
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0

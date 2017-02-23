@@ -238,7 +238,7 @@ class BaseService : NSObject {
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
+                        loginService.callWithEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance.userSigned = nil
@@ -329,7 +329,7 @@ class BaseService : NSObject {
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
+                        loginService.callWithEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance.userSigned = nil
@@ -570,7 +570,7 @@ class BaseService : NSObject {
                             let loginService = LoginWithEmailService()
                             loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                             let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-                            loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
+                            loginService.callWithEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance.userSigned = nil

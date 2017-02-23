@@ -38,7 +38,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var viewAnimated : Bool = false
     var bgView : UIView!
     var addressViewController : AddressViewController!
-    //var loginFacebookButton: UIButton!
 	var isMGLogin =  false
     var fbLoginMannager: FBSDKLoginManager!
     var isOnlyLogin =  true
@@ -155,17 +154,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.addSubview(self.viewCenter!)
         self.view.addSubview(self.close!)
         
-        /*self.loginFacebookButton = UIButton(type: .Custom)
-        self.loginFacebookButton.layer.cornerRadius =  20.0
-        self.loginFacebookButton!.backgroundColor = WMColor.blue
-        self.loginFacebookButton!.addTarget(self, action: "facebookLogin", forControlEvents: .TouchUpInside)
-        self.loginFacebookButton!.setTitle("Ingresar con Facebook", forState: UIControlState.Normal)
-        self.loginFacebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        self.loginFacebookButton!.setImage(UIImage(named: "facebook_login"), forState: .Normal)
-        self.loginFacebookButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 2, 16)
-        self.loginFacebookButton!.imageView?.sizeThatFits(CGSizeMake(20.0, 20.0))
-        self.loginFacebookButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.content!.addSubview(self.loginFacebookButton)*/
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -620,117 +608,5 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
     
-    //MARK: Facebook
-    func facebookLogin(){
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-        if !self.closeAlertOnSuccess {
-            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
-        }
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
-        
-        self.alertView?.okCancelCallBack = self.okCancelCallBack
-        self.alertView!.afterRemove = {() -> Void in
-            self.alertView = nil
-        }
-        self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
-        if (FBSDKAccessToken.current()) == nil {
-            self.view.endEditing(true)
-            fbLoginMannager = FBSDKLoginManager()
-            fbLoginMannager.logIn(withReadPermissions: ["public_profile", "email", "user_friends", "user_birthday"], from: self,  handler: { (result, error) -> Void in
-                if error != nil {
-                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
-                    self.alertView!.showErrorIcon("Aceptar")
-                } else if (result?.isCancelled)! {
-                    self.alertView!.close()
-                    self.fbLoginMannager.logOut()
-                } else {
-                    if(result?.grantedPermissions.contains("email"))!
-                    {
-                        self.getFBUserData()
-                        self.fbLoginMannager.logOut()
-                    }
-                }
-            })
-        }else {
-            self.getFBUserData()
-            self.fbLoginMannager = FBSDKLoginManager()
-            self.fbLoginMannager.logOut()
-        }
-    }
-    
-    func getFBUserData(){
-        if((FBSDKAccessToken.current()) != nil){
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).start(completionHandler: { (connection, result, error) -> Void in
-                if (error == nil){
-                    print(result!)
-                    let resultDic = result as! [String:Any]
-                    self.loginWithEmail(resultDic["email"] as! String, firstName: resultDic["first_name"] as! String, lastName: resultDic["last_name"] as! String, gender: resultDic["gender"] as! String, birthDay:resultDic["birthday"] as? String  == nil ? "" : resultDic["birthday"] as! String)
-                }else{
-                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
-                    self.alertView!.showErrorIcon("Aceptar")
-                }
-            })
-        }
-    }
-    
-    func loginWithEmail(_ email:String, firstName: String, lastName: String, gender: String, birthDay: String){
-        self.email?.text = email
-        let service = LoginWithEmailService()
-        service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:[String:Any]?) in
-            
-            
-            let caroService = CarouselService()
-            let caroparams = Dictionary<String, String>()
-            caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
-                print("Call service caroService success")
-            }) { (error:NSError) -> Void in
-                print("Call service caroService error \(error)")
-            }
-            
-            self.signInButton!.isEnabled = true
-            if self.successCallBack == nil {
-                if self.controllerTo != nil  {
-                    let storyboard = self.loadStoryboardDefinition()
-                    let vc = storyboard!.instantiateViewController(withIdentifier: self.controllerTo)
-                    self.navigationController!.pushViewController(vc, animated: true)
-                }
-            }else {
-                if self.closeAlertOnSuccess {
-                    //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email, userName: email, gender: gender, idUser: idUser!, itesShop: nil,total:0,refId:"")
-                    
-                    if self.alertView != nil {
-                        self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
-                        self.alertView!.showDoneIcon()
-                    }
-                }
-                self.successCallBack?()
-            }
-            
-            }, errorBlock: {(error: NSError) in
-                self.fbLoginMannager = FBSDKLoginManager()
-                self.fbLoginMannager.logOut()
-                self.alertView!.close()
-                self.registryUser()
-                self.signUp.email?.text = email
-                self.signUp.name?.text = firstName
-                self.signUp.lastName?.text = lastName
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MM/dd/yyyy"
-            if birthDay != ""{
-                let date = dateFormatter.date(from: birthDay)
-                self.signUp.inputBirthdateView?.date = date!
-                dateFormatter.dateFormat = "d MMMM yyyy"
-                self.signUp.birthDate!.text = dateFormatter.string(from: date!)
-                self.signUp.dateVal = date
-            }
-                
-                if(gender == "male"){
-                   self.signUp.maleButton?.isSelected = true
-                }else{
-                    self.signUp.femaleButton?.isSelected = true
-                }
-            })
-    }
     
 }
