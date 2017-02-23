@@ -806,13 +806,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.listToUpdate![listId] = text
             }
             else if let listEntity = self.itemsUserList![idx] as? List {
-                let entityId = listEntity.objectID.uriRepresentation().absoluteString
+                //let entityId = listEntity.objectID.uriRepresentation().absoluteString
+                let entityId = listEntity.idList
                 
 //                if cell.textField!.text == nil || cell.textField!.text!.isEmpty {
 //                    self.listToUpdate!.removeValueForKey(entityId!)
 //                }
                 
-                self.listToUpdate![entityId] = text
+                self.listToUpdate![entityId!] = text
             }
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
@@ -1426,10 +1427,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                 return
             }
-            
-            
-            
-            
+
             self.view.endEditing(true)
             let detailService = GRUserListDetailService()
             detailService.buildParams(firstKey!)
@@ -1438,6 +1436,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     let service = GRUpdateListService()
                     service.callService(name!,
                         successBlock: { (result:[String:Any]) -> Void in
+                            service.updateListNameDB(firstKey!, listName: name!)
                             let reminderService = ReminderNotificationService()
                             reminderService.listId = firstKey!
                             reminderService.updateListName(name!)
@@ -1473,18 +1472,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         }
                     )
                 },
-                errorBlock: { (error:NSError) -> Void in
-                    self.listToUpdate!.removeValue(forKey: firstKey!)
-                    if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
-                        self.invokeUpdateListService()
-                    }
-                    else {
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                    }
-                }
-            )
-            
+                errorBlock: nil)
+
         }
     }
     

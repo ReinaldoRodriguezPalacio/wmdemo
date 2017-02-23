@@ -301,6 +301,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                 wShop = 341 - 135
             }
         }
+        wShop = wShop +  (IS_IPAD ? 0.0 : 32.0)
         if buttonShop == nil {
             buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop + 32.0, height: 34))
         }else {

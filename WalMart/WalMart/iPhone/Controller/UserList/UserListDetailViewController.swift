@@ -1358,60 +1358,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-    //TODO: Delete
-//    //MARK: - IPOBaseController scrollViewDelegate
-//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        self.addProductsView?.textFindProduct?.resignFirstResponder()
-//        
-//        if !self.enableScrollUpdateByTabBar {
-//            return
-//        }
-//        
-//        let currentOffset: CGFloat = scrollView.contentOffset.y
-//        let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
-//        let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
-//        lastContentOffset = currentOffset
-//        
-//        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
-//            TabBarHidden.isTabBarHidden = true
-//            self.isVisibleTab = false
-//            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-//                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-//                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-//
-//                //self.willHideTabbar()
-//                //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-//            }
-//        }
-//        if differenceFromStart > 0 && TabBarHidden.isTabBarHidden {
-//            TabBarHidden.isTabBarHidden = false
-//            self.isVisibleTab = true
-//            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-//                let bottom : CGFloat = self.footerSection!.frame.height + 45.0
-//                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
-//                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
-//                
-//                self.willShowTabbar()
-//                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-//            }
-//        }
-//    }
-
-    //TODO: Delete
-//    override func willShowTabbar() {
-//        self.footerConstraint!.constant = 45.0
-//        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//            self.view.layoutIfNeeded()
-//        })
-//    }
-//    
-//    override func willHideTabbar() {
-//        self.footerConstraint!.constant = 0.0
-//        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//            self.view.layoutIfNeeded()
-//        })
-//    }
-    
+        
     func reloadTableListUser(){
         
     }
@@ -1501,6 +1448,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                                 service.callService(self.nameField!.text!,
                                                                     successBlock: { (result:[String:Any]) -> Void in
                                                                         self.titleLabel?.text = self.nameField?.text
+                                                                        service.updateListNameDB(self.listId!, listName: self.nameField!.text!)
                                                                         self.reminderService!.updateListName(self.nameField!.text!)
                                                                         self.loadServiceItems({ () -> Void in
                                                                             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
