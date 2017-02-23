@@ -650,7 +650,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="t4y-XR-WcP">
-                                <rect key="frame" x="0.0" y="90" width="320" height="327"/>
+                                <rect key="frame" x="0.0" y="134" width="320" height="327"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="ceM-IS-94f" id="bsd-dY-qWp"/>
@@ -658,7 +658,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EJX-yf-xlB">
-                                <rect key="frame" x="0.0" y="345" width="320" height="72"/>
+                                <rect key="frame" x="0.0" y="389" width="320" height="72"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="72" id="Al9-xM-BSC"/>
@@ -667,14 +667,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="t4y-XR-WcP" firstAttribute="top" secondItem="Qrh-HU-L6w" secondAttribute="bottom" constant="90" id="2bI-9c-JB7"/>
-                            <constraint firstItem="EJX-yf-xlB" firstAttribute="leading" secondItem="mkY-b9-adw" secondAttribute="leading" id="A1i-vv-QAO"/>
-                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="t4y-XR-WcP" secondAttribute="bottom" constant="44" id="DdJ-hz-hVf"/>
-                            <constraint firstItem="EJX-yf-xlB" firstAttribute="leading" secondItem="mkY-b9-adw" secondAttribute="leading" id="LUg-4B-5aw"/>
-                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="EJX-yf-xlB" secondAttribute="bottom" constant="44" id="PUZ-6j-8RU"/>
-                            <constraint firstItem="EJX-yf-xlB" firstAttribute="trailing" secondItem="t4y-XR-WcP" secondAttribute="trailing" id="UGD-h9-iT6"/>
-                            <constraint firstAttribute="trailing" secondItem="EJX-yf-xlB" secondAttribute="trailing" id="kPF-uJ-qXQ"/>
-                            <constraint firstItem="EJX-yf-xlB" firstAttribute="leading" secondItem="t4y-XR-WcP" secondAttribute="leading" id="zPv-QX-VvL"/>
+                            <constraint firstItem="t4y-XR-WcP" firstAttribute="top" secondItem="Qrh-HU-L6w" secondAttribute="bottom" constant="134" id="2bI-9c-JB7"/>
+                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="t4y-XR-WcP" secondAttribute="bottom" id="DdJ-hz-hVf"/>
+                            <constraint firstItem="t4y-XR-WcP" firstAttribute="leading" secondItem="mkY-b9-adw" secondAttribute="leading" id="Ok0-EA-1VN"/>
+                            <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="EJX-yf-xlB" secondAttribute="bottom" id="Zfg-2e-yDC"/>
+                            <constraint firstItem="EJX-yf-xlB" firstAttribute="trailing" secondItem="t4y-XR-WcP" secondAttribute="trailing" id="aq3-LH-LBF"/>
+                            <constraint firstItem="EJX-yf-xlB" firstAttribute="leading" secondItem="t4y-XR-WcP" secondAttribute="leading" id="dsF-U1-COi"/>
+                            <constraint firstAttribute="trailing" secondItem="t4y-XR-WcP" secondAttribute="trailing" id="od9-vA-DlA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="u9P-sd-um3"/>

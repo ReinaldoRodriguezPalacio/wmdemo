@@ -675,9 +675,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 54))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 64))
         }else{
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height - 44 - 54))
+            let heightempty = self.view!.superview == nil ? height - self.footerSection!.frame.height - 9 : self.view.frame.height - 64
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
         }
         self.emptyView!.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView!)
@@ -1587,12 +1588,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func backEmpty() {
         super.back()
-         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
 
     override func back() {
         super.back()
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
     
     //MARK: - Reminder
