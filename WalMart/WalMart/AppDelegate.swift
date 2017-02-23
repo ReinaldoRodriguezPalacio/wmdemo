@@ -55,14 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                 
         })
         
-//        // Optional: automatically send uncaught exceptions to Google Analytics.
-//        GAI.sharedInstance().trackUncaughtExceptions = true
-//        // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-//        GAI.sharedInstance().dispatchInterval = 20
-//        // Optional: set Logger to VERBOSE for debug information.
-//        GAI.sharedInstance().logger.logLevel = .None
-//        // Initialize tracker. Replace with your tracking ID.
-//        //GAI.sharedInstance().trackerWithTrackingId(WMGAIUtils.GAI_APP_KEY.rawValue)
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
             if (error != nil) {
@@ -149,16 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         let productionClientID =  payPalEnvironment["ProductionClientID"] as! String
         PayPalMobile.initializeWithClientIds(forEnvironments: [PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         
-        
-        //Tune.framework
-        //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! [String:Any]
-        //let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
-        //let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
-        //Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
-        //Tune.setDelegate(self)
-        //Tune.setDebugMode(true)
-        //Tune.setAllowDuplicateRequests(false)
-        //CompuwareUEM.startupWithApplicationName("WalMart", serverURL:"https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
+
         NSSetUncaughtExceptionHandler { exception in
             
             let dataLayer: TAGDataLayer = TAGManager.instance().dataLayer

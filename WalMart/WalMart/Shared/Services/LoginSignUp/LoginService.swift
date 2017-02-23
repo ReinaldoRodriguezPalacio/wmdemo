@@ -25,7 +25,7 @@ class LoginService : BaseService {
 
                     let grLoginService = GRLoginService()
                     grLoginService.callService(params, successBlock: { (resultCallGR:[String:Any]) -> Void in
-                         UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR,fullLogin: true)
+                         UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
                         successBlock!(resultCall)
                         }, errorBlock: { (errorGR:NSError) -> Void in
                             errorBlock!(errorGR)
@@ -50,7 +50,7 @@ class LoginService : BaseService {
                     
                     let grLoginWithEmailService = GRLoginWithEmailService()
                     grLoginWithEmailService.callService(["email":params["email"]!], successBlock: { (resultCallGR:[String:Any]) -> Void in
-                        UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR,fullLogin: false)//Pendiente
+                        UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)//Pendiente
                         successBlock!(resultCall)
                         }, errorBlock: { (errorGR:NSError) -> Void in
                             errorBlock!(errorGR)
