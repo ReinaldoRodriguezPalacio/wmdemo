@@ -1427,10 +1427,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                 return
             }
-            
-            
-            
-            
+
             self.view.endEditing(true)
             let detailService = GRUserListDetailService()
             detailService.buildParams(firstKey!)
@@ -1439,6 +1436,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     let service = GRUpdateListService()
                     service.callService(name!,
                         successBlock: { (result:[String:Any]) -> Void in
+                            service.updateListNameDB(firstKey!, listName: name!)
                             let reminderService = ReminderNotificationService()
                             reminderService.listId = firstKey!
                             reminderService.updateListName(name!)
@@ -1474,18 +1472,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         }
                     )
                 },
-                errorBlock: { (error:NSError) -> Void in
-                    self.listToUpdate!.removeValue(forKey: firstKey!)
-                    if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
-                        self.invokeUpdateListService()
-                    }
-                    else {
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                    }
-                }
-            )
-            
+                errorBlock: nil)
+
         }
     }
     

@@ -1447,6 +1447,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                                 service.callService(self.nameField!.text!,
                                                                     successBlock: { (result:[String:Any]) -> Void in
                                                                         self.titleLabel?.text = self.nameField?.text
+                                                                        service.updateListNameDB(self.listId!, listName: self.nameField!.text!)
                                                                         self.reminderService!.updateListName(self.nameField!.text!)
                                                                         self.loadServiceItems({ () -> Void in
                                                                             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
