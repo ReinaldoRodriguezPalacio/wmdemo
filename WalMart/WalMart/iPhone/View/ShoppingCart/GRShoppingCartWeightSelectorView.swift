@@ -80,7 +80,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     override func setup() {
         
-        isFullView = (frame.height > 600)
+        isFullView = (frame.height > 600) && !IS_IPAD
         
         containerView = UIView(frame: CGRect(x: self.bounds.minX, y: self.bounds.minY, width: self.bounds.width * 2, height: self.bounds.height))
         containerWeightView = UIView(frame: self.bounds)
@@ -145,15 +145,21 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
-        let botomMargin: CGFloat = isFullView ? 110 : 140
-        btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: frame.height - botomMargin, width: 142, height: 36))
+        let adjustWeightY: CGFloat = frame.height > 380 ? 14 : 0
+        let separationWeightY: CGFloat = 12 + adjustWeightY
+        let keyboardWeightHeight: CGFloat = isFullView ? 320 : 190
+        let keyboardWeightYPosition: CGFloat = isFullView ? ((frame.height - keyboardWeightHeight) / 2.6) : lblQuantityW.frame.maxY + separationWeightY
+        
+        keyboard = WeightKeyboardView(frame: CGRect(x: (self.frame.width / 2) - (289/2), y: keyboardWeightYPosition, width: 289, height: keyboardWeightHeight))
+        keyboard.delegate = self
+        
+        let botomWeightMargin: CGFloat = isFullView ? 35 : separationWeightY
+        btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: keyboard.frame.maxY + botomWeightMargin, width: 142, height: 36))
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
         btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
-        keyboard = WeightKeyboardView(frame:CGRect(x: (self.frame.width / 2) - (289/2), y: lblQuantityW.frame.maxY + 12, width: 289, height: btnOkAdd.frame.origin.y - 12))
-        keyboard.delegate = self
 
         if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(self.upcProduct) {
             isUpcInShoppingCart = true
@@ -232,7 +238,20 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         backToW.setImage(UIImage(named:"search_back"), for: UIControlState())
         backToW.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.backToWeight), for: UIControlEvents.touchUpInside)
         
-        btnOkAddN = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: frame.height - botomMargin, width: 142, height: 36))
+        let adjustY: CGFloat = frame.height > 380 ? 14 : 0
+        let separationY: CGFloat = 12 + adjustY
+        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
+        let keyboardHeight: CGFloat = isFullView ? 320 : 200
+        let keyboardYPosition: CGFloat = isFullView ? ((frame.height - keyboardHeight) / 2.6) : lblQuantityN.frame.maxY + separationY
+        
+        keyboardN = NumericKeyboardView(frame: CGRect (x: margin, y: keyboardYPosition, width: frame.width - (margin * 2), height: keyboardHeight),typeKeyboard:NumericKeyboardViewType.Integer)
+        keyboardN.widthButton = isFullView ? 70 : 40
+        keyboardN.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
+        keyboardN.delegate = self
+        keyboardN.showDeleteBtn()
+        
+        let botomMargin: CGFloat = isFullView ? 35 : separationY
+        btnOkAddN = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: keyboardN.frame.maxY + botomMargin, width: 142, height: 36))
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
         btnOkAddN.backgroundColor = WMColor.green
@@ -243,13 +262,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         buttonDelet.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelet.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
         buttonDelet.alpha = 1
-        
-        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
-        keyboardN = NumericKeyboardView(frame: CGRect(x: margin, y: lblQuantityN.frame.maxY + 10, width: frame.width - (margin * 2), height: btnOkAddN.frame.minY - 12),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardN.widthButton = isFullView ? 70 : 40
-        keyboardN.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
-        keyboardN.delegate = self
-        keyboardN.showDeleteBtn()
         
         self.updateShoppButtonN()
         
@@ -611,8 +623,13 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         lblQuantityP.adjustsFontSizeToFitWidth = true
         lblQuantityP.alpha = 0
         
+        let adjustY: CGFloat = frame.height > 380 ? 16 : 0
+        let separationY: CGFloat = 8 + adjustY
         let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
-        keyboardP = NumericKeyboardView(frame: CGRect(x: margin, y: lblQuantityN.frame.maxY + 10, width: frame.width - (margin * 2), height: btnOkAddN.frame.minY - 12),typeKeyboard:NumericKeyboardViewType.Integer)
+        let keyboardHeight: CGFloat = isFullView ? 320 : 200
+        let keyboardYPosition: CGFloat = isFullView ? ((frame.height - keyboardHeight) / 2.6) : lblQuantityP.frame.maxY + separationY
+        
+        keyboardP = NumericKeyboardView(frame: CGRect(x: margin, y: keyboardYPosition, width: frame.width - (margin * 2), height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
         keyboardP.widthButton = isFullView ? 70 : 40
         keyboardP.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
         keyboardP.delegate = self

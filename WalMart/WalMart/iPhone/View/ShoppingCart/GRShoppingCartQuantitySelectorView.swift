@@ -72,11 +72,11 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func setup() {
         
+        backgroundColor = UIColor.clear
+        
         let startH: CGFloat = startY
         
-        self.backgroundColor = UIColor.clear
-        
-        isFullView = (frame.height > 600)
+        isFullView = (frame.height > 600) && !IS_IPAD
         
         backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: self.bounds.height))
         backgroundView!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
@@ -100,20 +100,27 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
+        let adjustY: CGFloat = frame.height > 380 ? 14 : 0
+        let separationY: CGFloat = 12 + adjustY
+        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
+        let keyboardHeight: CGFloat = isFullView ? 320 : 200
+        let keyboardYPosition: CGFloat = isFullView ? ((frame.height - keyboardHeight) / 2.6) : lblQuantity.frame.maxY + separationY
+        
+        numericKeyboard = NumericKeyboardView(frame: CGRect(x: margin, y: keyboardYPosition, width: frame.width - (margin * 2), height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
+        numericKeyboard.widthButton = isFullView ? 70 : 40
+        numericKeyboard.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
+        numericKeyboard.delegate = self
+        
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        let botomMargin: CGFloat = isFullView ? 110 : 140
-        btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: frame.height - botomMargin, width: 142, height: 36))
+        let botomMargin: CGFloat = isFullView ? 35 : separationY
+        
+        btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: numericKeyboard.frame.maxY + botomMargin, width: 142, height: 36))
         btnOkAdd.setTitle("\(strAdddToSC) $0.00", for: UIControlState())
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
         btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
-        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
-        numericKeyboard = NumericKeyboardView(frame: CGRect(x: margin, y: lblQuantity.frame.maxY + 10, width: frame.width - (margin * 2), height: btnOkAdd.frame.minY - 12), typeKeyboard: NumericKeyboardViewType.Integer)
-        numericKeyboard.widthButton = isFullView ? 70 : 40
-        numericKeyboard.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
-        numericKeyboard.delegate = self
         
         if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(self.upcProduct) {
             isUpcInShoppingCart = true
