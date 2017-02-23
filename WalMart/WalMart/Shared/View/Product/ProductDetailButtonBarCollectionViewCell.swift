@@ -134,7 +134,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), for: UIControlEvents.touchUpInside)
       
         self.addToShoppingCartButton = UIButton()
-        self.addToShoppingCartButton.frame = CGRect(x: facebookButton.frame.maxX + 8.0, y: (self.frame.height / 2) - 17, width: (self.frame.width - facebookButton.frame.maxX) - 24.0, height: 34)
+        self.addToShoppingCartButton.frame = CGRect(x: facebookButton.frame.maxX + (IS_IPAD ? 8.0 : 8.0), y: (self.frame.height / 2) - 17, width: IS_IPAD ? 117.0 : (self.frame.width - facebookButton.frame.maxX) - 24.0, height: 34)
         self.addToShoppingCartButton!.layer.cornerRadius = 17
         self.addToShoppingCartButton!.backgroundColor = WMColor.yellow
         self.addToShoppingCartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)

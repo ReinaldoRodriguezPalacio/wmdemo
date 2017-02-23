@@ -602,7 +602,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 return UIView()
             }
             
-            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 64.0),spaceBetweenButtons:13,widthButtons:63)
+            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 64.0),spaceBetweenButtons:8,widthButtons:63)
             productDetailButton!.upc = self.upc as String
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
