@@ -218,8 +218,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
        
-        
-        self.loadCrossSell()
         self.removeLoadingView()
         
     }
