@@ -287,37 +287,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
 
-            
-//            var serviceWish = UserWishlistService()
-//            serviceWish.callService({ (wishlist:[String:Any]) -> Void in
-//                self.items = wishlist["items"] as [Any]
-//                
-//                
-//                self.emptyView.hidden = self.items.count > 0
-//                if self.items.count == 0 {
-//                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-//                }
-//                self.edit.hidden = self.items.count == 0
-//                
-//                
-//                
-//                self.updateShopButton()
-//                
-//                self.wishlist.reloadData()
-//                if self.items.count == 0 {
-//                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-//                }
-//                /* alertView.setMessage(NSLocalizedString("wishlist.readyload",comment:""))
-//                alertView.showDoneIcon()*/
-//                
-//                self.viewLoad.stopAnnimating()
-//                }, errorBlock: { (error:NSError) -> Void in
-//                    if error.code != -100 {
-//                        self.viewLoad.stopAnnimating()
-//                    }
-//                    //alertView.setMessage(NSLocalizedString("wishlist.readyload",comment:""))
-//                    //alertView.showDoneIcon()
-            
             UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                 self.invokeWishlistService()
 

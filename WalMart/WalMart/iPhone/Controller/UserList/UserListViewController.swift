@@ -806,13 +806,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.listToUpdate![listId] = text
             }
             else if let listEntity = self.itemsUserList![idx] as? List {
-                let entityId = listEntity.objectID.uriRepresentation().absoluteString
+                //let entityId = listEntity.objectID.uriRepresentation().absoluteString
+                let entityId = listEntity.idList
                 
 //                if cell.textField!.text == nil || cell.textField!.text!.isEmpty {
 //                    self.listToUpdate!.removeValueForKey(entityId!)
 //                }
                 
-                self.listToUpdate![entityId] = text
+                self.listToUpdate![entityId!] = text
             }
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
