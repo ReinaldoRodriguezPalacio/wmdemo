@@ -32,8 +32,10 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        subtotalTitle.frame = CGRect(x: 146, y: self.subtotalY,width: subtotalTitle.frame.size.width , height: 12)
+        
+        subtotalTitle.frame = CGRect(x: valueTotalSaving.frame.minX - subtotalTitle.frame.size.width - 8, y: self.subtotalY, width: subtotalTitle.frame.size.width , height: 12)
         valueSubtotal.frame = CGRect(x: subtotalTitle.frame.maxX + 8, y: subtotalTitle.frame.minY, width: 50, height: 12)
+        
         if self.firstTotal {
             valueTotal.frame = CGRect(x: self.frame.width - (valueTotal.frame.size.width + 16), y: subtotalTitle.frame.maxY + 4.0 , width: valueTotal.frame.size.width, height: valueTotal.frame.size.height)
             total.frame = CGRect(x: valueTotal.frame.minX - (total.frame.size.width + 8) ,y: subtotalTitle.frame.maxY + 4.0, width: total.frame.size.width, height: total.frame.size.height)
@@ -64,7 +66,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
         super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
         let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal as NSString)
-        self.valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
+        self.valueSubtotal.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.gray, interLine: false)
         self.firstTotal = false
         self.subtotalY = totalSavingTitle.isHidden ? 0.0 : 18.0
         self.subtotalTitle.isHidden = totalSavingTitle.isHidden

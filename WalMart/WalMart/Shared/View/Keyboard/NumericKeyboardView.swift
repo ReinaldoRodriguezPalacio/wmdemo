@@ -66,9 +66,10 @@ class NumericKeyboardView : UIView {
             widthBetweenButtons = (self.frame.width - (widthButton * 3)) / 2
         }
         
-        if widthButton > 40 && frame.width > 310 {
-            let buttonsViewHeight = widthButton * 4 + 48
-            currentY = (frame.height - buttonsViewHeight) / 4
+        let buttonsViewHeight = widthButton * 4 + 36
+        currentY = (frame.height - buttonsViewHeight) / 2
+        
+        if widthButton > 40 && frame.width > 310 && !IS_IPAD {
             widthBetweenButtons = (self.frame.width - (widthButton * 3)) / 4
             currentX = (frame.width - ((widthButton * 3) + (widthBetweenButtons * 2))) / 2
             initialX = currentX

@@ -44,7 +44,7 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         let startH: CGFloat = startY //(self.bounds.height - 360) / 2
         self.backgroundColor = UIColor.clear
         
-        isFullView = (frame.height > 600)
+        isFullView = (frame.height > 600) && !IS_IPAD
         
         let blurEffect = UIBlurEffect(style: .light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -78,8 +78,19 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
-        let botomMargin: CGFloat = isFullView ? 110 : 140
-        btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: frame.height - botomMargin, width: 142, height: 36))
+        let adjustY: CGFloat = frame.height > 380 ? 14 : 0
+        let separationY: CGFloat = 12 + adjustY
+        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
+        let keyboardHeight: CGFloat = isFullView ? 320 : 200
+        let keyboardYPosition: CGFloat = isFullView ? ((frame.height - keyboardHeight) / 2.6) : lblQuantity.frame.maxY + separationY
+        
+        self.keyboardView = NumericKeyboardView(frame: CGRect(x: margin, y: keyboardYPosition, width: frame.width - (margin * 2), height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
+        keyboardView.widthButton = isFullView ? 70 : 40
+        self.keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
+        self.keyboardView.delegate = self
+        
+        let botomMargin: CGFloat = isFullView ? 35 : separationY
+        btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: keyboardView.frame.maxY + botomMargin, width: 142, height: 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
         let strPrice = CurrencyCustomLabel.formatString(priceProduct.stringValue as NSString)
@@ -89,11 +100,6 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
-        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
-        self.keyboardView = NumericKeyboardView(frame: CGRect(x: margin, y: lblQuantity.frame.maxY + 10, width: frame.width - (margin * 2), height: btnOkAdd.frame.minY - 12), typeKeyboard: NumericKeyboardViewType.Integer)
-        keyboardView.widthButton = isFullView ? 70 : 40
-        self.keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
-        self.keyboardView.delegate = self
         
         var rectSize = CGRect.zero
         
@@ -112,7 +118,7 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         }
         
         
-        btnOkAdd.frame = CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2), y: frame.height - botomMargin, width: rectSize.width + 32, height: 36)
+        btnOkAdd.frame = CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2), y: btnOkAdd.frame.origin.y, width: rectSize.width + 32, height: 36)
         
         self.addSubview(bgView)
         self.addSubview(lblTitle)

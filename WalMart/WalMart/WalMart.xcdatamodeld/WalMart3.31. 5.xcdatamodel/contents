@@ -35,7 +35,9 @@
         <attribute name="orderByPiece" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="pieces" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="promoDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="stock" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="upc" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="cart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cart" inverseName="product" inverseEntity="Cart" syncable="YES"/>
@@ -101,7 +103,7 @@
         <element name="Cart" positionX="-155" positionY="-180" width="128" height="135"/>
         <element name="List" positionX="-279" positionY="351" width="128" height="133"/>
         <element name="Param" positionX="-180" positionY="218" width="128" height="105"/>
-        <element name="Product" positionX="169" positionY="-72" width="128" height="315"/>
+        <element name="Product" positionX="169" positionY="-72" width="128" height="345"/>
         <element name="Profile" positionX="-657" positionY="-199" width="128" height="315"/>
         <element name="Store" positionX="-189" positionY="-27" width="128" height="223"/>
         <element name="User" positionX="-396" positionY="-99" width="128" height="253"/>
